@@ -287,4 +287,5 @@
     <!--Accessibility-->
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
+    <string name="back_quit_lock">再次按下“返回”可退出视频播放</string>
 </resources>
