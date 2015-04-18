@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Fler åtgärder</string>
     <string name="move">Flytta</string>
+    <string name="back_quit_lock">Tryck på tillbaka igen för att avsluta videon</string>
 </resources>
