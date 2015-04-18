@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Meer acties</string>
     <string name="move">Verplaatsen</string>
+    <string name="back_quit_lock">Nogmaals op terug drukken om video af te sluiten</string>
 </resources>
