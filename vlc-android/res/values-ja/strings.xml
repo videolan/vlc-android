@@ -287,4 +287,5 @@
     <!--Accessibility-->
     <string name="more_actions">他のアクション</string>
     <string name="move">移動</string>
+    <string name="back_quit_lock">ビデオを終了するには\"戻る\"をもう一度押してください。</string>
 </resources>
