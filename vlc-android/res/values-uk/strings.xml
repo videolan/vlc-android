@@ -301,4 +301,5 @@
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
+    <string name="back_quit_lock">Натисніть знову кнопку Назад для виходу із відео</string>
 </resources>
