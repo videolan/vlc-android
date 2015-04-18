@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
+    <string name="back_quit_lock">Premi nuovamente Indietro per chiudere il video</string>
 </resources>
