@@ -73,8 +73,6 @@
     <string name="nohistory">Anda belum memiliki riwayat pemutaran.</string>
     <string name="validation">Anda yakin?</string>
     <string name="cover_art">Sampul album</string>
-    <string name="shuffle">Acak</string>
-    <string name="repeat">Ulangi semua/satu/tidak ada</string>
     <string name="previous">Sebelumnya</string>
     <string name="stop">Henti</string>
     <string name="next">Selanjutya</string>
@@ -215,4 +213,5 @@
     <string name="restart_vlc">Nyalakan ulang VLC</string>
     <string name="send_log">Kirim catatan</string>
     <string name="sending_log">Mengirim catatan...</string>
+    <!--Accessibility-->
 </resources>
