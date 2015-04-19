@@ -81,8 +81,6 @@
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
     <string name="validation">בטוח?</string>
     <string name="cover_art">האומנות על העטיפה</string>
-    <string name="shuffle">ערבוב</string>
-    <string name="repeat">לחזור על כלום/בודד/הכול</string>
     <string name="previous">הקודם</string>
     <string name="stop">עצירה</string>
     <string name="next">הבא</string>
@@ -241,4 +239,5 @@
     <string name="sending_log">הדוח נשלח…</string>
     <string name="drawer_open">פתיחת מגירת הניווט</string>
     <string name="drawer_close">סגירת מגירת הניווט</string>
+    <!--Accessibility-->
 </resources>
