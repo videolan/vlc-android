@@ -105,8 +105,6 @@
     <string name="nohistory">لم تمتلك تأريخَ تشغيلٍ بعد.</string>
     <string name="validation">هل أنت متأكد؟</string>
     <string name="cover_art">الغطاء الفنّي</string>
-    <string name="shuffle">عشوائي</string>
-    <string name="repeat">أعِد لاشيء/مُفردة/الكل</string>
     <string name="previous">السّابق</string>
     <string name="stop">أوقِف</string>
     <string name="next">التّالي</string>
@@ -278,4 +276,5 @@
     <string name="sending_log">يجري إرسال التقرير...</string>
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
+    <!--Accessibility-->
 </resources>
