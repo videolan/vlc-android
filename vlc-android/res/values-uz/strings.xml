@@ -75,8 +75,6 @@
     <string name="nohistory">Ijro tarixi bo‘m-bo‘sh.</string>
     <string name="validation">Ishonchingiz komilmi?</string>
     <string name="cover_art">Muqova</string>
-    <string name="shuffle">Aralashtirish</string>
-    <string name="repeat">Takrorlash: hech biri/bittasi/barchasi</string>
     <string name="previous">Avvalgi</string>
     <string name="stop">To‘xtatish</string>
     <string name="next">Keyingi</string>
@@ -243,4 +241,5 @@
     <string name="sending_log">Jurnal yuborilmoqda</string>
     <string name="drawer_open">Navigatsiya tortmasini ochish</string>
     <string name="drawer_close">Navigatsiya tortmasini yopish</string>
+    <!--Accessibility-->
 </resources>
