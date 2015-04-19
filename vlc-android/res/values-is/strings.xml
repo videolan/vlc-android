@@ -81,8 +81,6 @@
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
     <string name="validation">Ertu viss?</string>
     <string name="cover_art">Umslög</string>
-    <string name="shuffle">Stokka</string>
-    <string name="repeat">Endurtaka ekkert/eitt/allt</string>
     <string name="previous">Fyrra</string>
     <string name="stop">Stöðva</string>
     <string name="next">Næsta</string>
@@ -246,4 +244,5 @@
     <string name="sending_log">Sendi annál…</string>
     <string name="drawer_open">Opna hliðarvalmynd</string>
     <string name="drawer_close">Loka hliðarvalmynd</string>
+    <!--Accessibility-->
 </resources>
