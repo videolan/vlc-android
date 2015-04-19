@@ -86,8 +86,6 @@
     <string name="nohistory">Nu aveţi încă un istoric al redărilor.</string>
     <string name="validation">Confirmaţi?</string>
     <string name="cover_art">Copertă</string>
-    <string name="shuffle">Amestecare</string>
-    <string name="repeat">Repetare niciuna/una/toate</string>
     <string name="previous">Precedenta</string>
     <string name="stop">Stop</string>
     <string name="next">Următoarea</string>
@@ -229,4 +227,5 @@
     <string name="restart_vlc">Repornește VLC</string>
     <string name="send_log">Trimite jurnalul</string>
     <string name="sending_log">Se trimite jurnalul...</string>
+    <!--Accessibility-->
 </resources>
