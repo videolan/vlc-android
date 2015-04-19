@@ -75,8 +75,6 @@
     <string name="nohistory">ನೀವು ಇನ್ನೂ ಯಾವುದೇ ಪ್ಲೇಬ್ಯಾಕ್ ಇತಿಹಾಸವನ್ನು ಹೊಂದಿಲ್ಲ .</string>
     <string name="validation">ನೀವು ಖಚಿತವಾಗಿವಿರುವಿರಾ? </string>
     <string name="cover_art">ಮುಖಪುಟ ಕಲೆ</string>
-    <string name="shuffle">ಬೆರೆಸು </string>
-    <string name="repeat">ಯಾವುದೂ ಇಲ್ಲ / ಒಂದು / ಎಲ್ಲಾ ಪುನರಾವರ್ತಿಸಿ</string>
     <string name="previous">ಹಿಂದಿನ</string>
     <string name="stop">ನಿಲ್ಲಿಸಿ</string>
     <string name="next">ಮುಂದಿನ</string>
@@ -203,4 +201,5 @@
     <string name="dump_logcat">Logcat ಲಾಗ್ ಡಂಪ್ ಮಾಡಿ </string>
     <string name="dump_logcat_success">Logcat ಅನ್ನು  ಯಶಸ್ವಿಯಾಗಿ %1$s! ಗೆ ಡಂಪ್ ಮಾಡಲಾಗಿದೆ </string>
     <string name="dump_logcat_failure">Logcat ಡಂಪ್ ವಿಫಲವಾಗಿದೆ.</string>
+    <!--Accessibility-->
 </resources>
