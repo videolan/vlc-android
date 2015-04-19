@@ -79,8 +79,6 @@
     <string name="nohistory">Taasesituse ajalugu veel puudub.</string>
     <string name="validation">Oled sa kindel?</string>
     <string name="cover_art">Kaanepilt</string>
-    <string name="shuffle">Sega</string>
-    <string name="repeat">Korda midagi/ühte/kõiki</string>
     <string name="previous">Eelmine</string>
     <string name="stop">Peata</string>
     <string name="next">Järgmine</string>
@@ -181,4 +179,5 @@
     <string name="copied_to_clipboard">Logi lõikepuhvrisse kopeeritud.</string>
     <string name="quit">Sulge ning taaskäivita rakendus</string>
     <string name="restart_vlc">Taaskäivita VLC</string>
+    <!--Accessibility-->
 </resources>
