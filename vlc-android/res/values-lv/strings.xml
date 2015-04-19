@@ -86,8 +86,6 @@
     <string name="nohistory">Jums nav atskaņošanas vēstures vēl.</string>
     <string name="validation">Vai esat pārliecināts?</string>
     <string name="cover_art">Pārklāšanas māksla</string>
-    <string name="shuffle">Jaukt</string>
-    <string name="repeat">Atkārtot nevienu/vienu/visus</string>
     <string name="previous">Iepriekšējais</string>
     <string name="stop">Stop</string>
     <string name="next">Nākošais</string>
@@ -219,4 +217,5 @@
     <string name="dump_logcat_success">Logcat veiksmīgi izgāza uz %1$s!</string>
     <string name="dump_logcat_failure">Neizdevās izgāzt logcat.</string>
     <string name="restart_vlc">Pārstartēt VLC</string>
+    <!--Accessibility-->
 </resources>
