@@ -87,8 +87,6 @@
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
     <string name="cover_art">Omot</string>
-    <string name="shuffle">Miješanje</string>
-    <string name="repeat">Ponovi ni jedno/jedno/sve</string>
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
@@ -257,4 +255,5 @@
     <string name="sending_log">Šaljem izvještaj...</string>
     <string name="drawer_open">Otvori navigacijsku ladicu</string>
     <string name="drawer_close">Zatvori navigacijsku ladicu</string>
+    <!--Accessibility-->
 </resources>
