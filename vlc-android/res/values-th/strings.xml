@@ -74,8 +74,6 @@
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
     <string name="validation">คุณแน่ใจ?</string>
     <string name="cover_art">ภาพปก</string>
-    <string name="shuffle">สลับ</string>
-    <string name="repeat">เล่นซ้ำ ไม่ต้อง/ตัวเดียว/ทั้งหมด</string>
     <string name="previous">ก่อนหน้า</string>
     <string name="stop">หยุด</string>
     <string name="next">ถัดไป</string>
@@ -233,4 +231,5 @@
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาบทบรรยาย</string>
     <string name="search_hint">ค้นหาสื่อ</string>
+    <!--Accessibility-->
 </resources>
