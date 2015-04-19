@@ -79,8 +79,6 @@
     <string name="nohistory">ඔබ සතුව තවමත් පිළිවැයීම් ඉතිහාසයක් නැත.</string>
     <string name="validation">ඔබට සහතික ද?</string>
     <string name="cover_art">කවරයේ චිත්‍රය</string>
-    <string name="shuffle">කලවම්</string>
-    <string name="repeat">කිසිවක් නැති/එකක්/සියල්ලම යළි යළිත්</string>
     <string name="previous">පෙර</string>
     <string name="stop">නවතන්න</string>
     <string name="next">ඊළඟ</string>
@@ -205,4 +203,5 @@
     <string name="restart_vlc">VLC යළි අරඹන්න</string>
     <string name="send_log">ලඝු සටහන යවන්න</string>
     <string name="sending_log">ලඝු සටහන යවමින්...</string>
+    <!--Accessibility-->
 </resources>
