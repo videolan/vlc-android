@@ -81,8 +81,6 @@
     <string name="nohistory">Tú hevur onga avspælingarsøgu enn.</string>
     <string name="validation">Ert tú vis/ur?</string>
     <string name="cover_art">Húsasnið</string>
-    <string name="shuffle">Blanda</string>
-    <string name="repeat">Spæl einki/eitt/alt umaftur</string>
     <string name="previous">Undanfarna</string>
     <string name="stop">Steðga</string>
     <string name="next">Næsta</string>
@@ -250,4 +248,5 @@
     <string name="sending_log">Sendir loggin...</string>
     <string name="drawer_open">Lat navigatiónsskuffuna upp</string>
     <string name="drawer_close">Lat navigatiónsskuffuna aftur</string>
+    <!--Accessibility-->
 </resources>
