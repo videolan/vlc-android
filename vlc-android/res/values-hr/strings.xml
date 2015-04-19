@@ -92,8 +92,6 @@
     <string name="nohistory">Još nemate povijest reprodukcije.</string>
     <string name="validation">Jeste li sigurni?</string>
     <string name="cover_art">Omot slike</string>
-    <string name="shuffle">Naizmjenično</string>
-    <string name="repeat">Ponovi nijednu/pojedinu/sve</string>
     <string name="previous">Prijašnje</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
@@ -289,4 +287,5 @@
     <string name="playlist_save">Spremi popis izvođenja</string>
     <string name="playlist_name_hint">naziv popisa izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje...</string>
+    <!--Accessibility-->
 </resources>
