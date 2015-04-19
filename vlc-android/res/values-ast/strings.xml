@@ -81,8 +81,6 @@
     <string name="nohistory">Entá nun tienes historial de reproducción</string>
     <string name="validation">Tas seguru?</string>
     <string name="cover_art">Portada</string>
-    <string name="shuffle">Al debalu</string>
-    <string name="repeat">Repitir nenguna/una/too</string>
     <string name="previous">Anterior</string>
     <string name="stop">Detener</string>
     <string name="next">Siguiente</string>
@@ -172,4 +170,5 @@
     <string name="enable_verbose_mode">Detalláu</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
     <string name="quit">Sali y reanicia l\'aplicación</string>
+    <!--Accessibility-->
 </resources>
