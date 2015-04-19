@@ -75,8 +75,6 @@
     <string name="nohistory">目前並無播放記錄</string>
     <string name="validation">你確定？</string>
     <string name="cover_art">專輯封面</string>
-    <string name="shuffle">隨機</string>
-    <string name="repeat">重複播放 無/單一/全部</string>
     <string name="previous">上一個</string>
     <string name="stop">停止</string>
     <string name="next">下一個</string>
@@ -263,4 +261,5 @@
     <string name="network_empty">這個資料夾是空的</string>
     <string name="network_connection_needed">無本地網路連結</string>
     <string name="search_hint">搜尋媒體</string>
+    <!--Accessibility-->
 </resources>
