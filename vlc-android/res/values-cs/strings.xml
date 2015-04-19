@@ -6,7 +6,11 @@
     <string name="other">Jiné</string>
     <string name="sortby">Třídit dle…</string>
     <string name="sortby_name">Název</string>
+    <string name="sortby_name_desc">Název (popis)</string>
     <string name="sortby_length">Délka</string>
+    <string name="sortby_length_desc">Délka (popis)</string>
+    <string name="sortby_date">Datum</string>
+    <string name="sortby_date_desc">Datum (popis)</string>
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
     <plurals name="search_found_results_quantity">
@@ -18,6 +22,8 @@
     <string name="play_from_start">Přehrát od začátku</string>
     <string name="play_as_audio">Přehrát jako zvuk</string>
     <string name="play_as_video">Přehrát jako video</string>
+    <string name="play_as_audio_background">Přehrávat videa na pozadí</string>
+    <string name="play_as_audio_background_summary">Pokračovat v přehrávání videa na pozadí při vypnuté obrazovce zařízení, nebo po stisknutí tlačítka DOMŮ.</string>
     <string name="append">Připojit</string>
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
@@ -80,6 +86,7 @@
     <string name="loading">Načítám</string>
     <string name="please_wait">Vyčkejte prosím…</string>
     <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
+    <string name="noplaylist">Nenalezen žádný seznam skladeb.</string>
     <string name="mediafiles">Mediální soubory</string>
     <string name="notavailable">nedostupné</string>
     <string name="nosubdirectory">Žádné podadresáře.</string>
@@ -87,8 +94,11 @@
     <string name="nohistory">Nemáte zatím žádnou historii přehraných položek.</string>
     <string name="validation">Jste si jisti?</string>
     <string name="cover_art">Obal alba</string>
-    <string name="shuffle">Zamíchat</string>
-    <string name="repeat">Opakování žádné/jednu/vše</string>
+    <string name="shuffle">Vypnout náhodné přehrávání</string>
+    <string name="shuffle_on">Zapnout náhodné přehrávání</string>
+    <string name="repeat">Bez opakování</string>
+    <string name="repeat_single">Opakovat jednu</string>
+    <string name="repeat_all">Opakovat vše</string>
     <string name="previous">Předchozí</string>
     <string name="stop">Zastavit</string>
     <string name="next">Následující</string>
@@ -112,6 +122,8 @@
     <string name="sound_on">Zap. zvuk</string>
     <string name="sound_off">Vyp. zvuk</string>
     <string name="brightness">Jas</string>
+    <string name="navmenu">menu navigace</string>
+    <string name="advanced">pokročilé možnosti</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
         <item quantity="few"> %1$d kanály\n</item>
@@ -146,6 +158,7 @@
     <string name="video_player_tips">Tipy přehrávače videa:</string>
     <string name="seek">Hledat</string>
     <string name="subtitles">Titulky</string>
+    <string name="audio_sub">Zvukové stopy\na titulky</string>
     <string name="resize">Změnit velikost</string>
     <string name="options">Možnosti</string>
     <string name="lock">Uzamknout</string>
@@ -178,6 +191,12 @@
     <string name="hardware_acceleration_disabled">Zakázána</string>
     <string name="hardware_acceleration_decoding">Akcelerace dekódování</string>
     <string name="hardware_acceleration_full">Plná akcelerace</string>
+    <string name="dev_hardware_decoder">Pokročilý hardwarový dekodér</string>
+    <string name="dev_hardware_decoder_summary">Vynutit hardwarový dekodér, pouze pro pokročilé uživatele</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automaticky</string>
     <string name="screen_orientation">Orientace obrazovky videa</string>
     <string name="screen_orientation_sensor">Orientace dle senzorů</string>
@@ -200,6 +219,8 @@
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_jump_buttons">Povolit tlačítka skoku</string>
     <string name="enable_jump_buttons_summary">V rozhraní videa zobrazit tlačítka vpřed a zpět</string>
+    <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
+    <string name="force_list_portrait_summary">Zobrazit videa jako seznam místo mřížky při zobrazení na výšku</string>
     <string name="audio_title_alignment">Zarovnání titulku hudby</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
     <string name="enable_headset_detection_summary">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
@@ -244,6 +265,8 @@
     <string name="start_logging">Zahájit záznam</string>
     <string name="stop_logging">Zastavit záznam</string>
     <string name="clear_log">Vyčistit záznam</string>
+    <string name="log_service_title">Nahrávání záznamů VLC</string>
+    <string name="log_service_text">Otevřít konzoli záznamů</string>
     <string name="copy_to_clipboard">Kopírovat do schránky</string>
     <string name="copied_to_clipboard">Záznam zkopírován do schránky.</string>
     <string name="quit">Ukončit a restartovat aplikaci</string>
@@ -257,4 +280,25 @@
     <string name="sending_log">Zasílám záznam...</string>
     <string name="drawer_open">Otevřít navigační šuplík</string>
     <string name="drawer_close">Zavřít navigační šuplík</string>
+    <string name="network_browsing">Místní síť</string>
+    <string name="file_size">Velikost souboru:</string>
+    <string name="file_other">Zavřít navigační šuplík</string>
+    <string name="audio_delay">Zpoždění zvuku</string>
+    <string name="spu_delay">Zpoždění titulků</string>
+    <string name="network_shares_discovery">Hledám síťové disky...</string>
+    <string name="network_empty">Adresář je prázdný.</string>
+    <string name="network_connection_needed">Žádné spojení s místní sítí.</string>
+    <string name="search_hint">Hledat média</string>
+    <string name="directory_show_medialib">Zobrazit v knihovně médií</string>
+    <string name="directory_hide_medialib">Nezobrazovat v knihovně médií</string>
+    <string name="playlist_save">Uložit seznam skladeb</string>
+    <string name="playlist_name_hint">název seznamu skladeb</string>
+    <string name="go_to_chapter">Přejít na kapitolu...</string>
+    <string name="resume_from_position">Obnovit z poslední pozice</string>
+    <string name="confirm_resume">Obnovit z poslední pozice?</string>
+    <string name="confirm_resume_title">Ptát se při obnovení na poizici</string>
+    <string name="confirm_resume_summary">Při zapnutí budete dotázáni zda si přejete pokračovat na původní pozici videa, nebo spustit přehrávaní od začátku</string>
+    <!--Accessibility-->
+    <string name="more_actions">Více činností</string>
+    <string name="move">Přesunout</string>
 </resources>
