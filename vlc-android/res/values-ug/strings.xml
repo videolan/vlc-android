@@ -69,8 +69,6 @@
     <string name="nohistory">سىزنىڭ تېخى چالغان تارىخ خاتىرىڭىز يوق.</string>
     <string name="validation">جەزملەمسىز؟</string>
     <string name="cover_art">توپلام مۇقاۋا</string>
-    <string name="shuffle">ئىختىيارىي</string>
-    <string name="repeat">قايتىلاش يوق/يەككە/ھەممىسى</string>
     <string name="previous">ئالدىنقى</string>
     <string name="stop">توختا</string>
     <string name="next">كېيىنكى</string>
@@ -169,4 +167,5 @@
     <string name="clear_log">خاتىرە  تازىلا</string>
     <string name="copy_to_clipboard">چاپلاش تاختىسىغا كۆچۈر</string>
     <string name="copied_to_clipboard">خاتىرىنى چاپلاش تاختىسىغا كۆچۈرىدۇ.</string>
+    <!--Accessibility-->
 </resources>
