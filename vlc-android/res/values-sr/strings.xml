@@ -86,8 +86,6 @@
     <string name="nohistory">Још нисте репродуковали ниједну датотеку.</string>
     <string name="validation">Јесте ли сигурни?</string>
     <string name="cover_art">Омот</string>
-    <string name="shuffle">Случајни редослед</string>
-    <string name="repeat">Понављај једну/све/ништа</string>
     <string name="previous">Претходно</string>
     <string name="stop">Заустави</string>
     <string name="next">Следеће</string>
@@ -243,4 +241,5 @@
     <string name="restart_vlc">Поново покрени VLC</string>
     <string name="send_log">Пошаљи извештај</string>
     <string name="sending_log">Шаљем извештај…</string>
+    <!--Accessibility-->
 </resources>
