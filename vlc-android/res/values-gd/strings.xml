@@ -91,8 +91,6 @@
     <string name="nohistory">Chan eil eachdraidh cluich agad fhathast</string>
     <string name="validation">A bheil thu cinnteach?</string>
     <string name="cover_art">Ealain a\' chòmhdachaidh</string>
-    <string name="shuffle">Air thuaiream</string>
-    <string name="repeat">Na ath-chluich/ath-chluich aonan/na h-uile</string>
     <string name="previous">Air ais</string>
     <string name="stop">Stad</string>
     <string name="next">Air adhart</string>
@@ -236,4 +234,5 @@
     <string name="restart_vlc">Ath-thòisich VLC</string>
     <string name="send_log">Cuir an loga</string>
     <string name="sending_log">A\' cur an loga...</string>
+    <!--Accessibility-->
 </resources>
