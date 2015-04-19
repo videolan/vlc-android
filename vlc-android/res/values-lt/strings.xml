@@ -5,8 +5,12 @@
     <string name="cancel">Atšaukti</string>
     <string name="other">Kita</string>
     <string name="sortby">Rikiuoti pagal…</string>
-    <string name="sortby_name">Pavadinimas</string>
-    <string name="sortby_length">Trukmė</string>
+    <string name="sortby_name">pavadinimą</string>
+    <string name="sortby_name_desc">pavadinimą (apr.)</string>
+    <string name="sortby_length">trukmę</string>
+    <string name="sortby_length_desc">trukmę (apr.)</string>
+    <string name="sortby_date">laiką</string>
+    <string name="sortby_date_desc">laiką (apr.)</string>
     <string name="searchable_hint">Ieškoti…</string>
     <string name="history">Žurnalas</string>
     <plurals name="search_found_results_quantity">
@@ -18,6 +22,8 @@
     <string name="play_from_start">Groti nuo pradžių</string>
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
     <string name="play_as_video">Groti kaip vaizdo kūrinį</string>
+    <string name="play_as_audio_background">Vaizdo kūrinius groti fone</string>
+    <string name="play_as_audio_background_summary">Toliau groti vaizdo kūrinius, net jei išjungiamas įrenginio ekranas ar nuspaudžiamas PRADŽIOS mygtukas</string>
     <string name="append">Papildyti</string>
     <string name="play_all">Groti visus</string>
     <string name="append_all">Įtraukti visus</string>
@@ -80,6 +86,7 @@
     <string name="loading">Įkeliama</string>
     <string name="please_wait">Palaukite…</string>
     <string name="nomedia">Kūrinių neradome. Įkelkite į savo įrenginį vaizdo ar garso kūrinių arba pakeiskite nuostatas.</string>
+    <string name="noplaylist">Grojaraščių neradome.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
     <string name="nosubdirectory">Pakatalogių nėra.</string>
@@ -87,8 +94,11 @@
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
     <string name="validation">Tikrai?</string>
     <string name="cover_art">Viršelis</string>
-    <string name="shuffle">Maišymas</string>
-    <string name="repeat">Kartojimas</string>
+    <string name="shuffle">Nemaišyti</string>
+    <string name="shuffle_on">Maišyti</string>
+    <string name="repeat">Nekartoti</string>
+    <string name="repeat_single">Kartoti kūrinį</string>
+    <string name="repeat_all">Kartoti viską</string>
     <string name="previous">Ankstesnis</string>
     <string name="stop">Stabdyti</string>
     <string name="next">Tolesnis</string>
@@ -112,6 +122,8 @@
     <string name="sound_on">Garsas įjungtas</string>
     <string name="sound_off">Nutildyta</string>
     <string name="brightness">Ryškumas</string>
+    <string name="navmenu">naršymo meniu</string>
+    <string name="advanced">sudėtingesnės parinktys</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanalas\n</item>
         <item quantity="few">%1$d kanalai\n</item>
@@ -174,6 +186,9 @@
     <string name="hardware_acceleration_disabled">Uždrausta</string>
     <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
     <string name="hardware_acceleration_full">Visiškas spartinimas</string>
+    <string name="dev_hardware_decoder">Sudėtingesnis aparatūrinis iškodavimas</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="automatic">Automatiškai</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinis (jutiklis)</string>
@@ -239,6 +254,8 @@
     <string name="start_logging">Pradėti registruoti žurnale</string>
     <string name="stop_logging">Stabdyti registravimą žurnale</string>
     <string name="clear_log">Išvalyti žurnalą</string>
+    <string name="log_service_title">VLC žurnalų vedimas</string>
+    <string name="log_service_text">Atverti žurnalų konsolę</string>
     <string name="copy_to_clipboard">Kopijuoti į iškarpinę</string>
     <string name="copied_to_clipboard">Žurnalas nukopijuotas į iškarpinę.</string>
     <string name="quit">Baigti ir paleisti iš naujo</string>
@@ -250,4 +267,26 @@
     <string name="restart_vlc">Iš naujo paleisti VLC</string>
     <string name="send_log">Siųsti žurnalą</string>
     <string name="sending_log">Siunčiamas žurnalas...</string>
+    <string name="drawer_open">Atverti navigacijos stalčių</string>
+    <string name="drawer_close">Užverti navigacijos stalčių</string>
+    <string name="network_browsing">Vietinis tinklas</string>
+    <string name="file_size">Rinkmenos dydis:</string>
+    <string name="file_other">Užverti navigacijos stalčių</string>
+    <string name="audio_delay">Garso vėlinimas</string>
+    <string name="spu_delay">Subtitrų vėlinimas</string>
+    <string name="network_shares_discovery">Peržvelgiami tinkle viešinami ištekliai...</string>
+    <string name="network_empty">Katalogas tuščias.</string>
+    <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
+    <string name="search_hint">Ieškoti kūrinio</string>
+    <string name="playlist_save">Įrašyti grojaraštį</string>
+    <string name="playlist_name_hint">grojaraščio pavadinimas</string>
+    <string name="go_to_chapter">Pereiti prie ... skyriaus...</string>
+    <string name="resume_from_position">Tęsti nuo vėliausios padėties</string>
+    <string name="confirm_resume">Tęsti nuo vėliausios padėties?</string>
+    <string name="confirm_resume_title">Patvirtinti tęsimą</string>
+    <string name="confirm_resume_summary">jei pažymėta, prašysime patvirtinti tęsimą nuo vėliausios padėties, jei tai įmanoma</string>
+    <!--Accessibility-->
+    <string name="more_actions">Daugiau veiksmų</string>
+    <string name="move">Perkelti</string>
+    <string name="back_quit_lock">Norėdami užverti vaizdo kūrinį, dar kartą spustelėkite užvėrimą</string>
 </resources>
