@@ -81,8 +81,6 @@
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
     <string name="cover_art">Portada</string>
-    <string name="shuffle">Aleatorio</string>
-    <string name="repeat">Repetir ninguna/una/todo</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
@@ -250,4 +248,5 @@
     <string name="sending_log">Enviando el registro...</string>
     <string name="drawer_open">Abrir caja de navegacion</string>
     <string name="drawer_close">Cerrar caja de navegacion</string>
+    <!--Accessibility-->
 </resources>
