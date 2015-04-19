@@ -73,8 +73,6 @@
     <string name="nohistory">អ្នក​មិន​មាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
     <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ?</string>
     <string name="cover_art">រូប​គម្រប​មុខ</string>
-    <string name="shuffle">ច្របល់</string>
-    <string name="repeat">មិន​ធ្វើ​ម្ដងទៀត/តែ​មួយ/ទាំងអស់</string>
     <string name="previous">មុន</string>
     <string name="stop">បញ្ឈប់</string>
     <string name="next">បន្ទាប់</string>
@@ -208,4 +206,5 @@
     <string name="restart_vlc">ចាប់​ផ្ដើម VLC ឡើងវិញ</string>
     <string name="send_log">ផ្ញើចូល</string>
     <string name="sending_log">កំពុង​ផ្ញើចូល...</string>
+    <!--Accessibility-->
 </resources>
