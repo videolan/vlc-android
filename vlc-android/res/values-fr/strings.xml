@@ -86,8 +86,6 @@
     <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Êtes-vous sûr ?</string>
     <string name="cover_art">Jaquette</string>
-    <string name="shuffle">Aléatoire</string>
-    <string name="repeat">Répétition aucun/un/tout</string>
     <string name="previous">Précédent</string>
     <string name="stop">Arrêter</string>
     <string name="next">Suivant</string>
@@ -282,4 +280,5 @@
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de la liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre...</string>
+    <!--Accessibility-->
 </resources>
