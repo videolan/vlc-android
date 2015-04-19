@@ -81,8 +81,6 @@
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
     <string name="validation">Oletko varma?</string>
     <string name="cover_art">Kansikuva</string>
-    <string name="shuffle">Satunnaistoisto</string>
-    <string name="repeat">Toista uudelleen ollenkaan/yksi/kaikki</string>
     <string name="previous">Edellinen</string>
     <string name="stop">Pysäytä</string>
     <string name="next">Seuraava</string>
@@ -272,4 +270,5 @@
     <string name="network_empty">Tämä hakemisto on tyhjä.</string>
     <string name="network_connection_needed">Ei yhteyttä paikalliseen verkkoon.</string>
     <string name="search_hint">Etsi mediaa</string>
+    <!--Accessibility-->
 </resources>
