@@ -81,8 +81,6 @@
     <string name="nohistory">Du har ingen avspillingshistorie enda.</string>
     <string name="validation">Er du sikker?</string>
     <string name="cover_art">Omslagsbilde</string>
-    <string name="shuffle">Tilfeldig</string>
-    <string name="repeat">Gjenta ingen/én/alle</string>
     <string name="previous">Forrige</string>
     <string name="stop">Stopp</string>
     <string name="next">Neste</string>
@@ -250,4 +248,5 @@
     <string name="sending_log">Sender inn loggen...</string>
     <string name="drawer_open">Åpne navigasjonsskuff</string>
     <string name="drawer_close">Lukk navigasjonsskuff</string>
+    <!--Accessibility-->
 </resources>
