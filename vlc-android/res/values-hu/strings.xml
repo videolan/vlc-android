@@ -80,8 +80,6 @@
     <string name="nohistory">Még nincsenek lejátszási előzmények.</string>
     <string name="validation">Biztosan vagy benne?</string>
     <string name="cover_art">Borító</string>
-    <string name="shuffle">Véletlen sorrend</string>
-    <string name="repeat">Egyik se/csak egy/összes ismétlése</string>
     <string name="previous">Előző</string>
     <string name="stop">Állj</string>
     <string name="next">Következő</string>
@@ -225,4 +223,5 @@
     <string name="restart_vlc">VLC újraindítása</string>
     <string name="send_log">Naplófájl küldése</string>
     <string name="sending_log">Naplófájl küldése...</string>
+    <!--Accessibility-->
 </resources>
