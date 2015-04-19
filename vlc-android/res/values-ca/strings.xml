@@ -80,8 +80,6 @@
     <string name="nohistory">Encara no teniu historial de reproducció</string>
     <string name="validation">Esteu segur?</string>
     <string name="cover_art">Art de la portada</string>
-    <string name="shuffle">Aleatori</string>
-    <string name="repeat">Repeteix cap/una/totes</string>
     <string name="previous">Previ</string>
     <string name="stop">Atura</string>
     <string name="next">Endavant</string>
@@ -225,4 +223,5 @@
     <string name="restart_vlc">Reinicia el VLC</string>
     <string name="send_log">Envia el fitxer de registre</string>
     <string name="sending_log">Enviat el fitxer de registre...</string>
+    <!--Accessibility-->
 </resources>
