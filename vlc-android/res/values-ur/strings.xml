@@ -71,8 +71,6 @@
     <string name="nohistory"> پلے بیک کا ابھی تک کوئى بھى ریکارڈ نہيں ہے۔</string>
     <string name="validation">کيا آپ کو يقين ہے؟</string>
     <string name="cover_art">کَور آرٹ</string>
-    <string name="shuffle">بے ترتیبی سے چلائیں</string>
-    <string name="repeat">ايک، تمام یا کوئی بھی نہ دہرائيں</string>
     <string name="previous">سابقہ</string>
     <string name="stop">روکیں</string>
     <string name="next">اگلا</string>
@@ -166,4 +164,5 @@
     <string name="clear_log">خاموش ریکارڈ ختم کریں</string>
     <string name="copy_to_clipboard">کِلپ بورڈ پر کاپی کریں</string>
     <string name="copied_to_clipboard">کلپ بورڈ میں لاگ میں نقل کردیا گيا ھے.</string>
+    <!--Accessibility-->
 </resources>
