@@ -53,8 +53,6 @@
     <string name="nohistory">Ulac amazray n tɣuri.</string>
     <string name="validation">Tetḥeqqeḍ?</string>
     <string name="cover_art">Taduli</string>
-    <string name="shuffle">Agacuran</string>
-    <string name="repeat">Allus ulac/yiwen/akk</string>
     <string name="previous">Win yezrin</string>
     <string name="stop">Ḥbes</string>
     <string name="next">Win ɣer-s</string>
@@ -165,4 +163,5 @@
     <string name="restart_vlc">Sekker VLC tikkelt nniḍen</string>
     <string name="send_log">Azen aɣmis</string>
     <string name="sending_log">Tuzzna n uɣmis...</string>
+    <!--Accessibility-->
 </resources>
