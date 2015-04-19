@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
+    <string name="back_quit_lock">Tryk igen på tilbage for at afslutte videoen</string>
 </resources>
