@@ -73,8 +73,6 @@
     <string name="nohistory">Уйнату тарихы буш.</string>
     <string name="validation">Шикләнмисезме?</string>
     <string name="cover_art">Тышлык</string>
-    <string name="shuffle">Болгату</string>
-    <string name="repeat">Кабатлау сүнг./бер/барлык урын</string>
     <string name="previous">Алдагы</string>
     <string name="stop">Туктату</string>
     <string name="next">&amp;Чираттагы</string>
@@ -219,4 +217,5 @@
     <string name="restart_vlc">VLC киредән кабызу</string>
     <string name="send_log">Логны җибәрергә</string>
     <string name="sending_log">Логны җибәрү...</string>
+    <!--Accessibility-->
 </resources>
