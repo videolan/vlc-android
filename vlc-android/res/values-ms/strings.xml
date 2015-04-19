@@ -287,4 +287,5 @@
     <!--Accessibility-->
     <string name="more_actions">Lagi Tindakan</string>
     <string name="move">Alih</string>
+    <string name="back_quit_lock">Tekan undur sekali lagi untuk tutup video</string>
 </resources>
