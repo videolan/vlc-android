@@ -84,8 +84,6 @@
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
     <string name="validation">Está seguro?</string>
     <string name="cover_art">Portada</string>
-    <string name="shuffle">Barallar</string>
-    <string name="repeat">Repetir ningún/un/todos</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Seguinte</string>
@@ -265,4 +263,5 @@
     <string name="playlist_save">Gardar a lista de reprodución</string>
     <string name="playlist_name_hint">nome da lista de reprodución</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
+    <!--Accessibility-->
 </resources>
