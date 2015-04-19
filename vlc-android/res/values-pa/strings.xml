@@ -79,8 +79,6 @@
     <string name="nohistory">ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਪਲੇਅਬੈਕ ਅਤੀਤ ਹਾਲੇ ਨਹੀਂ ਹੈ।</string>
     <string name="validation">ਪੱਕਾ ਹੈ?</string>
     <string name="cover_art">ਕਵਰ ਆਰਟ</string>
-    <string name="shuffle">ਰਲਵਾਂ </string>
-    <string name="repeat">ਕੋਈ ਨਹੀਂ/ਇਕੱਲਾ/ਸਭ ਦੁਹਰਾਉ</string>
     <string name="previous">ਪਿਛਲੇ</string>
     <string name="stop">ਰੋਕੋ </string>
     <string name="next">ਅੱਗੇ </string>
@@ -197,4 +195,5 @@
     <string name="quit">ਬਾਹਰ ਜਾਉ ਅਤੇ ਐਪਲੀਕੇਸ਼ਨ ਨੂੰ ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="restart_vlc">VLC ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="send_log">ਲਾਗ ਭੇਜੋ</string>
+    <!--Accessibility-->
 </resources>
