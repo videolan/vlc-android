@@ -79,8 +79,6 @@
     <string name="nohistory">Você não possui histórico de reprodução.</string>
     <string name="validation">Tem certeza?</string>
     <string name="cover_art">Capa</string>
-    <string name="shuffle">Aleatório</string>
-    <string name="repeat">Repetir nenhuma/uma/todas</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Próximo</string>
@@ -225,4 +223,5 @@
     <string name="restart_vlc">Reiniciar o VLC</string>
     <string name="send_log">Enviar o registro</string>
     <string name="sending_log">Enviando o registro...</string>
+    <!--Accessibility-->
 </resources>
