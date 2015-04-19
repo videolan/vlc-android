@@ -79,8 +79,6 @@
     <string name="nohistory">Ez daukazu erreprodukzio-historiarik oraindik.</string>
     <string name="validation">Ziur zaude?</string>
     <string name="cover_art">Azaleko diseinua</string>
-    <string name="shuffle">Nahastu</string>
-    <string name="repeat">Errepikatu bat ere ez/bat/denak</string>
     <string name="previous">Aurrekoa</string>
     <string name="stop">Gelditu</string>
     <string name="next">Hurrengoa</string>
@@ -199,4 +197,5 @@
     <string name="dump_logcat">Erauzi logcat log-a</string>
     <string name="dump_logcat_success">Logcat ondo erauzi da %1$s(e)ra!</string>
     <string name="dump_logcat_failure">Huts egin du logcat-a erauztean.</string>
+    <!--Accessibility-->
 </resources>
