@@ -75,8 +75,6 @@
     <string name="nohistory">هنوز هیچ بازنواختی در سابقه شما وجود ندارد.</string>
     <string name="validation">آیا اطمینان دارید؟</string>
     <string name="cover_art">جلد هنر</string>
-    <string name="shuffle">اتفاقی</string>
-    <string name="repeat">پخش هیچ/یکی/همه</string>
     <string name="previous">قبلی</string>
     <string name="stop">توقف</string>
     <string name="next">بعدی</string>
@@ -243,4 +241,5 @@
     <string name="sending_log">در حال ارسال گزارش...</string>
     <string name="drawer_open">گشودن کشو ناوبری</string>
     <string name="drawer_close">بستن کشو ناوبری</string>
+    <!--Accessibility-->
 </resources>
