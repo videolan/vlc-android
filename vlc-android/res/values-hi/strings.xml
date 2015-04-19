@@ -71,8 +71,6 @@
     <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है.</string>
     <string name="validation">क्या आपको यकीन है?</string>
     <string name="cover_art">आवरण कला</string>
-    <string name="shuffle">उलट पलट करना</string>
-    <string name="repeat">दोहराएँ कोई नही/एक/सभी</string>
     <string name="previous">पिछला</string>
     <string name="stop">विराम</string>
     <string name="next">अगला</string>
@@ -168,4 +166,5 @@
     <string name="clear_log">लॉग साफ़ करें</string>
     <string name="copy_to_clipboard">क्लिपबोर्ड में कॉपी करें</string>
     <string name="copied_to_clipboard">लॉग को क्लिपबोर्ड में कॉपी किया.</string>
+    <!--Accessibility-->
 </resources>
