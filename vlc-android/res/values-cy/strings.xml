@@ -98,8 +98,6 @@
     <string name="nohistory">Does dim hanes chwarae eto.</string>
     <string name="validation">Wyt yn sicr?</string>
     <string name="cover_art">Dyluniad clawr</string>
-    <string name="shuffle">Cymysgu</string>
-    <string name="repeat">Ail-chwarae dim/sengl/cyfan</string>
     <string name="previous">Blaenorol</string>
     <string name="stop">Stopio</string>
     <string name="next">Nesaf</string>
@@ -296,4 +294,9 @@
     <string name="playlist_save">Cadw Rhestr Chwarae</string>
     <string name="playlist_name_hint">enw\'r rhestr chwarae</string>
     <string name="go_to_chapter">Mynd at bennod...</string>
+    <string name="resume_from_position">Parhau o\'r man diwethaf</string>
+    <string name="confirm_resume">Parhau o\'r man diwethaf?</string>
+    <string name="confirm_resume_title">Gofyn am gadarnhad cyn parhau</string>
+    <string name="confirm_resume_summary">Os ar waith, cewch eich gofyn i gadarnhau cyn parhau i chwarae fideo o\'r man diwethaf.</string>
+    <!--Accessibility-->
 </resources>
