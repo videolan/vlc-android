@@ -21,6 +21,8 @@
     <string name="play_from_start">Luaj nga fillimi</string>
     <string name="play_as_audio">Luaj si audio</string>
     <string name="play_as_video">Luaj si video</string>
+    <string name="play_as_audio_background">Luaj videot ne background</string>
+    <string name="play_as_audio_background_summary">Vazhdo luajtjen e videos ne background kur te fik ekranin ose te klikoj butonin HOME</string>
     <string name="append">Shto</string>
     <string name="play_all">Luaj te gjithe</string>
     <string name="append_all">Shto të gjitha</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">S\'ka histori</string>
     <string name="validation">Jeni të sigurtë ?</string>
     <string name="cover_art">Figura e koverit</string>
-    <string name="shuffle">Përzierje</string>
-    <string name="repeat">Përsëritje</string>
+    <string name="shuffle">Përzierja Off</string>
+    <string name="shuffle_on">Përzierja On</string>
+    <string name="repeat">Pa Përsëritje</string>
+    <string name="repeat_single">Përsërit një her</string>
+    <string name="repeat_all">Përsëri të gjitha</string>
     <string name="previous">I mëparshëm</string>
     <string name="stop">Stop</string>
     <string name="next">Tjetra</string>
@@ -282,4 +287,12 @@
     <string name="playlist_save">Ruaje Listen</string>
     <string name="playlist_name_hint">emri i listës</string>
     <string name="go_to_chapter">Shko te kapitulli...</string>
+    <string name="resume_from_position">Vazhdo nga pozicioni i kaluar</string>
+    <string name="confirm_resume">Vazhdoni nga pozicioni i kaluar?</string>
+    <string name="confirm_resume_title">Kerko konfirmim per te vazhduar</string>
+    <string name="confirm_resume_summary">nese eshte e aktivizuar ju do te pyeteni per nje konfirmim kur nje video mund te vazhdoje nga pozicioni i kaluar</string>
+    <!--Accessibility-->
+    <string name="more_actions">Më shumë opsione</string>
+    <string name="move">Lëvize</string>
+    <string name="back_quit_lock">Shtypni prapa eshe një here për të dalë nga videoja</string>
 </resources>
