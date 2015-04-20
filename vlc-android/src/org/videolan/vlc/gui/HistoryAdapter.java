@@ -78,20 +78,20 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DirectoryAdapter.DirectoryViewHolder holder;
+        DirectoryViewHolder holder;
         View v = convertView;
 
         /* If view not created */
         if (v == null) {
             v = mInflater.inflate(R.layout.list_item, parent, false);
-            holder = new DirectoryAdapter.DirectoryViewHolder();
+            holder = new DirectoryViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.artist);
             holder.icon = (ImageView) v.findViewById(R.id.cover);
             v.setTag(holder);
         } else
-            holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
+            holder = (DirectoryViewHolder) v.getTag();
 
         String holderText = "";
         MediaWrapper m = mMediaList.get(position);
@@ -126,5 +126,13 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
     public void onMediaPlayedRemoved(int index) {
         mMediaList.remove(index);
         notifyDataSetChanged();
+    }
+
+    private static class DirectoryViewHolder {
+        View layout;
+        TextView title;
+        TextView text;
+        ImageView icon;
+
     }
 }
