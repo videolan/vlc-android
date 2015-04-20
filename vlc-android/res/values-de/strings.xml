@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Weitere Aktionen</string>
     <string name="move">Verschieben</string>
+    <string name="back_quit_lock">Zum Verlassen des Videos Zurück nochmals drücken</string>
 </resources>
