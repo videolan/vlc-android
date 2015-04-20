@@ -74,17 +74,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         getActivity().unregisterReceiver(networkReceiver);
     }
 
-    protected void updateDisplay(){
-        if (mMediaBrowser == null)
-            mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (mAdapter.isEmpty())
-            refresh();
-        else if (mRoot)
+    protected void updateDisplay() {
+        if (mRoot)
             updateFavorites();
-        else {
-            mAdapter.notifyDataSetChanged();
-            parseSubDirectories();
-        }
+        mAdapter.notifyDataSetChanged();
+        parseSubDirectories();
     }
 
     @Override
@@ -112,10 +106,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (newSize == 0 && mFavorites == 0)
             return;
         for (int i = 1 ; i <= mFavorites ; ++i){ //remove former favorites
-            mAdapter.removeItem(totalSize-i);
+            mAdapter.removeItem(totalSize-i, mReadyToDisplay);
         }
         if (newSize == 0)
-            mAdapter.removeItem(totalSize-mFavorites-1); //also remove separator if no more fav
+            mAdapter.removeItem(totalSize-mFavorites-1, mReadyToDisplay); //also remove separator if no more fav
         else {
             if (mFavorites == 0)
                 mAdapter.addItem("Network favorites", false, false); //add header if needed
@@ -136,10 +130,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     /**
      * Update views visibility and emptiness info
-     *
-     * @return True if content needs can be refreshed
      */
-    protected boolean updateEmptyView() {
+    protected void updateEmptyView() {
         if (AndroidDevices.hasLANConnection()) {
             if (mAdapter.isEmpty()) {
                 mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
@@ -153,7 +145,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                     mSwipeRefreshLayout.setEnabled(true);
                 }
             }
-            return true;
         } else {
             if (mEmptyView.getVisibility() == View.GONE) {
                 mEmptyView.setText(R.string.network_connection_needed);
@@ -161,7 +152,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 mRecyclerView.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setEnabled(false);
             }
-            return false;
         }
     }
 
@@ -169,9 +159,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action))
-                if (updateEmptyView())
-                    updateDisplay();
+            if (mReadyToDisplay && ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
+                update();
+            }
         }
     };
 }

@@ -93,8 +93,11 @@ public class FileBrowserFragment extends BaseBrowserFragment {
             mAdapter.addItem(mw, false, false);
         }
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        updateEmptyView();
-        mAdapter.notifyDataSetChanged();
+        if (mReadyToDisplay) {
+            updateEmptyView();
+            mAdapter.notifyDataSetChanged();
+            parseSubDirectories();
+        }
     }
 
     public void onStart(){
@@ -107,8 +110,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         filter.addAction(Intent.ACTION_MEDIA_REMOVED);
         filter.addAction(Intent.ACTION_MEDIA_EJECT);
         getActivity().registerReceiver(storageReceiver, filter);
-        if (updateEmptyView())
-            updateDisplay();
+        if (mReadyToDisplay)
+            update();
     }
 
     @Override
@@ -126,8 +129,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED) ||
                     action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED) ||
                     action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT)) {
-                if (updateEmptyView())
-                    updateDisplay();
+                if (mReadyToDisplay)
+                    update();
             }
         }
     };

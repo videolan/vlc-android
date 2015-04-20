@@ -21,7 +21,6 @@
  */
 package org.videolan.vlc.gui.browser;
 
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -155,13 +154,13 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         return mMediaList.isEmpty();
     }
 
-    public void addItem(Media media, boolean root, boolean first){
+    public void addItem(Media media, boolean notify, boolean top){
         MediaWrapper mediaWrapper = new MediaWrapper(media);
-        addItem(mediaWrapper, root, first);
+        addItem(mediaWrapper, notify, top);
 
     }
 
-    public void addItem(Object item, boolean root, boolean top){
+    public void addItem(Object item, boolean notify, boolean top){
         int position = top ? 0 : mMediaList.size();
         if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
             return;
@@ -169,7 +168,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             item = new MediaWrapper((Media) item);
 
         mMediaList.add(position, item);
-        notifyItemInserted(position);
+        if (notify)
+            notifyItemInserted(position);
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
@@ -178,9 +178,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             mMediaList.add(mw);
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position, boolean notify){
         mMediaList.remove(position);
-        notifyItemRemoved(position);
+        if (notify) {
+            notifyItemRemoved(position);
+        }
     }
 
     public Object getItem(int position){

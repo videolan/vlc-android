@@ -66,8 +66,6 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -76,6 +74,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static String ROOT = "smb";
     public static final String KEY_MRL = "key_mrl";
     public static final String KEY_MEDIA = "key_media";
+    public static final String KEY_MEDIA_LIST = "key_media_list";
     public static final String KEY_POSITION = "key_list";
 
     protected BrowserFragmentHandler mHandler;
@@ -89,8 +88,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected int mSavedPosition = -1, mFavorites = 0;
     protected boolean mRoot;
     protected LibVLC mLibVLC;
-
-    private static final String FILES_LIST = "files_list";
 
     private SparseArray<ArrayList<MediaWrapper>> mMediaLists;
     private ArrayList<MediaWrapper> mediaList;
@@ -112,7 +109,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){
-            mediaList = bundle.getParcelableArrayList(FILES_LIST);
+            mediaList = bundle.getParcelableArrayList(KEY_MEDIA_LIST);
             if (mediaList != null)
                 mAdapter.addAll(mediaList);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
@@ -148,6 +145,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
+        outState.putParcelable(KEY_MEDIA, mCurrentMedia);
+        outState.putParcelableArrayList(KEY_MEDIA_LIST, mediaList);
         if (mRecyclerView != null) {
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
         }
@@ -165,6 +164,16 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             return mCurrentMedia != null ? mCurrentMedia.getTitle() : mMrl;
     }
 
+    @Override
+    protected void display() {
+        if (!mReadyToDisplay) {
+            mReadyToDisplay = true;
+            update();
+            return;
+        }
+        updateDisplay();
+    }
+
     public void goBack(){
         getActivity().getSupportFragmentManager().popBackStack();
     }
@@ -175,7 +184,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         Bundle args = new Bundle();
         ArrayList<MediaWrapper> list = mMediaLists != null ? mMediaLists.get(position) : null;
         if(list != null && !list.isEmpty())
-            args.putParcelableArrayList(FILES_LIST, list);
+            args.putParcelableArrayList(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
@@ -186,27 +195,24 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaAdded(int index, Media media) {
-        mAdapter.addItem(media, mRoot, true);
-        updateEmptyView();
+        mAdapter.addItem(media, mReadyToDisplay && mRoot, true);
+        if (mReadyToDisplay)
+            updateEmptyView();
         if (mRoot)
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
     @Override
     public void onMediaRemoved(int index, Media media) {
-        mAdapter.removeItem(index);
+        mAdapter.removeItem(index, mReadyToDisplay);
     }
 
     @Override
     public void onBrowseEnd() {
-        mAdapter.sortList();
+        mMediaBrowser.release();
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        if (mSavedPosition > 0) {
-            mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
-            mSavedPosition = 0;
-        }
-        parseSubDirectories();
-        focusHelper(mAdapter.isEmpty());
+        if (mReadyToDisplay)
+            display();
     }
 
     @Override
@@ -231,10 +237,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     /**
      * Update views visibility and emptiness info
-     *
-     * @return True if content needs can be refreshed
      */
-    protected boolean updateEmptyView(){
+    protected void updateEmptyView(){
         if (mAdapter.isEmpty()){
             mEmptyView.setText(getString(R.string.directory_empty));
             mEmptyView.setVisibility(View.VISIBLE);
@@ -245,30 +249,42 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mRecyclerView.setVisibility(View.VISIBLE);
             mSwipeRefreshLayout.setEnabled(true);
         }
-        return true;
     }
 
-    protected void updateDisplay(){
+    protected void update(){
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (mAdapter.isEmpty()) {
-            refresh();
-        } else {
-            mAdapter.notifyDataSetChanged();
-            parseSubDirectories();
+        if (mReadyToDisplay) {
+            updateEmptyView();
+            if (mAdapter.isEmpty()) {
+                refresh();
+            } else {
+                updateDisplay();
+            }
         }
+    }
+
+    protected void updateDisplay() {
+        if (!mAdapter.isEmpty()) {
+            mAdapter.sortList();
+            if (mSavedPosition > 0) {
+                mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
+                mSavedPosition = 0;
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+        parseSubDirectories();
+        focusHelper(mAdapter.isEmpty());
     }
 
     @Override
     public void refresh() {
         mAdapter.clear();
-        if (mRoot) {
+        mMediaBrowser.changeEventListener(this);
+        if (mRoot)
             browseRoot();
-            parseSubDirectories();
-        } else {
-            mMediaBrowser.changeEventListener(this);
+        else
             mMediaBrowser.browse(mMrl);
-        }
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
@@ -403,12 +419,24 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void parseSubDirectories() {
-        if (mAdapter.isEmpty())
+        if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
         mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
         mMediaBrowser.changeEventListener(mFoldersBrowserListener);
         mCurrentParsedPosition = 0;
-        mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(0)).getLocation()); //TODO manage non MW
+        Object item;
+        MediaWrapper mw;
+        while (mCurrentParsedPosition <mAdapter.getItemCount()){
+            item = mAdapter.getItem(mCurrentParsedPosition);
+            if (item instanceof MediaWrapper){
+                mw = (MediaWrapper) item;
+                if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
+                    mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
+                    return;
+                }
+            }
+            ++mCurrentParsedPosition;
+        }
     }
 
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
@@ -429,6 +457,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         @Override
         public void onBrowseEnd() {
+            if (mAdapter.isEmpty()) {
+                mCurrentParsedPosition = -1;
+                mMediaBrowser.release();
+                return;
+            }
             String holderText = getDescription(directories.size(), files.size());
             MediaWrapper mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
 
@@ -450,8 +483,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
                 directories = new ArrayList<MediaWrapper>();
                 files = new ArrayList<MediaWrapper>();
-            } else
+            } else {
+                mCurrentParsedPosition = -1;
                 mMediaBrowser.release();
+            }
         }
 
         private String getDescription(int folderCount, int mediaFileCount) {
