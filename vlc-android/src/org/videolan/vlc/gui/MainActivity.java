@@ -497,7 +497,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     item.setTitle(R.string.sortby_date);
         }
 
-        boolean networkSave = current instanceof BaseBrowserFragment && !((BaseBrowserFragment)current).isRootDirectory();
+        boolean networkSave = current instanceof NetworkBrowserFragment && !((NetworkBrowserFragment)current).isRootDirectory();
         if (networkSave) {
             MenuItem item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
