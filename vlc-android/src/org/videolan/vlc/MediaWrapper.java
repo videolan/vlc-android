@@ -370,6 +370,10 @@ public class MediaWrapper implements Parcelable {
         return mDiscNumber;
     }
 
+    public void setDescription(String description){
+        mDescription = description;
+    }
+
     public String getDescription() {
         return mDescription;
     }
