@@ -95,6 +95,15 @@ public class MediaBrowser {
         reset();
     }
 
+    /**
+     * Reset this media browser and register a new EventListener
+     * @param eventListener new EventListener for this browser
+     */
+    public synchronized void changeEventListener(EventListener eventListener){
+        reset();
+        mEventListener = eventListener;
+    }
+
     private void startMediaDiscoverer(String discovererName) {
         MediaDiscoverer md = new MediaDiscoverer(mLibVlc, discovererName);
         mMediaDiscoverers.add(md);
