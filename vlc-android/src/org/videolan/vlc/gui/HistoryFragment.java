@@ -41,7 +41,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-public class HistoryFragment extends BrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;

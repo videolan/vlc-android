@@ -41,13 +41,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class BrowserAdapter extends ArrayAdapter<File>
+public class MediaBrowserAdapter extends ArrayAdapter<File>
                             implements Comparator<File> {
     public final static String TAG = "VLC/BrowserAdapter";
 
     public final static String ADD_ITEM_PATH = "/add/a/path";
 
-    public BrowserAdapter(Context context) {
+    public MediaBrowserAdapter(Context context) {
         super(context, 0);
     }
 

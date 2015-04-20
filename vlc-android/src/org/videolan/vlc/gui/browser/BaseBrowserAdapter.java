@@ -1,6 +1,6 @@
 /**
  * **************************************************************************
- * NetworkAdapter.java
+ * BaseBrowserAdapter.java
  * ****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -19,9 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  * ***************************************************************************
  */
-package org.videolan.vlc.gui.network;
+package org.videolan.vlc.gui.browser;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +37,18 @@ import org.videolan.vlc.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "VLC/NetworkAdapter";
+public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static final int TYPE_MEDIA = 0;
     private static final int TYPE_SEPARATOR = 1;
 
-    ArrayList<Object> mMediaList = new ArrayList<Object>();
-    NetworkFragment fragment;
+    protected int FOLDER_RES_ID = R.drawable.ic_menu_folder;
 
-    public NetworkAdapter(NetworkFragment fragment){
+    ArrayList<Object> mMediaList = new ArrayList<Object>();
+    BaseBrowserFragment fragment;
+
+    public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
     }
 
@@ -70,12 +71,15 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MediaViewHolder) {
-            MediaViewHolder vh = (MediaViewHolder) holder;
-            MediaWrapper media = (MediaWrapper) getItem(position);
+            final MediaViewHolder vh = (MediaViewHolder) holder;
+            final MediaWrapper media = (MediaWrapper) getItem(position);
+            boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
+                  media.getType() == MediaWrapper.TYPE_VIDEO ||
+                  (media.getType() == MediaWrapper.TYPE_DIR && Util.canWrite(media.getLocation())));
             vh.title.setText(media.getTitle());
             vh.text.setVisibility(View.GONE);
             vh.icon.setImageResource(getIconResId(media));
-            vh.more.setVisibility(View.GONE);
+            vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,6 +90,21 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
                         Util.openMedia(v.getContext(), mw);
                 }
             });
+            if (hasContextMenu) {
+                vh.more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragment.onPopupMenu(vh.more, holder.getPosition());
+                    }
+                });
+                vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        fragment.onPopupMenu(vh.title, holder.getPosition());
+                        return true;
+                    }
+                });
+            }
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
             vh.title.setText(getItem(position).toString());
@@ -97,7 +116,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
         return mMediaList.size();
     }
 
-    public static class MediaViewHolder extends RecyclerView.ViewHolder {
+    public class MediaViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView text;
         public ImageView icon;
@@ -136,16 +155,15 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public void addItem(Object item, boolean root, boolean first){
-        int position = first ? 0 : mMediaList.size();
+    public void addItem(Object item, boolean root, boolean top){
+        int position = top ? 0 : mMediaList.size();
         if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
             return;
         else if (item instanceof Media)
             item = new MediaWrapper((Media) item);
 
         mMediaList.add(position, item);
-        if (root)
-            notifyItemInserted(position);
+        notifyItemInserted(position);
     }
 
     public void removeItem(int position){
@@ -188,7 +206,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
             case MediaWrapper.TYPE_AUDIO:
                 return R.drawable.ic_browser_audio_normal;
             case MediaWrapper.TYPE_DIR:
-                return R.drawable.ic_menu_network;
+                return FOLDER_RES_ID;
             case MediaWrapper.TYPE_VIDEO:
                 return R.drawable.ic_browser_video_normal;
             case MediaWrapper.TYPE_SUBTITLE:

@@ -54,8 +54,6 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
@@ -65,7 +63,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.BrowserFragment;
+import org.videolan.vlc.gui.MediaBrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -81,7 +79,7 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-public class VideoGridFragment extends BrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     public final static String TAG = "VLC/VideoListFragment";
 

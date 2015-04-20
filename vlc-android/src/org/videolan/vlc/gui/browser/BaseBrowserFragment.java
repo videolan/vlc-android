@@ -1,6 +1,6 @@
 /**
  * **************************************************************************
- * NetworkFragment.java
+ * BaseBrowserFragment.java
  * ****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -19,63 +19,79 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  * ***************************************************************************
  */
-package org.videolan.vlc.gui.network;
+package org.videolan.vlc.gui.browser;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.BrowserFragment;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.MediaBrowserFragment;
+import org.videolan.vlc.gui.SidebarAdapter;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 
 
-public class NetworkFragment extends BrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
-    private static final String TAG = "VLC/NetworkFragment";
+public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
+    protected static final String TAG = "VLC/BaseBrowserFragment";
 
-    public static final String SMB_ROOT = "smb";
+    public static String ROOT = "smb";
     public static final String KEY_MRL = "key_mrl";
     public static final String KEY_MEDIA = "key_media";
     public static final String KEY_POSITION = "key_list";
 
-    private NetworkFragmentHandler mHandler;
-    private MediaBrowser mMediaBrowser;
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private NetworkAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
-    TextView mEmptyView;
+    protected BrowserFragmentHandler mHandler;
+    protected MediaBrowser mMediaBrowser;
+    protected RecyclerView mRecyclerView;
+    protected BaseBrowserAdapter mAdapter;
+    protected LinearLayoutManager mLayoutManager;
+    protected TextView mEmptyView;
     public String mMrl;
-    private MediaWrapper mCurrentMedia;
-    private int mSavedPosition = -1, mFavorites = 0;
-    private boolean mRoot;
-    private LibVLC mLibVLC;
+    protected MediaWrapper mCurrentMedia;
+    protected int mSavedPosition = -1, mFavorites = 0;
+    protected boolean mRoot;
+    protected LibVLC mLibVLC;
+
+    protected abstract Fragment createFragment();
+    protected abstract void browseRoot();
+    protected abstract String getCategoryTitle();
+
+    public BaseBrowserFragment(){
+        mHandler = new BrowserFragmentHandler(this);
+        mAdapter = new BaseBrowserAdapter(this);
+    }
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
@@ -91,11 +107,6 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
                 mMrl = bundle.getString(KEY_MRL);
             mSavedPosition = bundle.getInt(KEY_POSITION);
         }
-        if (mMrl == null)
-            mMrl = SMB_ROOT;
-        mRoot = SMB_ROOT.equals(mMrl);
-        mHandler = new NetworkFragmentHandler(this);
-        mAdapter = new NetworkAdapter(this);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -120,13 +131,6 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             mMediaBrowser.release();
     }
 
-    public void onStart(){
-        super.onStart();
-
-        //Handle network connection state
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(networkReceiver, filter);
-    }
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         if (mRecyclerView != null) {
@@ -135,15 +139,15 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         super.onSaveInstanceState(outState);
     }
 
-    public String getTitle(){
-        if (mRoot)
-            return getString(R.string.network_browsing);
-        else
-            return mCurrentMedia != null ? mCurrentMedia.getTitle() : mMrl;
-    }
-
     public boolean isRootDirectory(){
         return mRoot;
+    }
+
+    public String getTitle(){
+        if (mRoot)
+            return getCategoryTitle();
+        else
+            return mCurrentMedia != null ? mCurrentMedia.getTitle() : mMrl;
     }
 
     public void goBack(){
@@ -152,7 +156,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     public void browse (MediaWrapper media){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment next = new NetworkFragment();
+        Fragment next = createFragment();
         Bundle args = new Bundle();
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
@@ -161,12 +165,13 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         ft.commit();
     }
 
+
     @Override
     public void onMediaAdded(int index, Media media) {
         mAdapter.addItem(media, mRoot, true);
         updateEmptyView();
         if (mRoot)
-            mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
+            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
     @Override
@@ -177,7 +182,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     @Override
     public void onBrowseEnd() {
         mAdapter.sortList();
-        mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
+        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         if (mSavedPosition > 0) {
             mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
             mSavedPosition = 0;
@@ -210,103 +215,49 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
      *
      * @return True if content needs can be refreshed
      */
-    private boolean updateEmptyView(){
-        if (AndroidDevices.hasLANConnection()){
-            if (mAdapter.isEmpty()){
-                mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setEnabled(false);
-            } else {
-                if (mEmptyView.getVisibility() == View.VISIBLE) {
-                    mEmptyView.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    mSwipeRefreshLayout.setEnabled(true);
-                }
-            }
-            return true;
-        } else {
-            if (mEmptyView.getVisibility() == View.GONE){
-                mEmptyView.setText(R.string.network_connection_needed);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setEnabled(false);
-            }
-            return false;
+    protected boolean updateEmptyView(){
+        if (mAdapter.isEmpty()){
+            mEmptyView.setText("Directory empty");
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setEnabled(false);
+        } else if (mEmptyView.getVisibility() == View.VISIBLE) {
+            mEmptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setEnabled(true);
         }
-
+        return true;
     }
 
-    private void updateDisplay(){
+    protected void updateDisplay(){
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
         if (mAdapter.isEmpty())
             refresh();
-        else if (mRoot)
-            updateFavorites();
     }
 
     @Override
     public void refresh() {
         mAdapter.clear();
-        if (mRoot){
-            ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-            if (!favs.isEmpty()) {
-                mFavorites = favs.size();
-                for (MediaWrapper fav : favs) {
-                    mAdapter.addItem(fav, false, true);
-                    mAdapter.notifyDataSetChanged();
-                }
-                mAdapter.addItem("Network favorites", false, true);
-            }
-        }
         if (mRoot)
-            mMediaBrowser.discoverNetworkShares();
+            browseRoot();
         else
             mMediaBrowser.browse(mMrl);
-        mHandler.sendEmptyMessageDelayed(NetworkFragmentHandler.MSG_SHOW_LOADING, 300);
+        mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
-    private void updateFavorites(){
-        ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-        int newSize = favs.size(), totalSize = mAdapter.getItemCount();
 
-        if (newSize == 0 && mFavorites == 0)
-            return;
-        for (int i = 1 ; i <= mFavorites ; ++i){ //remove former favorites
-            mAdapter.removeItem(totalSize-i);
-        }
-        if (newSize == 0)
-            mAdapter.removeItem(totalSize-mFavorites-1); //also remove separator if no more fav
-        else {
-            if (mFavorites == 0)
-                mAdapter.addItem("Network favorites", false, false); //add header if needed
-            for (MediaWrapper fav : favs)
-                mAdapter.addItem(fav, false, false); //add new favorites
-        }
-        mFavorites = newSize; //update count
-    }
-
-    public void toggleFavorite() {
-        MediaDatabase db = MediaDatabase.getInstance();
-        if (db.networkFavExists(mMrl))
-            db.deleteNetworkFav(mMrl);
-        else
-            db.addNetworkFavItem(mMrl, mCurrentMedia.getTitle());
-        getActivity().supportInvalidateOptionsMenu();
-    }
-
-    private static class NetworkFragmentHandler extends WeakHandler<NetworkFragment> {
+    protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
 
         public static final int MSG_SHOW_LOADING = 0;
         public static final int MSG_HIDE_LOADING = 1;
 
-        public NetworkFragmentHandler(NetworkFragment owner) {
+        public BrowserFragmentHandler(BaseBrowserFragment owner) {
             super(owner);
         }
         @Override
         public void handleMessage(Message msg) {
-            NetworkFragment fragment = getOwner();
+            BaseBrowserFragment fragment = getOwner();
             switch (msg.what){
                 case MSG_SHOW_LOADING:
                     fragment.mSwipeRefreshLayout.setRefreshing(true);
@@ -319,17 +270,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         }
     }
 
-    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action))
-                if (updateEmptyView())
-                    updateDisplay();
-        }
-    };
-
-    private void focusHelper(boolean idIsEmpty) {
+    protected void focusHelper(boolean idIsEmpty) {
         if (getActivity() == null)
             return;
         MainActivity main = (MainActivity)getActivity();
@@ -340,5 +281,98 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     public void clear(){
         mAdapter.clear();
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void onPopupMenu(View anchor, final int position) {
+        MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        if (!LibVlcUtil.isHoneycombOrLater()) {
+            // Call the "classic" context menu
+            anchor.performLongClick();
+            return;
+        }
+        boolean canWrite = Util.canWrite(mw.getLocation());
+        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+        if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
+            popupMenu.getMenuInflater().inflate(R.menu.directory_view_file, popupMenu.getMenu());
+            popupMenu.getMenu().findItem(R.id.directory_view_delete).setVisible(canWrite);
+        } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
+            if (canWrite) {
+                Menu menu = popupMenu.getMenu();
+                popupMenu.getMenuInflater().inflate(R.menu.directory_view_dir, menu);
+                boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
+                menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
+                menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+            }
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return handleContextItemSelected(item, position);
+            }
+        });
+        popupMenu.show();
+    }
+
+    private boolean handleContextItemSelected(MenuItem item, int position) {
+        int id = item.getItemId();
+        if (! (mAdapter.getItem(position) instanceof MediaWrapper))
+            return super.onContextItemSelected(item);
+        MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        switch (id){
+            case R.id.directory_view_play:
+                Util.openMedia(getActivity(), (MediaWrapper) mAdapter.getItem(position));
+                return true;
+            case R.id.directory_view_append:
+                AudioServiceController.getInstance().append(mw.getLocation());
+                return true;
+            case R.id.directory_view_delete:
+                AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mw.getLocation(),
+                        new VLCRunnable() {
+                            @Override
+                            public void run(Object o) {
+                                refresh();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            case R.id.directory_view_play_audio:
+                AudioServiceController.getInstance().load(mw.getLocation(), true);
+                return true;
+            case  R.id.directory_view_play_video:
+                VideoPlayerActivity.start(getActivity(), mw.getLocation());
+                return true;
+            case R.id.directory_view_hide_media:
+                try {
+                    new File(mw.getLocation()+"/.nomedia").createNewFile();
+                    updateLib();
+                } catch (IOException e) {}
+                return true;
+            case R.id.directory_view_show_media:
+                new File(mw.getLocation()+"/.nomedia").delete();
+                updateLib();
+                return true;
+        }
+        return false;
+    }
+
+    private void updateLib() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
+        if (fragment != null) {
+            ft.remove(fragment);
+            ((MediaBrowserFragment)fragment).clear();
+        }
+        fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_VIDEO);
+        if (fragment != null) {
+            ft.remove(fragment);
+            ((MediaBrowserFragment)fragment).clear();
+        }
+        if (!ft.isEmpty())
+            ft.commit();
+        MediaLibrary.getInstance().loadMediaItems();
     }
 }

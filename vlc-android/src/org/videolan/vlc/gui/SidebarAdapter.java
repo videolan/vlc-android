@@ -28,7 +28,9 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.network.NetworkFragment;
+import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.browser.FileBrowserFragment;
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.Util;
 
@@ -47,7 +49,7 @@ import android.widget.TextView;
 public class SidebarAdapter extends BaseAdapter {
     public final static String TAG = "VLC/SidebarAdapter";
 
-    static class SidebarEntry {
+    public static class SidebarEntry {
         public static final  int TYPE_FRAGMENT = 0;
         public static final  int TYPE_ACTION = 1;
         public static final  int TYPE_SECONDARY_FRAGMENT = 2;
@@ -166,13 +168,13 @@ public class SidebarAdapter extends BaseAdapter {
         } else if(id.equals(SidebarEntry.ID_VIDEO)) {
             f = new VideoGridFragment();
         } else if(id.endsWith(SidebarEntry.ID_DIRECTORIES)) {
-            f = new DirectoryViewFragment();
+            f = new FileBrowserFragment();
         } else if(id.equals(SidebarEntry.ID_HISTORY)) {
             f = new HistoryFragment();
         } else if(id.equals(SidebarEntry.ID_MRL)) {
             f = new MRLPanelFragment();
         } else if(id.equals(SidebarEntry.ID_NETWORK)) {
-            f = new NetworkFragment();
+            f = new NetworkBrowserFragment();
         }
         else {
             mCurrentFragmentId = prevFragmentId; // Restore the current fragment id.

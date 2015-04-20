@@ -60,10 +60,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends BrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class DirectoryViewFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
@@ -209,12 +208,12 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
         if (fragment != null) {
             ft.remove(fragment);
-            ((BrowserFragment)fragment).clear();
+            ((MediaBrowserFragment)fragment).clear();
         }
         fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_VIDEO);
         if (fragment != null) {
             ft.remove(fragment);
-            ((BrowserFragment)fragment).clear();
+            ((MediaBrowserFragment)fragment).clear();
         }
         if (!ft.isEmpty())
             ft.commit();

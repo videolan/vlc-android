@@ -52,7 +52,6 @@ import android.widget.TextView;
 
 import com.android.widget.SlidingTabLayout;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
@@ -61,7 +60,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.BrowserFragment;
+import org.videolan.vlc.gui.MediaBrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -82,7 +81,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AudioBrowserFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
+public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private AudioServiceController mAudioController;

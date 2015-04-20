@@ -27,7 +27,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
-public abstract class BrowserFragment extends Fragment {
+public abstract class MediaBrowserFragment extends Fragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;

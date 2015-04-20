@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import android.annotation.TargetApi;
@@ -41,6 +42,7 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
@@ -183,5 +185,12 @@ public class AndroidDevices {
         }
         return networkEnabled;
 
+    }
+
+    public static String getStorageTitle(String path){
+        if (TextUtils.equals(Environment.getExternalStorageDirectory().getPath(), path))
+            return VLCApplication.getAppContext().getString(R.string.internal_memory);
+        else
+            return Strings.getName(path);
     }
 }

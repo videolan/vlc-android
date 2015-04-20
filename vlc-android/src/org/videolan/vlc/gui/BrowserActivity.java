@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Stack;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -49,7 +48,6 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +64,7 @@ public class BrowserActivity extends ListActivity {
      * TODO:
      */
 
-    private BrowserAdapter mAdapter;
+    private MediaBrowserAdapter mAdapter;
     private File mCurrentDir;
     private final Stack<ScrollState> mScrollStates = new Stack<ScrollState>();
     private String mRoots[];
@@ -86,7 +84,7 @@ public class BrowserActivity extends ListActivity {
         applyTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser);
-        mAdapter = new BrowserAdapter(this);
+        mAdapter = new MediaBrowserAdapter(this);
         setListAdapter(mAdapter);
 
         IntentFilter filter = new IntentFilter();
@@ -131,7 +129,7 @@ public class BrowserActivity extends ListActivity {
         int position = ((AdapterContextMenuInfo)menuInfo).position;
         final File item = mAdapter.getItem(position);
         if (mCurrentDir != null
-                || item.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)
+                || item.getPath().equals(MediaBrowserAdapter.ADD_ITEM_PATH)
                 || AndroidDevices.getStorageDirectories().contains(
                         item.getPath())) {
             return;
@@ -158,7 +156,7 @@ public class BrowserActivity extends ListActivity {
             if (f.exists())
                 mAdapter.add(f);
         }
-        mAdapter.add(new File(BrowserAdapter.ADD_ITEM_PATH));
+        mAdapter.add(new File(MediaBrowserAdapter.ADD_ITEM_PATH));
         mAdapter.sort();
 
         // set scroll position to top
@@ -167,7 +165,7 @@ public class BrowserActivity extends ListActivity {
 
     private void openDir(File file) {
         if(file == null || !file.exists() || file.getPath() == null
-                || file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH))
+                || file.getPath().equals(MediaBrowserAdapter.ADD_ITEM_PATH))
             return;
 
         mAdapter.clear();
@@ -190,7 +188,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         File file = mAdapter.getItem(position);
-        if(file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)) {
+        if(file.getPath().equals(MediaBrowserAdapter.ADD_ITEM_PATH)) {
             AlertDialog.Builder b = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
             if (!LibVlcUtil.isHoneycombOrLater()) {

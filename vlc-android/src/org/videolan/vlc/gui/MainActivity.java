@@ -63,19 +63,18 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.network.NetworkFragment;
+import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -198,8 +197,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof BrowserFragment)
-                    ((BrowserFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
+                if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof MediaBrowserFragment)
+                    ((MediaBrowserFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
             }
         };
 
@@ -380,17 +379,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         if (mCurrentFragment!= null) {
             // If it's the directory view, a "backpressed" action shows a parent.
-            if (mCurrentFragment.equals(SidebarEntry.ID_DIRECTORIES)) {
-                DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
-                if (!directoryView.isRootDirectory()) {
-                    directoryView.showParentDirectory();
-                    return;
-                }
-            } else if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK)){
-                NetworkFragment networkFragment = (NetworkFragment) getSupportFragmentManager()
+            if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK) || mCurrentFragment.equals(SidebarEntry.ID_DIRECTORIES)){
+                BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragment_placeholder);
-                if (networkFragment !=null && !networkFragment.isRootDirectory()) {
-                    networkFragment.goBack();
+                if (browserFragment !=null && !browserFragment.isRootDirectory()) {
+                    browserFragment.goBack();
                     return;
                 }
             }
@@ -504,11 +497,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     item.setTitle(R.string.sortby_date);
         }
 
-        boolean networkSave = current instanceof NetworkFragment && !((NetworkFragment)current).isRootDirectory();
+        boolean networkSave = current instanceof BaseBrowserFragment && !((BaseBrowserFragment)current).isRootDirectory();
         if (networkSave) {
             MenuItem item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
-            String mrl = ((NetworkFragment)current).mMrl;
+            String mrl = ((BaseBrowserFragment)current).mMrl;
             item.setIcon(MediaDatabase.getInstance().networkFavExists(mrl) ?
                     R.drawable.ic_menu_bookmark_w :
                     R.drawable.ic_menu_bookmark_outline_w);
@@ -591,7 +584,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             case R.id.ml_menu_save:
                 if (current == null)
                     break;
-                ((NetworkFragment)current).toggleFavorite();
+                ((NetworkBrowserFragment)current).toggleFavorite();
                 item.setIcon(R.drawable.ic_menu_bookmark_w);
                 break;
         }
@@ -965,8 +958,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
                 /* Switch the fragment */
             Fragment fragment = getFragment(entry.id);
-            if (fragment instanceof BrowserFragment)
-                ((BrowserFragment) fragment).setReadyToDisplay(false);
+            if (fragment instanceof MediaBrowserFragment)
+                ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_placeholder, fragment, entry.id);
             ft.addToBackStack(mCurrentFragment);
