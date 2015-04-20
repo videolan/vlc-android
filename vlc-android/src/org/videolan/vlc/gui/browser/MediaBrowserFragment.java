@@ -20,7 +20,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.browser;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;

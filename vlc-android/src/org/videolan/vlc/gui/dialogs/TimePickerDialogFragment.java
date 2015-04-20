@@ -33,7 +33,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.video.AdvOptionsDialog;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.Calendar;
