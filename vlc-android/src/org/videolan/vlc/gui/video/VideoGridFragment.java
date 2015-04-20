@@ -107,7 +107,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     private MainActivity mMainActivity;
     private AudioServiceController mAudioController;
-    private boolean mReady = true;
 
     // Gridview position saved in onPause()
     private int mGVFirstVisiblePos;
@@ -458,7 +457,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                                 mThumbnailer.addJob(item);
                         }
                     }
-                    if (mReady)
+                    if (mReadyToDisplay)
                         display();
                 }
             }).start();
@@ -544,21 +543,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     @Override
-    public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReady)
-            display();
-        else
-            mReady = ready;
-    }
-
-    @Override
     public void display() {
         if (getActivity() != null)
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mViewNomedia.setVisibility(mVideoAdapter.getCount()>0 ? View.GONE : View.VISIBLE);
-                    mReady = true;
+                    mReadyToDisplay = true;
                     mVideoAdapter.setNotifyOnChange(true);
                     mVideoAdapter.sort();
                     mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
