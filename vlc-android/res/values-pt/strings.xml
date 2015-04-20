@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">Mais ações</string>
     <string name="move">Mover</string>
+    <string name="back_quit_lock">Prima novamente para sair do vídeo</string>
 </resources>
