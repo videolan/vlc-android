@@ -170,6 +170,9 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
     }
 
     @Override
+    protected void display() {}
+
+    @Override
     protected String getTitle() {
         return mTitle;
     }

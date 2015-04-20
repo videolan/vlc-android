@@ -32,8 +32,14 @@ public abstract class MediaBrowserFragment extends Fragment {
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
 
-    protected void setReadyToDisplay(boolean ready){}
-    protected void display(){}
+    public void setReadyToDisplay(boolean ready) {
+        if (ready && !mReadyToDisplay)
+            display();
+        else
+            mReadyToDisplay = ready;
+    }
+
+    protected abstract void display();
 
     protected abstract String getTitle();
     public abstract void clear();
