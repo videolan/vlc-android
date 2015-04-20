@@ -287,4 +287,5 @@
     <!--Accessibility-->
     <string name="more_actions">추가 동작</string>
     <string name="move">이동하기</string>
+    <string name="back_quit_lock">비디오를 종료하려면 \"뒤로\" 를 한 번 더 누르세요</string>
 </resources>
