@@ -32,6 +32,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,7 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
@@ -62,6 +65,8 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -83,6 +88,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected int mSavedPosition = -1, mFavorites = 0;
     protected boolean mRoot;
     protected LibVLC mLibVLC;
+
+    private static final String FILES_LIST = "files_list";
+
+    private SparseArray<List<MediaWrapper>> mMediaLists;
+    public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
     protected abstract void browseRoot();
@@ -187,6 +197,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
             mSavedPosition = 0;
         }
+        parseSubDirectories();
         focusHelper(mAdapter.isEmpty());
     }
 
@@ -217,7 +228,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
      */
     protected boolean updateEmptyView(){
         if (mAdapter.isEmpty()){
-            mEmptyView.setText("Directory empty");
+            mEmptyView.setText(getString(R.string.directory_empty));
             mEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             mSwipeRefreshLayout.setEnabled(false);
@@ -239,10 +250,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void refresh() {
         mAdapter.clear();
-        if (mRoot)
+        if (mRoot) {
             browseRoot();
-        else
+            parseSubDirectories();
+        } else {
+            mMediaBrowser.changeEventListener(this);
             mMediaBrowser.browse(mMrl);
+        }
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
@@ -375,4 +389,75 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             ft.commit();
         MediaLibrary.getInstance().loadMediaItems();
     }
+
+    private void parseSubDirectories() {
+        if (mAdapter.isEmpty())
+            return;
+        mMediaLists = new SparseArray<List<MediaWrapper>>();
+        mMediaBrowser.changeEventListener(mFoldersBrowserListener);
+        mCurrentParsedPosition = 0;
+        mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(0)).getLocation()); //TODO manage non MW
+    }
+
+    private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
+        LinkedList<MediaWrapper> directories = new LinkedList<MediaWrapper>();
+        LinkedList<MediaWrapper> files = new LinkedList<MediaWrapper>();
+
+        @Override
+        public void onMediaAdded(int index, Media media) {
+            int type = media.getType();
+            if (type == Media.Type.Directory)
+                directories.add(new MediaWrapper(media));
+            else if (type == Media.Type.File)
+                files.add(new MediaWrapper(media));
+        }
+
+        @Override
+        public void onMediaRemoved(int index, Media media) {}
+
+        @Override
+        public void onBrowseEnd() {
+            String holderText = getDescription(directories.size(), files.size());
+            MediaWrapper mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
+
+            if (!TextUtils.equals(holderText, "")) {
+                mw.setDescription(holderText);
+                mAdapter.notifyItemChanged(mCurrentParsedPosition);
+                directories.addAll(files);
+                mMediaLists.append(mCurrentParsedPosition, directories);
+            }
+            while (++mCurrentParsedPosition < mAdapter.getItemCount()-1){ //skip media that are not browsable
+                if (mAdapter.getItem(mCurrentParsedPosition) instanceof MediaWrapper) {
+                    mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
+                    if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
+                        break;
+                }
+            }
+
+            if (mCurrentParsedPosition < mAdapter.getItemCount()) {
+                mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
+                directories = new LinkedList<MediaWrapper>();
+                files = new LinkedList<MediaWrapper>();
+            } else
+                mMediaBrowser.release();
+        }
+
+        private String getDescription(int folderCount, int mediaFileCount) {
+            String holderText = "";
+            if (folderCount > 0) {
+                holderText += VLCApplication.getAppResources().getQuantityString(
+                        R.plurals.subfolders_quantity, folderCount, folderCount
+                );
+                if (mediaFileCount > 0)
+                    holderText += ", ";
+            }
+            if (mediaFileCount > 0)
+                holderText += VLCApplication.getAppResources().getQuantityString(
+                        R.plurals.mediafiles_quantity, mediaFileCount,
+                        mediaFileCount);
+            else if (folderCount == 0 && mediaFileCount == 0)
+                holderText = getString(R.string.directory_empty);
+            return holderText;
+        }
+    };
 }

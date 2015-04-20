@@ -22,6 +22,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                   media.getType() == MediaWrapper.TYPE_VIDEO ||
                   (media.getType() == MediaWrapper.TYPE_DIR && Util.canWrite(media.getLocation())));
             vh.title.setText(media.getTitle());
-            vh.text.setVisibility(View.GONE);
+            if (media.getDescription() != null && !TextUtils.isEmpty(media.getDescription())) {
+                vh.text.setVisibility(View.VISIBLE);
+                vh.text.setText(media.getDescription());
+            } else
+                vh.text.setVisibility(View.INVISIBLE);
             vh.icon.setImageResource(getIconResId(media));
             vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
             vh.itemView.setOnClickListener(new View.OnClickListener() {
