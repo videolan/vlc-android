@@ -81,6 +81,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
             refresh();
         else if (mRoot)
             updateFavorites();
+        else {
+            mAdapter.notifyDataSetChanged();
+            parseSubDirectories();
+        }
     }
 
     @Override

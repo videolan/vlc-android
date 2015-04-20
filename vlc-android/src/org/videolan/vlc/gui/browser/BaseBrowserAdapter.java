@@ -21,6 +21,7 @@
  */
 package org.videolan.vlc.gui.browser;
 
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -90,7 +91,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     MediaWrapper mw = (MediaWrapper) getItem(holder.getPosition());
                     if (mw.getType() == MediaWrapper.TYPE_DIR)
-                        fragment.browse(mw);
+                        fragment.browse(mw, holder.getPosition());
                     else
                         Util.openMedia(v.getContext(), mw);
                 }
@@ -169,6 +170,12 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         mMediaList.add(position, item);
         notifyItemInserted(position);
+    }
+
+    public void addAll(ArrayList<MediaWrapper> mediaList){
+        mMediaList.clear();
+        for (MediaWrapper mw : mediaList)
+            mMediaList.add(mw);
     }
 
     public void removeItem(int position){

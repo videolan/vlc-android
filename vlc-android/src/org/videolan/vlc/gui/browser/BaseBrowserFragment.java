@@ -65,6 +65,7 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -91,7 +92,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     private static final String FILES_LIST = "files_list";
 
-    private SparseArray<List<MediaWrapper>> mMediaLists;
+    private SparseArray<ArrayList<MediaWrapper>> mMediaLists;
+    private ArrayList<MediaWrapper> mediaList;
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -110,6 +112,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){
+            mediaList = bundle.getParcelableArrayList(FILES_LIST);
+            if (mediaList != null)
+                mAdapter.addAll(mediaList);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -164,10 +169,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    public void browse (MediaWrapper media){
+    public void browse (MediaWrapper media, int position){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
+        ArrayList<MediaWrapper> list = mMediaLists != null ? mMediaLists.get(position) : null;
+        if(list != null && !list.isEmpty())
+            args.putParcelableArrayList(FILES_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
@@ -243,8 +251,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void updateDisplay(){
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (mAdapter.isEmpty())
+        if (mAdapter.isEmpty()) {
             refresh();
+        } else {
+            mAdapter.notifyDataSetChanged();
+            parseSubDirectories();
+        }
     }
 
     @Override
@@ -390,18 +402,18 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         MediaLibrary.getInstance().loadMediaItems();
     }
 
-    private void parseSubDirectories() {
+    protected void parseSubDirectories() {
         if (mAdapter.isEmpty())
             return;
-        mMediaLists = new SparseArray<List<MediaWrapper>>();
+        mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
         mMediaBrowser.changeEventListener(mFoldersBrowserListener);
         mCurrentParsedPosition = 0;
         mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(0)).getLocation()); //TODO manage non MW
     }
 
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
-        LinkedList<MediaWrapper> directories = new LinkedList<MediaWrapper>();
-        LinkedList<MediaWrapper> files = new LinkedList<MediaWrapper>();
+        ArrayList<MediaWrapper> directories = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>();
 
         @Override
         public void onMediaAdded(int index, Media media) {
@@ -436,8 +448,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
             if (mCurrentParsedPosition < mAdapter.getItemCount()) {
                 mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
-                directories = new LinkedList<MediaWrapper>();
-                files = new LinkedList<MediaWrapper>();
+                directories = new ArrayList<MediaWrapper>();
+                files = new ArrayList<MediaWrapper>();
             } else
                 mMediaBrowser.release();
         }

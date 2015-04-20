@@ -30,23 +30,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.internal.widget.AdapterViewCompat;
-import android.text.TextUtils;
-import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 
@@ -59,7 +52,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         mRoot = mMrl == null;
-        //TODO get already parsed list
     }
 
     @Override
