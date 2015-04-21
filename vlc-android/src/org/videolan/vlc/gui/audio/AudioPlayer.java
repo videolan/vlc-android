@@ -284,17 +284,20 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        if(info == null) // info can be null
-            return super.onContextItemSelected(item);
-        int id = item.getItemId();
+        if (getUserVisibleHint() && item.getMenuInfo() instanceof AdapterContextMenuInfo) {
+            AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+            if(info == null) // info can be null
+                return super.onContextItemSelected(item);
+            int id = item.getItemId();
 
-        if(id == R.id.audio_player_mini_remove) {
-            Log.d(TAG, "Context menu removing " + info.position);
-            mAudioController.remove(info.position);
-            return true;
-        }
-        return super.onContextItemSelected(item);
+            if(id == R.id.audio_player_mini_remove) {
+                Log.d(TAG, "Context menu removing " + info.position);
+                mAudioController.remove(info.position);
+                return true;
+            }
+            return super.onContextItemSelected(item);
+        } else
+            return false;
     }
 
     /**

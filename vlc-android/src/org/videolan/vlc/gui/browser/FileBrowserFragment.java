@@ -56,24 +56,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        int position = ((AdapterViewCompat.AdapterContextMenuInfo)menuInfo).position;
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        if (mAdapter.getItem(position) instanceof MediaWrapper) {
-            MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-            if (mw.getType() == MediaWrapper.TYPE_DIR) {
-                if (Util.canWrite(mw.getLocation())) {
-                    menuInflater.inflate(R.menu.directory_view_dir, menu);
-                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
-                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
-                    menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
-                }
-            } else if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO)
-                menuInflater.inflate(R.menu.directory_view_file, menu);
-        }
-    }
-
-    @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }

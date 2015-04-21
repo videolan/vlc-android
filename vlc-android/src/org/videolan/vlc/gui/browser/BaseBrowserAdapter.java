@@ -106,7 +106,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        fragment.onPopupMenu(vh.title, holder.getPosition());
+                        fragment.mRecyclerView.openContextMenu(holder.getPosition());
                         return true;
                     }
                 });

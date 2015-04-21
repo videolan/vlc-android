@@ -212,6 +212,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         /* Set up the audio player */
         mAudioPlayer = new AudioPlayer();
+        mAudioPlayer.setUserVisibleHint(false);
         mAudioController = AudioServiceController.getInstance();
 
         getSupportFragmentManager().beginTransaction()
@@ -871,6 +872,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 if (resId != 0)
                     mSlidingPane.setShadowResource(resId);
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
+                mAudioPlayer.setUserVisibleHint(false);
                 mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
                 removeTipViewIfDisplayed();
                 mAudioPlayer.showAudioPlayerTips();
@@ -878,12 +880,14 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
             @Override
             public void onPanelOpenedEntirely() {
+                mAudioPlayer.setUserVisibleHint(false);
                 mSlidingPane.setShadowDrawable(null);
                 mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
             }
 
             @Override
             public void onPanelClosed() {
+                mAudioPlayer.setUserVisibleHint(true);
                 mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
                 mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mAudioPlayer.showPlaylistTips();

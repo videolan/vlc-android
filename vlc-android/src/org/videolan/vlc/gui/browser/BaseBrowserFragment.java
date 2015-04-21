@@ -35,8 +35,10 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.ContextMenuRecyclerView;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
@@ -79,7 +82,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
-    protected RecyclerView mRecyclerView;
+    protected ContextMenuRecyclerView mRecyclerView;
     protected BaseBrowserAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
@@ -123,13 +126,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.network_browser, container, false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.network_list);
+        mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnScrollListener(mScrollListener);
+        registerForContextMenu(mRecyclerView);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
@@ -325,29 +329,47 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.clear();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
+                .RecyclerContextMenuInfo) menuInfo;
+        setContextMenu(getActivity().getMenuInflater(), menu, info.position);
+    }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onPopupMenu(View anchor, final int position) {
+    private void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        if (!LibVlcUtil.isHoneycombOrLater()) {
-            // Call the "classic" context menu
-            anchor.performLongClick();
-            return;
-        }
         boolean canWrite = Util.canWrite(mw.getLocation());
-        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
         if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
-            popupMenu.getMenuInflater().inflate(R.menu.directory_view_file, popupMenu.getMenu());
-            popupMenu.getMenu().findItem(R.id.directory_view_delete).setVisible(canWrite);
+            inflater.inflate(R.menu.directory_view_file, menu);
+            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
         } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
             if (canWrite) {
-                Menu menu = popupMenu.getMenu();
-                popupMenu.getMenuInflater().inflate(R.menu.directory_view_dir, menu);
+                inflater.inflate(R.menu.directory_view_dir, menu);
                 boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
                 menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
                 menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
             }
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
+                .RecyclerContextMenuInfo) item.getMenuInfo();
+        if (info != null && handleContextItemSelected(item, info.position))
+            return true;
+        return super.onContextItemSelected(item);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void onPopupMenu(View anchor, final int position) {
+        if (!LibVlcUtil.isHoneycombOrLater()) {
+            // Call the "classic" context menu
+            anchor.performLongClick();
+            return;
+        }
+        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+        setContextMenu(popupMenu.getMenuInflater(), popupMenu.getMenu(), position);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
