@@ -75,6 +75,14 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         getActivity().unregisterReceiver(networkReceiver);
     }
 
+    @Override
+    protected void update() {
+        if (!AndroidDevices.hasLANConnection())
+            updateEmptyView();
+        else
+            super.update();
+    }
+
     protected void updateDisplay() {
         if (mRoot)
             updateFavorites();
