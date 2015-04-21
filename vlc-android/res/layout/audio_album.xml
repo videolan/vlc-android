@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/album_cover"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_cone"/>
+    <ListView
+        android:id="@+id/songs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/album_cover"
+        android:clipToPadding="false"
+        android:fastScrollEnabled="true"
+        android:paddingBottom="@dimen/listview_bottom_padding"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+    <ImageView
+        android:id="@+id/album_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_below="@+id/album_cover"
+        android:layout_marginTop="-40dp"
+        android:src="@drawable/ic_fab_play"/>
+    <include layout="@layout/shadow_top"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_below="@+id/sliding_tabs" />
+</RelativeLayout>

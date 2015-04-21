@@ -338,8 +338,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     OnItemClickListener albumListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p, true);
-            mAudioController.load(mediaLocation, 0);
+            ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedia(p);
+            Intent i = new Intent(getActivity(), SecondaryActivity.class);
+            i.putExtra("fragment", SecondaryActivity.ALBUM);
+            i.putParcelableArrayListExtra("list", mediaList);
+            i.putExtra("filter", Util.getMediaAlbum(getActivity(), mediaList.get(0)));
+            startActivity(i);
         }
     };
 
@@ -348,7 +352,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mGenresAdapter.getMedia(p);
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra("fragment", "albumsSongs");
+            i.putExtra("fragment", SecondaryActivity.ALBUMS_SONGS);
             i.putParcelableArrayListExtra("list", mediaList);
             i.putExtra("filter", Util.getMediaGenre(getActivity(), mediaList.get(0)));
             startActivity(i);

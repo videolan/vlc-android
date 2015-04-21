@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
@@ -49,6 +50,7 @@ public class SecondaryActivity  extends ActionBarActivity {
     public final static String TAG = "VLC/EqualizerFragment";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
+    public static final String ALBUM = "album";
     public static final String EQUALIZER = "equalizer";
     public static final String ABOUT = "about";
     public static final String MEDIA_INFO = "mediaInfo";
@@ -68,14 +70,14 @@ public class SecondaryActivity  extends ActionBarActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        String fragmentId = getIntent().getStringExtra("fragment");
-        fetchSecondaryFragment(fragmentId);
-        if (mFragment == null){
-            finish();
-            return;
-        }
 
         if (getSupportFragmentManager().getFragments() == null) {
+            String fragmentId = getIntent().getStringExtra("fragment");
+            fetchSecondaryFragment(fragmentId);
+            if (mFragment == null){
+                finish();
+                return;
+            }
             getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_placeholder, mFragment)
             .commit();
@@ -116,7 +118,12 @@ public class SecondaryActivity  extends ActionBarActivity {
             ArrayList<MediaWrapper> mediaList = getIntent().getParcelableArrayListExtra("list");
             String filter = getIntent().getStringExtra("filter");
             mFragment = new AudioAlbumsSongsFragment();
-            ((AudioAlbumsSongsFragment)mFragment).setMediaList(mediaList, filter);
+            ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
+        } else if(id.equals(ALBUM)) {
+            ArrayList<MediaWrapper> mediaList = getIntent().getParcelableArrayListExtra("list");
+            String filter = getIntent().getStringExtra("filter");
+            mFragment = new AudioAlbumFragment();
+            ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(EQUALIZER)) {
             mFragment = new EqualizerFragment();
         } else if(id.equals(ABOUT)) {
