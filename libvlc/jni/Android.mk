@@ -9,6 +9,7 @@ LOCAL_SRC_FILES += libvlcjni-equalizer.c
 LOCAL_SRC_FILES += libvlcjni-vlcobject.c
 LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c
 LOCAL_SRC_FILES += vout.c native_crash_handler.c thumbnailer.c
+LOCAL_SRC_FILES += std_logger.c
 ifneq ($(APP_PLATFORM),android-21)
 # compat functions not needed after android-21
 LOCAL_SRC_FILES += compat/pthread-condattr.c compat/pthread-rwlocks.c

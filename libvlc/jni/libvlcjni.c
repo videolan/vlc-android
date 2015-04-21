@@ -39,6 +39,7 @@
 #include "vout.h"
 #include "utils.h"
 #include "native_crash_handler.h"
+#include "std_logger.h"
 
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
@@ -254,6 +255,10 @@ JNIEnv *jni_get_env(const char *name)
     return env;
 }
 
+#ifndef NDEBUG
+static std_logger *p_std_logger = NULL;
+#endif
+
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     JNIEnv* env = NULL;
@@ -271,6 +276,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     pthread_mutex_init(&vout_android_lock, NULL);
     pthread_cond_init(&vout_android_surf_attached, NULL);
 
+#ifndef NDEBUG
+    p_std_logger = std_logger_Open("VLC-std");
+#endif
 
 #define GET_CLASS(clazz, str, b_globlal) do { \
     (clazz) = (*env)->FindClass(env, (str)); \
@@ -399,6 +407,10 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
     (*env)->DeleteGlobalRef(env, fields.Media.clazz);
 
     pthread_key_delete(jni_env_key);
+
+#ifndef NDEBUG
+    std_logger_Close(p_std_logger);
+#endif
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
