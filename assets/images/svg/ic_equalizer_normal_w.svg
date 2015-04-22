@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130"
-   height="130"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_equalizer_normal_w.svg"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="ic_equalizer_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -27,17 +27,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="59.358452"
-     inkscape:cy="74.339893"
+     inkscape:zoom="15.839192"
+     inkscape:cx="11.302427"
+     inkscape:cy="10.130341"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="960"
+     inkscape:window-height="1028"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
-     inkscape:window-maximized="1" />
+     inkscape:window-y="24"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -54,11 +58,15 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-922.36218)">
+     transform="translate(0,-1028.3622)">
+    <g
+       id="g5269"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       transform="translate(-64,740.00002)" />
     <path
-       inkscape:connector-curvature="0"
-       id="path4499"
-       d="m 34.5,949.86219 c -1.108,0 -2,1.00279 -2,2.28125 l 0,47.71874 -3,0 c -1.108,0 -2,0.89202 -2,2.00002 l 0,6 c 0,1.108 0.892,2 2,2 l 3,0 0,12.6875 c 0,1.2785 0.892,2.3125 2,2.3125 l 6,0 c 1.108,0 2,-1.034 2,-2.3125 l 0,-12.6875 3,0 c 1.108,0 2,-0.892 2,-2 l 0,-6 c 0,-1.108 -0.892,-2.00002 -2,-2.00002 l -3,0 0,-47.71874 c 0,-1.27846 -0.892,-2.28125 -2,-2.28125 l -6,0 z m 27.5,0 c -1.108,0 -2,1.00285 -2,2.28125 l 0,12.71875 -3,0 c -1.108,0 -2,0.892 -2,2 l 0,6 c 0,1.108 0.892,2 2,2 l 3,0 0,47.68751 c 0,1.2785 0.892,2.3125 2,2.3125 l 6,0 c 1.108,0 2,-1.034 2,-2.3125 l 0,-47.68752 3,0 c 1.108,0 2,-0.892 2,-2 l 0,-6 c 0,-1.108 -0.892,-2 -2,-2 l -3,0 0,-12.71875 c 0,-1.2784 -0.892,-2.28125 -2,-2.28125 l -6,0 z m 27.5,0 c -1.108,0 -2,1.00285 -2,2.28125 l 0,32.71875 -3,0 c -1.108,0 -2,0.892 -2,2 l 0,5.99999 c 0,1.108 0.892,2 2,2 l 3,0 0,27.68752 c 0,1.2785 0.892,2.3125 2,2.3125 l 6,0 c 1.108,0 2,-1.034 2,-2.3125 l 0,-27.68752 3,0 c 1.108,0 2,-0.892 2,-2 l 0,-5.99999 c 0,-1.108 -0.892,-2 -2,-2 l -3,0 0,-32.71875 c 0,-1.2784 -0.892,-2.28125 -2,-2.28125 l -6,0 z"
-       style="fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 5 4 L 5 15 L 4 15 L 4 17 L 5 17 L 5 20 L 7 20 L 7 17 L 8 17 L 8 15 L 7 15 L 7 4 L 5 4 z M 11 4 L 11 6 L 10 6 L 10 8 L 11 8 L 11 20 L 13 20 L 13 8 L 14 8 L 14 6 L 13 6 L 13 4 L 11 4 z M 17 4 L 17 12 L 16 12 L 16 14 L 17 14 L 17 20 L 19 20 L 19 14 L 20 14 L 20 12 L 19 12 L 19 4 L 17 4 z "
+       transform="translate(0,1028.3622)"
+       id="rect6729" />
   </g>
 </svg>
