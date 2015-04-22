@@ -138,7 +138,7 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:text="@string/sleep_title"
-            android:drawableLeft="?attr/ic_speed_normal_style"/>
+            android:drawableLeft="?attr/ic_sleep_normal_style"/>
 
         <TextView
             android:id="@+id/sleep_timer_value"
