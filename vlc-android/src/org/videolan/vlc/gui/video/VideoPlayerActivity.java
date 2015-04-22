@@ -936,6 +936,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
             Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
+        } else if (mShowing && !mIsLocked) {
+            hideOverlay(true);
         } else
             super.onBackPressed();
     }
