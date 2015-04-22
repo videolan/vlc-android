@@ -6,21 +6,15 @@
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.21"/>
 
     <style name="Theme.VLC.21" parent="Theme.VLC.7">
-        <item name="android:colorPrimary">@color/orange800</item>
-        <item name="android:statusBarColor">@color/orange700</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle.Light</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.7">
-        <item name="android:colorPrimary">@color/orange800</item>
-        <item name="android:statusBarColor">@color/grey900</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
     <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
-        <item name="android:colorPrimary">@color/orange800</item>
         <item name="android:windowTranslucentStatus">false</item>">
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="PopupMenuStyle.Light" parent="@style/Widget.AppCompat.Light.PopupMenu">
