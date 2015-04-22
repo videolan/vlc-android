@@ -120,7 +120,7 @@
                     android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_frame_skip" />
                 <CheckBoxPreference
-                    android:defaultValue="false"
+                    android:defaultValue="@bool/time_stretching_default"
                     android:key="enable_time_stretching_audio"
                     android:summary="@string/enable_time_stretching_audio_summary"
                     android:widgetLayout="@layout/custom_chexbox"

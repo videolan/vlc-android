@@ -23,6 +23,7 @@ package org.videolan.vlc.util;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
@@ -88,8 +89,10 @@ public class VLCInstance {
         if (sLibVLC == null)
             return;
 
+        boolean time_streching_default = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);
+
         sLibVLC.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
-        sLibVLC.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
+        sLibVLC.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", time_streching_default));
         sLibVLC.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
         sLibVLC.setChroma(pref.getString("chroma_format", ""));
         sLibVLC.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
