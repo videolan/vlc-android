@@ -944,7 +944,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        showOverlayTimeout(OVERLAY_TIMEOUT);
+        if (keyCode != KeyEvent.KEYCODE_BACK)
+            showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
