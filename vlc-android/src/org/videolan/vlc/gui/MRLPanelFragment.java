@@ -22,7 +22,7 @@ package org.videolan.vlc.gui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -56,7 +56,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.open_mrl_dialog_title);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.open_mrl_dialog_title);
         View v = inflater.inflate(R.layout.mrl_panel, container, false);
         mEditText = (EditText) v.findViewById(R.id.mrl_edit);
         mEditText.setOnKeyListener(this);

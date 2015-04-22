@@ -56,7 +56,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -133,7 +133,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener, IDelayController {
+public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener, IDelayController {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -3013,8 +3013,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         public SecondaryDisplay(Context context, LibVLC libVLC, Display display) {
             super(context, display);
-            if (context instanceof ActionBarActivity) {
-                setOwnerActivity((ActionBarActivity) context);
+            if (context instanceof AppCompatActivity) {
+                setOwnerActivity((AppCompatActivity) context);
             }
             mLibVLC = libVLC;
         }

@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,9 +44,8 @@ import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class SecondaryActivity  extends ActionBarActivity {
+public class SecondaryActivity  extends AppCompatActivity {
     public final static String TAG = "VLC/EqualizerFragment";
 
     public static final String ALBUMS_SONGS = "albumsSongs";

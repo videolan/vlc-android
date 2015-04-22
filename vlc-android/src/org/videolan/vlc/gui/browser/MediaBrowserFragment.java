@@ -23,7 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -45,7 +45,7 @@ public abstract class MediaBrowserFragment extends Fragment {
     public abstract void clear();
     public void onStart(){
         super.onStart();
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
         getActivity().supportInvalidateOptionsMenu();
     }
 }
