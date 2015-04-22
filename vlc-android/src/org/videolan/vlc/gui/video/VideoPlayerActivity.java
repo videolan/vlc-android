@@ -254,9 +254,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int TOUCH_VOLUME = 1;
     private static final int TOUCH_BRIGHTNESS = 2;
     private static final int TOUCH_SEEK = 3;
-    private int mTouchAction;
+    private int mTouchAction = TOUCH_NONE;
     private int mSurfaceYDisplayRange;
-    private float mInitTouchY, mTouchY, mTouchX;
+    private float mInitTouchY, mTouchY =-1f, mTouchX=-1f;
 
     //stick event
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -1077,6 +1077,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public void showDelayControls(){
+        mTouchAction = TOUCH_NONE;
         showOverlayTimeout(OVERLAY_INFINITE);
         mDelayMinus.setOnClickListener(mAudioDelayListener);
         mDelayPlus.setOnClickListener(mAudioDelayListener);
@@ -1102,6 +1103,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public void endDelaySetting() {
+        mTouchAction = TOUCH_NONE;
         mDelay = DelayState.OFF;
         mDelayMinus.setOnClickListener(null);
         mDelayPlus.setOnClickListener(null);
@@ -1762,7 +1764,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mDelay != DelayState.OFF){
-            mTouchAction = TOUCH_NONE;
             endDelaySetting();
             return true;
         }
@@ -1787,7 +1788,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mSurfaceYDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
 
         float x_changed, y_changed;
-        if (mTouchX != -1 && mTouchY != -1) {
+        if (mTouchX != -1f && mTouchY != -1f) {
             y_changed = event.getRawY() - mTouchY;
             x_changed = event.getRawX() - mTouchX;
         } else {
