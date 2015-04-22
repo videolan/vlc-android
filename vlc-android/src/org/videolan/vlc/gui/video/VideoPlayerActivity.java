@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.Presentation;
 import android.content.ActivityNotFoundException;
@@ -56,6 +55,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.text.format.DateFormat;

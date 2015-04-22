@@ -20,32 +20,14 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.videolan.vlc.R;
-import org.videolan.vlc.interfaces.OnExpandableListener;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCRunnable;
-import org.videolan.vlc.widget.ExpandableLayout;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager.LayoutParams;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.app.AlertDialog;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCRunnable;
 
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
