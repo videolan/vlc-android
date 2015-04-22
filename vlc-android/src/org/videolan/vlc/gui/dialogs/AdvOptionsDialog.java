@@ -173,12 +173,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
             mSpuDelay.setOnClickListener(this);
             mSpuDelay.setOnFocusChangeListener(mFocusListener);
-            if (BuildConfig.DEBUG) { //Hide audio delay option for now, it is not usable yet.
-                mAudioDelay.setOnClickListener(this);
-                mAudioDelay.setOnFocusChangeListener(mFocusListener);
-            } else {
-                mAudioDelay.setVisibility(View.GONE);
-            }
+            mAudioDelay.setOnClickListener(this);
+            mAudioDelay.setOnFocusChangeListener(mFocusListener);
             initChapterSpinner();
         } else {
             root.findViewById(R.id.audio_delay).setVisibility(View.GONE);
