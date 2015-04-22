@@ -55,7 +55,6 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
@@ -88,14 +87,14 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     public final static int MODE_SONG = 1;
     public final static int MODE_TOTAL = 2; // Number of audio browser modes
 
-    private ArrayList<MediaWrapper> mediaList;
+    private ArrayList<MediaWrapper> mMediaList;
     private String mTitle;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
     public void setMediaList(ArrayList<MediaWrapper> mediaList, String title) {
-        this.mediaList = mediaList;
+        mMediaList = mediaList;
         mTitle = title;
     }
 
@@ -110,6 +109,8 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
         mAudioController = AudioServiceController.getInstance();
         mMediaLibrary = MediaLibrary.getInstance();
+        if (savedInstanceState != null)
+            setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));
     }
 
     @Override
@@ -175,15 +176,22 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        AudioServiceController.getInstance().bindAudioService(getActivity());
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         AudioServiceController.getInstance().unbindAudioService(getActivity());
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        AudioServiceController.getInstance().bindAudioService(getActivity());
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("list", mMediaList);
+        outState.putString("title", mTitle);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -291,7 +299,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     }
 
     private void updateList() {
-        if (mediaList == null || getActivity() == null)
+        if (mMediaList == null || getActivity() == null)
             return;
 
         final Activity activity = getActivity();
@@ -301,12 +309,12 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Collections.sort(mediaList, MediaComparators.byAlbum);
+                Collections.sort(mMediaList, MediaComparators.byAlbum);
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < mediaList.size(); ++i) {
-                            MediaWrapper media = mediaList.get(i);
+                        for (int i = 0; i < mMediaList.size(); ++i) {
+                            MediaWrapper media = mMediaList.get(i);
                             mAlbumsAdapter.addSeparator(Util.getMediaReferenceArtist(activity, media), media);
                             mAlbumsAdapter.add(Util.getMediaAlbum(activity, media), null, media);
                             mSongsAdapter.addSeparator(Util.getMediaAlbum(activity, media), media);
