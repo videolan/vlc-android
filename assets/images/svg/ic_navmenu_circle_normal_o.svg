@@ -9,17 +9,14 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200"
-   height="200"
-   id="svg4682"
+   width="20"
+   height="20"
+   id="svg3428"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_audio_circle_normal_o.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="ic_more_circle_normal_o.svg">
   <defs
-     id="defs4684" />
+     id="defs3430" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,19 +24,27 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="45.311926"
-     inkscape:cy="100.75747"
+     inkscape:zoom="15.839192"
+     inkscape:cx="9.9427229"
+     inkscape:cy="9.043268"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="960"
+     inkscape:window-height="1028"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3436"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata3433">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -54,31 +59,39 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-852.36218)">
+     transform="translate(0,-1032.3622)">
     <g
-       id="g3874"
-       transform="matrix(1.25,0,0,1.25,-226.25,338.15945)" />
-    <g
-       transform="matrix(1.5,0,0,1.5,730,829.18641)"
-       id="g5174">
-      <g
-         transform="translate(0,-90.245007)"
-         id="g5177">
-        <path
-           inkscape:export-ydpi="90"
-           inkscape:export-xdpi="90"
-           inkscape:export-filename="/home/corbax/Dev/android/Design/Icons/DVD_Home_Icon.png"
-           sodipodi:nodetypes="sssss"
-           inkscape:connector-curvature="0"
-           id="path5179"
-           d="m -370,172.36219 c 0,27.61424 -22.3858,50 -50,50 -27.6142,0 -50,-22.38576 -50,-50 0,-27.61423 22.3858,-50 50,-50 27.6142,0 50,22.38577 50,50 z"
-           style="opacity:0.9;fill:#ff8800;fill-opacity:1;stroke:none" />
-        <path
-           inkscape:connector-curvature="0"
-           id="path5181"
-           d="m -420,142.375 c -16.5685,0 -30,13.43146 -30,30 0,16.56854 13.4315,30 30,30 0.7058,0 1.40195,-0.0465 2.09375,-0.0937 l 0,-0.1875 0,-4.8125 c -0.6925,0.0533 -1.38805,0.0937 -2.09375,0.0937 -13.8071,0 -25,-11.19288 -25,-25 0,-13.80712 11.1929,-25 25,-25 13.8071,0 25,11.19288 25,25 0,2.50374 -0.3767,4.90731 -1.0625,7.1875 l 3.90625,3.90625 c 1.3738,-3.43433 2.15625,-7.16886 2.15625,-11.09375 0,-16.56854 -13.4315,-30 -30,-30 z m -8.875,9.3125 c -1.2572,0.54097 -2.46725,1.21757 -3.59375,1.96875 l 6.90625,10.375 c 0.5101,-0.34143 1.0544,-0.59956 1.625,-0.84375 l -4.9375,-11.5 z m -7.03125,4.75 c -4.0717,4.0717 -6.59375,9.7243 -6.59375,15.9375 l 12.5,0 c 0,-2.75325 1.1373,-5.25414 2.9375,-7.0625 l 0,-0.0312 -8.84375,-8.84375 z M -420,164.875 c -4.1421,0 -7.5,3.35786 -7.5,7.5 0,4.14214 3.3579,7.5 7.5,7.5 4.1421,0 7.5,-3.35786 7.5,-7.5 0,-4.14214 -3.3579,-7.5 -7.5,-7.5 z m 14,8.4375 -15.78125,15.78125 2.78125,2.78125 13,-12.96875 13,12.96875 2.78125,-2.78125 L -406,173.3125 z m 0,7.4375 -9.28125,9.28125 0,12.0625 6.5,0 0,-10.21875 5.5625,0 0,10.21875 6.5,0 0,-12.0625 L -406,180.75 z"
-           style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      </g>
+       id="g7438"
+       transform="matrix(0.8,0,0,0.8,-274.8,984.47245)">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/corbax/Dev/android/Design/Icons/DVD_Home_Icon.png"
+         sodipodi:nodetypes="sssss"
+         inkscape:connector-curvature="0"
+         id="path5707-9"
+         d="m 366,72.362183 c 0,5.522848 -4.47716,10 -10,10 -5.52284,0 -10,-4.477152 -10,-10 0,-5.522846 4.47716,-10 10,-10 5.52284,0 10,4.477154 10,10 z"
+         style="fill:#ff8800;fill-opacity:0.85098039;stroke:none" />
+      <path
+         id="path5709-5"
+         d="m 356,66.375 c -3.3137,0 -6,2.686292 -6,6 0,3.313708 2.6863,6 6,6 l 0,-1 c -2.76142,0 -5,-2.238576 -5,-5 0,-2.761424 2.23858,-5 5,-5 2.76142,0 5,2.238576 5,5 0,0.500748 -0.0815,0.981462 -0.21875,1.4375 l 0.78125,0.78125 C 361.83726,73.906884 362,73.159978 362,72.375 c 0,-3.313708 -2.6863,-6 -6,-6 z m -3.1875,2.8125 C 351.99816,70.00184 351.5,71.13236 351.5,72.375 l 2.5,0 c 0,-0.55065 0.23371,-1.075828 0.59375,-1.4375 l -1.78125,-1.75 z M 356,70.875 c -0.82842,0 -1.5,0.671572 -1.5,1.5 0,0.828428 0.67158,1.5 1.5,1.5 0.82842,0 1.5,-0.671572 1.5,-1.5 0,-0.828428 -0.67158,-1.5 -1.5,-1.5 z"
+         style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path7406"
+         d="m 359,73.362183 3,3 -6,0 z"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <path
+         id="rect7409"
+         d="m 357,76.375 0,2 1.5,0 0,-1.5 1,0 0,1.5 1.5,0 0,-2 -4,0 z"
+         style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path7418"
+         d="m 356,66.375 c -3.31371,0 -6,2.686292 -6,6 0,3.313708 2.68629,6 6,6 l 0,-1 c -2.76142,0 -5,-2.238576 -5,-5 0,-2.588835 1.97872,-4.74395 4.5,-5 0.16809,-0.01707 0.32741,0 0.5,0 2.76142,0 5,2.238576 5,5 0,0.528122 -0.0982,1.022128 -0.25,1.5 l 0.8125,0.8125 C 361.8566,73.979303 362,73.18962 362,72.375 c 0,-3.313708 -2.68629,-6 -6,-6 z"
+         style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
     </g>
   </g>
 </svg>
