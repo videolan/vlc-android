@@ -2706,7 +2706,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if (getIntent().hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
                 mSubtitleSelectedFiles.add(getIntent().getExtras().getString(PLAY_EXTRA_SUBTITLES_LOCATION));
             mAskResume &= !fromStart;
-            openedPosition = getIntent().getExtras().getInt(PLAY_EXTRA_OPENED_POSITION);
+            openedPosition = getIntent().getExtras().getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
 
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
