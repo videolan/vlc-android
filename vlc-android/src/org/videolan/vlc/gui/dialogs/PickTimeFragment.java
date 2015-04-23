@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.dialogs;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -99,6 +101,16 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
         view.findViewById(R.id.jump_minutes_down).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_up).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_down).setOnClickListener(this);
+        if (!AndroidDevices.hasTsp()){
+            mHours.setInputType(InputType.TYPE_NULL);
+            mMinutes.setInputType(InputType.TYPE_NULL);
+            mSeconds.setInputType(InputType.TYPE_NULL);
+            mMillis.setInputType(InputType.TYPE_NULL);
+            mHours.setOnClickListener(this);
+            mMinutes.setOnClickListener(this);
+            mSeconds.setOnClickListener(this);
+            mMillis.setOnClickListener(this);
+        }
 
         getDialog().setOnKeyListener(this);
         getDialog().setCancelable(true);
@@ -154,13 +166,18 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
             case R.id.jump_millis_down:
                 updateValue(-50, R.id.jump_millis);
                 break;
-            case R.id.jump_go:
-                buttonAction();
-                break;
             case R.id.jump_sign:
                 toggleSign();
                 executeAction();
                 break;
+            case R.id.jump_go:
+            case R.id.jump_hours:
+            case R.id.jump_minutes:
+            case R.id.jump_seconds:
+            case R.id.jump_millis:
+                buttonAction();
+                break;
+
         }
     }
 
