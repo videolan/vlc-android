@@ -148,8 +148,8 @@ public class RecommendationsService extends IntentService {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }
             if (id == NUM_RECOMMANDATIONS)
-                return true;
+                break;
         }
-        return false;
+        return true;
     }
 }
