@@ -39,6 +39,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public class RecommendationsService extends IntentService {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager)
+                    mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
     }
 
     @Override
@@ -73,11 +78,6 @@ public class RecommendationsService extends IntentService {
     private void buildRecommendation(MediaWrapper movie, int id, int priority) {
         if (movie == null)
             return;
-
-        if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager)
-                    mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
 
         //TODO
 //        if (mBackgroundUri != movie.getBackgroundUri()) {
@@ -93,16 +93,15 @@ public class RecommendationsService extends IntentService {
                         .setPriority(priority)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(mContext.getResources().getColor(R.color.orange500))
+                        .setColor(mContext.getResources().getColor(R.color.orange800))
                         .setCategory("recommendation")
-                        .setLargeIcon(mMediaDatabase.getPicture(mContext, movie.getLocation()))
+                        .setLargeIcon(BitmapUtil.getPictureFromCache(movie))
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(buildPendingIntent(movie, id))
         ).build();
 
         // post the recommendation to the NotificationManager
         mNotificationManager.notify(id, notification);
-        mNotificationManager = null;
     }
 
     private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
@@ -130,6 +129,7 @@ public class RecommendationsService extends IntentService {
     }
 
     private boolean doRecommendations() {
+        mNotificationManager.cancelAll();
         String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(mContext).getString(PreferencesActivity.VIDEO_LAST, null));
         int id = 0;
         if (last != null) {
