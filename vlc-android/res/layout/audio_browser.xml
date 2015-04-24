@@ -43,7 +43,8 @@
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/artists_list"
-                android:nextFocusRight="@+id/albums_list" />
+                android:nextFocusRight="@+id/albums_list"
+                style="@style/Theme.VLC.List" />
             <ListView
                 android:id="@+id/albums_list"
                 android:layout_width="fill_parent"
@@ -57,7 +58,8 @@
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/artists_list"
-                android:nextFocusRight="@+id/songs_list" />
+                android:nextFocusRight="@+id/songs_list"
+                style="@style/Theme.VLC.List" />
             <ListView
                 android:id="@+id/songs_list"
                 android:layout_width="fill_parent"
@@ -71,7 +73,8 @@
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/albums_list"
-                android:nextFocusRight="@+id/genres_list" />
+                android:nextFocusRight="@+id/genres_list"
+                style="@style/Theme.VLC.List" />
             <ListView
                 android:id="@+id/genres_list"
                 android:layout_width="fill_parent"
@@ -85,7 +88,8 @@
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/songs_list"
-                android:nextFocusRight="@+id/playlists_list" />
+                android:nextFocusRight="@+id/playlists_list"
+                style="@style/Theme.VLC.List" />
             <ListView
                 android:id="@+id/playlists_list"
                 android:layout_width="fill_parent"

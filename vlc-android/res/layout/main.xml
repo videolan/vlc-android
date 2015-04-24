@@ -86,6 +86,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:focusable="true"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
             android:paddingTop="?attr/actionBarSize"
             android:nextFocusForward="@id/sidelist"
             android:nextFocusUp="@id/sidelist"

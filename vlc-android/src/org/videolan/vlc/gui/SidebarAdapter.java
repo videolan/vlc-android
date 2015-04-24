@@ -142,10 +142,8 @@ public class SidebarAdapter extends BaseAdapter {
         // Set in selected the current item.
         if (TextUtils.equals(mCurrentFragmentId,sidebarEntry.id)) {
             textView.setTypeface(null, Typeface.BOLD);
-            v.setBackgroundColor(Util.getColorFromAttribute(mContext, R.attr.background_menu_selected));
         } else {
             textView.setTypeface(null, Typeface.NORMAL);
-            v.setBackgroundColor(Util.getColorFromAttribute(mContext, R.attr.background_menu));
         }
 
         return v;

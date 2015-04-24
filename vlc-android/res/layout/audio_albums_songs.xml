@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ListView
+            <ListView
                 android:id="@+id/albums"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -32,7 +32,8 @@
                 android:nextFocusUp="@+id/ml_menu_search"
                 android:nextFocusDown="@id/albums"
                 android:nextFocusLeft="@id/albums"
-                android:nextFocusRight="@id/albums" />
+                android:nextFocusRight="@id/albums"
+                style="@style/Theme.VLC.List" />
 
             <ListView
                 android:id="@+id/songs"
@@ -46,7 +47,8 @@
                 android:nextFocusUp="@+id/ml_menu_search"
                 android:nextFocusDown="@id/songs"
                 android:nextFocusLeft="@id/songs"
-                android:nextFocusRight="@id/songs" />
+                android:nextFocusRight="@id/songs"
+                style="@style/Theme.VLC.List" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.widget.SwipeRefreshLayout>
 

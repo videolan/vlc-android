@@ -12,7 +12,6 @@
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Light</item>
 
-        <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
@@ -89,7 +88,6 @@
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
 
-        <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
@@ -155,8 +153,10 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
     </style>
 
-    <style name="Theme.VLC.List">
+    <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">
         <item name="android:listSelector">@drawable/background_item</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
     </style>
 
     <style name="Theme.VLC.NoTitleBar" parent="Theme.AppCompat.Light">

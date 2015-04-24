@@ -18,7 +18,8 @@
         android:fastScrollEnabled="true"
         android:paddingBottom="@dimen/listview_bottom_padding"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        style="@style/Theme.VLC.List"/>
     <ImageView
         android:id="@+id/album_play"
         android:layout_width="wrap_content"
