@@ -298,6 +298,7 @@
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
     <string name="confirm_resume_summary">якщо задіяно, то вас запитуватимуть про підтвердження, коли відтворення відео можна відновити із останньої позиції</string>
+    <string name="directory_empty">Каталог - порожній</string>
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
