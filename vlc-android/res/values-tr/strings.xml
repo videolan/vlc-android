@@ -291,6 +291,7 @@
     <string name="confirm_resume">Oynayma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Sürdürme onayı istensin</string>
     <string name="confirm_resume_summary">Bu seçenek etkinlleştirildiğinde, oynatılan bir görüntünün kalınan konumdan sürdürülmesi için onay istenir</string>
+    <string name="directory_empty">Klasör boş</string>
     <!--Accessibility-->
     <string name="more_actions">Diğer İşlemler</string>
     <string name="move">Taşı</string>
