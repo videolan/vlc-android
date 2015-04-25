@@ -1,6 +1,30 @@
 Changes between 1.3.0 and 1.3.1:
 --------------------------------
 
+Application:
+ * Increase the accesibility of the application
+ * Change the Side Bar to meet Material Design update
+ * Rewrite the local files browsing, using the network browsing code, which adds
+   preparsing, prefetching, async, extensibility and code reuse
+ * New album browser view
+ * Fix back button behavior on VideoPlayer
+ * Improve Material look
+ * Activate the Audio Delay control
+ * Fix crashes, focus
+
+JNI:
+ * Add a way to capture stdout logs directly
+
+Core:
+ * Time stretching is now on by default
+
+TV:
+ * Fix recommendations duplication and improve recommendations
+ * Fix B button handling and TextViews
+
+Translations:
+ * Update of ALL the translations
+
 
 Changes between 1.2.6 and 1.3.0:
 --------------------------------
