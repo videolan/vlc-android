@@ -291,7 +291,9 @@
     <string name="confirm_resume">¿Continuar desde la última posición?</string>
     <string name="confirm_resume_title">Solicitar confirmación para continuar</string>
     <string name="confirm_resume_summary">Si se activa se solicitará confirmación por cuando un vídeo puede ser continuado desde la última posición</string>
+    <string name="directory_empty">La carpeta está vacía</string>
     <!--Accessibility-->
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
+    <string name="back_quit_lock">Presione atrás otra vez para salir del vídeo</string>
 </resources>
