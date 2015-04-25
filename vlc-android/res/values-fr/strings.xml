@@ -280,5 +280,8 @@
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de la liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre...</string>
+    <string name="confirm_resume">Reprendre depuis la dernière position?</string>
+    <string name="confirm_resume_title">Demander la confirmation pour reprendre</string>
     <!--Accessibility-->
+    <string name="more_actions">Plus d\'actions</string>
 </resources>
