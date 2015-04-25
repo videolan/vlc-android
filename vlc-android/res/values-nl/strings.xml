@@ -291,6 +291,7 @@
     <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
     <string name="confirm_resume_title">Bevestiging vragen om te hervatten</string>
     <string name="confirm_resume_summary">Indien ingeschakeld zult u gevraagd worden om te bevestigen wanneer een video hervat kan worden vanaf de laatste positie</string>
+    <string name="directory_empty">Map is leeg</string>
     <!--Accessibility-->
     <string name="more_actions">Meer acties</string>
     <string name="move">Verplaatsen</string>
