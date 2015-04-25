@@ -291,6 +291,7 @@
     <string name="confirm_resume">Fortsæt fra sidste position?</string>
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
     <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
+    <string name="directory_empty">Mappen er tom</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
