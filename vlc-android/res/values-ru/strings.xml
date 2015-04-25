@@ -5,8 +5,12 @@
     <string name="cancel">Отмена</string>
     <string name="other">Другое</string>
     <string name="sortby">Сортировка…</string>
-    <string name="sortby_name">по имени</string>
-    <string name="sortby_length">по размеру</string>
+    <string name="sortby_name">Название</string>
+    <string name="sortby_name_desc">Название (по убыв.)</string>
+    <string name="sortby_length">Длительность</string>
+    <string name="sortby_length_desc">Длительность (по убыв.)</string>
+    <string name="sortby_date">Дата</string>
+    <string name="sortby_date_desc">Дата (по убыв.)</string>
     <string name="searchable_hint">Поиск</string>
     <string name="history">История</string>
     <plurals name="search_found_results_quantity">
@@ -18,6 +22,8 @@
     <string name="play_from_start">Воспроизвести с начала</string>
     <string name="play_as_audio">Воспроизвести как аудио</string>
     <string name="play_as_video">Воспроизвести как видео</string>
+    <string name="play_as_audio_background">Проигрывать видео в фоне</string>
+    <string name="play_as_audio_background_summary">Продолжать воспроизведение видео в фоновом режиме, когда экран выключен или нажата кнопка Домой.</string>
     <string name="append">Добавить</string>
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
@@ -80,6 +86,7 @@
     <string name="loading">Загрузка…</string>
     <string name="please_wait">Пожалуйста, подождите…</string>
     <string name="nomedia">Медиафайлы не найдены. Пожалуйста, перенесите файлы на ваше устройство или измените настройки.</string>
+    <string name="noplaylist">Плейлисты не найдены.</string>
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Нет подкаталогов.</string>
@@ -87,6 +94,11 @@
     <string name="nohistory">История воспроизведения пуста.</string>
     <string name="validation">Вы уверены?</string>
     <string name="cover_art">Обложка</string>
+    <string name="shuffle">Перемешивание выкл.</string>
+    <string name="shuffle_on">Перемешивание вкл.</string>
+    <string name="repeat">Не повторять</string>
+    <string name="repeat_single">Повторять текущее</string>
+    <string name="repeat_all">Повторять всё</string>
     <string name="previous">Предыдущий</string>
     <string name="stop">Стоп</string>
     <string name="next">Следующий</string>
@@ -277,5 +289,18 @@
     <string name="network_empty">Каталог пуст.</string>
     <string name="network_connection_needed">Нет подключения к локальной сети.</string>
     <string name="search_hint">Искать медиафайлы</string>
+    <string name="directory_show_medialib">Показать в медиатеке</string>
+    <string name="directory_hide_medialib">Убрать из медиатеки</string>
+    <string name="playlist_save">Сохранить плейлист</string>
+    <string name="playlist_name_hint">название плейлиста</string>
+    <string name="go_to_chapter">Перейти к главе...</string>
+    <string name="resume_from_position">Продолжить с последней позиции</string>
+    <string name="confirm_resume">Продолжить с последней позиции?</string>
+    <string name="confirm_resume_title">Предлагать продолжить воспроизведение</string>
+    <string name="confirm_resume_summary">Вам будет предлагаться продолжить воспроизведение с последней позиции, если это возможно.</string>
+    <string name="directory_empty">Каталог пуст</string>
     <!--Accessibility-->
+    <string name="more_actions">Другие действия</string>
+    <string name="move">Переместить</string>
+    <string name="back_quit_lock">Нажмите ещё раз, чтобы закрыть видео</string>
 </resources>
