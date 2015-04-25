@@ -284,6 +284,7 @@
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
     <string name="confirm_resume_title">确认是否继续播放</string>
     <string name="confirm_resume_summary">若启用，在视频可以从上次播放到的位置继续播放时，将会征求您的意见</string>
+    <string name="directory_empty">目录为空</string>
     <!--Accessibility-->
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
