@@ -291,6 +291,7 @@
     <string name="confirm_resume">Vazhdoni nga pozicioni i kaluar?</string>
     <string name="confirm_resume_title">Kerko konfirmim per te vazhduar</string>
     <string name="confirm_resume_summary">nese eshte e aktivizuar ju do te pyeteni per nje konfirmim kur nje video mund te vazhdoje nga pozicioni i kaluar</string>
+    <string name="directory_empty">Regjistri është bosh.</string>
     <!--Accessibility-->
     <string name="more_actions">Më shumë opsione</string>
     <string name="move">Lëvize</string>
