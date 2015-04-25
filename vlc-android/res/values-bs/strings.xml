@@ -6,8 +6,12 @@
     <string name="other">Drugi</string>
     <string name="sortby">Sortiraj po…</string>
     <string name="sortby_name">Nazivu</string>
+    <string name="sortby_name_desc">Nazivu (silazno)</string>
     <string name="sortby_length">Dužini</string>
-    <string name="searchable_hint">Pretraga…</string>
+    <string name="sortby_length_desc">Dužini (silazno)</string>
+    <string name="sortby_date">Datumu</string>
+    <string name="sortby_date_desc">Datumu (silazno)</string>
+    <string name="searchable_hint">Pretrazi…</string>
     <string name="history">Historija</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat pronađen</item>
@@ -18,12 +22,14 @@
     <string name="play_from_start">Produciraj od početka</string>
     <string name="play_as_audio">Produciraj kao zvuk</string>
     <string name="play_as_video">Produciraj kao video</string>
+    <string name="play_as_audio_background">Produciraj videe u pozadini</string>
+    <string name="play_as_audio_background_summary">Nastavi reproduciranje videa u pozadini kada se ugasi ekran ili klikne dugme za POČETNU.</string>
     <string name="append">Prisvoji</string>
     <string name="play_all">Produciraj sve</string>
     <string name="append_all">Prisvoji sve</string>
     <string name="last_playlist">Posljednja lista izvođenja</string>
     <string name="delete">Izbriši</string>
-    <string name="remove">Izbriši</string>
+    <string name="remove">Ukloni</string>
     <string name="set_song">Postavi kao zvono</string>
     <string name="info">Informacije</string>
     <string name="confirm_delete">Izbriši datoteku \'%1$s\'?</string>
@@ -80,6 +86,7 @@
     <string name="loading">Učitava</string>
     <string name="please_wait">Molim sačekajte…</string>
     <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite neke datoteke na svoj uređaj ili podesite svoje postavke.</string>
+    <string name="noplaylist">Lista izvođenja nije pronađena.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nije dostupno</string>
     <string name="nosubdirectory">Nema poddirektorija.</string>
@@ -87,6 +94,7 @@
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
     <string name="cover_art">Omot</string>
+    <string name="repeat_all">Ponovi sve</string>
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
@@ -110,6 +118,7 @@
     <string name="sound_on">Zvuk Uključen</string>
     <string name="sound_off">Zvuk Isključen</string>
     <string name="brightness">Svjetlost</string>
+    <string name="advanced">dodatne opcije</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="few">%1$d kanala\n</item>
@@ -176,6 +185,8 @@
     <string name="hardware_acceleration_disabled">Isključeno</string>
     <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
     <string name="hardware_acceleration_full">Puno ubrzanje</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="automatic">Automatski</string>
     <string name="screen_orientation">Orijentacija video ekrana</string>
     <string name="screen_orientation_sensor">Automatski (senzor)</string>
@@ -255,5 +266,14 @@
     <string name="sending_log">Šaljem izvještaj...</string>
     <string name="drawer_open">Otvori navigacijsku ladicu</string>
     <string name="drawer_close">Zatvori navigacijsku ladicu</string>
+    <string name="file_size">Veličina datoteke:</string>
+    <string name="audio_delay">Kašnjenje zvuka</string>
+    <string name="spu_delay">Kašnjenje titla</string>
+    <string name="network_connection_needed">Nema veze do lokalne mreže</string>
+    <string name="playlist_save">Snimi Listu Izvođenja</string>
+    <string name="go_to_chapter">Idi na poglavlje...</string>
     <!--Accessibility-->
+    <string name="more_actions">Više Akcija</string>
+    <string name="move">Pomjeri</string>
+    <string name="back_quit_lock">Pritisnite ponovo nazad kako bi zatvorili video</string>
 </resources>
