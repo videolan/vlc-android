@@ -234,6 +234,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
 
+        holder.time.setText("");
         holder.resolution.setText(text);
         holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
         holder.more.setVisibility(View.GONE);
@@ -262,6 +263,8 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 holder.progress.setVisibility(View.INVISIBLE);
         if (media.getWidth() > 0 && media.getHeight() > 0)
             holder.resolution.setText(String.format("%dx%d", media.getWidth(), media.getHeight()));
+        else
+            holder.resolution.setText("");
         holder.title.setText(media.getTitle());
         holder.more.setVisibility(View.VISIBLE);
     }
