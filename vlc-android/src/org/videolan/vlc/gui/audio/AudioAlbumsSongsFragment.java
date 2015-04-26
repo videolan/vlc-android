@@ -336,7 +336,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUM);
             i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", Util.getMediaAlbum(getActivity(), mediaList.get(0)));
+            i.putExtra("filter", mAlbumsAdapter.getTitle(p));
             startActivity(i);
             getActivity().finish();
         }

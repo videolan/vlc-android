@@ -497,9 +497,14 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public ArrayList<MediaWrapper> getMedia(int position) {
         // Return all the media of a list item list.
         ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-        if (!mItems.get(position).mIsSeparator)
-            mediaList.addAll(mItems.get(position).mMediaList);
+        ListItem item = mItems.get(position);
+        if (!item.mIsSeparator || !item.mMediaList.isEmpty())
+            mediaList.addAll(item.mMediaList);
         return mediaList;
+    }
+
+    public String getTitle(int position) {
+        return getItem(position).mTitle;
     }
 
     public ArrayList<String> getLocations(int position) {
