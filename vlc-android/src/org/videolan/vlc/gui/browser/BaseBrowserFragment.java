@@ -278,7 +278,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
         mAdapter.notifyDataSetChanged();
         parseSubDirectories();
-        focusHelper(mAdapter.isEmpty());
+        focusHelper();
     }
 
     @Override
@@ -316,13 +316,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
     }
 
-    protected void focusHelper(boolean idIsEmpty) {
+    protected void focusHelper() {
         if (getActivity() == null)
             return;
+        boolean isEmpty = mAdapter.isEmpty();
         MainActivity main = (MainActivity)getActivity();
-        View parent = View.inflate(main, R.layout.directory_view, null);
-        main.setMenuFocusDown(idIsEmpty, R.id.network_list);
-        main.setSearchAsFocusDown(idIsEmpty, parent, R.id.network_list);
+        main.setMenuFocusDown(isEmpty, R.id.network_list);
+        main.setSearchAsFocusDown(isEmpty, getView(), R.id.network_list);
     }
 
     public void clear(){
