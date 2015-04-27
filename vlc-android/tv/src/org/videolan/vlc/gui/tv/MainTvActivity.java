@@ -327,13 +327,13 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
             mVideoIndex = new HashMap<String, Integer>();
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
-            final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
+            final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
             mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
+            final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
@@ -343,7 +343,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
             if (AndroidDevices.hasLANConnection()) {
                 mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
                 final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-                final HeaderItem networkHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing), null);
+                final HeaderItem networkHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing));
 
                 mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
                 if (!favs.isEmpty()) {
@@ -355,7 +355,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
             }
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
+            final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
 
             mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));

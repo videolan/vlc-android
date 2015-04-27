@@ -34,7 +34,6 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.ObjectAdapter;
-import android.support.v17.leanback.widget.OnItemClickedListener;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
@@ -95,8 +94,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                HeaderItem header = new HeaderItem(0, getResources().getString(R.string.search_results),
-                        null);
+                HeaderItem header = new HeaderItem(0, getResources().getString(R.string.search_results));
                 mRowsAdapter.add(new ListRow(header, listRowAdapter));
             }
         });
