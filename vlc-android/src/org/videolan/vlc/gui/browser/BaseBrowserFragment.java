@@ -285,6 +285,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void refresh() {
         mAdapter.clear();
         mMediaBrowser.changeEventListener(this);
+        mCurrentParsedPosition = 0;
         if (mRoot)
             browseRoot();
         else
