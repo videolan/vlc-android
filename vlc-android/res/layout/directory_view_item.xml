@@ -3,7 +3,11 @@
     android:id="@+id/layout_item"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:background="@drawable/background_item">
 
     <ImageView
         android:id="@+id/dvi_icon"

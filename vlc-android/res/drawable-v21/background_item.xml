@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/orange500">
-    <item android:drawable="@color/orange300" />
+    <item android:state_selected="true" android:drawable="@color/orange400" />
+    <item android:state_selected="true" android:drawable="?android:windowBackground" />
 </ripple>
