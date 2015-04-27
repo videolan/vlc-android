@@ -147,12 +147,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         mJumpTitle.setOnClickListener(this);
 
-        if (AndroidDevices.hasTsp()) {
+        if (BuildConfig.tv) {
+            root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
+        } else {
             mSleepTitle.setOnClickListener(this);
             mSleepTime.setOnClickListener(this);
             mSleepCancel.setOnClickListener(this);
-        } else {
-            root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
         }
 
         mReset.setOnFocusChangeListener(mFocusListener);
@@ -257,15 +257,13 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (mDelayController == null && getActivity() instanceof IDelayController)
             mDelayController = (IDelayController) getActivity();
         DialogFragment newFragment = null;
-        if (AndroidDevices.hasTsp()) {
+        if (BuildConfig.tv) {
             switch (action){
                 case PickTimeFragment.ACTION_AUDIO_DELAY:
-                    if (mDelayController != null)
-                        mDelayController.showAudioDelaySetting();
+                    newFragment = new AudioDelayDialog();
                     break;
                 case PickTimeFragment.ACTION_SPU_DELAY:
-                    if (mDelayController != null)
-                        mDelayController.showSubsDelaySetting();
+                    newFragment = new SubsDelayDialog();
                     break;
                 case PickTimeFragment.ACTION_JUMP_TO_TIME:
                     newFragment = new JumpToTimeDialog();
@@ -276,10 +274,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         } else {
             switch (action){
                 case PickTimeFragment.ACTION_AUDIO_DELAY:
-                    newFragment = new AudioDelayDialog();
+                    if (mDelayController != null)
+                        mDelayController.showAudioDelaySetting();
                     break;
                 case PickTimeFragment.ACTION_SPU_DELAY:
-                    newFragment = new SubsDelayDialog();
+                    if (mDelayController != null)
+                        mDelayController.showSubsDelaySetting();
                     break;
                 case PickTimeFragment.ACTION_JUMP_TO_TIME:
                     newFragment = new JumpToTimeDialog();

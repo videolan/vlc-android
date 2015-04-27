@@ -98,6 +98,7 @@ import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaWrapperListPlayer;
@@ -501,7 +502,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     : getScreenOrientation());
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
-            if(!AndroidDevices.hasTsp() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
+            if(BuildConfig.tv || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
                 mOverlayTips.setVisibility(View.GONE);
             else {
                 mOverlayTips.bringToFront();
@@ -908,17 +909,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
             if (Math.abs(x) > 0.3){
-                if (AndroidDevices.hasTsp()) {
-                    seekDelta(x > 0.0f ? 10000 : -10000);
-                } else
+                if (BuildConfig.tv) {
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT);
+                } else
+                    seekDelta(x > 0.0f ? 10000 : -10000);
             } else if (Math.abs(y) > 0.3){
-                if (AndroidDevices.hasTsp()) {
+                if (BuildConfig.tv)
+                    navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN);
+                else {
                     if (mIsFirstBrightnessGesture)
                         initBrightnessTouch();
                     changeBrightness(-y / 10f);
-                } else
-                    navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN);
+                }
             } else if (Math.abs(rz) > 0.3){
                 mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 int delta = -(int) ((rz / 7) * mAudioMax);
@@ -936,7 +938,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
             Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
-        } else if (!AndroidDevices.hasTsp() && mShowing && !mIsLocked) {
+        } else if (BuildConfig.tv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else
             super.onBackPressed();

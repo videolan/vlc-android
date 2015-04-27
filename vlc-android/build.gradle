@@ -82,16 +82,19 @@ android {
         vanilla {
             flavorDimension "target"
             versionCode = 0
+            buildConfigField "boolean", "tv", "false"
         }
         tv {
             minSdkVersion 17
             flavorDimension "target"
             versionCode = 1
+            buildConfigField "boolean", "tv", "true"
         }
         chrome {
             minSdkVersion 19
             flavorDimension "target"
             versionCode = 2
+            buildConfigField "boolean", "tv", "false"
         }
         ARMv5 {
             flavorDimension "abi"

@@ -901,7 +901,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
      * @param settingKey the setting key to check if the view must be displayed or not.
      */
     public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
-        if (!mSettings.getBoolean(settingKey, false) && AndroidDevices.hasTsp()) {
+        if (!mSettings.getBoolean(settingKey, false) && !BuildConfig.tv) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
             mRootContainer.addView(v,

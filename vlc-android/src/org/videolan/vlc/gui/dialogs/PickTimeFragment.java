@@ -38,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
@@ -101,7 +102,7 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
         view.findViewById(R.id.jump_minutes_down).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_up).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_down).setOnClickListener(this);
-        if (!AndroidDevices.hasTsp()){
+        if (BuildConfig.tv){
             mHours.setInputType(InputType.TYPE_NULL);
             mMinutes.setInputType(InputType.TYPE_NULL);
             mSeconds.setInputType(InputType.TYPE_NULL);
