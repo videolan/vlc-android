@@ -34,10 +34,12 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "VLC/BaseBrowserAdapter";
@@ -92,8 +94,19 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                     MediaWrapper mw = (MediaWrapper) getItem(holder.getPosition());
                     if (mw.getType() == MediaWrapper.TYPE_DIR)
                         fragment.browse(mw, holder.getPosition());
-                    else
-                        Util.openMedia(v.getContext(), mw);
+                    else {
+                        int position = 0;
+                        LinkedList<String> mediaLocations = new LinkedList<String>();
+                        MediaWrapper mediaItem;
+                        for (Object item : mMediaList)
+                            if (item instanceof MediaWrapper){
+                                mediaItem = (MediaWrapper) item;
+                                mediaLocations.add(mediaItem.getLocation());
+                                if (mediaItem.equals(mw))
+                                    position = mediaLocations.size()-1;
+                            }
+                        Util.openList(v.getContext(), mediaLocations, position);
+                    }
                 }
             });
             if (hasContextMenu) {

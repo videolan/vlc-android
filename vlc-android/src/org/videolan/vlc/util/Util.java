@@ -211,6 +211,24 @@ public class Util {
             openStream(context, mrl);
     }
 
+    public static  void openList(Context context, final List<String> list, final int position){
+        VLCCallbackTask task = new VLCCallbackTask(context){
+            @Override
+            public void run() {
+                AudioServiceController c = AudioServiceController.getInstance();
+
+                      /* Use the audio player by default. If a video track is
+                       * detected, then it will automatically switch to the video
+                       * player. This allows us to support more types of streams
+                       * (for example, RTSP and TS streaming) where ES can be
+                       * dynamically adapted rather than a simple scan.
+                       */
+                c.load(list, position);
+            }
+        };
+        task.execute();
+    }
+
     public static void openStream(Context context, final String uri){
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
