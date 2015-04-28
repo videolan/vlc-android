@@ -79,6 +79,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     public void onPause(){
         super.onPause();
         mMediaBrowser.release();
+        ((BrowserActivity)getActivity()).updateEmptyView(false);
     }
     @Override
     public void onMediaAdded(int index, Media media) {
@@ -100,6 +101,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     @Override
     public void onBrowseEnd() {
         ((BrowserActivity)getActivity()).showProgress(false);
+        ((BrowserActivity)getActivity()).updateEmptyView(mMediaList.isEmpty());
         sortList();
     }
 

@@ -37,6 +37,7 @@ public class GridFragment extends VerticalGridFragment {
 
     public interface BrowserActivity {
         public void showProgress(boolean show);
+        public void updateEmptyView(boolean empty);
     }
 
     protected static final String TAG = "VLC/GridFragment";
@@ -65,7 +66,4 @@ public class GridFragment extends VerticalGridFragment {
             TvUtil.openMedia(getActivity(), item, null);
         }
     };
-
-
-
 }

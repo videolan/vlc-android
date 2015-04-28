@@ -11,4 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv_fragment_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/directory_empty"
+        android:visibility="gone"/>
 </FrameLayout>

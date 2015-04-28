@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
@@ -33,11 +34,14 @@ public class VerticalGridActivity extends Activity implements GridFragment.Brows
 
     GridFragment mFragment;
     ProgressBar mContentLoadingProgressBar;
+    TextView mEmptyView;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_vertical_grid);
         mContentLoadingProgressBar = (ProgressBar) findViewById(R.id.tv_fragment_progress);
+        mEmptyView = (TextView) findViewById(R.id.tv_fragment_empty);
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
         if (type == MainTvActivity.HEADER_VIDEO)
@@ -65,5 +69,10 @@ public class VerticalGridActivity extends Activity implements GridFragment.Brows
 
     public void showProgress(boolean show){
         mContentLoadingProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void updateEmptyView(boolean empty) {
+        mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
     }
 }
