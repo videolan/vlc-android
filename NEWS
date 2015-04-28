@@ -2,13 +2,13 @@ Changes between 1.3.0 and 1.3.1:
 --------------------------------
 
 Application:
- * Increase the accesibility of the application
+ * Increase the accessibility of the application
  * Change the Side Bar to meet Material Design update
  * Rewrite the local files browsing, using the network browsing code, which adds
    preparsing, prefetching, async, extensibility and code reuse
  * New album browser view
  * Fix back button behavior on VideoPlayer
- * Improve Material look
+ * Improve Material look, Ripple effect on Lollipop
  * Activate the Audio Delay control
  * Fix crashes, focus
 
