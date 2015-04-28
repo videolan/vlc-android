@@ -504,12 +504,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
             if (mCurrentParsedPosition < mAdapter.getItemCount()) {
                 mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
-                directories = new ArrayList<MediaWrapper>();
-                files = new ArrayList<MediaWrapper>();
             } else {
                 mCurrentParsedPosition = -1;
                 mMediaBrowser.release();
             }
+            directories .clear();
+            files.clear();
         }
 
         private String getDescription(int folderCount, int mediaFileCount) {
