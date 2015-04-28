@@ -99,6 +99,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
 
     @Override
     public void onBrowseEnd() {
+        ((BrowserActivity)getActivity()).showProgress(false);
         sortList();
     }
 
