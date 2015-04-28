@@ -80,56 +80,56 @@ android {
     }
     productFlavors {
         vanilla {
-            flavorDimension "target"
+            dimension "target"
             versionCode = 0
             buildConfigField "boolean", "tv", "false"
         }
         tv {
             minSdkVersion 17
-            flavorDimension "target"
+            dimension "target"
             versionCode = 1
             buildConfigField "boolean", "tv", "true"
         }
         chrome {
             minSdkVersion 19
-            flavorDimension "target"
+            dimension "target"
             versionCode = 2
             buildConfigField "boolean", "tv", "false"
         }
         ARMv5 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 1
         }
         ARMv6nofpu {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 2
         }
         ARMv6fpu {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 3
         }
         ARMv7 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 4
         }
         x86 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 5
         }
         MIPS {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 6
         }
         ARMv8 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 7
         }
         x86_64 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 8
         }
         MIPS64 {
-            flavorDimension "abi"
+            dimension "abi"
             versionCode = 9
         }
     }
