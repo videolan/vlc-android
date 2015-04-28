@@ -132,7 +132,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         // Set display parameters for the BrowseFragment
         mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
         mBrowseFragment.setTitle(getString(R.string.app_name));
-        mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.cone));
+        mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.icon));
         // set search icon color
         mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
 
