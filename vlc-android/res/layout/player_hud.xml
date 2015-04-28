@@ -19,8 +19,8 @@
         android:minHeight="@dimen/seekbar_height"
         android:paddingLeft="@dimen/time_margin_sides"
         android:paddingRight="@dimen/time_margin_sides"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:layout_alignParentTop="true"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
@@ -35,6 +35,7 @@
         android:layout_alignLeft="@+id/player_overlay_seekbar"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/time_margin_sides"
+        android:text="00:00"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/orange500"
         android:textSize="16sp"/>
@@ -47,11 +48,13 @@
         android:layout_alignParentRight="true"
         android:layout_alignRight="@+id/player_overlay_seekbar"
         android:layout_marginRight="@dimen/time_margin_sides"
+        android:text="00:00"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textSize="16sp" />
 
     <!-- Media control buttons -->
     <LinearLayout
+        android:id="@+id/player_overlay_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_length"

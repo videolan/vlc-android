@@ -10,6 +10,7 @@ Application:
  * Fix back button behavior on VideoPlayer
  * Improve Material look, Ripple effect on Lollipop
  * Activate the Audio Delay control
+ * Smaller Video Player HUD
  * Fix crashes, focus
 
 JNI:

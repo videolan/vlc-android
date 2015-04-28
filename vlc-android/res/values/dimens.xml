@@ -15,14 +15,14 @@
     <dimen name="tab_layout_horizontal_padding">5dp</dimen>
 
     <!-- Video Player -->
-    <dimen name="overlay_padding_bottom">15dip</dimen>
+    <dimen name="overlay_padding_bottom">8dip</dimen>
     <dimen name="overlay_padding_top">10dip</dimen>
     <dimen name="overlay_padding_sides">5dp</dimen>
     <dimen name="overlay_margin">2dp</dimen>
 
     <dimen name="seekbar_height">2dip</dimen>
     <dimen name="images_margin_sides">10dp</dimen>
-    <dimen name="time_margin_sides">10dp</dimen>
+    <dimen name="time_margin_sides">12dp</dimen>
 
 
     <dimen name="media_ctrl_margin_top">20dp</dimen>

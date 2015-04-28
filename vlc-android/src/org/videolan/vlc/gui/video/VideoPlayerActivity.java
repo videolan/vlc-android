@@ -180,6 +180,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private ActionBar mActionBar;
     private View mOverlayProgress;
     private View mOverlayBackground;
+    private View mOverlayButtons;
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
@@ -401,6 +402,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
         mOverlayProgress.setLayoutParams(layoutParams);
         mOverlayBackground = findViewById(R.id.player_overlay_background);
+        mOverlayButtons =  findViewById(R.id.player_overlay_buttons);
 
         // Position and remaining time
         mTime = (TextView) findViewById(R.id.player_overlay_time);
@@ -511,6 +513,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else
             setRequestedOrientation(getScreenOrientation());
 
+        rearrangeVideoPlayerHud();
         updateNavStatus();
         mDetector = new GestureDetectorCompat(this, mGestureListener);
         mDetector.setOnDoubleTapListener(this);
@@ -554,6 +557,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (!LibVlcUtil.isHoneycombOrLater())
             setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
+        rearrangeVideoPlayerHud();
+    }
+
+    public void rearrangeVideoPlayerHud() {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mOverlayButtons.getLayoutParams();
+        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_length);
+            layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
+            layoutParams.addRule(RelativeLayout.LEFT_OF, 0);
+        } else {
+            layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_seekbar);
+            layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.player_overlay_time);
+            layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.player_overlay_length);
+        }
+        mOverlayButtons.setLayoutParams(layoutParams);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
