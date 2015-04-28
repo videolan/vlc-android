@@ -2729,21 +2729,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             openedPosition = getIntent().getExtras().getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
 
-        /* WARNING: hack to avoid a crash in mediacodec on KitKat.
-         * Disable hardware acceleration if the media has a ts extension. */
-        if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
-            String locationLC = mLocation.toLowerCase(Locale.ENGLISH);
-            if (locationLC.endsWith(".ts")
-                || locationLC.endsWith(".tts")
-                || locationLC.endsWith(".m2t")
-                || locationLC.endsWith(".mts")
-                || locationLC.endsWith(".m2ts")) {
-                mDisabledHardwareAcceleration = true;
-                mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
-                mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-            }
-        }
-
         if (openedPosition != -1) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from AudioService at index " + openedPosition);
