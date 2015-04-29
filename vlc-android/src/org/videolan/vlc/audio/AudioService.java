@@ -582,7 +582,7 @@ public class AudioService extends Service {
                 if (mNextIndex != -1)
                     next();
                 else if (mCurrentIndex != -1) {
-                    mMediaListPlayer.playIndex(mCurrentIndex);
+                    mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
                     executeOnMediaPlayedAdded();
                 } else
                     stop();
@@ -621,7 +621,7 @@ public class AudioService extends Service {
         if (mLibVLC.getVideoTracksCount() <= 0 || !hasCurrentMedia())
             return;
         final MediaWrapper mw = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
-        if (mw == null || (mw.getFlags() & LibVLC.MEDIA_NO_VIDEO) != 0)
+        if (mw == null)
             return;
 
         Log.i(TAG, "Obtained video track");
@@ -948,7 +948,7 @@ public class AudioService extends Service {
             return;
         }
 
-        mMediaListPlayer.playIndex(mCurrentIndex);
+        mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
         executeOnMediaPlayedAdded();
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
@@ -1013,7 +1013,7 @@ public class AudioService extends Service {
             return;
         }
 
-        mMediaListPlayer.playIndex(mCurrentIndex);
+        mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
         executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
@@ -1199,11 +1199,10 @@ public class AudioService extends Service {
          *
          * @param mediaPathList A list of locations to load
          * @param position The position to start playing at
-         * @param noVideo True to disable video, false otherwise
          * @throws RemoteException
          */
         @Override
-        public void load(List<String> mediaPathList, int position, boolean noVideo)
+        public void load(List<String> mediaPathList, int position)
                 throws RemoteException {
 
             Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
@@ -1231,8 +1230,6 @@ public class AudioService extends Service {
                     media.release();
                     mediaWrapper = new MediaWrapper(media);
                 }
-                if (noVideo)
-                    mediaWrapper.addFlags(LibVLC.MEDIA_NO_VIDEO);
                 mediaList.add(mediaWrapper);
             }
 
@@ -1250,7 +1247,7 @@ public class AudioService extends Service {
             // Add handler after loading the list
             mMediaListPlayer.getMediaList().addEventListener(mListEventListener);
 
-            mMediaListPlayer.playIndex(mCurrentIndex);
+            mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
             executeOnMediaPlayedAdded();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
@@ -1282,7 +1279,7 @@ public class AudioService extends Service {
             }
 
             mEventHandler.addHandler(mVlcEventHandler);
-            mMediaListPlayer.playIndex(mCurrentIndex);
+            mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
             executeOnMediaPlayedAdded();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
@@ -1325,7 +1322,7 @@ public class AudioService extends Service {
         public void append(List<String> mediaLocationList) throws RemoteException {
             if (!hasCurrentMedia())
             {
-                load(mediaLocationList, 0, false);
+                load(mediaLocationList, 0);
                 return;
             }
 
@@ -1545,7 +1542,7 @@ public class AudioService extends Service {
         int position = Math.max(0, mediaPathList.indexOf(currentMedia));
         // load playlist
         try {
-            mInterface.load(mediaPathList, position, false);
+            mInterface.load(mediaPathList, position);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

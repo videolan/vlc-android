@@ -404,7 +404,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 alertDialog.show();
                 return true;
             case R.id.directory_view_play_audio:
-                AudioServiceController.getInstance().load(mw.getLocation(), true);
+                AudioServiceController.getInstance().load(mw.getLocation());
                 return true;
             case  R.id.directory_view_play_video:
                 VideoPlayerActivity.start(getActivity(), mw.getLocation());

@@ -53,21 +53,30 @@ public class MediaWrapperListPlayer {
      * Play a media from the media list (playlist)
      *
      * @param position The index of the media
-     * @param paused start the media paused
+     * @param flags LibVLC.MEDIA_* flags
      */
-    public void playIndex(int position, boolean paused) {
+    public void playIndex(int position, int flags) {
         String mrl = mMediaList.getMRL(position);
         if (mrl == null)
             return;
-        final int pausedFlag = paused ? LibVLC.MEDIA_PAUSED : 0;
         final MediaWrapper media = mMediaList.getMedia(position);
-        String[] options = mLibVLC.getMediaOptions(pausedFlag | (media != null ? media.getFlags() : 0));
+        String[] options = mLibVLC.getMediaOptions(flags | (media != null ? media.getFlags() : 0));
         mPlayerIndex = position;
         mLibVLC.playMRL(mrl, options);
     }
 
+    /**
+     * Play a media from the media list (playlist)
+     *
+     * @param position The index of the media
+     * @param paused start the media paused
+     */
+    public void playIndex(int position, boolean paused) {
+        playIndex(position, paused ? LibVLC.MEDIA_PAUSED : 0);
+    }
+
     public void playIndex(int position) {
-        playIndex(position, false);
+        playIndex(position, 0);
     }
 
     /**

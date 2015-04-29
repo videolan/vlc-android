@@ -365,10 +365,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(p).mMediaList;
             if (mediaList.size() == 1) {
                 String mediaLocation = mediaList.get(0).getLocation();
-                mAudioController.load(mediaLocation, true);
+                mAudioController.load(mediaLocation);
             } else {
                 ArrayList<String> mediaLocations = mPlaylistAdapter.getLocations(p);
-                mAudioController.load(mediaLocations, 0, true);
+                mAudioController.load(mediaLocations, 0);
             }
         }
     };

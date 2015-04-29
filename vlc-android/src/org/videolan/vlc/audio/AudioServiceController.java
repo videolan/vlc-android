@@ -290,20 +290,16 @@ public class AudioServiceController implements IAudioPlayerControl {
         }
     }
 
-    public void load(List<String> mediaPathList, int position) {
-        load(mediaPathList, position, false);
-    }
-
-    public void load(String mediaPath, boolean noVideo) {
+    public void load(String mediaPath) {
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add(mediaPath);
-        load(arrayList, 0, noVideo);
+        load(arrayList, 0);
     }
 
-    public void load(List<String> mediaPathList, int position, boolean noVideo) {
+    public void load(List<String> mediaPathList, int position) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "load",
-                new Class<?>[] { List.class, int.class, boolean.class },
-                new Object[] { mediaPathList, position, noVideo } );
+                new Class<?>[] { List.class, int.class },
+                new Object[] { mediaPathList, position } );
     }
 
     public void append(String mediaPath) {

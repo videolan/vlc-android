@@ -123,7 +123,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     public void onConnectionSuccess() {
         ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
         if (!mLocations.isEmpty() && !mLocations.equals(medialocations)) {
-            mAudioController.load(mLocations, 0, true);
+            mAudioController.load(mLocations, 0);
         } else {
             mLocations = medialocations;
             update();

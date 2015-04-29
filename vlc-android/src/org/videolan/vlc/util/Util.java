@@ -241,7 +241,7 @@ public class Util {
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                c.load(uri, false);
+                c.load(uri);
             }
         };
         task.execute();

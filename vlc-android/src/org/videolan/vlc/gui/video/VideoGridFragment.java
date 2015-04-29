@@ -302,7 +302,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playAudio(MediaWrapper media) {
-        mAudioController.load(media.getLocation(), true);
+        mAudioController.load(media.getLocation());
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {

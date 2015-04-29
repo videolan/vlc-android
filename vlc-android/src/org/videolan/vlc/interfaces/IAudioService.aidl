@@ -30,7 +30,7 @@ interface IAudioService {
     void previous();
     void shuffle();
     void setTime(long time);
-    void load(in List<String> mediaPathList, int position, boolean noVideo);
+    void load(in List<String> mediaPathList, int position);
     void append(in List<String> mediaPathList);
     void moveItem(int positionStart, int positionEnd);
     void remove(int position);
