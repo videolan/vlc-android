@@ -131,7 +131,6 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener, IDelayController {
@@ -513,7 +512,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else
             setRequestedOrientation(getScreenOrientation());
 
-        rearrangeVideoPlayerHud();
+        resetHudLayout();
         updateNavStatus();
         mDetector = new GestureDetectorCompat(this, mGestureListener);
         mDetector.setOnDoubleTapListener(this);
@@ -557,10 +556,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (!LibVlcUtil.isHoneycombOrLater())
             setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
-        rearrangeVideoPlayerHud();
+        resetHudLayout();
     }
 
-    public void rearrangeVideoPlayerHud() {
+    public void resetHudLayout() {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mOverlayButtons.getLayoutParams();
         if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_length);
