@@ -895,11 +895,9 @@ public class MediaDatabase {
      * @param path
      */
     public synchronized void addDir(String path) {
-        if (!mediaDirExists(path)) {
-            ContentValues values = new ContentValues();
-            values.put(DIR_ROW_PATH, path);
-            mDb.insert(DIR_TABLE_NAME, null, values);
-        }
+        ContentValues values = new ContentValues();
+        values.put(DIR_ROW_PATH, path);
+        mDb.insert(DIR_TABLE_NAME, null, values);
     }
 
     /**
