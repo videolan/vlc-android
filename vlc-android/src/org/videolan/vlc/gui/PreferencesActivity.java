@@ -22,7 +22,6 @@ package org.videolan.vlc.gui;
 
 import org.videolan.libvlc.HWDecoderUtil;
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioService;
@@ -33,7 +32,6 @@ import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,6 +51,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;

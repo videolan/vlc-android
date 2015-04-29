@@ -24,8 +24,6 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,7 +41,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -52,13 +49,9 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.VLCRunnable;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
