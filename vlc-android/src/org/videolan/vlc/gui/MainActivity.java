@@ -710,8 +710,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             v.setNextFocusRightId(R.id.ml_menu_search);
             if (LibVlcUtil.isHoneycombOrLater())
                 v.setNextFocusForwardId(mActionBarIconId);
-            findViewById(R.id.ml_menu_search).setNextFocusLeftId(
-                mActionBarIconId);
+            if (findViewById(R.id.ml_menu_search) != null)
+                findViewById(R.id.ml_menu_search).setNextFocusLeftId(mActionBarIconId);
         }
         return super.onKeyUp(keyCode, event);
     }
