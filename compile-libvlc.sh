@@ -515,7 +515,7 @@ CFLAGS="$CFLAGS ${EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
 LDFLAGS="$LDFLAGS" \
 CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \
-CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT}" \
+CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT} -D__cpp_static_assert=200410" \
 NM="${CROSS_COMPILE}nm" \
 STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
