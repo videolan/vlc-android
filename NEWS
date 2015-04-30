@@ -20,6 +20,9 @@ JNI:
 Core:
  * Time stretching is now on by default
  * Activate hardware acceleration for .TS files
+ * Fix crashes with live streaming and hardware acceleration
+ * Fix WMV on MTK devices
+ * Improve audio resampler quality
 
 TV:
  * Fix recommendations duplication and improve recommendations
