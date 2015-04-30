@@ -74,6 +74,7 @@ import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -522,6 +523,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
 
+        if (current instanceof FileBrowserFragment && ((FileBrowserFragment) current).isRootDirectory())
+            menu.findItem(R.id.ml_menu_add_dir).setVisible(true);
+        else
+            menu.findItem(R.id.ml_menu_add_dir).setVisible(false);
         return true;
     }
 
@@ -592,6 +597,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                     break;
                 ((NetworkBrowserFragment)current).toggleFavorite();
                 item.setIcon(R.drawable.ic_menu_bookmark_w);
+                break;
+            case R.id.ml_menu_add_dir:
+                if (current != null && current instanceof FileBrowserFragment)
+                    ((FileBrowserFragment) current).showAddDirectoryDialog();
                 break;
         }
         mRootContainer.closeDrawer(mListView);

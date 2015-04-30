@@ -22,6 +22,7 @@ package org.videolan.vlc.util;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import org.videolan.vlc.VLCApplication;
 
@@ -81,4 +82,13 @@ public class CustomDirectories {
             return custom_paths.split(":");
     }
 
+    public static boolean contains(String directory){
+        directory = directory.trim();
+        String[] directories = getCustomDirectories();
+        for (int i = 0 ; i < directories.length ; ++i){
+            if (TextUtils.equals(directory, directories[i]))
+                return true;
+        }
+        return false;
+    }
 }

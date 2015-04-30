@@ -25,17 +25,31 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.CustomDirectories;
+
+import java.io.File;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
+
+    private AlertDialog mAlertDialog;
 
     public FileBrowserFragment() {
         super();
@@ -60,6 +74,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     @Override
     protected void browseRoot() {
+        mAdapter.updateMediaDirs();
         String storages[] = AndroidDevices.getMediaDirectories();
         BaseBrowserAdapter.Storage storage;
         for (String mediaDirLocation : storages) {
@@ -99,6 +114,68 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     public void onStop() {
         super.onStop();
         getActivity().unregisterReceiver(storageReceiver);
+        if (mAlertDialog != null && mAlertDialog.isShowing())
+            mAlertDialog.dismiss();
+    }
+
+    public void showAddDirectoryDialog() {
+        final Context context = getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AppCompatEditText input = new AppCompatEditText(context);
+        if (!LibVlcUtil.isHoneycombOrLater()) {
+            input.setTextColor(getResources().getColor(R.color.grey50));
+        }
+        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        builder.setTitle(R.string.add_custom_path);
+        builder.setMessage(R.string.add_custom_path_description);
+        builder.setView(input);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                return;
+            }
+        });
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String path = input.getText().toString().trim();
+                File f = new File(path);
+                if (!f.exists() || !f.isDirectory()) {
+                    Toast.makeText(context, getString(R.string.directorynotfound, path), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                CustomDirectories.addCustomDirectory(f.getAbsolutePath());
+                refresh();
+            }
+        });
+        mAlertDialog = builder.show();
+    }
+
+    protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
+        if (mRoot) {
+            BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
+            boolean isCustom = CustomDirectories.contains(storage.getPath());
+            if (isCustom)
+                inflater.inflate(R.menu.directory_custom_dir, menu);
+        } else
+            super.setContextMenu(inflater, menu, position);
+    }
+
+    @Override
+    protected boolean handleContextItemSelected(MenuItem item, int position) {
+        if (mRoot) {
+            if (item.getItemId() == R.id.directory_remove_custom_path){
+                BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
+                MediaDatabase.getInstance().recursiveRemoveDir(storage.getPath());
+                CustomDirectories.removeCustomDirectory(storage.getPath());
+                mAdapter.updateMediaDirs();
+                mAdapter.removeItem(position, true);
+                return true;
+            } else
+                return false;
+        } else
+            return super.handleContextItemSelected(item, position);
     }
 
     private final BroadcastReceiver storageReceiver = new BroadcastReceiver() {

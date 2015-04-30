@@ -337,7 +337,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         setContextMenu(getActivity().getMenuInflater(), menu, info.position);
     }
 
-    private void setContextMenu(MenuInflater inflater, Menu menu, int position) {
+    protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         boolean canWrite = Util.canWrite(mw.getLocation());
         if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
@@ -381,7 +381,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         popupMenu.show();
     }
 
-    private boolean handleContextItemSelected(MenuItem item, int position) {
+    protected boolean handleContextItemSelected(MenuItem item, int position) {
         int id = item.getItemId();
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
