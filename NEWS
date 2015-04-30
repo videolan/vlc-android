@@ -11,13 +11,15 @@ Application:
  * Improve Material look, Ripple effect on Lollipop
  * Activate the Audio Delay control
  * Smaller Video Player Controler
- * Fix crashes, focus
+ * Fix crashes, focus, rotations
+ * Update to AppCompat 22.1
 
 JNI:
  * Add a way to capture stdout logs directly
 
 Core:
  * Time stretching is now on by default
+ * Activate hardware acceleration for .TS files
 
 TV:
  * Fix recommendations duplication and improve recommendations
