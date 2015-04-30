@@ -115,6 +115,7 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1101,6 +1102,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         showOverlayTimeout(OVERLAY_INFINITE);
         mDelayMinus.setOnClickListener(mAudioDelayListener);
         mDelayPlus.setOnClickListener(mAudioDelayListener);
+        mDelayMinus.setOnTouchListener(new OnRepeatListener(mAudioDelayListener));
+        mDelayPlus.setOnTouchListener(new OnRepeatListener(mAudioDelayListener));
         mDelayMinus.setVisibility(View.VISIBLE);
         mDelayPlus.setVisibility(View.VISIBLE);
         initDelayInfo();
