@@ -163,7 +163,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
 
     @Override
     public void onConnectionSuccess() {
-        mAudioController.load(mMedia.getLocation(), true);
+        mAudioController.load(mMedia.getLocation());
     }
 
     @Override
