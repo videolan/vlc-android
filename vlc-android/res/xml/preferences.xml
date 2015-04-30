@@ -2,10 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/general_prefs_category" >
-        <PreferenceScreen
-            android:key="directories"
-            android:summary="@string/directories_summary"
-            android:title="@string/directories" />
 
         <ListPreference
             android:defaultValue="-1"
