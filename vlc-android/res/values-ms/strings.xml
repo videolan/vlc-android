@@ -284,6 +284,7 @@
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
     <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
     <string name="confirm_resume_summary">jika diaktifkan anda akan ditanya untuk sahkan sama ada video boleh disambung semula dari kedudukan terakhirnya</string>
+    <string name="directory_empty">Direktori kosong</string>
     <!--Accessibility-->
     <string name="more_actions">Lagi Tindakan</string>
     <string name="move">Alih</string>
