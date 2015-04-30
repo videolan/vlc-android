@@ -101,9 +101,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                         for (Object item : mMediaList)
                             if (item instanceof MediaWrapper){
                                 mediaItem = (MediaWrapper) item;
-                                mediaLocations.add(mediaItem.getLocation());
-                                if (mediaItem.equals(mw))
-                                    position = mediaLocations.size()-1;
+                                if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
+                                    mediaLocations.add(mediaItem.getLocation());
+                                    if (mediaItem.equals(mw))
+                                        position = mediaLocations.size()-1;
+                                }
                             }
                         Util.openList(v.getContext(), mediaLocations, position);
                     }
