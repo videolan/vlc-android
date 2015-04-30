@@ -61,12 +61,10 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected void browseRoot() {
         String storages[] = AndroidDevices.getMediaDirectories();
-        MediaWrapper mw;
-        for (String storage : storages) {
-            mw = new MediaWrapper(storage);
-            mw.setTitle(AndroidDevices.getStorageTitle(storage));
-            mw.setType(MediaWrapper.TYPE_DIR);
-            mAdapter.addItem(mw, false, false);
+        BaseBrowserAdapter.Storage storage;
+        for (String mediaDirLocation : storages) {
+            storage = new BaseBrowserAdapter.Storage(mediaDirLocation);
+            mAdapter.addItem(storage, false, false);
         }
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         if (mReadyToDisplay) {
@@ -88,6 +86,13 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         getActivity().registerReceiver(storageReceiver, filter);
         if (mReadyToDisplay)
             update();
+    }
+
+    @Override
+    protected void updateDisplay() {
+        super.updateDisplay();
+        if (isRootDirectory())
+            mAdapter.updateMediaDirs();
     }
 
     @Override

@@ -8,6 +8,13 @@
     android:clickable="true"
     android:background="@drawable/background_item">
 
+    <CheckBox
+        android:id="@+id/browser_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="15dp"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/dvi_icon"
         android:layout_width="@dimen/directory_browser_item_size"

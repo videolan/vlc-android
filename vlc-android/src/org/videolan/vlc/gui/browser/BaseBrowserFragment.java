@@ -92,7 +92,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected boolean mRoot;
     protected LibVLC mLibVLC;
 
-    private SparseArray<ArrayList<MediaWrapper>> mMediaLists;
+    private SparseArray<ArrayList<MediaWrapper>> mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
     private ArrayList<MediaWrapper> mediaList;
     public int mCurrentParsedPosition = 0;
 
@@ -444,17 +444,23 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void parseSubDirectories() {
         if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
-        mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
+        mMediaLists.clear();
         mMediaBrowser.changeEventListener(mFoldersBrowserListener);
         mCurrentParsedPosition = 0;
         Object item;
         MediaWrapper mw;
         while (mCurrentParsedPosition <mAdapter.getItemCount()){
             item = mAdapter.getItem(mCurrentParsedPosition);
-            if (item instanceof MediaWrapper){
+            if (item instanceof BaseBrowserAdapter.Storage) {
+                mw = new MediaWrapper(((BaseBrowserAdapter.Storage) item).getPath());
+                mw.setType(MediaWrapper.TYPE_DIR);
+            } else  if (item instanceof MediaWrapper){
                 mw = (MediaWrapper) item;
+            } else
+                mw = null;
+            if (mw != null){
                 if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
-                    mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
+                    mMediaBrowser.browse(mw.getLocation());
                     return;
                 }
             }
@@ -486,27 +492,32 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return;
             }
             String holderText = getDescription(directories.size(), files.size());
-            MediaWrapper mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
+            MediaWrapper mw = null;
 
             if (!TextUtils.equals(holderText, "")) {
-                mw.setDescription(holderText);
-                mAdapter.notifyItemChanged(mCurrentParsedPosition);
+                mAdapter.setDescription(mCurrentParsedPosition, holderText);
                 directories.addAll(files);
                 mMediaLists.append(mCurrentParsedPosition, directories);
             }
-            while (++mCurrentParsedPosition < mAdapter.getItemCount()-1){ //skip media that are not browsable
+            while (++mCurrentParsedPosition < mAdapter.getItemCount()){ //skip media that are not browsable
                 if (mAdapter.getItem(mCurrentParsedPosition) instanceof MediaWrapper) {
                     mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
                     if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
                         break;
-                }
+                } else if (mAdapter.getItem(mCurrentParsedPosition) instanceof BaseBrowserAdapter.Storage) {
+                    mw = new MediaWrapper(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getPath());
+                    break;
+                } else
+                    mw = null;
             }
 
-            if (mCurrentParsedPosition < mAdapter.getItemCount()) {
-                mMediaBrowser.browse(((MediaWrapper) mAdapter.getItem(mCurrentParsedPosition)).getLocation());
-            } else {
-                mCurrentParsedPosition = -1;
-                mMediaBrowser.release();
+            if (mw != null) {
+                if (mCurrentParsedPosition < mAdapter.getItemCount()) {
+                    mMediaBrowser.browse(mw.getLocation());
+                } else {
+                    mCurrentParsedPosition = -1;
+                    mMediaBrowser.release();
+                }
             }
             directories .clear();
             files.clear();
