@@ -87,7 +87,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
         switch(action){
             case ACTION_SLEEP:
                 if (sleepTime.before(currentTime))
-                    sleepTime.roll(Calendar.DATE, true);
+                    sleepTime.add(Calendar.DATE, 1);
 
                 AdvOptionsDialog.setSleep(view.getContext(), sleepTime);
                 break;
