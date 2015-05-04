@@ -34,6 +34,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.Strings;
 
 import java.io.File;
 
@@ -65,6 +67,21 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
+    }
+
+    public String getTitle(){
+        if (mRoot)
+            return getCategoryTitle();
+        else {
+            String title = mMrl;
+            if (mCurrentMedia != null) {
+                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mMrl))
+                    title = getString(R.string.internal_memory);
+                else
+                    title = mCurrentMedia.getTitle();
+            }
+            return title;
+        }
     }
 
     @Override
