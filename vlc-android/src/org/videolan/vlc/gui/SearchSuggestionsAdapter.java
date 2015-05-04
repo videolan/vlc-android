@@ -76,6 +76,8 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
         tv1.setText(cursor.getString(cursor.getColumnIndex(MediaDatabase.MEDIA_TITLE)));
         view.setBackgroundColor(backgroundColor);
 
+        if (mw == null)
+            return;
         String artist = mw.getAlbumArtist();
         if (artist == null)
             artist = mw.getArtist();
