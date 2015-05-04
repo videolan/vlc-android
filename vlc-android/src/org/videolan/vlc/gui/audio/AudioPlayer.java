@@ -713,4 +713,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         if(activity != null)
             activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
+
+    /*
+     * Override this method to prefent NPE on mFragmentManager reference.
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (getFragmentManager() != null)
+            super.setUserVisibleHint(isVisibleToUser);
+    }
 }
