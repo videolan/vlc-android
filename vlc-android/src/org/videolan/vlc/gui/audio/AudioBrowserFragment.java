@@ -362,16 +362,20 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     OnItemClickListener playlistListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(p).mMediaList;
-            if (mediaList.size() == 1) {
-                String mediaLocation = mediaList.get(0).getLocation();
-                mAudioController.load(mediaLocation);
-            } else {
-                ArrayList<String> mediaLocations = mPlaylistAdapter.getLocations(p);
-                mAudioController.load(mediaLocations, 0);
-            }
+            loadPlaylist(p);
         }
     };
+
+    private void loadPlaylist(int position) {
+        ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(position).mMediaList;
+        if (mediaList.size() == 1) {
+            String mediaLocation = mediaList.get(0).getLocation();
+            mAudioController.load(mediaLocation);
+        } else {
+            ArrayList<String> mediaLocations = mPlaylistAdapter.getLocations(position);
+            mAudioController.load(mediaLocations, 0);
+        }
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -471,8 +475,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 return false;
             medias = new ArrayList<String>();
             startPosition = mSongsAdapter.getListWithPosition(medias, groupPosition);
-        }
-        else {
+        } else {
             startPosition = 0;
             AudioBrowserListAdapter adapter = null;
             switch (mode){
@@ -495,10 +498,11 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
                         mMediaBrowser.browse(mPlaylistAdapter.getMedia(groupPosition).get(0).getLocation());
                         return true;
-                    }
+                    } else
+                        adapter = mPlaylistAdapter;
                     break;
                 default:
-                    return true;
+                    return false;
             }
             if (groupPosition >= adapter.getCount())
                 return false;
@@ -509,8 +513,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             mAudioController.append(medias);
         else
             mAudioController.load(medias, startPosition);
-
-        return super.onContextItemSelected(item);
+        return true;
     }
 
     public void onFabPlayAllClick(View view) {
