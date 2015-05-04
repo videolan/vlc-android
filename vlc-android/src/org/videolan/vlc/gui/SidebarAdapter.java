@@ -20,20 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.browser.BaseBrowserFragment;
-import org.videolan.vlc.gui.browser.FileBrowserFragment;
-import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
-import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.util.Util;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -45,6 +31,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.browser.FileBrowserFragment;
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
+import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SidebarAdapter extends BaseAdapter {
     public final static String TAG = "VLC/SidebarAdapter";

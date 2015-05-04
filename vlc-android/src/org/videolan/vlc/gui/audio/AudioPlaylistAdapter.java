@@ -20,14 +20,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -44,6 +36,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
 

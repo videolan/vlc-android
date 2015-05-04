@@ -20,11 +20,11 @@
 
 package org.videolan.vlc.util;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class Preferences {
     public final static String TAG = "VLC/Util/Preferences";

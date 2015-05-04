@@ -20,26 +20,6 @@
 
 package org.videolan.vlc.util;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
-
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -57,6 +37,26 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
+
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);

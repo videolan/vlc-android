@@ -20,20 +20,6 @@
 
 package org.videolan.vlc.util;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -45,6 +31,20 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class AndroidDevices {
     public final static String TAG = "VLC/Util/AndroidDevices";

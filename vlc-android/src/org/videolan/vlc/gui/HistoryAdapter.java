@@ -20,15 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import java.util.ArrayList;
-
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.util.Util;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -38,6 +29,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
 
 public class HistoryAdapter extends BaseAdapter implements AudioServiceController.MediaPlayedListener {
     public final static String TAG = "VLC/HistoryAdapter";

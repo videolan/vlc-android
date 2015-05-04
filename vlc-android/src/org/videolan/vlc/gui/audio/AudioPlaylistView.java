@@ -20,13 +20,9 @@
 
 package org.videolan.vlc.gui.audio;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,6 +30,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.videolan.vlc.R;
 
 public class AudioPlaylistView extends ListView {
 

@@ -58,7 +58,6 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.BuildConfig;

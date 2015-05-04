@@ -20,15 +20,15 @@
 
 package org.videolan.vlc.gui.audio.widget;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.widget.AudioMediaSwitcher;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.widget.AudioMediaSwitcher;
 
 public class CoverMediaSwitcher extends AudioMediaSwitcher {
 

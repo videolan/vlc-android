@@ -29,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 
 public class JumpToTimeDialog extends PickTimeFragment {

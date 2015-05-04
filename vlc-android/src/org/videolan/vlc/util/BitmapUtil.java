@@ -20,16 +20,16 @@
 
 package org.videolan.vlc.util;
 
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 
 public class BitmapUtil {
     public final static String TAG = "VLC/Util/BitmapUtil";

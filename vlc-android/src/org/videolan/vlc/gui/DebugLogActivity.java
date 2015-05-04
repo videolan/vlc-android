@@ -20,26 +20,19 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.util.Logcat;
-import org.videolan.vlc.util.VLCInstance;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebugLogActivity extends Activity implements DebugLogService.Client.Callback {
     public final static String TAG = "VLC/DebugLogActivity";

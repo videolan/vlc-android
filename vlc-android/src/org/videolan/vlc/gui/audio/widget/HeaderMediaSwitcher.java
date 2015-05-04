@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.audio.widget;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.widget.AudioMediaSwitcher;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -30,6 +27,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.widget.AudioMediaSwitcher;
 
 public class HeaderMediaSwitcher extends AudioMediaSwitcher {
 

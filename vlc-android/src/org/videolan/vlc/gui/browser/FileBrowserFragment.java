@@ -30,17 +30,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.View;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
-
-import java.io.File;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 

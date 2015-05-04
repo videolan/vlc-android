@@ -20,14 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.io.File;
-import java.util.Comparator;
-import java.util.List;
-
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
@@ -40,6 +32,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+
+import java.io.File;
+import java.util.Comparator;
+import java.util.List;
 
 public class MediaBrowserAdapter extends ArrayAdapter<File>
                             implements Comparator<File> {

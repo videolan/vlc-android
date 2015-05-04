@@ -20,13 +20,13 @@
 
 package org.videolan.vlc.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.videolan.vlc.VLCApplication;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomDirectories {
 

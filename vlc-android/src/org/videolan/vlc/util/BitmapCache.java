@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.util;
 
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.VLCApplication;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -30,6 +27,9 @@ import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.View;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.VLCApplication;
 
 public class BitmapCache {
 

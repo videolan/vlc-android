@@ -37,7 +37,6 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Util;

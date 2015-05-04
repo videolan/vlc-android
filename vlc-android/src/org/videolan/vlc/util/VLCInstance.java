@@ -20,6 +20,11 @@
 
 package org.videolan.vlc.util;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
@@ -28,11 +33,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";

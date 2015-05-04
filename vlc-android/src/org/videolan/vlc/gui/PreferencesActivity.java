@@ -20,18 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import org.videolan.libvlc.HWDecoderUtil;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioService;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,6 +49,18 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.videolan.libvlc.HWDecoderUtil;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioService;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 
 @SuppressWarnings("deprecation")
 public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {

@@ -20,20 +20,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.Util;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -50,6 +36,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer {
     public final static String TAG = "VLC/AudioBrowserListAdapter";

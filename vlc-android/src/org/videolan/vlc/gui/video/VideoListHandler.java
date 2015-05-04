@@ -1,10 +1,10 @@
 package org.videolan.vlc.gui.video;
 
+import android.os.Message;
+
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.WeakHandler;
-
-import android.os.Message;
 
 public class VideoListHandler extends WeakHandler<IVideoBrowser> {
     public static final int UPDATE_ITEM = 0;

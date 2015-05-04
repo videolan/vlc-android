@@ -20,13 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
-import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.widget.SwipeRefreshLayout;
-
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +34,13 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/HistoryFragment";

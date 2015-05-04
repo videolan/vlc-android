@@ -20,17 +20,6 @@
 
 package org.videolan.vlc.audio;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.interfaces.IAudioPlayer;
-import org.videolan.vlc.interfaces.IAudioPlayerControl;
-import org.videolan.vlc.interfaces.IAudioService;
-import org.videolan.vlc.interfaces.IAudioServiceCallback;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +30,17 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.interfaces.IAudioPlayer;
+import org.videolan.vlc.interfaces.IAudioPlayerControl;
+import org.videolan.vlc.interfaces.IAudioService;
+import org.videolan.vlc.interfaces.IAudioServiceCallback;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AudioServiceController implements IAudioPlayerControl {
     public static final String TAG = "VLC/AudioServiceContoller";

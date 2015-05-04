@@ -20,21 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Stack;
-
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.util.Util;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
@@ -56,6 +41,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.Util;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Stack;
 
 public class BrowserActivity extends ListActivity {
     public final static String TAG = "VLC/BrowserActivity";

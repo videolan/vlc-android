@@ -40,7 +40,6 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 

@@ -34,7 +34,6 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.MediaComparators;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;

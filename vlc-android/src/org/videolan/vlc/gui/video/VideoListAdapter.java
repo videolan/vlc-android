@@ -20,18 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Locale;
-
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaGroup;
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.BitmapUtil;
-import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -44,6 +32,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.videolan.vlc.MediaGroup;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.BitmapUtil;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                                  implements Comparator<MediaWrapper> {

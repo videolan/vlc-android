@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -30,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.R;
 
 public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
 
