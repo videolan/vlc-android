@@ -23,9 +23,12 @@
 
 package org.videolan.vlc.gui.dialogs;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,9 +72,15 @@ public class SavePlaylist extends DialogFragment implements AdapterView.OnItemCl
         mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new AppCompatDialog(getActivity(), getTheme());
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.dialog_playlist, container);
 
         mListView = (ListView) view.findViewById(android.R.id.list);
