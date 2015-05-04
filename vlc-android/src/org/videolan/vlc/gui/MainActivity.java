@@ -81,7 +81,6 @@ import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -472,53 +471,58 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu == null)
+            return false;
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        MenuItem item;
         // Disable the sort option if we can't use it on the current fragment.
         if (current == null || !(current instanceof ISortable)) {
-            menu.findItem(R.id.ml_menu_sortby).setEnabled(false);
-            menu.findItem(R.id.ml_menu_sortby).setVisible(false);
-        }
-        else {
+            item = menu.findItem(R.id.ml_menu_sortby);
+            if (item == null)
+                return false;
+            item.setEnabled(false);
+            item.setVisible(false);
+        } else {
             ISortable sortable = (ISortable) current;
-            menu.findItem(R.id.ml_menu_sortby).setEnabled(true);
-            menu.findItem(R.id.ml_menu_sortby).setVisible(true);
-            MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
-                if (sortable.sortDirection(VideoListAdapter.SORT_BY_TITLE) == 1)
-                    item.setTitle(R.string.sortby_name_desc);
-                else
-                    item.setTitle(R.string.sortby_name);
+            item = menu.findItem(R.id.ml_menu_sortby);
+            if (item == null)
+                return false;
+            item.setEnabled(true);
+            item.setVisible(true);
+            item = menu.findItem(R.id.ml_menu_sortby_name);
+            if (sortable.sortDirection(VideoListAdapter.SORT_BY_TITLE) == 1)
+                item.setTitle(R.string.sortby_name_desc);
+            else
+                item.setTitle(R.string.sortby_name);
             item = menu.findItem(R.id.ml_menu_sortby_length);
-                if (sortable.sortDirection(VideoListAdapter.SORT_BY_LENGTH) == 1)
-                    item.setTitle(R.string.sortby_length_desc);
-                else
-                    item.setTitle(R.string.sortby_length);
+            if (sortable.sortDirection(VideoListAdapter.SORT_BY_LENGTH) == 1)
+                item.setTitle(R.string.sortby_length_desc);
+            else
+                item.setTitle(R.string.sortby_length);
             item = menu.findItem(R.id.ml_menu_sortby_date);
-                if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
-                    item.setTitle(R.string.sortby_date_desc);
-                else
-                    item.setTitle(R.string.sortby_date);
+            if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
+                item.setTitle(R.string.sortby_date_desc);
+            else
+                item.setTitle(R.string.sortby_date);
         }
 
         boolean networkSave = current instanceof NetworkBrowserFragment && !((NetworkBrowserFragment)current).isRootDirectory();
         if (networkSave) {
-            MenuItem item = menu.findItem(R.id.ml_menu_save);
+            item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
             item.setIcon(MediaDatabase.getInstance().networkFavExists(mrl) ?
                     R.drawable.ic_menu_bookmark_w :
                     R.drawable.ic_menu_bookmark_outline_w);
-
-        }
-        else
+        } else
             menu.findItem(R.id.ml_menu_save).setVisible(false);
         if (current instanceof MRLPanelFragment)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((MRLPanelFragment) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
 
-
-
-        return super.onPrepareOptionsMenu(menu);
+        return true;
     }
 
     /**
