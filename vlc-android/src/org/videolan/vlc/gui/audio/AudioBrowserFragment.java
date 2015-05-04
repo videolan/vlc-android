@@ -368,7 +368,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     private void loadPlaylist(int position) {
         ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(position).mMediaList;
-        if (mediaList.size() == 1) {
+        if (mediaList.size() == 1 && mediaList.get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
             String mediaLocation = mediaList.get(0).getLocation();
             mAudioController.load(mediaLocation);
         } else {
@@ -493,7 +493,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     break;
                 case MODE_PLAYLIST: //For file playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
                     medias = mPlaylistAdapter.getLocations(groupPosition);
-                    if (medias.size() <2) {
+                    if (medias.size() == 1 && mPlaylistAdapter.getMedia(groupPosition).get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
                         if (mMediaBrowser == null)
                             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
                         mMediaBrowser.browse(mPlaylistAdapter.getMedia(groupPosition).get(0).getLocation());
