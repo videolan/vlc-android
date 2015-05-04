@@ -157,7 +157,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         final Storage storage = (Storage) getItem(position);
         boolean isPublicStorage = TextUtils.equals(storage.getPath(), Environment.getExternalStorageDirectory().getPath());
         boolean hasContextMenu = !isPublicStorage && mCustomDirsLocation.contains(storage.getPath());
-        vh.title.setText(storage.getName());
+        vh.title.setText(isPublicStorage ? holder.itemView.getContext().getString(R.string.internal_memory) : storage.getName());
         vh.icon.setVisibility(View.GONE);
         vh.checkBox.setVisibility(View.VISIBLE);
         vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
