@@ -699,12 +699,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mediaRouterAddCallback(true);
         }
 
-        mSurfaceView.setKeepScreenOn(true);
-
         final EventHandler em = EventHandler.getInstance();
         em.addHandler(mEventHandler);
 
         loadMedia();
+
+        mSurfaceView.setKeepScreenOn(true);
 
         // Add any selected subtitle file from the file picker
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -2941,6 +2941,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     }
                 })
                 .create();
+        mAlertDialog.setCancelable(false);
         mAlertDialog.show();
     }
 
