@@ -123,9 +123,9 @@ public class AudioUtil {
             if (LibVlcUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
                 CACHE_DIR = context.getExternalCacheDir().getPath();
             else
-                CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
         } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
-            CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
         }
         ART_DIR = CACHE_DIR + "/art/";
         COVER_DIR = CACHE_DIR + "/covers/";

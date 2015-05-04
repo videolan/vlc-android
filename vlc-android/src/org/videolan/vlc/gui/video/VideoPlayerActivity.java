@@ -2058,7 +2058,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
                     Intent intent = new Intent("org.openintents.action.PICK_FILE");
 
-                    File file = new File(android.os.Environment.getExternalStorageDirectory().getPath());
+                    File file = new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                     intent.setData(Uri.fromFile(file));
 
                     // Set fancy title and button (optional)
@@ -2653,13 +2653,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                             Log.i(TAG, "Getting file " + filename + " from content:// URI");
 
                             is = getContentResolver().openInputStream(data);
-                            os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                            os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
                             byte[] buffer = new byte[1024];
                             int bytesRead = 0;
                             while((bytesRead = is.read(buffer)) >= 0) {
                                 os.write(buffer, 0, bytesRead);
                             }
-                            mLocation = LibVLC.PathToURI(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                            mLocation = LibVLC.PathToURI(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");

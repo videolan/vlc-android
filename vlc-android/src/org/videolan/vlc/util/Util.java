@@ -30,7 +30,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
@@ -348,7 +347,7 @@ public class Util {
             path = path.substring(7);
         if (!path.startsWith("/"))
             return false;
-        if (path.startsWith(Environment.getExternalStorageDirectory().getPath()))
+        if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
             return true;
         if (LibVlcUtil.isLolliPopOrLater())
             return false;

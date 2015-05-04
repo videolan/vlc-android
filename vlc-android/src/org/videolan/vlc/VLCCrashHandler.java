@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
 
@@ -69,9 +70,8 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
 
         // Save the log on SD card if available
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            String sdcardPath = Environment.getExternalStorageDirectory().getPath();
-            writeLog(stacktrace, sdcardPath + "/vlc_crash");
-            writeLogcat(sdcardPath + "/vlc_logcat");
+            writeLog(stacktrace, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/vlc_crash");
+            writeLogcat(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/vlc_logcat");
         }
 
         defaultUEH.uncaughtException(thread, ex);

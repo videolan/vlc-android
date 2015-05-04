@@ -53,7 +53,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     public FileBrowserFragment() {
         super();
-        ROOT = Environment.getExternalStorageDirectory().getPath();
+        ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
     }
 
     @Override

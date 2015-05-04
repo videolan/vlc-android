@@ -48,6 +48,7 @@ import java.util.StringTokenizer;
 
 public class AndroidDevices {
     public final static String TAG = "VLC/Util/AndroidDevices";
+    public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
 
     final static boolean hasNavBar;
     final static boolean hasTsp;
@@ -95,7 +96,7 @@ public class AndroidDevices {
     public static ArrayList<String> getStorageDirectories() {
         BufferedReader bufReader = null;
         ArrayList<String> list = new ArrayList<String>();
-        list.add(Environment.getExternalStorageDirectory().getPath());
+        list.add(EXTERNAL_PUBLIC_DIRECTORY);
 
         List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
         List<String> typeBL = Arrays.asList("tmpfs");
@@ -185,12 +186,5 @@ public class AndroidDevices {
         }
         return networkEnabled;
 
-    }
-
-    public static String getStorageTitle(String path){
-        if (TextUtils.equals(Environment.getExternalStorageDirectory().getPath(), path))
-            return VLCApplication.getAppContext().getString(R.string.internal_memory);
-        else
-            return Strings.getName(path);
     }
 }

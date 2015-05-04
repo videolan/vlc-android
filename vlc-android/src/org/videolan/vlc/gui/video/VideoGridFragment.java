@@ -69,6 +69,7 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
@@ -374,7 +375,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             hasInfo = true;
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(!LibVlcUtil.isLolliPopOrLater() ||
-                mediaWrapper.getLocation().startsWith("file://" + Environment.getExternalStorageDirectory().getPath()));
+                mediaWrapper.getLocation().startsWith("file://" + AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
     }
 
     @Override

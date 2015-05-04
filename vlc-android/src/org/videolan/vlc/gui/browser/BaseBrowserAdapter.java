@@ -22,7 +22,6 @@
  */
 package org.videolan.vlc.gui.browser;
 
-import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,6 +37,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -157,7 +157,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     private void onBindStorageViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final Storage storage = (Storage) getItem(position);
-        boolean isPublicStorage = TextUtils.equals(storage.getPath(), Environment.getExternalStorageDirectory().getPath());
+        boolean isPublicStorage = TextUtils.equals(storage.getPath(), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
         boolean hasContextMenu = !isPublicStorage && mCustomDirsLocation.contains(storage.getPath());
         vh.title.setText(isPublicStorage ? holder.itemView.getContext().getString(R.string.internal_memory) : storage.getName());
         vh.icon.setVisibility(View.GONE);

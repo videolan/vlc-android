@@ -81,7 +81,7 @@ public class MediaLibrary {
 
         FOLDER_BLACKLIST = new HashSet<String>();
         for (String item : folder_blacklist)
-            FOLDER_BLACKLIST.add(android.os.Environment.getExternalStorageDirectory().getPath() + item);
+            FOLDER_BLACKLIST.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + item);
     }
 
     private MediaLibrary() {
