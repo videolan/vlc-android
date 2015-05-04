@@ -497,7 +497,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             if (!TextUtils.equals(holderText, "")) {
                 mAdapter.setDescription(mCurrentParsedPosition, holderText);
                 directories.addAll(files);
-                mMediaLists.append(mCurrentParsedPosition, directories);
+                mMediaLists.put(mCurrentParsedPosition, new ArrayList<MediaWrapper>(directories));
             }
             while (++mCurrentParsedPosition < mAdapter.getItemCount()){ //skip media that are not browsable
                 if (mAdapter.getItem(mCurrentParsedPosition) instanceof MediaWrapper) {
