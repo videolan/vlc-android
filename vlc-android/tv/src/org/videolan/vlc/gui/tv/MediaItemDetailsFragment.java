@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.tv;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -55,6 +56,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
     private ArrayObjectAdapter mRowsAdapter;
     private AudioServiceController mAudioController;
     private MediaItemDetails mMedia;
+    private MediaWrapper mMediaWrapper;
     private MediaDatabase mDb;
 
     @Override
@@ -86,6 +88,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
         if (!hasMedia){
             media.setTitle(mMedia.getTitle());
         }
+        mMediaWrapper = media;
         // Attach your media item details presenter to the row presenter:
         DetailsOverviewRowPresenter rowPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
@@ -105,10 +108,10 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
                         mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
                         break;
                     case ID_PLAY:
-                        ArrayList<String> locations = new ArrayList<String>();
-                        locations.add(mMedia.getLocation());
+                        ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>();
+                        tracks.add(media);
                         Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-                        intent.putExtra("locations", locations);
+                        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, tracks);
                         startActivity(intent);
                         break;
                     case ID_FAVORITE_ADD:
@@ -163,7 +166,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
 
     @Override
     public void onConnectionSuccess() {
-        mAudioController.load(mMedia.getLocation());
+        mAudioController.load(mMediaWrapper);
     }
 
     @Override

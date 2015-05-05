@@ -61,7 +61,6 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
     private MediaLibrary mMediaLibrary;
 
     private AlbumAdapter mAdapter;
-    ArrayList<String> mMediaLocations = new ArrayList<String>();
     private ArrayList<MediaWrapper> mMediaList;
     private String mTitle;
 
@@ -82,13 +81,6 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
     public void setMediaList(ArrayList<MediaWrapper> mediaList, String title) {
         this.mMediaList = mediaList;
         mTitle = title;
-        String location;
-        for (MediaWrapper media : mediaList) {
-            location = media.getLocation();
-            if (location != null) {
-                mMediaLocations.add(location);
-            }
-        }
     }
 
     @Override
@@ -146,7 +138,7 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mAudioController.load(mMediaLocations, position);
+        mAudioController.load(mMediaList, position);
         if (getActivity() != null)
             getActivity().finish();
     }
@@ -223,7 +215,7 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
         final int id = v.getId();
         switch (id){
             case R.id.album_play:
-                mAudioController.load(mMediaLocations, 0);
+                mAudioController.load(mMediaList, 0);
                 getActivity().finish();
                 break;
             default:

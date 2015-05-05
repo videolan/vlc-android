@@ -391,7 +391,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 Util.openMedia(getActivity(), (MediaWrapper) mAdapter.getItem(position));
                 return true;
             case R.id.directory_view_append:
-                AudioServiceController.getInstance().append(mw.getLocation());
+                AudioServiceController.getInstance().append(mw);
                 return true;
             case R.id.directory_view_delete:
                 AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mw.getLocation(),
@@ -404,7 +404,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 alertDialog.show();
                 return true;
             case R.id.directory_view_play_audio:
-                AudioServiceController.getInstance().load(mw.getLocation());
+                AudioServiceController.getInstance().load(mw);
                 return true;
             case  R.id.directory_view_play_video:
                 VideoPlayerActivity.start(getActivity(), mw.getLocation());

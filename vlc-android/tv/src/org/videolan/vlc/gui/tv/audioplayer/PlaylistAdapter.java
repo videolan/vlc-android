@@ -37,7 +37,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public static final String TAG = "VLC/PlaylistAdapter";
 
     private AudioPlayerActivity mAudioPlayerActivity;
-    private ArrayList<String> mDataset;
+    private ArrayList<MediaWrapper> mDataset;
     private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
     private int mSelectedItem = -1;
 
@@ -53,7 +53,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    public PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, ArrayList<String> myDataset) {
+    public PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, ArrayList<MediaWrapper> myDataset) {
         mDataset = myDataset;
         mAudioPlayerActivity = audioPlayerActivity;
     }
@@ -73,9 +73,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MediaWrapper mediaWrapper = sMediaLibrary.getMediaItem(mDataset.get(position));
-        if (mediaWrapper == null)
-            mediaWrapper = new MediaWrapper(mDataset.get(position));
+        MediaWrapper mediaWrapper = mDataset.get(position);
         holder.mTitleTv.setText(Strings.getMediaTitle(mediaWrapper));
         holder.mArtistTv.setText(Util.getMediaArtist(holder.itemView.getContext(), mediaWrapper));
         holder.itemView.setActivated(position == mSelectedItem);
@@ -103,7 +101,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    public void updateList(ArrayList<String> list){
+    public void updateList(ArrayList<MediaWrapper> list){
         mDataset = list;
         notifyDataSetChanged();
     }

@@ -30,14 +30,16 @@ interface IAudioService {
     void previous();
     void shuffle();
     void setTime(long time);
-    void load(in List<String> mediaPathList, int position);
-    void append(in List<String> mediaPathList);
+    void loadLocations(in List<String> mediaPathList, int position);
+    void load(in List<MediaWrapper> mediaList, int position);
+    void append(in List<MediaWrapper> mediaList);
     void moveItem(int positionStart, int positionEnd);
     void remove(int position);
     void removeLocation(String location);
     List<MediaWrapper> getMedias();
     List<String> getMediaLocations();
     String getCurrentMediaLocation();
+    MediaWrapper getCurrentMediaWrapper();
     boolean isPlaying();
     boolean isShuffling();
     int getRepeatType();

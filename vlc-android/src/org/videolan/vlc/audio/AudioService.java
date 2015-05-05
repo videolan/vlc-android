@@ -1201,24 +1201,16 @@ public class AudioService extends Service {
          * @throws RemoteException
          */
         @Override
-        public void load(List<String> mediaPathList, int position)
+        public void loadLocations(List<String> mediaPathList, int position)
                 throws RemoteException {
-
-            Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
-            mEventHandler.addHandler(mVlcEventHandler);
-
-            mMediaListPlayer.getMediaList().removeEventListener(mListEventListener);
-            mMediaListPlayer.getMediaList().clear();
-            MediaWrapperList mediaList = mMediaListPlayer.getMediaList();
-
-            mPrevious.clear();
-
+            ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
             MediaDatabase db = MediaDatabase.getInstance();
+
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
                 MediaWrapper mediaWrapper = db.getMedia(location);
-                if(mediaWrapper == null) {
-                    if(!validateLocation(location)) {
+                if (mediaWrapper == null) {
+                    if (!validateLocation(location)) {
                         Log.w(TAG, "Invalid location " + location);
                         showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                         continue;
@@ -1230,6 +1222,25 @@ public class AudioService extends Service {
                     mediaWrapper = new MediaWrapper(media);
                 }
                 mediaList.add(mediaWrapper);
+            }
+            load(mediaList, position);
+        }
+
+        @Override
+        public void load(List<MediaWrapper> mediaList, int position)
+                throws RemoteException {
+
+            Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
+            mEventHandler.addHandler(mVlcEventHandler);
+
+            mMediaListPlayer.getMediaList().removeEventListener(mListEventListener);
+            mMediaListPlayer.getMediaList().clear();
+            MediaWrapperList currentMediaList = mMediaListPlayer.getMediaList();
+
+            mPrevious.clear();
+
+            for (int i = 0; i < mediaList.size(); i++) {
+                currentMediaList.add(mediaList.get(i));
             }
 
             if (mMediaListPlayer.getMediaList().size() == 0) {
@@ -1318,28 +1329,15 @@ public class AudioService extends Service {
          * Append to the current existing playlist
          */
         @Override
-        public void append(List<String> mediaLocationList) throws RemoteException {
+        public void append(List<MediaWrapper> mediaList) throws RemoteException {
             if (!hasCurrentMedia())
             {
-                load(mediaLocationList, 0);
+                load(mediaList, 0);
                 return;
             }
 
-            MediaDatabase db = MediaDatabase.getInstance();
-            for (int i = 0; i < mediaLocationList.size(); i++) {
-                String location = mediaLocationList.get(i);
-                MediaWrapper mediaWrapper = db.getMedia(location);
-                if(mediaWrapper == null) {
-                    if (!validateLocation(location)) {
-                        showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
-                        continue;
-                    }
-                    Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    final Media media = new Media(mLibVLC, location);
-                    media.parse(); // FIXME: parse should'nt be done asynchronously
-                    media.release();
-                    mediaWrapper = new MediaWrapper(media);
-                }
+            for (int i = 0; i < mediaList.size(); i++) {
+                MediaWrapper mediaWrapper = mediaList.get(i);
                 mMediaListPlayer.getMediaList().add(mediaWrapper);
             }
             AudioService.this.saveMediaList();
@@ -1393,6 +1391,11 @@ public class AudioService extends Service {
         @Override
         public String getCurrentMediaLocation() throws RemoteException {
             return mMediaListPlayer.getMediaList().getMRL(mCurrentIndex);
+        }
+
+        @Override
+        public MediaWrapper getCurrentMediaWrapper() throws RemoteException {
+            return AudioService.this.getCurrentMedia();
         }
 
         @Override
@@ -1541,7 +1544,7 @@ public class AudioService extends Service {
         int position = Math.max(0, mediaPathList.indexOf(currentMedia));
         // load playlist
         try {
-            mInterface.load(mediaPathList, position);
+            mInterface.loadLocations(mediaPathList, position);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

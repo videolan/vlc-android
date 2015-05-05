@@ -50,11 +50,13 @@ import android.widget.TextView;
 public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
+    public static final String MEDIA_LIST = "media_list";
+
     private AudioServiceController mAudioController;
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private ArrayList<String> mLocations;
+    private ArrayList<MediaWrapper> mMediaList;
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -70,16 +72,16 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_audio_player);
 
-        mLocations = getIntent().getStringArrayListExtra("locations");
+        mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
         mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        if (mLocations == null)
-            mLocations = new ArrayList<String>();
-        if (getIntent().getData() != null)
-            mLocations.add(getIntent().getDataString());
-        mAdapter = new PlaylistAdapter(this, mLocations);
+        if (mMediaList == null)
+            mMediaList = new ArrayList<MediaWrapper>();
+//        if (getIntent().getData() != null)
+//            mMediaList.add(getIntent().getDataString());
+        mAdapter = new PlaylistAdapter(this, mMediaList);
         mRecyclerView.setAdapter(mAdapter);
 
         mAudioController = AudioServiceController.getInstance();
@@ -106,7 +108,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         super.onStop();
         mAudioController.removeAudioPlayer(this);
         mAudioController.unbindAudioService(this);
-        mLocations.clear();
+        mMediaList.clear();
     }
 
     protected void onResume() {
@@ -121,13 +123,13 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
     @Override
     public void onConnectionSuccess() {
-        ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
-        if (!mLocations.isEmpty() && !mLocations.equals(medialocations)) {
-            mAudioController.load(mLocations, 0);
+        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mAudioController.getMedias();
+        if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
+            mAudioController.load(mMediaList, 0);
         } else {
-            mLocations = medialocations;
+            mMediaList = medias;
             update();
-            mAdapter = new PlaylistAdapter(this, mLocations);
+            mAdapter = new PlaylistAdapter(this, mMediaList);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -268,21 +270,14 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         mShuffling = shuffle;
         mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle);
-        ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
+        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mAudioController.getMedias();
         if (shuffle){
-            Collections.shuffle(medialocations);
+            Collections.shuffle(medias);
         } else {
-            ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>(medialocations.size());
-            MediaLibrary mediaLibrary = MediaLibrary.getInstance();
-            for (String location : medialocations)
-                mediaList.add(mediaLibrary.getMediaItem(location));
-            Collections.sort(mediaList, MediaComparators.byTrackNumber);
-            medialocations.clear();
-            for (MediaWrapper media : mediaList)
-                medialocations.add(media.getLocation());
+            Collections.sort(medias, MediaComparators.byTrackNumber);
         }
-        mAudioController.load(medialocations, 0);
-        mAdapter.updateList(medialocations);
+        mAudioController.load(medias, 0);
+        mAdapter.updateList(medias);
         update();
     }
 
@@ -334,7 +329,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     }
 
     private void selectItem(final int position){
-        if (position >= mLocations.size())
+        if (position >= mMediaList.size())
             return;
         mRecyclerView.post(new Runnable() {
             @Override

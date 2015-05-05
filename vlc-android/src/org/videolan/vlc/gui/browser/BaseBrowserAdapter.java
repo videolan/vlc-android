@@ -122,13 +122,13 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                     Util.openMedia(v.getContext(), mw);
                 else {
                     int position = 0;
-                    LinkedList<String> mediaLocations = new LinkedList<String>();
+                    LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
                     MediaWrapper mediaItem;
                     for (Object item : mMediaList)
                         if (item instanceof MediaWrapper) {
                             mediaItem = (MediaWrapper) item;
                             if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                                mediaLocations.add(mediaItem.getLocation());
+                                mediaLocations.add(mediaItem);
                                 if (mediaItem.equals(mw))
                                     position = mediaLocations.size() - 1;
                             }

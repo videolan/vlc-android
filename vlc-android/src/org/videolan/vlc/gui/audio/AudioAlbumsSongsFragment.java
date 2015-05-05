@@ -234,7 +234,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
         int startPosition;
         int groupPosition;
-        List<String> medias;
+        List<MediaWrapper> medias;
         int id = item.getItemId();
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
@@ -250,7 +250,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         if (id == R.id.audio_list_browser_delete) {
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
-                    mSongsAdapter.getLocations(groupPosition).get(0),
+                    mSongsAdapter.getMedias(groupPosition).get(0).getLocation(),
                     new VLCRunnable(mSongsAdapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
@@ -272,7 +272,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         }
 
         if (useAllItems) {
-            medias = new ArrayList<String>();
+            medias = new ArrayList<MediaWrapper>();
             startPosition = mSongsAdapter.getListWithPosition(medias, groupPosition);
         }
         else {
@@ -280,10 +280,10 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
             switch (mViewPager.getCurrentItem())
             {
                 case MODE_ALBUM: // albums
-                    medias = mAlbumsAdapter.getLocations(groupPosition);
+                    medias = mAlbumsAdapter.getMedias(groupPosition);
                     break;
                 case MODE_SONG: // songs
-                    medias = mSongsAdapter.getLocations(groupPosition);
+                    medias = mSongsAdapter.getMedias(groupPosition);
                     break;
                 default:
                     return true;
@@ -332,7 +332,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     OnItemClickListener albumsListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedia(p);
+            ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedias(p);
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUM);
             i.putParcelableArrayListExtra("list", mediaList);
@@ -345,8 +345,8 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     OnItemClickListener songsListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
-            mAudioController.load(mediaLocation, 0);
+            List<MediaWrapper> media = mSongsAdapter.getItem(p).mMediaList;
+            mAudioController.load(media, 0);
         }
     };
 

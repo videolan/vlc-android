@@ -206,11 +206,19 @@ public class Util {
         String mrl = media.getLocation();
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             VideoPlayerActivity.start(context, mrl, media.getTitle());
-        else if (media.getType() == MediaWrapper.TYPE_AUDIO)
-            openStream(context, mrl);
+        else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
+            VLCCallbackTask task = new VLCCallbackTask(context) {
+                @Override
+                public void run() {
+                    AudioServiceController c = AudioServiceController.getInstance();
+                    c.load(media);
+                }
+            };
+            task.execute();
+        }
     }
 
-    public static  void openList(Context context, final List<String> list, final int position){
+    public static  void openList(Context context, final List<MediaWrapper> list, final int position){
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
@@ -240,7 +248,7 @@ public class Util {
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                c.load(uri);
+                c.loadLocation(uri);
             }
         };
         task.execute();

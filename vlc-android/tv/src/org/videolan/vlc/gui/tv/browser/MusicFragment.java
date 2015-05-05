@@ -187,14 +187,10 @@ public class MusicFragment extends MediaLibBrowserFragment {
                         intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
                         intent.putExtra(AUDIO_FILTER, listItem.mediaList.get(0).getGenre());
                     } else {
-                        ArrayList<String> locations = new ArrayList<String>();
                         if (CATEGORY_ALBUMS == mCategory)
                             Collections.sort(listItem.mediaList, MediaComparators.byTrackNumber);
-                        for (MediaWrapper MediaWrapper : listItem.mediaList) {
-                            locations.add(MediaWrapper.getLocation());
-                        }
                         intent = new Intent(mContext, AudioPlayerActivity.class);
-                        intent.putExtra("locations", locations);
+                        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, listItem.mediaList);
                     }
                     startActivity(intent);
                 }

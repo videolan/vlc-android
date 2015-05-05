@@ -228,7 +228,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-                mAudioController.load(mSongsListAdapter.getLocations(), p);
+                mAudioController.load(mSongsListAdapter.getItems(), p);
             }
         });
         mSongsList.setOnItemLongClickListener(new OnItemLongClickListener() {

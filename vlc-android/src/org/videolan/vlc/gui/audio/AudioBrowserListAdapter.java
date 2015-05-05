@@ -494,7 +494,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         return sections.toArray();
     }
 
-    public ArrayList<MediaWrapper> getMedia(int position) {
+    public ArrayList<MediaWrapper> getMedias(int position) {
         // Return all the media of a list item list.
         ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
         ListItem item = mItems.get(position);
@@ -503,26 +503,35 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         return mediaList;
     }
 
+    public ArrayList<MediaWrapper> getMedias(int position, boolean sortByTrackNumber) {
+        ArrayList<MediaWrapper> mediaList = getMedias(position);
+        if (isEnabled(position)) {
+            if (sortByTrackNumber)
+                Collections.sort(mediaList, MediaComparators.byTrackNumber);
+        }
+        return mediaList;
+    }
+
     public String getTitle(int position) {
         return getItem(position).mTitle;
     }
 
-    public ArrayList<String> getLocations(int position) {
-        return getLocations(position, false);
-    }
-
-    public ArrayList<String> getLocations(int position, boolean sortByTrackNumber) {
-        // Return all the media locations of a list item list.
-        ArrayList<String> locations = new ArrayList<String>();
-        if (isEnabled(position)) {
-            ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
-            if (sortByTrackNumber)
-                Collections.sort(mediaList, MediaComparators.byTrackNumber);
-            for (int i = 0; i < mediaList.size(); ++i)
-                locations.add(mediaList.get(i).getLocation());
-        }
-        return locations;
-    }
+//    public ArrayList<String> getLocations(int position) {
+//        return getLocations(position, false);
+//    }
+//
+//    public ArrayList<String> getLocations(int position, boolean sortByTrackNumber) {
+//        // Return all the media locations of a list item list.
+//        ArrayList<String> locations = new ArrayList<String>();
+//        if (isEnabled(position)) {
+//            ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
+//            if (sortByTrackNumber)
+//                Collections.sort(mediaList, MediaComparators.byTrackNumber);
+//            for (int i = 0; i < mediaList.size(); ++i)
+//                locations.add(mediaList.get(i).getLocation());
+//        }
+//        return locations;
+//    }
 
     /**
      * Returns a single list containing all media, along with the position of
@@ -532,7 +541,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
      * @param position Position to retrieve in to _this_ adapter.
      * @return The position of 'position' in the new single list, or 0 if not found.
      */
-    public int getListWithPosition(List<String> outputList, int position) {
+    public int getListWithPosition(List<MediaWrapper> outputList, int position) {
         int outputPosition = 0;
         outputList.clear();
         for(int i = 0; i < mItems.size(); i++) {
@@ -540,8 +549,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 if(position == i && !mItems.get(i).mMediaList.isEmpty())
                     outputPosition = outputList.size();
 
-                for(MediaWrapper k : mItems.get(i).mMediaList) {
-                    outputList.add(k.getLocation());
+                for(MediaWrapper mediaWrapper : mItems.get(i).mMediaList) {
+                    outputList.add(mediaWrapper);
                 }
             }
         }
