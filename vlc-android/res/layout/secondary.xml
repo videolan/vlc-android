@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
-
-    <FrameLayout
-        android:id="@+id/fragment_placeholder"
+    <org.videolan.vlc.widget.SlidingPaneLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pane"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        vlc:overhangSize="60dp" >
 
-</LinearLayout>
+        <org.videolan.vlc.widget.ContentLinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/background_actionbar" />
+
+            <FrameLayout
+                android:id="@+id/fragment_placeholder"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <View
+                android:id="@+id/audio_player_filling"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:visibility="gone" />
+        </org.videolan.vlc.widget.ContentLinearLayout>
+
+        <FrameLayout
+            android:id="@+id/audio_player"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </org.videolan.vlc.widget.SlidingPaneLayout>
+
+    <include layout="@layout/toolbar"/>
+</FrameLayout>

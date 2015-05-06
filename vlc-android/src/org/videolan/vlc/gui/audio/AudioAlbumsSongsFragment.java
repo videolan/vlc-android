@@ -176,18 +176,6 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        AudioServiceController.getInstance().bindAudioService(getActivity());
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        AudioServiceController.getInstance().unbindAudioService(getActivity());
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("list", mMediaList);
         outState.putString("title", mTitle);
@@ -338,7 +326,6 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
             i.putParcelableArrayListExtra("list", mediaList);
             i.putExtra("filter", mAlbumsAdapter.getTitle(p));
             startActivity(i);
-            getActivity().finish();
         }
     };
 

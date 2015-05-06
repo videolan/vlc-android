@@ -69,6 +69,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
@@ -750,7 +751,7 @@ public class AudioService extends Service {
                 .setDeleteIntent(piStop);
 
             Intent notificationIntent = new Intent(this, MainActivity.class);
-            notificationIntent.setAction(MainActivity.ACTION_SHOW_PLAYER);
+            notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

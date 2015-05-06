@@ -55,7 +55,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.audio.RepeatType;
-import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
@@ -306,7 +306,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
      */
     public static void start(Context context) {
         Intent intent = new Intent();
-        intent.setAction(MainActivity.ACTION_SHOW_PLAYER);
+        intent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
         context.getApplicationContext().sendBroadcast(intent);
     }
 
@@ -501,13 +501,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     }
 
     public void show() {
-        MainActivity activity = (MainActivity)getActivity();
+        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null)
             activity.showAudioPlayer();
     }
 
     public void hide() {
-        MainActivity activity = (MainActivity)getActivity();
+        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null)
             activity.hideAudioPlayer();
     }
@@ -572,7 +572,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
 
         @Override
         public void onTouchClick() {
-            MainActivity activity = (MainActivity)getActivity();
+            AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
             activity.slideUpOrDownAudioPlayer();
         }
     };
@@ -703,13 +703,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     }
 
     public void showPlaylistTips() {
-        MainActivity activity = (MainActivity)getActivity();
+        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if(activity != null)
             activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
     }
 
     public void showAudioPlayerTips() {
-        MainActivity activity = (MainActivity)getActivity();
+        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if(activity != null)
             activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
     }

@@ -110,18 +110,6 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        AudioServiceController.getInstance().unbindAudioService(getActivity());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        AudioServiceController.getInstance().bindAudioService(getActivity());
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("list", mMediaList);
         outState.putString("title", mTitle);
@@ -139,8 +127,6 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mAudioController.load(mMediaList, position);
-        if (getActivity() != null)
-            getActivity().finish();
     }
 
     AlbumAdapter.ContextPopupMenuListener mContextPopupMenuListener
@@ -216,7 +202,6 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
         switch (id){
             case R.id.album_play:
                 mAudioController.load(mMediaList, 0);
-                getActivity().finish();
                 break;
             default:
                 break;

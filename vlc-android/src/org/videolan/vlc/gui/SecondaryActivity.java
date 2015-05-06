@@ -24,11 +24,7 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -45,7 +41,7 @@ import org.videolan.vlc.interfaces.ISortable;
 
 import java.util.ArrayList;
 
-public class SecondaryActivity  extends AppCompatActivity {
+public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/EqualizerFragment";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
@@ -59,16 +55,11 @@ public class SecondaryActivity  extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* Theme must be applied before super.onCreate */
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false)) {
-            setTheme(R.style.Theme_VLC_Black);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        initAudioPlayerContainerActivity();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         if (getSupportFragmentManager().getFragments() == null) {
             String fragmentId = getIntent().getStringExtra("fragment");

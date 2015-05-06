@@ -22,10 +22,8 @@ package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -34,21 +32,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -69,10 +62,8 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioService;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -86,12 +77,9 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.HackyDrawerLayout;
-import org.videolan.vlc.widget.SlidingPaneLayout;
 
-public class MainActivity extends AppCompatActivity implements OnItemClickListener, SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider {
+public class MainActivity extends AudioPlayerContainerActivity implements OnItemClickListener, SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider {
     public final static String TAG = "VLC/MainActivity";
-
-    public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
 
     private static final String PREF_FIRST_RUN = "first_run";
 
@@ -101,22 +89,16 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
     private static final int ACTIVITY_SHOW_TEXTINFO = 5;
 
-    private ActionBar mActionBar;
     private SidebarAdapter mSidebarAdapter;
-    private AudioPlayer mAudioPlayer;
-    private AudioServiceController mAudioController;
-    private SlidingPaneLayout mSlidingPane;
-    private HackyDrawerLayout mRootContainer;
+    private HackyDrawerLayout mDrawerLayout;
     private ListView mListView;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
-    private View mAudioPlayerFilling;
     private String mCurrentFragment;
 
-    private SharedPreferences mSettings;
 
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
@@ -130,13 +112,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        /* Get settings */
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        /* Theme must be applied before super.onCreate */
-        applyTheme();
-
         super.onCreate(savedInstanceState);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
@@ -164,16 +139,13 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
         setContentView(R.layout.main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-
-        mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
-        mSlidingPane.setPanelSlideListener(mPanelSlideListener);
-
+        mDrawerLayout = (HackyDrawerLayout) findViewById(R.id.root_container);
         mListView = (ListView)findViewById(R.id.sidelist);
         mListView.setFooterDividersEnabled(true);
         mSidebarAdapter = new SidebarAdapter(this);
         mListView.setAdapter(mSidebarAdapter);
+
+        initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null){
             mCurrentFragment = savedInstanceState.getString("current");
@@ -186,15 +158,13 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         mInfoLayout = findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
         mInfoText = (TextView) findViewById(R.id.info_text);
-        mAudioPlayerFilling = findViewById(R.id.audio_player_filling);
-        mRootContainer = (HackyDrawerLayout) findViewById(R.id.root_container);
 
         /* Set up the action bar */
         prepareActionBar();
 
         /* Set up the sidebar click listener
          * no need to invalidate menu for now */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mRootContainer, R.string.drawer_open, R.string.drawer_close){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -204,20 +174,11 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         };
 
         // Set the drawer toggle as the DrawerListener
-        mRootContainer.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         // set a custom shadow that overlays the main content when the drawer opens
-        mRootContainer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mListView.setOnItemClickListener(this);
-
-        /* Set up the audio player */
-        mAudioPlayer = new AudioPlayer();
-        mAudioPlayer.setUserVisibleHint(false);
-        mAudioController = AudioServiceController.getInstance();
-
-        getSupportFragmentManager().beginTransaction()
-            .replace(R.id.audio_player, mAudioPlayer)
-            .commit();
 
         if (mFirstRun) {
             /*
@@ -228,25 +189,13 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mRootContainer.openDrawer(mListView);
+                    mDrawerLayout.openDrawer(mListView);
                 }
             }, 500);
         }
 
-        /* Prepare the progressBar */
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_SHOW_PLAYER);
-        registerReceiver(messageReceiver, filter);
-
         /* Reload the latest preferences */
         reloadPreferences();
-    }
-
-    private void applyTheme() {
-        boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
-        if (enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black);
-        }
     }
 
 
@@ -259,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void prepareActionBar() {
-        mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
     }
@@ -267,8 +215,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        mAudioController.addAudioPlayer(mAudioPlayer);
-        AudioServiceController.getInstance().bindAudioService(this);
 
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
         if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
@@ -335,27 +281,16 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         /* Stop scanning for files */
         MediaLibrary.getInstance().stop();
         /* Save the tab status in pref */
-        SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         editor.putString("fragment", mCurrentFragment);
         Util.commitPreferences(editor);
 
-        mAudioController.removeAudioPlayer(mAudioPlayer);
-        AudioServiceController.getInstance().unbindAudioService(this);
         mFocusedPrior = 0;
     }
 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("current", mCurrentFragment);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        try {
-            unregisterReceiver(messageReceiver);
-        } catch (IllegalArgumentException e) {}
     }
 
     @Override
@@ -368,10 +303,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onBackPressed() {
             /* Close the menu first */
-        if(mRootContainer.isDrawerOpen(mListView)) {
+        if(mDrawerLayout.isDrawerOpen(mListView)) {
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
-            mRootContainer.closeDrawer(mListView);
+            mDrawerLayout.closeDrawer(mListView);
             return;
         }
 
@@ -603,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                     ((FileBrowserFragment) current).showAddDirectoryDialog();
                 break;
         }
-        mRootContainer.closeDrawer(mListView);
+        mDrawerLayout.closeDrawer(mListView);
         return super.onOptionsItemSelected(item);
     }
 
@@ -730,20 +665,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     }
 
     private void reloadPreferences() {
-        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
-        mCurrentFragment = sharedPrefs.getString("fragment", "video");
+        mCurrentFragment = mSettings.getString("fragment", "video");
     }
-
-    private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER)) {
-                showAudioPlayer();
-            }
-        }
-    };
 
     @Override
     public Cursor runQuery(CharSequence constraint) {
@@ -819,138 +742,17 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, 0, 100, null).sendToTarget();
     }
 
-    /**
-     * Show the audio player.
-     */
-    public void showAudioPlayer() {
-        mActionBar.collapseActionView();
-        // Open the pane only if is entirely opened.
-        if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
-            mSlidingPane.openPane();
-        mAudioPlayerFilling.setVisibility(View.VISIBLE);
+    protected void onPanelClosedUiSet() {
+        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    public int  getSlidingPaneState() {
-            return mSlidingPane.getState();
+    protected void onPanelOpenedEntirelyUiSet() {
+        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    /**
-     * Slide down the audio player.
-     * @return true on success else false.
-     */
-    public boolean slideDownAudioPlayer() {
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED) {
-            mSlidingPane.openPane();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Slide up and down the audio player depending on its current state.
-     */
-    public void slideUpOrDownAudioPlayer() {
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED){
-            mActionBar.show();
-            mSlidingPane.openPane();
-        } else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED){
-            mActionBar.hide();
-            mSlidingPane.closePane();
-        }
-    }
-
-    /**
-     * Hide the audio player.
-     */
-    public void hideAudioPlayer() {
-        mSlidingPane.openPaneEntirely();
-        mAudioPlayerFilling.setVisibility(View.GONE);
-    }
-
-    private final SlidingPaneLayout.PanelSlideListener mPanelSlideListener
-        = new SlidingPaneLayout.PanelSlideListener() {
-        float previousOffset =  1.0f;
-            @Override
-            public void onPanelSlide(float slideOffset) {
-                if (slideOffset >= 0.1 && slideOffset > previousOffset && !mActionBar.isShowing())
-                    mActionBar.show();
-                else if (slideOffset <= 0.1 && slideOffset < previousOffset && mActionBar.isShowing())
-                    mActionBar.hide();
-                previousOffset = slideOffset;
-            }
-
-            @Override
-            public void onPanelOpened() {
-                int resId = Util.getResourceFromAttribute(MainActivity.this, R.attr.shadow_bottom_9patch);
-                if (resId != 0)
-                    mSlidingPane.setShadowResource(resId);
-                mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
-                mAudioPlayer.setUserVisibleHint(false);
-                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
-                removeTipViewIfDisplayed();
-                mAudioPlayer.showAudioPlayerTips();
-            }
-
-            @Override
-            public void onPanelOpenedEntirely() {
-                mAudioPlayer.setUserVisibleHint(false);
-                mSlidingPane.setShadowDrawable(null);
-                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
-            }
-
-            @Override
-            public void onPanelClosed() {
-                mAudioPlayer.setUserVisibleHint(true);
-                mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
-                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                mAudioPlayer.showPlaylistTips();
-            }
-
-    };
-
-    /**
-     * Show a tip view.
-     * @param layoutId the layout of the tip view
-     * @param settingKey the setting key to check if the view must be displayed or not.
-     */
-    public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
-        if (!mSettings.getBoolean(settingKey, false) && !BuildConfig.tv) {
-            removeTipViewIfDisplayed();
-            View v = LayoutInflater.from(this).inflate(layoutId, null);
-            mRootContainer.addView(v,
-                    new HackyDrawerLayout.LayoutParams(HackyDrawerLayout.LayoutParams.MATCH_PARENT,
-                            HackyDrawerLayout.LayoutParams.MATCH_PARENT));
-
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeTipViewIfDisplayed();
-                }
-            });
-
-            TextView okGotIt = (TextView) v.findViewById(R.id.okgotit_button);
-            okGotIt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeTipViewIfDisplayed();
-                    Editor editor = mSettings.edit();
-                    editor.putBoolean(settingKey, true);
-                    Util.commitPreferences(editor);
-                }
-            });
-        }
-    }
-
-    /**
-     * Remove the current tip view if there is one displayed.
-     */
-    public void removeTipViewIfDisplayed() {
-        if (mRootContainer.getChildCount() > 2){
-            for (int i = 0 ; i< mRootContainer.getChildCount() ; ++i){
-            if (mRootContainer.getChildAt(i).getId() == R.id.audio_tips)
-                mRootContainer.removeViewAt(i);
-            }
-        }
+    protected void onPanelOpenedUiSet() {
+        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
+        removeTipViewIfDisplayed();
     }
 
     @Override
@@ -961,7 +763,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
-            mRootContainer.closeDrawer(mListView);
+            mDrawerLayout.closeDrawer(mListView);
             return;
         }
 
@@ -991,7 +793,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             showSecondaryFragment(SecondaryActivity.ABOUT);
         else if (entry.attributeID == R.attr.ic_menu_preferences)
             startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        mRootContainer.closeDrawer(mListView);
+        mDrawerLayout.closeDrawer(mListView);
     }
 
     private void requestFocusOnSearch() {
