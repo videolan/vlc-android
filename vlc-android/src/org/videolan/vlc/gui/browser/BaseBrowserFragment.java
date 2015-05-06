@@ -34,6 +34,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SidebarAdapter;
+import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
@@ -69,6 +71,7 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -408,6 +411,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             case  R.id.directory_view_play_video:
                 VideoPlayerActivity.start(getActivity(), mw.getLocation());
+                return true;
+            case R.id.directory_view_play_folder:
+                ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+                for (MediaWrapper mediaItem : mMediaLists.get(position)){
+                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || mediaItem.getType() == MediaWrapper.TYPE_VIDEO)
+                        mediaList.add(mediaItem);
+                }
+                Util.openList(getActivity(), mediaList, 0);
                 return true;
             case R.id.directory_view_hide_media:
                 try {
