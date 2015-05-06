@@ -59,6 +59,15 @@ public class HWDecoderUtil {
         }
     }
 
+    private static final DecoderBySOC[] sBlacklistedDecoderBySOCList = new DecoderBySOC[] {
+        /*
+         * FIXME: Theses cpu crash in MediaCodec. We need to get hands on these devices in order to debug it.
+         */
+        new DecoderBySOC("ro.product.board", "msm8916", Decoder.NONE), //Samsung Galaxy Core Prime
+        new DecoderBySOC("ro.product.board", "MSM8225", Decoder.NONE), //Samsung Galaxy Core
+        new DecoderBySOC("ro.product.board", "hawaii", Decoder.NONE), // Samsung Galaxy Ace 4
+    };
+
     private static final DecoderBySOC[] sDecoderBySOCList = new DecoderBySOC[] {
         /*
          *  Put first devices you want to blacklist
@@ -113,6 +122,16 @@ public class HWDecoderUtil {
      * (Always return Dec.ALL after Android 4.3)
      */
     public static Decoder getDecoderFromDevice() {
+        /*
+         * Try first blacklisted decoders (for all android versions)
+         */
+        for (DecoderBySOC decBySOC : sBlacklistedDecoderBySOCList) {
+            final String prop = getSystemPropertyCached(decBySOC.key);
+            if (prop != null) {
+                if (prop.contains(decBySOC.value))
+                    return decBySOC.dec;
+            }
+        }
         /*
          * Always try MediaCodec after JellyBean MR2,
          * Try OMX or MediaCodec after HoneyComb depending on device properties.
