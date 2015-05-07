@@ -58,6 +58,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -2614,6 +2615,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
         long mediaLength = 0l;
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        Bundle extras = getIntent().getExtras();
 
         boolean wasPaused;
         /*
@@ -2631,13 +2635,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (wasPaused)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
-        if (getIntent().getAction() != null
-                && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
+        if (TextUtils.equals(action, Intent.ACTION_VIEW)) {
             /* Started from external application 'content' */
-            data = getIntent().getData();
-            if (data != null
-                    && data.getScheme() != null
-                    && data.getScheme().equals("content")) {
+            data = intent.getData();
+            if (data != null && TextUtils.equals(data.getScheme(), "content")) {
 
 
                 // Mail-based apps - download the stream to a temporary file and play it
@@ -2695,9 +2696,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     }
                 }
             } /* External application */
-            else if (getIntent().getDataString() != null) {
+            else if (intent.getDataString() != null) {
                 // Plain URI
-                mLocation = getIntent().getDataString();
+                mLocation = intent.getDataString();
                 // Remove VLC prefix if needed
                 if (mLocation.startsWith("vlc://")) {
                     mLocation = mLocation.substring(6);
@@ -2717,20 +2718,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             }
 
             // Try to get the position
-            if(getIntent().getExtras() != null)
-                intentPosition = getIntent().getExtras().getLong("position", -1);
+            if(extras != null)
+                intentPosition = extras.getLong("position", -1);
         } /* ACTION_VIEW */
         /* Started from VideoListActivity */
-        else if(getIntent().getAction() != null
-                && getIntent().getAction().equals(PLAY_FROM_VIDEOGRID)
-                && getIntent().getExtras() != null) {
-            mLocation = getIntent().getExtras().getString(PLAY_EXTRA_ITEM_LOCATION);
-            itemTitle = getIntent().getExtras().getString(PLAY_EXTRA_ITEM_TITLE);
-            fromStart = getIntent().getExtras().getBoolean(PLAY_EXTRA_FROM_START);
-            if (getIntent().hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
-                mSubtitleSelectedFiles.add(getIntent().getExtras().getString(PLAY_EXTRA_SUBTITLES_LOCATION));
+        else if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
+            mLocation = extras.getString(PLAY_EXTRA_ITEM_LOCATION);
+            itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
+            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START);
+            if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
+                mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
             mAskResume &= !fromStart;
-            openedPosition = getIntent().getExtras().getInt(PLAY_EXTRA_OPENED_POSITION, -1);
+            openedPosition = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
 
         if (openedPosition != -1) {
@@ -2774,7 +2773,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 }
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
-                getIntent().putExtra(PLAY_EXTRA_FROM_START, false);
+                intent.putExtra(PLAY_EXTRA_FROM_START, false);
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
