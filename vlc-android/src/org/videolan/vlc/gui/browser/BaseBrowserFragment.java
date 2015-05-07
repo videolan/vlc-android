@@ -346,12 +346,20 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             inflater.inflate(R.menu.directory_view_file, menu);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
         } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
-            if (canWrite) {
+            boolean isEmpty = mMediaLists.get(position).isEmpty();
+            if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
-                boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
-                menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
-                menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+                if (canWrite) {
+                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
+                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
+                    menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+                } else {
+                    menu.findItem(R.id.directory_view_hide_media).setVisible(false);
+                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
+                }
+                menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
             }
+
         }
     }
 
