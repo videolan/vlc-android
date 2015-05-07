@@ -202,7 +202,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaAdded(int index, Media media) {
-        mAdapter.addItem(media, mReadyToDisplay && mRoot, true);
+        mAdapter.addItem(media, mReadyToDisplay && mRoot, mRoot);
         if (mReadyToDisplay)
             updateEmptyView();
         if (mRoot)
