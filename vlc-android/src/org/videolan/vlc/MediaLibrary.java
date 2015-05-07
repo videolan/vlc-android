@@ -194,6 +194,8 @@ public class MediaLibrary {
         String[] items, playlistNames = db.getPlaylists();
         for (String playlistName : playlistNames){
             items = db.playlistGetItems(playlistName);
+            if (items == null)
+                continue;
             playList = new AudioBrowserListAdapter.ListItem(playlistName, null, null, false);
             for (String track : items){
                 playList.mMediaList.add(new MediaWrapper(track));

@@ -41,6 +41,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class MediaDatabase {
@@ -421,6 +422,7 @@ public class MediaDatabase {
      * @param playlistName Unique name of the playlist
      * @return Array containing MRLs of the playlist in order, or null on error
      */
+   @Nullable
     public String[] playlistGetItems(String playlistName) {
         if(!playlistExists(playlistName))
             return null;
