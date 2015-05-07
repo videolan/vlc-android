@@ -135,7 +135,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnScrollListener(mScrollListener);
+        mRecyclerView.addOnScrollListener(mScrollListener);
         registerForContextMenu(mRecyclerView);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
