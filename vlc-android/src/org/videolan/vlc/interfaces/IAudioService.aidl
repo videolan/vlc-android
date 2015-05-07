@@ -31,7 +31,7 @@ interface IAudioService {
     void shuffle();
     void setTime(long time);
     void loadLocations(in List<String> mediaPathList, int position);
-    void load(in List<MediaWrapper> mediaList, int position);
+    void load(in List<MediaWrapper> mediaList, int position, boolean forceAudio);
     void append(in List<MediaWrapper> mediaList);
     void moveItem(int positionStart, int positionEnd);
     void remove(int position);

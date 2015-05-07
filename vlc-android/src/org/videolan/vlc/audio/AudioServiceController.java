@@ -296,10 +296,15 @@ public class AudioServiceController implements IAudioPlayerControl {
         loadLocations(arrayList, 0);
     }
 
-    public void load(MediaWrapper media) {
+
+    public void load(MediaWrapper media, boolean forceAudio) {
         ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
         arrayList.add(media);
-        load(arrayList, 0);
+        load(arrayList, 0, forceAudio);
+    }
+
+    public void load(MediaWrapper media) {
+        load(media, false);
     }
 
     public void loadLocations(List<String> mediaPathList, int position) {
@@ -309,9 +314,13 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     public void load(List<MediaWrapper> mediaList, int position) {
+        load(mediaList, position, false);
+    }
+
+    public void load(List<MediaWrapper> mediaList, int position, boolean forceAudio) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void) null, "load",
-                new Class<?>[]{List.class, int.class},
-                new Object[]{mediaList, position});
+                new Class<?>[]{List.class, int.class, boolean.class},
+                new Object[]{mediaList, position, forceAudio});
     }
 
     public void append(MediaWrapper media) {

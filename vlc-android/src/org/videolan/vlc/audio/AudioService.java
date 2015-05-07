@@ -119,6 +119,7 @@ public class AudioService extends Service {
 
     private LibVLC mLibVLC;
     private MediaWrapperListPlayer mMediaListPlayer;
+    private boolean mForceAudio = false;
     private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventHandler mEventHandler;
     private OnAudioFocusChangeListener audioFocusListener;
@@ -618,7 +619,7 @@ public class AudioService extends Service {
     };
 
     private void handleVout() {
-        if (mLibVLC.getVideoTracksCount() <= 0 || !hasCurrentMedia())
+        if (mForceAudio || mLibVLC.getVideoTracksCount() <= 0 || !hasCurrentMedia())
             return;
         final MediaWrapper mw = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
         if (mw == null)
@@ -1224,11 +1225,11 @@ public class AudioService extends Service {
                 }
                 mediaList.add(mediaWrapper);
             }
-            load(mediaList, position);
+            load(mediaList, position, false);
         }
 
         @Override
-        public void load(List<MediaWrapper> mediaList, int position)
+        public void load(List<MediaWrapper> mediaList, int position, boolean forceAudio)
                 throws RemoteException {
 
             Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
@@ -1239,6 +1240,7 @@ public class AudioService extends Service {
             MediaWrapperList currentMediaList = mMediaListPlayer.getMediaList();
 
             mPrevious.clear();
+            mForceAudio = forceAudio;
 
             for (int i = 0; i < mediaList.size(); i++) {
                 currentMediaList.add(mediaList.get(i));
@@ -1333,7 +1335,7 @@ public class AudioService extends Service {
         public void append(List<MediaWrapper> mediaList) throws RemoteException {
             if (!hasCurrentMedia())
             {
-                load(mediaList, 0);
+                load(mediaList, 0, false);
                 return;
             }
 
