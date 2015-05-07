@@ -20,19 +20,12 @@
 
 package org.videolan.vlc;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.lang.Thread.State;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Stack;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import android.content.Context;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -44,12 +37,20 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
-import android.content.Context;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.lang.Thread.State;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Stack;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
@@ -336,8 +337,10 @@ public class MediaLibrary {
 
                 //Remove ignored files
                 HashSet<String> mediasToRemove = new HashSet<String>();
+                String path;
                 outloop:
-                for (String path : existingMedias.keySet()){
+                for (Map.Entry<String, MediaWrapper> entry : existingMedias.entrySet()){
+                    path = entry.getKey();
                     for (String dirPath : dirsToIgnore) {
                         if (path.startsWith(dirPath)) {
                             mediasToRemove.add(path);
