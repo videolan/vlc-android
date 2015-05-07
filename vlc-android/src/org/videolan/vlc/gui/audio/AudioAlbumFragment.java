@@ -162,7 +162,7 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
         inflater.inflate(R.menu.audio_list_browser, menu);
         int position = 0;
         if (menuInfo instanceof AdapterViewCompat.AdapterContextMenuInfo)
-            position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
+            position = ((AdapterViewCompat.AdapterContextMenuInfo)menuInfo).position;
         setContextMenuItems(menu, v, position);
     }
 
