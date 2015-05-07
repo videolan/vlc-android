@@ -52,29 +52,27 @@ public class ContextMenuRecyclerView extends RecyclerView {
 
     public void openContextMenu(int position) {
         if (position >= 0)
-            createContextMenuInfo(position, getAdapter().getItemId(position));
+            createContextMenuInfo(position);
         showContextMenu();
     }
 
-    private void createContextMenuInfo(int position, long id) {
+    private void createContextMenuInfo(int position) {
         if (mContextMenuInfo == null)
-            mContextMenuInfo = new RecyclerContextMenuInfo(position, id);
+            mContextMenuInfo = new RecyclerContextMenuInfo(position);
         else
-            ((RecyclerContextMenuInfo)mContextMenuInfo).setValues(position, id);
+            ((RecyclerContextMenuInfo)mContextMenuInfo).setValues(position);
     }
 
     public static class RecyclerContextMenuInfo implements ContextMenu.ContextMenuInfo {
 
         public int position;
-        public long id;
 
-        public RecyclerContextMenuInfo(int position, long id) {
-            setValues(position, id);
+        public RecyclerContextMenuInfo(int position) {
+            setValues(position);
         }
 
-        public void setValues(int position, long id){
+        public void setValues(int position){
             this.position = position;
-            this.id = id;
         }
     }
 }

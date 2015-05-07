@@ -85,7 +85,6 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
         if (v == null) {
             v = mInflater.inflate(R.layout.list_item, parent, false);
             holder = new DirectoryViewHolder();
-            holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.artist);
             holder.icon = (ImageView) v.findViewById(R.id.cover);
@@ -129,7 +128,6 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
     }
 
     private static class DirectoryViewHolder {
-        View layout;
         TextView title;
         TextView text;
         ImageView icon;
