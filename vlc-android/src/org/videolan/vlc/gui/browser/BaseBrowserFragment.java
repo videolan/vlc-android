@@ -346,7 +346,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             inflater.inflate(R.menu.directory_view_file, menu);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
         } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
-            boolean isEmpty = mMediaLists.get(position).isEmpty();
+            boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
             if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
                 if (canWrite) {
