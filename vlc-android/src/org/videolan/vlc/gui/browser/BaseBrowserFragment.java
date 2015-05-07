@@ -429,13 +429,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             case R.id.directory_view_hide_media:
                 try {
-                    new File(mw.getLocation()+"/.nomedia").createNewFile();
-                    updateLib();
+                    if (new File(mw.getLocation()+"/.nomedia").createNewFile())
+                        updateLib();
                 } catch (IOException e) {}
                 return true;
             case R.id.directory_view_show_media:
-                new File(mw.getLocation()+"/.nomedia").delete();
-                updateLib();
+                if (new File(mw.getLocation()+"/.nomedia").delete())
+                    updateLib();
                 return true;
         }
         return false;
