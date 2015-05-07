@@ -219,6 +219,8 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
     private boolean handleContextItemSelected(MenuItem item, int position) {
         ContextMenuInfo menuInfo = item.getMenuInfo();
+        if (menuInfo == null)
+            return false;
 
         int startPosition;
         int groupPosition;
