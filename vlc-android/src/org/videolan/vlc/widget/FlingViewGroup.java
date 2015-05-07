@@ -261,7 +261,7 @@ public class FlingViewGroup extends ViewGroup {
     public void scrollTo(int position) {
         mCurrentView = position;
         final int delta = (position * getWidth()) - getScrollX();
-        mScroller.startScroll(getScrollX(), 0, delta, 0, 0);
+        mScroller.startScroll(getScrollX(), 0, delta, 0, 1);
         invalidate();
     }
 

@@ -1893,6 +1893,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void doSeekTouch(int coef, float gesturesize, boolean seek) {
+        if (coef == 0)
+            coef = 1;
         // No seek action if coef > 0.5 and gesturesize < 1cm
         if (Math.abs(gesturesize) < 1 || !mCanSeek)
             return;
