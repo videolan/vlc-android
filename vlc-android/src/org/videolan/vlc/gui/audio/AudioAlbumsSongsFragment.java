@@ -230,7 +230,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
 
-        if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
+        if (menuInfo instanceof ExpandableListContextMenuInfo) {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
             groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
         }

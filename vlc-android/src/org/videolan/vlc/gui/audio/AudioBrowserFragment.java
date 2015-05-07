@@ -420,11 +420,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
 
-        if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
+        if (menuInfo instanceof ExpandableListContextMenuInfo) {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
             groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        }
-        else
+        } else
             groupPosition = position;
 
         if (id == R.id.audio_list_browser_delete) {

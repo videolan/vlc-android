@@ -184,7 +184,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
             }
-            if (tabTitleView == null && TextView.class.isInstance(tabView)) {
+            if (tabTitleView == null && tabView instanceof TextView) {
                 tabTitleView = (TextView) tabView;
             }
             if (mDistributeEvenly) {
