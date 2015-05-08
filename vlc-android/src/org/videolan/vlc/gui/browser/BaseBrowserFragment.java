@@ -420,7 +420,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 VideoPlayerActivity.start(getActivity(), mw.getLocation());
                 return true;
             case R.id.directory_view_play_folder:
-                ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+                ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
                 for (MediaWrapper mediaItem : mMediaLists.get(position)){
                     if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || mediaItem.getType() == MediaWrapper.TYPE_VIDEO)
                         mediaList.add(mediaItem);
