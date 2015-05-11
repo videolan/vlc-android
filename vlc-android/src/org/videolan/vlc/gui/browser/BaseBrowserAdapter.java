@@ -178,49 +178,45 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 fragment.browse(mw, holder.getAdapterPosition());
             }
         });
-        vh.checkBox.setChecked(isPublicStorage ||
-                mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
+        vh.checkBox.setChecked(mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
                 mMediaDirsLocation.contains(storage.getPath()));
-        if (!isPublicStorage) {
-            vh.checkBox.setEnabled(true);
-            vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        vh.checkBox.setEnabled(true);
+        vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
+                updateMediaDirs();
+                if (isChecked) {
+                    addDir(path);
+                } else {
+                    if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty()){
+                        String storagePath;
+                        for (Object storage : mMediaList){
+                            storagePath = ((Storage)storage).getPath();
+                            if (!TextUtils.equals(storagePath, path))
+                                mDbManager.addDir(storagePath);
+                        }
+                    } else
+                        mDbManager.removeDir(path);
+                }
+                fragment.updateLib();
+            }
+        });
+        if (hasContextMenu) {
+            vh.more.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
-                    updateMediaDirs();
-                    if (isChecked) {
-                        addDir(path);
-                    } else {
-                        if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty()){
-                            String storagePath;
-                            for (Object storage : mMediaList){
-                                storagePath = ((Storage)storage).getPath();
-                                if (!TextUtils.equals(storagePath, path))
-                                    mDbManager.addDir(storagePath);
-                            }
-                        } else
-                            mDbManager.removeDir(path);
-                    }
-                    fragment.updateLib();
+                public void onClick(View v) {
+                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
                 }
             });
-            if (hasContextMenu) {
-                vh.more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
-                    }
-                });
-                vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-                        return true;
-                    }
-                });
-            }
-        } else
-            vh.checkBox.setEnabled(false);
+            vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     private void addDir(final String path) {
