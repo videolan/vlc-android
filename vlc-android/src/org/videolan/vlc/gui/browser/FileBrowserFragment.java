@@ -164,6 +164,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
                 CustomDirectories.addCustomDirectory(f.getAbsolutePath());
                 refresh();
+                updateLib();
             }
         });
         mAlertDialog = builder.show();
@@ -188,6 +189,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 CustomDirectories.removeCustomDirectory(storage.getPath());
                 mAdapter.updateMediaDirs();
                 mAdapter.removeItem(position, true);
+                updateLib();
                 return true;
             } else
                 return false;

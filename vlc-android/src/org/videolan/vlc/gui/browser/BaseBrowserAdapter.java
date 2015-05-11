@@ -201,6 +201,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                         } else
                             mDbManager.removeDir(path);
                     }
+                    fragment.updateLib();
                 }
             });
             if (hasContextMenu) {

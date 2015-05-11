@@ -441,7 +441,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return false;
     }
 
-    private void updateLib() {
+    protected void updateLib() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
