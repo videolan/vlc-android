@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    android:theme="@style/Toolbar.VLC"
+    app:theme="@style/Toolbar.VLC"
     app:popupTheme="?attr/toolbar_popup_style"
     android:background="?attr/background_actionbar"
-    android:navigationIcon="?attr/homeAsUpIndicator"
+    app:navigationIcon="?attr/homeAsUpIndicator"
     app:titleMarginStart="@dimen/default_margin"/>
