@@ -188,9 +188,9 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
                     updateMediaDirs();
-                    if (isChecked)
-                        mDbManager.addDir(path);
-                    else {
+                    if (isChecked) {
+                        addDir(path);
+                    } else {
                         if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty()){
                             String storagePath;
                             for (Object storage : mMediaList){
@@ -220,6 +220,20 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             }
         } else
             vh.checkBox.setEnabled(false);
+    }
+
+    private void addDir(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mDbManager.addDir(path);
+                File tmpFile = new File(path).getParentFile();
+                while (tmpFile != null && !tmpFile.getPath().equals("/")) {
+                    mDbManager.removeDir(tmpFile.getPath());
+                    tmpFile = tmpFile.getParentFile();
+                }
+            }
+        }).start();
     }
 
     @Override
