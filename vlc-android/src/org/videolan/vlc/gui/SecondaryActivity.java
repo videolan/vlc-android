@@ -75,6 +75,19 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     }
 
     @Override
+    protected void onResume() {
+        overridePendingTransition(0,0);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if (isFinishing())
+            overridePendingTransition(0,0);
+        super.onPause();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mFragment instanceof VideoGridFragment)
             getMenuInflater().inflate(R.menu.video_group, menu);
