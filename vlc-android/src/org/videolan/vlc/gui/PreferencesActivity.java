@@ -92,6 +92,20 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             findPreference("ui_category").setEnabled(false);
         }
 
+        // Directories
+        Preference directoriesPref = findPreference("directories");
+        directoriesPref.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent intent = new Intent(getApplicationContext(), SecondaryActivity.class);
+                        intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
+                        startActivity(intent);
+//                        setResult(RESULT_RESCAN);
+                        return true;
+                    }
+                });
+
         // Screen orientation
         ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
         screenOrientationPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

@@ -34,7 +34,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -198,7 +197,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         ft.addToBackStack(mMrl);
         ft.commit();
     }
-
 
     @Override
     public void onMediaAdded(int index, Media media) {

@@ -1,0 +1,129 @@
+/*
+ * *************************************************************************
+ *  StorageBrowserAdapter.java
+ * **************************************************************************
+ *  Copyright © 2015 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *  ***************************************************************************
+ */
+
+package org.videolan.vlc.gui.browser;
+
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
+
+public class StorageBrowserAdapter extends BaseBrowserAdapter {
+
+    public StorageBrowserAdapter(BaseBrowserFragment fragment) {
+        super(fragment);
+        updateMediaDirs();
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        View v;
+        v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.directory_view_item, parent, false);
+        vh = new MediaViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final MediaViewHolder vh = (MediaViewHolder) holder;
+        final Storage storage = (Storage) getItem(position);
+        boolean hasContextMenu = mCustomDirsLocation.contains(storage.getPath());
+        vh.title.setText(storage.getName());
+        vh.icon.setVisibility(View.GONE);
+        vh.checkBox.setVisibility(View.VISIBLE);
+        vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
+        vh.text.setVisibility(View.GONE);
+
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaWrapper mw = new MediaWrapper(((Storage)getItem(vh.getAdapterPosition())).getPath());
+                mw.setType(MediaWrapper.TYPE_DIR);
+                fragment.browse(mw, holder.getAdapterPosition());
+            }
+        });
+        vh.checkBox.setChecked(mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
+                mMediaDirsLocation.contains(storage.getPath()));
+        vh.checkBox.setEnabled(true);
+        vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
+                updateMediaDirs();
+                if (isChecked)
+                    addDir(path);
+                else
+                    mDbManager.removeDir(path);
+                updateMediaDirs();
+                fragment.updateLib();
+            }
+        });
+        if (hasContextMenu) {
+            vh.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
+                }
+            });
+            vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
+    }
+
+    public void addItem(Media media, boolean notify, boolean top){
+        String path = media.getMrl();
+        if (path.startsWith("file://"))
+            path = path.substring(7);
+        Storage storage = new Storage(path);
+        addItem(storage, notify, top);
+    }
+
+    private void addDir(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mDbManager.addDir(path);
+                String parentPath = Strings.getParent(path);
+                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
+                    mDbManager.removeDir(parentPath);
+                    parentPath = Strings.getParent(parentPath);
+                }
+            }
+        }).start();
+    }
+}

@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
@@ -93,10 +94,13 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     protected void browseRoot() {
         mAdapter.updateMediaDirs();
         String storages[] = AndroidDevices.getMediaDirectories();
-        BaseBrowserAdapter.Storage storage;
+        MediaWrapper directory;
         for (String mediaDirLocation : storages) {
-            storage = new BaseBrowserAdapter.Storage(mediaDirLocation);
-            mAdapter.addItem(storage, false, false);
+            directory = new MediaWrapper(mediaDirLocation);
+            directory.setType(MediaWrapper.TYPE_DIR);
+            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+                directory.setTitle(getString(R.string.internal_memory));
+            mAdapter.addItem(directory, false, false);
         }
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         if (mReadyToDisplay) {

@@ -37,7 +37,6 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.MediaComparators;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -50,7 +49,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "VLC/BaseBrowserAdapter";
+    protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static final int TYPE_MEDIA = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -72,7 +71,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
         View v;
-        if (viewType == TYPE_MEDIA || viewType == TYPE_STORAGE) {
+        if (viewType == TYPE_MEDIA) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.directory_view_item, parent, false);
             vh = new MediaViewHolder(v);
@@ -89,8 +88,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         int viewType = getItemViewType(position);
         if (viewType == TYPE_MEDIA) {
             onBindMediaViewHolder(holder, position);
-        } else if (viewType == TYPE_STORAGE) {
-            onBindStorageViewHolder(holder, position);
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
             vh.title.setText(getItem(position).toString());
@@ -154,85 +151,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void onBindStorageViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        final MediaViewHolder vh = (MediaViewHolder) holder;
-        final Storage storage = (Storage) getItem(position);
-        boolean isPublicStorage = TextUtils.equals(storage.getPath(), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-        boolean hasContextMenu = !isPublicStorage && mCustomDirsLocation.contains(storage.getPath());
-        vh.title.setText(isPublicStorage ? holder.itemView.getContext().getString(R.string.internal_memory) : storage.getName());
-        vh.icon.setVisibility(View.GONE);
-        vh.checkBox.setVisibility(View.VISIBLE);
-        vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
-        String description = storage.getDescription();
-        if (!TextUtils.isEmpty(description)) {
-            vh.text.setVisibility(View.VISIBLE);
-            vh.text.setText(description);
-        } else
-            vh.text.setVisibility(View.INVISIBLE);
-
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaWrapper mw = new MediaWrapper(((Storage)getItem(vh.getAdapterPosition())).getPath());
-                mw.setType(MediaWrapper.TYPE_DIR);
-                fragment.browse(mw, holder.getAdapterPosition());
-            }
-        });
-        vh.checkBox.setChecked(mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
-                mMediaDirsLocation.contains(storage.getPath()));
-        vh.checkBox.setEnabled(true);
-        vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
-                updateMediaDirs();
-                if (isChecked) {
-                    addDir(path);
-                } else {
-                    if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty()){
-                        String storagePath;
-                        for (Object storage : mMediaList){
-                            storagePath = ((Storage)storage).getPath();
-                            if (!TextUtils.equals(storagePath, path))
-                                mDbManager.addDir(storagePath);
-                        }
-                    } else
-                        mDbManager.removeDir(path);
-                }
-                fragment.updateLib();
-            }
-        });
-        if (hasContextMenu) {
-            vh.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
-                }
-            });
-            vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-                    return true;
-                }
-            });
-        }
-    }
-
-    private void addDir(final String path) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mDbManager.addDir(path);
-                File tmpFile = new File(path).getParentFile();
-                while (tmpFile != null && !tmpFile.getPath().equals("/")) {
-                    mDbManager.removeDir(tmpFile.getPath());
-                    tmpFile = tmpFile.getParentFile();
-                }
-            }
-        }).start();
-    }
-
     @Override
     public int getItemCount() {
         return mMediaList.size();
@@ -276,6 +194,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         public String getName() {
             return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public void setDescription(String description) {
