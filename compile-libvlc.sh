@@ -616,7 +616,7 @@ if [ "${CHROME_OS}" != "1" ];then
         LIBANW_LIBS="libanw.10 libanw.13 libanw.14 libanw.18"
     fi
     # (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
-    #LIBIOMX_LIBS="${LIBIOMX_LIBS }libiomx.19 libiomx.18"
+    # LIBIOMX_LIBS="${LIBIOMX_LIBS} libiomx.19 libiomx.18"
 
     LIBANW_LIBS="$LIBANW_LIBS libanw.21"
 fi
