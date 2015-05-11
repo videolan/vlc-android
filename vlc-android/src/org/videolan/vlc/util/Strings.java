@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.util;
 
+import android.text.TextUtils;
+
 import org.videolan.vlc.MediaWrapper;
 
 import java.text.DecimalFormat;
@@ -137,5 +139,19 @@ public class Strings {
         if (title == null)
             title = getName(mediaWrapper.getLocation());
         return title;
+    }
+
+    public static String getParent(String path){
+        if (TextUtils.equals("/", path))
+            return path;
+        String parentPath = path;
+        if (parentPath.endsWith("/"))
+            parentPath = parentPath.substring(0, parentPath.length()-1);
+        int index = parentPath.lastIndexOf('/');
+        if (index > 0){
+            parentPath = parentPath.substring(0, index);
+        } else if (index == 0)
+            parentPath = "/";
+        return parentPath;
     }
 }
