@@ -23,14 +23,23 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
+import java.util.ArrayList;
+
 public class StorageBrowserFragment extends FileBrowserFragment {
+
+    public static final String KEY_IN_MEDIALIB = "key_in_medialib";
+
+    boolean mScannedDirectory = false;
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
@@ -41,6 +50,22 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     @Override
     protected Fragment createFragment() {
         return new StorageBrowserFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        if (bundle == null)
+            bundle = getArguments();
+        if (bundle != null){
+            mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory);
     }
 
     @Override
@@ -81,5 +106,17 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             }
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void browse (MediaWrapper media, int position, boolean scanned){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment next = createFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_MEDIA, media);
+        args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned);
+        next.setArguments(args);
+        ft.replace(R.id.fragment_placeholder, next, media.getLocation());
+        ft.addToBackStack(mMrl);
+        ft.commit();
     }
 }

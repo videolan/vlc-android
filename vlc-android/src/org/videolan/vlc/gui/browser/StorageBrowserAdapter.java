@@ -28,12 +28,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
@@ -67,25 +66,23 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaWrapper mw = new MediaWrapper(((Storage)getItem(vh.getAdapterPosition())).getPath());
+                MediaWrapper mw = new MediaWrapper(((Storage) getItem(vh.getAdapterPosition())).getPath());
                 mw.setType(MediaWrapper.TYPE_DIR);
-                fragment.browse(mw, holder.getAdapterPosition());
+                ((StorageBrowserFragment) fragment).browse(mw, holder.getAdapterPosition(), vh.checkBox.isChecked());
             }
         });
         vh.checkBox.setChecked(mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
                 mMediaDirsLocation.contains(storage.getPath()));
-        vh.checkBox.setEnabled(true);
-        vh.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        vh.checkBox.setEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
+        vh.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            public void onClick(View v) {
+                boolean isChecked = ((CheckBox)v).isChecked();
                 String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
-                updateMediaDirs();
                 if (isChecked)
                     addDir(path);
                 else
-                    mDbManager.removeDir(path);
-                updateMediaDirs();
-                fragment.updateLib();
+                    removeDir(path);
             }
         });
         if (hasContextMenu) {
@@ -113,6 +110,12 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         addItem(storage, notify, top);
     }
 
+    private void removeDir(String path) {
+        mDbManager.removeDir(path);
+        updateMediaDirs();
+        fragment.updateLib();
+    }
+
     private void addDir(final String path) {
         new Thread(new Runnable() {
             @Override
@@ -123,7 +126,20 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                     mDbManager.removeDir(parentPath);
                     parentPath = Strings.getParent(parentPath);
                 }
+                refreshFragment();
+                updateMediaDirs();
+                fragment.updateLib();
             }
         }).start();
+    }
+
+    void refreshFragment(){
+        fragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())
+                    fragment.refresh();
+            }
+        });
     }
 }

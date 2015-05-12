@@ -28,7 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -263,6 +262,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             mMediaDirsLocation.add(dir.getPath());
         }
         mCustomDirsLocation = Arrays.asList(CustomDirectories.getCustomDirectories());
+        mMediaDirsLocation.addAll(mCustomDirsLocation);
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
