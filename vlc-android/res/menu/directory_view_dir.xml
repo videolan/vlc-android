@@ -3,10 +3,10 @@
     <item
         android:id="@+id/directory_view_play_folder"
         android:title="@string/play" />
-    <item
-        android:id="@+id/directory_view_hide_media"
-        android:title="@string/directory_hide_medialib" />
-    <item
-        android:id="@+id/directory_view_show_media"
-        android:title="@string/directory_show_medialib" />
+    <!--<item-->
+        <!--android:id="@+id/directory_view_hide_media"-->
+        <!--android:title="@string/directory_hide_medialib" />-->
+    <!--<item-->
+        <!--android:id="@+id/directory_view_show_media"-->
+        <!--android:title="@string/directory_show_medialib" />-->
 </menu>

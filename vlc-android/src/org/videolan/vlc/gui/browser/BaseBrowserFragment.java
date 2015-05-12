@@ -340,22 +340,22 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        boolean canWrite = Util.canWrite(mw.getLocation());
         if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
+            boolean canWrite = Util.canWrite(mw.getLocation());
             inflater.inflate(R.menu.directory_view_file, menu);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
         } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
-            if (canWrite || !isEmpty) {
+            if (/*canWrite || */!isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
-                if (canWrite) {
-                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
-                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
-                    menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
-                } else {
-                    menu.findItem(R.id.directory_view_hide_media).setVisible(false);
-                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
-                }
+//                if (canWrite) {
+//                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
+//                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
+//                    menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+//                } else {
+//                    menu.findItem(R.id.directory_view_hide_media).setVisible(false);
+//                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
+//                }
                 menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
             }
 
@@ -426,16 +426,16 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 }
                 Util.openList(getActivity(), mediaList, 0);
                 return true;
-            case R.id.directory_view_hide_media:
-                try {
-                    if (new File(mw.getLocation()+"/.nomedia").createNewFile())
-                        updateLib();
-                } catch (IOException e) {}
-                return true;
-            case R.id.directory_view_show_media:
-                if (new File(mw.getLocation()+"/.nomedia").delete())
-                    updateLib();
-                return true;
+//            case R.id.directory_view_hide_media:
+//                try {
+//                    if (new File(mw.getLocation()+"/.nomedia").createNewFile())
+//                        updateLib();
+//                } catch (IOException e) {}
+//                return true;
+//            case R.id.directory_view_show_media:
+//                if (new File(mw.getLocation()+"/.nomedia").delete())
+//                    updateLib();
+//                return true;
         }
         return false;
     }
