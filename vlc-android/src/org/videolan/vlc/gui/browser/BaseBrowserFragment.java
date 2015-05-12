@@ -272,6 +272,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void updateDisplay() {
         if (!mAdapter.isEmpty()) {
+            mAdapter.sortList();
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
                 mSavedPosition = 0;
