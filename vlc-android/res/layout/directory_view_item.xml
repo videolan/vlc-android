@@ -10,9 +10,10 @@
 
     <CheckBox
         android:id="@+id/browser_checkbox"
-        android:layout_width="@dimen/directory_browser_item_size"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:button="@drawable/custom_checkbox_button"
         android:layout_marginLeft="15dp"
         android:visibility="gone"/>
 
