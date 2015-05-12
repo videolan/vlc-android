@@ -125,7 +125,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.network_browser, container, false);
+        View v = inflater.inflate(R.layout.directory_browser, container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
