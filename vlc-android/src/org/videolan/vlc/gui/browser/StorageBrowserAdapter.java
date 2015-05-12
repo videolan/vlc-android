@@ -155,7 +155,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             public void run() {
                 if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())
                     fragment.refresh();
-                fragment.updateLib();
             }
         });
     }

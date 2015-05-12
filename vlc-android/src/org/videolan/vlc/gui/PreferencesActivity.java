@@ -101,7 +101,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         Intent intent = new Intent(getApplicationContext(), SecondaryActivity.class);
                         intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
                         startActivity(intent);
-//                        setResult(RESULT_RESCAN);
+                        setResult(RESULT_RESCAN);
                         return true;
                     }
                 });
