@@ -35,6 +35,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Strings;
@@ -65,7 +66,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
-        mEmptyDirectoryString = fragment.getString(R.string.directory_empty);
+        mEmptyDirectoryString = VLCApplication.getAppResources().getString(R.string.directory_empty);
     }
 
     @Override
