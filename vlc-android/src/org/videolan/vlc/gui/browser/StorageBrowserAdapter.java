@@ -126,7 +126,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 } else
                     mDbManager.removeDir(path);
                 updateMediaDirs();
-                if (isRoot && mMediaDirsLocation.isEmpty())
+                if (isRoot && mMediaDirsLocation.isEmpty() && getItemCount() > 1)
                     refreshFragment();
             }
         }).start();
@@ -148,7 +148,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                     if (customDirPath.startsWith(path+"/"))
                         mDbManager.removeDir(customDirPath);
                 }
-                refreshFragment();
                 updateMediaDirs();
             }
         }).start();
