@@ -1,13 +1,17 @@
-Changes between 1.3.2 and 1.3.3:
---------------------------------
-
-
-Changes between 1.3.1 and 1.3.2:
+Changes between 1.3.2 and 1.4.0:
 --------------------------------
 
 Application:
- * Move directories managment from settings to Directory browser
+ * Unify directories managment between preferences and Directories browser
+ * Rewrite the directory browser
  * Long press on +/- buttons to continuously increase/decrease audio au subs delay
+ * Material fixes for dialogs and some activities
+ * Fix regression on the mini-player displaying in some activities
+ * Support Play all in folders
+ * Fix crashes
+
+Core:
+ * Blacklist some Samsung devices from hardware decoding
 
 
 Changes between 1.3.1 and 1.3.2:
