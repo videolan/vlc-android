@@ -10,12 +10,6 @@
         android:visible="false"
         vlc:showAsAction="ifRoom" />
     <item
-        android:id="@+id/ml_menu_add_dir"
-        android:icon="@drawable/ic_add_white"
-        android:title="@string/add_custom_path"
-        android:visible="false"
-        vlc:showAsAction="always" />
-    <item
         android:id="@+id/ml_menu_clean"
         android:icon="@drawable/ic_trash_normal_w"
         android:title="@string/clear_history"

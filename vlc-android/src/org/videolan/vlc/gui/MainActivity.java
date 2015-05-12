@@ -319,7 +319,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK) || mCurrentFragment.equals(SidebarEntry.ID_DIRECTORIES)){
                 BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragment_placeholder);
-                if (browserFragment !=null && !browserFragment.isRootDirectory()) {
+                if (browserFragment != null) {
                     browserFragment.goBack();
                     return;
                 }
@@ -457,11 +457,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             menu.findItem(R.id.ml_menu_clean).setVisible(!((MRLPanelFragment) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
-
-        if (current instanceof StorageBrowserFragment && ((StorageBrowserFragment) current).isRootDirectory())
-            menu.findItem(R.id.ml_menu_add_dir).setVisible(true);
-        else
-            menu.findItem(R.id.ml_menu_add_dir).setVisible(false);
         return true;
     }
 
@@ -532,10 +527,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     break;
                 ((NetworkBrowserFragment)current).toggleFavorite();
                 item.setIcon(R.drawable.ic_menu_bookmark_w);
-                break;
-            case R.id.ml_menu_add_dir:
-                if (current != null && current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).showAddDirectoryDialog();
                 break;
         }
         mDrawerLayout.closeDrawer(mListView);
