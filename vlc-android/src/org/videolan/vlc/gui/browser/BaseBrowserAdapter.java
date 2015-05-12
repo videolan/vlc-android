@@ -22,6 +22,7 @@
  */
 package org.videolan.vlc.gui.browser;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -195,7 +196,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public String getName() {
-            return name;
+            return Uri.decode(name);
         }
 
         public void setName(String name) {
