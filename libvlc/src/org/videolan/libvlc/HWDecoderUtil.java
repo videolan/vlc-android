@@ -105,7 +105,6 @@ public class HWDecoderUtil {
         new DecoderBySOC("ro.board.platform", "rk31", Decoder.ALL), // Rockchip RK31
         new DecoderBySOC("ro.board.platform", "mv88de3100", Decoder.ALL), // Marvell ARMADA 1500
 
-        new DecoderBySOC("ro.hardware", "mt65", Decoder.ALL), //MTK
         new DecoderBySOC("ro.hardware", "mt83", Decoder.ALL), //MTK
     };
 
