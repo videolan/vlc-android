@@ -27,19 +27,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
-import java.util.ArrayList;
-
-public class StorageBrowserFragment extends FileBrowserFragment {
+public class StorageBrowserFragment extends FileBrowserFragment implements View.OnClickListener {
 
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
     boolean mScannedDirectory = false;
+    ImageView mAddDirectoryFAB;
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
@@ -60,6 +63,17 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         if (bundle != null){
             mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        if (mRoot) {
+            mAddDirectoryFAB = (ImageView) v.findViewById(R.id.fab_add_custom_dir);
+            mAddDirectoryFAB.setVisibility(View.VISIBLE);
+            mAddDirectoryFAB.setOnClickListener(this);
+        }
+        return v;
     }
 
     @Override
@@ -118,5 +132,17 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         ft.addToBackStack(mMrl);
         ft.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab_add_custom_dir){
+            showAddDirectoryDialog();
+        }
+    }
+
+    @Override
+    protected String getCategoryTitle() {
+        return getString(R.string.directories_summary);
     }
 }
