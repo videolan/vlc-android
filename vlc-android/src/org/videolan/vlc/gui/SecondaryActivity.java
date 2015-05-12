@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
@@ -43,7 +44,7 @@ import org.videolan.vlc.interfaces.ISortable;
 import java.util.ArrayList;
 
 public class SecondaryActivity extends AudioPlayerContainerActivity {
-    public final static String TAG = "VLC/EqualizerFragment";
+    public final static String TAG = "VLC/SecondaryActivity";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
     public static final String ALBUM = "album";
@@ -62,6 +63,14 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
         initAudioPlayerContainerActivity();
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+                if (current instanceof StorageBrowserFragment)
+                    ((StorageBrowserFragment) current).goBack();
+            }
+        });
 
         if (getSupportFragmentManager().getFragments() == null) {
             String fragmentId = getIntent().getStringExtra("fragment");
@@ -85,7 +94,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     @Override
     protected void onPause() {
         if (isFinishing())
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         super.onPause();
     }
 

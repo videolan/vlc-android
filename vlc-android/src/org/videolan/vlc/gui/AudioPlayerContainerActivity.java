@@ -51,6 +51,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
     public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
 
     protected ActionBar mActionBar;
+    protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
     protected AudioServiceController mAudioController;
     protected SlidingPaneLayout mSlidingPane;
@@ -71,8 +72,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
 
         mRootContainer = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
 
         mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);

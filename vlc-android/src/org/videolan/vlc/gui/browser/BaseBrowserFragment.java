@@ -57,7 +57,6 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SidebarAdapter;
-import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
@@ -70,7 +69,6 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -91,7 +89,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public String mMrl;
     protected MediaWrapper mCurrentMedia;
     protected int mSavedPosition = -1, mFavorites = 0;
-    protected boolean mRoot;
+    public boolean mRoot;
     protected LibVLC mLibVLC;
 
     private SparseArray<ArrayList<MediaWrapper>> mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
@@ -181,7 +179,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public void goBack(){
-        getActivity().getSupportFragmentManager().popBackStack();
+        if (!mRoot)
+            getActivity().getSupportFragmentManager().popBackStack();
+        else
+            getActivity().finish();
     }
 
     public void browse (MediaWrapper media, int position){
