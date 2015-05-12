@@ -47,6 +47,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<String> mHistory;
     EditText mEditText;
+    View mRootView;
 
     public MRLPanelFragment(){};
 
@@ -58,6 +59,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.open_mrl_dialog_title);
         View v = inflater.inflate(R.layout.mrl_panel, container, false);
+        mRootView = v.findViewById(R.id.mrl_root);
         mEditText = (EditText) v.findViewById(R.id.mrl_edit);
         mEditText.setOnKeyListener(this);
         mEditText.setOnEditorActionListener(this);
@@ -117,11 +119,9 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     }
 
     private void focusHelper(boolean idIsEmpty) {
-        View parent = View.inflate(getActivity(),
-            R.layout.directory_view, null);
         MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, R.id.mrl_list);
-        main.setSearchAsFocusDown(idIsEmpty, parent, R.id.mrl_list);
+        main.setSearchAsFocusDown(idIsEmpty, mRootView, R.id.mrl_list);
     }
 
     public boolean isEmpty(){
