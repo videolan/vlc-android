@@ -37,9 +37,11 @@ import org.videolan.vlc.util.Strings;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
+    boolean isRoot;
     public StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
         updateMediaDirs();
+        isRoot = fragment.isRootDirectory();
     }
 
     @Override
@@ -71,14 +73,14 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 ((StorageBrowserFragment) fragment).browse(mw, holder.getAdapterPosition(), vh.checkBox.isChecked());
             }
         });
-        vh.checkBox.setChecked(mMediaDirsLocation == null || mMediaDirsLocation.isEmpty() ||
+        vh.checkBox.setChecked((isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
                 mMediaDirsLocation.contains(storage.getPath()));
         vh.checkBox.setEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         vh.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isChecked = ((CheckBox)v).isChecked();
-                String path = ((Storage)getItem(vh.getAdapterPosition())).getPath();
+                boolean isChecked = ((CheckBox) v).isChecked();
+                String path = ((Storage) getItem(vh.getAdapterPosition())).getPath();
                 if (isChecked)
                     addDir(path);
                 else
@@ -110,10 +112,25 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         addItem(storage, notify, top);
     }
 
-    private void removeDir(String path) {
-        mDbManager.removeDir(path);
-        updateMediaDirs();
-        fragment.updateLib();
+    private void removeDir(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //if media dir list was empty, we add all others
+                if (mMediaDirsLocation.isEmpty()) {
+                    Storage storage;
+                    for (Object item : mMediaList){
+                        storage = (Storage) item;
+                        if (!TextUtils.equals(path, storage.getPath()))
+                            mDbManager.addDir(storage.getPath());
+                    }
+                } else
+                    mDbManager.removeDir(path);
+                updateMediaDirs();
+                if (isRoot && mMediaDirsLocation.isEmpty())
+                    refreshFragment();
+            }
+        }).start();
     }
 
     private void addDir(final String path) {
@@ -128,7 +145,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 }
                 refreshFragment();
                 updateMediaDirs();
-                fragment.updateLib();
             }
         }).start();
     }
@@ -139,6 +155,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             public void run() {
                 if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())
                     fragment.refresh();
+                fragment.updateLib();
             }
         });
     }
