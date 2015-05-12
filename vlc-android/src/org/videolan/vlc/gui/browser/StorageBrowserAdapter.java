@@ -33,7 +33,6 @@ import android.widget.CheckBox;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.Strings;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
@@ -138,10 +137,16 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             @Override
             public void run() {
                 mDbManager.addDir(path);
-                String parentPath = Strings.getParent(path);
-                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
-                    mDbManager.removeDir(parentPath);
-                    parentPath = Strings.getParent(parentPath);
+                //No need to check for parents for now
+//                String parentPath = Strings.getParent(path);
+//                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
+//                    mDbManager.removeDir(parentPath);
+//                    parentPath = Strings.getParent(parentPath);
+//                }
+                //Remove subfolders, it would be redundant
+                for (String customDirPath : mMediaDirsLocation) {
+                    if (customDirPath.startsWith(path+"/"))
+                        mDbManager.removeDir(customDirPath);
                 }
                 refreshFragment();
                 updateMediaDirs();
