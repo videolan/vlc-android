@@ -407,9 +407,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         // Position and remaining time
         mTime = (TextView) findViewById(R.id.player_overlay_time);
-        mTime.setOnClickListener(mRemainingTimeListener);
         mLength = (TextView) findViewById(R.id.player_overlay_length);
-        mLength.setOnClickListener(mRemainingTimeListener);
 
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
@@ -421,15 +419,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
         mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
-        mPlayPause.setOnClickListener(mPlayPauseListener);
 
         mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
         mAdvOptions = (ImageView) findViewById(R.id.player_overlay_adv_function);
         mLock = (ImageView) findViewById(R.id.lock_overlay_button);
-        mLock.setOnClickListener(mLockListener);
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
-        mSize.setOnClickListener(mSizeListener);
 
         mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
         mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
@@ -455,7 +450,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
-        mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
@@ -544,9 +538,37 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSwitchingView = false;
+
+        /*
+         * Set listeners here to avoid NPE when activity is closing
+         */
+        mSeekbar.setOnSeekBarChangeListener(mSeekListener);
+        mLock.setOnClickListener(mLockListener);
+        mPlayPause.setOnClickListener(mPlayPauseListener);
+        mLength.setOnClickListener(mRemainingTimeListener);
+        mTime.setOnClickListener(mRemainingTimeListener);
+        mSize.setOnClickListener(mSizeListener);
+
+        bindAudioService();
+
+        if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            setRequestedOrientation(mScreenOrientationLock);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+        mSeekbar.setOnSeekBarChangeListener(null);
+        mLock.setOnClickListener(null);
+        mPlayPause.setOnClickListener(null);
+        mLength.setOnClickListener(null);
+        mTime.setOnClickListener(null);
+        mSize.setOnClickListener(null);
 
         /* Stop the earliest possible to avoid vout error */
         if (isFinishing())
@@ -645,17 +667,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         AudioServiceController.getInstance().unbindAudioService(this);
         mAudioServiceReady = false;
         mBound = false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSwitchingView = false;
-
-        bindAudioService();
-
-        if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
-            setRequestedOrientation(mScreenOrientationLock);
     }
 
     /**
