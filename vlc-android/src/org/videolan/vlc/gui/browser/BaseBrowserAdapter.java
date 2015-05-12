@@ -61,9 +61,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     MediaDatabase mDbManager;
     LinkedList<String> mMediaDirsLocation;
     List<String> mCustomDirsLocation;
+    String mEmptyDirectoryString;
 
     public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
+        mEmptyDirectoryString = fragment.getString(R.string.directory_empty);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         final MediaWrapper media = (MediaWrapper) getItem(position);
         boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
                 media.getType() == MediaWrapper.TYPE_VIDEO ||
-                (media.getType() == MediaWrapper.TYPE_DIR && Util.canWrite(media.getLocation())));
+                (media.getType() == MediaWrapper.TYPE_DIR && !TextUtils.equals(media.getDescription(), mEmptyDirectoryString)));
         vh.checkBox.setVisibility(View.GONE);
         vh.title.setText(media.getTitle());
         if (!TextUtils.isEmpty(media.getDescription())) {
@@ -262,7 +264,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             mMediaDirsLocation.add(dir.getPath());
         }
         mCustomDirsLocation = Arrays.asList(CustomDirectories.getCustomDirectories());
-        mMediaDirsLocation.addAll(mCustomDirsLocation);
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){

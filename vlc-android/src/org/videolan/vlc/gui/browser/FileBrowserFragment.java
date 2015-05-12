@@ -172,16 +172,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         mAlertDialog = builder.show();
     }
 
-    protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
-        if (mRoot) {
-            BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
-            boolean isCustom = CustomDirectories.contains(storage.getPath());
-            if (isCustom)
-                inflater.inflate(R.menu.directory_custom_dir, menu);
-        } else
-            super.setContextMenu(inflater, menu, position);
-    }
-
     @Override
     protected boolean handleContextItemSelected(MenuItem item, int position) {
         if (mRoot) {

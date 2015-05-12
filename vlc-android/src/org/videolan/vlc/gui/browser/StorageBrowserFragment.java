@@ -28,6 +28,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,6 +38,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.CustomDirectories;
 
 public class StorageBrowserFragment extends FileBrowserFragment implements View.OnClickListener {
 
@@ -46,7 +49,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
-        mAdapter = new StorageBrowserAdapter(this);
         ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
     }
 
@@ -58,6 +60,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        mAdapter = new StorageBrowserAdapter(this);
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){
@@ -132,6 +135,16 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         ft.addToBackStack(mMrl);
         ft.commit();
+    }
+
+    protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
+        if (mRoot) {
+            BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
+            boolean isCustom = CustomDirectories.contains(storage.getPath());
+            if (isCustom)
+                inflater.inflate(R.menu.directory_custom_dir, menu);
+        } else
+            super.setContextMenu(inflater, menu, position);
     }
 
     @Override
