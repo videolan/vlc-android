@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.Thread.State;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,7 +65,7 @@ public class MediaLibrary {
     private boolean isStopping = false;
     private boolean mRestart = false;
     protected Thread mLoadingThread;
-    private IBrowser mBrowser = null;
+    private WeakReference<IBrowser> mBrowser = null;
 
     public final static HashSet<String> FOLDER_BLACKLIST;
     static {
@@ -248,8 +249,8 @@ public class MediaLibrary {
             final MediaDatabase mediaDatabase = MediaDatabase.getInstance();
 
             // show progressbar in footer
-            if (mBrowser != null)
-                mBrowser.showProgressBar();
+            if (mBrowser != null && mBrowser.get() != null)
+                mBrowser.get().showProgressBar();
 
             List<File> mediaDirs = mediaDatabase.getMediaDirs();
             if (mediaDirs.size() == 0) {
@@ -354,9 +355,9 @@ public class MediaLibrary {
                 // Process the stacked items
                 for (File file : mediaToScan) {
                     String fileURI = LibVLC.PathToURI(file.getPath());
-                    if (mBrowser != null)
-                        mBrowser.sendTextInfo(file.getName(), count,
-                            mediaToScan.size());
+                    if (mBrowser != null && mBrowser.get() != null)
+                        mBrowser.get().sendTextInfo(file.getName(), count,
+                                mediaToScan.size());
                     count++;
                     if (existingMedias.containsKey(fileURI)) {
                         /**
@@ -417,9 +418,9 @@ public class MediaLibrary {
                 }
 
                 // hide progressbar in footer
-                if (mBrowser != null) {
-                    mBrowser.clearTextInfo();
-                    mBrowser.hideProgressBar();
+                if (mBrowser != null && mBrowser.get() != null) {
+                    mBrowser.get().clearTextInfo();
+                    mBrowser.get().hideProgressBar();
                 }
 
                 Util.actionScanStop();
@@ -475,6 +476,9 @@ public class MediaLibrary {
     }
 
     public void setBrowser(IBrowser browser) {
-        mBrowser = browser;
+        if (browser != null)
+            mBrowser = new WeakReference<IBrowser>(browser);
+        else
+            mBrowser.clear();
     }
 }
