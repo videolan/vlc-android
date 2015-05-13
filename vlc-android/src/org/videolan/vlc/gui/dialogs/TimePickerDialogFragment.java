@@ -89,7 +89,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
                 if (sleepTime.before(currentTime))
                     sleepTime.add(Calendar.DATE, 1);
 
-                AdvOptionsDialog.setSleep(view.getContext(), sleepTime);
+                AdvOptionsDialog.setSleep(sleepTime);
                 break;
             case ACTION_JUMP:
                 long time = ( hourOfDay * 60l + minute ) * 60000l;

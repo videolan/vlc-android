@@ -56,6 +56,7 @@ import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WeakHandler;
 
 import java.util.Calendar;
 
@@ -95,7 +96,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private Spinner mChapters;
     private TextView mChaptersTitle;
-    private static AdvOptionsDialog sInstance;
     private int mTextColor;
 
     private IDelayController mDelayController;
@@ -106,7 +106,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
-        sInstance = this;
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
         mLibVLC = VLCInstance.get();
@@ -297,7 +296,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void onFocusChange(View v, boolean hasFocus) {
             if (v instanceof TextView)
                 ((TextView) v).setTextColor(v.hasFocus() ?
-                        sInstance.getResources().getColor(R.color.orange500) : mTextColor);
+                        getResources().getColor(R.color.orange500) : mTextColor);
         }
     };
 
@@ -312,7 +311,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         dismiss();
     }
 
-    public static void setSleep(Context context, Calendar time) {
+    public static void setSleep(Calendar time) {
         AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
         PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -326,9 +325,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         VLCApplication.sPlayerSleepTime = time;
     }
 
-    private final static Handler mHandler = new Handler(){
+    private final Handler mHandler = new AdvOptionsDialogHandler(this);
+
+    private static class AdvOptionsDialogHandler extends WeakHandler<AdvOptionsDialog> {
 
         public boolean retry = true;
+
+        public AdvOptionsDialogHandler(AdvOptionsDialog owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
@@ -336,16 +341,16 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             switch (msg.what) {
                 case SPEED_TEXT:
                     text = (String) msg.obj;
-                    sInstance.mSpeedTv.setText(text);
+                    getOwner().mSpeedTv.setText(text);
                     break;
                 case TOGGLE_CANCEL:
-                    sInstance.mSleepCancel.setVisibility(VLCApplication.sPlayerSleepTime == null ? View.GONE : View.VISIBLE);
+                    getOwner().mSleepCancel.setVisibility(VLCApplication.sPlayerSleepTime == null ? View.GONE : View.VISIBLE);
                 case SLEEP_TEXT:
                     if (VLCApplication.sPlayerSleepTime != null)
-                        text = DateFormat.getTimeFormat(sInstance.mSleepTime.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
+                        text = DateFormat.getTimeFormat(getOwner().mSleepTime.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
                     if (text == null)
                         text = "none set";
-                    sInstance.mSleepTime.setText(text);
+                    getOwner().mSleepTime.setText(text);
                     break;
                 case DIALOG_LISTENER:
                     DialogFragment newFragment = (DialogFragment) msg.obj;
@@ -353,7 +358,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                         newFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                mHandler.obtainMessage(TOGGLE_CANCEL).sendToTarget();
+                                obtainMessage(TOGGLE_CANCEL).sendToTarget();
                             }
                         });
                     } else if (retry) {
@@ -366,7 +371,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     break;
             }
         }
-    };
+    }
 
     @Override
     public void onClick(View v) {
@@ -385,7 +390,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);
                 break;
             case R.id.sleep_timer_cancel:
-                setSleep(v.getContext(), null);
+                setSleep(null);
                 mHandler.sendEmptyMessage(TOGGLE_CANCEL);
                 break;
             case R.id.playback_switch_audio:
