@@ -333,7 +333,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
-            mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            mMediaRouter = (MediaRouter) VLCApplication.getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
                 @Override
                 public void onRoutePresentationDisplayChanged(
@@ -351,7 +351,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         /* Services and miscellaneous */
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
@@ -2638,7 +2638,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
          * the background.
          * To workaround this, pause playback if the lockscreen is displayed.
          */
-        final KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
+        final KeyguardManager km = (KeyguardManager) VLCApplication.getAppContext().getSystemService(KEYGUARD_SERVICE);
         if (km.inKeyguardRestrictedInputMode())
             wasPaused = true;
         else
@@ -2865,7 +2865,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     @SuppressWarnings("deprecation")
     private int getScreenRotation(){
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO /* Android 2.2 has getRotation */) {
             try {
@@ -2881,7 +2881,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private int getScreenOrientation(){
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         int rot = getScreenRotation();
         /*

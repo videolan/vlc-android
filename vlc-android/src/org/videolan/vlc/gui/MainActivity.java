@@ -61,6 +61,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
@@ -396,7 +397,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
         if (LibVlcUtil.isFroyoOrLater()) {
             SearchManager searchManager =
-                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                    (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
             mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
             mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             mSearchView.setQueryHint(getString(R.string.search_hint));
@@ -716,7 +717,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     };
 
     public void hideKeyboard(){
-        ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+        ((InputMethodManager) VLCApplication.getAppContext().getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
                 getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
 

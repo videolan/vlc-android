@@ -181,7 +181,7 @@ public class AudioService extends Service {
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
         IntentFilter filter = new IntentFilter();
@@ -228,7 +228,7 @@ public class AudioService extends Service {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void setUpRemoteControlClient() {
         Context context = VLCApplication.getAppContext();
-        AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager)VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
 
         if (LibVlcUtil.isICSOrLater()) {
             audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
@@ -350,7 +350,7 @@ public class AudioService extends Service {
             };
         }
 
-        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        AudioManager am = (AudioManager)VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
         if(gain)
             am.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         else
@@ -386,7 +386,7 @@ public class AudioService extends Service {
             }
 
             // skip all headsets events if there is a call
-            TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telManager = (TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
             if (telManager != null && telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                 return;
 

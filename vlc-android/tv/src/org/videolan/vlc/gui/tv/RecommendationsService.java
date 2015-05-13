@@ -64,7 +64,7 @@ public class RecommendationsService extends IntentService {
         mContext = this;
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager)
-                    mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                    VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
     }
 

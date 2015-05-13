@@ -427,7 +427,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
                 return;
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager)context.getSystemService(
+                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
                         Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
                 if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                     if (networkInfo == null){

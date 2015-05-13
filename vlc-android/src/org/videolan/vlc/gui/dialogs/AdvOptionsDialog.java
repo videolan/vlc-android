@@ -313,7 +313,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     public static void setSleep(Context context, Calendar time) {
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
         PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -52,7 +52,7 @@ public class BitmapCache {
 
         // Get memory class of this device, exceeding this amount will throw an
         // OutOfMemory exception.
-        final ActivityManager am = ((ActivityManager) context.getSystemService(
+        final ActivityManager am = ((ActivityManager) VLCApplication.getAppContext().getSystemService(
                 Context.ACTIVITY_SERVICE));
         final int memClass = LibVlcUtil.isHoneycombOrLater() ? am.getLargeMemoryClass() : am.getMemoryClass();
 

@@ -129,7 +129,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
             for (String line : mLogList)
                 buffer.append(line+"\n");
 
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)VLCApplication.getAppContext().getSystemService(CLIPBOARD_SERVICE);
             clipboard.setText(buffer);
 
             Toast.makeText(DebugLogActivity.this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();

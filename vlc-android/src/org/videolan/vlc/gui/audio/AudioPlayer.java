@@ -53,6 +53,7 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
@@ -632,11 +633,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             @Override
             public void run() {
                 if(!vibrated) {
-                    Activity activity = AudioPlayer.this.getActivity();
-                    if (activity != null) {
-                        ((android.os.Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE))
+                    ((android.os.Vibrator) VLCApplication.getAppContext().getSystemService(Context.VIBRATOR_SERVICE))
                                 .vibrate(80);
-                    }
                     vibrated = true;
                 }
 
