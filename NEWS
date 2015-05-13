@@ -9,6 +9,7 @@ Application:
  * Fix regression on the mini-player displaying in some activities
  * Support Play all in folders
  * Fix crashes
+ * Don't use hardware decoding for some MTK devices on Android 4.1 because of a black screen (still investigating)
 
 Core:
  * Blacklist some Samsung devices from hardware decoding
