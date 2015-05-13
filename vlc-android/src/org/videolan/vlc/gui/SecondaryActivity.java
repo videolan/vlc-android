@@ -63,14 +63,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
         initAudioPlayerContainerActivity();
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-                if (current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).goBack();
-            }
-        });
 
         if (getSupportFragmentManager().getFragments() == null) {
             String fragmentId = getIntent().getStringExtra("fragment");
@@ -111,7 +103,11 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+                if (current instanceof StorageBrowserFragment)
+                    ((StorageBrowserFragment) current).goBack();
+                else
+                    finish();
                 return true;
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
