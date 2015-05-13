@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import java.lang.Thread.State;
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -45,7 +46,7 @@ import android.view.Display;
 public class Thumbnailer implements Runnable {
     public final static String TAG = "VLC/Thumbnailer";
 
-    private IVideoBrowser mVideoBrowser;
+    private WeakReference<IVideoBrowser> mVideoBrowser;
 
     private final Queue<MediaWrapper> mItems = new LinkedList<MediaWrapper>();
 
@@ -69,7 +70,7 @@ public class Thumbnailer implements Runnable {
 
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
-            mVideoBrowser = videoBrowser;
+            mVideoBrowser = new WeakReference<IVideoBrowser>(videoBrowser);
             mThread = new Thread(this);
             mThread.start();
         }
@@ -135,16 +136,16 @@ public class Thumbnailer implements Runnable {
         Log.d(TAG, "Thumbnailer started");
 
         while (!isStopping) {
-            if (mVideoBrowser != null)
-                mVideoBrowser.resetBarrier();
+            if (mVideoBrowser != null && mVideoBrowser.get() != null)
+                mVideoBrowser.get().resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean interrupted = false;
             while (mItems.size() == 0) {
                 try {
-                    if (mVideoBrowser != null) {
-                        mVideoBrowser.hideProgressBar();
-                        mVideoBrowser.clearTextInfo();
+                    if (mVideoBrowser != null && mVideoBrowser.get() != null) {
+                        mVideoBrowser.get().hideProgressBar();
+                        mVideoBrowser.get().clearTextInfo();
                     }
                     totalCount = 0;
                     notEmpty.await();
@@ -162,9 +163,9 @@ public class Thumbnailer implements Runnable {
             MediaWrapper item = mItems.poll();
             lock.unlock();
 
-            if (mVideoBrowser != null) {
-                mVideoBrowser.showProgressBar();
-                mVideoBrowser.sendTextInfo(String.format("%s %s", mPrefix, item.getFileName()), count, total);
+            if (mVideoBrowser != null && mVideoBrowser.get() != null) {
+                mVideoBrowser.get().showProgressBar();
+                mVideoBrowser.get().sendTextInfo(String.format("%s %s", mPrefix, item.getFileName()), count, total);
             }
             count++;
             if (item.getArtworkURL() != null)
@@ -190,12 +191,12 @@ public class Thumbnailer implements Runnable {
 
             MediaDatabase.setPicture(item, thumbnail);
             // Post to the file browser the new item.
-            if (mVideoBrowser != null) {
-                mVideoBrowser.setItemToUpdate(item);
+            if (mVideoBrowser != null && mVideoBrowser.get() != null) {
+                mVideoBrowser.get().setItemToUpdate(item);
 
                 // Wait for the file browser to process the change.
                 try {
-                    mVideoBrowser.await();
+                    mVideoBrowser.get().await();
                 } catch (InterruptedException e) {
                     Log.i(TAG, "interruption probably requested by stop()");
                     break;
@@ -207,15 +208,15 @@ public class Thumbnailer implements Runnable {
             }
         }
         /* cleanup */
-        if (mVideoBrowser != null) {
-            mVideoBrowser.hideProgressBar();
-            mVideoBrowser.clearTextInfo();
+        if (mVideoBrowser != null && mVideoBrowser.get() != null) {
+            mVideoBrowser.get().hideProgressBar();
+            mVideoBrowser.get().clearTextInfo();
         }
-        mVideoBrowser = null;
+        mVideoBrowser.clear();
         Log.d(TAG, "Thumbnailer stopped");
     }
 
     public void setVideoBrowser(IVideoBrowser browser){
-        mVideoBrowser = browser;
+        mVideoBrowser = new WeakReference<IVideoBrowser>(browser);
     }
 }
