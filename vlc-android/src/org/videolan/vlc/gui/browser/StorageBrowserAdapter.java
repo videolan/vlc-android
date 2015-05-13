@@ -72,7 +72,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 ((StorageBrowserFragment) fragment).browse(mw, holder.getAdapterPosition(), vh.checkBox.isChecked());
             }
         });
-        vh.checkBox.setChecked((isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
+        vh.checkBox.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
+                (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
                 mMediaDirsLocation.contains(storage.getPath()));
         vh.checkBox.setEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         vh.checkBox.setOnClickListener(new View.OnClickListener() {
