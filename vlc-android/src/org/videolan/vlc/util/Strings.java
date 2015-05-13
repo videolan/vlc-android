@@ -154,4 +154,11 @@ public class Strings {
             parentPath = "/";
         return parentPath;
     }
+
+    public static String removeFileProtocole(String path){
+        if (path.startsWith("file://"))
+            return path.substring(7);
+        else
+            return path;
+    }
 }

@@ -33,6 +33,7 @@ import android.widget.CheckBox;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Strings;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
@@ -57,7 +58,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final Storage storage = (Storage) getItem(position);
-        boolean hasContextMenu = mCustomDirsLocation.contains(storage.getPath());
+        String storagePath = Strings.removeFileProtocole(storage.getPath());
+        boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
         vh.title.setText(storage.getName());
         vh.icon.setVisibility(View.GONE);
         vh.checkBox.setVisibility(View.VISIBLE);
@@ -74,13 +76,13 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         });
         vh.checkBox.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
                 (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
-                mMediaDirsLocation.contains(storage.getPath()));
+                mMediaDirsLocation.contains(storagePath));
         vh.checkBox.setEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         vh.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isChecked = ((CheckBox) v).isChecked();
-                String path = ((Storage) getItem(vh.getAdapterPosition())).getPath();
+                String path = Strings.removeFileProtocole(((Storage) getItem(vh.getAdapterPosition())).getPath());
                 if (isChecked)
                     addDir(path);
                 else
@@ -105,10 +107,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     public void addItem(Media media, boolean notify, boolean top){
-        String path = media.getMrl();
-        if (path.startsWith("file://"))
-            path = path.substring(7);
-        Storage storage = new Storage(path);
+        Storage storage = new Storage(media.getMrl());
         addItem(storage, notify, top);
     }
 
@@ -119,13 +118,17 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 //if media dir list was empty, we add all others
                 if (mMediaDirsLocation.isEmpty()) {
                     Storage storage;
+                    String pathString;
                     for (Object item : mMediaList){
                         storage = (Storage) item;
-                        if (!TextUtils.equals(path, storage.getPath()))
-                            mDbManager.addDir(storage.getPath());
+                        if (!TextUtils.equals(path, storage.getPath())) {
+                            pathString = Strings.removeFileProtocole(storage.getPath());
+                            mDbManager.addDir(pathString);
+                        }
                     }
-                } else
+                } else {
                     mDbManager.removeDir(path);
+                }
                 updateMediaDirs();
                 if (isRoot && mMediaDirsLocation.isEmpty() && getItemCount() > 1)
                     refreshFragment();
