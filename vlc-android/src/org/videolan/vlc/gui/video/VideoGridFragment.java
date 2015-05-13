@@ -30,7 +30,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -123,7 +122,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         mAudioController = AudioServiceController.getInstance();
 
-        mVideoAdapter = new VideoListAdapter(getActivity(), this);
+        mVideoAdapter = new VideoListAdapter(this);
         mMediaLibrary = MediaLibrary.getInstance();
 
         if (savedInstanceState != null)
@@ -550,7 +549,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     @Override
     public void onRefresh() {
         if (getActivity()!=null && !MediaLibrary.getInstance().isWorking())
-            MediaLibrary.getInstance().loadMediaItems(getActivity(), true);
+            MediaLibrary.getInstance().loadMediaItems(true);
     }
 
     @Override

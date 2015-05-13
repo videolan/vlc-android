@@ -36,6 +36,7 @@ import android.widget.TextView;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
@@ -54,12 +55,10 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
-    private Context mContext;
     private VideoGridFragment mFragment;
 
-    public VideoListAdapter(Context context, VideoGridFragment fragment) {
-        super(context, 0);
-        mContext = context;
+    public VideoListAdapter(VideoGridFragment fragment) {
+        super(fragment.getActivity(), 0);
         mFragment = fragment;
     }
 
@@ -218,7 +217,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
         /* Color state */
         ColorStateList titleColor = v.getResources().getColorStateList(
-                Util.getResourceFromAttribute(mContext, R.attr.list_title));
+                Util.getResourceFromAttribute(getContext(), R.attr.list_title));
         holder.title.setTextColor(titleColor);
 
         if (media instanceof MediaGroup)

@@ -548,7 +548,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     @Override
     public void onRefresh() {
         if (!MediaLibrary.getInstance().isWorking())
-            MediaLibrary.getInstance().loadMediaItems(getActivity(), true);
+            MediaLibrary.getInstance().loadMediaItems(true);
     }
 
     @Override

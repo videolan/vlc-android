@@ -321,7 +321,7 @@ public class MediaInfoFragment extends ListFragment {
                     break;
                 case EXIT:
                     fragment.getActivity().finish();
-                    MediaLibrary.getInstance().loadMediaItems(fragment.getActivity(), true);
+                    MediaLibrary.getInstance().loadMediaItems(true);
                     break;
                 case SHOW_SUBTITLES:
                     fragment.mSubtitles.setVisibility(View.VISIBLE);

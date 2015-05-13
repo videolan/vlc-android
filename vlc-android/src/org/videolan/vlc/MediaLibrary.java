@@ -93,7 +93,7 @@ public class MediaLibrary {
         mItemListLock = new ReentrantReadWriteLock();
     }
 
-    public void loadMediaItems(Context context, boolean restart) {
+    public void loadMediaItems(boolean restart) {
         if (restart && isWorking()) {
             /* do a clean restart if a scan is ongoing */
             mRestart = true;

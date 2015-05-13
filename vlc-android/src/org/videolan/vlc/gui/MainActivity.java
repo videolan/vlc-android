@@ -89,6 +89,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
     private static final int ACTIVITY_SHOW_TEXTINFO = 5;
 
+    MediaLibrary mMediaLibrary;
+
     private SidebarAdapter mSidebarAdapter;
     private HackyDrawerLayout mDrawerLayout;
     private ListView mListView;
@@ -133,7 +135,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         }
 
         /* Load media items from database and storage */
-        MediaLibrary.getInstance().loadMediaItems();
+        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary.loadMediaItems();
 
         /*** Start initializing the UI ***/
 
@@ -223,7 +226,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            MediaLibrary.getInstance().loadMediaItems();
+            mMediaLibrary.loadMediaItems();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
    }
@@ -277,9 +280,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         super.onPause();
 
         /* Check for an ongoing scan that needs to be resumed during onResume */
-        mScanNeeded = MediaLibrary.getInstance().isWorking();
+        mScanNeeded = mMediaLibrary.isWorking();
         /* Stop scanning for files */
-        MediaLibrary.getInstance().stop();
+        mMediaLibrary.stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString("fragment", mCurrentFragment);
@@ -491,11 +494,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                if (!MediaLibrary.getInstance().isWorking()) {
+                if (!mMediaLibrary.isWorking()) {
                     if(current != null && current instanceof IRefreshable)
                         ((IRefreshable) current).refresh();
                     else
-                        MediaLibrary.getInstance().loadMediaItems(this, true);
+                        mMediaLibrary.loadMediaItems(true);
                 }
                 break;
             // Restore last playlist
@@ -538,7 +541,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                MediaLibrary.getInstance().loadMediaItems(this, true);
+                mMediaLibrary.loadMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 finish();

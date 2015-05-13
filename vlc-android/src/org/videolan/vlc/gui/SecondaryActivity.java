@@ -121,7 +121,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
                 break;
             case R.id.ml_menu_refresh:
                 if (!MediaLibrary.getInstance().isWorking())
-                    MediaLibrary.getInstance().loadMediaItems(this, true);
+                    MediaLibrary.getInstance().loadMediaItems(true);
                 break;
         }
         return super.onOptionsItemSelected(item);
