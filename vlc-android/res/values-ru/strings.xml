@@ -16,6 +16,7 @@
     <plurals name="search_found_results_quantity">
         <item quantity="one">Результатов поиска: %d</item>
         <item quantity="few">Результатов поиска: %d</item>
+        <item quantity="many">Результатов поиска: %d</item>
         <item quantity="other">Результатов поиска: %d</item>
     </plurals>
     <string name="play">Воспроизвести</string>
@@ -45,6 +46,7 @@
     <plurals name="songs_quantity">
         <item quantity="one">Композиций: 1</item>
         <item quantity="few">Композиций: %d</item>
+        <item quantity="many">Композиций: %d</item>
         <item quantity="other">Композиций: %d</item>
     </plurals>
     <string name="artists">Исполнители</string>
@@ -52,21 +54,25 @@
     <plurals name="albums_quantity">
         <item quantity="one">Альбомов: 1</item>
         <item quantity="few">Альбомов: %d</item>
+        <item quantity="many">Альбомов: %d</item>
         <item quantity="other">Альбомов: %d</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">Подпапок: 1</item>
         <item quantity="few">Подпапок: %d</item>
+        <item quantity="many">Подпапок: %d</item>
         <item quantity="other">Подпапок: %d</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">Медиафайлов: 1</item>
         <item quantity="few">Медиафайлов: %d</item>
+        <item quantity="many">Медиафайлов: %d</item>
         <item quantity="other">Медиафайлов: %d</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 видео</item>
         <item quantity="few">%d видео</item>
+        <item quantity="many">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
     <string name="internal_memory">Внутренняя память</string>
@@ -127,6 +133,7 @@
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>
         <item quantity="few">Каналов: %1$d\n</item>
+        <item quantity="many">Каналов: %1$d\n</item>
         <item quantity="other">Каналов: %1$d\n</item>
     </plurals>
     <string name="track_samplerate_info">Частота дискр.: %1$d Гц\n</string>
