@@ -7,6 +7,7 @@
     <string name="sortby">Sortér etter…</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_length">Lengde</string>
+    <string name="sortby_date">Dato</string>
     <string name="searchable_hint">Søk…</string>
     <string name="history">Historie</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +18,7 @@
     <string name="play_from_start">Spill fra start</string>
     <string name="play_as_audio">Spill som lyd</string>
     <string name="play_as_video">Spill som video</string>
+    <string name="play_as_audio_background">Spill videoer i bakgrunnen</string>
     <string name="append">Legg til</string>
     <string name="play_all">Spill alle</string>
     <string name="append_all">Legg til alle</string>
@@ -74,6 +76,7 @@
     <string name="loading">Laster</string>
     <string name="please_wait">Vent litt…</string>
     <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller justere dine innstillinger.</string>
+    <string name="noplaylist">Ingen spilleliste funnet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
     <string name="nosubdirectory">Ingen undermapper.</string>
@@ -81,6 +84,9 @@
     <string name="nohistory">Du har ingen avspillingshistorie enda.</string>
     <string name="validation">Er du sikker?</string>
     <string name="cover_art">Omslagsbilde</string>
+    <string name="repeat">Gjenta ingen</string>
+    <string name="repeat_single">Gjenta enkel</string>
+    <string name="repeat_all">Gjenta alle</string>
     <string name="previous">Forrige</string>
     <string name="stop">Stopp</string>
     <string name="next">Neste</string>
@@ -104,6 +110,8 @@
     <string name="sound_on">Lyd på</string>
     <string name="sound_off">Lyd av</string>
     <string name="brightness">Lysstyrke</string>
+    <string name="navmenu">navigasjonsmeny</string>
+    <string name="advanced">avanserte valg</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
@@ -248,5 +256,24 @@
     <string name="sending_log">Sender inn loggen...</string>
     <string name="drawer_open">Åpne navigasjonsskuff</string>
     <string name="drawer_close">Lukk navigasjonsskuff</string>
+    <string name="network_browsing">Lokalt nettverk</string>
+    <string name="file_size">Filstørrelse:</string>
+    <string name="file_other">Lukk navigasjonsskuff</string>
+    <string name="audio_delay">Lydforsinkelse</string>
+    <string name="spu_delay">Undertekstsforsinkelse</string>
+    <string name="network_empty">Denne mappen er tom.</string>
+    <string name="network_connection_needed">Ingen tilgang til lokalt nettverk.</string>
+    <string name="search_hint">Søk i media</string>
+    <string name="directory_show_medialib">Vis i MediaLib</string>
+    <string name="directory_hide_medialib">Skjul fra MediaLib</string>
+    <string name="playlist_save">Lagre spilleliste</string>
+    <string name="playlist_name_hint">spillelistenavn</string>
+    <string name="go_to_chapter">Gå til kapittel...</string>
+    <string name="resume_from_position">Fortsett fra siste posisjon</string>
+    <string name="confirm_resume">Fortsett fra siste posisjon?</string>
+    <string name="directory_empty">Mappen er tom</string>
     <!--Accessibility-->
+    <string name="more_actions">Flere handlinger</string>
+    <string name="move">Flytt</string>
+    <string name="back_quit_lock">Trykk tilbake igjen for å avslutte video</string>
 </resources>
