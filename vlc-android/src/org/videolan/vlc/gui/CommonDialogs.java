@@ -64,6 +64,23 @@ public class CommonDialogs {
                 });
     }
 
+    public static AlertDialog deletePlaylist(final Context context,
+                                          final String name,
+                                          final VLCRunnable runnable) {
+
+        return confirmDialog(
+                context,
+                context.getResources().getString(R.string.confirm_delete_playlist,
+                        name),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (runnable != null)
+                            runnable.run();
+                    }
+                });
+    }
+
     public static AlertDialog confirmDialog(final Context context,
             final String confirmationString,
             final DialogInterface.OnClickListener callback) {

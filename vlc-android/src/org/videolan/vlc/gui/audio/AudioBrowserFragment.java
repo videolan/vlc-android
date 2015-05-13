@@ -437,14 +437,13 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             List<MediaWrapper> mediaList = adapter.getMedias(groupPosition);
             if (adapter.getCount() <= groupPosition || mediaList == null || mediaList.isEmpty())
                 return false;
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(
+            AlertDialog alertDialog = CommonDialogs.deletePlaylist(
                     getActivity(),
-                    mediaList.get(0).getLocation(),
                     adapter.getItem(groupPosition).mTitle,
                     new VLCRunnable(adapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
-                            AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
+                            AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
                             if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
                                 MediaWrapper media = listItem.mMediaList.get(0);
                                 mMediaLibrary.getMediaItems().remove(media);
