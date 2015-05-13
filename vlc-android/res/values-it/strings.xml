@@ -291,6 +291,7 @@
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
     <string name="confirm_resume_title">Chiedi conferma per riprendere</string>
     <string name="confirm_resume_summary">Se attivata, ti sarà richiesta una conferma quando un video può essere ripreso dall\'ultima posizione</string>
+    <string name="directory_empty">La cartella è vuota</string>
     <!--Accessibility-->
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
