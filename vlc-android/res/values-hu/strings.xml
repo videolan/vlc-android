@@ -6,7 +6,11 @@
     <string name="other">Egyéb</string>
     <string name="sortby">Rendezés...</string>
     <string name="sortby_name">Név</string>
+    <string name="sortby_name_desc">Név (leírás)</string>
     <string name="sortby_length">Hosszúság</string>
+    <string name="sortby_length_desc">Hossz (leírás)</string>
+    <string name="sortby_date">Dátum</string>
+    <string name="sortby_date_desc">Dátum (leírás)</string>
     <string name="searchable_hint">Keresés...</string>
     <string name="history">Előzmények</string>
     <plurals name="search_found_results_quantity">
@@ -223,5 +227,8 @@
     <string name="restart_vlc">VLC újraindítása</string>
     <string name="send_log">Naplófájl küldése</string>
     <string name="sending_log">Naplófájl küldése...</string>
+    <string name="network_browsing">Helyi hálózat</string>
+    <string name="audio_delay">Hang csúszás</string>
+    <string name="spu_delay">Felirat csúszás</string>
     <!--Accessibility-->
 </resources>
