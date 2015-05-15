@@ -33,6 +33,7 @@
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
+    <string name="confirm_delete_playlist">Vymazať playlist \'%1$s\'?</string>
     <string name="ringtone_set">Súbor \'%1$s\' bol nastavený ako tón vyzváňania.</string>
     <string name="ringtone_error">Počas nastavovania tónu vyzváňania nastala chyba.</string>
     <string name="pause">Pozastaviť</string>
