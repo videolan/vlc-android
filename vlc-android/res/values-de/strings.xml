@@ -32,6 +32,7 @@
     <string name="set_song">Als Klingelton festlegen</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei „%1$s“ löschen?</string>
+    <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
     <string name="ringtone_set">Die Datei „%1$s“ wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
