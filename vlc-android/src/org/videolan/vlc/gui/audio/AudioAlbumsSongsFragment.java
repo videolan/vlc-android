@@ -219,30 +219,19 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     }
 
     private boolean handleContextItemSelected(MenuItem item, int position) {
-        ContextMenuInfo menuInfo = item.getMenuInfo();
-        if (menuInfo == null)
-            return false;
 
         int startPosition;
-        int groupPosition;
         List<MediaWrapper> medias;
         int id = item.getItemId();
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
 
-        if (menuInfo instanceof ExpandableListContextMenuInfo) {
-            ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-            groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        }
-        else
-            groupPosition = position;
-
         if (id == R.id.audio_list_browser_delete) {
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
-                    mSongsAdapter.getMedias(groupPosition).get(0).getLocation(),
-                    new VLCRunnable(mSongsAdapter.getItem(groupPosition)) {
+                    mSongsAdapter.getMedias(position).get(0).getLocation(),
+                    new VLCRunnable(mSongsAdapter.getItem(position)) {
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
@@ -258,23 +247,23 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         }
 
         if (id == R.id.audio_list_browser_set_song) {
-            AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition).mMediaList.get(0), getActivity());
+            AudioUtil.setRingtone(mSongsAdapter.getItem(position).mMediaList.get(0), getActivity());
             return true;
         }
 
         if (useAllItems) {
             medias = new ArrayList<MediaWrapper>();
-            startPosition = mSongsAdapter.getListWithPosition(medias, groupPosition);
+            startPosition = mSongsAdapter.getListWithPosition(medias, position);
         }
         else {
             startPosition = 0;
             switch (mViewPager.getCurrentItem())
             {
                 case MODE_ALBUM: // albums
-                    medias = mAlbumsAdapter.getMedias(groupPosition);
+                    medias = mAlbumsAdapter.getMedias(position);
                     break;
                 case MODE_SONG: // songs
-                    medias = mSongsAdapter.getMedias(groupPosition);
+                    medias = mSongsAdapter.getMedias(position);
                     break;
                 default:
                     return true;
