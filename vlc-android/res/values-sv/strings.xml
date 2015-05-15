@@ -32,6 +32,7 @@
     <string name="set_song">Ange som ringsignal</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \'%1$s\'?</string>
+    <string name="confirm_delete_playlist">Radera spellistan \'%1$s\'?</string>
     <string name="ringtone_set">Filen \'%1$s\' ställdes in som ringsignal.</string>
     <string name="ringtone_error">Ett fel inträffade när ringsignalen ställdes in.</string>
     <string name="pause">Pausa</string>
