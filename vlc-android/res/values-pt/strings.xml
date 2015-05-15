@@ -32,6 +32,7 @@
     <string name="set_song">Definir como toque de chamada</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Apagar o ficheiro \'%1$s\'?</string>
+    <string name="confirm_delete_playlist">Eliminar lista de reprodução \'%1$s\'?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido com toque de chamada.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque de chamada.</string>
     <string name="pause">Pausa</string>
