@@ -31,6 +31,7 @@
     <string name="set_song">벨소리로 설정</string>
     <string name="info">정보</string>
     <string name="confirm_delete">\'%1$s\' 파일을 삭제할까요?</string>
+    <string name="confirm_delete_playlist">재생목록 \'%1$s\' 을 삭제할까요?</string>
     <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">Ringtone 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
