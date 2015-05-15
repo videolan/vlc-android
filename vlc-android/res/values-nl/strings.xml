@@ -32,6 +32,7 @@
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
     <string name="ringtone_set">Het bestand \'%1$s\' werd als beltoon ingesteld.</string>
     <string name="ringtone_error">Er trad een fout op bij het instellen van de beltoon.</string>
     <string name="pause">Pauzeren</string>
