@@ -22,7 +22,7 @@
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
     <string name="play_as_audio_background">Görüntüler artalanda oynatılsın</string>
-    <string name="play_as_audio_background_summary">Aygıt ekranı kapatıldığında ya da anasayfa düğmesine basıldığında görüntüler artalanda oynatılmaya devam edilir.</string>
+    <string name="play_as_audio_background_summary">Aygıt ekranı kapatıldığında ya da ANASAYFA düğmesine basıldığında görüntüler artalanda oynatılmaya devam edilir.</string>
     <string name="append">Ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
@@ -32,6 +32,7 @@
     <string name="set_song">Zil sesi olarak ata</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete"> \'%1$s\' dosyası silinsin mi?</string>
+    <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
     <string name="ringtone_set">\'%1$s\' dosyası zil sesi olarak ayarlanmış.</string>
     <string name="ringtone_error">Zil sesi olarak atanırken bir hata oluştu.</string>
     <string name="pause">Duraklat</string>
