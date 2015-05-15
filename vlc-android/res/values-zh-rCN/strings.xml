@@ -31,6 +31,7 @@
     <string name="set_song">设为铃声</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件“%1$s”?</string>
+    <string name="confirm_delete_playlist">是否删除播放列表“%1$s”?</string>
     <string name="ringtone_set">文件“%1$s”已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
