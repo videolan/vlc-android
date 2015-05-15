@@ -387,10 +387,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
         }
-        if (pos == MODE_ARTIST || pos == MODE_GENRE) {
-            MenuItem play = menu.findItem(R.id.audio_list_browser_play);
-            play.setVisible(true);
-        }
+        if (pos == MODE_ARTIST || pos == MODE_GENRE || pos == MODE_ALBUM)
+            menu.findItem(R.id.audio_list_browser_play).setVisible(true);
         if (pos != MODE_SONG && pos != MODE_PLAYLIST)
             menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
         if (!AndroidDevices.isPhone())

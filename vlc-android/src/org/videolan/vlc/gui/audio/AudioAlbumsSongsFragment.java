@@ -204,6 +204,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         }
         if (!AndroidDevices.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
+        menu.findItem(R.id.audio_list_browser_play).setVisible(true);
     }
 
     @Override
