@@ -32,6 +32,7 @@
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
+    <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
     <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
