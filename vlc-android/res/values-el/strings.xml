@@ -32,6 +32,7 @@
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
+    <string name="confirm_delete_playlist">Διαγραφή λίστας αναπαραγωγής \'%1$s\';</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
     <string name="pause">Παύση</string>
