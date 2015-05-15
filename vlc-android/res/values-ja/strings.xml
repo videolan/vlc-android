@@ -31,6 +31,7 @@
     <string name="set_song">呼び出し音に設定</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
+    <string name="confirm_delete_playlist">プレイリスト \'%1$s\' を削除しますか?</string>
     <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
