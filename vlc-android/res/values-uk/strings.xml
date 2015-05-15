@@ -33,6 +33,7 @@
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
     <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
