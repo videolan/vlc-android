@@ -397,7 +397,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case R.id.opt_equalizer:
-                ((MainActivity)getActivity()).showSecondaryFragment(SecondaryActivity.EQUALIZER);
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra("fragment", SecondaryActivity.EQUALIZER);
+                startActivity(i);
                 dismiss();
                 break;
         }
