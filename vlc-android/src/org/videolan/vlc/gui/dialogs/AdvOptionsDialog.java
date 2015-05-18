@@ -349,7 +349,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     if (VLCApplication.sPlayerSleepTime != null)
                         text = DateFormat.getTimeFormat(getOwner().mSleepTime.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
                     if (text == null)
-                        text = "none set";
+                        text = getOwner().getString(R.string.sleep_time_not_set);
                     getOwner().mSleepTime.setText(text);
                     break;
                 case DIALOG_LISTENER:
