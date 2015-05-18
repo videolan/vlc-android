@@ -43,7 +43,6 @@ import android.media.MediaRouter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -148,6 +147,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     public final static String PLAY_EXTRA_ITEM_TITLE = "item_title";
     public final static String PLAY_EXTRA_FROM_START = "from_start";
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
+
+    public final static String ACTION_RESULT = "org.videolan.vlc.player.result";
+    public final static String EXTRA_POSITION = "extra_position";
+    public final static String EXTRA_DURATION = "extra_duration";
+    public final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
+    public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
+    public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
+    public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
 
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurfaceView;
@@ -325,7 +332,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         super.onCreate(savedInstanceState);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
-            finish();
+            exit(RESULT_CANCELED);
             return;
         }
 
@@ -883,10 +890,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mBattery.setText(String.format("%d%%", batteryLevel));
             }
             else if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
-                finish();
+                exit();
             }
         }
     };
+
+    private void exit(int resultCode){
+        Intent resultIntent = new Intent(ACTION_RESULT);
+        resultIntent.setData(Uri.parse(mLocation));
+        resultIntent.putExtra(EXTRA_POSITION, mLibVLC.getTime());
+        resultIntent.putExtra(EXTRA_DURATION, mLibVLC.getLength());
+        setResult(resultCode, resultIntent);
+        finish();
+    }
+
+    private void exit() {
+        exit(RESULT_OK);
+    }
 
     @TargetApi(21)
     private void registerV21() {
@@ -971,7 +991,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else if (BuildConfig.tv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else
-            super.onBackPressed();
+            exit();
     }
 
     @Override
@@ -1028,7 +1048,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             return true;
         case KeyEvent.KEYCODE_S:
         case KeyEvent.KEYCODE_MEDIA_STOP:
-            finish();
+            exit();
             return true;
         case KeyEvent.KEYCODE_DPAD_UP:
         case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -1545,7 +1565,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     activity.startPlayback();
                     break;
                 case AUDIO_SERVICE_CONNECTION_FAILED:
-                    activity.finish();
+                    activity.exit(RESULT_CONNECTION_FAILED);
                     break;
                 case RESET_BACK_LOCK:
                     activity.mLockBackButton = true;
@@ -1584,7 +1604,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else {
             /* Exit player when reaching the end */
             mEndReached = true;
-            finish();
+            exit();
         }
     }
 
@@ -1596,7 +1616,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                finish();
+                exit(RESULT_PLAYBACK_ERROR);
             }
         })
         .setTitle(R.string.encountered_error_title)
@@ -1628,13 +1648,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                finish();
+                exit(RESULT_HARDWARE_ACCELERATION_ERROR);
             }
         })
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                finish();
+                exit(RESULT_HARDWARE_ACCELERATION_ERROR);
             }
         })
         .setTitle(R.string.hardware_acceleration_error_title)
@@ -1649,7 +1669,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             /* Video track lost, open in audio mode */
             Log.i(TAG, "Video track lost, switching to audio");
             mSwitchingView = true;
-            finish();
+            exit(RESULT_VIDEO_TRACK_LOST);
         }
     }
 
@@ -1671,7 +1691,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             }
             startActivity(i);
         }
-        finish();
+        exit();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
