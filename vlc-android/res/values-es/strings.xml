@@ -279,6 +279,7 @@
     <string name="file_other">Cerrar navegación «drawer»</string>
     <string name="audio_delay">Retraso de audio</string>
     <string name="spu_delay">Retraso de subtítulo</string>
+    <string name="sleep_time_not_set">ninguno</string>
     <string name="network_shares_discovery">Buscando redes compartidas...</string>
     <string name="network_empty">Esta capeta está vacía.</string>
     <string name="network_connection_needed">Sin conexión a red local.</string>
