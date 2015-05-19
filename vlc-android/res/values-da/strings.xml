@@ -279,6 +279,7 @@
     <string name="file_other">Luk navigationsskuffe</string>
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstforsinkelse</string>
+    <string name="sleep_time_not_set">ingen angivet</string>
     <string name="network_shares_discovery">Søger efter netværksshares...</string>
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
