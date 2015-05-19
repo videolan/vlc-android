@@ -286,6 +286,7 @@
     <string name="file_other">Zatvoriť vykresľovač navigovania</string>
     <string name="audio_delay">Oneskorenie zvuku</string>
     <string name="spu_delay">Oneskorenei titulkov</string>
+    <string name="sleep_time_not_set">Nenastavené</string>
     <string name="network_shares_discovery">Vyhľadávanie sieťových zdieľaní...</string>
     <string name="network_empty">Tento priečinok je prázdny.</string>
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
