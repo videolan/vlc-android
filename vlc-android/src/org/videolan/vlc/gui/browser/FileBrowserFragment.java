@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -90,22 +91,35 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     @Override
     protected void browseRoot() {
+        final Activity context = getActivity();
         mAdapter.updateMediaDirs();
-        String storages[] = AndroidDevices.getMediaDirectories();
-        MediaWrapper directory;
-        for (String mediaDirLocation : storages) {
-            directory = new MediaWrapper(mediaDirLocation);
-            directory.setType(MediaWrapper.TYPE_DIR);
-            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                directory.setTitle(getString(R.string.internal_memory));
-            mAdapter.addItem(directory, false, false);
-        }
-        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        if (mReadyToDisplay) {
-            updateEmptyView();
-            mAdapter.notifyDataSetChanged();
-            parseSubDirectories();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String storages[] = AndroidDevices.getMediaDirectories();
+                MediaWrapper directory;
+                for (String mediaDirLocation : storages) {
+                    if (!(new File(mediaDirLocation).exists()))
+                        continue;
+                    directory = new MediaWrapper(mediaDirLocation);
+                    directory.setType(MediaWrapper.TYPE_DIR);
+                    if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+                        directory.setTitle(getString(R.string.internal_memory));
+                    mAdapter.addItem(directory, false, false);
+                }
+                mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
+                if (mReadyToDisplay) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateEmptyView();
+                            mAdapter.notifyDataSetChanged();
+                            parseSubDirectories();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     public void onStart(){
