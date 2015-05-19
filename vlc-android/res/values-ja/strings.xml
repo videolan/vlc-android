@@ -272,6 +272,7 @@
     <string name="file_other">ナビゲーションドロワーを閉じる</string>
     <string name="audio_delay">オーディオの遅延</string>
     <string name="spu_delay">字幕の遅延</string>
+    <string name="sleep_time_not_set">設定なし</string>
     <string name="network_shares_discovery">ネットワーク共有の検索...</string>
     <string name="network_empty">このディレクトリは空です。</string>
     <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
