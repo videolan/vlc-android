@@ -39,78 +39,73 @@ import android.util.Log;
 public class LibVlcUtil {
     public final static String TAG = "VLC/LibVLC/Util";
 
-    public static boolean isFroyoOrLater()
-    {
+    public static boolean isFroyoOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO;
     }
 
-    public static boolean isGingerbreadOrLater()
-    {
+    public static boolean isGingerbreadOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }
 
-    public static boolean isHoneycombOrLater()
-    {
+    public static boolean isHoneycombOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
     }
 
-    public static boolean isICSOrLater()
-    {
+    public static boolean isHoneycombMr1OrLater() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
+    }
+
+    public static boolean isICSOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
 
-    public static boolean isJellyBeanOrLater()
-    {
+    public static boolean isJellyBeanOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
     }
 
-    public static boolean isJellyBeanMR1OrLater()
-    {
+    public static boolean isJellyBeanMR1OrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
 
-    public static boolean isJellyBeanMR2OrLater()
-    {
+    public static boolean isJellyBeanMR2OrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 
-    public static boolean isKitKatOrLater()
-    {
+    public static boolean isKitKatOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT;
     }
 
-    public static boolean isLolliPopOrLater()
-    {
+    public static boolean isLolliPopOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
     }
 
     private static String errorMsg = null;
     private static boolean isCompatible = false;
+
     public static String getErrorMsg() {
         return errorMsg;
     }
 
     public static File URItoFile(String URI) {
-        if(URI == null) return null;
-        return new File(Uri.decode(URI).replace("file://",""));
+        if (URI == null) return null;
+        return new File(Uri.decode(URI).replace("file://", ""));
     }
 
     public static String URItoFileName(String URI) {
-        if(URI == null) return null;
+        if (URI == null) return null;
         return URItoFile(URI).getName();
     }
 
-    public static boolean hasCompatibleCPU(Context context)
-    {
+    public static boolean hasCompatibleCPU(Context context) {
         // If already checked return cached result
-        if(errorMsg != null || isCompatible) return isCompatible;
+        if (errorMsg != null || isCompatible) return isCompatible;
 
         final File lib = searchLibrary(context);
         if (lib == null)
             return true;
 
         ElfData elf = readLib(lib);
-        if(elf == null) {
+        if (elf == null) {
             Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
             Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
             return true;
@@ -118,10 +113,11 @@ public class LibVlcUtil {
 
         String CPU_ABI = android.os.Build.CPU_ABI;
         String CPU_ABI2 = "none";
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) { // CPU_ABI2 since 2.2
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) { // CPU_ABI2 since 2.2
             try {
-                CPU_ABI2 = (String)android.os.Build.class.getDeclaredField("CPU_ABI2").get(null);
-            } catch (Exception e) { }
+                CPU_ABI2 = (String) android.os.Build.class.getDeclaredField("CPU_ABI2").get(null);
+            } catch (Exception e) {
+            }
         }
 
         final boolean elfHasX86 = elf.e_machine == EM_386 || elf.e_machine == EM_X86_64;
@@ -130,7 +126,7 @@ public class LibVlcUtil {
         final boolean elfIs64bits = elf.is64bits;
 
         Log.i(TAG, "ELF ABI = " + (elfHasArm ? "arm" : elfHasX86 ? "x86" : "mips") + ", " +
-                                  (elfIs64bits ? "64bits" : "32bits"));
+                (elfIs64bits ? "64bits" : "32bits"));
         Log.i(TAG, "ELF arch = " + elf.att_arch);
         Log.i(TAG, "ELF fpu = " + elf.att_fpu);
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
@@ -138,21 +134,21 @@ public class LibVlcUtil {
         float bogoMIPS = -1;
         int processors = 0;
 
-        if(CPU_ABI.equals("x86") ||
-           CPU_ABI2.equals("x86")) {
+        if (CPU_ABI.equals("x86") ||
+                CPU_ABI2.equals("x86")) {
             hasX86 = true;
-        } else if(CPU_ABI.equals("x86_64") ||
-                  CPU_ABI2.equals("x86_64")) {
+        } else if (CPU_ABI.equals("x86_64") ||
+                CPU_ABI2.equals("x86_64")) {
             hasX86 = true;
             is64bits = true;
-        } else if(CPU_ABI.equals("armeabi-v7a") ||
-                  CPU_ABI2.equals("armeabi-v7a")) {
+        } else if (CPU_ABI.equals("armeabi-v7a") ||
+                CPU_ABI2.equals("armeabi-v7a")) {
             hasArmV7 = true;
             hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-        } else if(CPU_ABI.equals("armeabi") ||
-                  CPU_ABI2.equals("armeabi")) {
+        } else if (CPU_ABI.equals("armeabi") ||
+                CPU_ABI2.equals("armeabi")) {
             hasArmV6 = true;
-        } else if(CPU_ABI.equals("arm64-v8a") ||
+        } else if (CPU_ABI.equals("arm64-v8a") ||
                 CPU_ABI2.equals("arm64-v8a")) {
             hasNeon = true;
             hasArmV6 = true;
@@ -165,43 +161,43 @@ public class LibVlcUtil {
             fileReader = new FileReader("/proc/cpuinfo");
             br = new BufferedReader(fileReader);
             String line;
-            while((line = br.readLine()) != null) {
-                if(!hasArmV7 && line.contains("AArch64")) {
+            while ((line = br.readLine()) != null) {
+                if (!hasArmV7 && line.contains("AArch64")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv8 is backwards compatible to < v7 */
                 }
-                if(!hasArmV7 && line.contains("ARMv7")) {
+                if (!hasArmV7 && line.contains("ARMv7")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
                 }
-                if(!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
+                if (!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
                     hasArmV6 = true;
                 // "clflush size" is a x86-specific cpuinfo tag.
                 // (see kernel sources arch/x86/kernel/cpu/proc.c)
-                if(line.contains("clflush size"))
+                if (line.contains("clflush size"))
                     hasX86 = true;
-                if(line.contains("GenuineIntel"))
+                if (line.contains("GenuineIntel"))
                     hasX86 = true;
                 // "microsecond timers" is specific to MIPS.
                 // see arch/mips/kernel/proc.c
-                if(line.contains("microsecond timers"))
+                if (line.contains("microsecond timers"))
                     hasMips = true;
-                if(!hasNeon && (line.contains("neon") || line.contains("asimd")))
+                if (!hasNeon && (line.contains("neon") || line.contains("asimd")))
                     hasNeon = true;
-                if(!hasFpu && (line.contains("vfp") || (line.contains("Features") && line.contains("fp"))))
+                if (!hasFpu && (line.contains("vfp") || (line.contains("Features") && line.contains("fp"))))
                     hasFpu = true;
-                if(line.startsWith("processor"))
+                if (line.startsWith("processor"))
                     processors++;
-                if(bogoMIPS < 0 && line.toLowerCase(Locale.ENGLISH).contains("bogomips")) {
+                if (bogoMIPS < 0 && line.toLowerCase(Locale.ENGLISH).contains("bogomips")) {
                     String[] bogo_parts = line.split(":");
                     try {
                         bogoMIPS = Float.parseFloat(bogo_parts[1].trim());
-                    } catch(NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         bogoMIPS = -1; // invalid bogomips
                     }
                 }
             }
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
             errorMsg = "IOException whilst reading cpuinfo flags";
             isCompatible = false;
@@ -210,49 +206,51 @@ public class LibVlcUtil {
             if (br != null) {
                 try {
                     br.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
             if (fileReader != null) {
                 try {
                     fileReader.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
         }
-        if(processors == 0)
+        if (processors == 0)
             processors = 1; // possibly borked cpuinfo?
 
         // Enforce proper architecture to prevent problems
-        if(elfHasX86 && !hasX86) {
+        if (elfHasX86 && !hasX86) {
             errorMsg = "x86 build on non-x86 device";
             isCompatible = false;
             return false;
-        } else if(elfHasArm && hasX86) {
+        } else if (elfHasArm && hasX86) {
             errorMsg = "ARM build on x86 device";
             isCompatible = false;
             return false;
         }
 
-        if(elfHasMips && !hasMips) {
+        if (elfHasMips && !hasMips) {
             errorMsg = "MIPS build on non-MIPS device";
             isCompatible = false;
             return false;
-        } else if(elfHasArm && hasMips) {
+        } else if (elfHasArm && hasMips) {
             errorMsg = "ARM build on MIPS device";
             isCompatible = false;
             return false;
         }
 
-        if(elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
+        if (elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
             errorMsg = "ARMv7 build on non-ARMv7 device";
             isCompatible = false;
             return false;
         }
-        if(elf.e_machine == EM_ARM) {
-            if(elf.att_arch.startsWith("v6") && !hasArmV6) {
+        if (elf.e_machine == EM_ARM) {
+            if (elf.att_arch.startsWith("v6") && !hasArmV6) {
                 errorMsg = "ARMv6 build on non-ARMv6 device";
                 isCompatible = false;
                 return false;
-            } else if(elf.att_fpu && !hasFpu) {
+            } else if (elf.att_fpu && !hasFpu) {
                 errorMsg = "FPU-enabled build on non-FPU device";
                 isCompatible = false;
                 return false;
@@ -273,21 +271,23 @@ public class LibVlcUtil {
             line = br.readLine();
             if (line != null)
                 frequency = Float.parseFloat(line) / 1000.f; /* Convert to MHz */
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             Log.w(TAG, "Could not find maximum CPU frequency!");
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             Log.w(TAG, "Could not parse maximum CPU frequency!");
             Log.w(TAG, "Failed to parse: " + line);
         } finally {
             if (br != null) {
                 try {
                     br.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
             if (fileReader != null) {
                 try {
                     fileReader.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
         }
 
@@ -311,7 +311,9 @@ public class LibVlcUtil {
     public static MachineSpecs getMachineSpecs() {
         return machineSpecs;
     }
+
     private static MachineSpecs machineSpecs = null;
+
     public static class MachineSpecs {
         public boolean hasNeon;
         public boolean hasFpu;
@@ -333,6 +335,7 @@ public class LibVlcUtil {
     private static final int ELF_HEADER_SIZE = 52;
     private static final int SECTION_HEADER_SIZE = 40;
     private static final int SHT_ARM_ATTRIBUTES = 0x70000003;
+
     private static class ElfData {
         ByteOrder order;
         boolean is64bits;
@@ -347,7 +350,7 @@ public class LibVlcUtil {
 
     private static File searchLibrary(Context context) {
         // Search for library path
-        String [] libraryPaths = null;
+        String[] libraryPaths = null;
         final ApplicationInfo applicationInfo = context.getApplicationInfo();
 
         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
@@ -370,7 +373,8 @@ public class LibVlcUtil {
         for (String libraryPath : libraryPaths) {
             lib = new File(libraryPath, "libvlcjni.so");
             if (lib.exists() && lib.canRead())
-                return lib;;
+                return lib;
+            ;
         }
         Log.e(TAG, "WARNING: Can't find shared library");
         return null;
@@ -378,9 +382,9 @@ public class LibVlcUtil {
 
     /** '*' prefix means it's unsupported */
     private static String[] CPU_archs = {"*Pre-v4", "*v4", "*v4T",
-                                         "v5T", "v5TE", "v5TEJ",
-                                         "v6", "v6KZ", "v6T2", "v6K", "v7",
-                                         "*v6-M", "*v6S-M", "*v7E-M", "*v8"};
+            "v5T", "v5TE", "v5TEJ",
+            "v6", "v6KZ", "v6T2", "v6K", "v7",
+            "*v6-M", "*v6S-M", "*v7E-M", "*v8"};
 
     private static ElfData readLib(File file) {
         RandomAccessFile in = null;
@@ -513,12 +517,10 @@ public class LibVlcUtil {
                         if (tag == 6) { // CPU_arch
                             int arch = getUleb128(buffer);
                             elf.att_arch = CPU_archs[arch];
-                        }
-                        else if (tag == 27) { // ABI_HardFP_use
+                        } else if (tag == 27) { // ABI_HardFP_use
                             getUleb128(buffer);
                             elf.att_fpu = true;
-                        }
-                        else {
+                        } else {
                             // string for 4=CPU_raw_name / 5=CPU_name / 32=compatibility
                             // string for >32 && odd tags
                             // uleb128 for other
@@ -554,7 +556,7 @@ public class LibVlcUtil {
             ret <<= 7;
             c = buffer.get();
             ret |= c & 0x7f;
-        } while((c & 0x80) > 0);
+        } while ((c & 0x80) > 0);
 
         return ret;
     }
