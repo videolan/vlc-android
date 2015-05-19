@@ -272,6 +272,7 @@
     <string name="file_other">关闭导航栏</string>
     <string name="audio_delay">音频延迟</string>
     <string name="spu_delay">字幕延迟</string>
+    <string name="sleep_time_not_set">未设置</string>
     <string name="network_shares_discovery">正在查找网络共享...</string>
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
