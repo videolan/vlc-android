@@ -46,8 +46,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.app.FragmentManager;
@@ -120,6 +122,7 @@ import org.videolan.vlc.widget.OnRepeatListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -859,7 +862,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private static void start(Context context, String location, String title, boolean fromStart, int openedPosition) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
-        intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
+        intent.setAction(PLAY_FROM_VIDEOGRID);
         intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, location);
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
         intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
@@ -897,9 +900,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void exit(int resultCode){
         Intent resultIntent = new Intent(ACTION_RESULT);
-        resultIntent.setData(Uri.parse(mLocation));
-        resultIntent.putExtra(EXTRA_POSITION, mLibVLC.getTime());
-        resultIntent.putExtra(EXTRA_DURATION, mLibVLC.getLength());
+        if (mLocation != null) {
+            resultIntent.setData(Uri.parse(mLocation));
+            resultIntent.putExtra(EXTRA_POSITION, mLibVLC.getTime());
+            resultIntent.putExtra(EXTRA_DURATION, mLibVLC.getLength());
+        }
         setResult(resultCode, resultIntent);
         finish();
     }
@@ -2636,6 +2641,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      * External extras:
      * - position (long) - position of the video to start with (in ms)
      */
+    @TargetApi(12)
     @SuppressWarnings({ "unchecked" })
     private void loadMedia() {
         mLocation = null;
@@ -2705,7 +2711,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     }
                 }
                 // Media or MMS URI
-                else {
+                else if (TextUtils.equals(data.getAuthority(), "media")){
                     try {
                         Cursor cursor = getContentResolver().query(data,
                                 new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
@@ -2724,6 +2730,30 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                         if (!mLocation.startsWith("file://"))
                             mLocation = "file://"+mLocation;
                         Log.e(TAG, "Couldn't read the file from media or MMS");
+                    }
+                } else {
+                    ParcelFileDescriptor inputPFD = null;
+                    try {
+                        inputPFD = getContentResolver().openFileDescriptor(data, "r");
+                        if (LibVlcUtil.isHoneycombMr1OrLater())
+                            mLocation = "fd://"+inputPFD.getFd();
+                        else {
+                            String fdString = inputPFD.getFileDescriptor().toString();
+                            mLocation = "fd://" + fdString.substring(15, fdString.length()-1);
+                        }
+
+                        Cursor returnCursor =
+                                getContentResolver().query(data, null, null, null, null);
+                        if (returnCursor != null) {
+                            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+                            returnCursor.moveToFirst();
+                            title = returnCursor.getString(nameIndex);
+                        }
+                    } catch (FileNotFoundException e) {
+                        Log.e(TAG, "Couldn't understand the intent");
+                        encounteredError();
+                        return;
                     }
                 }
             } /* External application */
