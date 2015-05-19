@@ -120,7 +120,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                     fragment.browse(mw, holder.getAdapterPosition());
                 else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
                     Util.openMedia(v.getContext(), mw);
-                else {
+                else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
                     int position = 0;
                     LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
                     MediaWrapper mediaItem;
@@ -134,6 +134,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                             }
                         }
                     Util.openList(v.getContext(), mediaLocations, position);
+                } else {
+                    Util.openStream(v.getContext(), mw.getLocation());
                 }
             }
         });
