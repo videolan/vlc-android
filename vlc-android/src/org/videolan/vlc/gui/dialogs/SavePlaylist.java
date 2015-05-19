@@ -114,16 +114,20 @@ public class SavePlaylist extends DialogFragment implements AdapterView.OnItemCl
     }
 
     private void savePlaylist() {
-        final MediaDatabase db = MediaDatabase.getInstance();
-        final String name = mEditText.getText().toString().trim();
-        if (db.playlistExists(name))
-            db.playlistDelete(name);
-        db.playlistAdd(name);
-        MediaWrapper mw;
-        for (int i = 0 ; i< mTracks.size() ; ++i){
-            mw = mTracks.get(i);
-            db.playlistInsertItem(name, i, mw.getLocation());
-        }
+        new Thread(new Runnable() {
+            public void run() {
+                final MediaDatabase db = MediaDatabase.getInstance();
+                final String name = mEditText.getText().toString().trim();
+                if (db.playlistExists(name))
+                    db.playlistDelete(name);
+                db.playlistAdd(name);
+                MediaWrapper mw;
+                for (int i = 0 ; i< mTracks.size() ; ++i){
+                    mw = mTracks.get(i);
+                    db.playlistInsertItem(name, i, mw.getLocation());
+                }
+            }
+        }).start();
         dismiss();
     }
 }
