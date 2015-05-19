@@ -21,6 +21,8 @@
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>
+    <string name="play_as_audio_background">Lire les vidéos en arrière-plan</string>
+    <string name="play_as_audio_background_summary">Continue la lecture de la vidéo en arrière plan lorsque l\'écran de l\'appareil est éteint ou lors de l\'appui sur le bouton HOME.</string>
     <string name="append">Lire à la suite</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
@@ -86,6 +88,11 @@
     <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Êtes-vous sûr ?</string>
     <string name="cover_art">Jaquette</string>
+    <string name="shuffle">Lecture aléatoire désactivée</string>
+    <string name="shuffle_on">Lecture aléatoire activée</string>
+    <string name="repeat">Aucune répétition</string>
+    <string name="repeat_single">Répéter</string>
+    <string name="repeat_all">Tout répéter</string>
     <string name="previous">Précédent</string>
     <string name="stop">Arrêter</string>
     <string name="next">Suivant</string>
@@ -280,8 +287,13 @@
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de la liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre...</string>
+    <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position?</string>
     <string name="confirm_resume_title">Demander la confirmation pour reprendre</string>
+    <string name="confirm_resume_summary">Si activé, il vous sera demandé si vous souhaitez reprendre la lecture de la vidéo depuis la dernière position</string>
+    <string name="directory_empty">Le répertoire est vide</string>
     <!--Accessibility-->
     <string name="more_actions">Plus d\'actions</string>
+    <string name="move">Déplacer</string>
+    <string name="back_quit_lock">Appuyez à nouveau sur Retour pour quitter la vidéo</string>
 </resources>
