@@ -286,6 +286,7 @@
     <string name="file_other">Закрити меню навігації</string>
     <string name="audio_delay">Затримка звуку</string>
     <string name="spu_delay">Затримка субтитрів</string>
+    <string name="sleep_time_not_set">нічого не задано</string>
     <string name="network_shares_discovery">Пошук мережних дисків…</string>
     <string name="network_empty">Цей каталог - порожній.</string>
     <string name="network_connection_needed">Немає з\'єднання до локальної мережі</string>
