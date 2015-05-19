@@ -31,6 +31,7 @@
     <string name="set_song">Tetapkan sebagai nada dering</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
+    <string name="confirm_delete_playlist">Padam senarai main \'%1$s\'?</string>
     <string name="ringtone_set">Fail \'%1$s\' telah ditetapkan sebagai nada dering.</string>
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
     <string name="pause">Jeda</string>
