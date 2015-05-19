@@ -279,6 +279,7 @@
     <string name="file_other">Fechar menu de navegação</string>
     <string name="audio_delay">Atraso de áudio</string>
     <string name="spu_delay">Atraso de legendas</string>
+    <string name="sleep_time_not_set">não definido</string>
     <string name="network_shares_discovery">À procura de partilhas de rede...</string>
     <string name="network_empty">Este diretório está vazio</string>
     <string name="network_connection_needed">Nenhuma ligação à rede local</string>
