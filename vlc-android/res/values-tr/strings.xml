@@ -279,6 +279,7 @@
     <string name="file_other">Gezinti çekmecesini kapatın</string>
     <string name="audio_delay">Ses gecikmesi</string>
     <string name="spu_delay">Altyazı gecikmesi</string>
+    <string name="sleep_time_not_set">hiçbiri ayarlanmamış</string>
     <string name="network_shares_discovery">Ağ paylaşımları aranıyor...</string>
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
