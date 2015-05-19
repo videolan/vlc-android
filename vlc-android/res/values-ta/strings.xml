@@ -32,6 +32,7 @@
     <string name="set_song">அழைப்போசையாக அமை</string>
     <string name="info">தகவல்</string>
     <string name="confirm_delete">\'%1$s\' கோப்பை அழி?</string>
+    <string name="confirm_delete_playlist">பட்டியலை நீக்கு \'%1$s\'?</string>
     <string name="ringtone_set">\'%1$s\' கோப்பு அழைப்போசையாக அமைக்கப்பட்டது.</string>
     <string name="ringtone_error">அழைப்போசையை அமைக்கும்போது பிழை ஏற்பட்டது.</string>
     <string name="pause">இடைநிறுத்தம்</string>
@@ -278,6 +279,7 @@
     <string name="file_other">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="audio_delay">ஒலித் தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
+    <string name="sleep_time_not_set">ஒன்றுமில்லை</string>
     <string name="network_shares_discovery">பிணைய பங்குகள் தேடி ...</string>
     <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
     <string name="network_connection_needed">சாதனம் உள்ளே பிணைய இணைப்பு இல்லை.</string>
