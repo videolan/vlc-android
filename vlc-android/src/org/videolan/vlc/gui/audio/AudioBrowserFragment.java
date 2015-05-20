@@ -42,8 +42,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -88,6 +86,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private MediaLibrary mMediaLibrary;
     private MediaBrowser mMediaBrowser;
     private MainActivity mMainActivity;
+    private AlertDialog mAlertDialog;
 
     List<MediaWrapper> mAudioList;
     private AudioBrowserListAdapter mArtistsAdapter;
@@ -235,6 +234,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             mMediaBrowser.release();
             mMediaBrowser = null;
         }
+
+        if (mAlertDialog != null && mAlertDialog.isShowing())
+            mAlertDialog.dismiss();
     }
 
     @Override
@@ -427,25 +429,47 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             List<MediaWrapper> mediaList = adapter.getMedias(position);
             if (adapter.getCount() <= position || mediaList == null || mediaList.isEmpty())
                 return false;
-            AlertDialog alertDialog = CommonDialogs.deletePlaylist(
-                    getActivity(),
-                    adapter.getItem(position).mTitle,
-                    new VLCRunnable(adapter.getItem(position)) {
-                        @Override
-                        public void run(Object o) {
-                            AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
-                            if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
-                                MediaWrapper media = listItem.mMediaList.get(0);
-                                mMediaLibrary.getMediaItems().remove(media);
-                                if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                    mAudioController.removeLocation(media.getLocation());
-                            } else {
-                                MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
+            if (mode == MODE_PLAYLIST) {
+                mAlertDialog = CommonDialogs.deletePlaylist(
+                        getActivity(),
+                        adapter.getItem(position).mTitle,
+                        new VLCRunnable(adapter.getItem(position)) {
+                            @Override
+                            public void run(Object o) {
+                                AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
+                                if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
+                                    MediaWrapper media = listItem.mMediaList.get(0);
+                                    mMediaLibrary.getMediaItems().remove(media);
+                                    if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                        mAudioController.removeLocation(media.getLocation());
+                                } else {
+                                    MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
+                                }
+                                updateLists();
                             }
-                            updateLists();
-                        }
-                    });
-            alertDialog.show();
+                        });
+            } else {
+                mAlertDialog = CommonDialogs.deleteMedia(
+                        getActivity(),
+                        adapter.getItem(position).mMediaList.get(0).getLocation(),
+                        adapter.getItem(position).mTitle,
+                        new VLCRunnable(adapter.getItem(position)) {
+                            @Override
+                            public void run(Object o) {
+                                AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
+                                if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
+                                    MediaWrapper media = listItem.mMediaList.get(0);
+                                    mMediaLibrary.getMediaItems().remove(media);
+                                    if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                        mAudioController.removeLocation(media.getLocation());
+                                } else {
+                                    MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
+                                }
+                                updateLists();
+                            }
+                        });
+            }
+            mAlertDialog.show();
             return true;
         }
 
