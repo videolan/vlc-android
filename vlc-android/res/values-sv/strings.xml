@@ -279,6 +279,7 @@
     <string name="file_other">Stäng navigeringsmenyn</string>
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
+    <string name="sleep_time_not_set">inte inställd</string>
     <string name="network_shares_discovery">Söker efter nätverksdelningar...</string>
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
