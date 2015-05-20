@@ -317,21 +317,17 @@ public class Util {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static boolean deleteFile (Context context, String path){
         boolean deleted = false;
-        if (path.startsWith("file://"))
-            path = path.substring(5);
-        else
-            return deleted;
+        path = Uri.decode(Strings.removeFileProtocole(path));
+        //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (LibVlcUtil.isHoneycombOrLater()){
             ContentResolver cr = context.getContentResolver();
             String[] selectionArgs = { path };
             deleted = cr.delete(MediaStore.Files.getContentUri("external"),
-                    MediaStore.MediaColumns.DATA + "=?", selectionArgs) > 0;
+                    MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
         }
-        if (!deleted){
-            File file = new File(Uri.decode(path));
-            if (file.exists())
-                deleted = file.delete();
-        }
+        File file = new File(path);
+        if (file.exists())
+            deleted |= file.delete();
         return deleted;
     }
 
