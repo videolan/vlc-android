@@ -279,6 +279,7 @@
     <string name="file_other">Chiudi cassetto di navigazione</string>
     <string name="audio_delay">Ritardo audio</string>
     <string name="spu_delay">Ritardo sottotitoli</string>
+    <string name="sleep_time_not_set">non impostato</string>
     <string name="network_shares_discovery">Ricerca condivisioni di rete in corso...</string>
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
