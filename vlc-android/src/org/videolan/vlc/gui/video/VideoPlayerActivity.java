@@ -893,7 +893,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mBattery.setText(String.format("%d%%", batteryLevel));
             }
             else if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
-                exit();
+                exitOK();
             }
         }
     };
@@ -909,7 +909,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         finish();
     }
 
-    private void exit() {
+    private void exitOK() {
         exit(RESULT_OK);
     }
 
@@ -996,7 +996,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else if (BuildConfig.tv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else
-            exit();
+            exitOK();
     }
 
     @Override
@@ -1053,7 +1053,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             return true;
         case KeyEvent.KEYCODE_S:
         case KeyEvent.KEYCODE_MEDIA_STOP:
-            exit();
+            exitOK();
             return true;
         case KeyEvent.KEYCODE_DPAD_UP:
         case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -1609,7 +1609,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } else {
             /* Exit player when reaching the end */
             mEndReached = true;
-            exit();
+            exitOK();
         }
     }
 
@@ -1696,7 +1696,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             }
             startActivity(i);
         }
-        exit();
+        exitOK();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
