@@ -59,7 +59,7 @@ public class LibVLC {
     public final static int MEDIA_NO_HWACCEL = 0x02;
     public final static int MEDIA_PAUSED = 0x4;
 
-    private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
+    private static final String DEFAULT_CODEC_LIST = "mediacodec_ndk,mediacodec_jni,iomx,all";
     private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
 
     /** libVLC instance C pointer */
@@ -221,7 +221,7 @@ public class LibVLC {
                 else {
                     final StringBuilder sb = new StringBuilder();
                     if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
-                        sb.append("mediacodec,");
+                        sb.append("mediacodec_ndk,mediacodec_jni,");
                     else if (decoder == HWDecoderUtil.Decoder.OMX)
                         sb.append("iomx,");
                     sb.append("all");
@@ -243,7 +243,7 @@ public class LibVLC {
                     this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR)
                 this.devCodecList = "iomx";
             else
-                this.devCodecList = "mediacodec";
+                this.devCodecList = "mediacodec_ndk,mediacodec_jni";
 
             Log.d(TAG, "HWDec forced: " + this.devCodecList +
                 (isDirectRendering() ? "-dr" : ""));
