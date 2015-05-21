@@ -49,6 +49,7 @@
             android:icon="@drawable/icon"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,6 +62,7 @@
         </activity>
         <activity
             android:name=".gui.SecondaryActivity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC"/>
         <activity android:name=".gui.CompatErrorActivity" />
         <activity android:name=".gui.PreferencesActivity"
