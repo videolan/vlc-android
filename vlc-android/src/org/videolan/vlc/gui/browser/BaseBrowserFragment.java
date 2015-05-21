@@ -108,6 +108,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         mLibVLC = VLCInstance.get();
+        mMediaBrowser = new MediaBrowser(mLibVLC, this);
 
         if (bundle == null)
             bundle = getArguments();
@@ -258,8 +259,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void update(){
-        if (mMediaBrowser == null)
-            mMediaBrowser = new MediaBrowser(mLibVLC, this);
         if (mReadyToDisplay) {
             updateEmptyView();
             if (mAdapter.isEmpty()) {
