@@ -450,6 +450,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                         });
             } else {
                 mAlertDialog = CommonDialogs.deleteMedia(
+                        MediaWrapper.TYPE_ALL,
                         getActivity(),
                         adapter.getItem(position).mMediaList.get(0).getLocation(),
                         adapter.getItem(position).mTitle,

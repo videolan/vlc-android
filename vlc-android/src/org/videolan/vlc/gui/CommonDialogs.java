@@ -25,9 +25,13 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
+
+import java.io.File;
 
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
@@ -41,23 +45,36 @@ public class CommonDialogs {
     public static AlertDialog deleteMedia(final Context context,
                                           final String addressMedia,
                                           final VLCRunnable runnable) {
-        final String name = Uri.decode(addressMedia.substring(addressMedia.lastIndexOf('/')+1));
-        return  deleteMedia(context, addressMedia, name, runnable);
+        return  deleteMedia(MediaWrapper.TYPE_ALL, context, addressMedia, runnable);
     }
 
-    public static AlertDialog deleteMedia(final Context context,
+    public static AlertDialog deleteMedia(final int type,
+                                          final Context context,
+                                          final String addressMedia,
+                                          final VLCRunnable runnable) {
+        final String name = Strings.getName(Uri.decode(addressMedia));
+        return  deleteMedia(type, context, addressMedia, name, runnable);
+    }
+
+    public static AlertDialog deleteMedia(final int type,
+                                          final Context context,
                                           final String addressMedia,
                                           final String name,
                                           final VLCRunnable runnable) {
-
-        return confirmDialog(
-                context,
-                context.getResources().getString(R.string.confirm_delete,
-                        name),
+        String confirmMessage = "";
+        switch (type) {
+            case MediaWrapper.TYPE_DIR :
+                confirmMessage = context.getResources().getString(R.string.confirm_delete_folder, name);
+                break;
+            default :
+                confirmMessage = context.getResources().getString(R.string.confirm_delete, name);
+                break;
+        }
+        return confirmDialog( context, confirmMessage,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Util.deleteFile(context, addressMedia);
+                        Util.recursiveDelete(context, new File(Uri.decode(Strings.removeFileProtocole(addressMedia))));
                         if (runnable != null)
                             runnable.run();
                     }

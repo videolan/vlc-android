@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
+    public final static String TAG = "VLC/Util";
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
     public static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
     public static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
@@ -315,12 +316,12 @@ public class Util {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static boolean deleteFile (Context context, String path){
+    public static boolean deleteFile (String path){
         boolean deleted = false;
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (LibVlcUtil.isHoneycombOrLater()){
-            ContentResolver cr = context.getContentResolver();
+            ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
             String[] selectionArgs = { path };
             deleted = cr.delete(MediaStore.Files.getContentUri("external"),
                     MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
@@ -329,6 +330,16 @@ public class Util {
         if (file.exists())
             deleted |= file.delete();
         return deleted;
+    }
+
+    public static boolean recursiveDelete(Context context, File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles())
+                recursiveDelete(context, child);
+            return fileOrDirectory.delete();
+        } else {
+            return deleteFile (fileOrDirectory.getPath());
+        }
     }
 
     public static boolean close(Closeable closeable) {

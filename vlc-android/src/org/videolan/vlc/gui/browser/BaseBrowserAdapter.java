@@ -102,7 +102,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         final MediaWrapper media = (MediaWrapper) getItem(position);
         boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
                 media.getType() == MediaWrapper.TYPE_VIDEO ||
-                (media.getType() == MediaWrapper.TYPE_DIR && !TextUtils.equals(media.getDescription(), mEmptyDirectoryString)));
+                media.getType() == MediaWrapper.TYPE_DIR );
         vh.checkBox.setVisibility(View.GONE);
         vh.title.setText(media.getTitle());
         if (!TextUtils.isEmpty(media.getDescription())) {

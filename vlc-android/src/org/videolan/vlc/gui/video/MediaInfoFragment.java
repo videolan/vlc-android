@@ -117,7 +117,7 @@ public class MediaInfoFragment extends ListFragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            boolean deleted = Util.deleteFile(getActivity(), mItem.getLocation());
+                            boolean deleted = Util.deleteFile(mItem.getLocation());
                             if (deleted) {
                                 mHandler.obtainMessage(EXIT).sendToTarget();
                             }
