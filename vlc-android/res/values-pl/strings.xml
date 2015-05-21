@@ -22,6 +22,8 @@
     <string name="play_from_start">Odtwórz od początku</string>
     <string name="play_as_audio">Odtwórz jako audio</string>
     <string name="play_as_video">Odtwórz jako wideo</string>
+    <string name="play_as_audio_background">Odtwarzaj widea w tle</string>
+    <string name="play_as_audio_background_summary">Kontynuuj odtwarzanie wideo w tle po włączeniu ekranu urządzenia lub kliknięciu przycisku HOME.</string>
     <string name="append">Dołącz</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
@@ -31,6 +33,7 @@
     <string name="set_song">Ustaw jako dzwonek</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
+    <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
     <string name="ringtone_set">Plik \"%1$s\" został ustawiony jako dzwonek.</string>
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
@@ -92,6 +95,11 @@
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
     <string name="validation">Czy jesteś pewny?</string>
     <string name="cover_art">Okładka</string>
+    <string name="shuffle">Losowo wyłączone</string>
+    <string name="shuffle_on">Losowo włączone</string>
+    <string name="repeat">Nie powtarzaj żadnych</string>
+    <string name="repeat_single">Powtórz pojedynczy</string>
+    <string name="repeat_all">Powtórz wszystkie</string>
     <string name="previous">Poprzedni</string>
     <string name="stop">Zatrzymaj</string>
     <string name="next">Następny</string>
@@ -278,6 +286,7 @@
     <string name="file_other">Zamknij listwę nawigacyjną</string>
     <string name="audio_delay">Opóźnienie dźwięku</string>
     <string name="spu_delay">Opóźnienie napisów</string>
+    <string name="sleep_time_not_set">nic nie ustawione</string>
     <string name="network_shares_discovery">Szukanie udziałów sieciowych...</string>
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
@@ -287,5 +296,13 @@
     <string name="playlist_save">Zapisz listę odtwarzania</string>
     <string name="playlist_name_hint">Nazwa listy odtwarzania</string>
     <string name="go_to_chapter">Przejdź do rozdziału...</string>
+    <string name="resume_from_position">Wznów od ostatniej pozycji</string>
+    <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
+    <string name="confirm_resume_title">Wyświetl potwierdzenie, aby wznowić</string>
+    <string name="confirm_resume_summary">jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
+    <string name="directory_empty">Katalog jest pusty</string>
     <!--Accessibility-->
+    <string name="more_actions">Więcej operacji</string>
+    <string name="move">Przenieś</string>
+    <string name="back_quit_lock">Naciśnij ponownie z powrotem, aby wyjść z widea</string>
 </resources>
