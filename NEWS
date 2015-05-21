@@ -2,12 +2,19 @@ Changes between 1.4.0 and 1.4.1:
 --------------------------------
 
 Application:
- * Translation updates
  * 'Play' option in context menu on albums
- * VideoPlayerActivity now returns result, with return code and extras infos
  * Handle FileProviders URIs from external apps
- * Try to launch any filetype on click in directories browser
- * misc fixes
+ * Playback is tried for every filetype in directories browser mode
+ * Misc fixes, including in the file deletion part and file browsing
+
+SDK:
+ * VideoPlayerActivity now returns result, with return code and extras infos
+
+Core:
+ * Add new acceleration option using MediaCodec NDK API
+
+Translation updates:
+ * Most languages updated
 
 
 Changes between 1.3.2 and 1.4.0:
