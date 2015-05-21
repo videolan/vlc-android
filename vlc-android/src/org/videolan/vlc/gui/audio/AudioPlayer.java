@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -67,6 +68,7 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickListener {
@@ -229,7 +231,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-                mAudioController.load(mSongsListAdapter.getItems(), p);
+                mAudioController.playIndex(p);
             }
         });
         mSongsList.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -608,7 +610,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylist savePlaylistDialog = new SavePlaylist();
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylist.KEY_TRACKS, mSongsListAdapter.getItems());
+                args.putParcelableArrayList(SavePlaylist.KEY_TRACKS, (ArrayList<MediaWrapper>) mAudioController.getMedias());
                 savePlaylistDialog.setArguments(args);
                 savePlaylistDialog.show(fm, "fragment_save_playlist");
                 break;

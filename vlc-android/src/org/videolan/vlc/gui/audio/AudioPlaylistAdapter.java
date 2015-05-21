@@ -47,7 +47,6 @@ import java.util.List;
 
 public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
 
-    private ArrayList<MediaWrapper> mMediaList;
     private int mCurrentIndex;
     private Context mContext;
     private int mAlignMode;
@@ -55,28 +54,9 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
     public AudioPlaylistAdapter(Context context) {
         super(context, 0);
         mContext = context;
-        mMediaList = new ArrayList<MediaWrapper>();
         mCurrentIndex = -1;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
-    }
-
-    @Override
-    public void add(MediaWrapper m) {
-        mMediaList.add(m);
-        super.add(m);
-    }
-
-    @Override
-    public void remove(MediaWrapper m) {
-        mMediaList.remove(m);
-        super.remove(m);
-    }
-
-    @Override
-    public void clear() {
-        mMediaList.clear();
-        super.clear();
     }
 
     public void setCurrentIndex(int currentIndex) {
@@ -161,21 +141,16 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
 
     public List<String> getLocation(int position) {
         List<String> locations = new ArrayList<String>();
-        if (position >= 0 && position < mMediaList.size())
-            locations.add(mMediaList.get(position).getLocation());
+        if (position >= 0 && position < getCount())
+            locations.add(getItem(position).getLocation());
         return locations;
     }
 
     public List<String> getLocations() {
         List<String> locations = new ArrayList<String>();
-        for (int i = 0; i < mMediaList.size(); i++) {
-            locations.add(mMediaList.get(i).getLocation());
-        }
+        for (int i = 0 ; i < getCount() ; ++i)
+            locations.add(getItem(i).getLocation());
         return locations;
-    }
-
-    public ArrayList<MediaWrapper> getItems(){
-        return mMediaList;
     }
 
     static class ViewHolder {
