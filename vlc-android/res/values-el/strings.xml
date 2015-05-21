@@ -279,6 +279,7 @@
     <string name="file_other">Κλείστε το συρτάρι πλοήγησης</string>
     <string name="audio_delay">Καθυστέρηση ήχου</string>
     <string name="spu_delay">Καθυστέρηση υπότιτλου</string>
+    <string name="sleep_time_not_set">κανένα ορισμένο</string>
     <string name="network_shares_discovery">Εύρεση κοινόχρηστων δικτυακών αρχείων...</string>
     <string name="network_empty">Ο κατάλογος είναι άδειος</string>
     <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
