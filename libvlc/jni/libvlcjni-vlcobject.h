@@ -51,9 +51,9 @@ struct vlcjni_object
 
 struct java_event
 {
-    int type;
-    long arg1;
-    long arg2;
+    jint type;
+    jlong arg1;
+    jlong arg2;
 };
 
 /* event manager callback dispatched to native struct implementing a
