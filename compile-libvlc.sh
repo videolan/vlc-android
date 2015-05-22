@@ -504,6 +504,7 @@ if [ "${CHROME_OS}" = "1" ];then
     # chrome OS doesn't have eventfd
     export ac_cv_func_eventfd=no
     export ac_cv_header_sys_eventfd_h=no
+    export ac_cv_func_pipe2=no
 fi
 
 if [ ${ANDROID_API} = "android-21" ] ; then
