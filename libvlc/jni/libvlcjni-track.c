@@ -279,12 +279,34 @@ jint Java_org_videolan_libvlc_LibVLC_getVideoTracksCount(JNIEnv *env, jobject th
     return -1;
 }
 
-jint Java_org_videolan_libvlc_LibVLC_setVideoTrack(JNIEnv *env, jobject thiz, jint index)
+jint Java_org_videolan_libvlc_LibVLC_setVideoTrackEnabled(JNIEnv *env, jobject thiz, jboolean enabled)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
-    if (mp)
-        return libvlc_video_set_track(mp, index);
-    return -1;
+    if (!mp)
+        return -1;
+    if (!enabled)
+        return libvlc_video_set_track(mp, -1);
+    else
+    {
+        int i_id = -1;
+        libvlc_track_description_t *tracks, *tracks_itr;
+
+        tracks_itr = tracks = libvlc_video_get_track_description(mp);
+        if (!tracks)
+            return -1;
+
+        while (tracks_itr)
+        {
+            if (tracks_itr->i_id != -1)
+            {
+                i_id = tracks_itr->i_id;
+                break;
+            }
+            tracks_itr = tracks_itr->p_next;
+        }
+        libvlc_track_description_list_release(tracks);
+        return libvlc_video_set_track(mp, i_id);
+    }
 }
 
 jobject Java_org_videolan_libvlc_LibVLC_getSpuTrackDescription(JNIEnv *env, jobject thiz)

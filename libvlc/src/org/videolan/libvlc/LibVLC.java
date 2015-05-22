@@ -633,7 +633,7 @@ public class LibVLC {
 
     public native int getVideoTracksCount();
 
-    public native int setVideoTrack(int index);
+    public native int setVideoTrackEnabled(boolean enabled);
 
     public native int addSubtitleTrack(String path);
 

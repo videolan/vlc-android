@@ -1682,7 +1682,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (mHardwareAccelerationError)
             return;
         mSwitchingView = true;
-        mLibVLC.setVideoTrack(-1);
+        mLibVLC.setVideoTrackEnabled(false);
         // Show the MainActivity if it is not in background.
         if (showUI && getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -2866,8 +2866,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
                 seek(intentPosition, mediaLength);
             } else {
-                mLibVLC.setVideoTrack(-1);
-                mLibVLC.setVideoTrack(0);
+                mLibVLC.setVideoTrackEnabled(false);
+                mLibVLC.setVideoTrackEnabled(true);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mLibVLC.isPlaying())
                     mMediaListPlayer.playIndex(savedIndexPosition);
