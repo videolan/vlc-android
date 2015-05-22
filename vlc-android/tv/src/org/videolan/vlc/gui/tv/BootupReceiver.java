@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import org.videolan.vlc.VLCApplication;
+
 public class BootupReceiver extends BroadcastReceiver {
     public BootupReceiver() {
     }

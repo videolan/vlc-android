@@ -30,6 +30,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
@@ -142,7 +143,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
         mBrowseFragment.setOnSearchClickedListener(this);
         mRootContainer = mBrowseFragment.getView();
-        mMediaLibrary.loadMediaItems(this, true);
+        mMediaLibrary.loadMediaItems(true);
         BackgroundManager.getInstance(this).attach(getWindow());
     }
 
@@ -190,7 +191,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                MediaLibrary.getInstance().loadMediaItems(this, true);
+                MediaLibrary.getInstance().loadMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 finish();
