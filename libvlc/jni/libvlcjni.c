@@ -341,9 +341,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.VLCObject.clazz,
            "dispatchEventFromNative", "(IJJ)V");
 
-    if (fields.SDK_INT <= 7)
+    if (fields.SDK_INT <= 10)
     {
-        LOGE("fields.SDK_INT is less than 7: using compat WeakReference");
+        LOGE("fields.SDK_INT is less than 10: using compat WeakReference");
         GET_ID(GetMethodID,
                fields.VLCObject.getWeakReferenceID,
                fields.VLCObject.clazz,
