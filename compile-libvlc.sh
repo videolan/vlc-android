@@ -337,8 +337,14 @@ fi
 ##########
 # CFLAGS #
 ##########
+if [ "$NO_OPTIM" = "1" ];
+then
+     CFLAGS="-g -O0"
+else
+     CFLAGS="-g -O2"
+fi
 
-CFLAGS="-g -O2 -fstrict-aliasing -funsafe-math-optimizations"
+CFLAGS="${CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
 if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
     CFLAGS="${CFLAGS} -mlong-calls"
 fi
