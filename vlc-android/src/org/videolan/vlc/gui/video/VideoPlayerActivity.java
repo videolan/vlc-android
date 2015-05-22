@@ -2248,7 +2248,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
              * to re-init mLastTime and mForcedTime to -1 and return the actual position.
              */
             if (mLastTime > mForcedTime) {
-                if (time <= mLastTime && time > mForcedTime)
+                if (time <= mLastTime && time > mForcedTime || time > mLastTime)
                     mLastTime = mForcedTime = -1;
             } else {
                 if (time > mForcedTime)
