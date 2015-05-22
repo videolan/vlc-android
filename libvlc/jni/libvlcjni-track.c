@@ -245,6 +245,7 @@ jobject Java_org_videolan_libvlc_LibVLC_getStats(JNIEnv *env, jobject thiz)
     name = (*env)->NewStringUTF(env, "sentPackets");
     (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
 
+    libvlc_media_release(p_mp);
     // Clean up local references
     (*env)->DeleteLocalRef(env, mapClass);
     (*env)->DeleteLocalRef(env, hashMapClass);
