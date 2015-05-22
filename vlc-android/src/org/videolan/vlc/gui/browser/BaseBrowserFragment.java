@@ -332,7 +332,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
                 .RecyclerContextMenuInfo) menuInfo;
-        setContextMenu(getActivity().getMenuInflater(), menu, info.position);
+        if (info != null)
+            setContextMenu(getActivity().getMenuInflater(), menu, info.position);
     }
 
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
