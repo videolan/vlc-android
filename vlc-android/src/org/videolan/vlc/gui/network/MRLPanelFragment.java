@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.network;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +36,8 @@ import android.widget.TextView;
 
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.network.MRLAdapter;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
