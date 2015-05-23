@@ -49,7 +49,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     EditText mEditText;
     View mRootView;
 
-    public MRLPanelFragment(){};
+    public MRLPanelFragment(){}
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
