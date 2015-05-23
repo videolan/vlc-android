@@ -139,11 +139,11 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
         return v;
     }
 
-    public List<String> getLocation(int position) {
-        List<String> locations = new ArrayList<String>();
+    public String getLocation(int position) {
+        String location = null;
         if (position >= 0 && position < getCount())
-            locations.add(getItem(position).getLocation());
-        return locations;
+            location = getItem(position).getLocation();
+        return location;
     }
 
     public List<String> getLocations() {
