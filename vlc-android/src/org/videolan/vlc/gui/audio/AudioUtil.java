@@ -29,7 +29,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
@@ -219,7 +218,7 @@ public class AudioUtil {
         return null;
     }
 
-    private static String getCoverFromFolder(Context context, MediaWrapper media) {
+    private static String getCoverFromFolder(MediaWrapper media) {
         File f = LibVlcUtil.URItoFile(media.getLocation());
         if (f != null && f.getParentFile() != null && f.getParentFile().listFiles() != null)
             for (File s : f.getParentFile().listFiles()) {
@@ -274,7 +273,7 @@ public class AudioUtil {
 
             // no found yet, looking in folder
             if (coverPath == null || !(new File(coverPath)).exists())
-                coverPath = getCoverFromFolder(context, media);
+                coverPath = getCoverFromFolder(media);
 
             // try to get the cover from android MediaStore
             if (coverPath == null || !(new File(coverPath)).exists())
