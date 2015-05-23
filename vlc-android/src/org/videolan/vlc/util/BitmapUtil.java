@@ -95,7 +95,6 @@ public class BitmapUtil {
                  * serving the file from the database and
                  * adding it to the memcache for later use.
                  */
-                Context c = VLCApplication.getAppContext();
                 picture = readCoverBitmap(media.getArtworkURL());
                 if (picture == null)
                     picture = MediaDatabase.getInstance().getPicture(media.getLocation());
