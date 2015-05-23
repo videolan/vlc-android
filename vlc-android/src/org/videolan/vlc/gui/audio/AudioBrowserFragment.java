@@ -488,7 +488,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             startPosition = mSongsAdapter.getListWithPosition(medias, position);
         } else {
             startPosition = 0;
-            AudioBrowserListAdapter adapter = null;
+            AudioBrowserListAdapter adapter;
             switch (mode){
                 case MODE_SONG:
                     adapter = mSongsAdapter;
@@ -677,7 +677,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                         fragment.mSwipeRefreshLayout.setRefreshing(true);
             }
         }
-    };
+    }
 
     private void updateLists() {
         clear();
