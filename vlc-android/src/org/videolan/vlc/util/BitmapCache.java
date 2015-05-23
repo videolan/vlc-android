@@ -20,10 +20,12 @@
 
 package org.videolan.vlc.util;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.View;
@@ -45,10 +47,8 @@ public class BitmapCache {
         return mInstance;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private BitmapCache() {
-
-        // Get the global context of the application
-        Context context = VLCApplication.getAppContext();
 
         // Get memory class of this device, exceeding this amount will throw an
         // OutOfMemory exception.
