@@ -22,7 +22,7 @@ package org.videolan.vlc.interfaces;
 
 import java.util.concurrent.BrokenBarrierException;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.MediaWrapper;
 
 public interface IVideoBrowser extends IBrowser {
 

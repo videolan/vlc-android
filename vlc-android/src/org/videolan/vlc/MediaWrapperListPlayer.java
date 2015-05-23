@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaWrapper;
 
 
 public class MediaWrapperListPlayer {

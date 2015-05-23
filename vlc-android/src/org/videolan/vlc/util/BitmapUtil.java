@@ -27,7 +27,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 

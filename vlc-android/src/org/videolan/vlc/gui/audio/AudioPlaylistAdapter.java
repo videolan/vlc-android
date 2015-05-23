@@ -37,7 +37,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;

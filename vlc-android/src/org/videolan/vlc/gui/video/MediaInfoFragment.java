@@ -42,7 +42,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;

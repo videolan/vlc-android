@@ -23,6 +23,7 @@ package org.videolan.vlc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.util.BitmapUtil;
 
 public class MediaGroup extends MediaWrapper {

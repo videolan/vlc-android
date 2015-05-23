@@ -33,7 +33,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
