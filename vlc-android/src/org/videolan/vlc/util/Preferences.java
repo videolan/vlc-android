@@ -50,7 +50,7 @@ public class Preferences {
             JSONArray json = new JSONArray();
             for (float f : array)
                 json.put(f);
-            editor.putString("equalizer_values", json.toString());
+            editor.putString(key, json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
