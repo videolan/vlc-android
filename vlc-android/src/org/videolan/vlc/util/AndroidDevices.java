@@ -28,12 +28,10 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -82,11 +80,7 @@ public class AndroidDevices {
 
     public static boolean isPhone(){
         TelephonyManager manager = (TelephonyManager)VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
-        if(manager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE){
-            return false;
-        }else{
-            return true;
-        }
+        return manager.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
     }
 
     public static boolean hasTsp(){
