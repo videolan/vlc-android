@@ -720,9 +720,9 @@ public class AudioService extends Service {
                     break;
             }
         }
-    };
+    }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
         try {
             MediaWrapper media = getCurrentMedia();
@@ -1428,18 +1428,12 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasNext() throws RemoteException {
-            if (mNextIndex != -1)
-                return true;
-            else
-                return false;
+            return mNextIndex != -1;
         }
 
         @Override
         public boolean hasPrevious() throws RemoteException {
-            if (mPrevIndex != -1)
-                return true;
-            else
-                return false;
+            return mPrevIndex != -1;
         }
 
         @Override
@@ -1502,8 +1496,7 @@ public class AudioService extends Service {
         // no more than one widget update for each 1/50 of the song
         long timestamp = Calendar.getInstance().getTimeInMillis();
         if (!hasCurrentMedia()
-                || timestamp - mWidgetPositionTimestamp < getCurrentMedia()
-                        .getLength() / 50)
+                || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
 
         updateWidgetState(context);
