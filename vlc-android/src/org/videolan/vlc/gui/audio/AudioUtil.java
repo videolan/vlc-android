@@ -46,6 +46,7 @@ import org.videolan.vlc.util.Util;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -220,12 +221,46 @@ public class AudioUtil {
 
     private static String getCoverFromFolder(MediaWrapper media) {
         File f = LibVlcUtil.URItoFile(media.getLocation());
-        if (f != null && f.getParentFile() != null && f.getParentFile().listFiles() != null)
-            for (File s : f.getParentFile().listFiles()) {
-                if (s.getAbsolutePath().endsWith("png")
-                        || s.getAbsolutePath().endsWith("jpg"))
-                    return s.getAbsolutePath();
+        if (f == null)
+            return null;
+
+        File folder = f.getParentFile();
+        if (folder == null)
+            return null;
+
+        final String[] imageExt = { ".png", ".jpeg", ".jpg"};
+        final String[] coverImages = {
+                "Folder.jpg",           /* Windows */
+                "AlbumArtSmall.jpg",    /* Windows */
+                "AlbumArt.jpg",         /* Windows */
+                "Album.jpg",
+                ".folder.png",          /* KDE?    */
+                "cover.jpg",            /* rockbox */
+                "thumb.jpg"
+        };
+
+        /* Find the path without the extension  */
+        int index = f.getName().lastIndexOf('.');
+        if (index > 0) {
+            final String name = f.getName().substring(0, index);
+            File[] files = folder.listFiles(new FilenameFilter() {
+                public boolean accept(File dir, String filename) {
+                    return filename.startsWith(filename);
+                }
+            });
+            if (files.length > 0)
+                return files[0].getAbsolutePath();
+        }
+
+        /* Find the classic cover Images */
+        if ( folder.listFiles() != null) {
+            for (File file : folder.listFiles()) {
+                for (String str : coverImages) {
+                    if (file.getAbsolutePath().endsWith(str))
+                        return file.getAbsolutePath();
+                }
             }
+        }
         return null;
     }
 
