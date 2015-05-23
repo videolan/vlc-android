@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -68,7 +69,7 @@ public class AudioPlaylistView extends ListView {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event)
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent event)
     {
         switch (event.getAction())
         {
@@ -90,7 +91,7 @@ public class AudioPlaylistView extends ListView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
+    public boolean onTouchEvent(@NonNull MotionEvent event)
     {
         boolean handleEvent = false;
 
@@ -122,7 +123,7 @@ public class AudioPlaylistView extends ListView {
     }
 
     @Override
-    protected void dispatchDraw (Canvas canvas) {
+    protected void dispatchDraw (@NonNull Canvas canvas) {
         super.dispatchDraw(canvas);
 
         if (mIsDragging) {
@@ -202,15 +203,15 @@ public class AudioPlaylistView extends ListView {
     }
 
     public interface OnItemDraggedListener {
-        public void onItemDragged(int positionStart, int positionEnd);
-    };
+        void onItemDragged(int positionStart, int positionEnd);
+    }
 
     public void setOnItemDraggedListener(OnItemDraggedListener l) {
         mOnItemDraggedListener = l;
     }
 
     public interface OnItemRemovedListener {
-        public void onItemRemoved(int position);
+        void onItemRemoved(int position);
     }
 
     public void setOnItemRemovedListener(OnItemRemovedListener l) {
