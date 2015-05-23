@@ -239,12 +239,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         // Figure out if currently-loaded fragment is a top-level fragment.
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
-        boolean found = false;
-        if(current != null) {
-            found = SidebarAdapter.sidebarFragments.contains(current.getTag());
-        } else {
-            found = true;
-        }
+        boolean found = (current == null) || SidebarAdapter.sidebarFragments.contains(current.getTag());
 
         /**
          * Restore the last view.
@@ -258,11 +253,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
          * It will try to remove() the currently displayed fragment
          * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
          */
-        if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
+        if (current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
             Log.d(TAG, "Reloading displayed fragment");
-            if(mCurrentFragment == null)
+            if (mCurrentFragment == null)
                 mCurrentFragment = "video";
-            if(!SidebarAdapter.sidebarFragments.contains(mCurrentFragment)) {
+            if (!SidebarAdapter.sidebarFragments.contains(mCurrentFragment)) {
                 Log.d(TAG, "Unknown fragment \"" + mCurrentFragment + "\", resetting to video");
                 mCurrentFragment = "video";
             }
@@ -588,7 +583,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         View playPause = findViewById(R.id.header_play_pause);
 
         if (!idIsEmpty) {
-            View list = null;
+            View list;
             int pane = mSlidingPane.getState();
 
             if (parentView == null)
@@ -714,7 +709,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     break;
             }
         }
-    };
+    }
 
     public void hideKeyboard(){
         ((InputMethodManager) VLCApplication.getAppContext().getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
