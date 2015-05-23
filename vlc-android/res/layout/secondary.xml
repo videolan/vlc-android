@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <org.videolan.vlc.widget.SlidingPaneLayout
+    <com.android.widget.SlidingPaneLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:vlc="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pane"
@@ -40,7 +40,7 @@
             android:id="@+id/audio_player"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
-    </org.videolan.vlc.widget.SlidingPaneLayout>
+    </com.android.widget.SlidingPaneLayout>
 
     <include layout="@layout/toolbar"/>
 </FrameLayout>

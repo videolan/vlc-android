@@ -24,6 +24,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import com.android.widget.SlidingPaneLayout;
+
 
 /**
  * This class extends the linear layout class and override its onInterceptTouchEvent

@@ -44,7 +44,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.HackyDrawerLayout;
-import org.videolan.vlc.widget.SlidingPaneLayout;
+import com.android.widget.SlidingPaneLayout;
 
 public class AudioPlayerContainerActivity extends AppCompatActivity {
 

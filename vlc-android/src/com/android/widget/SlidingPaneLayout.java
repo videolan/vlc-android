@@ -1,4 +1,4 @@
-package org.videolan.vlc.widget;
+package com.android.widget;
 
 /*
  * Copyright (C) 2012 The Android Open Source Project
