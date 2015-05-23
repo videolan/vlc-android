@@ -20,14 +20,12 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -62,7 +60,7 @@ import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
-import org.videolan.vlc.gui.dialogs.SavePlaylist;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -608,9 +606,9 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         switch (v.getId()){
             case R.id.playlist_save:
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                SavePlaylist savePlaylistDialog = new SavePlaylist();
+                SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylist.KEY_TRACKS, (ArrayList<MediaWrapper>) mAudioController.getMedias());
+                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mAudioController.getMedias());
                 savePlaylistDialog.setArguments(args);
                 savePlaylistDialog.show(fm, "fragment_save_playlist");
                 break;

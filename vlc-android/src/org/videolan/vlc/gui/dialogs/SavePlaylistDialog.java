@@ -48,9 +48,9 @@ import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 
 import java.util.ArrayList;
 
-public class SavePlaylist extends DialogFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
+public class SavePlaylistDialog extends DialogFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
 
-    public final static String TAG = "VLC/SavePlaylist";
+    public final static String TAG = "VLC/SavePlaylistDialog";
 
     public static final String KEY_TRACKS = "PLAYLIST_TRACKS";
 
@@ -61,7 +61,7 @@ public class SavePlaylist extends DialogFragment implements AdapterView.OnItemCl
     AudioBrowserListAdapter mAdapter;
     ArrayList<MediaWrapper> mTracks;
 
-    public SavePlaylist(){}
+    public SavePlaylistDialog(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
