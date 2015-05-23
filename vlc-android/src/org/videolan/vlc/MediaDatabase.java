@@ -720,7 +720,7 @@ public class MediaDatabase {
         Cursor cursor;
         HashMap<String, Long> times = new HashMap<String, Long>();
         int chunk_count = 0;
-        int count = 0;
+        int count;
 
         do {
             count = 0;
