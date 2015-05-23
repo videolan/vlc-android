@@ -20,7 +20,6 @@
 
 package org.videolan.vlc;
 
-import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -432,7 +431,7 @@ public class MediaLibrary {
                 }
             }
         }
-    };
+    }
 
     private Handler restartHandler = new RestartHandler(this);
 
