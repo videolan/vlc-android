@@ -73,13 +73,8 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
-    private SlidingTabLayout mSlidingTabLayout;
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
-
-    public final static String EXTRA_NAME = "name";
-    public final static String EXTRA_NAME2 = "name2";
-    public final static String EXTRA_MODE = "mode";
 
     public final static int MODE_ALBUM = 0;
     public final static int MODE_SONG = 1;
@@ -132,7 +127,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
-        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
+        SlidingTabLayout mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
