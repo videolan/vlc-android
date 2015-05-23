@@ -107,7 +107,7 @@ import org.videolan.vlc.MediaWrapperListPlayer;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;

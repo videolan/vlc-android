@@ -53,7 +53,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SidebarAdapter;
