@@ -562,12 +562,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         if (mItems.get(position).mIsSeparator)
             throw new IllegalArgumentException("Tested item must be a media item and not a separator.");
 
-        if (position == mItems.size() - 1)
-            return true; //consider end of list as a separator. Nicer to display
-        else if (mItems.get(position + 1).mIsSeparator )
-            return true;
-        else
-            return false;
+        //consider end of list as a separator. Nicer to display
+        return (position == mItems.size() - 1 || mItems.get(position + 1).mIsSeparator);
     }
 
     public interface ContextPopupMenuListener {
