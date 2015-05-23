@@ -27,7 +27,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -61,7 +60,6 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
     private Logcat mLogcat = null;
     private LinkedList<String> mLogList = new LinkedList<String>();
     private Thread mSaveThread = null;
-    private String mSaveFilename = null;
     private final RemoteCallbackList<IDebugLogServiceCallback> mCallbacks = new RemoteCallbackList<IDebugLogServiceCallback>();
     private final IBinder mBinder = new DebugLogServiceStub(this);
 
@@ -232,10 +230,10 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
     public static class Client {
 
         public interface Callback {
-            public void onStarted(List<String> lostList);
-            public void onStopped();
-            public void onLog(String msg);
-            public void onSaved(boolean success, String path);
+            void onStarted(List<String> lostList);
+            void onStopped();
+            void onLog(String msg);
+            void onSaved(boolean success, String path);
         }
 
         private boolean mBound = false;
