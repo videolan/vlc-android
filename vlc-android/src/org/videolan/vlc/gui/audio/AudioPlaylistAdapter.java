@@ -77,7 +77,7 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
             holder.moveButton = (ImageButton) v.findViewById(R.id.move);
             holder.expansion = (LinearLayout)v.findViewById(R.id.item_expansion);
             holder.layoutItem = (LinearLayout)v.findViewById(R.id.layout_item);
-            holder.layoutFooter = (View)v.findViewById(R.id.layout_footer);
+            holder.layoutFooter = v.findViewById(R.id.layout_footer);
             holder.itemGroup = (AudioPlaylistItemViewGroup)v.findViewById(R.id.playlist_item);
             v.setTag(holder);
         } else
