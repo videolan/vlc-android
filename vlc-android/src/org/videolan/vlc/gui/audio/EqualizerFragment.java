@@ -88,8 +88,8 @@ public class EqualizerFragment extends Fragment {
 
     private void fillViews() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        float[] bands = null;
-        String[] presets = null;
+        final float[] bands;
+        final String[] presets;
         libVlc = VLCInstance.get();
 
         bands = libVlc.getBands();
@@ -214,5 +214,5 @@ public class EqualizerFragment extends Fragment {
             if (libVlc != null && button.isChecked())
                 libVlc.setEqualizer(equalizer);
         }
-    };
+    }
 }
