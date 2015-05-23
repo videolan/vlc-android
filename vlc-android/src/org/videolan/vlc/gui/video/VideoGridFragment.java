@@ -209,7 +209,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             focusHelper(false);
         }
         //Get & set times
-        HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
+        HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
         mVideoAdapter.setTimes(times);
         mGridView.setSelection(mGVFirstVisiblePos);
         updateViewMode();

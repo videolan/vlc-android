@@ -715,7 +715,7 @@ public class MediaDatabase {
         return medias;
     }
 
-    public synchronized HashMap<String, Long> getVideoTimes(Context context) {
+    public synchronized HashMap<String, Long> getVideoTimes() {
 
         Cursor cursor;
         HashMap<String, Long> times = new HashMap<String, Long>();
@@ -807,7 +807,7 @@ public class MediaDatabase {
         return media;
     }
 
-    public synchronized Bitmap getPicture(Context context, String location) {
+    public synchronized Bitmap getPicture(String location) {
         /* Used for the lazy loading */
         Cursor cursor;
         Bitmap picture = null;

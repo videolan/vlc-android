@@ -144,7 +144,7 @@ public class RecommendationsService extends IntentService {
         for (MediaWrapper mediaWrapper : videoList){
             if (TextUtils.equals(mediaWrapper.getLocation(), last))
                 continue;
-            pic = mMediaDatabase.getPicture(mContext, mediaWrapper.getLocation());
+            pic = mMediaDatabase.getPicture(mediaWrapper.getLocation());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }

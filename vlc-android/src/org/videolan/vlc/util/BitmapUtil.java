@@ -98,7 +98,7 @@ public class BitmapUtil {
                 Context c = VLCApplication.getAppContext();
                 picture = readCoverBitmap(media.getArtworkURL());
                 if (picture == null)
-                    picture = MediaDatabase.getInstance().getPicture(c, media.getLocation());
+                    picture = MediaDatabase.getInstance().getPicture(media.getLocation());
                 cache.addBitmapToMemCache(media.getLocation(), picture);
             }
             return picture;
