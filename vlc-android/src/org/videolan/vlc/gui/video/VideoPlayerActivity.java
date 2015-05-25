@@ -2744,11 +2744,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
                         Cursor returnCursor =
                                 getContentResolver().query(data, null, null, null, null);
-                        if (returnCursor != null) {
+                        if (returnCursor != null && returnCursor.getCount() > 0) {
                             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-                            returnCursor.moveToFirst();
-                            title = returnCursor.getString(nameIndex);
+                            if (nameIndex > -1) {
+                                returnCursor.moveToFirst();
+                                title = returnCursor.getString(nameIndex);
+                            }
+                            returnCursor.close();
                         }
                     } catch (FileNotFoundException e) {
                         Log.e(TAG, "Couldn't understand the intent");
