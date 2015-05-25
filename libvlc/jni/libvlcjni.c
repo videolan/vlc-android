@@ -35,7 +35,7 @@
 
 #include <android/api-level.h>
 
-#include "libvlcjni.h"
+#include "libvlcjni-modules.h"
 #include "vout.h"
 #include "utils.h"
 #include "native_crash_handler.h"
