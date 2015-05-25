@@ -45,6 +45,43 @@ static const libvlc_event_type_t m_events[] = {
     -1,
 };
 
+void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOptions)
+{
+    int stringCount = (*env)->GetArrayLength(env, mediaOptions);
+    for(int i = 0; i < stringCount; i++)
+    {
+        jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
+        const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
+        libvlc_media_add_option(p_md, p_st); // option
+        (*env)->ReleaseStringUTFChars(env, option, p_st);
+    }
+}
+
+libvlc_media_t *new_media(JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
+{
+    libvlc_instance_t *libvlc = getLibVlcInstance(env, thiz);
+    jboolean isCopy;
+    const char *psz_location = (*env)->GetStringUTFChars(env, fileLocation, &isCopy);
+    libvlc_media_t *p_md = libvlc_media_new_location(libvlc, psz_location);
+    (*env)->ReleaseStringUTFChars(env, fileLocation, psz_location);
+    if (!p_md)
+        return NULL;
+
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "getMediaOptions", "(ZZ)[Ljava/lang/String;");
+    if (methodId != NULL)
+    {
+        jobjectArray mediaOptions = (*env)->CallObjectMethod(env, thiz, methodId, noOmx, noVideo);
+        if (mediaOptions != NULL)
+        {
+            add_media_options(p_md, env, mediaOptions);
+            (*env)->DeleteLocalRef(env, mediaOptions);
+        }
+    }
+    return p_md;
+}
+
+
 static bool
 Media_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
                java_event *p_java_event)
