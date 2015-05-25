@@ -338,19 +338,22 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         @Override
         public void handleMessage(Message msg) {
             String text = null;
+            AdvOptionsDialog owner = getOwner();
+            if (owner == null || owner.isDetached())
+                return;
             switch (msg.what) {
                 case SPEED_TEXT:
                     text = (String) msg.obj;
-                    getOwner().mSpeedTv.setText(text);
+                    owner.mSpeedTv.setText(text);
                     break;
                 case TOGGLE_CANCEL:
-                    getOwner().mSleepCancel.setVisibility(VLCApplication.sPlayerSleepTime == null ? View.GONE : View.VISIBLE);
+                    owner.mSleepCancel.setVisibility(VLCApplication.sPlayerSleepTime == null ? View.GONE : View.VISIBLE);
                 case SLEEP_TEXT:
                     if (VLCApplication.sPlayerSleepTime != null)
-                        text = DateFormat.getTimeFormat(getOwner().mSleepTime.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
+                        text = DateFormat.getTimeFormat(owner.mSleepTime.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
                     if (text == null)
-                        text = getOwner().getString(R.string.sleep_time_not_set);
-                    getOwner().mSleepTime.setText(text);
+                        text = owner.getString(R.string.sleep_time_not_set);
+                    owner.mSleepTime.setText(text);
                     break;
                 case DIALOG_LISTENER:
                     DialogFragment newFragment = (DialogFragment) msg.obj;
