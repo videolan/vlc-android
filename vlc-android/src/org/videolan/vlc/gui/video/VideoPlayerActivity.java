@@ -330,7 +330,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private boolean mHasHdmiAudio = false;
 
     @Override
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -694,6 +694,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mMediaRouter.removeCallback(mMediaRouterCallback);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
         if (mPlaybackStarted || !mAudioServiceReady || !mSurfaceReady || !mSubtitleSurfaceReady)
@@ -741,6 +742,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void stopPlayback() {
         if (!mPlaybackStarted)
             return;
