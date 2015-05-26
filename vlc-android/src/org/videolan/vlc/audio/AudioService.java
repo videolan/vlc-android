@@ -64,7 +64,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.libvlc.MediaWrapper;
-import org.videolan.libvlc.MediaWrapperList;
+import org.videolan.vlc.MediaWrapperList;
 import org.videolan.vlc.MediaWrapperListPlayer;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RemoteControlClientReceiver;

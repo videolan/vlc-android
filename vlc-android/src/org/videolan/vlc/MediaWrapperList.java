@@ -18,11 +18,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.libvlc;
+package org.videolan.vlc;
+
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
-
-import org.videolan.libvlc.MediaWrapper;
 
 public class MediaWrapperList {
     private static final String TAG = "VLC/MediaWrapperList";
@@ -141,6 +141,7 @@ public class MediaWrapperList {
         return mInternalList.size();
     }
 
+    @Nullable
     public MediaWrapper getMedia(int position) {
         if (!isValid(position))
             return null;
