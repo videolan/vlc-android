@@ -209,17 +209,14 @@ public class MediaWrapper implements Parcelable {
         Log.d(TAG, "Album " + mAlbum);
     }
 
-    /*
-     * XXX to remove
-     */
-    public void updateMeta(LibVLC libVLC) {
-        mTitle = libVLC.getMeta(Meta.Title);
-        mArtist = libVLC.getMeta(Meta.Artist);
-        mGenre = libVLC.getMeta(Meta.Genre);
-        mAlbum = libVLC.getMeta(Meta.Album);
-        mAlbumArtist = libVLC.getMeta(Meta.AlbumArtist);
-        mNowPlaying = libVLC.getMeta(Meta.NowPlaying);
-        mArtworkURL = libVLC.getMeta(Meta.ArtworkURL);
+    public void updateMeta(MediaPlayer mediaPlayer) {
+        mTitle = mediaPlayer.getMeta(Meta.Title);
+        mArtist = mediaPlayer.getMeta(Meta.Artist);
+        mGenre = mediaPlayer.getMeta(Meta.Genre);
+        mAlbum = mediaPlayer.getMeta(Meta.Album);
+        mAlbumArtist = mediaPlayer.getMeta(Meta.AlbumArtist);
+        mNowPlaying = mediaPlayer.getMeta(Meta.NowPlaying);
+        mArtworkURL = mediaPlayer.getMeta(Meta.ArtworkURL);
     }
 
     public String getFileName() {

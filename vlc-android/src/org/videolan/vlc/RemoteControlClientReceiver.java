@@ -21,6 +21,7 @@ package org.videolan.vlc;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -44,7 +45,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        LibVLC libVLC = VLCInstance.get();
+        MediaPlayer mediaPlayer = VLCInstance.getMainMediaPlayer();
 
         if(action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
@@ -85,7 +86,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                             }
                             // one click
                             else {
-                                if (libVLC.isPlaying())
+                                if (mediaPlayer.isPlaying())
                                     i = new Intent(AudioService.ACTION_REMOTE_PAUSE);
                                 else {
                                     i = new Intent(context, AudioService.class);

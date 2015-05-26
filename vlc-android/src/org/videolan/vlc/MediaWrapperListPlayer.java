@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.MediaWrapper;
 import org.videolan.libvlc.MediaWrapperList;
 
@@ -32,19 +33,21 @@ public class MediaWrapperListPlayer {
 
     private int mPlayerIndex = 0;
     final private LibVLC mLibVLC;
+    final private MediaPlayer mMediaPlayer;
     final private MediaWrapperList mMediaList;
 
     private static MediaWrapperListPlayer sMediaWrapperListPlayer = null;
 
-    public static synchronized MediaWrapperListPlayer getInstance(LibVLC libVLC) {
+    public static synchronized MediaWrapperListPlayer getInstance(MediaPlayer player) {
         if (sMediaWrapperListPlayer == null)
-            sMediaWrapperListPlayer = new MediaWrapperListPlayer(libVLC);
+            sMediaWrapperListPlayer = new MediaWrapperListPlayer(player);
         return sMediaWrapperListPlayer;
     }
 
-    public MediaWrapperListPlayer(LibVLC libVLC) {
-        mLibVLC = libVLC;
-        mMediaList = new MediaWrapperList(libVLC);
+    public MediaWrapperListPlayer(MediaPlayer player) {
+        mLibVLC = player.getLibVLC();
+        mMediaList = new MediaWrapperList();
+        mMediaPlayer = player;
     }
 
     public MediaWrapperList getMediaList() {
@@ -64,7 +67,7 @@ public class MediaWrapperListPlayer {
         final MediaWrapper media = mMediaList.getMedia(position);
         String[] options = mLibVLC.getMediaOptions(flags | (media != null ? media.getFlags() : 0));
         mPlayerIndex = position;
-        mLibVLC.playMRL(mrl, options);
+        mMediaPlayer.playMRL(mrl, options);
     }
 
     /**
@@ -99,7 +102,7 @@ public class MediaWrapperListPlayer {
     */
    public int expand() {
        ArrayList<String> children = new ArrayList<String>();
-       int ret = mLibVLC.expandMedia(children);
+       int ret = mMediaPlayer.expandMedia(children);
        if(ret == 0) {
            mMediaList.remove(mPlayerIndex);
            for(String mrl : children) {

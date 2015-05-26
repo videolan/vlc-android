@@ -38,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
@@ -58,14 +59,14 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
     protected static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
 
-    protected LibVLC mLibVLC = null;
+    protected MediaPlayer mMediaPlayer = null;
     protected EditText mHours, mMinutes, mSeconds, mMillis;
     protected TextView mSign;
     protected Button mActionButton;
     protected long max = -1;
 
     public PickTimeFragment(){
-        mLibVLC = VLCInstance.get();
+        mMediaPlayer = VLCInstance.getMainMediaPlayer();
     }
 
     @Override

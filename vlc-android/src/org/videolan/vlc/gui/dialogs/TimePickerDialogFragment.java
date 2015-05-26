@@ -31,6 +31,7 @@ import android.widget.TimePicker;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.VLCInstance;
@@ -93,8 +94,8 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
                 break;
             case ACTION_JUMP:
                 long time = ( hourOfDay * 60l + minute ) * 60000l;
-                final LibVLC libVLC = VLCInstance.get();
-                libVLC.setTime(time);
+                final MediaPlayer mediaPlayer = VLCInstance.getMainMediaPlayer();
+                mediaPlayer.setTime(time);
                 break;
         }
     }

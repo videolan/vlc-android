@@ -55,7 +55,7 @@ public class SubsDelayDialog extends PickTimeFragment {
         mMinutes.setNextFocusLeftId(R.id.jump_go);
         mActionButton.setNextFocusLeftId(R.id.jump_millis);
 
-        long delay = mLibVLC.getSpuDelay();
+        long delay = mMediaPlayer.getSpuDelay();
         if (delay != 0f)
             initTime(delay);
         return view;
@@ -63,7 +63,7 @@ public class SubsDelayDialog extends PickTimeFragment {
 
     @Override
     protected void executeAction(){
-        mLibVLC.setSpuDelay(getTime());
+        mMediaPlayer.setSpuDelay(getTime());
     }
 
     @Override

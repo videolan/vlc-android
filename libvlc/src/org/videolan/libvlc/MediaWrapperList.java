@@ -22,7 +22,6 @@ package org.videolan.libvlc;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.MediaWrapper;
 
 public class MediaWrapperList {
@@ -42,7 +41,7 @@ public class MediaWrapperList {
     private ArrayList<MediaWrapper> mInternalList;
     private ArrayList<EventListener> mEventListenerList;
 
-    public MediaWrapperList(LibVLC libVLC) {
+    public MediaWrapperList() {
         mEventListenerList = new ArrayList<EventListener>();
         mInternalList = new ArrayList<MediaWrapper>();
     }

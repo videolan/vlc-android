@@ -51,7 +51,7 @@ public class AudioDelayDialog extends PickTimeFragment {
         mSign.setVisibility(View.VISIBLE);
 
         mActionButton.setText(android.R.string.cancel);
-        long delay = mLibVLC.getAudioDelay();
+        long delay = mMediaPlayer.getAudioDelay();
         if (delay != 0f)
             initTime(delay);
         return view;
@@ -59,7 +59,7 @@ public class AudioDelayDialog extends PickTimeFragment {
 
     @Override
     protected void executeAction(){
-        mLibVLC.setAudioDelay(getTime());
+        mMediaPlayer.setAudioDelay(getTime());
     }
 
     @Override

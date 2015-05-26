@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
@@ -37,6 +38,7 @@ import org.videolan.vlc.gui.NativeCrashActivity;
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
     private static LibVLC sLibVLC = null;
+    private static MediaPlayer mMediaPlayer = null;
 
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
@@ -63,6 +65,12 @@ public class VLCInstance {
             });
         }
         return sLibVLC;
+    }
+
+    public static MediaPlayer getMainMediaPlayer() {
+        if (mMediaPlayer == null)
+            mMediaPlayer = new MediaPlayer(sLibVLC);
+        return mMediaPlayer;
     }
 
     public static synchronized void restart(Context context) throws IllegalStateException {
