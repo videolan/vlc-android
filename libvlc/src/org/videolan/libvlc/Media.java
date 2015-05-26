@@ -20,6 +20,8 @@
 
 package org.videolan.libvlc;
 
+import android.net.Uri;
+
 public final class Media extends VLCObject {
     private final static String TAG = "LibVLC/Media";
 
@@ -231,6 +233,10 @@ public final class Media extends VLCObject {
         nativeNewFromMrl(libVLC, mrl);
         mMrl = nativeGetMrl();
         mType = nativeGetType();
+    }
+
+    public Media(LibVLC libVLC, Uri uri) {
+        this(libVLC, uri.toString());
     }
 
     /**
