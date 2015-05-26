@@ -342,7 +342,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
 
         mLibVLC = VLCInstance.get();
-        mMediaPlayer = new MediaPlayer(mLibVLC);
+        mMediaPlayer = VLCInstance.getMainMediaPlayer();
 
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)

@@ -156,10 +156,8 @@ end:
     (*env)->DeleteLocalRef(env, bundle);
 }
 
-void Java_org_videolan_libvlc_MediaPlayer_playMRL(JNIEnv *env, jobject thiz,
-                                             jstring mrl, jobjectArray mediaOptions)
+void Java_org_videolan_libvlc_MediaPlayer_create(JNIEnv *env, jobject thiz)
 {
-    jclass cls;
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
@@ -189,14 +187,24 @@ void Java_org_videolan_libvlc_MediaPlayer_playMRL(JNIEnv *env, jobject thiz,
 
     /* Keep a pointer to this media player */
     setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)(intptr_t)mp);
+}
 
-    cls = (*env)->GetObjectClass(env, thiz);
+void Java_org_videolan_libvlc_MediaPlayer_playMRL(JNIEnv *env, jobject thiz,
+                                             jstring mrl, jobjectArray mediaOptions)
+{
+    /* libVLC instance */
+    libvlc_instance_t *p_instance = getLibVlcInstance(env, thiz);
+    libvlc_media_player_t* mp = getMediaPlayer(env, thiz);
+
+    /* Equalizer */
+    jclass cls = (*env)->GetObjectClass(env, thiz);
     jmethodID methodID = (*env)->GetMethodID(env, cls, "applyEqualizer", "()V");
     (*env)->CallVoidMethod(env, thiz, methodID);
 
+    /* New Media */
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, 0);
-
     libvlc_media_t* p_md = libvlc_media_new_location(p_instance, p_mrl);
+
     /* media options */
     if (mediaOptions != NULL)
         add_media_options(p_md, env, mediaOptions);
@@ -213,6 +221,7 @@ void Java_org_videolan_libvlc_MediaPlayer_playMRL(JNIEnv *env, jobject thiz,
         libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
 
     libvlc_media_player_set_media(mp, p_md);
+
     libvlc_media_player_play(mp);
 }
 

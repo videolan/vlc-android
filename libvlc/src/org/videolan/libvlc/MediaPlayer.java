@@ -31,7 +31,10 @@ public class MediaPlayer {
     private LibVLC mLibVLC;
     public MediaPlayer(LibVLC libVLC) {
         mLibVLC = libVLC;
+        create();
     }
+
+    private native void create();
 
     // REMOVE ASAP
     public LibVLC getLibVLC() {
