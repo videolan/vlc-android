@@ -171,7 +171,7 @@ public class AudioService extends Service {
         mLibVLC = VLCInstance.get();
         mMediaPlayer = VLCInstance.getMainMediaPlayer();
 
-        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer, mLibVLC);
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mCurrentIndex = -1;

@@ -442,7 +442,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
         mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
-        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer, mLibVLC);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();

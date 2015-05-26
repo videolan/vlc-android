@@ -18,20 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#include <vlc/vlc.h>
-#include <vlc_common.h>
-
-#include <jni.h>
-
-#include "utils.h"
-
-#define LOG_TAG "VLC/JNI/Equalizer"
-#include "log.h"
+#include "libvlcjni-vlcobject.h"
 
 /**
  * return band list as float[]
  */
-jfloatArray Java_org_videolan_libvlc_LibVLC_getBands(JNIEnv *env, jobject thiz)
+jfloatArray Java_org_videolan_libvlc_MediaPlayer_getBands(JNIEnv *env, jobject thiz)
 {
     unsigned count = libvlc_audio_equalizer_get_band_count();
     jfloatArray bands = (*env)->NewFloatArray(env, count);
@@ -47,7 +39,7 @@ jfloatArray Java_org_videolan_libvlc_LibVLC_getBands(JNIEnv *env, jobject thiz)
 /**
  * return preset list as String[]
  */
-jobjectArray Java_org_videolan_libvlc_LibVLC_getPresets(JNIEnv *env, jobject thiz)
+jobjectArray Java_org_videolan_libvlc_MediaPlayer_getPresets(JNIEnv *env, jobject thiz)
 {
     unsigned count = libvlc_audio_equalizer_get_preset_count();
     jclass stringClass = (*env)->FindClass(env, "java/lang/String");
@@ -65,7 +57,7 @@ jobjectArray Java_org_videolan_libvlc_LibVLC_getPresets(JNIEnv *env, jobject thi
 /**
  * return preset n° <index> as float[] (first element is preamp, then bands)
  */
-jfloatArray Java_org_videolan_libvlc_LibVLC_getPreset(JNIEnv *env, jobject thiz, jint index)
+jfloatArray Java_org_videolan_libvlc_MediaPlayer_getPreset(JNIEnv *env, jobject thiz, jint index)
 {
     unsigned count = libvlc_audio_equalizer_get_band_count();
     jfloatArray array = (*env)->NewFloatArray(env, count + 1);
@@ -89,15 +81,14 @@ jfloatArray Java_org_videolan_libvlc_LibVLC_getPreset(JNIEnv *env, jobject thiz,
  * apply equalizer settings (param bands is float[] (first element is preamp, then bands))
  */
 //"--audio-filter=equalizer", "--equalizer-bands=-3.5 -4.5 -1 0 0 5 8 8 8 8",
-jint Java_org_videolan_libvlc_LibVLC_setNativeEqualizer(JNIEnv *env, jobject thiz, jlong media_player, jfloatArray bands)
+jint Java_org_videolan_libvlc_MediaPlayer_setNativeEqualizer(JNIEnv *env, jobject thiz, jfloatArray bands)
 {
     jint res = -1;
-    libvlc_media_player_t *mp = (libvlc_media_player_t*)(intptr_t)media_player;
-    if (!mp)
-        return res;
+
+    GET_INSTANCE_RET(p_obj, -1)
 
     if (bands == NULL)
-        return libvlc_media_player_set_equalizer(mp, NULL);
+        return libvlc_media_player_set_equalizer(p_obj->u.p_mp, NULL);
 
     jfloat *cbands = (*env)->GetFloatArrayElements(env, bands, NULL);
     if (cbands == NULL)
@@ -113,7 +104,7 @@ jint Java_org_videolan_libvlc_LibVLC_setNativeEqualizer(JNIEnv *env, jobject thi
         {
             libvlc_audio_equalizer_set_amp_at_index(p_equalizer, cbands[i+1], i);
         }
-        res = libvlc_media_player_set_equalizer(mp, p_equalizer);
+        res = libvlc_media_player_set_equalizer(p_obj->u.p_mp, p_equalizer);
         libvlc_audio_equalizer_release(p_equalizer);
     }
     return res;

@@ -45,6 +45,7 @@ static const libvlc_event_type_t m_events[] = {
     -1,
 };
 
+// XXX REMOVE
 void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOptions)
 {
     int stringCount = (*env)->GetArrayLength(env, mediaOptions);
@@ -57,6 +58,7 @@ void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOpti
     }
 }
 
+// XXX REMOVE
 libvlc_media_t *new_media(JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = getLibVlcInstance(env, thiz);

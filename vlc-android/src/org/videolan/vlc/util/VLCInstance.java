@@ -38,7 +38,7 @@ import org.videolan.vlc.gui.NativeCrashActivity;
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
     private static LibVLC sLibVLC = null;
-    private static MediaPlayer mMediaPlayer = null;
+    private static MediaPlayer sMediaPlayer = null;
 
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
@@ -68,14 +68,18 @@ public class VLCInstance {
     }
 
     public static MediaPlayer getMainMediaPlayer() {
-        if (mMediaPlayer == null)
-            mMediaPlayer = new MediaPlayer(sLibVLC);
-        return mMediaPlayer;
+        if (sMediaPlayer == null)
+            sMediaPlayer = new MediaPlayer(sLibVLC);
+        return sMediaPlayer;
     }
 
     public static synchronized void restart(Context context) throws IllegalStateException {
         if (sLibVLC != null) {
             try {
+                if (sMediaPlayer != null) {
+                    sMediaPlayer.release();
+                    sMediaPlayer = null;
+                }
                 sLibVLC.destroy();
                 sLibVLC.init(context);
             } catch (LibVlcException lve) {
@@ -106,7 +110,7 @@ public class VLCInstance {
         sLibVLC.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
 
         if (pref.getBoolean("equalizer_enabled", false))
-            sLibVLC.setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
+            getMainMediaPlayer().setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
 
         int aout;
         try {

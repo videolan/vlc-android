@@ -22,14 +22,13 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
 #include <vlc/vlc.h>
-#include <vlc_common.h>
-#include <vlc_url.h>
 
 #include <jni.h>
 
@@ -405,7 +404,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
 void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
-    releaseMediaPlayer(env, thiz);
     jlong libVlcInstance = getLong(env, thiz, "mLibVlcInstance");
     if (!libVlcInstance)
         return; // Already destroyed

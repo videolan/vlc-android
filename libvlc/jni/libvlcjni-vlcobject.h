@@ -44,6 +44,7 @@ struct vlcjni_object
         libvlc_media_t *p_m;
         libvlc_media_list_t *p_ml;
         libvlc_media_discoverer_t *p_md;
+        libvlc_media_player_t *p_mp;
     } u;
     vlcjni_object_owner *p_owner; // used by vlcobject
     vlcjni_object_sys *p_sys; // used by media, medialist, mediadiscoverer...

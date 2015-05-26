@@ -26,20 +26,16 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class MediaPlayer {
+public class MediaPlayer extends VLCObject{
+    private final static String TAG = "LibVLC/MediaPlayer";
 
-    private LibVLC mLibVLC;
+    private float[] equalizer = null;
+
     public MediaPlayer(LibVLC libVLC) {
-        mLibVLC = libVLC;
-        create();
+        nativeNewFromLibVlc(libVLC);
     }
 
-    private native void create();
-
-    // REMOVE ASAP
-    public LibVLC getLibVLC() {
-        return mLibVLC;
-    }
+    private native void nativeNewFromLibVlc(LibVLC libVLC);
 
     /**
      * Sets the speed of playback (1 being normal speed, 2 being twice as fast)
@@ -56,18 +52,12 @@ public class MediaPlayer {
     /**
      * Play an mrl
      */
-    public native void playMRL(String mrl, String[] mediaOptions);
-
-    /**
-     * Play an MRL directly.
-     *
-     * @param mrl MRL of the media to play.
-     */
-    public void playMRL(String mrl) {
-        // index=-1 will return options from libvlc instance without relying on MediaList
-        String[] options = mLibVLC.getMediaOptions(false, false);
-        playMRL(mrl, options);
+    public void playMRL(String mrl, String[] mediaOptions) {
+        setEqualizer(this.equalizer);
+        nativePlayMRL(mrl, mediaOptions);
     }
+
+    private native void nativePlayMRL(String mrl, String[] mediaOptions);
 
     /**
      * Returns true if any media is playing
@@ -193,4 +183,38 @@ public class MediaPlayer {
 
     /* MediaList */
     public native int expandMedia(ArrayList<String> children);
+
+    @Override
+    protected Event onEventNative(int eventType, long arg1, long arg2) {
+        return null;
+    }
+
+    @Override
+    protected void onReleaseNative() {
+        nativeRelease();
+    }
+
+    private native void nativeRelease();
+
+    /* TODO: don't store equalizer*/
+    // Equalizer
+    public float[] getEqualizer()
+    {
+        return equalizer;
+    }
+
+    public void setEqualizer(float[] equalizer)
+    {
+        this.equalizer = equalizer;
+        setNativeEqualizer(this.equalizer);
+    }
+
+    private native int setNativeEqualizer(float[] bands);
+
+    public native float[] getBands();
+
+    public native String[] getPresets();
+
+    public native float[] getPreset(int index);
+
 }

@@ -38,14 +38,14 @@ public class MediaWrapperListPlayer {
 
     private static MediaWrapperListPlayer sMediaWrapperListPlayer = null;
 
-    public static synchronized MediaWrapperListPlayer getInstance(MediaPlayer player) {
+    public static synchronized MediaWrapperListPlayer getInstance(MediaPlayer player, LibVLC libVLC) {
         if (sMediaWrapperListPlayer == null)
-            sMediaWrapperListPlayer = new MediaWrapperListPlayer(player);
+            sMediaWrapperListPlayer = new MediaWrapperListPlayer(player, libVLC);
         return sMediaWrapperListPlayer;
     }
 
-    public MediaWrapperListPlayer(MediaPlayer player) {
-        mLibVLC = player.getLibVLC();
+    public MediaWrapperListPlayer(MediaPlayer player, LibVLC libVLC) {
+        mLibVLC = libVLC;
         mMediaList = new MediaWrapperList();
         mMediaPlayer = player;
     }

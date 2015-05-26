@@ -66,8 +66,6 @@ public class LibVLC {
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
-    /** libvlc_media_player pointer */
-    private long mInternalMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private MediaPlayer mMediaPlayer;
 
@@ -86,7 +84,6 @@ public class LibVLC {
     private int deblocking = -1;
     private String chroma = "";
     private boolean verboseMode = true;
-    private float[] equalizer = null;
     private boolean frameSkip = false;
     private int networkCaching = 0;
     private boolean httpReconnect = false;
@@ -409,23 +406,6 @@ public class LibVLC {
         this.verboseMode = verboseMode;
     }
 
-    public float[] getEqualizer()
-    {
-        return equalizer;
-    }
-
-    public void setEqualizer(float[] equalizer)
-    {
-        this.equalizer = equalizer;
-        applyEqualizer();
-    }
-
-    private void applyEqualizer()
-    {
-        setNativeEqualizer(mInternalMediaPlayerInstance, this.equalizer);
-    }
-    private native int setNativeEqualizer(long mediaPlayer, float[] bands);
-
     public boolean frameSkipEnabled() {
         return frameSkip;
     }
@@ -545,12 +525,6 @@ public class LibVLC {
     private native void setEventHandler(EventHandler eventHandler);
 
     private native void detachEventHandler();
-
-    public native float[] getBands();
-
-    public native String[] getPresets();
-
-    public native float[] getPreset(int index);
 
     public static interface OnNativeCrashListener {
         public void onNativeCrash();
