@@ -42,11 +42,16 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.MediaController;
 
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
+
 import java.io.InputStream;
 import java.util.Map;
 
 public class VideoView extends SurfaceView
         implements MediaController.MediaPlayerControl {
+
+    private static LibVLC sLibVLC;
 
     public VideoView(Context context) {
         super(context);
@@ -63,6 +68,10 @@ public class VideoView extends SurfaceView
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public VideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    private void initLibVLC() {
+        sLibVLC = new LibVLC();
     }
 
     @Override
@@ -82,16 +91,22 @@ public class VideoView extends SurfaceView
     }
 
     public void setVideoPath(String path) {
+        initLibVLC();
+        final Media media = new Media(sLibVLC, path);
     }
 
     public void setVideoURI(Uri uri) {
+        initLibVLC();
+        final Media media = new Media(sLibVLC, uri);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setVideoURI(Uri uri, Map<String, String> headers) {
+        setVideoURI(uri);
     }
 
     public void addSubtitleSource(InputStream is, MediaFormat format) {
+
     }
 
     public void setMediaController(MediaController controller) {
