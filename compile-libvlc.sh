@@ -587,11 +587,21 @@ for file in $VLC_MODULES; do
     name=`echo $file | sed 's/.*\.libs\/lib//' | sed 's/_plugin\.a//'`;
     symbols=$("${CROSS_COMPILE}nm" -g $file)
 
-    # assure that all modules have differents entry symbols
+    # assure that all modules have differents symbol names
     entry=$(get_symbol "$symbols" _)
     copyright=$(get_symbol "$symbols" copyright)
     license=$(get_symbol "$symbols" license)
     cat <<EOF > ${REDIFINED_VLC_MODULES_DIR}/syms
+AccessOpen AccessOpen__$name
+AccessClose AccessClose__$name
+StreamOpen StreamOpen__$name
+StreamClose StreamClose__$name
+DemuxOpen DemuxOpen__$name
+DemuxClose DemuxClose__$name
+OpenFilter OpenFilter__$name
+CloseFilter CloseFilter__$name
+Open Open__$name
+Close Close__$name
 $entry vlc_entry__$name
 $copyright vlc_entry_copyright__$name
 $license vlc_entry_license__$name
