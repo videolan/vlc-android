@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.interfaces;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 
 interface IAudioService {
     void play();

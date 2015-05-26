@@ -45,7 +45,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.util.AndroidDevices;

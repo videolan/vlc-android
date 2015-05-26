@@ -34,8 +34,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.MediaGroup;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;

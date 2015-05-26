@@ -19,7 +19,7 @@
  *****************************************************************************/
 
 package org.videolan.vlc.interfaces;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 
 interface IAudioServiceCallback {
     void update();

@@ -49,7 +49,7 @@ import com.android.widget.SlidingTabLayout;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;

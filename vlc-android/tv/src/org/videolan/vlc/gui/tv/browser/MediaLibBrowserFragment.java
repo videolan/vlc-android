@@ -26,7 +26,7 @@ package org.videolan.vlc.gui.tv.browser;
 import android.os.Bundle;
 
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.util.Util;
 
 import java.util.HashMap;

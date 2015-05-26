@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;

@@ -27,7 +27,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.tv.MainTvActivity;

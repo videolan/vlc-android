@@ -20,7 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;

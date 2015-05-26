@@ -44,8 +44,6 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.videolan.libvlc.MediaWrapper;
-
 public class MediaDatabase {
     public final static String TAG = "VLC/MediaDatabase";
 

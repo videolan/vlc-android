@@ -35,7 +35,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;

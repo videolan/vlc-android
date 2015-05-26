@@ -23,7 +23,7 @@ package org.videolan.vlc.gui.tv;
 import java.util.ArrayList;
 
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 
 import android.app.Activity;

@@ -18,11 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.vlc;
 
 import java.util.Locale;
 
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.Media.Meta;
 
@@ -271,11 +275,26 @@ public class MediaWrapper implements Parcelable {
     }
 
     /**
-     * Returns the raw picture object. Likely to be NULL due to lazy-loading.
+     * Returns the raw picture object. Likely to be NULL in VLC for Android
+     * due to lazy-loading.
+     *
+     * Use {@link org.videolan.vlc.util.BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
+     *
      * @return The raw picture or NULL
      */
     public Bitmap getPicture() {
         return mPicture;
+    }
+
+    /**
+     * Sets the raw picture object.
+     *
+     * In VLC for Android, use {@link org.videolan.vlc.MediaDatabase#setPicture(MediaWrapper, Bitmap)} instead.
+     *
+     * @param p
+     */
+    public void setPicture(Bitmap p) {
+        mPicture = p;
     }
 
     public boolean isPictureParsed() {

@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 

@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
 

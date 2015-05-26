@@ -32,7 +32,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.MediaWrapper;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
