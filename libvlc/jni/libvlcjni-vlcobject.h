@@ -56,6 +56,15 @@ struct java_event
     jlong arg2;
 };
 
+#define GET_INSTANCE_RET(p_var, fail) \
+    vlcjni_object *p_var = VLCJniObject_getInstance(env, thiz); \
+    if (!p_var) { \
+        throw_IllegalStateException(env, "can't get VLCObject instance"); \
+        return fail; \
+    } \
+
+#define GET_INSTANCE(p_var) GET_INSTANCE_RET(p_var, )
+
 /* event manager callback dispatched to native struct implementing a
  * vlcjni_object. If the callback returns true, the event is dispatched to Java
  * */

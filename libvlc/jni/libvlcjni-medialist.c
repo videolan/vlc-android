@@ -184,15 +184,10 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMediaDiscoverer(JNIEnv *env,
                                                                 jobject thiz,
                                                                 jobject md)
 {
-    vlcjni_object *p_md_obj = VLCJniObject_getInstance(env, md);
     vlcjni_object *p_obj;
     const char *p_error;
 
-    if (!p_md_obj)
-    {
-        throw_IllegalStateException(env, "can't get MediaDiscoverer instance");
-        return;
-    }
+    GET_INSTANCE(p_md_obj)
 
     p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_md_obj->p_libvlc, &p_error);
     if (!p_obj)
@@ -211,15 +206,10 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMedia(JNIEnv *env,
                                                       jobject thiz,
                                                       jobject m)
 {
-    vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, m);
     vlcjni_object *p_obj;
     const char *p_error;
 
-    if (!p_m_obj)
-    {
-        throw_IllegalStateException(env, "can't get Media instance");
-        return;
-    }
+    GET_INSTANCE(p_m_obj)
 
     p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_m_obj->p_libvlc, &p_error);
     if (!p_obj)
@@ -236,10 +226,7 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMedia(JNIEnv *env,
 void
 Java_org_videolan_libvlc_MediaList_nativeRelease(JNIEnv *env, jobject thiz)
 {
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return;
+    GET_INSTANCE(p_obj)
 
     libvlc_media_list_release(p_obj->u.p_ml);
 
@@ -253,14 +240,9 @@ Java_org_videolan_libvlc_MediaList_nativeRelease(JNIEnv *env, jobject thiz)
 jint
 Java_org_videolan_libvlc_MediaList_nativeGetCount(JNIEnv *env, jobject thiz)
 {
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
     jint count;
 
-    if (!p_obj)
-    {
-        throw_IllegalStateException(env, "can't get MediaList instance");
-        return 0;
-    }
+    GET_INSTANCE_RET(p_obj, 0)
 
     libvlc_media_list_lock(p_obj->u.p_ml);
     count = libvlc_media_list_count(p_obj->u.p_ml);

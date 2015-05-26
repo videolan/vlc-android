@@ -60,10 +60,7 @@ void
 Java_org_videolan_libvlc_MediaDiscoverer_nativeRelease(JNIEnv *env,
                                                        jobject thiz)
 {
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return;
+    GET_INSTANCE(p_obj)
 
     libvlc_media_discoverer_release(p_obj->u.p_md);
 
@@ -73,13 +70,7 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeRelease(JNIEnv *env,
 jboolean
 Java_org_videolan_libvlc_MediaDiscoverer_nativeStart(JNIEnv *env, jobject thiz)
 {
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-    {
-        throw_IllegalStateException(env, "can't get MediaDiscoverer instance");
-        return false;
-    }
+    GET_INSTANCE_RET(p_obj, false)
 
     return libvlc_media_discoverer_start(p_obj->u.p_md) == 0 ? true : false;
 }
@@ -87,13 +78,7 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeStart(JNIEnv *env, jobject thiz)
 void
 Java_org_videolan_libvlc_MediaDiscoverer_nativeStop(JNIEnv *env, jobject thiz)
 {
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-    {
-        throw_IllegalStateException(env, "can't get MediaDiscoverer instance");
-        return;
-    }
+    GET_INSTANCE(p_obj)
 
     libvlc_media_discoverer_stop(p_obj->u.p_md);
 }
