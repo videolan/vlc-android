@@ -50,7 +50,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.videolan.libvlc.HWDecoderUtil;
+import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
