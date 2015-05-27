@@ -105,9 +105,9 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaWrapperListPlayer;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -662,8 +662,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (mBound)
             return;
         mBound = true;
-        AudioServiceController.getInstance().bindAudioService(this,
-                new AudioServiceController.AudioServiceConnectionListener() {
+        PlaybackServiceController.getInstance().bindAudioService(this,
+                new PlaybackServiceController.AudioServiceConnectionListener() {
                     @Override
                     public void onConnectionSuccess() {
                         mAudioServiceReady = true;
@@ -679,7 +679,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 });
     }
     private void unbindAudioService() {
-        AudioServiceController.getInstance().unbindAudioService(this);
+        PlaybackServiceController.getInstance().unbindAudioService(this);
         mAudioServiceReady = false;
         mBound = false;
     }
@@ -756,7 +756,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
-            AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
+            PlaybackServiceController.getInstance().showWithoutParse(savedIndexPosition);
             unbindAudioService();
             return;
         }
@@ -2815,7 +2815,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             savedIndexPosition = openedPosition;
         } else {
             /* prepare playback */
-            AudioServiceController.getInstance().stop(); // Stop the previous playback.
+            PlaybackServiceController.getInstance().stop(); // Stop the previous playback.
             if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
                 mMediaListPlayer.getMediaList().clear();
                 final Media media = new Media(LibVLC(), Uri.parse(mLocation));

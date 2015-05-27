@@ -59,9 +59,9 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -108,7 +108,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     private VideoGridAnimator mAnimator;
 
     private MainActivity mMainActivity;
-    private AudioServiceController mAudioController;
+    private PlaybackServiceController mAudioController;
 
     // Gridview position saved in onPause()
     private int mGVFirstVisiblePos;
@@ -120,7 +120,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = AudioServiceController.getInstance();
+        mAudioController = PlaybackServiceController.getInstance();
 
         mVideoAdapter = new VideoListAdapter(this);
         mMediaLibrary = MediaLibrary.getInstance();
@@ -182,7 +182,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void onPause() {
         super.onPause();
         if (!(getActivity() instanceof MainActivity))
-            AudioServiceController.getInstance().unbindAudioService(getActivity());
+            PlaybackServiceController.getInstance().unbindAudioService(getActivity());
         mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
         mMediaLibrary.setBrowser(null);
         mMediaLibrary.removeUpdateHandler(mHandler);
@@ -196,7 +196,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void onResume() {
         super.onResume();
         if (!(getActivity() instanceof MainActivity))
-            AudioServiceController.getInstance().bindAudioService(getActivity());
+            PlaybackServiceController.getInstance().bindAudioService(getActivity());
         else
             mMainActivity = (MainActivity) getActivity();
         mMediaLibrary.setBrowser(this);

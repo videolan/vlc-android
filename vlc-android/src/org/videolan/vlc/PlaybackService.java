@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.audio;
+package org.videolan.vlc;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -61,14 +61,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaWrapperList;
-import org.videolan.vlc.MediaWrapperListPlayer;
-import org.videolan.vlc.R;
-import org.videolan.vlc.RemoteControlClientReceiver;
-import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -91,7 +84,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class AudioService extends Service {
+public class PlaybackService extends Service {
 
     private static final String TAG = "VLC/AudioService";
 
@@ -460,14 +453,14 @@ public class AudioService extends Service {
      */
     private final Handler mVlcEventHandler = new AudioServiceEventHandler(this);
 
-    private static class AudioServiceEventHandler extends WeakHandler<AudioService> {
-        public AudioServiceEventHandler(AudioService fragment) {
+    private static class AudioServiceEventHandler extends WeakHandler<PlaybackService> {
+        public AudioServiceEventHandler(PlaybackService fragment) {
             super(fragment);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            AudioService service = getOwner();
+            PlaybackService service = getOwner();
             if(service == null) return;
 
             switch (msg.getData().getInt("event")) {
@@ -698,14 +691,14 @@ public class AudioService extends Service {
 
     private final Handler mHandler = new AudioServiceHandler(this);
 
-    private static class AudioServiceHandler extends WeakHandler<AudioService> {
-        public AudioServiceHandler(AudioService fragment) {
+    private static class AudioServiceHandler extends WeakHandler<PlaybackService> {
+        public AudioServiceHandler(PlaybackService fragment) {
             super(fragment);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            AudioService service = getOwner();
+            PlaybackService service = getOwner();
             if(service == null) return;
 
             switch (msg.what) {
@@ -813,7 +806,7 @@ public class AudioService extends Service {
                 notification = builder.build();
             }
 
-            startService(new Intent(this, AudioService.class));
+            startService(new Intent(this, PlaybackService.class));
             if (!LibVlcUtil.isLolliPopOrLater() || MediaPlayer().isPlaying())
                 startForeground(3, notification);
             else {
@@ -1049,17 +1042,17 @@ public class AudioService extends Service {
 
         @Override
         public void pause() throws RemoteException {
-            AudioService.this.pause();
+            PlaybackService.this.pause();
         }
 
         @Override
         public void play() throws RemoteException {
-            AudioService.this.play();
+            PlaybackService.this.play();
         }
 
         @Override
         public void stop() throws RemoteException {
-            AudioService.this.stop();
+            PlaybackService.this.stop();
         }
 
         @Override
@@ -1085,7 +1078,7 @@ public class AudioService extends Service {
         @Override
         public String getAlbum() throws RemoteException {
             if (hasCurrentMedia())
-                return Util.getMediaAlbum(AudioService.this, getCurrentMedia());
+                return Util.getMediaAlbum(PlaybackService.this, getCurrentMedia());
             else
                 return null;
         }
@@ -1096,7 +1089,7 @@ public class AudioService extends Service {
                 final MediaWrapper media = getCurrentMedia();
                 return media.isArtistUnknown() && media.getNowPlaying() != null ?
                         media.getNowPlaying()
-                        : Util.getMediaArtist(AudioService.this, media);
+                        : Util.getMediaArtist(PlaybackService.this, media);
             } else
                 return null;
         }
@@ -1104,7 +1097,7 @@ public class AudioService extends Service {
         @Override
         public String getArtistPrev() throws RemoteException {
             if (mPrevIndex != -1)
-                return Util.getMediaArtist(AudioService.this, mMediaListPlayer.getMediaList().getMedia(mPrevIndex));
+                return Util.getMediaArtist(PlaybackService.this, mMediaListPlayer.getMediaList().getMedia(mPrevIndex));
             else
                 return null;
         }
@@ -1112,7 +1105,7 @@ public class AudioService extends Service {
         @Override
         public String getArtistNext() throws RemoteException {
             if (mNextIndex != -1)
-                return Util.getMediaArtist(AudioService.this, mMediaListPlayer.getMediaList().getMedia(mNextIndex));
+                return Util.getMediaArtist(PlaybackService.this, mMediaListPlayer.getMediaList().getMedia(mNextIndex));
             else
                 return null;
         }
@@ -1144,7 +1137,7 @@ public class AudioService extends Service {
         @Override
         public Bitmap getCover() {
             if (hasCurrentMedia()) {
-                return AudioUtil.getCover(AudioService.this, getCurrentMedia(), 512);
+                return AudioUtil.getCover(PlaybackService.this, getCurrentMedia(), 512);
             }
             return null;
         }
@@ -1152,7 +1145,7 @@ public class AudioService extends Service {
         @Override
         public Bitmap getCoverPrev() throws RemoteException {
             if (mPrevIndex != -1)
-                return AudioUtil.getCover(AudioService.this, mMediaListPlayer.getMediaList().getMedia(mPrevIndex), 64);
+                return AudioUtil.getCover(PlaybackService.this, mMediaListPlayer.getMediaList().getMedia(mPrevIndex), 64);
             else
                 return null;
         }
@@ -1160,7 +1153,7 @@ public class AudioService extends Service {
         @Override
         public Bitmap getCoverNext() throws RemoteException {
             if (mNextIndex != -1)
-                return AudioUtil.getCover(AudioService.this, mMediaListPlayer.getMediaList().getMedia(mNextIndex), 64);
+                return AudioUtil.getCover(PlaybackService.this, mMediaListPlayer.getMediaList().getMedia(mNextIndex), 64);
             else
                 return null;
         }
@@ -1269,11 +1262,11 @@ public class AudioService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
-            updateWidget(AudioService.this);
+            updateWidget(PlaybackService.this);
             broadcastMetadata();
             updateRemoteControlClientMetadata();
-            AudioService.this.saveMediaList();
-            AudioService.this.saveCurrentMedia();
+            PlaybackService.this.saveMediaList();
+            PlaybackService.this.saveCurrentMedia();
             determinePrevAndNextIndices();
         }
 
@@ -1301,7 +1294,7 @@ public class AudioService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
-            updateWidget(AudioService.this);
+            updateWidget(PlaybackService.this);
             broadcastMetadata();
             updateRemoteControlClientMetadata();
             determinePrevAndNextIndices();
@@ -1347,7 +1340,7 @@ public class AudioService extends Service {
                 MediaWrapper mediaWrapper = mediaList.get(i);
                 mMediaListPlayer.getMediaList().add(mediaWrapper);
             }
-            AudioService.this.saveMediaList();
+            PlaybackService.this.saveMediaList();
             determinePrevAndNextIndices();
             executeUpdate();
         }
@@ -1358,13 +1351,13 @@ public class AudioService extends Service {
         @Override
         public void moveItem(int positionStart, int positionEnd) throws RemoteException {
             mMediaListPlayer.getMediaList().move(positionStart, positionEnd);
-            AudioService.this.saveMediaList();
+            PlaybackService.this.saveMediaList();
         }
 
         @Override
         public void remove(int position) {
             mMediaListPlayer.getMediaList().remove(position);
-            AudioService.this.saveMediaList();
+            PlaybackService.this.saveMediaList();
             determinePrevAndNextIndices();
             executeUpdate();
         }
@@ -1372,7 +1365,7 @@ public class AudioService extends Service {
         @Override
         public void removeLocation(String location) {
             mMediaListPlayer.getMediaList().remove(location);
-            AudioService.this.saveMediaList();
+            PlaybackService.this.saveMediaList();
             determinePrevAndNextIndices();
             executeUpdate();
         }
@@ -1402,27 +1395,27 @@ public class AudioService extends Service {
 
         @Override
         public MediaWrapper getCurrentMediaWrapper() throws RemoteException {
-            return AudioService.this.getCurrentMedia();
+            return PlaybackService.this.getCurrentMedia();
         }
 
         @Override
         public void next() throws RemoteException {
-            AudioService.this.next();
+            PlaybackService.this.next();
         }
 
         @Override
         public void previous() throws RemoteException {
-            AudioService.this.previous();
+            PlaybackService.this.previous();
         }
 
         @Override
         public void shuffle() throws RemoteException {
-            AudioService.this.shuffle();
+            PlaybackService.this.shuffle();
         }
 
         @Override
         public void setRepeatType(int t) throws RemoteException {
-            AudioService.this.setRepeatType(t);
+            PlaybackService.this.setRepeatType(t);
         }
 
         @Override
@@ -1452,7 +1445,7 @@ public class AudioService extends Service {
 
         @Override
         public void handleVout() throws RemoteException {
-            AudioService.this.handleVout();
+            PlaybackService.this.handleVout();
         }
     };
 

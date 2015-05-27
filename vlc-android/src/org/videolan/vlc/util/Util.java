@@ -42,10 +42,10 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import java.io.BufferedReader;
@@ -211,7 +211,7 @@ public class Util {
             VLCCallbackTask task = new VLCCallbackTask(context) {
                 @Override
                 public void run() {
-                    AudioServiceController c = AudioServiceController.getInstance();
+                    PlaybackServiceController c = PlaybackServiceController.getInstance();
                     c.load(media);
                 }
             };
@@ -223,7 +223,7 @@ public class Util {
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                AudioServiceController c = AudioServiceController.getInstance();
+                PlaybackServiceController c = PlaybackServiceController.getInstance();
 
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video
@@ -241,7 +241,7 @@ public class Util {
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                AudioServiceController c = AudioServiceController.getInstance();
+                PlaybackServiceController c = PlaybackServiceController.getInstance();
 
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video

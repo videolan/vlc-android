@@ -60,9 +60,9 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
@@ -221,8 +221,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         super.onResume();
 
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
-        if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
-            getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
+        if (getIntent().hasExtra(PlaybackService.START_FROM_NOTIFICATION))
+            getIntent().removeExtra(PlaybackService.START_FROM_NOTIFICATION);
 
 
         /* Load media items from database and storage */
@@ -500,7 +500,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
                 if (current instanceof AudioBrowserFragment) {
-                    Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
+                    Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_PLAYLIST);
                     sendBroadcast(i);
                 } else if (current instanceof VideoGridFragment) {
                     String location = Uri.decode(mSettings.getString(PreferencesActivity.VIDEO_LAST, null));

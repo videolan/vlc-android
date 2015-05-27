@@ -53,9 +53,9 @@ import android.widget.Toast;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioService;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
@@ -125,7 +125,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        AudioServiceController.getInstance().detectHeadset(checkboxHS.isChecked());
+                        PlaybackServiceController.getInstance().detectHeadset(checkboxHS.isChecked());
                         return true;
                     }
                 });
@@ -376,22 +376,22 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     @Override
     protected void onResume() {
         super.onResume();
-        AudioServiceController.getInstance().bindAudioService(this);
+        PlaybackServiceController.getInstance().bindAudioService(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AudioServiceController.getInstance().unbindAudioService(this);
+        PlaybackServiceController.getInstance().unbindAudioService(this);
     }
 
     private void restartService(Context context) {
-        Intent service = new Intent(context, AudioService.class);
+        Intent service = new Intent(context, PlaybackService.class);
 
-        AudioServiceController.getInstance().unbindAudioService(PreferencesActivity.this);
+        PlaybackServiceController.getInstance().unbindAudioService(PreferencesActivity.this);
         context.stopService(service);
 
         context.startService(service);
-        AudioServiceController.getInstance().bindAudioService(PreferencesActivity.this);
+        PlaybackServiceController.getInstance().bindAudioService(PreferencesActivity.this);
     }
 }

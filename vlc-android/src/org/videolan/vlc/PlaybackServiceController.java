@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.audio;
+package org.videolan.vlc;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,7 +31,7 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IAudioService;
@@ -42,10 +42,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioServiceController implements IAudioPlayerControl {
+public class PlaybackServiceController implements IAudioPlayerControl {
     public static final String TAG = "VLC/AudioServiceContoller";
 
-    private static AudioServiceController mInstance;
+    private static PlaybackServiceController mInstance;
     private static boolean mIsBound = false;
     private IAudioService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
@@ -79,14 +79,14 @@ public class AudioServiceController implements IAudioPlayerControl {
         }
     };
 
-    private AudioServiceController() {
+    private PlaybackServiceController() {
         mAudioPlayer = new ArrayList<IAudioPlayer>();
         mMediaPlayedListener = new ArrayList<MediaPlayedListener>();
     }
 
-    public static AudioServiceController getInstance() {
+    public static PlaybackServiceController getInstance() {
         if (mInstance == null) {
-            mInstance = new AudioServiceController();
+            mInstance = new PlaybackServiceController();
         }
         return mInstance;
     }
@@ -114,7 +114,7 @@ public class AudioServiceController implements IAudioPlayerControl {
         context = context.getApplicationContext();
 
         if (!mIsBound) {
-            Intent service = new Intent(context, AudioService.class);
+            Intent service = new Intent(context, PlaybackService.class);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean enableHS = prefs.getBoolean("enable_headset_detection", true);

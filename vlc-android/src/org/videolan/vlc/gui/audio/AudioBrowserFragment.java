@@ -56,8 +56,8 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -82,7 +82,7 @@ import java.util.concurrent.Executors;
 public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
-    private AudioServiceController mAudioController;
+    private PlaybackServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
     private MediaBrowser mMediaBrowser;
     private MainActivity mMainActivity;
@@ -119,7 +119,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = AudioServiceController.getInstance();
+        mAudioController = PlaybackServiceController.getInstance();
 
         mMediaLibrary = MediaLibrary.getInstance();
 

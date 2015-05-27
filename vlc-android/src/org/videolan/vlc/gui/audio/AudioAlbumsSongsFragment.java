@@ -50,8 +50,8 @@ import com.android.widget.SlidingTabLayout;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
@@ -68,7 +68,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
-    AudioServiceController mAudioController;
+    PlaybackServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -100,7 +100,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         mAlbumsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
         mSongsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
 
-        mAudioController = AudioServiceController.getInstance();
+        mAudioController = PlaybackServiceController.getInstance();
         mMediaLibrary = MediaLibrary.getInstance();
         if (savedInstanceState != null)
             setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));

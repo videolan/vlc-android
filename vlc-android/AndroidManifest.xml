@@ -402,7 +402,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.videolan.vlc.audio.AudioService" />
+        <service android:name=".PlaybackService" />
 
         <receiver android:name=".PhoneStateReceiver" >
             <intent-filter>
