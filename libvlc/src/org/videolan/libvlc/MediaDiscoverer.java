@@ -20,7 +20,7 @@
 
 package org.videolan.libvlc;
 
-public final class MediaDiscoverer extends VLCObject {
+public class MediaDiscoverer extends VLCObject {
     private final static String TAG = "LibVLC/MediaDiscoverer";
     private MediaList mMediaList;
 

@@ -24,7 +24,7 @@ import android.net.Uri;
 
 import java.io.FileDescriptor;
 
-public final class Media extends VLCObject {
+public class Media extends VLCObject {
     private final static String TAG = "LibVLC/Media";
 
     /**

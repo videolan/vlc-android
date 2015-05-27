@@ -22,7 +22,7 @@ package org.videolan.libvlc;
 
 import android.util.SparseArray;
 
-public final class MediaList extends VLCObject {
+public class MediaList extends VLCObject {
     private final static String TAG = "LibVLC/MediaList";
 
     public static class Event extends VLCObject.Event {
