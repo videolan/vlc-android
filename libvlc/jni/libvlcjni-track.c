@@ -109,7 +109,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_getAudioTracksCount(JNIEnv *env,
                                                          jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1);
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;;
 
     return (jint) libvlc_audio_get_track_count(p_obj->u.p_mp);
 }
@@ -119,7 +122,10 @@ jobject
 Java_org_videolan_libvlc_MediaPlayer_getAudioTrackDescription(JNIEnv *env,
                                                               jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, NULL);
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;;
 
     int i_nbTracks = libvlc_audio_get_track_count(p_obj->u.p_mp) - 1;
     if (i_nbTracks < 0)
@@ -162,7 +168,10 @@ Java_org_videolan_libvlc_MediaPlayer_getAudioTrackDescription(JNIEnv *env,
 jobject
 Java_org_videolan_libvlc_MediaPlayer_getStats(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, NULL);
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;;
 
     libvlc_media_t *p_mp = libvlc_media_player_get_media(p_obj->u.p_mp);
     if (!p_mp)
@@ -255,7 +264,10 @@ Java_org_videolan_libvlc_MediaPlayer_getStats(JNIEnv *env, jobject thiz)
 jint
 Java_org_videolan_libvlc_MediaPlayer_getAudioTrack(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_audio_get_track(p_obj->u.p_mp);
 }
@@ -264,7 +276,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_setAudioTrack(JNIEnv *env, jobject thiz,
                                                    jint index)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_audio_set_track(p_obj->u.p_mp, index);
 }
@@ -273,7 +288,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_getVideoTracksCount(JNIEnv *env,
                                                          jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return (jint) libvlc_video_get_track_count(p_obj->u.p_mp);
 }
@@ -284,7 +302,10 @@ Java_org_videolan_libvlc_MediaPlayer_setVideoTrackEnabled(JNIEnv *env,
                                                           jobject thiz,
                                                           jboolean enabled)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     if (!enabled)
         return libvlc_video_set_track(p_obj->u.p_mp, -1);
@@ -316,7 +337,10 @@ jobject
 Java_org_videolan_libvlc_MediaPlayer_getSpuTrackDescription(JNIEnv *env,
                                                             jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, NULL)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;
 
     int i_nbTracks = libvlc_video_get_spu_count(p_obj->u.p_mp);
     jclass mapClass = (*env)->FindClass(env, "java/util/Map");
@@ -357,7 +381,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_getSpuTracksCount(JNIEnv *env,
                                                        jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return (jint) libvlc_video_get_spu_count(p_obj->u.p_mp);
 }
@@ -365,7 +392,10 @@ Java_org_videolan_libvlc_MediaPlayer_getSpuTracksCount(JNIEnv *env,
 jint
 Java_org_videolan_libvlc_MediaPlayer_getSpuTrack(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_video_get_spu(p_obj->u.p_mp);
 }
@@ -374,7 +404,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_setSpuTrack(JNIEnv *env, jobject thiz,
                                                  jint index)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_video_set_spu(p_obj->u.p_mp, index);
 }
@@ -383,7 +416,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_addSubtitleTrack(JNIEnv *env, jobject thiz,
                                                       jstring path)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     const char* psz_path = (*env)->GetStringUTFChars(env, path, NULL);
     jint res = libvlc_video_set_subtitle_file(p_obj->u.p_mp, psz_path);
@@ -395,7 +431,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_setAudioDelay(JNIEnv *env, jobject thiz,
                                                    jlong delay)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_audio_set_delay(p_obj->u.p_mp, (int64_t) delay);
 }
@@ -403,7 +442,10 @@ Java_org_videolan_libvlc_MediaPlayer_setAudioDelay(JNIEnv *env, jobject thiz,
 jlong
 Java_org_videolan_libvlc_MediaPlayer_getAudioDelay(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, 0)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
 
     return (jlong) libvlc_audio_get_delay(p_obj->u.p_mp);
 }
@@ -412,7 +454,10 @@ jint
 Java_org_videolan_libvlc_MediaPlayer_setSpuDelay(JNIEnv *env, jobject thiz,
                                                  jlong delay)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return libvlc_video_set_spu_delay(p_obj->u.p_mp, (int64_t) delay);
 }
@@ -420,7 +465,10 @@ Java_org_videolan_libvlc_MediaPlayer_setSpuDelay(JNIEnv *env, jobject thiz,
 jlong
 Java_org_videolan_libvlc_MediaPlayer_getSpuDelay(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE_RET(p_obj, -1)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -1;
 
     return (jlong) libvlc_video_get_spu_delay(p_obj->u.p_mp);
 }

@@ -177,9 +177,11 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMediaDiscoverer(JNIEnv *env,
                                                                 jobject thiz,
                                                                 jobject md)
 {
+    vlcjni_object *p_md_obj = VLCJniObject_getInstance(env, md);
     vlcjni_object *p_obj;
 
-    GET_INSTANCE(p_md_obj)
+    if (!p_md_obj)
+        return;
 
     p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_md_obj->p_libvlc);
     if (!p_obj)
@@ -195,9 +197,11 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMedia(JNIEnv *env,
                                                       jobject thiz,
                                                       jobject m)
 {
+    vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, m);
     vlcjni_object *p_obj;
 
-    GET_INSTANCE(p_m_obj)
+    if (!p_m_obj)
+        return;
 
     p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_m_obj->p_libvlc);
     if (!p_obj)
@@ -211,7 +215,10 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMedia(JNIEnv *env,
 void
 Java_org_videolan_libvlc_MediaList_nativeRelease(JNIEnv *env, jobject thiz)
 {
-    GET_INSTANCE(p_obj)
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
 
     libvlc_media_list_release(p_obj->u.p_ml);
 
@@ -225,9 +232,11 @@ Java_org_videolan_libvlc_MediaList_nativeRelease(JNIEnv *env, jobject thiz)
 jint
 Java_org_videolan_libvlc_MediaList_nativeGetCount(JNIEnv *env, jobject thiz)
 {
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
     jint count;
 
-    GET_INSTANCE_RET(p_obj, 0)
+    if (!p_obj)
+        return 0;
 
     libvlc_media_list_lock(p_obj->u.p_ml);
     count = libvlc_media_list_count(p_obj->u.p_ml);

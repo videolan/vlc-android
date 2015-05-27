@@ -38,12 +38,22 @@ struct vlcjni_object_owner
     event_cb pf_event_cb;
 };
 
-vlcjni_object *
-VLCJniObject_getInstance(JNIEnv *env, jobject thiz)
+static vlcjni_object *
+VLCJniObject_getInstanceInternal(JNIEnv *env, jobject thiz)
 {
     return (vlcjni_object*)(intptr_t) (*env)->GetLongField(env, thiz,
                                                 fields.VLCObject.mInstanceID);
 }
+
+vlcjni_object *
+VLCJniObject_getInstance(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstanceInternal(env, thiz);
+    if (!p_obj)
+        throw_IllegalStateException(env, "can't get VLCObject instance");
+    return p_obj;
+}
+
 
 static void
 VLCJniObject_setInstance(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
@@ -61,7 +71,7 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
     libvlc_event_manager_t *ev;
     const char *p_error;
 
-    if (VLCJniObject_getInstance(env, thiz))
+    if (VLCJniObject_getInstanceInternal(env, thiz))
     {
         p_error = "VLCObject.mInstanceID already exists";
         goto error;

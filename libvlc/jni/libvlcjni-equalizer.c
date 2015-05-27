@@ -84,8 +84,10 @@ jfloatArray Java_org_videolan_libvlc_MediaPlayer_getPreset(JNIEnv *env, jobject 
 jint Java_org_videolan_libvlc_MediaPlayer_setNativeEqualizer(JNIEnv *env, jobject thiz, jfloatArray bands)
 {
     jint res = -1;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
-    GET_INSTANCE_RET(p_obj, -1)
+    if (!p_obj)
+        return -1;
 
     if (bands == NULL)
         return libvlc_media_player_set_equalizer(p_obj->u.p_mp, NULL);
