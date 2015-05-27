@@ -27,7 +27,7 @@
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
 
-static jobject eventHandlerInstance = NULL;
+extern jobject eventHandlerInstance;
 
 /* TODO REMOVE */
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
@@ -202,6 +202,23 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
 {
     GET_INSTANCE(p_obj)
 
+    /* TODO: REMOVE */
+    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(p_obj->u.p_mp);
+    static const libvlc_event_type_t mp_events[] = {
+        libvlc_MediaPlayerPlaying,
+        libvlc_MediaPlayerPaused,
+        libvlc_MediaPlayerEndReached,
+        libvlc_MediaPlayerStopped,
+        libvlc_MediaPlayerVout,
+        libvlc_MediaPlayerPositionChanged,
+        libvlc_MediaPlayerTimeChanged,
+        libvlc_MediaPlayerEncounteredError,
+        libvlc_MediaPlayerESAdded,
+        libvlc_MediaPlayerESDeleted,
+    };
+
+    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
+        libvlc_event_detach(ev, mp_events[i], vlc_event_callback, NULL);
     libvlc_media_player_release(p_obj->u.p_mp);
 
     VLCJniObject_release(env, thiz, p_obj);
@@ -260,6 +277,21 @@ void
 Java_org_videolan_libvlc_MediaPlayer_stop(JNIEnv *env, jobject thiz)
 {
     GET_INSTANCE(p_obj)
+
+    /* TODO: REMOVE */
+    libvlc_media_t* p_md = libvlc_media_player_get_media(p_obj->u.p_mp);
+    if (p_md)
+    {
+        libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
+        static const libvlc_event_type_t mp_media_events[] = {
+            libvlc_MediaParsedChanged,
+            libvlc_MediaMetaChanged,
+        };
+        for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
+            libvlc_event_detach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
+        libvlc_media_release(p_md);
+        libvlc_media_player_set_media(p_obj->u.p_md, NULL);
+    }
 
     libvlc_media_player_stop(p_obj->u.p_mp);
 }

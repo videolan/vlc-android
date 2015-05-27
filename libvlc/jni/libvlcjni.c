@@ -62,7 +62,7 @@ libvlc_instance_t *getLibVlcInstance(JNIEnv *env, jobject thiz)
     return (libvlc_instance_t*)(intptr_t)getLong(env, thiz, "mLibVlcInstance");
 }
 
-static jobject eventHandlerInstance = NULL;
+jobject eventHandlerInstance = NULL;
 
 
 /* Pointer to the Java virtual machine
@@ -414,6 +414,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
     setLong(env, thiz, "mLibVlcInstance", 0);
 }
 
+/* TODO REMOVE */
 void Java_org_videolan_libvlc_LibVLC_detachEventHandler(JNIEnv *env, jobject thiz)
 {
     if (eventHandlerInstance != NULL) {
@@ -422,6 +423,7 @@ void Java_org_videolan_libvlc_LibVLC_detachEventHandler(JNIEnv *env, jobject thi
     }
 }
 
+/* TODO REMOVE */
 void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, jobject eventHandler)
 {
     if (eventHandlerInstance != NULL) {
