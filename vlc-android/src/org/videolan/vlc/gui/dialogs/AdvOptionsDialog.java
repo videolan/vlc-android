@@ -100,7 +100,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private int mTextColor;
 
     private IDelayController mDelayController;
-    private MediaPlayer mMediaPlayer;
     public AdvOptionsDialog() {}
 
     @Override
@@ -109,7 +108,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
-        mMediaPlayer = VLCInstance.getMainMediaPlayer();
         if (getArguments() != null && getArguments().containsKey(MODE_KEY))
             mMode = getArguments().getInt(MODE_KEY);
         else
@@ -192,8 +190,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             root.findViewById(R.id.opt_equalizer).setVisibility(View.GONE);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
+        final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
 
-        double speed = mMediaPlayer.getRate();
+        double speed = mediaplayer.getRate();
         if (speed != 1.0d) {
             speed = 100 * (1 + Math.log(speed) / Math.log(4));
             mSeek.setProgress((int) speed);
@@ -206,7 +205,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initChapterSpinner() {
-        int chaptersCount = mMediaPlayer.getChapterCount();
+        final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+
+        int chaptersCount = mediaplayer.getChapterCount();
         if (chaptersCount <= 1){
             mChapters.setVisibility(View.GONE);
             mChaptersTitle.setVisibility(View.GONE);
@@ -215,17 +216,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         String chapterDescription;
         for (int i = 0 ; i < chaptersCount ; ++i) {
-            chapterDescription = mMediaPlayer.getChapterDescription(i);
+            chapterDescription = mediaplayer.getChapterDescription(i);
             adapter.insert(chapterDescription != null ? chapterDescription : Integer.toString(i), i);
         }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
-        mChapters.setSelection(mMediaPlayer.getChapter());
+        mChapters.setSelection(mediaplayer.getChapter());
         mChapters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mMediaPlayer.getChapter())
-                    mMediaPlayer.setChapter(position);
+                if (position != mediaplayer.getChapter())
+                    mediaplayer.setChapter(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -235,9 +236,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private SeekBar.OnSeekBarChangeListener mSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+
             float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
             mHandler.obtainMessage(SPEED_TEXT, Strings.formatRateString(rate)).sendToTarget();
-            mMediaPlayer.setRate(rate);
+            mediaplayer.setRate(rate);
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -247,8 +250,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private View.OnClickListener mResetListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+
             mSeek.setProgress(100);
-            mMediaPlayer.setRate(1);
+            mediaplayer.setRate(1);
         }
     };
 

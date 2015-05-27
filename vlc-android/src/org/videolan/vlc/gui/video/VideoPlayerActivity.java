@@ -171,8 +171,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private MediaRouter.SimpleCallback mMediaRouterCallback;
     private SecondaryDisplay mPresentation;
     private int mPresentationDisplayId = -1;
-    private MediaPlayer mMediaPlayer;
-    private LibVLC mLibVLC;
     private MediaWrapperListPlayer mMediaListPlayer;
     private String mLocation;
     private boolean mAskResume = true;
@@ -331,6 +329,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private boolean mHasHdmiAudio = false;
 
+    private static LibVLC LibVLC() {
+        return VLCInstance.get();
+    }
+    private static MediaPlayer MediaPlayer() {
+        return VLCInstance.getMainMediaPlayer();
+    }
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,9 +345,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             exit(RESULT_CANCELED);
             return;
         }
-
-        mLibVLC = VLCInstance.get();
-        mMediaPlayer = VLCInstance.getMainMediaPlayer();
 
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
@@ -442,7 +444,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
         mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
-        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer, mLibVLC);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance();
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
@@ -453,7 +455,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (mLibVLC.useCompatSurface()) {
+        if (LibVLC().useCompatSurface()) {
             mSubtitlesSurfaceView.setVisibility(View.GONE);
             mSubtitleSurfaceReady = true;
         }
@@ -498,7 +500,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         Log.d(TAG,
                 "Hardware acceleration mode: "
-                        + Integer.toString(mLibVLC.getHardwareAcceleration()));
+                        + Integer.toString(LibVLC().getHardwareAcceleration()));
 
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -535,8 +537,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.pl_menu_nav);
-        if (mMediaPlayer != null && item != null) {
-            item.setVisible(mMediaPlayer.getChapterCountForTitle(0) > 1 && mMediaPlayer.getTitleCount() > 1 && mMediaPlayer.getTitle() != 0);
+        if (item != null) {
+            item.setVisible(MediaPlayer().getChapterCountForTitle(0) > 1 && MediaPlayer().getTitleCount() > 1 && MediaPlayer().getTitle() != 0);
             MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -736,12 +738,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if(mSubtitleSelectedFiles.size() > 0) {
             for(String file : mSubtitleSelectedFiles) {
                 Log.i(TAG, "Adding user-selected subtitle " + file);
-                mMediaPlayer.addSubtitleTrack(file);
+                MediaPlayer().addSubtitleTrack(file);
             }
         }
 
         // Set user playback speed
-        mMediaPlayer.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, 1));
+        MediaPlayer().setRate(mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, 1));
 
     }
 
@@ -774,15 +776,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         changeAudioFocus(false);
 
-        final boolean isPaused = !mMediaPlayer.isPlaying();
+        final boolean isPaused = !MediaPlayer().isPlaying();
         long time = getTime();
-        long length = mMediaPlayer.getLength();
+        long length = MediaPlayer().getLength();
         //remove saved position if in the last 5 seconds
         if (length - time < 5000)
             time = 0;
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
-        mMediaPlayer.stop();
+        MediaPlayer().stop();
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -817,14 +819,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         editor.putString(PreferencesActivity.VIDEO_LAST, Uri.encode(mLocation));
 
         // Save user playback speed and restore normal speed
-        editor.putFloat(PreferencesActivity.VIDEO_SPEED, mMediaPlayer.getRate());
-        mMediaPlayer.setRate(1);
+        editor.putFloat(PreferencesActivity.VIDEO_SPEED, MediaPlayer().getRate());
+        MediaPlayer().setRate(1);
 
         Util.commitPreferences(editor);
 
         // HW acceleration was temporarily disabled because of an error, restore the previous value.
         if (mDisabledHardwareAcceleration)
-            mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
+            LibVLC().setHardwareAcceleration(mPreviousHardwareAccelerationMode);
 
         if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
@@ -907,8 +909,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         Intent resultIntent = new Intent(ACTION_RESULT);
         if (mLocation != null) {
             resultIntent.setData(Uri.parse(mLocation));
-            resultIntent.putExtra(EXTRA_POSITION, mMediaPlayer.getTime());
-            resultIntent.putExtra(EXTRA_DURATION, mMediaPlayer.getLength());
+            resultIntent.putExtra(EXTRA_POSITION, MediaPlayer().getTime());
+            resultIntent.putExtra(EXTRA_DURATION, MediaPlayer().getLength());
         }
         setResult(resultCode, resultIntent);
         finish();
@@ -1089,22 +1091,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private boolean navigateDvdMenu(int keyCode) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                mMediaPlayer.playerNavigate(LibVLC.INPUT_NAV_UP);
+                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_UP);
                 return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                mMediaPlayer.playerNavigate(LibVLC.INPUT_NAV_DOWN);
+                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_DOWN);
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                mMediaPlayer.playerNavigate(LibVLC.INPUT_NAV_LEFT);
+                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_LEFT);
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                mMediaPlayer.playerNavigate(LibVLC.INPUT_NAV_RIGHT);
+                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_RIGHT);
                 return true;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_BUTTON_X:
             case KeyEvent.KEYCODE_BUTTON_A:
-                mMediaPlayer.playerNavigate(LibVLC.INPUT_NAV_ACTIVATE);
+                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_ACTIVATE);
                 return true;
             default:
                 return false;
@@ -1156,10 +1158,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         String text = "";
         if (mDelay == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
-            text += mMediaPlayer.getAudioDelay() / 1000l;
+            text += MediaPlayer().getAudioDelay() / 1000l;
         } else if (mDelay == DelayState.SUBS) {
             text += getString(R.string.spu_delay)+"\n";
-            text += mMediaPlayer.getSpuDelay() / 1000l;
+            text += MediaPlayer().getSpuDelay() / 1000l;
         } else
             text += "0";
         text += " ms";
@@ -1199,8 +1201,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     };
 
     public void delayAudio(long delta){
-        long delay = mMediaPlayer.getAudioDelay()+delta;
-        mMediaPlayer.setAudioDelay(delay);
+        long delay = MediaPlayer().getAudioDelay()+delta;
+        MediaPlayer().setAudioDelay(delay);
         mInfo.setText(getString(R.string.audio_delay)+"\n"+(delay/1000l)+" ms");
         if (mDelay == DelayState.OFF) {
             mDelay = DelayState.AUDIO;
@@ -1210,8 +1212,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     public void delaySubs(long delta){
         Log.d(TAG, "delaySubs "+delta);
-        long delay = mMediaPlayer.getSpuDelay()+delta;
-        mMediaPlayer.setSpuDelay(delay);
+        long delay = MediaPlayer().getSpuDelay()+delta;
+        MediaPlayer().setSpuDelay(delay);
         mInfo.setText(getString(R.string.spu_delay)+"\n"+(delay/1000l)+" ms");
         if (mDelay == DelayState.OFF) {
             mDelay = DelayState.SUBS;
@@ -1401,16 +1403,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     changeAudioFocus(false);
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    if (mMediaPlayer.isPlaying()) {
+                    if (MediaPlayer().isPlaying()) {
                         mLostFocus = true;
-                        mMediaPlayer.pause();
+                        MediaPlayer().pause();
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                 case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                    if (!mMediaPlayer.isPlaying() && mLostFocus) {
-                        mMediaPlayer.play();
+                    if (!MediaPlayer().isPlaying() && mLostFocus) {
+                        MediaPlayer().play();
                         mLostFocus = false;
                     }
                     break;
@@ -1581,7 +1583,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     activity.mLockBackButton = true;
                     break;
                 case CHECK_VIDEO_TRACKS:
-                    if (activity.mMediaPlayer.getVideoTracksCount() < 1 && activity.mMediaPlayer.getAudioTracksCount() > 0) {
+                    if (activity.MediaPlayer().getVideoTracksCount() < 1 && activity.MediaPlayer().getAudioTracksCount() > 0) {
                         Log.i(TAG, "No video track, open in audio mode");
                         activity.switchToAudioMode(true);
                     }
@@ -1591,7 +1593,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     };
 
     private boolean canShowProgress() {
-        return !mDragging && mShowing && mMediaPlayer.isPlaying();
+        return !mDragging && mShowing && MediaPlayer().isPlaying();
     }
 
     private void onPlaying() {
@@ -1644,14 +1646,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mHardwareAccelerationError = true;
         if (mSwitchingView)
             return;
-        mMediaPlayer.stop();
+        MediaPlayer().stop();
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 mDisabledHardwareAcceleration = true;
-                mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
-                mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+                mPreviousHardwareAccelerationMode = LibVLC().getHardwareAcceleration();
+                LibVLC().setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
                 loadMedia();
             }
         })
@@ -1687,7 +1689,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (mHardwareAccelerationError)
             return;
         mSwitchingView = true;
-        mMediaPlayer.setVideoTrackEnabled(false);
+        MediaPlayer().setVideoTrackEnabled(false);
         // Show the MainActivity if it is not in background.
         if (showUI && getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -1717,8 +1719,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
-        if (mLibVLC != null && !mLibVLC.useCompatSurface())
-            mLibVLC.setWindowSize(sw, sh);
+        if (LibVLC() != null && !LibVLC().useCompatSurface())
+            LibVLC().setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
         boolean isPortrait;
@@ -1945,7 +1947,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             return;
         mTouchAction = TOUCH_SEEK;
 
-        long length = mMediaPlayer.getLength();
+        long length = MediaPlayer().getLength();
         long time = getTime();
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
@@ -1999,8 +2001,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private void mute(boolean mute) {
         mMute = mute;
         if (mMute)
-            mVolSave = mMediaPlayer.getVolume();
-        mMediaPlayer.setVolume(mMute ? 0 : mVolSave);
+            mVolSave = MediaPlayer().getVolume();
+        MediaPlayer().setVolume(mMute ? 0 : mVolSave);
     }
 
     private void updateMute () {
@@ -2088,8 +2090,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         final Context context = this;
         PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
-        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mMediaPlayer.getAudioTracksCount() > 2);
-        popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mMediaPlayer.getSpuTracksCount() > 0);
+        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(MediaPlayer().getAudioTracksCount() > 2);
+        popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(MediaPlayer().getSpuTracksCount() > 0);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -2182,7 +2184,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void selectAudioTrack() {
         setESTrackLists();
-        selectTrack(mAudioTracksList, mMediaPlayer.getAudioTrack(), R.string.track_audio,
+        selectTrack(mAudioTracksList, MediaPlayer().getAudioTrack(), R.string.track_audio,
                 new TrackSelectedListener() {
                     @Override
                     public boolean onTrackSelected(int trackID) {
@@ -2192,7 +2194,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                                 mLocation,
                                 MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
                                 trackID);
-                        mMediaPlayer.setAudioTrack(trackID);
+                        MediaPlayer().setAudioTrack(trackID);
                         return true;
                     }
                 });
@@ -2200,7 +2202,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void selectSubtitles() {
         setESTrackLists();
-        selectTrack(mSubtitleTracksList, mMediaPlayer.getSpuTrack(), R.string.track_text,
+        selectTrack(mSubtitleTracksList, MediaPlayer().getSpuTrack(), R.string.track_text,
                 new TrackSelectedListener() {
                     @Override
                     public boolean onTrackSelected(int trackID) {
@@ -2211,7 +2213,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                                 mLocation,
                                 MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
                                 trackID);
-                        mMediaPlayer.setSpuTrack(trackID);
+                        MediaPlayer().setSpuTrack(trackID);
                         return true;
                     }
                 });
@@ -2220,7 +2222,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private void showNavMenu() {
         /* Try to return to the menu. */
         /* FIXME: not working correctly in all cases */
-        mMediaPlayer.setTitle(0);
+        MediaPlayer().setTitle(0);
     }
 
     /**
@@ -2234,7 +2236,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     };
 
     private final void doPlayPause() {
-        if (mMediaPlayer.isPlaying()) {
+        if (MediaPlayer().isPlaying()) {
             pause();
             showOverlayTimeout(OVERLAY_INFINITE);
         } else {
@@ -2244,9 +2246,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private long getTime() {
-        long time = mMediaPlayer.getTime();
+        long time = MediaPlayer().getTime();
         if (mForcedTime != -1 && mLastTime != -1) {
-            /* XXX: After a seek, mMediaPlayer.getTime can return the position before or after
+            /* XXX: After a seek, MediaPlayer().getTime can return the position before or after
              * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
              * to move between seek position and the actual position.
              * We have to wait for a valid position (that is after the seek position).
@@ -2264,21 +2266,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void seek(long position) {
-        seek(position, mMediaPlayer.getLength());
+        seek(position, MediaPlayer().getLength());
     }
 
     private void seek(long position, float length) {
         mForcedTime = position;
-        mLastTime = mMediaPlayer.getTime();
+        mLastTime = MediaPlayer().getTime();
         if (length == 0f)
-            mMediaPlayer.setTime(position);
+            MediaPlayer().setTime(position);
         else
-            mMediaPlayer.setPosition(position / length);
+            MediaPlayer().setPosition(position / length);
     }
 
     private void seekDelta(int delta) {
         // unseekable stream
-        if(mMediaPlayer.getLength() <= 0 || !mCanSeek) return;
+        if(MediaPlayer().getLength() <= 0 || !mCanSeek) return;
 
         long position = getTime() + delta;
         if (position < 0) position = 0;
@@ -2361,12 +2363,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private final SurfaceHolder.Callback mSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(mMediaPlayer != null) {
+            if(MediaPlayer() != null) {
                 final Surface newSurface = holder.getSurface();
                 if (mSurface != newSurface) {
                     mSurface = newSurface;
                     Log.d(TAG, "surfaceChanged: " + mSurface);
-                    mLibVLC.attachSurface(mSurface, VideoPlayerActivity.this);
+                    LibVLC().attachSurface(mSurface, VideoPlayerActivity.this);
                     mSurfaceReady = true;
                     mHandler.sendEmptyMessage(START_PLAYBACK);
                 }
@@ -2380,9 +2382,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
             Log.d(TAG, "surfaceDestroyed");
-            if(mMediaPlayer != null) {
+            if(MediaPlayer() != null) {
                 mSurface = null;
-                mLibVLC.detachSurface();
+                LibVLC().detachSurface();
                 mSurfaceReady = false;
             }
         }
@@ -2391,11 +2393,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private final SurfaceHolder.Callback mSubtitlesSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(mMediaPlayer != null) {
+            if(MediaPlayer() != null) {
                 final Surface newSurface = holder.getSurface();
                 if (mSubtitleSurface != newSurface) {
                     mSubtitleSurface = newSurface;
-                    mLibVLC.attachSubtitlesSurface(mSubtitleSurface);
+                    LibVLC().attachSubtitlesSurface(mSubtitleSurface);
                     mSubtitleSurfaceReady = true;
                     mHandler.sendEmptyMessage(START_PLAYBACK);
                 }
@@ -2408,9 +2410,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            if(mMediaPlayer != null) {
+            if(MediaPlayer() != null) {
                 mSubtitleSurface = null;
-                mLibVLC.detachSubtitlesSurface();
+                LibVLC().detachSubtitlesSurface();
                 mSubtitleSurfaceReady = false;
             }
         }
@@ -2448,7 +2450,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (timeout != 0)
             mOverlayTimeout = timeout;
         if (mOverlayTimeout == 0)
-            mOverlayTimeout = mMediaPlayer.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE;
+            mOverlayTimeout = MediaPlayer().isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE;
         if (mIsNavMenu){
             mShowing = true;
             return;
@@ -2552,9 +2554,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void updateOverlayPausePlay() {
-        if (mMediaPlayer == null)
+        if (MediaPlayer() == null)
             return;
-        mPlayPause.setImageResource(mMediaPlayer.isPlaying() ? R.drawable.ic_pause_circle
+        mPlayPause.setImageResource(MediaPlayer().isPlaying() ? R.drawable.ic_pause_circle
                 : R.drawable.ic_play_circle);
     }
 
@@ -2562,11 +2564,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      * update the overlay
      */
     private int setOverlayProgress() {
-        if (mMediaPlayer == null) {
+        if (MediaPlayer() == null) {
             return 0;
         }
         int time = (int) getTime();
-        int length = (int) mMediaPlayer.getLength();
+        int length = (int) MediaPlayer().getLength();
         if (length == 0) {
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if (media != null)
@@ -2599,20 +2601,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void setESTracks() {
         if (mLastAudioTrack >= 0) {
-            mMediaPlayer.setAudioTrack(mLastAudioTrack);
+            MediaPlayer().setAudioTrack(mLastAudioTrack);
             mLastAudioTrack = -1;
         }
         if (mLastSpuTrack >= -1) {
-            mMediaPlayer.setSpuTrack(mLastSpuTrack);
+            MediaPlayer().setSpuTrack(mLastSpuTrack);
             mLastSpuTrack = -2;
         }
     }
 
     private void setESTrackLists() {
-        if (mAudioTracksList == null && mMediaPlayer.getAudioTracksCount() > 1)
-            mAudioTracksList = mMediaPlayer.getAudioTrackDescription();
-        if (mSubtitleTracksList == null && mMediaPlayer.getSpuTracksCount() > 0)
-            mSubtitleTracksList = mMediaPlayer.getSpuTrackDescription();
+        if (mAudioTracksList == null && MediaPlayer().getAudioTracksCount() > 1)
+            mAudioTracksList = MediaPlayer().getAudioTrackDescription();
+        if (mSubtitleTracksList == null && MediaPlayer().getSpuTracksCount() > 0)
+            mSubtitleTracksList = MediaPlayer().getSpuTrackDescription();
     }
 
 
@@ -2620,7 +2622,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      *
      */
     private void play() {
-        mMediaPlayer.play();
+        MediaPlayer().play();
         mSurfaceView.setKeepScreenOn(true);
     }
 
@@ -2628,7 +2630,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      *
      */
     private void pause() {
-        mMediaPlayer.pause();
+        MediaPlayer().pause();
         mSurfaceView.setKeepScreenOn(false);
     }
 
@@ -2816,7 +2818,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
                 mMediaListPlayer.getMediaList().clear();
-                final Media media = new Media(mLibVLC, mLocation);
+                final Media media = new Media(LibVLC(), mLocation);
                 media.parse(); // FIXME: parse shouldn't be done asynchronously
                 media.release();
                 mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
@@ -2873,10 +2875,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
                 seek(intentPosition, mediaLength);
             } else {
-                mMediaPlayer.setVideoTrackEnabled(false);
-                mMediaPlayer.setVideoTrackEnabled(true);
+                MediaPlayer().setVideoTrackEnabled(false);
+                MediaPlayer().setVideoTrackEnabled(true);
                 // AudioService-transitioned playback for item after sleep and resume
-                if(!mMediaPlayer.isPlaying())
+                if(!MediaPlayer().isPlaying())
                     mMediaListPlayer.playIndex(savedIndexPosition);
                 else
                     onPlaying();
@@ -3034,7 +3036,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         if (presentationDisplay != null) {
             // Show a new presentation if possible.
             Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
-            mPresentation = new SecondaryDisplay(this, mLibVLC, presentationDisplay);
+            mPresentation = new SecondaryDisplay(this, LibVLC(), presentationDisplay);
             mPresentation.setOnDismissListener(mOnDismissListener);
             try {
                 mPresentation.show();
@@ -3086,14 +3088,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         private SurfaceHolder mSurfaceHolder;
         private SurfaceHolder mSubtitlesSurfaceHolder;
         private FrameLayout mSurfaceFrame;
-        private LibVLC mLibVLC;
 
         public SecondaryDisplay(Context context, LibVLC libVLC, Display display) {
             super(context, display);
             if (context instanceof AppCompatActivity) {
                 setOwnerActivity((AppCompatActivity) context);
             }
-            mLibVLC = libVLC;
         }
 
         @Override
@@ -3119,7 +3119,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
-            if (mLibVLC.useCompatSurface())
+            if (LibVLC().useCompatSurface())
                 mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }
@@ -3163,8 +3163,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void updateNavStatus() {
-        mHasMenu = mMediaPlayer.getChapterCountForTitle(0) > 1 && mMediaPlayer.getTitleCount() > 1 && (mLocation == null || !mLocation.endsWith(".mkv"));
-        mIsNavMenu = mHasMenu && mMediaPlayer.getTitle() == 0;
+        mHasMenu = MediaPlayer().getChapterCountForTitle(0) > 1 && MediaPlayer().getTitleCount() > 1 && (mLocation == null || !mLocation.endsWith(".mkv"));
+        mIsNavMenu = mHasMenu && MediaPlayer().getTitle() == 0;
         /***
          * HACK ALERT: assume that any media with >1 titles = DVD with menus
          * Should be replaced with a more robust title/chapter selection popup
@@ -3172,8 +3172,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         Log.d(TAG,
                 "updateNavStatus: getChapterCountForTitle(0) = "
-                        + mMediaPlayer.getChapterCountForTitle(0)
-                        + ", getTitleCount() = " + mMediaPlayer.getTitleCount());
+                        + MediaPlayer().getChapterCountForTitle(0)
+                        + ", getTitleCount() = " + MediaPlayer().getTitleCount());
         if (mIsNavMenu) {
             /*
              * Keep the overlay hidden in order to have touch events directly

@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.VLCInstance;
 
 public class AudioDelayDialog extends PickTimeFragment {
 
@@ -51,7 +52,7 @@ public class AudioDelayDialog extends PickTimeFragment {
         mSign.setVisibility(View.VISIBLE);
 
         mActionButton.setText(android.R.string.cancel);
-        long delay = mMediaPlayer.getAudioDelay();
+        long delay = VLCInstance.getMainMediaPlayer().getAudioDelay();
         if (delay != 0f)
             initTime(delay);
         return view;
@@ -59,7 +60,7 @@ public class AudioDelayDialog extends PickTimeFragment {
 
     @Override
     protected void executeAction(){
-        mMediaPlayer.setAudioDelay(getTime());
+        VLCInstance.getMainMediaPlayer().setAudioDelay(getTime());
     }
 
     @Override

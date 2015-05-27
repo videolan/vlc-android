@@ -25,26 +25,24 @@ import java.util.ArrayList;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.vlc.util.VLCInstance;
 
 public class MediaWrapperListPlayer {
 
     private int mPlayerIndex = 0;
-    final private LibVLC mLibVLC;
-    final private MediaPlayer mMediaPlayer;
+
     final private MediaWrapperList mMediaList;
 
     private static MediaWrapperListPlayer sMediaWrapperListPlayer = null;
 
-    public static synchronized MediaWrapperListPlayer getInstance(MediaPlayer player, LibVLC libVLC) {
+    public static synchronized MediaWrapperListPlayer getInstance() {
         if (sMediaWrapperListPlayer == null)
-            sMediaWrapperListPlayer = new MediaWrapperListPlayer(player, libVLC);
+            sMediaWrapperListPlayer = new MediaWrapperListPlayer();
         return sMediaWrapperListPlayer;
     }
 
-    public MediaWrapperListPlayer(MediaPlayer player, LibVLC libVLC) {
-        mLibVLC = libVLC;
+    public MediaWrapperListPlayer() {
         mMediaList = new MediaWrapperList();
-        mMediaPlayer = player;
     }
 
     public MediaWrapperList getMediaList() {
@@ -62,9 +60,9 @@ public class MediaWrapperListPlayer {
         if (mrl == null)
             return;
         final MediaWrapper media = mMediaList.getMedia(position);
-        String[] options = mLibVLC.getMediaOptions(flags | (media != null ? media.getFlags() : 0));
+        String[] options = VLCInstance.get().getMediaOptions(flags | (media != null ? media.getFlags() : 0));
         mPlayerIndex = position;
-        mMediaPlayer.playMRL(mrl, options);
+        VLCInstance.getMainMediaPlayer().playMRL(mrl, options);
     }
 
     /**
@@ -99,11 +97,11 @@ public class MediaWrapperListPlayer {
     */
    public int expand() {
        ArrayList<String> children = new ArrayList<String>();
-       int ret = mMediaPlayer.expandMedia(children);
+       int ret = VLCInstance.getMainMediaPlayer().expandMedia(children);
        if(ret == 0) {
            mMediaList.remove(mPlayerIndex);
            for(String mrl : children) {
-               final Media media = new Media(mLibVLC, mrl);
+               final Media media = new Media(VLCInstance.get(), mrl);
                media.parse(); // FIXME: parse should be done asynchronously
                media.release();
                mMediaList.insert(mPlayerIndex, new MediaWrapper(media));

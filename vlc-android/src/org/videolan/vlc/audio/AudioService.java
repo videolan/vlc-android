@@ -118,8 +118,6 @@ public class AudioService extends Service {
     public static final int PREVIOUS_ITEM = 2;
     public static final int NEXT_ITEM = 3;
 
-    private LibVLC mLibVLC;
-    private MediaPlayer mMediaPlayer;
     private MediaWrapperListPlayer mMediaListPlayer;
     private boolean mForceAudio = false;
     private HashMap<IAudioServiceCallback, Integer> mCallback;
@@ -158,6 +156,13 @@ public class AudioService extends Service {
     private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
     private ComponentName mRemoteControlClientReceiverComponent;
 
+    private static LibVLC LibVLC() {
+        return VLCInstance.get();
+    }
+    private static MediaPlayer MediaPlayer() {
+        return VLCInstance.getMainMediaPlayer();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -167,11 +172,7 @@ public class AudioService extends Service {
             return;
         }
 
-        // Get libVLC instance
-        mLibVLC = VLCInstance.get();
-        mMediaPlayer = VLCInstance.getMainMediaPlayer();
-
-        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mMediaPlayer, mLibVLC);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance();
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mCurrentIndex = -1;
@@ -332,8 +333,8 @@ public class AudioService extends Service {
                     switch (focusChange)
                     {
                         case AudioManager.AUDIOFOCUS_LOSS:
-                            if (mMediaPlayer.isPlaying())
-                                mMediaPlayer.pause();
+                            if (MediaPlayer().isPlaying())
+                                MediaPlayer().pause();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
@@ -341,12 +342,12 @@ public class AudioService extends Service {
                              * Lower the volume to 36% to "duck" when an alert or something
                              * needs to be played.
                              */
-                            mMediaPlayer.setVolume(36);
+                            MediaPlayer().setVolume(36);
                             break;
                         case AudioManager.AUDIOFOCUS_GAIN:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                            mMediaPlayer.setVolume(100);
+                            MediaPlayer().setVolume(100);
                             break;
                     }
                 }
@@ -366,7 +367,7 @@ public class AudioService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             int state = intent.getIntExtra("state", 0);
-            if( mMediaPlayer == null ) {
+            if( MediaPlayer() == null ) {
                 Log.w(TAG, "Intent received, but VLC is not loaded, skipping.");
                 return;
             }
@@ -375,7 +376,7 @@ public class AudioService extends Service {
              * Incoming Call : Pause if VLC is playing audio or video. 
              */
             if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
-                mWasPlayingAudio = mMediaPlayer.isPlaying() && hasCurrentMedia();
+                mWasPlayingAudio = MediaPlayer().isPlaying() && hasCurrentMedia();
                 if (mWasPlayingAudio)
                     pause();
             }
@@ -396,7 +397,7 @@ public class AudioService extends Service {
             /*
              * Launch the activity if needed
              */
-            if (action.startsWith(ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
+            if (action.startsWith(ACTION_REMOTE_GENERIC) && !MediaPlayer().isPlaying() && !hasCurrentMedia()) {
                 Intent iVlc = new Intent(context, MainActivity.class);
                 iVlc.putExtra(START_FROM_NOTIFICATION, true);
                 iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -407,15 +408,15 @@ public class AudioService extends Service {
              * Remote / headset control events
              */
             if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
-                if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                if (MediaPlayer().isPlaying() && hasCurrentMedia())
                     pause();
-                else if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
+                else if (!MediaPlayer().isPlaying() && hasCurrentMedia())
                     play();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_PLAY)) {
-                if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
+                if (!MediaPlayer().isPlaying() && hasCurrentMedia())
                     play();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_PAUSE)) {
-                if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                if (MediaPlayer().isPlaying() && hasCurrentMedia())
                     pause();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
                 previous();
@@ -435,12 +436,12 @@ public class AudioService extends Service {
             if (mDetectHeadset) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
-                    if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                    if (MediaPlayer().isPlaying() && hasCurrentMedia())
                         pause();
                 }
                 else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
                     Log.i(TAG, "Headset Inserted.");
-                    if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
+                    if (!MediaPlayer().isPlaying() && hasCurrentMedia())
                         play();
                 }
             }
@@ -479,7 +480,7 @@ public class AudioService extends Service {
                     service.executeUpdateProgress();
 
                     String location = service.mMediaListPlayer.getMediaList().getMRL(service.mCurrentIndex);
-                    long length = service.mMediaPlayer.getLength();
+                    long length = service.MediaPlayer().getLength();
                     MediaDatabase dbManager = MediaDatabase.getInstance();
                     MediaWrapper m = dbManager.getMedia(location);
                     /**
@@ -548,7 +549,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaMetaChanged:
                     if (!service.hasCurrentMedia())
                         break;
-                    service.getCurrentMedia().updateMeta(service.mMediaPlayer);
+                    service.getCurrentMedia().updateMeta(service.MediaPlayer());
                     service.setUpRemoteControlClient();
                     service.executeUpdate();
                     service.showNotification();
@@ -622,7 +623,7 @@ public class AudioService extends Service {
     };
 
     private void handleVout() {
-        if (mForceAudio || mMediaPlayer.getVideoTracksCount() <= 0 || !hasCurrentMedia())
+        if (mForceAudio || MediaPlayer().getVideoTracksCount() <= 0 || !hasCurrentMedia())
             return;
         final MediaWrapper mw = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
         if (mw == null)
@@ -750,8 +751,8 @@ public class AudioService extends Service {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_vlc)
                 .setTicker(title + " - " + artist)
-                .setAutoCancel(!mMediaPlayer.isPlaying())
-                .setOngoing(mMediaPlayer.isPlaying())
+                .setAutoCancel(!MediaPlayer().isPlaying())
+                .setOngoing(MediaPlayer().isPlaying())
                 .setDeleteIntent(piStop);
 
             Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -772,7 +773,7 @@ public class AudioService extends Service {
                 view.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
-                view.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
+                view.setImageViewResource(R.id.play_pause, MediaPlayer().isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
                 view.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view.setOnClickPendingIntent(R.id.forward, piForward);
                 view.setOnClickPendingIntent(R.id.stop, piStop);
@@ -783,7 +784,7 @@ public class AudioService extends Service {
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);
                 view_expanded.setTextViewText(R.id.album, album);
-                view_expanded.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
+                view_expanded.setImageViewResource(R.id.play_pause, MediaPlayer().isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
                 view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
                 view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
@@ -792,8 +793,8 @@ public class AudioService extends Service {
 
                 if (LibVlcUtil.isLolliPopOrLater()){
                     //Hide stop button on pause, we swipe notification to stop
-                    view.setViewVisibility(R.id.stop, mMediaPlayer.isPlaying() ? View.VISIBLE : View.INVISIBLE);
-                    view_expanded.setViewVisibility(R.id.stop, mMediaPlayer.isPlaying() ? View.VISIBLE : View.INVISIBLE);
+                    view.setViewVisibility(R.id.stop, MediaPlayer().isPlaying() ? View.VISIBLE : View.INVISIBLE);
+                    view_expanded.setViewVisibility(R.id.stop, MediaPlayer().isPlaying() ? View.VISIBLE : View.INVISIBLE);
                     //Make notification appear on lockscreen
                     builder.setVisibility(Notification.VISIBILITY_PUBLIC);
                 }
@@ -813,7 +814,7 @@ public class AudioService extends Service {
             }
 
             startService(new Intent(this, AudioService.class));
-            if (!LibVlcUtil.isLolliPopOrLater() || mMediaPlayer.isPlaying())
+            if (!LibVlcUtil.isLolliPopOrLater() || MediaPlayer().isPlaying())
                 startForeground(3, notification);
             else {
                 stopForeground(false);
@@ -846,14 +847,14 @@ public class AudioService extends Service {
         setUpRemoteControlClient();
         mHandler.removeMessages(SHOW_PROGRESS);
         // hideNotification(); <-- see event handler
-        mMediaPlayer.pause();
+        MediaPlayer().pause();
         broadcastMetadata();
     }
 
     private void play() {
         if(hasCurrentMedia()) {
             setUpRemoteControlClient();
-            mMediaPlayer.play();
+            MediaPlayer().play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
             updateWidget(this);
@@ -862,7 +863,7 @@ public class AudioService extends Service {
     }
 
     private void stop() {
-        mMediaPlayer.stop();
+        MediaPlayer().stop();
         mEventHandler.removeHandler(mVlcEventHandler);
         mMediaListPlayer.getMediaList().removeEventListener(mListEventListener);
         setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
@@ -1063,7 +1064,7 @@ public class AudioService extends Service {
 
         @Override
         public boolean isPlaying() throws RemoteException {
-            return mMediaPlayer.isPlaying();
+            return MediaPlayer().isPlaying();
         }
 
         @Override
@@ -1189,12 +1190,12 @@ public class AudioService extends Service {
 
         @Override
         public int getTime() throws RemoteException {
-            return (int) mMediaPlayer.getTime();
+            return (int) MediaPlayer().getTime();
         }
 
         @Override
         public int getLength() throws RemoteException {
-            return (int) mMediaPlayer.getLength();
+            return (int) MediaPlayer().getLength();
         }
 
         /**
@@ -1221,7 +1222,7 @@ public class AudioService extends Service {
                         continue;
                     }
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    final Media media = new Media(mLibVLC, location);
+                    final Media media = new Media(LibVLC(), location);
                     media.parse(); // FIXME: parse should be done asynchronously
                     media.release();
                     mediaWrapper = new MediaWrapper(media);
@@ -1318,7 +1319,7 @@ public class AudioService extends Service {
             Log.v(TAG, "Showing index " + index + " with playing URI " + URI);
             // Show an URI without interrupting/losing the current stream
 
-            if(URI == null || !mMediaPlayer.isPlaying())
+            if(URI == null || !MediaPlayer().isPlaying())
                 return;
             mEventHandler.addHandler(mVlcEventHandler);
             mCurrentIndex = index;
@@ -1426,7 +1427,7 @@ public class AudioService extends Service {
 
         @Override
         public void setTime(long time) throws RemoteException {
-            mMediaPlayer.setTime(time);
+            MediaPlayer().setTime(time);
         }
 
         @Override
@@ -1446,7 +1447,7 @@ public class AudioService extends Service {
 
         @Override
         public float getRate() throws RemoteException {
-            return mMediaPlayer.getRate();
+            return MediaPlayer().getRate();
         }
 
         @Override
@@ -1477,7 +1478,7 @@ public class AudioService extends Service {
             i.putExtra("title", context.getString(R.string.widget_name));
             i.putExtra("artist", "");
         }
-        i.putExtra("isplaying", mMediaPlayer.isPlaying());
+        i.putExtra("isplaying", MediaPlayer().isPlaying());
 
         sendBroadcast(i);
     }
@@ -1517,7 +1518,7 @@ public class AudioService extends Service {
         if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
             return;
 
-        boolean playing = mMediaPlayer.isPlaying();
+        boolean playing = MediaPlayer().isPlaying();
 
         Intent broadcast = new Intent("com.android.music.metachanged");
         broadcast.putExtra("track", media.getTitle());

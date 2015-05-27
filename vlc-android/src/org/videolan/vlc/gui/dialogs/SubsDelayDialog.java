@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.VLCInstance;
 
 public class SubsDelayDialog extends PickTimeFragment {
 
@@ -55,7 +56,7 @@ public class SubsDelayDialog extends PickTimeFragment {
         mMinutes.setNextFocusLeftId(R.id.jump_go);
         mActionButton.setNextFocusLeftId(R.id.jump_millis);
 
-        long delay = mMediaPlayer.getSpuDelay();
+        long delay = VLCInstance.getMainMediaPlayer().getSpuDelay();
         if (delay != 0f)
             initTime(delay);
         return view;
@@ -63,7 +64,7 @@ public class SubsDelayDialog extends PickTimeFragment {
 
     @Override
     protected void executeAction(){
-        mMediaPlayer.setSpuDelay(getTime());
+        VLCInstance.getMainMediaPlayer().setSpuDelay(getTime());
     }
 
     @Override

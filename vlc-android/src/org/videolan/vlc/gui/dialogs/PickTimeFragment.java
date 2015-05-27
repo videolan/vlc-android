@@ -59,14 +59,12 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
     protected static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
 
-    protected MediaPlayer mMediaPlayer = null;
     protected EditText mHours, mMinutes, mSeconds, mMillis;
     protected TextView mSign;
     protected Button mActionButton;
     protected long max = -1;
 
     public PickTimeFragment(){
-        mMediaPlayer = VLCInstance.getMainMediaPlayer();
     }
 
     @Override
