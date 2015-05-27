@@ -349,6 +349,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("dev_hardware_decoder")) {
             VLCInstance.updateLibVlcSettings(sharedPreferences);
             VLCInstance.restart(this);
+            restartService(this);
         }
     }
 
