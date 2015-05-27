@@ -31,7 +31,6 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IAudioService;
@@ -500,7 +499,7 @@ public class PlaybackServiceController implements IAudioPlayerControl {
     }
 
     @Override
-    public void setRepeatType(RepeatType t) {
+    public void setRepeatType(PlaybackService.RepeatType t) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setRepeatType",
                 new Class<?>[] { int.class },
                 new Object[] { t.ordinal() } );
@@ -512,9 +511,9 @@ public class PlaybackServiceController implements IAudioPlayerControl {
     }
 
     @Override
-    public RepeatType getRepeatType() {
-        return RepeatType.values()[
-            remoteProcedureCall(mAudioServiceBinder, int.class, RepeatType.None.ordinal(), "getRepeatType", null, null)
+    public PlaybackService.RepeatType getRepeatType() {
+        return PlaybackService.RepeatType.values()[
+            remoteProcedureCall(mAudioServiceBinder, int.class, PlaybackService.RepeatType.None.ordinal(), "getRepeatType", null, null)
         ];
     }
 

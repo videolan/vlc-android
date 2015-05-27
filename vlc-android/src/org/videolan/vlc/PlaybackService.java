@@ -61,7 +61,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -154,6 +153,12 @@ public class PlaybackService extends Service {
     }
     private static MediaPlayer MediaPlayer() {
         return VLCInstance.getMainMediaPlayer();
+    }
+
+    public static enum RepeatType {
+        None,
+        Once,
+        All
     }
 
     @Override

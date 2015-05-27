@@ -51,10 +51,10 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
@@ -474,14 +474,14 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     public void onRepeatClick(View view) {
         switch (mAudioController.getRepeatType()) {
             case None:
-                mAudioController.setRepeatType(RepeatType.All);
+                mAudioController.setRepeatType(PlaybackService.RepeatType.All);
                 break;
             case All:
-                mAudioController.setRepeatType(RepeatType.Once);
+                mAudioController.setRepeatType(PlaybackService.RepeatType.Once);
                 break;
             default:
             case Once:
-                mAudioController.setRepeatType(RepeatType.None);
+                mAudioController.setRepeatType(PlaybackService.RepeatType.None);
                 break;
         }
         update();

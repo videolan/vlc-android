@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.interfaces;
 
-import org.videolan.vlc.audio.RepeatType;
+import org.videolan.vlc.PlaybackService;
 
 import android.graphics.Bitmap;
 
@@ -69,9 +69,9 @@ public interface IAudioPlayerControl {
 
     boolean isShuffling();
 
-    void setRepeatType(RepeatType t);
+    void setRepeatType(PlaybackService.RepeatType t);
 
-    RepeatType getRepeatType();
+    PlaybackService.RepeatType getRepeatType();
 
     void detectHeadset(boolean enable);
 
