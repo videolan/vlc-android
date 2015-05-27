@@ -219,7 +219,7 @@ public class MediaInfoFragment extends ListFragment {
             final LibVLC libVlc = VLCInstance.get();
             if (libVlc == null)
                 return;
-            mMedia = new Media(libVlc, mItem.getLocation());
+            mMedia = new Media(libVlc, mItem.getUri());
             mMedia.parse();
             mMedia.release();
             int videoHeight = mItem.getHeight();

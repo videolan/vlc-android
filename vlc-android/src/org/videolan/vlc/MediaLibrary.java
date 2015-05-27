@@ -20,6 +20,7 @@
 
 package org.videolan.vlc;
 
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -373,7 +374,7 @@ public class MediaLibrary {
                     } else {
                         mItemListLock.writeLock().lock();
                         // create new media item
-                        final Media media = new Media(libVlcInstance, fileURI);
+                        final Media media = new Media(libVlcInstance, Uri.parse(fileURI));
                         media.parse();
                         media.release();
                         /* skip files with .mod extension and no duration */

@@ -2818,7 +2818,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
                 mMediaListPlayer.getMediaList().clear();
-                final Media media = new Media(LibVLC(), mLocation);
+                final Media media = new Media(LibVLC(), Uri.parse(mLocation));
                 media.parse(); // FIXME: parse shouldn't be done asynchronously
                 media.release();
                 mMediaListPlayer.getMediaList().add(new MediaWrapper(media));

@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc.util;
 
+import android.net.Uri;
 import android.os.Build;
 
 import java.util.ArrayList;
@@ -135,12 +136,23 @@ public class MediaBrowser {
     }
 
     /**
-     * Browse to the specified mrl.
+     * Browse to the specified local path starting with '/'.
      *
-     * @param mrl
+     * @param path
      */
-    public synchronized void browse(String mrl) {
-        final Media media = new Media(mLibVlc, mrl);
+    public synchronized void browse(String path) {
+        final Media media = new Media(mLibVlc, path);
+        browse(media);
+        media.release();
+    }
+
+    /**
+     * Browse to the specified uri.
+     *
+     * @param uri
+     */
+    public synchronized void browse(Uri uri) {
+        final Media media = new Media(mLibVlc, uri);
         browse(media);
         media.release();
     }

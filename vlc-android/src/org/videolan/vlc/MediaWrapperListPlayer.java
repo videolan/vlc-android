@@ -20,6 +20,8 @@
 
 package org.videolan.vlc;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 import org.videolan.libvlc.LibVLC;
@@ -101,7 +103,7 @@ public class MediaWrapperListPlayer {
        if(ret == 0) {
            mMediaList.remove(mPlayerIndex);
            for(String mrl : children) {
-               final Media media = new Media(VLCInstance.get(), mrl);
+               final Media media = new Media(VLCInstance.get(), Uri.parse(mrl));
                media.parse(); // FIXME: parse should be done asynchronously
                media.release();
                mMediaList.insert(mPlayerIndex, new MediaWrapper(media));

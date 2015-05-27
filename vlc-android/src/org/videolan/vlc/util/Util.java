@@ -119,7 +119,7 @@ public class Util {
     public static MediaWrapper getOrCreateMedia(LibVLC libVLC, String mrl) {
         MediaWrapper mlItem = MediaLibrary.getInstance().getMediaItem(mrl);
         if(mlItem == null) {
-            final Media media = new Media(libVLC, mrl);
+            final Media media = new Media(libVLC, Uri.parse(mrl));
             media.parse(); // FIXME: parse should'nt be done asynchronously
             media.release();
             mlItem = new MediaWrapper(media);

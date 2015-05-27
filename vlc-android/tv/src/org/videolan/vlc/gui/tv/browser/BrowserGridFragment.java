@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
@@ -46,16 +47,16 @@ import java.util.Collections;
 public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener {
 
     private MediaBrowser mMediaBrowser;
-    public String mMrl;
+    private Uri mUri;
     ArrayList<MediaWrapper> mMediaList = null;
     private MediaWrapper mItemSelected;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
-            mMrl = savedInstanceState.getString(BaseBrowserFragment.KEY_MRL);
+            mUri = Uri.parse(savedInstanceState.getString(BaseBrowserFragment.KEY_MRL));
         } else {
-            mMrl = getActivity().getIntent().getStringExtra(BaseBrowserFragment.KEY_MRL);
+            mUri = Uri.parse(getActivity().getIntent().getStringExtra(BaseBrowserFragment.KEY_MRL));
         }
         setOnItemViewSelectedListener(this);
     }
@@ -66,8 +67,8 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
             if (mMediaBrowser != null) {
                 mMediaList = new ArrayList<>();
-                if (mMrl != null)
-                    mMediaBrowser.browse(mMrl);
+                if (mUri != null)
+                    mMediaBrowser.browse(mUri);
                 else
                     mMediaBrowser.discoverNetworkShares();
                 ((BrowserActivity)getActivity()).showProgress(true);
@@ -88,7 +89,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         if (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_DIR)
             mMediaList.add(mw);
 
-        if (mMrl == null) { // we are at root level
+        if (mUri == null) { // we are at root level
             mAdapter.clear();
             mAdapter.addAll(0, mMediaList); //FIXME adding 1 by 1 doesn't work
         }

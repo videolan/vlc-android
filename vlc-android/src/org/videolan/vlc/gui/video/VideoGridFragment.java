@@ -367,7 +367,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             menu.findItem(R.id.video_list_play_from_start).setVisible(true);
 
         boolean hasInfo = false;
-        final Media media = new Media(VLCInstance.get(), mediaWrapper.getLocation());
+        final Media media = new Media(VLCInstance.get(), mediaWrapper.getUri());
         media.parse();
         media.release();
         if (media.getMeta(Media.Meta.Title) != null)

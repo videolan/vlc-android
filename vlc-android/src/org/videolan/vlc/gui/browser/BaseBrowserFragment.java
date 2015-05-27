@@ -476,7 +476,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mw = null;
             if (mw != null){
                 if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
-                    mMediaBrowser.browse(mw.getLocation());
+                    mMediaBrowser.browse(mw.getUri());
                     return;
                 }
             }
@@ -529,7 +529,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
             if (mw != null) {
                 if (mCurrentParsedPosition < mAdapter.getItemCount()) {
-                    mMediaBrowser.browse(mw.getLocation());
+                    mMediaBrowser.browse(mw.getUri());
                 } else {
                     mCurrentParsedPosition = -1;
                     mMediaBrowser.release();
