@@ -38,6 +38,10 @@ struct fields {
     } String;
     struct {
         jclass clazz;
+        jfieldID descriptorID;
+    } FileDescriptor;
+    struct {
+        jclass clazz;
         jmethodID onNativeCrashID;
     } LibVLC;
     struct {

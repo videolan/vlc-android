@@ -176,6 +176,12 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "java/lang/IllegalArgumentException", true);
     GET_CLASS(fields.String.clazz,
               "java/lang/String", true);
+    GET_CLASS(fields.FileDescriptor.clazz,
+              "java/io/FileDescriptor", true);
+    GET_ID(GetFieldID,
+           fields.FileDescriptor.descriptorID,
+           fields.FileDescriptor.clazz,
+           "descriptor", "I");
     GET_CLASS(fields.LibVLC.clazz,
               "org/videolan/libvlc/LibVLC", true);
     GET_CLASS(fields.VLCObject.clazz,

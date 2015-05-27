@@ -22,6 +22,8 @@ package org.videolan.libvlc;
 
 import android.net.Uri;
 
+import java.io.FileDescriptor;
+
 public final class Media extends VLCObject {
     private final static String TAG = "LibVLC/Media";
 
@@ -248,6 +250,18 @@ public final class Media extends VLCObject {
     }
 
     /**
+     * Create a Media from libVLC and a FileDescriptor
+     *
+     * @param libVLC
+     * @param fd
+     */
+    public Media(LibVLC libVLC, FileDescriptor fd) {
+        nativeNewFromFD(libVLC, fd);
+        mMrl = nativeGetMrl();
+        mType = nativeGetType();
+    }
+
+    /**
      *
      * @param ml Should not be released
      * @param index
@@ -444,6 +458,7 @@ public final class Media extends VLCObject {
     /* JNI */
     private native void nativeNewFromPath(LibVLC libVLC, String path);
     private native void nativeNewFromLocation(LibVLC libVLC, String location);
+    private native void nativeNewFromFD(LibVLC libVLC, FileDescriptor fd);
     private native void nativeNewFromMediaList(MediaList ml, int index);
     private native void nativeRelease();
     private native boolean nativeParseAsync(int flags);

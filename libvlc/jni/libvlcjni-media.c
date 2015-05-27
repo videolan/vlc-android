@@ -201,6 +201,33 @@ Java_org_videolan_libvlc_Media_nativeNewFromLocation(JNIEnv *env, jobject thiz,
 }
 
 void
+Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
+                                               jobject libVlc, jobject jfd)
+{
+    vlcjni_object *p_obj;
+    int fd = (*env)->GetIntField(env, jfd, fields.FileDescriptor.descriptorID);
+
+    if ((*env)->ExceptionOccurred(env))
+    {
+        (*env)->ExceptionClear(env);
+        fd = -1;
+    }
+    if (fd == -1)
+    {
+        throw_IllegalArgumentException(env, "fd invalid");
+        return;
+    }
+
+    p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libVlc);
+    if (!p_obj)
+        return;
+
+    p_obj->u.p_m = libvlc_media_new_fd(p_obj->p_libvlc, fd);
+
+    Media_nativeNewCommon(env, thiz, p_obj);
+}
+
+void
 Java_org_videolan_libvlc_Media_nativeNewFromMediaList(JNIEnv *env, jobject thiz,
                                                       jobject ml, jint index)
 {
