@@ -290,7 +290,7 @@ Java_org_videolan_libvlc_MediaPlayer_stop(JNIEnv *env, jobject thiz)
         for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
             libvlc_event_detach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
         libvlc_media_release(p_md);
-        libvlc_media_player_set_media(p_obj->u.p_md, NULL);
+        libvlc_media_player_set_media(p_obj->u.p_mp, NULL);
     }
 
     libvlc_media_player_stop(p_obj->u.p_mp);
