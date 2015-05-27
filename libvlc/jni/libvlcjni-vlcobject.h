@@ -76,12 +76,10 @@ typedef bool (*event_cb)(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
 vlcjni_object *VLCJniObject_getInstance(JNIEnv *env, jobject thiz);
 
 vlcjni_object *VLCJniObject_newFromJavaLibVlc(JNIEnv *env, jobject thiz,
-                                              jobject libVlc,
-                                              const char **pp_error);
+                                              jobject libVlc);
 
 vlcjni_object *VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
-                                          libvlc_instance_t *p_libvlc,
-                                          const char **pp_error);
+                                          libvlc_instance_t *p_libvlc);
 
 void VLCJniObject_release(JNIEnv *env, jobject thiz, vlcjni_object *p_obj);
 

@@ -123,15 +123,9 @@ Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
                                                          jobject thiz,
                                                          jobject libvlc)
 {
-    const char *p_error;
-    vlcjni_object *p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libvlc,
-                                                          &p_error);
-
+    vlcjni_object *p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libvlc);
     if (!p_obj)
-    {
-        throw_IllegalStateException(env, p_error);
         return;
-    }
 
     /* Create a media player playing environment */
     p_obj->u.p_mp = libvlc_media_player_new(p_obj->p_libvlc);

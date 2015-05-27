@@ -55,30 +55,29 @@ VLCJniObject_setInstance(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 
 vlcjni_object *
 VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
-                           libvlc_instance_t *p_libvlc,
-                           const char **pp_error)
+                           libvlc_instance_t *p_libvlc)
 {
-    vlcjni_object *p_obj;
+    vlcjni_object *p_obj = NULL;
     libvlc_event_manager_t *ev;
+    const char *p_error;
 
-    p_obj = VLCJniObject_getInstance(env, thiz);
-    if (p_obj)
+    if (VLCJniObject_getInstance(env, thiz))
     {
-        *pp_error = "VLCObject.mInstanceID already exists";
-        return NULL;
+        p_error = "VLCObject.mInstanceID already exists";
+        goto error;
     }
 
     p_obj = calloc(1, sizeof(vlcjni_object));
     if (!p_obj)
     {
-        *pp_error = "vlcjni_object calloc failed";
+        p_error = "vlcjni_object calloc failed";
         goto error;
     }
 
     p_obj->p_owner = calloc(1, sizeof(vlcjni_object_owner));
     if (!p_obj->p_owner)
     {
-        *pp_error = "vlcjni_object_owner calloc failed";
+        p_error = "vlcjni_object_owner calloc failed";
         goto error;
     }
 
@@ -98,34 +97,32 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
         p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
     if (!p_obj->p_owner->weak && !p_obj->p_owner->weakCompat)
     {
-        *pp_error = "No VLCObject weak reference";
+        p_error = "No VLCObject weak reference";
         goto error;
     }
 
     VLCJniObject_setInstance(env, thiz, p_obj);
-
-    *pp_error = NULL;
     return p_obj;
 
 error:
-    VLCJniObject_release(env, thiz, p_obj);
+    if (p_obj)
+        VLCJniObject_release(env, thiz, p_obj);
+    throw_IllegalStateException(env, p_error);
     return NULL;
 }
 
 vlcjni_object *
-VLCJniObject_newFromJavaLibVlc(JNIEnv *env, jobject thiz,
-                               jobject libVlc, const char **pp_error)
+VLCJniObject_newFromJavaLibVlc(JNIEnv *env, jobject thiz, jobject libVlc)
 {
     libvlc_instance_t *p_libvlc = getLibVlcInstance(env, libVlc);
     if (!p_libvlc)
     {
-        if (libVlc)
-            *pp_error = "Can't get mLibVlcInstance from libVlc";
-        else
-            *pp_error = "libVlc is NULL";
+        const char *p_error = libVlc ? "Can't get mLibVlcInstance from libVlc"
+                                     : "libVlc is NULL";
+        throw_IllegalStateException(env, p_error);
         return NULL;
     }
-    return VLCJniObject_newFromLibVlc(env, thiz, p_libvlc, pp_error);
+    return VLCJniObject_newFromLibVlc(env, thiz, p_libvlc);
 }
 
 void
