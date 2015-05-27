@@ -88,7 +88,7 @@ public class LibVlcUtil {
 
     public static File URItoFile(String URI) {
         if (URI == null) return null;
-        return new File(Uri.decode(URI).replace("file://", ""));
+        return new File(Uri.decode(URI).replaceFirst("file://", ""));
     }
 
     public static boolean hasCompatibleCPU(Context context) {
