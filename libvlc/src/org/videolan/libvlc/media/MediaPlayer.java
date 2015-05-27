@@ -25,11 +25,15 @@ package org.videolan.libvlc.media;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaFormat;
+import android.media.TimedText;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -62,7 +66,13 @@ public class MediaPlayer
     public static final int VIDEO_SCALING_MODE_SCALE_TO_FIT = 1;
     public static final int VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING = 2;
 
+    private Media mCurrentMedia = null;
+    private LibVLC mLibVLC;
+    private org.videolan.libvlc.MediaPlayer mMediaPlayer;
+
     public MediaPlayer() {
+        mLibVLC = new LibVLC();
+        mMediaPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
     }
 
     public static MediaPlayer create(Context context, Uri uri) {
@@ -75,7 +85,9 @@ public class MediaPlayer
 
     public static MediaPlayer create(Context context, Uri uri, SurfaceHolder holder,
                                      AudioAttributes audioAttributes, int audioSessionId) {
-        return null;
+        MediaPlayer player = new MediaPlayer();
+        //player.setDataSource(context, uri); This throws exception, but not this create()
+        return player;
     }
 
     public static MediaPlayer create(Context context, int resid) {
@@ -89,22 +101,29 @@ public class MediaPlayer
 
     public void setDataSource(Context context, Uri uri)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
+        mCurrentMedia = new Media(mLibVLC, uri);
     }
 
+    // FIXME, this is INCORRECT, @headers are ignored
     public void setDataSource(Context context, Uri uri, Map<String, String> headers)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
+        setDataSource(context, uri, null);
     }
 
     public void setDataSource(String path)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
+        mCurrentMedia = new Media(mLibVLC, path);
     }
 
     public void setDataSource(FileDescriptor fd)
             throws IOException, IllegalArgumentException, IllegalStateException {
+        mCurrentMedia = new Media(mLibVLC, fd);
     }
 
+    // FIXME, this is INCORRECT, @offset and @length are ignored
     public void setDataSource(FileDescriptor fd, long offset, long length)
             throws IOException, IllegalArgumentException, IllegalStateException {
+        setDataSource(fd);
     }
 
     public void prepare() throws IOException, IllegalStateException {
@@ -123,12 +142,16 @@ public class MediaPlayer
     }
 
     public void start() throws IllegalStateException {
+        mMediaPlayer.play();
     }
 
     public void stop() throws IllegalStateException {
+        mMediaPlayer.stop();
     }
 
     public void pause() throws IllegalStateException {
+        // FIXME, this is toggling for now.
+        mMediaPlayer.pause();
     }
 
     public void setWakeMode(Context context, int mode) {
@@ -146,24 +169,27 @@ public class MediaPlayer
     }
 
     public boolean isPlaying() {
-        return false;
+        return mMediaPlayer.isPlaying();
     }
 
     public void seekTo(int msec) throws IllegalStateException {
     }
 
+    // This is of course, less precise than VLC
     public int getCurrentPosition() {
-        return -1;
+        return (int)mMediaPlayer.getTime();
     }
 
+    // This is of course, less precise than VLC
     public int getDuration() {
-        return 0;
+        return (int)mMediaPlayer.getLength();
     }
 
     public void setNextMediaPlayer(MediaPlayer next) {
     }
 
     public void release() {
+        mMediaPlayer.release();
     }
 
     public void reset() {
@@ -183,6 +209,7 @@ public class MediaPlayer
     }
 
     public void setVolume(float leftVolume, float rightVolume) {
+        mMediaPlayer.setVolume( (int)((leftVolume + rightVolume) * 100/2));
     }
 
     public void setAudioSessionId(int sessionId)  throws IllegalArgumentException, IllegalStateException {
@@ -237,6 +264,7 @@ public class MediaPlayer
     };
 
     public TrackInfo[] getTrackInfo() throws IllegalStateException {
+        //FIXME
         TrackInfo trackInfo[] = new TrackInfo[1];
         return trackInfo;
     }
@@ -244,9 +272,12 @@ public class MediaPlayer
     public static final String MEDIA_MIMETYPE_TEXT_SUBRIP = "application/x-subrip";
 
     public void addTimedTextSource(String path, String mimeType) {
+        mMediaPlayer.addSubtitleTrack(path);
     }
 
+    // FIXME: This is incorrect, since libVLC can only add local subtitles
     public void addTimedTextSource(Context context, Uri uri, String mimeType) {
+        mMediaPlayer.addSubtitleTrack(uri.getPath());
     }
 
     public void addTimedTextSource(FileDescriptor fd, String mimeType)
@@ -312,6 +343,7 @@ public class MediaPlayer
 
     public interface OnTimedTextListener
     {
+        public void onTimedText(MediaPlayer mp, TimedText text);
     }
 
     public void setOnTimedTextListener(OnTimedTextListener listener) {
