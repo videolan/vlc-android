@@ -1,3 +1,17 @@
+Changes between 1.4.1 and 1.5.0:
+--------------------------------
+
+Application:
+ * Large code cleaning
+ * Fix advanced video options and video resolver crashing
+
+Chrome:
+ * Fix runtime issue with pipe2 absence
+
+libVLC:
+ * Start splitting libVLC and MediaPlayer classes
+
+
 Changes between 1.4.0 and 1.4.1:
 --------------------------------
 
