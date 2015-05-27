@@ -80,6 +80,14 @@ public class MediaWrapper implements Parcelable {
     private int mFlags = 0;
     private long mLastModified = 0l;
 
+    private static Uri getUri(String mrl) {
+        Uri uri = Uri.parse(mrl);
+        if (uri.getScheme() == null)
+            return Uri.parse("file://" + mrl);
+        else
+            return uri;
+    }
+
     /**
      * Create a new MediaWrapper
      * @param mrl Should not be null.
@@ -88,7 +96,7 @@ public class MediaWrapper implements Parcelable {
         if (mrl == null)
             throw new NullPointerException("mrl was null");
 
-        mUri = Uri.parse(mrl);
+        mUri = getUri(mrl);
         init(null);
     }
 
@@ -100,7 +108,7 @@ public class MediaWrapper implements Parcelable {
         if (media == null)
             throw new NullPointerException("media was null");
 
-        mUri = Uri.parse(media.getMrl());
+        mUri = getUri(media.getMrl());
         init(media);
     }
 
@@ -175,7 +183,7 @@ public class MediaWrapper implements Parcelable {
     public MediaWrapper(String location, long time, long length, int type,
                  Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                  int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
-        mUri = Uri.parse(location);
+        mUri = getUri(location);
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
              width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified);
     }
@@ -438,7 +446,7 @@ public class MediaWrapper implements Parcelable {
     }
 
     public MediaWrapper(Parcel in) {
-        mUri = Uri.parse(in.readString());
+        mUri = getUri(in.readString());
         init(in.readLong(),
                 in.readLong(),
                 in.readInt(),
