@@ -448,6 +448,15 @@ public final class Media extends VLCObject {
         return mNativeMetas != null ? mNativeMetas[id] : null;
     }
 
+    /**
+     * Add an option to this Media. This Media should be alive (not released).
+     *
+     * @param option ":option" or ":option=value"
+     */
+    public synchronized void AddOption(String option) {
+        nativeAddOption(option);
+    }
+
     @Override
     protected void onReleaseNative() {
         if (mSubItems != null)
@@ -470,4 +479,5 @@ public final class Media extends VLCObject {
     private native Track[] nativeGetTracks();
     private native long nativeGetDuration();
     private native int nativeGetType();
+    private native void nativeAddOption(String option);
 }

@@ -521,3 +521,24 @@ Java_org_videolan_libvlc_Media_nativeGetType(JNIEnv *env, jobject thiz)
 
     return libvlc_media_get_type(p_obj->u.p_m);
 }
+
+void
+Java_org_videolan_libvlc_Media_nativeAddOption(JNIEnv *env, jobject thiz,
+                                               jstring joption)
+{
+    const char* p_option;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    if (!joption || !(p_option = (*env)->GetStringUTFChars(env, joption, 0)))
+    {
+        throw_IllegalArgumentException(env, "option invalid");
+        return;
+    }
+
+    libvlc_media_add_option(p_obj->u.p_m, p_option);
+
+    (*env)->ReleaseStringUTFChars(env, joption, p_option);
+}
