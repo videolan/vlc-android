@@ -95,7 +95,7 @@ public class LibVlcUtil {
         // If already checked return cached result
         if (errorMsg != null || isCompatible) return isCompatible;
 
-        final File lib = searchLibrary(context);
+        final File lib = searchLibrary(context.getApplicationInfo());
         if (lib == null)
             return true;
 
@@ -343,11 +343,9 @@ public class LibVlcUtil {
         boolean att_fpu;
     }
 
-    private static File searchLibrary(Context context) {
+    private static File searchLibrary(ApplicationInfo applicationInfo) {
         // Search for library path
         String[] libraryPaths = null;
-        final ApplicationInfo applicationInfo = context.getApplicationInfo();
-
         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
             final String property = System.getProperty("java.library.path");
             libraryPaths = property.split(":");
