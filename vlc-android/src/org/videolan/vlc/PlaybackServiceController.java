@@ -33,8 +33,8 @@ import android.util.Log;
 
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
-import org.videolan.vlc.interfaces.IAudioService;
-import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.interfaces.IPlaybackService;
+import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -46,7 +46,7 @@ public class PlaybackServiceController implements IAudioPlayerControl {
 
     private static PlaybackServiceController mInstance;
     private static boolean mIsBound = false;
-    private IAudioService mAudioServiceBinder;
+    private IPlaybackService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
     private final ArrayList<IAudioPlayer> mAudioPlayer;
     private final ArrayList<MediaPlayedListener> mMediaPlayedListener;
@@ -56,7 +56,7 @@ public class PlaybackServiceController implements IAudioPlayerControl {
         public void onMediaPlayedRemoved(int index);
     }
 
-    private final IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
+    private final IPlaybackServiceCallback mCallback = new IPlaybackServiceCallback.Stub() {
         @Override
         public void update() throws RemoteException {
             updateAudioPlayer();
@@ -132,7 +132,7 @@ public class PlaybackServiceController implements IAudioPlayerControl {
                     if (!mIsBound) // Can happen if unbind is called quickly before this callback
                         return;
                     Log.d(TAG, "Service Connected");
-                    mAudioServiceBinder = IAudioService.Stub.asInterface(service);
+                    mAudioServiceBinder = IPlaybackService.Stub.asInterface(service);
 
                     // Register controller to the service
                     try {
@@ -254,7 +254,7 @@ public class PlaybackServiceController implements IAudioPlayerControl {
      * This is a handy utility function to call remote procedure calls from mAudioServiceBinder
      * to reduce code duplication across methods of AudioServiceController.
      *
-     * @param instance The instance of IAudioService to call, usually mAudioServiceBinder
+     * @param instance The instance of IPlaybackService to call, usually mAudioServiceBinder
      * @param returnType Return type of the method being called
      * @param defaultValue Default value to return in case of null or exception
      * @param functionName The function name to call, e.g. "stop"
@@ -262,13 +262,13 @@ public class PlaybackServiceController implements IAudioPlayerControl {
      * @param parameters List of parameters. Must be in same order as parameterTypes. Pass null if none.
      * @return The results of the RPC or defaultValue if error
      */
-    private <T> T remoteProcedureCall(IAudioService instance, Class<T> returnType, T defaultValue, String functionName, Class<?> parameterTypes[], Object parameters[]) {
+    private <T> T remoteProcedureCall(IPlaybackService instance, Class<T> returnType, T defaultValue, String functionName, Class<?> parameterTypes[], Object parameters[]) {
         if(instance == null) {
             return defaultValue;
         }
 
         try {
-            Method m = IAudioService.class.getMethod(functionName, parameterTypes);
+            Method m = IPlaybackService.class.getMethod(functionName, parameterTypes);
             @SuppressWarnings("unchecked")
             T returnVal = (T) m.invoke(instance, parameters);
             return returnVal;

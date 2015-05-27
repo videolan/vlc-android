@@ -1,7 +1,7 @@
 /*****************************************************************************
- * IAudioServiceCallback.aidl
+ * IPlaybackServiceCallback.aidl
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 package org.videolan.vlc.interfaces;
 import org.videolan.vlc.MediaWrapper;
 
-interface IAudioServiceCallback {
+interface IPlaybackServiceCallback {
     void update();
     void updateProgress();
     void onMediaPlayedAdded(in MediaWrapper media, int index);

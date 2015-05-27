@@ -1,7 +1,7 @@
 /*****************************************************************************
- * IAudioService.aidl
+ * IPlaybackService.aidl
  *****************************************************************************
- * Copyright © 2011-2014 VLC authors and VideoLAN
+ * Copyright © 2011-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
  *****************************************************************************/
 
 package org.videolan.vlc.interfaces;
-import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 import org.videolan.vlc.MediaWrapper;
 
-interface IAudioService {
+interface IPlaybackService {
     void play();
     void pause();
     void stop();
@@ -59,8 +59,8 @@ interface IAudioService {
     Bitmap getCover();
     Bitmap getCoverPrev();
     Bitmap getCoverNext();
-    void addAudioCallback(IAudioServiceCallback cb);
-    void removeAudioCallback(IAudioServiceCallback cb);
+    void addAudioCallback(IPlaybackServiceCallback cb);
+    void removeAudioCallback(IPlaybackServiceCallback cb);
     void detectHeadset(boolean enable);
     void showWithoutParse(int index);
     void playIndex(int index);

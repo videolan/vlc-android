@@ -65,8 +65,8 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.interfaces.IAudioService;
-import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.interfaces.IPlaybackService;
+import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -112,7 +112,7 @@ public class PlaybackService extends Service {
 
     private MediaWrapperListPlayer mMediaListPlayer;
     private boolean mForceAudio = false;
-    private HashMap<IAudioServiceCallback, Integer> mCallback;
+    private HashMap<IPlaybackServiceCallback, Integer> mCallback;
     private EventHandler mEventHandler;
     private OnAudioFocusChangeListener audioFocusListener;
     private boolean mDetectHeadset = true;
@@ -172,7 +172,7 @@ public class PlaybackService extends Service {
 
         mMediaListPlayer = MediaWrapperListPlayer.getInstance();
 
-        mCallback = new HashMap<IAudioServiceCallback, Integer>();
+        mCallback = new HashMap<IPlaybackServiceCallback, Integer>();
         mCurrentIndex = -1;
         mPrevIndex = -1;
         mNextIndex = -1;
@@ -643,7 +643,7 @@ public class PlaybackService extends Service {
     }
 
     private void executeUpdate(Boolean updateWidget) {
-        for (IAudioServiceCallback callback : mCallback.keySet()) {
+        for (IPlaybackServiceCallback callback : mCallback.keySet()) {
             try {
                 callback.update();
             } catch (RemoteException e) {
@@ -655,7 +655,7 @@ public class PlaybackService extends Service {
     }
 
     private void executeUpdateProgress() {
-        for (IAudioServiceCallback callback : mCallback.keySet()) {
+        for (IPlaybackServiceCallback callback : mCallback.keySet()) {
             try {
                 callback.updateProgress();
             } catch (RemoteException e) {
@@ -666,7 +666,7 @@ public class PlaybackService extends Service {
 
     private void executeOnMediaPlayedAdded() {
         final MediaWrapper media = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
-        for (IAudioServiceCallback callback : mCallback.keySet()) {
+        for (IPlaybackServiceCallback callback : mCallback.keySet()) {
             try {
                 callback.onMediaPlayedAdded(media, 0);
             } catch (RemoteException e) {
@@ -1185,7 +1185,7 @@ public class PlaybackService extends Service {
         mHandler.sendMessage(msg);
     }
 
-    private final IAudioService.Stub mInterface = new IAudioService.Stub() {
+    private final IPlaybackService.Stub mInterface = new IPlaybackService.Stub() {
 
         @Override
         public void pause() throws RemoteException {
@@ -1306,7 +1306,7 @@ public class PlaybackService extends Service {
         }
 
         @Override
-        public synchronized void addAudioCallback(IAudioServiceCallback cb)
+        public synchronized void addAudioCallback(IPlaybackServiceCallback cb)
                 throws RemoteException {
             Integer count = mCallback.get(cb);
             if (count == null)
@@ -1317,7 +1317,7 @@ public class PlaybackService extends Service {
         }
 
         @Override
-        public synchronized void removeAudioCallback(IAudioServiceCallback cb)
+        public synchronized void removeAudioCallback(IPlaybackServiceCallback cb)
                 throws RemoteException {
             Integer count = mCallback.get(cb);
             if (count == null)
