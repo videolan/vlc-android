@@ -157,16 +157,16 @@ Media_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
                               m_events);
 }
 
-void
-Java_org_videolan_libvlc_Media_nativeNewFromMrl(JNIEnv *env, jobject thiz,
-                                                jobject libVlc, jstring jmrl)
+static void
+Media_nativeNewFromCb(JNIEnv *env, jobject thiz, jobject libVlc, jstring jmrl,
+                      libvlc_media_t *(*pf)(libvlc_instance_t*, const char *))
 {
     vlcjni_object *p_obj;
     const char* p_mrl;
 
     if (!jmrl || !(p_mrl = (*env)->GetStringUTFChars(env, jmrl, 0)))
     {
-        throw_IllegalArgumentException(env, "mrl invalid");
+        throw_IllegalArgumentException(env, "path or location invalid");
         return;
     }
 
@@ -177,14 +177,27 @@ Java_org_videolan_libvlc_Media_nativeNewFromMrl(JNIEnv *env, jobject thiz,
         return;
     }
 
-    if (p_mrl[0] == '/' || p_mrl[0] == '\\')
-        p_obj->u.p_m = libvlc_media_new_path(p_obj->p_libvlc, p_mrl);
-    else
-        p_obj->u.p_m = libvlc_media_new_location(p_obj->p_libvlc, p_mrl);
+    p_obj->u.p_m = pf(p_obj->p_libvlc, p_mrl);
 
     (*env)->ReleaseStringUTFChars(env, jmrl, p_mrl);
 
     Media_nativeNewCommon(env, thiz, p_obj);
+}
+
+void
+Java_org_videolan_libvlc_Media_nativeNewFromPath(JNIEnv *env, jobject thiz,
+                                                 jobject libVlc, jstring jpath)
+{
+    Media_nativeNewFromCb(env, thiz, libVlc, jpath, libvlc_media_new_path);
+}
+
+void
+Java_org_videolan_libvlc_Media_nativeNewFromLocation(JNIEnv *env, jobject thiz,
+                                                     jobject libVlc,
+                                                     jstring jlocation)
+{
+    Media_nativeNewFromCb(env, thiz, libVlc, jlocation,
+                          libvlc_media_new_location);
 }
 
 void

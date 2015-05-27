@@ -224,19 +224,27 @@ public final class Media extends VLCObject {
     private int mType = Type.Unknown;
 
     /**
-     * Create a Media from libVLC and a mrl.
+     * Create a Media from libVLC and a local path starting with '/'.
      *
      * @param libVLC
-     * @param mrl
+     * @param path
      */
-    public Media(LibVLC libVLC, String mrl) {
-        nativeNewFromMrl(libVLC, mrl);
+    public Media(LibVLC libVLC, String path) {
+        nativeNewFromPath(libVLC, path);
         mMrl = nativeGetMrl();
         mType = nativeGetType();
     }
 
+    /**
+     * Create a Media from libVLC and a Uri
+     *
+     * @param libVLC
+     * @param uri
+     */
     public Media(LibVLC libVLC, Uri uri) {
-        this(libVLC, uri.toString());
+        nativeNewFromLocation(libVLC, uri.toString());
+        mMrl = nativeGetMrl();
+        mType = nativeGetType();
     }
 
     /**
@@ -434,7 +442,8 @@ public final class Media extends VLCObject {
     }
 
     /* JNI */
-    private native void nativeNewFromMrl(LibVLC libVLC, String mrl);
+    private native void nativeNewFromPath(LibVLC libVLC, String path);
+    private native void nativeNewFromLocation(LibVLC libVLC, String location);
     private native void nativeNewFromMediaList(MediaList ml, int index);
     private native void nativeRelease();
     private native boolean nativeParseAsync(int flags);
