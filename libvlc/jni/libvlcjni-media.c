@@ -149,9 +149,6 @@ Media_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
     pthread_mutex_init(&p_obj->p_sys->lock, NULL);
     pthread_cond_init(&p_obj->p_sys->wait, NULL);
 
-    libvlc_media_add_option(p_obj->u.p_m, ":file-caching=1500");
-    libvlc_media_add_option(p_obj->u.p_m, ":network-caching=1500");
-    libvlc_media_add_option(p_obj->u.p_m, ":no-video");
     VLCJniObject_attachEvents(p_obj, Media_event_cb,
                               libvlc_media_event_manager(p_obj->u.p_m),
                               m_events);
