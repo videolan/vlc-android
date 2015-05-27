@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
+   width="22"
+   height="22"
    id="svg4682"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_close_normal.svg"
+   sodipodi:docname="ic_widget_next_pressed.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -27,17 +27,33 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-31.454636"
-     inkscape:cy="18.590584"
+     inkscape:zoom="22.627417"
+     inkscape:cx="-6.9732469"
+     inkscape:cy="12.525855"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:bbox-paths="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -46,7 +62,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,26 +70,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1028.3622)">
-    <g
-       id="g5222"
-       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,-300.26697,1029.6763)"
-       style="fill:#212121;fill-opacity:1">
-      <rect
-         y="220.36218"
-         x="212"
-         height="16"
-         width="2.5"
-         id="rect5218"
-         style="color:#000000;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <rect
-         transform="matrix(0,1,-1,0,0,0)"
-         style="color:#000000;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect5220"
-         width="2.5"
-         height="16"
-         x="227.11218"
-         y="-221.25" />
-    </g>
+     transform="translate(0,-1030.3622)">
+    <path
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ffb54c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="M 6 6 L 6 16 L 13 11 L 6 6 z M 14.5 6 L 14.5 16 L 16 16 L 16 6 L 14.5 6 z "
+       transform="translate(0,1030.3622)"
+       id="rect4195" />
   </g>
 </svg>
