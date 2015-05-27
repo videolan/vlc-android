@@ -225,7 +225,7 @@ public class MediaWrapper implements Parcelable {
 
     public String getFileName() {
         if (mFilename == null) {
-            mFilename = LibVlcUtil.URItoFileName(mLocation);
+            mFilename = LibVlcUtil.URItoFile(mLocation).getAbsolutePath();
         }
         return mFilename;
     }
