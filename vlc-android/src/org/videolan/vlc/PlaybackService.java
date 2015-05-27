@@ -1043,6 +1043,148 @@ public class PlaybackService extends Service {
         determinePrevAndNextIndices();
     }
 
+
+    private void updateWidget(Context context) {
+        Log.d(TAG, "Updating widget");
+        updateWidgetState(context);
+        updateWidgetCover(context);
+    }
+
+    private void updateWidgetState(Context context) {
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE);
+
+        if (hasCurrentMedia()) {
+            final MediaWrapper media = getCurrentMedia();
+            i.putExtra("title", media.getTitle());
+            i.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
+                    media.getNowPlaying()
+                    : Util.getMediaArtist(this, media));
+        }
+        else {
+            i.putExtra("title", context.getString(R.string.widget_name));
+            i.putExtra("artist", "");
+        }
+        i.putExtra("isplaying", MediaPlayer().isPlaying());
+
+        sendBroadcast(i);
+    }
+
+    private void updateWidgetCover(Context context)
+    {
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE_COVER);
+
+        Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
+        i.putExtra("cover", cover);
+
+        sendBroadcast(i);
+    }
+
+    private void updateWidgetPosition(Context context, float pos)
+    {
+        // no more than one widget update for each 1/50 of the song
+        long timestamp = Calendar.getInstance().getTimeInMillis();
+        if (!hasCurrentMedia()
+                || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
+            return;
+
+        updateWidgetState(context);
+
+        mWidgetPositionTimestamp = timestamp;
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE_POSITION);
+        i.putExtra("position", pos);
+        sendBroadcast(i);
+    }
+
+    private void broadcastMetadata() {
+        MediaWrapper media = getCurrentMedia();
+        if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
+            return;
+
+        boolean playing = MediaPlayer().isPlaying();
+
+        Intent broadcast = new Intent("com.android.music.metachanged");
+        broadcast.putExtra("track", media.getTitle());
+        broadcast.putExtra("artist", media.getArtist());
+        broadcast.putExtra("album", media.getAlbum());
+        broadcast.putExtra("duration", media.getLength());
+        broadcast.putExtra("playing", playing);
+
+        sendBroadcast(broadcast);
+    }
+
+    private synchronized void loadLastPlaylist() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentMedia = prefs.getString("current_media", "");
+        String[] locations = prefs.getString("media_list", "").split(" ");
+
+        List<String> mediaPathList = new ArrayList<String>(locations.length);
+        for (int i = 0 ; i < locations.length ; ++i)
+            mediaPathList.add(Uri.decode(locations[i]));
+
+        mShuffling = prefs.getBoolean("shuffling", false);
+        mRepeating = RepeatType.values()[prefs.getInt("repeating", RepeatType.None.ordinal())];
+        int position = Math.max(0, mediaPathList.indexOf(currentMedia));
+        // load playlist
+        try {
+            mInterface.loadLocations(mediaPathList, position);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized void saveCurrentMedia() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString("current_media", mMediaListPlayer.getMediaList().getMRL(Math.max(mCurrentIndex, 0)));
+        editor.putBoolean("shuffling", mShuffling);
+        editor.putInt("repeating", mRepeating.ordinal());
+        Util.commitPreferences(editor);
+    }
+
+    private synchronized void saveMediaList() {
+        StringBuilder locations = new StringBuilder();
+        for (int i = 0; i < mMediaListPlayer.getMediaList().size(); i++)
+            locations.append(" ").append(Uri.encode(mMediaListPlayer.getMediaList().getMRL(i)));
+        //We save a concatenated String because putStringSet is APIv11.
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString("media_list", locations.toString().trim());
+        Util.commitPreferences(editor);
+    }
+
+    private boolean validateLocation(String location)
+    {
+        /* Check if the MRL contains a scheme */
+        if (!location.matches("\\w+://.+"))
+            location = "file://".concat(location);
+        if (location.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
+            /* Ensure the file exists */
+            File f;
+            try {
+                f = new File(new URI(location));
+            } catch (URISyntaxException e) {
+                return false;
+            }
+            if (!f.isFile())
+                return false;
+        }
+        return true;
+    }
+
+    private void showToast(String text, int duration) {
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putString("text", text);
+        bundle.putInt("duration", duration);
+        msg.setData(bundle);
+        msg.what = SHOW_TOAST;
+        mHandler.sendMessage(msg);
+    }
+
     private final IAudioService.Stub mInterface = new IAudioService.Stub() {
 
         @Override
@@ -1453,145 +1595,4 @@ public class PlaybackService extends Service {
             PlaybackService.this.handleVout();
         }
     };
-
-    private void updateWidget(Context context) {
-        Log.d(TAG, "Updating widget");
-        updateWidgetState(context);
-        updateWidgetCover(context);
-    }
-
-    private void updateWidgetState(Context context) {
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
-        i.setAction(ACTION_WIDGET_UPDATE);
-
-        if (hasCurrentMedia()) {
-            final MediaWrapper media = getCurrentMedia();
-            i.putExtra("title", media.getTitle());
-            i.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
-                    media.getNowPlaying()
-                    : Util.getMediaArtist(this, media));
-        }
-        else {
-            i.putExtra("title", context.getString(R.string.widget_name));
-            i.putExtra("artist", "");
-        }
-        i.putExtra("isplaying", MediaPlayer().isPlaying());
-
-        sendBroadcast(i);
-    }
-
-    private void updateWidgetCover(Context context)
-    {
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
-        i.setAction(ACTION_WIDGET_UPDATE_COVER);
-
-        Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
-        i.putExtra("cover", cover);
-
-        sendBroadcast(i);
-    }
-
-    private void updateWidgetPosition(Context context, float pos)
-    {
-        // no more than one widget update for each 1/50 of the song
-        long timestamp = Calendar.getInstance().getTimeInMillis();
-        if (!hasCurrentMedia()
-                || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
-            return;
-
-        updateWidgetState(context);
-
-        mWidgetPositionTimestamp = timestamp;
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
-        i.setAction(ACTION_WIDGET_UPDATE_POSITION);
-        i.putExtra("position", pos);
-        sendBroadcast(i);
-    }
-
-    private void broadcastMetadata() {
-        MediaWrapper media = getCurrentMedia();
-        if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
-            return;
-
-        boolean playing = MediaPlayer().isPlaying();
-
-        Intent broadcast = new Intent("com.android.music.metachanged");
-        broadcast.putExtra("track", media.getTitle());
-        broadcast.putExtra("artist", media.getArtist());
-        broadcast.putExtra("album", media.getAlbum());
-        broadcast.putExtra("duration", media.getLength());
-        broadcast.putExtra("playing", playing);
-
-        sendBroadcast(broadcast);
-    }
-
-    private synchronized void loadLastPlaylist() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentMedia = prefs.getString("current_media", "");
-        String[] locations = prefs.getString("media_list", "").split(" ");
-
-        List<String> mediaPathList = new ArrayList<String>(locations.length);
-        for (int i = 0 ; i < locations.length ; ++i)
-            mediaPathList.add(Uri.decode(locations[i]));
-
-        mShuffling = prefs.getBoolean("shuffling", false);
-        mRepeating = RepeatType.values()[prefs.getInt("repeating", RepeatType.None.ordinal())];
-        int position = Math.max(0, mediaPathList.indexOf(currentMedia));
-        // load playlist
-        try {
-            mInterface.loadLocations(mediaPathList, position);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private synchronized void saveCurrentMedia() {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("current_media", mMediaListPlayer.getMediaList().getMRL(Math.max(mCurrentIndex, 0)));
-        editor.putBoolean("shuffling", mShuffling);
-        editor.putInt("repeating", mRepeating.ordinal());
-        Util.commitPreferences(editor);
-    }
-
-    private synchronized void saveMediaList() {
-        StringBuilder locations = new StringBuilder();
-        for (int i = 0; i < mMediaListPlayer.getMediaList().size(); i++)
-            locations.append(" ").append(Uri.encode(mMediaListPlayer.getMediaList().getMRL(i)));
-        //We save a concatenated String because putStringSet is APIv11.
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("media_list", locations.toString().trim());
-        Util.commitPreferences(editor);
-    }
-
-    private boolean validateLocation(String location)
-    {
-        /* Check if the MRL contains a scheme */
-        if (!location.matches("\\w+://.+"))
-            location = "file://".concat(location);
-        if (location.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
-            /* Ensure the file exists */
-            File f;
-            try {
-                f = new File(new URI(location));
-            } catch (URISyntaxException e) {
-                return false;
-            }
-            if (!f.isFile())
-                return false;
-        }
-        return true;
-    }
-
-    private void showToast(String text, int duration) {
-        Message msg = new Message();
-        Bundle bundle = new Bundle();
-        bundle.putString("text", text);
-        bundle.putInt("duration", duration);
-        msg.setData(bundle);
-        msg.what = SHOW_TOAST;
-        mHandler.sendMessage(msg);
-    }
 }
