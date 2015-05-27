@@ -347,13 +347,13 @@ public final class Media extends VLCObject {
     }
 
     /**
-     * Parse the media synchronously with a flag.
+     * Parse the media synchronously with a flag. This Media should be alive (not released).
      *
      * @param flags see {@link Parse}
      * @return true in case of success, false otherwise.
      */
     public synchronized boolean parse(int flags) {
-        if (!isReleased() && (mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
+        if ((mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
             mParseStatus |= PARSE_STATUS_PARSING;
             if (nativeParse(flags)) {
                 postParse();
@@ -364,7 +364,7 @@ public final class Media extends VLCObject {
     }
 
     /**
-     * Parse the media and local art synchronously.
+     * Parse the media and local art synchronously. This Media should be alive (not released).
      *
      * @return true in case of success, false otherwise.
      */
@@ -373,7 +373,7 @@ public final class Media extends VLCObject {
     }
 
     /**
-     * Parse the media asynchronously with a flag.
+     * Parse the media asynchronously with a flag. This Media should be alive (not released).
      *
      * To track when this is over you can listen to {@link VLCObject.Events#MediaParsedChanged}
      * event (only if this methods returned true).
@@ -382,7 +382,7 @@ public final class Media extends VLCObject {
      * @return true in case of success, false otherwise.
      */
     public synchronized boolean parseAsync(int flags) {
-        if (!isReleased() && (mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
+        if ((mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
             mParseStatus |= PARSE_STATUS_PARSING;
             return nativeParseAsync(flags);
         } else
@@ -390,7 +390,7 @@ public final class Media extends VLCObject {
     }
 
     /**
-     * Parse the media and local art asynchronously.
+     * Parse the media and local art asynchronously. This Media should be alive (not released).
      *
      * @see #parseAsync(int)
      */
@@ -399,7 +399,7 @@ public final class Media extends VLCObject {
     }
 
     /**
-     * Returns true if the media is parsed
+     * Returns true if the media is parsed This Media should be alive (not released).
      */
     public synchronized boolean isParsed() {
         return (mParseStatus & PARSE_STATUS_PARSED) != 0;
