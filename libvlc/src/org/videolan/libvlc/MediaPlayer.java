@@ -26,16 +26,106 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class MediaPlayer extends VLCObject{
-    private final static String TAG = "LibVLC/MediaPlayer";
+public class MediaPlayer extends VLCObject {
 
-    private float[] equalizer = null;
+    public static class Position {
+        public static final int disable = -1;
+        public static final int center = 0;
+        public static final int left = 1;
+        public static final int right = 2;
+        public static final int top = 3;
+        public static final int top_left = 4;
+        public static final int top_right = 5;
+        public static final int bottom = 6;
+        public static final int bottom_left = 7;
+        public static final int bottom_right = 8;
+    }
 
+    private Media mMedia = null;
+
+    /**
+     * Create an empty MediaPlayer
+     *
+     * @param libVLC
+     */
     public MediaPlayer(LibVLC libVLC) {
         nativeNewFromLibVlc(libVLC);
     }
 
-    private native void nativeNewFromLibVlc(LibVLC libVLC);
+    /**
+     * Create a MediaPlayer from a Media
+     *
+     * @param media
+     */
+    public MediaPlayer(Media media) {
+        if (media == null || media.isReleased())
+            throw new IllegalArgumentException("Media is null or released");
+        mMedia = media;
+        mMedia.retain();
+        nativeNewFromMedia(mMedia);
+    }
+
+    /**
+     * Set a Media
+     *
+     * @param media
+     */
+    public synchronized void setMedia(Media media) {
+        if (mMedia != null)
+            mMedia.release();
+        if (media != null) {
+            if (media.isReleased())
+                throw new IllegalArgumentException("Media is released");
+            media.retain();
+        }
+        mMedia = media;
+        nativeSetMedia(mMedia);
+    }
+
+    /**
+     * Get the Media used by this MediaPlayer.
+     * This Media is owned by the MediaPlayer, it shouldn't be released.
+     *
+     * @return
+     */
+    public synchronized Media getMedia() {
+        return mMedia;
+    }
+
+    /**
+     * Play the media
+     *
+     */
+    public synchronized void play() {
+        nativePlay();
+    }
+
+    /**
+     * Stops the playing media
+     *
+     */
+    public synchronized void stop() {
+        nativeStop();
+    }
+
+    /**
+     * Set if, and how, the video title will be shown when media is played
+     *
+     * @param position see {@link Position}
+     * @param timeout
+     */
+    public synchronized void setVideoTitleDisplay(int position, int timeout) {
+        nativeSetVideoTitleDisplay(position, timeout);
+    }
+
+    /**
+     * TODO: this doesn't respect API
+     *
+     * @param bands
+     */
+    public synchronized void setEqualizer(float[] bands) {
+        nativeSetEqualizer(bands);
+    }
 
     /**
      * Sets the speed of playback (1 being normal speed, 2 being twice as fast)
@@ -50,16 +140,6 @@ public class MediaPlayer extends VLCObject{
     public native float getRate();
 
     /**
-     * Play an mrl
-     */
-    public void playMRL(String mrl, String[] mediaOptions) {
-        setEqualizer(this.equalizer);
-        nativePlayMRL(mrl, mediaOptions);
-    }
-
-    private native void nativePlayMRL(String mrl, String[] mediaOptions);
-
-    /**
      * Returns true if any media is playing
      */
     public native boolean isPlaying();
@@ -70,19 +150,9 @@ public class MediaPlayer extends VLCObject{
     public native boolean isSeekable();
 
     /**
-     * Plays any loaded media
-     */
-    public native void play();
-
-    /**
      * Pauses any playing media
      */
     public native void pause();
-
-    /**
-     * Stops any playing media
-     */
-    public native void stop();
 
     /**
      * Get player state.
@@ -184,37 +254,31 @@ public class MediaPlayer extends VLCObject{
     /* MediaList */
     public native int expandMedia(ArrayList<String> children);
 
+
+    public native float[] getBands();
+    public native String[] getPresets();
+    public native float[] getPreset(int index);
+
     @Override
     protected Event onEventNative(int eventType, long arg1, long arg2) {
+        /* TODO */
         return null;
     }
 
     @Override
     protected void onReleaseNative() {
+        if (mMedia != null)
+            mMedia.release();
         nativeRelease();
     }
 
+    /* JNI */
+    private native void nativeNewFromLibVlc(LibVLC libVLC);
+    private native void nativeNewFromMedia(Media media);
     private native void nativeRelease();
-
-    /* TODO: don't store equalizer*/
-    // Equalizer
-    public float[] getEqualizer()
-    {
-        return equalizer;
-    }
-
-    public void setEqualizer(float[] equalizer)
-    {
-        this.equalizer = equalizer;
-        setNativeEqualizer(this.equalizer);
-    }
-
-    private native int setNativeEqualizer(float[] bands);
-
-    public native float[] getBands();
-
-    public native String[] getPresets();
-
-    public native float[] getPreset(int index);
-
+    private native void nativeSetMedia(Media media);
+    private native void nativePlay();
+    private native void nativeStop();
+    private native void nativeSetVideoTitleDisplay(int position, int timeout);
+    private native void nativeSetEqualizer(float[] bands);
 }

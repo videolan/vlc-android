@@ -61,10 +61,18 @@ public class MediaWrapperListPlayer {
         String mrl = mMediaList.getMRL(position);
         if (mrl == null)
             return;
-        final MediaWrapper media = mMediaList.getMedia(position);
-        String[] options = VLCInstance.get().getMediaOptions(flags | (media != null ? media.getFlags() : 0));
+        final MediaWrapper mw = mMediaList.getMedia(position);
+        String[] options = VLCInstance.get().getMediaOptions(flags | (mw != null ? mw.getFlags() : 0));
         mPlayerIndex = position;
-        VLCInstance.getMainMediaPlayer().playMRL(mrl, options);
+
+        final Media media = new Media(VLCInstance.get(), mw.getUri());
+        for (String option : options)
+            media.addOption(option);
+        VLCInstance.getMainMediaPlayer().setMedia(media);
+        media.release();
+        VLCInstance.getMainMediaPlayer().setEqualizer(VLCInstance.getEqualizer());
+        VLCInstance.getMainMediaPlayer().setVideoTitleDisplay(MediaPlayer.Position.disable, 0);
+        VLCInstance.getMainMediaPlayer().play();
     }
 
     /**

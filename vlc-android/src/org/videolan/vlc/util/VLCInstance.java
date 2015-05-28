@@ -39,6 +39,7 @@ public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
     private static LibVLC sLibVLC = null;
     private static MediaPlayer sMediaPlayer = null;
+    private static float[] sEqualizer = null;
 
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
@@ -110,7 +111,7 @@ public class VLCInstance {
         sLibVLC.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
 
         if (pref.getBoolean("equalizer_enabled", false))
-            getMainMediaPlayer().setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
+            setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
 
         int aout;
         try {
@@ -165,5 +166,16 @@ public class VLCInstance {
             sLibVLC.setHdmiAudioEnabled(enabled);
             restart(context);
         }
+    }
+
+    // Equalizer
+    public static synchronized float[] getEqualizer()
+    {
+        return sEqualizer;
+    }
+
+    public static synchronized void setEqualizer(float[] equalizer)
+    {
+        sEqualizer = equalizer;
     }
 }

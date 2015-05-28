@@ -101,7 +101,7 @@ public class EqualizerFragment extends Fragment {
             equalizer = new float[bands.length + 1];
 
         // on/off
-        button.setChecked(mediaplayer.getEqualizer() != null);
+        button.setChecked(VLCInstance.getEqualizer() != null);
         button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -193,8 +193,10 @@ public class EqualizerFragment extends Fragment {
                 return;
 
             equalizer[0] = progress - 20;
-            if (button.isChecked())
+            if (button.isChecked()) {
+                VLCInstance.setEqualizer(equalizer);
                 VLCInstance.getMainMediaPlayer().setEqualizer(equalizer);
+            }
         }
     };
 
@@ -208,8 +210,10 @@ public class EqualizerFragment extends Fragment {
         @Override
         public void onProgressChanged(float value) {
             equalizer[index] = value;
-            if (button.isChecked())
+            if (button.isChecked()) {
+                VLCInstance.setEqualizer(equalizer);
                 VLCInstance.getMainMediaPlayer().setEqualizer(equalizer);
+            }
         }
     }
 }

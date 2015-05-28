@@ -118,25 +118,20 @@ end:
     (*env)->DeleteLocalRef(env, bundle);
 }
 
-void
-Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
-                                                         jobject thiz,
-                                                         jobject libvlc)
+static void
+MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 {
-    vlcjni_object *p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libvlc);
-    if (!p_obj)
-        return;
-
-    /* Create a media player playing environment */
-    p_obj->u.p_mp = libvlc_media_player_new(p_obj->p_libvlc);
     if (!p_obj->u.p_mp)
     {
         VLCJniObject_release(env, thiz, p_obj);
         throw_IllegalStateException(env, "can't create MediaPlayer instance");
         return;
     }
-    libvlc_media_player_set_video_title_display(p_obj->u.p_mp,
-                                                libvlc_position_disable, 0);
+    /*
+    VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
+                              libvlc_media_event_manager(p_obj->u.p_mp),
+                              m_events);
+    */
 
     /* TODO NOT HERE */
     /* Connect the event manager */
@@ -157,41 +152,37 @@ Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, NULL);
 }
 
-/* TODO: NOT IN VLC API */
-void
-Java_org_videolan_libvlc_MediaPlayer_nativePlayMRL(JNIEnv *env, jobject thiz,
-                                                   jstring mrl,
-                                                   jobjectArray mediaOptions)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
+void
+Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jobject libvlc)
+{
+    vlcjni_object *p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libvlc);
     if (!p_obj)
         return;
 
-    /* New Media */
-    const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, 0);
-    libvlc_media_t* p_md = libvlc_media_new_location(p_obj->p_libvlc, p_mrl);
+    /* Create a media player playing environment */
+    p_obj->u.p_mp = libvlc_media_player_new(p_obj->p_libvlc);
+    MediaPlayer_newCommon(env, thiz, p_obj);
+}
 
-    /* media options */
-    if (mediaOptions != NULL)
-        add_media_options(p_md, env, mediaOptions);
+void
+Java_org_videolan_libvlc_MediaPlayer_nativeNewFromMedia(JNIEnv *env,
+                                                        jobject thiz,
+                                                        jobject jmedia)
+{
+    vlcjni_object *p_obj;
+    vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, jmedia);
 
-    (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
+    if (!p_m_obj)
+        return;
 
-    /* Connect the media event manager. */
-    /* TODO use VlcObject events */
-    libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
-    static const libvlc_event_type_t mp_media_events[] = {
-        libvlc_MediaParsedChanged,
-        libvlc_MediaMetaChanged,
-    };
-    for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
-        libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
-
-    libvlc_media_player_set_media(p_obj->u.p_mp, p_md);
-    libvlc_media_release(p_md);
-
-    libvlc_media_player_play(p_obj->u.p_mp);
+    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_m_obj->p_libvlc);
+    if (!p_obj)
+        return;
+    p_obj->u.p_mp = libvlc_media_player_new_from_media(p_m_obj->u.p_m);
+    MediaPlayer_newCommon(env, thiz, p_obj);
 }
 
 void
@@ -222,6 +213,44 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
     libvlc_media_player_release(p_obj->u.p_mp);
 
     VLCJniObject_release(env, thiz, p_obj);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_nativeSetMedia(JNIEnv *env,
+                                                    jobject thiz,
+                                                    jobject jmedia)
+{
+    libvlc_media_t *p_m = NULL;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    if (jmedia)
+    {
+        vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, jmedia);
+
+        if (!p_m_obj)
+            return;
+        p_m = p_m_obj->u.p_m;
+    }
+
+    libvlc_media_player_set_media(p_obj->u.p_mp, p_m);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_nativeSetVideoTitleDisplay(JNIEnv *env,
+                                                                jobject thiz,
+                                                                jint jposition,
+                                                                jint jtimeout)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    libvlc_media_player_set_video_title_display(p_obj->u.p_mp, jposition,
+                                                jtimeout);
 }
 
 jfloat
@@ -270,29 +299,30 @@ Java_org_videolan_libvlc_MediaPlayer_isSeekable(JNIEnv *env, jobject thiz)
 }
 
 void
-Java_org_videolan_libvlc_MediaPlayer_play(JNIEnv *env, jobject thiz)
+Java_org_videolan_libvlc_MediaPlayer_nativePlay(JNIEnv *env, jobject thiz)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
     if (!p_obj)
         return;
+
+    /* Connect the media event manager. */
+    /* TODO use VlcObject events */
+    libvlc_media_t* p_md = libvlc_media_player_get_media(p_obj->u.p_mp);
+    libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
+    static const libvlc_event_type_t mp_media_events[] = {
+        libvlc_MediaParsedChanged,
+        libvlc_MediaMetaChanged,
+    };
+    for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
+        libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
+    libvlc_media_release(p_md);
 
     libvlc_media_player_play(p_obj->u.p_mp);
 }
 
 void
-Java_org_videolan_libvlc_MediaPlayer_pause(JNIEnv *env, jobject thiz)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return;
-
-    libvlc_media_player_pause(p_obj->u.p_mp);
-}
-
-void
-Java_org_videolan_libvlc_MediaPlayer_stop(JNIEnv *env, jobject thiz)
+Java_org_videolan_libvlc_MediaPlayer_nativeStop(JNIEnv *env, jobject thiz)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
@@ -315,6 +345,17 @@ Java_org_videolan_libvlc_MediaPlayer_stop(JNIEnv *env, jobject thiz)
     }
 
     libvlc_media_player_stop(p_obj->u.p_mp);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_pause(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    libvlc_media_player_pause(p_obj->u.p_mp);
 }
 
 jint
