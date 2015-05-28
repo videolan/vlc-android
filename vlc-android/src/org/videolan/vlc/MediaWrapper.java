@@ -20,6 +20,7 @@
 
 package org.videolan.vlc;
 
+import java.io.File;
 import java.util.Locale;
 
 import org.videolan.libvlc.MediaPlayer;
@@ -80,9 +81,10 @@ public class MediaWrapper implements Parcelable {
 
     private static Uri getUri(String mrl) {
         Uri uri = Uri.parse(mrl);
-        if (uri.getScheme() == null)
-            return Uri.parse("file://" + mrl);
-        else
+        if (uri.getScheme() == null) {
+            Log.w(TAG, "invalid mrl: " + mrl);
+            return Uri.fromFile(new File(mrl));
+        } else
             return uri;
     }
 

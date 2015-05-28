@@ -85,10 +85,6 @@ public class AndroidUtil {
         if (path == null) {
             throw new NullPointerException("Cannot convert null path!");
         }
-        Uri uri = Uri.parse(path);
-        if (uri.getScheme() == null)
-            return Uri.parse("file://" + path).toString();
-        else
-            return uri.toString();
+        return Uri.fromFile(new File(path)).toString();
     }
 }
