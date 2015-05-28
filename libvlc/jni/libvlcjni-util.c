@@ -138,35 +138,3 @@ jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler
     return (*env)->NewGlobalRef(env, eventHandler);
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject thiz, jstring path, jobject arrayList)
-{
-    jboolean isCopy;
-    /* Get C string */
-    const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
-
-    DIR* p_dir = opendir(psz_path);
-    (*env)->ReleaseStringUTFChars(env, path, psz_path);
-    if(!p_dir)
-        return;
-
-    jclass arrayClass = (*env)->FindClass(env, "java/util/ArrayList");
-    jmethodID methodID = (*env)->GetMethodID(env, arrayClass, "add", "(Ljava/lang/Object;)Z");
-
-    struct dirent* p_dirent;
-    jstring str;
-    while(1) {
-        errno = 0;
-        p_dirent = readdir(p_dir);
-        if(p_dirent == NULL) {
-            if(errno > 0) /* error reading this entry */
-                continue;
-            else if(errno == 0) /* end of stream */
-                break;
-        }
-        str = (*env)->NewStringUTF(env, p_dirent->d_name);
-        (*env)->CallBooleanMethod(env, arrayList, methodID, str);
-        (*env)->DeleteLocalRef(env, str);
-    }
-    closedir(p_dir);
-}
-

@@ -218,8 +218,6 @@ public class LibVLC {
         return f.toURI().toString();
     }
 
-    public static native void nativeReadDirectory(String path, ArrayList<String> res);
-
     private native void setEventHandler(EventHandler eventHandler);
 
     private native void detachEventHandler();
