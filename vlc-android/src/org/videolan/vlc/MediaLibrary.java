@@ -29,6 +29,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.interfaces.IBrowser;
@@ -354,7 +355,7 @@ public class MediaLibrary {
 
                 // Process the stacked items
                 for (File file : mediaToScan) {
-                    String fileURI = LibVLC.PathToURI(file.getPath());
+                    String fileURI = AndroidUtil.PathToURI(file.getPath());
                     if (mBrowser != null && mBrowser.get() != null)
                         mBrowser.get().sendTextInfo(file.getName(), count,
                                 mediaToScan.size());

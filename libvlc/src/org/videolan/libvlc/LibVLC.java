@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.Surface;
@@ -195,22 +196,6 @@ public class LibVLC {
     public native String changeset();
 
     public native static void sendMouseEvent( int action, int button, int x, int y);
-
-    /**
-     * Quickly converts path to URIs, which are mandatory in libVLC.
-     *
-     * @param path
-     *            The path to be converted.
-     * @return A URI representation of path
-     */
-    public static String PathToURI(String path) {
-        if(path == null) {
-            throw new NullPointerException("Cannot convert null path!");
-        }
-
-        File f = new File(path);
-        return f.toURI().toString();
-    }
 
     private native void setEventHandler(EventHandler eventHandler);
 

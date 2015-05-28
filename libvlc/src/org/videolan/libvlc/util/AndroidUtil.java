@@ -73,4 +73,20 @@ public class AndroidUtil {
         if (URI == null) return null;
         return new File(Uri.decode(URI).replaceFirst("file://", ""));
     }
+
+    /**
+     * Quickly converts path to URIs, which are mandatory in libVLC.
+     *
+     * @param path
+     *            The path to be converted.
+     * @return A URI representation of path
+     */
+    public static String PathToURI(String path) {
+        if (path == null) {
+            throw new NullPointerException("Cannot convert null path!");
+        }
+
+        File f = new File(path);
+        return f.toURI().toString();
+    }
 }
