@@ -21,7 +21,6 @@
 package org.videolan.libvlc;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -29,7 +28,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.Surface;
 
-import org.videolan.libvlc.util.HWDecoderUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
@@ -40,7 +39,7 @@ public class LibVLC {
     public static final int INPUT_NAV_LEFT = 3;
     public static final int INPUT_NAV_RIGHT = 4;
 
-    public static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
+    public static final boolean HAS_WINDOW_VOUT = AndroidUtil.isGingerbreadOrLater();
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI

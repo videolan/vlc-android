@@ -35,12 +35,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
@@ -155,7 +153,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         final Context context = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AppCompatEditText input = new AppCompatEditText(context);
-        if (!LibVlcUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater()) {
             input.setTextColor(getResources().getColor(R.color.grey50));
         }
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);

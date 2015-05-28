@@ -35,7 +35,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -78,7 +78,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mListView.setNextFocusUpId(R.id.ml_menu_search);
         mListView.setNextFocusLeftId(android.R.id.list);
         mListView.setNextFocusRightId(android.R.id.list);
-        if (LibVlcUtil.isHoneycombOrLater())
+        if (AndroidUtil.isHoneycombOrLater())
             mListView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mHistoryAdapter.getCount() == 0);
         mListView.requestFocus();

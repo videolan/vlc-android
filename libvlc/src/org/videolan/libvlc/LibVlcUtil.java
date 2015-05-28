@@ -36,59 +36,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import org.videolan.libvlc.util.AndroidUtil;
+
 public class LibVlcUtil {
     public final static String TAG = "VLC/LibVLC/Util";
-
-    public static boolean isFroyoOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO;
-    }
-
-    public static boolean isGingerbreadOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-    }
-
-    public static boolean isHoneycombOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
-    }
-
-    public static boolean isHoneycombMr1OrLater() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
-    }
-
-    public static boolean isICSOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    }
-
-    public static boolean isJellyBeanOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
-    }
-
-    public static boolean isJellyBeanMR1OrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
-    }
-
-    public static boolean isJellyBeanMR2OrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
-    }
-
-    public static boolean isKitKatOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT;
-    }
-
-    public static boolean isLolliPopOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
-    }
 
     private static String errorMsg = null;
     private static boolean isCompatible = false;
 
     public static String getErrorMsg() {
         return errorMsg;
-    }
-
-    public static File URItoFile(String URI) {
-        if (URI == null) return null;
-        return new File(Uri.decode(URI).replaceFirst("file://", ""));
     }
 
     public static boolean hasCompatibleCPU(Context context) {
@@ -351,7 +308,7 @@ public class LibVlcUtil {
             libraryPaths = property.split(":");
         } else {
             libraryPaths = new String[1];
-            if (isGingerbreadOrLater())
+            if (AndroidUtil.isGingerbreadOrLater())
                 libraryPaths[0] = applicationInfo.nativeLibraryDir;
             else
                 libraryPaths[0] = applicationInfo.dataDir + "/lib";

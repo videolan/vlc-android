@@ -53,8 +53,8 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
@@ -373,7 +373,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if (media.getMeta(Media.Meta.Title) != null)
             hasInfo = true;
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
-        menu.findItem(R.id.video_list_delete).setVisible(!LibVlcUtil.isLolliPopOrLater() ||
+        menu.findItem(R.id.video_list_delete).setVisible(!AndroidUtil.isLolliPopOrLater() ||
                 mediaWrapper.getLocation().startsWith("file://" + AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
     }
 
@@ -387,7 +387,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onContextPopupMenu(View anchor, final int position) {
-        if (!LibVlcUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater()) {
             // Call the "classic" context menu
             anchor.performLongClick();
             return;

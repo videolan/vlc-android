@@ -50,8 +50,8 @@ import android.widget.TextView;
 
 import com.android.widget.SlidingTabLayout;
 
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -775,7 +775,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             @Override
             @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             public void onPopupMenu(View anchor, final int position) {
-                if (!LibVlcUtil.isHoneycombOrLater()) {
+                if (!AndroidUtil.isHoneycombOrLater()) {
                     // Call the "classic" context menu
                     anchor.performLongClick();
                     return;

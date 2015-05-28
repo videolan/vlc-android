@@ -32,7 +32,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 
@@ -78,7 +78,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
         }
 
         RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.vlcwidget);
-        boolean partial = LibVlcUtil.isHoneycombOrLater();
+        boolean partial = AndroidUtil.isHoneycombOrLater();
 
         if (ACTION_WIDGET_INIT.equals(action) || !partial) {
             /* commands */

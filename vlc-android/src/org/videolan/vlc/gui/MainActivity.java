@@ -56,7 +56,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -390,7 +390,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
 
-        if (LibVlcUtil.isFroyoOrLater()) {
+        if (AndroidUtil.isFroyoOrLater()) {
             SearchManager searchManager =
                     (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
             mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
@@ -646,7 +646,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             v.setNextFocusDownId(mActionBarIconId);
             v.setNextFocusLeftId(mActionBarIconId);
             v.setNextFocusRightId(R.id.ml_menu_search);
-            if (LibVlcUtil.isHoneycombOrLater())
+            if (AndroidUtil.isHoneycombOrLater())
                 v.setNextFocusForwardId(mActionBarIconId);
             if (findViewById(R.id.ml_menu_search) != null)
                 findViewById(R.id.ml_menu_search).setNextFocusLeftId(mActionBarIconId);

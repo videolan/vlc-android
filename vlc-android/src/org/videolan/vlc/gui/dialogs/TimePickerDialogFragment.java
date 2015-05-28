@@ -29,9 +29,8 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.VLCInstance;
@@ -43,7 +42,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     public static final int ACTION_SLEEP = 0;
     public static final int ACTION_JUMP = 1;
 
-    boolean setTime = !LibVlcUtil.isICSOrLater() || LibVlcUtil.isLolliPopOrLater();
+    boolean setTime = !AndroidUtil.isICSOrLater() || AndroidUtil.isLolliPopOrLater();
     int action =-1;
 
     public TimePickerDialogFragment(){}

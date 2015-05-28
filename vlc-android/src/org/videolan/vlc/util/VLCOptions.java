@@ -21,21 +21,16 @@
 package org.videolan.vlc.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VLCCrashHandler;
-import org.videolan.vlc.gui.CompatErrorActivity;
-import org.videolan.vlc.gui.NativeCrashActivity;
 
 import java.util.ArrayList;
 
@@ -72,7 +67,7 @@ public class VLCOptions {
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
         String chroma = pref.getString("chroma_format", "");
-        chroma = chroma.equals("YV12") && !LibVlcUtil.isGingerbreadOrLater() ? "" : chroma;
+        chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         if (pref.getBoolean("equalizer_enabled", false))

@@ -31,7 +31,7 @@ import android.telephony.TelephonyManager;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -57,7 +57,7 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = LibVlcUtil.isICSOrLater()
+        hasNavBar = AndroidUtil.isICSOrLater()
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
         hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
     }

@@ -20,8 +20,6 @@
 
 package org.videolan.libvlc.util;
 
-import org.videolan.libvlc.LibVlcUtil;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -138,9 +136,9 @@ public class HWDecoderUtil {
          * Try OMX or MediaCodec after HoneyComb depending on device properties.
          * Otherwise, use software decoder by default.
          */
-        if (LibVlcUtil.isJellyBeanMR2OrLater())
+        if (AndroidUtil.isJellyBeanMR2OrLater())
             return Decoder.ALL;
-        else if (LibVlcUtil.isHoneycombOrLater()) {
+        else if (AndroidUtil.isHoneycombOrLater()) {
             for (DecoderBySOC decBySOC : sDecoderBySOCList) {
                 final String prop = getSystemPropertyCached(decBySOC.key);
                 if (prop != null) {
@@ -157,7 +155,7 @@ public class HWDecoderUtil {
      * (By default, returns ALL, i.e AudioTrack + OpenSles)
      */
     public static AudioOutput getAudioOutputFromDevice() {
-        if (!LibVlcUtil.isGingerbreadOrLater()) {
+        if (!AndroidUtil.isGingerbreadOrLater()) {
             return AudioOutput.AUDIOTRACK;
         } else {
             for (AudioOutputBySOC aoutBySOC : sAudioOutputBySOCList) {

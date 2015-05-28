@@ -33,7 +33,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
@@ -76,7 +76,7 @@ public class AudioUtil {
     public static String PLAYLIST_DIR = null;
 
     public static void setRingtone(MediaWrapper song, Context context){
-        File newringtone = LibVlcUtil.URItoFile(song.getLocation());
+        File newringtone = AndroidUtil.URItoFile(song.getLocation());
         if(newringtone == null || !newringtone.exists()) {
             Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
@@ -120,7 +120,7 @@ public class AudioUtil {
     @SuppressLint("NewApi")
     public static void prepareCacheFolder(Context context) {
         try {
-            if (LibVlcUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
+            if (AndroidUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
                 CACHE_DIR = context.getExternalCacheDir().getPath();
             else
                 CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
@@ -220,7 +220,7 @@ public class AudioUtil {
     }
 
     private static String getCoverFromFolder(MediaWrapper media) {
-        File f = LibVlcUtil.URItoFile(media.getLocation());
+        File f = AndroidUtil.URItoFile(media.getLocation());
         if (f == null)
             return null;
 

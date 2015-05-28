@@ -47,7 +47,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.android.widget.SlidingTabLayout;
 
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
@@ -328,7 +328,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         @Override
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         public void onPopupMenu(View anchor, final int position) {
-            if (!LibVlcUtil.isHoneycombOrLater()) {
+            if (!AndroidUtil.isHoneycombOrLater()) {
                 // Call the "classic" context menu
                 anchor.performLongClick();
                 return;

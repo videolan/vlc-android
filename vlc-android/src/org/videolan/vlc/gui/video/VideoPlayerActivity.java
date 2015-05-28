@@ -98,9 +98,9 @@ import android.widget.Toast;
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
@@ -346,7 +346,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             return;
         }
 
-        if (LibVlcUtil.isJellyBeanMR1OrLater()) {
+        if (AndroidUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) VLCApplication.getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
@@ -373,7 +373,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         createPresentation();
         setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
-        if (LibVlcUtil.isICSOrLater())
+        if (AndroidUtil.isICSOrLater())
             getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
                         @Override
@@ -587,7 +587,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (!LibVlcUtil.isHoneycombOrLater())
+        if (!AndroidUtil.isHoneycombOrLater())
             setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
         resetHudLayout();
@@ -686,7 +686,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void mediaRouterAddCallback(boolean add) {
-        if(!LibVlcUtil.isJellyBeanMR1OrLater() || mMediaRouter == null) return;
+        if(!AndroidUtil.isJellyBeanMR1OrLater() || mMediaRouter == null) return;
 
         if(add)
             mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
@@ -702,7 +702,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         mPlaybackStarted = true;
 
-        if (LibVlcUtil.isHoneycombOrLater()) {
+        if (AndroidUtil.isHoneycombOrLater()) {
             if (mOnLayoutChangeListener == null) {
                 mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
                     @Override
@@ -819,7 +819,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         Util.commitPreferences(editor);
 
-        if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
+        if (AndroidUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
 
         unbindAudioService();
@@ -917,7 +917,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         registerReceiver(mReceiverV21, intentFilter);
     }
 
-    private final BroadcastReceiver mReceiverV21 = LibVlcUtil.isLolliPopOrLater() ? new BroadcastReceiver()
+    private final BroadcastReceiver mReceiverV21 = AndroidUtil.isLolliPopOrLater() ? new BroadcastReceiver()
     {
         @TargetApi(21)
         @Override
@@ -1223,7 +1223,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     @Override
     public int configureSurface(Surface surface, final int width, final int height, final int hal) {
-        if (LibVlcUtil.isICSOrLater() || surface == null)
+        if (AndroidUtil.isICSOrLater() || surface == null)
             return -1;
         if (width * height == 0)
             return 0;
@@ -1380,7 +1380,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
     }
 
-    private OnAudioFocusChangeListener mAudioFocusListener = !LibVlcUtil.isFroyoOrLater() ? null :
+    private OnAudioFocusChangeListener mAudioFocusListener = !AndroidUtil.isFroyoOrLater() ? null :
             new OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -1413,7 +1413,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     @TargetApi(Build.VERSION_CODES.FROYO)
     private int changeAudioFocus(boolean acquire) {
-        if(!LibVlcUtil.isFroyoOrLater()) // NOP if not supported
+        if(!AndroidUtil.isFroyoOrLater()) // NOP if not supported
             return AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
 
         if (mAudioManager == null)
@@ -2004,7 +2004,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         float brightnesstemp = 0.6f;
         // Initialize the layoutParams screen brightness
         try {
-            if (LibVlcUtil.isFroyoOrLater() &&
+            if (AndroidUtil.isFroyoOrLater() &&
                     Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
                 Settings.System.putInt(getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS_MODE,
@@ -2514,12 +2514,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void dimStatusBar(boolean dim) {
-        if (!LibVlcUtil.isHoneycombOrLater() || mIsNavMenu)
+        if (!AndroidUtil.isHoneycombOrLater() || mIsNavMenu)
             return;
         int visibility = 0;
         int navbar = 0;
 
-        if (!AndroidDevices.hasCombBar() && LibVlcUtil.isJellyBeanOrLater()) {
+        if (!AndroidDevices.hasCombBar() && AndroidUtil.isJellyBeanOrLater()) {
             visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         }
@@ -2528,7 +2528,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
             if (!AndroidDevices.hasCombBar()) {
                 navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-                if (LibVlcUtil.isKitKatOrLater())
+                if (AndroidUtil.isKitKatOrLater())
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
                 visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             }
@@ -2731,7 +2731,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     ParcelFileDescriptor inputPFD = null;
                     try {
                         inputPFD = getContentResolver().openFileDescriptor(data, "r");
-                        if (LibVlcUtil.isHoneycombMr1OrLater())
+                        if (AndroidUtil.isHoneycombMr1OrLater())
                             mLocation = "fd://"+inputPFD.getFd();
                         else {
                             String fdString = inputPFD.getFileDescriptor().toString();

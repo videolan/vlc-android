@@ -45,8 +45,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
@@ -371,7 +371,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onPopupMenu(View anchor, final int position) {
-        if (!LibVlcUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater()) {
             // Call the "classic" context menu
             anchor.performLongClick();
             return;

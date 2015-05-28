@@ -38,8 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
@@ -309,7 +309,7 @@ public class Util {
 
     @TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     public static void commitPreferences(SharedPreferences.Editor editor){
-        if (LibVlcUtil.isGingerbreadOrLater())
+        if (AndroidUtil.isGingerbreadOrLater())
             editor.apply();
         else
             editor.commit();
@@ -320,7 +320,7 @@ public class Util {
         boolean deleted = false;
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
-        if (LibVlcUtil.isHoneycombOrLater()){
+        if (AndroidUtil.isHoneycombOrLater()){
             ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
             String[] selectionArgs = { path };
             deleted = cr.delete(MediaStore.Files.getContentUri("external"),
@@ -364,7 +364,7 @@ public class Util {
             return false;
         if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
             return true;
-        if (LibVlcUtil.isLolliPopOrLater())
+        if (AndroidUtil.isLolliPopOrLater())
             return false;
         File file = new File(path);
         return (file.exists() && file.canWrite());
