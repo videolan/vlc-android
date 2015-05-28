@@ -487,7 +487,6 @@ public class PlaybackService extends Service {
                      * (don't want to replace a 0 with a 0)
                      */
                     if(m != null && m.getLength() == 0 && length > 0) {
-                        Log.d(TAG, "Updating audio file length");
                         dbManager.updateMedia(location,
                                 MediaDatabase.mediaColumn.MEDIA_LENGTH, length);
                     }
@@ -1043,7 +1042,6 @@ public class PlaybackService extends Service {
 
 
     private void updateWidget() {
-        Log.d(TAG, "Updating widget");
         updateWidgetState();
         updateWidgetCover();
     }
@@ -1069,7 +1067,6 @@ public class PlaybackService extends Service {
     }
 
     private void updateWidgetCover() {
-        Log.d(TAG, "updateWidgetCover");
         Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE_COVER);
 
