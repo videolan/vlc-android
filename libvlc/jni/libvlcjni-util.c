@@ -170,24 +170,3 @@ void Java_org_videolan_libvlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject th
     closedir(p_dir);
 }
 
-jboolean Java_org_videolan_libvlc_LibVLC_nativeIsPathDirectory(JNIEnv *env, jobject thiz, jstring path)
-{
-    jboolean isCopy;
-    /* Get C string */
-    const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
-
-    jboolean isDirectory;
-    struct stat buf;
-    if(stat(psz_path, &buf) != 0)
-        /* couldn't stat */
-        isDirectory = JNI_FALSE;
-    else {
-        if(S_ISDIR(buf.st_mode))
-            isDirectory = JNI_TRUE;
-        else
-            isDirectory = JNI_FALSE;
-    }
-
-    (*env)->ReleaseStringUTFChars(env, path, psz_path);
-    return isDirectory;
-}
