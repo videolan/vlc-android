@@ -21,6 +21,7 @@
 package org.videolan.libvlc;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -498,8 +499,6 @@ public class LibVLC {
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     public native byte[] getThumbnail(String mrl, int i_width, int i_height);
-
-    public static native String nativeToURI(String path);
     
     public native static void sendMouseEvent( int action, int button, int x, int y);
 
@@ -514,7 +513,9 @@ public class LibVLC {
         if(path == null) {
             throw new NullPointerException("Cannot convert null path!");
         }
-        return LibVLC.nativeToURI(path);
+
+        File f = new File(path);
+        return f.toURI().toString();
     }
 
     public static native void nativeReadDirectory(String path, ArrayList<String> res);
