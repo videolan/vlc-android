@@ -453,7 +453,7 @@ public class Media extends VLCObject {
      *
      * @param option ":option" or ":option=value"
      */
-    public synchronized void AddOption(String option) {
+    public synchronized void addOption(String option) {
         nativeAddOption(option);
     }
 
