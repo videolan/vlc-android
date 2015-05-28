@@ -293,7 +293,7 @@ public class PlaybackService extends Service {
             else
                 loadLastPlaylist();
         }
-        updateWidget(this);
+        updateWidget();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -423,7 +423,7 @@ public class PlaybackService extends Service {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
                 loadLastPlaylist();
             } else if (action.equalsIgnoreCase(ACTION_WIDGET_INIT)) {
-                updateWidget(context);
+                updateWidget();
             }
 
             /*
@@ -526,7 +526,7 @@ public class PlaybackService extends Service {
                     break;
                 case EventHandler.MediaPlayerPositionChanged:
                     float pos = msg.getData().getFloat("data");
-                    service.updateWidgetPosition(service, pos);
+                    service.updateWidgetPosition(pos);
                     break;
                 case EventHandler.MediaPlayerEncounteredError:
                     service.showToast(service.getString(
@@ -649,7 +649,7 @@ public class PlaybackService extends Service {
             }
         }
         if (updateWidget)
-            updateWidget(this);
+            updateWidget();
     }
 
     private void executeUpdateProgress() {
@@ -853,7 +853,7 @@ public class PlaybackService extends Service {
             MediaPlayer().play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
-            updateWidget(this);
+            updateWidget();
             broadcastMetadata();
         }
     }
@@ -955,7 +955,7 @@ public class PlaybackService extends Service {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
-        updateWidget(this);
+        updateWidget();
         broadcastMetadata();
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
@@ -1019,7 +1019,7 @@ public class PlaybackService extends Service {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
-        updateWidget(this);
+        updateWidget();
         broadcastMetadata();
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
@@ -1042,13 +1042,13 @@ public class PlaybackService extends Service {
     }
 
 
-    private void updateWidget(Context context) {
+    private void updateWidget() {
         Log.d(TAG, "Updating widget");
-        updateWidgetState(context);
-        updateWidgetCover(context);
+        updateWidgetState();
+        updateWidgetCover();
     }
 
-    private void updateWidgetState(Context context) {
+    private void updateWidgetState() {
         Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE);
 
@@ -1060,7 +1060,7 @@ public class PlaybackService extends Service {
                     : Util.getMediaArtist(this, media));
         }
         else {
-            i.putExtra("title", context.getString(R.string.widget_name));
+            i.putExtra("title", getString(R.string.widget_name));
             i.putExtra("artist", "");
         }
         i.putExtra("isplaying", MediaPlayer().isPlaying());
@@ -1068,7 +1068,7 @@ public class PlaybackService extends Service {
         sendBroadcast(i);
     }
 
-    private void updateWidgetCover(Context context){
+    private void updateWidgetCover() {
         Log.d(TAG, "updateWidgetCover");
         Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE_COVER);
@@ -1079,15 +1079,14 @@ public class PlaybackService extends Service {
         sendBroadcast(i);
     }
 
-    private void updateWidgetPosition(Context context, float pos)
-    {
+    private void updateWidgetPosition(float pos) {
         // no more than one widget update for each 1/50 of the song
         long timestamp = Calendar.getInstance().getTimeInMillis();
         if (!hasCurrentMedia()
                 || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
 
-        updateWidgetState(context);
+        updateWidgetState();
 
         mWidgetPositionTimestamp = timestamp;
         Intent i = new Intent(this, VLCAppWidgetProvider.class);
@@ -1404,7 +1403,7 @@ public class PlaybackService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
-            updateWidget(PlaybackService.this);
+            updateWidget();
             broadcastMetadata();
             updateRemoteControlClientMetadata();
             PlaybackService.this.saveMediaList();
@@ -1436,7 +1435,7 @@ public class PlaybackService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
-            updateWidget(PlaybackService.this);
+            updateWidget();
             broadcastMetadata();
             updateRemoteControlClientMetadata();
             determinePrevAndNextIndices();
