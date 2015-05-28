@@ -70,6 +70,7 @@ import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
 import java.io.File;
 import java.net.URI;
@@ -102,9 +103,6 @@ public class PlaybackService extends Service {
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
     public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
-
-    public static final String WIDGET_PACKAGE = "org.videolan.vlc";
-    public static final String WIDGET_CLASS = "org.videolan.vlc.widget.VLCAppWidgetProvider";
 
     public static final int CURRENT_ITEM = 1;
     public static final int PREVIOUS_ITEM = 2;
@@ -1051,8 +1049,7 @@ public class PlaybackService extends Service {
     }
 
     private void updateWidgetState(Context context) {
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE);
 
         if (hasCurrentMedia()) {
@@ -1071,10 +1068,9 @@ public class PlaybackService extends Service {
         sendBroadcast(i);
     }
 
-    private void updateWidgetCover(Context context)
-    {
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+    private void updateWidgetCover(Context context){
+        Log.d(TAG, "updateWidgetCover");
+        Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE_COVER);
 
         Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
@@ -1094,8 +1090,7 @@ public class PlaybackService extends Service {
         updateWidgetState(context);
 
         mWidgetPositionTimestamp = timestamp;
-        Intent i = new Intent();
-        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        Intent i = new Intent(this, VLCAppWidgetProvider.class);
         i.setAction(ACTION_WIDGET_UPDATE_POSITION);
         i.putExtra("position", pos);
         sendBroadcast(i);
