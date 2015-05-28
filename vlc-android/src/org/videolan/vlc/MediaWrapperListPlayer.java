@@ -25,7 +25,6 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.util.VLCInstance;
@@ -73,7 +72,7 @@ public class MediaWrapperListPlayer {
         VLCInstance.getMainMediaPlayer().setMedia(media);
         media.release();
         VLCInstance.getMainMediaPlayer().setEqualizer(VLCOptions.getEqualizer());
-        VLCInstance.getMainMediaPlayer().setVideoTitleDisplay(MediaPlayer.Position.disable, 0);
+        VLCInstance.getMainMediaPlayer().setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
         VLCInstance.getMainMediaPlayer().play();
     }
 

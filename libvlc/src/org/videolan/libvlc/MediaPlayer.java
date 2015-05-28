@@ -29,24 +29,24 @@ import java.util.Map;
 public class MediaPlayer extends VLCObject {
 
     public static class Position {
-        public static final int disable = -1;
-        public static final int center = 0;
-        public static final int left = 1;
-        public static final int right = 2;
-        public static final int top = 3;
-        public static final int top_left = 4;
-        public static final int top_right = 5;
-        public static final int bottom = 6;
-        public static final int bottom_left = 7;
-        public static final int bottom_right = 8;
+        public static final int Disable = -1;
+        public static final int Center = 0;
+        public static final int Left = 1;
+        public static final int Right = 2;
+        public static final int Top = 3;
+        public static final int TopLeft = 4;
+        public static final int TopRight = 5;
+        public static final int Bottom = 6;
+        public static final int BottomLeft = 7;
+        public static final int BottomRight = 8;
     }
 
     public static class Navigate {
-        public static final int activate = 0;
-        public static final int up = 1;
-        public static final int down = 2;
-        public static final int left = 3;
-        public static final int right = 4;
+        public static final int Activate = 0;
+        public static final int Up = 1;
+        public static final int Down = 2;
+        public static final int Left = 3;
+        public static final int Right = 4;
     }
 
     private Media mMedia = null;
