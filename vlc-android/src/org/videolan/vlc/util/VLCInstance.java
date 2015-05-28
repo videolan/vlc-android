@@ -24,20 +24,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.HWDecoderUtil;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
-
-import java.util.ArrayList;
 
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
@@ -56,7 +51,7 @@ public class VLCInstance {
             try {
                 sLibVLC.init(context, VLCOptions.getLibOptions(pref));
             } catch (LibVlcException e) {
-                throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
+                throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
@@ -87,13 +82,13 @@ public class VLCInstance {
                 sLibVLC.destroy();
                 sLibVLC.init(context, VLCOptions.getLibOptions(pref));
             } catch (LibVlcException lve) {
-                throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
+                throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
         }
     }
 
     public static synchronized boolean testCompatibleCPU(Context context) {
-        if (sLibVLC == null && !LibVlcUtil.hasCompatibleCPU(context)) {
+        if (sLibVLC == null && !VLCUtil.hasCompatibleCPU(context)) {
             final Intent i = new Intent(context, CompatErrorActivity.class);
             context.startActivity(i);
             return false;

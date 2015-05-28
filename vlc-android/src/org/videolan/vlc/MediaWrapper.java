@@ -24,8 +24,6 @@ import java.util.Locale;
 
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.Media.Meta;

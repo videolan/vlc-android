@@ -26,7 +26,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
@@ -155,7 +155,7 @@ public class VLCOptions {
              * Skip non-ref (1) for all armv7 more than 1.2 Ghz and more than 2 cores
              * Skip non-key (3) for all devices that don't meet anything above
              */
-            LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
+            VLCUtil.MachineSpecs m = VLCUtil.getMachineSpecs();
             if (m == null)
                 return ret;
             if ((m.hasArmV6 && !(m.hasArmV7)) || m.hasMips)

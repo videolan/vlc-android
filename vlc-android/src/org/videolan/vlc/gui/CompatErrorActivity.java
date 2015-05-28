@@ -13,7 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class CompatErrorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.not_compatible);
 
-        String errorMsg = LibVlcUtil.getErrorMsg();
+        String errorMsg = VLCUtil.getErrorMsg();
         if(getIntent().getBooleanExtra("runtimeError", false))
             if(getIntent().getStringExtra("message") != null) {
                 errorMsg = getIntent().getStringExtra("message");

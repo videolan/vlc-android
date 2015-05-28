@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.Surface;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.VLCUtil;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
@@ -141,8 +142,8 @@ public class LibVLC {
     public void init(Context context, String options[]) throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-            if(!LibVlcUtil.hasCompatibleCPU(context)) {
-                Log.e(TAG, LibVlcUtil.getErrorMsg());
+            if(!VLCUtil.hasCompatibleCPU(context)) {
+                Log.e(TAG, VLCUtil.getErrorMsg());
                 throw new LibVlcException();
             }
 

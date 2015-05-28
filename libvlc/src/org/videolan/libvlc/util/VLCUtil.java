@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.libvlc.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +38,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
 
-public class LibVlcUtil {
+public class VLCUtil {
     public final static String TAG = "VLC/LibVLC/Util";
 
     private static String errorMsg = null;
