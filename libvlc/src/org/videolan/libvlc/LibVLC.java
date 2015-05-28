@@ -122,7 +122,6 @@ public class LibVLC extends VLCObject {
     public native int setWindowSize(int width, int height);
 
     /* JNI */
-    private long mInstance = 0; // Read-only, reserved for JNI
     private native void nativeNew(String[] options);
     private native void nativeRelease();
 

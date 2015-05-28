@@ -79,7 +79,6 @@ public class MediaDiscoverer extends VLCObject {
     }
 
     /* JNI */
-    private long mInstance = 0; // Read-only, reserved for JNI
     private native void nativeNew(LibVLC libVLC, String name);
     private native void nativeRelease();
     private native boolean nativeStart();
