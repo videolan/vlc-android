@@ -267,8 +267,8 @@ public class Media extends VLCObject {
      * @param index
      */
     protected Media(MediaList ml, int index) {
-        if (ml.isReleased())
-            throw new IllegalArgumentException("MediaList is not native");
+        if (ml == null || ml.isReleased())
+            throw new IllegalArgumentException("MediaList is null or released");
         nativeNewFromMediaList(ml, index);
         mMrl = nativeGetMrl();
         mNativeMetas = nativeGetMetas();
