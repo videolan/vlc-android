@@ -214,11 +214,6 @@ public class MediaPlayer extends VLCObject {
     public native int getTitleCount();
     public native void playerNavigate(int navigate);
 
-    /**
-     * Return true if there is a video track in the file
-     */
-    public native boolean hasVideoTrack(String mrl) throws java.io.IOException;
-
     public native int getAudioTracksCount();
 
     public native Map<Integer,String> getAudioTrackDescription();
