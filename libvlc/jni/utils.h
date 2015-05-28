@@ -65,8 +65,6 @@ struct fields {
 
 extern struct fields fields;
 
-libvlc_instance_t *getLibVlcInstance(JNIEnv *env, jobject thiz);
-
 jint getInt(JNIEnv *env, jobject thiz, const char* field);
 
 void setInt(JNIEnv *env, jobject item, const char* field, jint value);

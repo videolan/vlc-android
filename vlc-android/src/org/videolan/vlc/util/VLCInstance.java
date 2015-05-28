@@ -24,9 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.VLCApplication;
@@ -45,14 +45,14 @@ public class VLCInstance {
         if (sLibVLC == null) {
             Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
-            sLibVLC = new LibVLC();
             final Context context = VLCApplication.getAppContext();
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            try {
-                sLibVLC.init(context, VLCOptions.getLibOptions(pref));
-            } catch (LibVlcException e) {
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            if(!VLCUtil.hasCompatibleCPU(context)) {
+                Log.e(TAG, VLCUtil.getErrorMsg());
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
+
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions(pref));
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -74,16 +74,12 @@ public class VLCInstance {
 
     public static synchronized void restart(Context context, SharedPreferences pref) throws IllegalStateException {
         if (sLibVLC != null) {
-            try {
-                if (sMediaPlayer != null) {
-                    sMediaPlayer.release();
-                    sMediaPlayer = null;
-                }
-                sLibVLC.destroy();
-                sLibVLC.init(context, VLCOptions.getLibOptions(pref));
-            } catch (LibVlcException lve) {
-                throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
+            if (sMediaPlayer != null) {
+                sMediaPlayer.release();
+                sMediaPlayer = null;
             }
+            sLibVLC.release();
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions(pref));
         }
     }
 

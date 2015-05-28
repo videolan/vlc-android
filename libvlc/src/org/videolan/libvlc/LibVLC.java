@@ -32,19 +32,15 @@ import android.view.Surface;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.VLCUtil;
 
-public class LibVLC {
+public class LibVLC extends VLCObject {
     private static final String TAG = "VLC/LibVLC";
 
     public static final boolean HAS_WINDOW_VOUT = AndroidUtil.isGingerbreadOrLater();
-
-    /** libVLC instance C pointer */
-    private long mLibVlcInstance = 0; // Read-only, reserved for JNI
 
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;
 
     /** Check in libVLC already initialized otherwise crash */
-    private boolean mIsInitialized = false;
     public native void attachSurface(Surface surface, IVideoPlayer player);
 
     public native void detachSurface();
@@ -102,23 +98,20 @@ public class LibVLC {
     }
 
     /**
-     * Constructor
-     * It is private because this class is a singleton.
+     * Create a LibVLC withs options
+     *
+     * @param options
      */
-    public LibVLC() {
+    public LibVLC(String options[]) {
+        nativeNew(options);
+        setEventHandler(EventHandler.getInstance());
     }
 
     /**
-     * Destructor:
-     * It is bad practice to rely on them, so please don't forget to call
-     * destroy() before exiting.
+     * Create a LibVLC
      */
-    @Override
-    protected void finalize() {
-        if (mLibVlcInstance != 0) {
-            Log.d(TAG, "LibVLC is was destroyed yet before finalize()");
-            destroy();
-        }
+    public LibVLC() {
+        this(null);
     }
 
     /**
@@ -126,50 +119,6 @@ public class LibVLC {
      * @param f the surface to draw
      */
     public native void setSurface(Surface f);
-
-    /**
-     * Initialize the libVLC class.
-     *
-     * This function must be called before using any libVLC functions.
-     *
-     * @throws LibVlcException
-     */
-    public void init(Context context, String options[]) throws LibVlcException {
-        Log.v(TAG, "Initializing LibVLC");
-        if (!mIsInitialized) {
-            if(!VLCUtil.hasCompatibleCPU(context)) {
-                Log.e(TAG, VLCUtil.getErrorMsg());
-                throw new LibVlcException();
-            }
-
-            nativeInit(options);
-            setEventHandler(EventHandler.getInstance());
-            mIsInitialized = true;
-        }
-    }
-
-    /**
-     * Destroy this libVLC instance
-     * @note You must call it before exiting
-     */
-    public void destroy() {
-        Log.v(TAG, "Destroying LibVLC instance");
-        nativeDestroy();
-        detachEventHandler();
-        mIsInitialized = false;
-    }
-
-    /**
-     * Initialize the libvlc C library
-     * @return a pointer to the libvlc instance
-     */
-    private native void nativeInit(String options[]) throws LibVlcException;
-
-    /**
-     * Close the libvlc C library
-     * @note mLibVlcInstance should be 0 after a call to destroy()
-     */
-    private native void nativeDestroy();
 
     /**
      * Get the libVLC version
@@ -195,6 +144,17 @@ public class LibVLC {
 
     private native void detachEventHandler();
 
+    @Override
+    protected Event onEventNative(int eventType, long arg1, long arg2) {
+        return null;
+    }
+
+    @Override
+    protected void onReleaseNative() {
+        nativeRelease();
+        detachEventHandler();
+    }
+
     public static interface OnNativeCrashListener {
         public void onNativeCrash();
     }
@@ -209,4 +169,9 @@ public class LibVLC {
     }
 
     public native int setWindowSize(int width, int height);
+
+    /* JNI */
+    private long mInstance = 0; // Read-only, reserved for JNI
+    private native void nativeNew(String[] options);
+    private native void nativeRelease();
 }

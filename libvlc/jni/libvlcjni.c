@@ -35,20 +35,11 @@
 #include <android/api-level.h>
 
 #include "libvlcjni-modules.h"
+#include "libvlcjni-vlcobject.h"
 #include "vout.h"
 #include "utils.h"
 #include "native_crash_handler.h"
 #include "std_logger.h"
-
-#define VOUT_ANDROID_SURFACE 0
-#define VOUT_OPENGLES2       1
-#define VOUT_ANDROID_WINDOW  2
-
-#define AOUT_AUDIOTRACK      0
-#define AOUT_OPENSLES        1
-
-#define LOG_TAG "VLC/JNI/main"
-#include "log.h"
 
 struct fields fields;
 
@@ -57,13 +48,7 @@ struct fields fields;
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
 
-libvlc_instance_t *getLibVlcInstance(JNIEnv *env, jobject thiz)
-{
-    return (libvlc_instance_t*)(intptr_t)getLong(env, thiz, "mLibVlcInstance");
-}
-
 jobject eventHandlerInstance = NULL;
-
 
 /* Pointer to the Java virtual machine
  * Note: It's okay to use a static variable for the VM pointer since there
@@ -278,9 +263,10 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
 #endif
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jobjectArray jstringArray)
+void Java_org_videolan_libvlc_LibVLC_nativeNew(JNIEnv *env, jobject thiz, jobjectArray jstringArray)
 {
-    libvlc_instance_t *instance = NULL;
+    vlcjni_object *p_obj = NULL;
+    libvlc_instance_t *p_libvlc = NULL;
     jstring *strings = NULL;
     const char **argv = NULL;
     int argc = 0;
@@ -313,7 +299,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jobje
         }
     }
 
-    instance = libvlc_new(argc, argv);
+    p_libvlc = libvlc_new(argc, argv);
 
 error:
 
@@ -328,29 +314,26 @@ error:
     free(argv);
     free(strings);
 
-    if (instance)
+    if (!p_libvlc)
     {
-        setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
-    }
-    else
-    {
-        jclass exc = (*env)->FindClass(env, "org/videolan/libvlc/LibVlcException");
-        (*env)->ThrowNew(env, exc, "Unable to instantiate LibVLC");
+        throw_IllegalStateException(env, "can't create LibVLC instance");
+        return;
     }
 
-    LOGI("LibVLC initialized: %p", instance);
+    p_obj = VLCJniObject_newFromLibVlc(env, thiz, NULL);
+    if (!p_obj)
+    {
+        libvlc_release(p_libvlc);
+        return;
+    }
+    p_obj->u.p_libvlc = p_libvlc;
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
+void Java_org_videolan_libvlc_LibVLC_nativeRelease(JNIEnv *env, jobject thiz)
 {
-    jlong libVlcInstance = getLong(env, thiz, "mLibVlcInstance");
-    if (!libVlcInstance)
-        return; // Already destroyed
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
-    libvlc_instance_t *instance = (libvlc_instance_t*)(intptr_t) libVlcInstance;
-    libvlc_release(instance);
-
-    setLong(env, thiz, "mLibVlcInstance", 0);
+    libvlc_release(p_obj->u.p_libvlc);
 }
 
 /* TODO REMOVE */
