@@ -279,9 +279,14 @@ public class Media extends VLCObject {
     protected synchronized Event onEventNative(int eventType, long arg1, long arg2) {
         switch (eventType) {
         case VLCObject.Events.MediaMetaChanged:
-            int id = (int) arg1;
-            if (id >= 0 && id < Meta.MAX)
-                mNativeMetas[id] = nativeGetMeta(id);
+            // either we update all metas (if first call) or we update a specific meta
+            if (mNativeMetas == null) {
+                mNativeMetas = nativeGetMetas();
+            } else {
+                int id = (int) arg1;
+                if (id >= 0 && id < Meta.MAX)
+                    mNativeMetas[id] = nativeGetMeta(id);
+            }
             break;
         case VLCObject.Events.MediaDurationChanged:
             mDuration = nativeGetDuration();
