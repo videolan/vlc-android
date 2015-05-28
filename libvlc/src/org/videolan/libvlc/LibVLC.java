@@ -48,55 +48,6 @@ public class LibVLC extends VLCObject {
     public native void attachSubtitlesSurface(Surface surface);
     public native void detachSubtitlesSurface();
 
-    /* Load library before object instantiation */
-    static {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            try {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR1)
-                    System.loadLibrary("anw.10");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
-                    System.loadLibrary("anw.13");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                    System.loadLibrary("anw.14");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH)
-                    System.loadLibrary("anw.18");
-                else
-                    System.loadLibrary("anw.21");
-            } catch (Throwable t) {
-                Log.w(TAG, "Unable to load the anw library: " + t);
-            }
-
-            try {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
-                    System.loadLibrary("iomx.10");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
-                    System.loadLibrary("iomx.13");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                    System.loadLibrary("iomx.14");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                    System.loadLibrary("iomx.18");
-                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
-                    System.loadLibrary("iomx.19");
-            } catch (Throwable t) {
-                // No need to warn if it isn't found, when we intentionally don't build these except for debug
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-                    Log.w(TAG, "Unable to load the iomx library: " + t);
-            }
-        }
-
-        try {
-            System.loadLibrary("vlcjni");
-        } catch (UnsatisfiedLinkError ule) {
-            Log.e(TAG, "Can't load vlcjni library: " + ule);
-            /// FIXME Alert user
-            System.exit(1);
-        } catch (SecurityException se) {
-            Log.e(TAG, "Encountered a security issue when loading vlcjni library: " + se);
-            /// FIXME Alert user
-            System.exit(1);
-        }
-    }
-
     /**
      * Create a LibVLC withs options
      *
@@ -174,4 +125,53 @@ public class LibVLC extends VLCObject {
     private long mInstance = 0; // Read-only, reserved for JNI
     private native void nativeNew(String[] options);
     private native void nativeRelease();
+
+    /* Load library before object instantiation */
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            try {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR1)
+                    System.loadLibrary("anw.10");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
+                    System.loadLibrary("anw.13");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    System.loadLibrary("anw.14");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH)
+                    System.loadLibrary("anw.18");
+                else
+                    System.loadLibrary("anw.21");
+            } catch (Throwable t) {
+                Log.w(TAG, "Unable to load the anw library: " + t);
+            }
+
+            try {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
+                    System.loadLibrary("iomx.10");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
+                    System.loadLibrary("iomx.13");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    System.loadLibrary("iomx.14");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2)
+                    System.loadLibrary("iomx.18");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
+                    System.loadLibrary("iomx.19");
+            } catch (Throwable t) {
+                // No need to warn if it isn't found, when we intentionally don't build these except for debug
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+                    Log.w(TAG, "Unable to load the iomx library: " + t);
+            }
+        }
+
+        try {
+            System.loadLibrary("vlcjni");
+        } catch (UnsatisfiedLinkError ule) {
+            Log.e(TAG, "Can't load vlcjni library: " + ule);
+            /// FIXME Alert user
+            System.exit(1);
+        } catch (SecurityException se) {
+            Log.e(TAG, "Encountered a security issue when loading vlcjni library: " + se);
+            /// FIXME Alert user
+            System.exit(1);
+        }
+    }
 }
