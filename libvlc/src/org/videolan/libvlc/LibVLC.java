@@ -194,12 +194,6 @@ public class LibVLC {
      */
     public native String changeset();
 
-    /**
-     * Get a media thumbnail.
-     * @return a bytearray with the RGBA thumbnail data inside.
-     */
-    public native byte[] getThumbnail(String mrl, int i_width, int i_height);
-    
     public native static void sendMouseEvent( int action, int button, int x, int y);
 
     /**

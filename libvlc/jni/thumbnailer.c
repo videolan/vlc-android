@@ -27,9 +27,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-#define LOG_TAG "VLC/JNI/thumbnailer"
-#include "log.h"
-
+#include "libvlcjni-vlcobject.h"
 #include "utils.h"
 
 #define THUMBNAIL_POSITION 0.5
@@ -133,16 +131,18 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     pthread_mutex_unlock(&sys->doneMutex);
 }
 
-
 /**
  * Thumbnailer main function.
  * return null if the thumbail generation failed.
  **/
-jbyteArray Java_org_videolan_libvlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
-                                                        jstring filePath,
-                                                        const jint frameWidth, const jint frameHeight)
+jbyteArray
+Java_org_videolan_libvlc_util_VLCUtil_nativeGetThumbnail(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jobject jmedia,
+                                                         const jint frameWidth,
+                                                         const jint frameHeight)
 {
-    libvlc_instance_t *libvlc = getLibVlcInstance(env, thiz);
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, jmedia);
     jbyteArray byteArray = NULL;
 
     /* Create the thumbnailer data structure */
@@ -158,28 +158,13 @@ jbyteArray Java_org_videolan_libvlc_LibVLC_getThumbnail(JNIEnv *env, jobject thi
     pthread_cond_init(&sys->doneCondVar, NULL);
 
     /* Create a media player playing environment */
-    libvlc_media_player_t *mp = libvlc_media_player_new(libvlc);
+    libvlc_media_player_t *mp = libvlc_media_player_new_from_media(p_obj->u.p_m);
     libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
-
-    libvlc_media_t *m = new_media(env, thiz, filePath, true, false);
-    if (m == NULL)
-    {
-        LOGE("Could not create the media to play!");
-        goto end;
-    }
-
-    /* Fast and no options */
-    libvlc_media_add_option( m, ":no-audio" );
-    libvlc_media_add_option( m, ":no-spu" );
-    libvlc_media_add_option( m, ":no-osd" );
-
-    libvlc_media_player_set_media(mp, m);
 
     /* Get the size of the video with the tracks information of the media. */
     libvlc_media_track_t **tracks;
-    libvlc_media_parse(m);
-    int nbTracks = libvlc_media_tracks_get(m, &tracks);
-    libvlc_media_release(m);
+    libvlc_media_parse(p_obj->u.p_m);
+    int nbTracks = libvlc_media_tracks_get(p_obj->u.p_m, &tracks);
 
     /* Parse the results */
     unsigned videoWidth = 0, videoHeight = 0;

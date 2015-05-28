@@ -22,10 +22,6 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-#include <vlc/vlc.h>
-#include <vlc_common.h>
-#include <vlc_url.h>
-
 #include <jni.h>
 
 #define LOG_TAG "VLC/JNI/Util"

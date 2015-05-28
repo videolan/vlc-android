@@ -32,6 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
@@ -175,7 +176,7 @@ public class Thumbnailer implements Runnable {
             int height = (VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_height));
 
             //Get bitmap
-            byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
+            byte[] b = VLCUtil.getThumbnail(VLCInstance.get(), item.getUri(), width, height);
 
             if (b == null) {// We were not able to create a thumbnail for this item, store a dummy
                 MediaDatabase.setPicture(item, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
