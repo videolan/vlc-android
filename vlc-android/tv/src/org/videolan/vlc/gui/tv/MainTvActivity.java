@@ -114,7 +114,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (VLCInstance.get().isPlaying()){
+        if (VLCInstance.getMainMediaPlayer().isPlaying()){
             startActivity(new Intent(this, AudioPlayerActivity.class));
             finish();
             return;
