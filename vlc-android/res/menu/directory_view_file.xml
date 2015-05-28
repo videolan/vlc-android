@@ -7,8 +7,11 @@
         android:id="@+id/directory_view_append"
         android:title="@string/append" />
     <item
-	    android:id="@+id/directory_view_delete"
-	    android:title="@string/delete" />
+        android:id="@+id/directory_view_delete"
+        android:title="@string/delete" />
+    <item
+        android:id="@+id/directory_view_info"
+        android:title="@string/info" />
     <item
         android:id="@+id/directory_view_play_audio"
         android:title="@string/play_as_audio" />

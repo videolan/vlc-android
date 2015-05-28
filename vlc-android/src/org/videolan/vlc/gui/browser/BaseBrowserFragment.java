@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -53,6 +54,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
@@ -339,9 +341,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         boolean canWrite = Util.canWrite(mw.getLocation());
-        if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
+        boolean isAudio = mw.getType() == MediaWrapper.TYPE_AUDIO;
+        boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
+        if (isAudio || isVideo) {
             inflater.inflate(R.menu.directory_view_file, menu);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
+            menu.findItem(R.id.directory_view_info).setVisible(isVideo);
         } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
             if (canWrite || !isEmpty) {
@@ -410,6 +415,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                             }
                         });
                 alertDialog.show();
+                return true;
+            case  R.id.directory_view_info:
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", mw.getLocation());
+                startActivity(i);
                 return true;
             case R.id.directory_view_play_audio:
                 PlaybackServiceController.getInstance().load(mw);
