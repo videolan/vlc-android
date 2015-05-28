@@ -254,10 +254,6 @@ public class MediaPlayer extends VLCObject {
 
     public native long getSpuDelay();
 
-    /* MediaList */
-    public native int expandMedia(ArrayList<String> children);
-
-
     public native float[] getBands();
     public native String[] getPresets();
     public native float[] getPreset(int index);

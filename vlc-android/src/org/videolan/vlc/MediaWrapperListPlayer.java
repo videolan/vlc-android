@@ -26,6 +26,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
@@ -94,19 +95,20 @@ public class MediaWrapperListPlayer {
     * Expand the current media.
     * @return the index of the media was expanded, and -1 if no media was expanded
     */
-   public int expand() {
-       ArrayList<String> children = new ArrayList<String>();
-       int ret = VLCInstance.getMainMediaPlayer().expandMedia(children);
-       if(ret == 0) {
-           mMediaList.remove(mPlayerIndex);
-           for(String mrl : children) {
-               final Media media = new Media(VLCInstance.get(), Uri.parse(mrl));
-               media.parse(); // FIXME: parse should be done asynchronously
-               media.release();
-               mMediaList.insert(mPlayerIndex, new MediaWrapper(media));
-           }
-       }
-       return ret;
+    public int expand() {
+        final Media media = VLCInstance.getMainMediaPlayer().getMedia();
+        final MediaList ml = media.subItems();
+
+        if (ml.getCount() > 0) {
+            mMediaList.remove(mPlayerIndex);
+            for (int i = 0; i < ml.getCount(); ++i) {
+                final Media child = ml.getMediaAt(i);
+                child.parse();
+                mMediaList.insert(mPlayerIndex, new MediaWrapper(child));
+            }
+            return 0;
+        } else
+            return -1;
    }
 
    public int expand(int index) {
