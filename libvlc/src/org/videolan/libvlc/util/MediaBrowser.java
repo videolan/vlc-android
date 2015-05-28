@@ -74,7 +74,8 @@ public class MediaBrowser {
     }
 
     public MediaBrowser(LibVLC libvlc, EventListener listener) {
-        mLibVlc = libvlc; // XXX mLibVlc.retain();
+        mLibVlc = libvlc;
+        mLibVlc.retain();
         mEventListener = listener;
 
     }
@@ -98,6 +99,7 @@ public class MediaBrowser {
      */
     public synchronized void release() {
         reset();
+        mLibVlc.release();
     }
 
     /**
