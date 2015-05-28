@@ -20,6 +20,7 @@
 
 package org.videolan.vlc;
 
+import android.content.Context;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 
 public class MediaWrapperListPlayer {
 
@@ -57,12 +59,12 @@ public class MediaWrapperListPlayer {
      * @param position The index of the media
      * @param flags LibVLC.MEDIA_* flags
      */
-    public void playIndex(int position, int flags) {
+    public void playIndex(Context context, int position, int flags) {
         String mrl = mMediaList.getMRL(position);
         if (mrl == null)
             return;
         final MediaWrapper mw = mMediaList.getMedia(position);
-        String[] options = VLCInstance.get().getMediaOptions(flags | (mw != null ? mw.getFlags() : 0));
+        String[] options = VLCOptions.getMediaOptions(context, flags | (mw != null ? mw.getFlags() : 0));
         mPlayerIndex = position;
 
         final Media media = new Media(VLCInstance.get(), mw.getUri());
@@ -70,7 +72,7 @@ public class MediaWrapperListPlayer {
             media.addOption(option);
         VLCInstance.getMainMediaPlayer().setMedia(media);
         media.release();
-        VLCInstance.getMainMediaPlayer().setEqualizer(VLCInstance.getEqualizer());
+        VLCInstance.getMainMediaPlayer().setEqualizer(VLCOptions.getEqualizer());
         VLCInstance.getMainMediaPlayer().setVideoTitleDisplay(MediaPlayer.Position.disable, 0);
         VLCInstance.getMainMediaPlayer().play();
     }
@@ -81,25 +83,13 @@ public class MediaWrapperListPlayer {
      * @param position The index of the media
      * @param paused start the media paused
      */
-    public void playIndex(int position, boolean paused) {
-        playIndex(position, paused ? LibVLC.MEDIA_PAUSED : 0);
+    public void playIndex(Context context, int position, boolean paused) {
+        playIndex(context, position, paused ? VLCOptions.MEDIA_PAUSED : 0);
     }
 
-    public void playIndex(int position) {
-        playIndex(position, 0);
+    public void playIndex(Context context, int position) {
+        playIndex(context, position, 0);
     }
-
-    /**
-     * Expand and continue playing the current media.
-     *
-     * @return the index of the media was expanded, and -1 if no media was expanded
-     */
-   public int expandAndPlay() {
-       int r = expand();
-       if(r == 0)
-           playIndex(mPlayerIndex);
-       return r;
-   }
 
    /**
     * Expand the current media.

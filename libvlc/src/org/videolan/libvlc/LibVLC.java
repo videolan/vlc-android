@@ -33,23 +33,6 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
-    public static final int AOUT_AUDIOTRACK = 0;
-    public static final int AOUT_OPENSLES = 1;
-
-    public static final int VOUT_ANDROID_SURFACE = 0;
-    public static final int VOUT_OPEGLES2 = 1;
-    public static final int VOUT_ANDROID_WINDOW = 2;
-
-    public static final int HW_ACCELERATION_AUTOMATIC = -1;
-    public static final int HW_ACCELERATION_DISABLED = 0;
-    public static final int HW_ACCELERATION_DECODING = 1;
-    public static final int HW_ACCELERATION_FULL = 2;
-
-    public static final int DEV_HW_DECODER_AUTOMATIC = -1;
-    public static final int DEV_HW_DECODER_OMX = 0;
-    public static final int DEV_HW_DECODER_OMX_DR = 1;
-    public static final int DEV_HW_DECODER_MEDIACODEC = 2;
-    public static final int DEV_HW_DECODER_MEDIACODEC_DR = 3;
 
     public static final int INPUT_NAV_ACTIVATE = 0;
     public static final int INPUT_NAV_UP = 1;
@@ -57,40 +40,10 @@ public class LibVLC {
     public static final int INPUT_NAV_LEFT = 3;
     public static final int INPUT_NAV_RIGHT = 4;
 
-    public final static int MEDIA_NO_VIDEO   = 0x01;
-    public final static int MEDIA_NO_HWACCEL = 0x02;
-    public final static int MEDIA_PAUSED = 0x4;
-
-    private static final String DEFAULT_CODEC_LIST = "mediacodec_ndk,mediacodec_jni,iomx,all";
-    private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
+    public static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
-
-    private MediaPlayer mMediaPlayer;
-
-    /** Keep screen bright */
-    //private WakeLock mWakeLock;
-
-    /** Settings */
-    private int hardwareAcceleration = HW_ACCELERATION_AUTOMATIC;
-    private int devHardwareDecoder = DEV_HW_DECODER_AUTOMATIC;
-    private String codecList = DEFAULT_CODEC_LIST;
-    private String devCodecList = null;
-    private String subtitlesEncoding = "";
-    private int aout = AOUT_AUDIOTRACK;
-    private int vout = VOUT_ANDROID_SURFACE;
-    private boolean timeStretching = false;
-    private int deblocking = -1;
-    private String chroma = "";
-    private boolean verboseMode = true;
-    private boolean frameSkip = false;
-    private int networkCaching = 0;
-    private boolean httpReconnect = false;
-    private boolean hdmiAudioEnabled = false;
-
-    /** Path of application-specific cache */
-    private String mCachePath = "";
 
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;
@@ -180,264 +133,13 @@ public class LibVLC {
     public native void setSurface(Surface f);
 
     /**
-     * those get/is* are called from native code to get settings values.
-     */
-
-    public int getHardwareAcceleration() {
-        return this.hardwareAcceleration;
-    }
-
-    public void setHardwareAcceleration(int hardwareAcceleration) {
-
-        if (hardwareAcceleration == HW_ACCELERATION_DISABLED) {
-            Log.d(TAG, "HWDec disabled: by user");
-            this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
-            this.codecList = "all";
-        } else {
-            // Automatic or forced
-            HWDecoderUtil.Decoder decoder = HWDecoderUtil.getDecoderFromDevice();
-
-            if (decoder == HWDecoderUtil.Decoder.NONE) {
-                // NONE
-                this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
-                this.codecList = "all";
-                Log.d(TAG, "HWDec disabled: device not working with mediacodec,iomx");
-            } else if (decoder == HWDecoderUtil.Decoder.UNKNOWN) {
-                // UNKNOWN
-                if (hardwareAcceleration < 0) {
-                    this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
-                    this.codecList = "all";
-                    Log.d(TAG, "HWDec disabled: automatic and (unknown device or android version < 4.3)");
-                } else {
-                    this.hardwareAcceleration = hardwareAcceleration;
-                    this.codecList = DEFAULT_CODEC_LIST;
-                    Log.d(TAG, "HWDec enabled: forced by user and unknown device");
-                }
-            } else {
-                // OMX, MEDIACODEC or ALL
-                this.hardwareAcceleration = hardwareAcceleration < 0 ?
-                        HW_ACCELERATION_FULL : hardwareAcceleration;
-                if (decoder == HWDecoderUtil.Decoder.ALL)
-                    this.codecList = DEFAULT_CODEC_LIST;
-                else {
-                    final StringBuilder sb = new StringBuilder();
-                    if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
-                        sb.append("mediacodec_ndk,mediacodec_jni,");
-                    else if (decoder == HWDecoderUtil.Decoder.OMX)
-                        sb.append("iomx,");
-                    sb.append("all");
-                    this.codecList = sb.toString();
-                }
-                Log.d(TAG, "HWDec enabled: device working with: " + this.codecList);
-            }
-        }
-    }
-
-    public int getDevHardwareDecoder() {
-        return this.devHardwareDecoder;
-    }
-
-    public void setDevHardwareDecoder(int devHardwareDecoder) {
-        if (devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC) {
-            this.devHardwareDecoder = devHardwareDecoder;
-            if (this.devHardwareDecoder == DEV_HW_DECODER_OMX ||
-                    this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR)
-                this.devCodecList = "iomx";
-            else
-                this.devCodecList = "mediacodec_ndk,mediacodec_jni";
-
-            Log.d(TAG, "HWDec forced: " + this.devCodecList +
-                (isDirectRendering() ? "-dr" : ""));
-            this.devCodecList += ",none";
-        } else {
-            this.devHardwareDecoder = DEV_HW_DECODER_AUTOMATIC;
-            this.devCodecList = null;
-        }
-    }
-
-    public boolean isDirectRendering() {
-        if (!HAS_WINDOW_VOUT)
-            return false;
-        if (devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC) {
-            return (this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR ||
-                    this.devHardwareDecoder == DEV_HW_DECODER_MEDIACODEC_DR);
-        } else {
-            return this.hardwareAcceleration == HW_ACCELERATION_FULL;
-        }
-    }
-
-    public String[] getMediaOptions(boolean noHardwareAcceleration, boolean noVideo) {
-        final int flag = (noHardwareAcceleration ? MEDIA_NO_HWACCEL : 0) |
-                         (noVideo ? MEDIA_NO_VIDEO : 0);
-        return getMediaOptions(flag);
-    }
-
-    public String[] getMediaOptions(int flags) {
-        boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
-        boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
-        final boolean paused = (flags & MEDIA_PAUSED) != 0;
-
-        if (this.devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC)
-            noHardwareAcceleration = noVideo = false;
-        else if (!noHardwareAcceleration)
-            noHardwareAcceleration = getHardwareAcceleration() == HW_ACCELERATION_DISABLED;
-
-        ArrayList<String> options = new ArrayList<String>();
-
-        if (!noHardwareAcceleration) {
-            /*
-             * Set higher caching values if using iomx decoding, since some omx
-             * decoders have a very high latency, and if the preroll data isn't
-             * enough to make the decoder output a frame, the playback timing gets
-             * started too soon, and every decoded frame appears to be too late.
-             * On Nexus One, the decoder latency seems to be 25 input packets
-             * for 320x170 H.264, a few packets less on higher resolutions.
-             * On Nexus S, the decoder latency seems to be about 7 packets.
-             */
-            options.add(":file-caching=1500");
-            options.add(":network-caching=1500");
-            options.add(":codec="+ (this.devCodecList != null ? this.devCodecList : this.codecList));
-        }
-        if (noVideo)
-            options.add(":no-video");
-        if (paused)
-            options.add(":start-paused");
-        return options.toArray(new String[options.size()]);
-    }
-
-    public String getSubtitlesEncoding() {
-        return subtitlesEncoding;
-    }
-
-    public void setSubtitlesEncoding(String subtitlesEncoding) {
-        this.subtitlesEncoding = subtitlesEncoding;
-    }
-
-    public int getAout() {
-        return aout;
-    }
-
-    public void setAout(int aout) {
-        final HWDecoderUtil.AudioOutput hwaout = HWDecoderUtil.getAudioOutputFromDevice();
-        if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
-            aout = hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
-
-        this.aout = aout == AOUT_OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
-    }
-
-    public int getVout() {
-        return vout;
-    }
-
-    public void setVout(int vout) {
-        if (vout < 0)
-            this.vout = VOUT_ANDROID_SURFACE;
-        else
-            this.vout = vout;
-        if (this.vout == VOUT_ANDROID_SURFACE && HAS_WINDOW_VOUT)
-            this.vout = VOUT_ANDROID_WINDOW;
-    }
-
-    public void setHdmiAudioEnabled(boolean enable) {
-        this.hdmiAudioEnabled = enable;
-    }
-
-    public boolean isHdmiAudioEnabled() {
-        return this.hdmiAudioEnabled;
-    }
-
-    public boolean useCompatSurface() {
-        return this.vout != VOUT_ANDROID_WINDOW;
-    }
-
-    public boolean timeStretchingEnabled() {
-        return timeStretching;
-    }
-
-    public void setTimeStretching(boolean timeStretching) {
-        this.timeStretching = timeStretching;
-    }
-
-    public int getDeblocking() {
-        int ret = deblocking;
-        if(deblocking < 0) {
-            /**
-             * Set some reasonable deblocking defaults:
-             *
-             * Skip all (4) for armv6 and MIPS by default
-             * Skip non-ref (1) for all armv7 more than 1.2 Ghz and more than 2 cores
-             * Skip non-key (3) for all devices that don't meet anything above
-             */
-            LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
-            if (m == null)
-                return ret;
-            if( (m.hasArmV6 && !(m.hasArmV7)) || m.hasMips )
-                ret = 4;
-            else if(m.frequency >= 1200 && m.processors > 2)
-                ret = 1;
-            else if(m.bogoMIPS >= 1200 && m.processors > 2) {
-                ret = 1;
-                Log.d(TAG, "Used bogoMIPS due to lack of frequency info");
-            } else
-                ret = 3;
-        } else if(deblocking > 4) { // sanity check
-            ret = 3;
-        }
-        return ret;
-    }
-
-    public void setDeblocking(int deblocking) {
-        this.deblocking = deblocking;
-    }
-
-    public String getChroma() {
-        return chroma;
-    }
-
-    public void setChroma(String chroma) {
-        this.chroma = chroma.equals("YV12") && !LibVlcUtil.isGingerbreadOrLater() ? "" : chroma;
-    }
-
-    public boolean isVerboseMode() {
-        return verboseMode;
-    }
-
-    public void setVerboseMode(boolean verboseMode) {
-        this.verboseMode = verboseMode;
-    }
-
-    public boolean frameSkipEnabled() {
-        return frameSkip;
-    }
-
-    public void setFrameSkip(boolean frameskip) {
-        this.frameSkip = frameskip;
-    }
-
-    public int getNetworkCaching() {
-        return this.networkCaching;
-    }
-
-    public void setNetworkCaching(int networkcaching) {
-        this.networkCaching = networkcaching;
-    }
-
-    public boolean getHttpReconnect() {
-        return httpReconnect;
-    }
-
-    public void setHttpReconnect(boolean httpReconnect) {
-        this.httpReconnect = httpReconnect;
-    }
-
-    /**
      * Initialize the libVLC class.
      *
      * This function must be called before using any libVLC functions.
      *
      * @throws LibVlcException
      */
-    public void init(Context context) throws LibVlcException {
+    public void init(Context context, String options[]) throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
             if(!LibVlcUtil.hasCompatibleCPU(context)) {
@@ -445,9 +147,7 @@ public class LibVLC {
                 throw new LibVlcException();
             }
 
-            File cacheDir = context.getCacheDir();
-            mCachePath = (cacheDir != null) ? cacheDir.getAbsolutePath() : null;
-            nativeInit();
+            nativeInit(options);
             setEventHandler(EventHandler.getInstance());
             mIsInitialized = true;
         }
@@ -468,7 +168,7 @@ public class LibVLC {
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit() throws LibVlcException;
+    private native void nativeInit(String options[]) throws LibVlcException;
 
     /**
      * Close the libvlc C library
@@ -539,10 +239,5 @@ public class LibVLC {
             sOnNativeCrashListener.onNativeCrash();
     }
 
-    public String getCachePath() {
-        return mCachePath;
-    }
-
     public native int setWindowSize(int width, int height);
-
 }

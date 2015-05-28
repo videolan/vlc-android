@@ -63,7 +63,6 @@ endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
 endif
-	LOCAL_CFLAGS += -DHAVE_IOMX_DR
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \

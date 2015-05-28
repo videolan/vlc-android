@@ -278,128 +278,61 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
 #endif
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
+void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jobjectArray jstringArray)
 {
-    //only use OpenSLES if java side says we can
-    jclass cls = (*env)->GetObjectClass(env, thiz);
-    jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
-    int aout = (*env)->CallIntMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "getVout", "()I");
-    int vout = (*env)->CallIntMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
-    bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "frameSkipEnabled", "()Z");
-    bool enable_frame_skip = (*env)->CallBooleanMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "getDeblocking", "()I");
-    int deblocking = (*env)->CallIntMethod(env, thiz, methodId);
-    char deblockstr[2];
-    snprintf(deblockstr, sizeof(deblockstr), "%d", deblocking);
-    LOGD("Using deblocking level %d", deblocking);
-
-    methodId = (*env)->GetMethodID(env, cls, "getNetworkCaching", "()I");
-    int networkCaching = (*env)->CallIntMethod(env, thiz, methodId);
-    char networkCachingstr[25];
-    if(networkCaching > 0) {
-        snprintf(networkCachingstr, sizeof(networkCachingstr), "--network-caching=%d", networkCaching);
-        LOGD("Using network caching of %d ms", networkCaching);
-    }
-
-    methodId = (*env)->GetMethodID(env, cls, "getHttpReconnect", "()Z");
-    bool enable_http_reconnect = (*env)->CallBooleanMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "getChroma", "()Ljava/lang/String;");
-    jstring chroma = (*env)->CallObjectMethod(env, thiz, methodId);
-    const char *chromastr = (*env)->GetStringUTFChars(env, chroma, 0);
-    LOGD("Chroma set to \"%s\"", chromastr);
-
-    methodId = (*env)->GetMethodID(env, cls, "getSubtitlesEncoding", "()Ljava/lang/String;");
-    jstring subsencoding = (*env)->CallObjectMethod(env, thiz, methodId);
-    const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
-    LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
-
-    methodId = (*env)->GetMethodID(env, cls, "isVerboseMode", "()Z");
-    bool b_verbose = (*env)->CallBooleanMethod(env, thiz, methodId);
-
-    methodId = (*env)->GetMethodID(env, cls, "isDirectRendering", "()Z");
-    bool direct_rendering = (*env)->CallBooleanMethod(env, thiz, methodId);
-    /* With the MediaCodec opaque mode we cannot use the OpenGL ES vout. */
-    if (direct_rendering)
-        vout = VOUT_ANDROID_WINDOW;
-
-    methodId = (*env)->GetMethodID(env, cls, "getCachePath", "()Ljava/lang/String;");
-    jstring cachePath = (*env)->CallObjectMethod(env, thiz, methodId);
-    if (cachePath) {
-        const char *cache_path = (*env)->GetStringUTFChars(env, cachePath, 0);
-        setenv("DVDCSS_CACHE", cache_path, 1);
-        (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
-    }
-
-    methodId = (*env)->GetMethodID(env, cls, "isHdmiAudioEnabled", "()Z");
-    bool hdmi_audio = (*env)->CallBooleanMethod(env, thiz, methodId);
-
-#define MAX_ARGV 22
-    const char *argv[MAX_ARGV];
+    libvlc_instance_t *instance = NULL;
+    jstring *strings = NULL;
+    const char **argv = NULL;
     int argc = 0;
 
-    /* CPU intensive plugin, setting for slow devices */
-    argv[argc++] = enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch";
-    /* avcodec-skiploopfilter */
-    argv[argc++] = "--avcodec-skiploopfilter";
-    argv[argc++] = deblockstr;
-    /* avcodec-skip-frame */
-    argv[argc++] = "--avcodec-skip-frame";
-    argv[argc++] = enable_frame_skip ? "2" : "0";
-    /* avcodec-skip-idct */
-    argv[argc++] = "--avcodec-skip-idct";
-    argv[argc++] = enable_frame_skip ? "2" : "0";
-    /* Remove me when UTF-8 is enforced by law */
-    argv[argc++] = "--subsdec-encoding";
-    argv[argc++] = subsencodingstr;
-    /* Enable statistics */
-    argv[argc++] = "--stats";
-    /* XXX: why can't the default be fine ? #7792 */
-    if (networkCaching > 0)
-        argv[argc++] = networkCachingstr;
-    /* Android audio API */
-    argv[argc++] = aout == AOUT_OPENSLES ? "--aout=opensles" :
-        (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy");
-    /* Android video API  */
-    argv[argc++] = vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" :
-        (vout == VOUT_OPENGLES2 ? "--vout=gles2" : "--vout=androidsurface");
-    /* chroma */
-    argv[argc++] = "--androidsurface-chroma";
-    argv[argc++] = chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32";
-    /* direct rendering */
-    if (!direct_rendering) {
-        argv[argc++] = "--no-mediacodec-dr";
-#ifdef HAVE_IOMX_DR
-        argv[argc++] = "--no-omxil-dr";
-#endif
+    if (jstringArray)
+    {
+        argc = (*env)->GetArrayLength(env, jstringArray);
+
+        argv = malloc(argc * sizeof(const char *));
+        strings = malloc(argc * sizeof(jstring));
+        if (!argv || !strings)
+        {
+            argc = 0;
+            goto error;
+        }
+        for (int i = 0; i < argc; ++i)
+        {
+            strings[i] = (*env)->GetObjectArrayElement(env, jstringArray, i);
+            if (!strings[i])
+            {
+                argc = i;
+                goto error;
+            }
+            argv[i] = (*env)->GetStringUTFChars(env, strings[i], 0);
+            if (!argv)
+            {
+                argc = i;
+                goto error;
+            }
+        }
     }
-    if (hdmi_audio) {
-        argv[argc++] = "--spdif";
-        argv[argc++] = "--audiotrack-audio-channels";
-        argv[argc++] = "8"; // 7.1 maximum
+
+    instance = libvlc_new(argc, argv);
+
+error:
+
+    if (jstringArray)
+    {
+        for (int i = 0; i < argc; ++i)
+        {
+            (*env)->ReleaseStringUTFChars(env, strings[i], argv[i]);
+            (*env)->DeleteLocalRef(env, strings[i]);
+        }
     }
-    argv[argc++] = b_verbose ? "-vvv" : "-vv";
+    free(argv);
+    free(strings);
 
-    /* Reconnect on lost HTTP streams, e.g. network change */
-    if (enable_http_reconnect)
-        argv[argc++] = "--http-reconnect";
-
-    assert(MAX_ARGV >= argc);
-    libvlc_instance_t *instance = libvlc_new(argc, argv);
-
-    setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
-
-    (*env)->ReleaseStringUTFChars(env, chroma, chromastr);
-    (*env)->ReleaseStringUTFChars(env, subsencoding, subsencodingstr);
-
-    if (!instance)
+    if (instance)
+    {
+        setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
+    }
+    else
     {
         jclass exc = (*env)->FindClass(env, "org/videolan/libvlc/LibVlcException");
         (*env)->ThrowNew(env, exc, "Unable to instantiate LibVLC");

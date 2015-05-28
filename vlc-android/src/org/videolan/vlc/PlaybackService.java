@@ -69,6 +69,7 @@ import org.videolan.vlc.interfaces.IPlaybackService;
 import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
@@ -582,7 +583,7 @@ public class PlaybackService extends Service {
                 if (mNextIndex != -1)
                     next();
                 else if (mCurrentIndex != -1) {
-                    mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
+                    mMediaListPlayer.playIndex(PlaybackService.this, mCurrentIndex, VLCOptions.MEDIA_NO_VIDEO);
                     executeOnMediaPlayedAdded();
                 } else
                     stop();
@@ -948,7 +949,7 @@ public class PlaybackService extends Service {
             return;
         }
 
-        mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
+        mMediaListPlayer.playIndex(this, mCurrentIndex, VLCOptions.MEDIA_NO_VIDEO);
         executeOnMediaPlayedAdded();
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
@@ -1013,7 +1014,7 @@ public class PlaybackService extends Service {
             return;
         }
 
-        mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
+        mMediaListPlayer.playIndex(this, mCurrentIndex, VLCOptions.MEDIA_NO_VIDEO);
         executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
@@ -1395,7 +1396,7 @@ public class PlaybackService extends Service {
             // Add handler after loading the list
             mMediaListPlayer.getMediaList().addEventListener(mListEventListener);
 
-            mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
+            mMediaListPlayer.playIndex(PlaybackService.this, mCurrentIndex, VLCOptions.MEDIA_NO_VIDEO);
             executeOnMediaPlayedAdded();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
@@ -1427,7 +1428,7 @@ public class PlaybackService extends Service {
             }
 
             mEventHandler.addHandler(mVlcEventHandler);
-            mMediaListPlayer.playIndex(mCurrentIndex, LibVLC.MEDIA_NO_VIDEO);
+            mMediaListPlayer.playIndex(PlaybackService.this, mCurrentIndex, VLCOptions.MEDIA_NO_VIDEO);
             executeOnMediaPlayedAdded();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();

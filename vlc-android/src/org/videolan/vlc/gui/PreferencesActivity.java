@@ -61,6 +61,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 
 @SuppressWarnings("deprecation")
 public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -233,12 +234,12 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             aoutPref.setEntryValues(aoutEntriesIdValues);
             final String value = aoutPref.getValue();
             if (value == null)
-                aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
+                aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
             else {
                 /* number of entries decreased, handle old values */
                 final int intValue = Integer.parseInt(value);
-                if (intValue != LibVLC.AOUT_AUDIOTRACK && intValue != LibVLC.AOUT_OPENSLES)
-                    aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
+                if (intValue != VLCOptions.AOUT_AUDIOTRACK && intValue != VLCOptions.AOUT_OPENSLES)
+                    aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
             }
         }
         // Video output
@@ -347,8 +348,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("enable_verbose_mode")
                 || key.equalsIgnoreCase("network_caching")
                 || key.equalsIgnoreCase("dev_hardware_decoder")) {
-            VLCInstance.updateLibVlcSettings(sharedPreferences);
-            VLCInstance.restart(this);
+            VLCInstance.restart(this, sharedPreferences);
             restartService(this);
         }
     }

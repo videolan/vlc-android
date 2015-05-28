@@ -24,22 +24,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
+import java.util.ArrayList;
+
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
+
     private static LibVLC sLibVLC = null;
     private static MediaPlayer sMediaPlayer = null;
-    private static float[] sEqualizer = null;
 
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
@@ -49,9 +53,8 @@ public class VLCInstance {
             sLibVLC = new LibVLC();
             final Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            VLCInstance.updateLibVlcSettings(pref);
             try {
-                sLibVLC.init(context);
+                sLibVLC.init(context, VLCOptions.getLibOptions(pref));
             } catch (LibVlcException e) {
                 throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
             }
@@ -74,7 +77,7 @@ public class VLCInstance {
         return sMediaPlayer;
     }
 
-    public static synchronized void restart(Context context) throws IllegalStateException {
+    public static synchronized void restart(Context context, SharedPreferences pref) throws IllegalStateException {
         if (sLibVLC != null) {
             try {
                 if (sMediaPlayer != null) {
@@ -82,7 +85,7 @@ public class VLCInstance {
                     sMediaPlayer = null;
                 }
                 sLibVLC.destroy();
-                sLibVLC.init(context);
+                sLibVLC.init(context, VLCOptions.getLibOptions(pref));
             } catch (LibVlcException lve) {
                 throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
             }
@@ -96,86 +99,5 @@ public class VLCInstance {
             return false;
         } else
             return true;
-    }
-
-    public static synchronized void updateLibVlcSettings(SharedPreferences pref) {
-        if (sLibVLC == null)
-            return;
-
-        boolean time_streching_default = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);
-
-        sLibVLC.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
-        sLibVLC.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", time_streching_default));
-        sLibVLC.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
-        sLibVLC.setChroma(pref.getString("chroma_format", ""));
-        sLibVLC.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
-
-        if (pref.getBoolean("equalizer_enabled", false))
-            setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
-
-        int aout;
-        try {
-            aout = Integer.parseInt(pref.getString("aout", "-1"));
-        }
-        catch (NumberFormatException nfe) {
-            aout = -1;
-        }
-        int vout;
-        try {
-            vout = Integer.parseInt(pref.getString("vout", "-1"));
-        }
-        catch (NumberFormatException nfe) {
-            vout = -1;
-        }
-        int deblocking;
-        try {
-            deblocking = Integer.parseInt(pref.getString("deblocking", "-1"));
-        }
-        catch(NumberFormatException nfe) {
-            deblocking = -1;
-        }
-        int hardwareAcceleration;
-        try {
-            hardwareAcceleration = Integer.parseInt(pref.getString("hardware_acceleration", "-1"));
-        }
-        catch(NumberFormatException nfe) {
-            hardwareAcceleration = -1;
-        }
-        int devHardwareDecoder;
-        try {
-            devHardwareDecoder = Integer.parseInt(pref.getString("dev_hardware_decoder", "-1"));
-        }
-        catch(NumberFormatException nfe) {
-            devHardwareDecoder = -1;
-        }
-        int networkCaching = pref.getInt("network_caching_value", 0);
-        if(networkCaching > 60000)
-            networkCaching = 60000;
-        else if(networkCaching < 0)
-            networkCaching = 0;
-        sLibVLC.setAout(aout);
-        sLibVLC.setVout(vout);
-        sLibVLC.setDeblocking(deblocking);
-        sLibVLC.setNetworkCaching(networkCaching);
-        sLibVLC.setHardwareAcceleration(hardwareAcceleration);
-        sLibVLC.setDevHardwareDecoder(devHardwareDecoder);
-    }
-
-    public static synchronized void setAudioHdmiEnabled(Context context, boolean enabled) {
-        if (sLibVLC != null && sLibVLC.isHdmiAudioEnabled() != enabled) {
-            sLibVLC.setHdmiAudioEnabled(enabled);
-            restart(context);
-        }
-    }
-
-    // Equalizer
-    public static synchronized float[] getEqualizer()
-    {
-        return sEqualizer;
-    }
-
-    public static synchronized void setEqualizer(float[] equalizer)
-    {
-        sEqualizer = equalizer;
     }
 }

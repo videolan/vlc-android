@@ -117,6 +117,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.OnRepeatListener;
 
@@ -291,7 +292,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     // Whether fallback from HW acceleration to SW decoding was done.
     private boolean mDisabledHardwareAcceleration = false;
-    private int mPreviousHardwareAccelerationMode;
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -455,7 +455,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (LibVLC().useCompatSurface()) {
+        if (!LibVLC.HAS_WINDOW_VOUT) {
             mSubtitlesSurfaceView.setVisibility(View.GONE);
             mSubtitleSurfaceReady = true;
         }
@@ -497,11 +497,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         registerReceiver(mReceiver, filter);
         if (mReceiverV21 != null)
             registerV21();
-
-        Log.d(TAG,
-                "Hardware acceleration mode: "
-                        + Integer.toString(LibVLC().getHardwareAcceleration()));
-
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -823,10 +818,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         MediaPlayer().setRate(1);
 
         Util.commitPreferences(editor);
-
-        // HW acceleration was temporarily disabled because of an error, restore the previous value.
-        if (mDisabledHardwareAcceleration)
-            LibVLC().setHardwareAcceleration(mPreviousHardwareAccelerationMode);
 
         if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
@@ -1652,8 +1643,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 mDisabledHardwareAcceleration = true;
-                mPreviousHardwareAccelerationMode = LibVLC().getHardwareAcceleration();
-                LibVLC().setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
                 loadMedia();
             }
         })
@@ -1719,7 +1708,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
-        if (LibVLC() != null && !LibVLC().useCompatSurface())
+        if (LibVLC() != null && LibVLC.HAS_WINDOW_VOUT)
             LibVLC().setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
@@ -2871,15 +2860,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
             // Start playback & seek
             if (openedPosition == -1) {
-                VLCInstance.setAudioHdmiEnabled(this, mHasHdmiAudio);
-                mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
+                if (VLCOptions.isAudioHdmiEnabled() != mHasHdmiAudio) {
+                    VLCOptions.setAudioHdmiEnabled(mHasHdmiAudio);
+                    VLCInstance.restart(this, PreferenceManager.getDefaultSharedPreferences(this));
+                }
+                int flags = 0;
+                if (wasPaused)
+                    flags |= VLCOptions.MEDIA_PAUSED;
+                if (mHardwareAccelerationError)
+                    flags |= VLCOptions.MEDIA_NO_HWACCEL;
+                mMediaListPlayer.playIndex(this, savedIndexPosition, flags);
                 seek(intentPosition, mediaLength);
             } else {
                 MediaPlayer().setVideoTrackEnabled(false);
                 MediaPlayer().setVideoTrackEnabled(true);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!MediaPlayer().isPlaying())
-                    mMediaListPlayer.playIndex(savedIndexPosition);
+                    mMediaListPlayer.playIndex(this, savedIndexPosition);
                 else
                     onPlaying();
             }
@@ -3119,7 +3116,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
-            if (LibVLC().useCompatSurface())
+            if (!LibVLC.HAS_WINDOW_VOUT)
                 mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }

@@ -47,6 +47,7 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.Preferences;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.widget.EqualizerBar;
 
 public class EqualizerFragment extends Fragment {
@@ -101,7 +102,7 @@ public class EqualizerFragment extends Fragment {
             equalizer = new float[bands.length + 1];
 
         // on/off
-        button.setChecked(VLCInstance.getEqualizer() != null);
+        button.setChecked(VLCOptions.getEqualizer() != null);
         button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -194,7 +195,7 @@ public class EqualizerFragment extends Fragment {
 
             equalizer[0] = progress - 20;
             if (button.isChecked()) {
-                VLCInstance.setEqualizer(equalizer);
+                VLCOptions.setEqualizer(equalizer);
                 VLCInstance.getMainMediaPlayer().setEqualizer(equalizer);
             }
         }
@@ -211,7 +212,7 @@ public class EqualizerFragment extends Fragment {
         public void onProgressChanged(float value) {
             equalizer[index] = value;
             if (button.isChecked()) {
-                VLCInstance.setEqualizer(equalizer);
+                VLCOptions.setEqualizer(equalizer);
                 VLCInstance.getMainMediaPlayer().setEqualizer(equalizer);
             }
         }
