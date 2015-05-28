@@ -41,6 +41,14 @@ public class MediaPlayer extends VLCObject {
         public static final int bottom_right = 8;
     }
 
+    public static class Navigate {
+        public static final int activate = 0;
+        public static final int up = 1;
+        public static final int down = 2;
+        public static final int left = 3;
+        public static final int right = 4;
+    }
+
     private Media mMedia = null;
 
     /**

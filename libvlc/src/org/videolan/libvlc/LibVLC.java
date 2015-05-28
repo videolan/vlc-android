@@ -35,12 +35,6 @@ import org.videolan.libvlc.util.VLCUtil;
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
-    public static final int INPUT_NAV_ACTIVATE = 0;
-    public static final int INPUT_NAV_UP = 1;
-    public static final int INPUT_NAV_DOWN = 2;
-    public static final int INPUT_NAV_LEFT = 3;
-    public static final int INPUT_NAV_RIGHT = 4;
-
     public static final boolean HAS_WINDOW_VOUT = AndroidUtil.isGingerbreadOrLater();
 
     /** libVLC instance C pointer */

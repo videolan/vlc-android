@@ -1082,22 +1082,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private boolean navigateDvdMenu(int keyCode) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_UP);
+                MediaPlayer().playerNavigate(MediaPlayer.Navigate.up);
                 return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_DOWN);
+                MediaPlayer().playerNavigate(MediaPlayer.Navigate.down);
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_LEFT);
+                MediaPlayer().playerNavigate(MediaPlayer.Navigate.left);
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_RIGHT);
+                MediaPlayer().playerNavigate(MediaPlayer.Navigate.right);
                 return true;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_BUTTON_X:
             case KeyEvent.KEYCODE_BUTTON_A:
-                MediaPlayer().playerNavigate(LibVLC.INPUT_NAV_ACTIVATE);
+                MediaPlayer().playerNavigate(MediaPlayer.Navigate.activate);
                 return true;
             default:
                 return false;
