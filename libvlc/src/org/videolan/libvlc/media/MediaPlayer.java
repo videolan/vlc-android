@@ -71,7 +71,7 @@ public class MediaPlayer
     private org.videolan.libvlc.MediaPlayer mMediaPlayer;
 
     public MediaPlayer() {
-        mLibVLC = new LibVLC();
+        mLibVLC = new LibVLC(); //FIXME, this is wrong
         mMediaPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
     }
 
@@ -102,6 +102,7 @@ public class MediaPlayer
     public void setDataSource(Context context, Uri uri)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
         mCurrentMedia = new Media(mLibVLC, uri);
+        mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     // FIXME, this is INCORRECT, @headers are ignored
@@ -113,11 +114,13 @@ public class MediaPlayer
     public void setDataSource(String path)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
         mCurrentMedia = new Media(mLibVLC, path);
+        mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     public void setDataSource(FileDescriptor fd)
             throws IOException, IllegalArgumentException, IllegalStateException {
         mCurrentMedia = new Media(mLibVLC, fd);
+        mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     // FIXME, this is INCORRECT, @offset and @length are ignored
