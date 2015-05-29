@@ -325,20 +325,24 @@ public class Media extends VLCObject {
     }
 
     /**
-     * Get the subItems MediaList associated with the Media.
+     * Get the subItems MediaList associated with the Media. This Media should be alive (not released).
      *
      * @return subItems as a MediaList. This MediaList should be released with {@link #release()}.
      */
     public synchronized MediaList subItems() {
-        if (mSubItems == null && !isReleased())
+        if (isReleased())
+            throw new IllegalStateException("Media is released");
+        if (mSubItems == null)
             mSubItems = new MediaList(this);
         mSubItems.retain();
         return mSubItems;
     }
 
     private synchronized void postParse() {
-        // fetch if native, parsed and not fetched
-        if (!isReleased() && (mParseStatus & PARSE_STATUS_PARSING) != 0
+        if (isReleased())
+            throw new IllegalStateException("Media is released");
+        // fetch if parsed and not fetched
+        if ((mParseStatus & PARSE_STATUS_PARSING) != 0
                 && (mParseStatus & PARSE_STATUS_PARSED) == 0) {
             mParseStatus &= ~PARSE_STATUS_PARSING;
             mParseStatus |= PARSE_STATUS_PARSED;

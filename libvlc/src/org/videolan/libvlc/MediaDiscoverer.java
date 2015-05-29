@@ -35,24 +35,24 @@ public class MediaDiscoverer extends VLCObject {
     }
 
     /**
-     * Starts the discovery.
+     * Starts the discovery. This MediaDiscoverer should be alive (not released).
      *
-     * @return true the serive is started
+     * @return true the service is started
      */
     public boolean start() {
-        if (!isReleased())
-            return nativeStart();
-        else
-            return false;
+        if (isReleased())
+            throw new IllegalStateException("MediaDiscoverer is released");
+        return nativeStart();
     }
 
     /**
-     * Stops the discovery.
+     * Stops the discovery. This MediaDiscoverer should be alive (not released).
      * (You can also call {@link #release() to stop the discovery directly}.
      */
     public void stop() {
-        if (!isReleased())
-            nativeStop();
+        if (isReleased())
+            throw new IllegalStateException("MediaDiscoverer is released");
+        nativeStop();
     }
 
     @Override
@@ -62,11 +62,14 @@ public class MediaDiscoverer extends VLCObject {
 
     /**
      * Get the MediaList associated with the MediaDiscoverer.
+     * This MediaDiscoverer should be alive (not released).
      *
      * @return MediaList. This MediaList should be released with {@link #release()}.
      */
     public synchronized MediaList getMediaList() {
-        if (mMediaList == null && !isReleased())
+        if (isReleased())
+            throw new IllegalStateException("MediaDiscoverer is released");
+        if (mMediaList == null)
             mMediaList = new MediaList(this);
         mMediaList.retain();
         return mMediaList;
