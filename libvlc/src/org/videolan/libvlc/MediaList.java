@@ -136,11 +136,14 @@ public class MediaList extends VLCObject {
      * Get a Media at specified index.
      *
      * @param index
-     * @return Media hold by MediaList, Should NOT be released.
+     * @return Media hold by MediaList. This Media should be released with {@link #release()}.
      */
     public synchronized Media getMediaAt(int index) {
         if (index < 0 || index >= getCount())
             throw new IndexOutOfBoundsException();
+        final Media media = mMediaArray.get(index);
+        media.retain();
+        return media;
     }
 
     @Override

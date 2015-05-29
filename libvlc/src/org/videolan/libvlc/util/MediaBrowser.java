@@ -89,9 +89,11 @@ public class MediaBrowser {
             mMedia.release();
             mMedia = null;
         }
-        /* don't need to release the MediaList since it's either
-         * associated with a Media or a MediaDiscoverer that will release it */
-        mBrowserMediaList = null;
+
+        if (mBrowserMediaList != null) {
+            mBrowserMediaList.release();
+            mBrowserMediaList = null;
+        }
     }
 
     /**
@@ -116,6 +118,7 @@ public class MediaBrowser {
         mMediaDiscoverers.add(md);
         final MediaList ml = md.getMediaList();
         ml.setEventListener(mDiscovererMediaListEventListener);
+        ml.release();
         md.start();
     }
 
@@ -184,13 +187,15 @@ public class MediaBrowser {
     }
 
     /**
-     * Get a media at a specified index.
+     * Get a media at a specified index. Should be released with {@link #release()}.
      */
     public synchronized Media getMediaAt(int index) {
         if (index < 0 || index >= getMediaCount())
             throw new IndexOutOfBoundsException();
-        return mBrowserMediaList != null ? mBrowserMediaList.getMediaAt(index) :
+        final Media media = mBrowserMediaList != null ? mBrowserMediaList.getMediaAt(index) :
                 mDiscovererMediaArray.get(index);
+        media.retain();
+        return media;
     }
 
     private MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {

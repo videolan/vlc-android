@@ -327,11 +327,12 @@ public class Media extends VLCObject {
     /**
      * Get the subItems MediaList associated with the Media.
      *
-     * @return subItems as a MediaList, Should NOT be released.
+     * @return subItems as a MediaList. This MediaList should be released with {@link #release()}.
      */
     public synchronized MediaList subItems() {
         if (mSubItems == null && !isReleased())
             mSubItems = new MediaList(this);
+        mSubItems.retain();
         return mSubItems;
     }
 

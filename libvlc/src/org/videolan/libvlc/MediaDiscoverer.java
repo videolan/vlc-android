@@ -63,11 +63,12 @@ public class MediaDiscoverer extends VLCObject {
     /**
      * Get the MediaList associated with the MediaDiscoverer.
      *
-     * @return MediaList, Should NOT be released.
+     * @return MediaList. This MediaList should be released with {@link #release()}.
      */
     public synchronized MediaList getMediaList() {
         if (mMediaList == null && !isReleased())
             mMediaList = new MediaList(this);
+        mMediaList.retain();
         return mMediaList;
     }
 

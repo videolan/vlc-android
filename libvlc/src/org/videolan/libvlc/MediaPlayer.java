@@ -91,12 +91,13 @@ public class MediaPlayer extends VLCObject {
     }
 
     /**
-     * Get the Media used by this MediaPlayer.
-     * This Media is owned by the MediaPlayer, it shouldn't be released.
+     * Get the Media used by this MediaPlayer. This Media should be released with {@link #release()}.
      *
      * @return
      */
     public synchronized Media getMedia() {
+        if (mMedia != null)
+            mMedia.retain();
         return mMedia;
     }
 

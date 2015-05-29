@@ -98,17 +98,23 @@ public class MediaWrapperListPlayer {
     public int expand() {
         final Media media = VLCInstance.getMainMediaPlayer().getMedia();
         final MediaList ml = media.subItems();
+        media.release();
+        int ret;
 
         if (ml.getCount() > 0) {
             mMediaList.remove(mPlayerIndex);
             for (int i = 0; i < ml.getCount(); ++i) {
                 final Media child = ml.getMediaAt(i);
                 child.parse();
+                child.release();
                 mMediaList.insert(mPlayerIndex, new MediaWrapper(child));
             }
-            return 0;
-        } else
-            return -1;
+            ret = 0;
+        } else {
+            ret = -1;
+        }
+        ml.release();
+        return ret;
    }
 
    public int expand(int index) {
