@@ -53,8 +53,8 @@ public class LibVLC extends VLCObject {
      *
      * @param options
      */
-    public LibVLC(String options[]) {
-        nativeNew(options);
+    public LibVLC(ArrayList<String> options) {
+        nativeNew(options != null ? options.toArray(new String[options.size()]) : null);
         setEventHandler(EventHandler.getInstance());
     }
 

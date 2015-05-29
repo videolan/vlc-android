@@ -59,7 +59,7 @@ public class VLCOptions {
     private static float[] sEqualizer = null;
     private static boolean sHdmiAudioEnabled = false;
 
-    public static String[] getLibOptions(SharedPreferences pref) {
+    public static ArrayList<String> getLibOptions(SharedPreferences pref) {
         ArrayList<String> options = new ArrayList<String>(50);
 
         final boolean timeStrechingDefault = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);
@@ -124,7 +124,7 @@ public class VLCOptions {
             options.add("8"); // 7.1 maximum
         }
         options.add(verboseMode ? "-vvv" : "-vv");
-        return options.toArray(new String[options.size()]);
+        return options;
     }
 
     private static int getAout(int aout) {
