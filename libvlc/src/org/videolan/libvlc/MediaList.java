@@ -139,9 +139,8 @@ public class MediaList extends VLCObject {
      * @return Media hold by MediaList, Should NOT be released.
      */
     public synchronized Media getMediaAt(int index) {
-        if (index < 0 || index > getCount())
-            return null;
-        return mMediaArray.get(index);
+        if (index < 0 || index >= getCount())
+            throw new IndexOutOfBoundsException();
     }
 
     @Override

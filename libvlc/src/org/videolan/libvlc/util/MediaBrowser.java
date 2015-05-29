@@ -187,9 +187,10 @@ public class MediaBrowser {
      * Get a media at a specified index.
      */
     public synchronized Media getMediaAt(int index) {
-        return index >= 0 && index < getMediaCount() ?
-                mBrowserMediaList != null ? mBrowserMediaList.getMediaAt(index) :
-                mDiscovererMediaArray.get(index) : null;
+        if (index < 0 || index >= getMediaCount())
+            throw new IndexOutOfBoundsException();
+        return mBrowserMediaList != null ? mBrowserMediaList.getMediaAt(index) :
+                mDiscovererMediaArray.get(index);
     }
 
     private MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {
