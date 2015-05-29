@@ -67,8 +67,11 @@ public class VLCInstance {
     }
 
     public static synchronized MediaPlayer getMainMediaPlayer() {
-        if (sMediaPlayer == null)
+        if (sMediaPlayer == null) {
+            if (sLibVLC == null)
+                get();
             sMediaPlayer = new MediaPlayer(sLibVLC);
+        }
         return sMediaPlayer;
     }
 
