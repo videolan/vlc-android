@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
@@ -139,7 +138,7 @@ public class VLCOptions {
         if (vout < 0 || vout > VOUT_ANDROID_WINDOW)
             vout = VOUT_ANDROID_SURFACE;
 
-        if (vout == VOUT_ANDROID_SURFACE && LibVLC.HAS_WINDOW_VOUT)
+        if (vout == VOUT_ANDROID_SURFACE && HWDecoderUtil.HAS_WINDOW_VOUT)
             return VOUT_ANDROID_WINDOW;
         else
             return vout;

@@ -101,6 +101,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
@@ -455,7 +456,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (!LibVLC.HAS_WINDOW_VOUT) {
+        if (!HWDecoderUtil.HAS_WINDOW_VOUT) {
             mSubtitlesSurfaceView.setVisibility(View.GONE);
             mSubtitleSurfaceReady = true;
         }
@@ -1708,7 +1709,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
-        if (LibVLC() != null && LibVLC.HAS_WINDOW_VOUT)
+        if (LibVLC() != null && HWDecoderUtil.HAS_WINDOW_VOUT)
             LibVLC().setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
@@ -3116,7 +3117,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
-            if (!LibVLC.HAS_WINDOW_VOUT)
+            if (!HWDecoderUtil.HAS_WINDOW_VOUT)
                 mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }

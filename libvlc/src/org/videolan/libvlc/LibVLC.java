@@ -20,22 +20,16 @@
 
 package org.videolan.libvlc;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.Surface;
 
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.libvlc.util.HWDecoderUtil;
 
 public class LibVLC extends VLCObject {
     private static final String TAG = "VLC/LibVLC";
-
-    public static final boolean HAS_WINDOW_VOUT = AndroidUtil.isGingerbreadOrLater();
 
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;
