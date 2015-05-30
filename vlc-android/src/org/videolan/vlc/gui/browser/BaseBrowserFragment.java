@@ -24,6 +24,7 @@ package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -290,7 +291,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mRoot)
             browseRoot();
         else
-            mMediaBrowser.browse(mMrl);
+            mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl));
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
