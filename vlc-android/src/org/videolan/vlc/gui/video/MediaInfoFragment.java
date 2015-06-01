@@ -161,7 +161,7 @@ public class MediaInfoFragment extends ListFragment {
     public void setMediaLocation(String MRL) {
         if (MRL == null)
             return;
-        mItem = MediaLibrary.getInstance().getMediaItem(Uri.decode(MRL));
+        mItem = MediaLibrary.getInstance().getMediaItem(MRL);
     }
 
     Runnable mCheckFile = new Runnable() {
