@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaybackServiceController implements IAudioPlayerControl {
-    public static final String TAG = "VLC/AudioServiceContoller";
+    public static final String TAG = "VLC/PlaylistServiceCtrl";
 
     private static PlaybackServiceController mInstance;
     private static boolean mIsBound = false;
