@@ -50,7 +50,6 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public static final String VLC_PACKAGE = "org.videolan.vlc";
-    public static final String VLC_SERVICE = "org.videolan.vlc.PlaybackService";
     public static final String VLC_PLAYER = "org.videolan.vlc.gui.audio.AudioPlayerActivity";
     public static final String VLC_MAIN = "org.videolan.vlc.gui.MainActivity";
 
