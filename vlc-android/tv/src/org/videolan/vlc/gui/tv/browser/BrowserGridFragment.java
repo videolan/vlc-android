@@ -56,7 +56,9 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         if (savedInstanceState != null){
             mUri = Uri.parse(savedInstanceState.getString(BaseBrowserFragment.KEY_MRL));
         } else {
-            mUri = Uri.parse(getActivity().getIntent().getStringExtra(BaseBrowserFragment.KEY_MRL));
+            Intent intent = getActivity().getIntent();
+            if (intent != null && intent.hasExtra(BaseBrowserFragment.KEY_MRL))
+                mUri = Uri.parse(intent.getStringExtra(BaseBrowserFragment.KEY_MRL));
         }
         setOnItemViewSelectedListener(this);
     }
