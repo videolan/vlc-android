@@ -42,9 +42,9 @@ public class MediaBrowser {
         //  "mdns"
     } : new String[]{"upnp"} ; //Only UPnP for release
 
-    private LibVLC mLibVlc;
-    private ArrayList<MediaDiscoverer> mMediaDiscoverers = new ArrayList<MediaDiscoverer>();
-    private ArrayList<Media> mDiscovererMediaArray = new ArrayList<Media>();
+    private final LibVLC mLibVlc;
+    private final ArrayList<MediaDiscoverer> mMediaDiscoverers = new ArrayList<MediaDiscoverer>();
+    private final ArrayList<Media> mDiscovererMediaArray = new ArrayList<Media>();
     private MediaList mBrowserMediaList;
     private Media mMedia;
     private EventListener mEventListener;
@@ -198,7 +198,7 @@ public class MediaBrowser {
         return media;
     }
 
-    private MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {
+    private final MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {
         @Override
         public void onEvent(VLCObject.Event event) {
             if (mEventListener == null)
@@ -221,7 +221,7 @@ public class MediaBrowser {
         }
     };
 
-    private MediaList.EventListener mDiscovererMediaListEventListener = new MediaList.EventListener() {
+    private final MediaList.EventListener mDiscovererMediaListEventListener = new MediaList.EventListener() {
         @Override
         public void onEvent(VLCObject.Event event) {
             if (mEventListener == null)

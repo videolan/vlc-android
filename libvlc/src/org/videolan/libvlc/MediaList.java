@@ -43,7 +43,7 @@ public class MediaList extends VLCObject {
     }
 
     private int mCount = 0;
-    private SparseArray<Media> mMediaArray = new SparseArray<Media>();
+    private final SparseArray<Media> mMediaArray = new SparseArray<Media>();
 
     private void init() {
         mCount = nativeGetCount();

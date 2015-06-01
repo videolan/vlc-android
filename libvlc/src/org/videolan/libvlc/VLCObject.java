@@ -216,7 +216,7 @@ public abstract class VLCObject {
         if (event != null && mEventListener != null && mHandler != null)
             mHandler.post(new EventRunnable(mEventListener, event));
     }
-    private final native void nativeDetachEvents();
+    private native void nativeDetachEvents();
 
     /* used only before API 7: substitute for NewWeakGlobalRef */
     private Object getWeakReference() {

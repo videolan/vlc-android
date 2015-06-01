@@ -67,7 +67,7 @@ public class MediaPlayer
     public static final int VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING = 2;
 
     private Media mCurrentMedia = null;
-    private LibVLC mLibVLC;
+    private final LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mMediaPlayer;
 
     public MediaPlayer() {
