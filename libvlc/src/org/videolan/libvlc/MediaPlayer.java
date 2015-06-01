@@ -22,7 +22,6 @@
 
 package org.videolan.libvlc;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 
