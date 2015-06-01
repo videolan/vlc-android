@@ -306,7 +306,7 @@ public class VLCUtil {
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private static File searchLibrary(ApplicationInfo applicationInfo) {
         // Search for library path
-        String[] libraryPaths = null;
+        String[] libraryPaths;
         if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
             final String property = System.getProperty("java.library.path");
             libraryPaths = property.split(":");
@@ -317,18 +317,17 @@ public class VLCUtil {
             else
                 libraryPaths[0] = applicationInfo.dataDir + "/lib";
         }
-        if (libraryPaths == null) {
+        if (libraryPaths[0] == null) {
             Log.e(TAG, "can't find library path");
             return null;
         }
 
         // Search for libvlcjni.so
-        File lib = null;
+        File lib;
         for (String libraryPath : libraryPaths) {
             lib = new File(libraryPath, "libvlcjni.so");
             if (lib.exists() && lib.canRead())
                 return lib;
-            ;
         }
         Log.e(TAG, "WARNING: Can't find shared library");
         return null;

@@ -264,7 +264,7 @@ public class MediaPlayer
         public String toString() {
             return "";
         }
-    };
+    }
 
     public TrackInfo[] getTrackInfo() throws IllegalStateException {
         //FIXME
