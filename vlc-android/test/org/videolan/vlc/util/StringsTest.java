@@ -1,34 +1,9 @@
-package org.videolan.vlc.tests;
+package org.videolan.vlc.util;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
+import static org.junit.Assert.*;
 
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.Strings;
+public class StringsTest {
 
-/**
- * Created by geoffrey on 08/05/15.
- */
-public class VLCTests extends ActivityInstrumentationTestCase2<MainActivity>{
-
-//    private MainActivity mFirstTestActivity;
-//
-//    @TargetApi(Build.VERSION_CODES.FROYO)
-//    public VLCTests(Class<MainActivity> activityClass) {
-//        super(activityClass);
-//    }
-
-    @TargetApi(Build.VERSION_CODES.FROYO)
-    public VLCTests(){
-        super(MainActivity.class);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-//        mFirstTestActivity = getActivity();
-    }
 
     public void testGetName(){
         String path = "/home/folder/file.txt";
