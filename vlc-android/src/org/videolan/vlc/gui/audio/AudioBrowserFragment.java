@@ -26,8 +26,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -47,6 +47,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.widget.SlidingTabLayout;
 
@@ -58,7 +59,6 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -66,10 +66,10 @@ import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -86,7 +86,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private MediaLibrary mMediaLibrary;
     private MediaBrowser mMediaBrowser;
     private MainActivity mMainActivity;
-    private AlertDialog mAlertDialog;
 
     List<MediaWrapper> mAudioList;
     private AudioBrowserListAdapter mArtistsAdapter;
@@ -102,6 +101,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private List<View> mLists;
     private ImageView mFabPlayShuffleAll;
 
+    public static final int DELETE_MEDIA = 101;
+    public static final int DELETE_PLAYLIST = 102;
+    public static final int DELETE_DURATION = 4000;
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
@@ -234,9 +236,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             mMediaBrowser.release();
             mMediaBrowser = null;
         }
-
-        if (mAlertDialog != null && mAlertDialog.isShowing())
-            mAlertDialog.dismiss();
     }
 
     @Override
@@ -429,48 +428,19 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             List<MediaWrapper> mediaList = adapter.getMedias(position);
             if (adapter.getCount() <= position || mediaList == null || mediaList.isEmpty())
                 return false;
+            Message msg;
             if (mode == MODE_PLAYLIST) {
-                mAlertDialog = CommonDialogs.deletePlaylist(
-                        getActivity(),
-                        adapter.getItem(position).mTitle,
-                        new VLCRunnable(adapter.getItem(position)) {
-                            @Override
-                            public void run(Object o) {
-                                AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
-                                if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
-                                    MediaWrapper media = listItem.mMediaList.get(0);
-                                    mMediaLibrary.getMediaItems().remove(media);
-                                    if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                        mAudioController.removeLocation(media.getLocation());
-                                } else {
-                                    MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
-                                }
-                                updateLists();
-                            }
-                        });
+                Snackbar.make(getView(), getString(R.string.playlist_deleted), DELETE_DURATION)
+                .setAction(android.R.string.cancel, mCancelDeletePlayListListener)
+                .show();
+                msg = mHandler.obtainMessage(DELETE_PLAYLIST, position, 0);
             } else {
-                mAlertDialog = CommonDialogs.deleteMedia(
-                        MediaWrapper.TYPE_ALL,
-                        getActivity(),
-                        adapter.getItem(position).mMediaList.get(0).getLocation(),
-                        adapter.getItem(position).mTitle,
-                        new VLCRunnable(adapter.getItem(position)) {
-                            @Override
-                            public void run(Object o) {
-                                AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem) o;
-                                if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
-                                    MediaWrapper media = listItem.mMediaList.get(0);
-                                    mMediaLibrary.getMediaItems().remove(media);
-                                    if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                        mAudioController.removeLocation(media.getLocation());
-                                } else {
-                                    MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
-                                }
-                                updateLists();
-                            }
-                        });
+                Snackbar.make(getView(), getString(R.string.file_deleted), DELETE_DURATION)
+                        .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
+                        .show();
+                msg = mHandler.obtainMessage(DELETE_MEDIA, position, 0);
             }
-            mAlertDialog.show();
+            mHandler.sendMessageDelayed(msg, DELETE_DURATION);
             return true;
         }
 
@@ -527,6 +497,19 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         return true;
     }
 
+    View.OnClickListener mCancelDeletePlayListListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mHandler.removeMessages(DELETE_PLAYLIST);
+        }
+    };
+
+    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mHandler.removeMessages(DELETE_MEDIA);
+        }
+    };
     public void onFabPlayAllClick(View view) {
         List<MediaWrapper> medias = new ArrayList<MediaWrapper>();
         mSongsAdapter.getListWithPosition(medias, 0);
@@ -664,7 +647,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
         @Override
         public void handleMessage(Message msg) {
-            AudioBrowserFragment fragment = getOwner();
+            final AudioBrowserFragment fragment = getOwner();
             if(fragment == null) return;
 
             switch (msg.what) {
@@ -675,7 +658,40 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     if (fragment.mArtistsAdapter.isEmpty() && fragment.mAlbumsAdapter.isEmpty() &&
                             fragment.mSongsAdapter.isEmpty() && fragment.mGenresAdapter.isEmpty())
                         fragment.mSwipeRefreshLayout.setRefreshing(true);
+                    break;
+                case DELETE_MEDIA:
+                    MediaWrapper mw = fragment.mSongsAdapter.getItem(msg.arg1).mMediaList.get(0);
+                    final String path = mw.getUri().getPath();
+                    //Let's keep this toast while duration is not set correctly
+                    Toast.makeText(fragment.getActivity(), "deleting file", Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            Util.recursiveDelete(fragment.getActivity(), new File(path));
+                        }
+                    }).start();
+                    fragment.mMediaLibrary.getMediaItems().remove(mw);
+                    refresh(fragment, path);
+                    break;
+                case DELETE_PLAYLIST:
+                    AudioBrowserListAdapter.ListItem listItem = fragment.mPlaylistAdapter.getItem(msg.arg1);
+                    //Let's keep this toast while duration is not set correctly
+                    Toast.makeText(fragment.getActivity(), "deleting playlist "+listItem.mTitle, Toast.LENGTH_SHORT).show();
+                    if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) { //File playlist
+                        MediaWrapper media = listItem.mMediaList.get(0);
+                        fragment.mMediaLibrary.getMediaItems().remove(media);
+                        refresh(fragment, media.getLocation());
+                    } else {
+                        MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
+                    }
+                    fragment.updateLists();
+                    break;
             }
+        }
+
+        private void refresh(AudioBrowserFragment fragment, String path) {
+            if (fragment.mAudioController.getMediaLocations().contains(path))
+                fragment.mAudioController.removeLocation(path);
+            fragment.updateLists();
         }
     }
 
