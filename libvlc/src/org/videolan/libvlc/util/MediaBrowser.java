@@ -47,6 +47,7 @@ public class MediaBrowser {
     private MediaList mBrowserMediaList;
     private Media mMedia;
     private EventListener mEventListener;
+    private boolean mAlive;
 
     /**
      * Listener called when medias are added or removed.
@@ -76,7 +77,7 @@ public class MediaBrowser {
         mLibVlc = libvlc;
         mLibVlc.retain();
         mEventListener = listener;
-
+        mAlive = true;
     }
 
     private synchronized void reset() {
@@ -100,7 +101,10 @@ public class MediaBrowser {
      */
     public synchronized void release() {
         reset();
+        if (!mAlive)
+            throw new IllegalStateException("MediaBrowser released more than one time");
         mLibVlc.release();
+        mAlive = false;
     }
 
     /**
