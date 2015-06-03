@@ -35,6 +35,8 @@ import android.widget.RemoteViews;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
 
 public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
@@ -50,8 +52,6 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public static final String VLC_PACKAGE = "org.videolan.vlc";
-    public static final String VLC_PLAYER = "org.videolan.vlc.gui.audio.AudioPlayerActivity";
-    public static final String VLC_MAIN = "org.videolan.vlc.gui.MainActivity";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -85,8 +85,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
             Intent iStop = new Intent(ACTION_REMOTE_STOP);
             Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            Intent iVlc = new Intent();
-            iVlc.setClassName(VLC_PACKAGE, VLC_MAIN);
+            Intent iVlc = new Intent(VLCApplication.getAppContext(), MainActivity.class);
             iVlc.putExtra(START_FROM_NOTIFICATION, true);
 
             PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
