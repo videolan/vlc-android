@@ -81,7 +81,10 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
 
     public void onPause(){
         super.onPause();
-        mMediaBrowser.release();
+        if (mMediaBrowser != null) {
+            mMediaBrowser.release();
+            mMediaBrowser = null;
+        }
         ((BrowserActivity)getActivity()).updateEmptyView(false);
     }
     @Override
