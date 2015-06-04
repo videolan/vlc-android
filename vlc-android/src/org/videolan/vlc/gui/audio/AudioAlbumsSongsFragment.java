@@ -190,16 +190,18 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.audio_list_browser, menu);
         int position = 0;
         if (menuInfo instanceof AdapterContextMenuInfo)
             position = ((AdapterContextMenuInfo)menuInfo).position;
+        if (mViewPager.getCurrentItem() == MODE_SONG &&  mSongsAdapter.getItem(position).mIsSeparator)
+            return;
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.audio_list_browser, menu);
         setContextMenuItems(menu, v, position);
     }
 
     private void setContextMenuItems(Menu menu, View v, int position) {
-        if (mViewPager.getCurrentItem() != MODE_SONG || mSongsAdapter.getItem(position).mIsSeparator) {
+        if (mViewPager.getCurrentItem() != MODE_SONG) {
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
         }

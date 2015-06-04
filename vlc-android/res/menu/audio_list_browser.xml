@@ -11,10 +11,10 @@
 	    <item
 	        android:id="@+id/audio_list_browser_play_all"
 	        android:title="@string/play_all" />
+        <item
+            android:id="@+id/audio_list_browser_delete"
+            android:title="@string/delete"/>
     </group>
-    <item
-        android:id="@+id/audio_list_browser_delete"
-        android:title="@string/delete"/>
     <group android:id="@+id/phone_only" >
 	    <item
 	        android:id="@+id/audio_list_browser_set_song"
