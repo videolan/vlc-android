@@ -54,6 +54,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
@@ -73,7 +74,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
     private static final int DELETE_MEDIA = 0;
-    private static final int DELETE_DURATION = 4000;
+    private static final int DELETE_DURATION = 3000;
 
     PlaybackServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
@@ -399,7 +400,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                     fragment.mMediaLibrary.getMediaItems().remove(media);
                     new Thread(new Runnable() {
                         public void run() {
-                            Util.recursiveDelete(fragment.getActivity(), new File(path));
+                            Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
                         }
                     }).start();
                     break;

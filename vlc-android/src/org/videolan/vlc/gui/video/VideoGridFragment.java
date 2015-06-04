@@ -31,9 +31,10 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -62,7 +63,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.gui.dialogs.CommonDialogs;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -71,9 +72,10 @@ import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCRunnable;
+import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
@@ -84,6 +86,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public final static String TAG = "VLC/VideoListFragment";
 
     public final static String KEY_GROUP = "key_group";
+
+    private static final int DELETE_MEDIA = 0;
+    private static final int DELETE_DURATION = 3000;
 
     protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
     protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
@@ -330,20 +335,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 }
                 return true;
             case R.id.video_list_delete:
-                AlertDialog alertDialog = CommonDialogs.deleteMedia(
-                        getActivity(),
-                        media.getLocation(),
-                        new VLCRunnable(media) {
-                            @Override
-                            public void run(Object o) {
-                                MediaWrapper media = (MediaWrapper) o;
-                                mMediaLibrary.getMediaItems().remove(media);
-                                mVideoAdapter.remove(media);
-                                if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                    mAudioController.removeLocation(media.getLocation());
-                            }
-                        });
-                alertDialog.show();
+                Snackbar.make(getView(), getString(R.string.playlist_deleted), Snackbar.LENGTH_LONG)
+                    .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
+                    .show();
+                Message msg = mDeleteHandler.obtainMessage(DELETE_MEDIA, position, 0);
+                mDeleteHandler.sendMessageDelayed(msg, DELETE_DURATION);
                 return true;
         }
         return false;
@@ -558,7 +554,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mViewNomedia.setVisibility(mVideoAdapter.getCount()>0 ? View.GONE : View.VISIBLE);
+                    mViewNomedia.setVisibility(mVideoAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
                     mReadyToDisplay = true;
                     mVideoAdapter.setNotifyOnChange(true);
                     mVideoAdapter.sort();
@@ -572,5 +568,45 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     public void clear(){
         mVideoAdapter.clear();
+    }
+
+    public void deleteMedia(int position){
+        MediaWrapper media = mVideoAdapter.getItem(position);
+        final String path = media.getUri().getPath();
+        new Thread(new Runnable() {
+            public void run() {
+                Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
+            }
+        }).start();
+        mMediaLibrary.getMediaItems().remove(media);
+        mVideoAdapter.remove(media);
+        if (mAudioController.getMediaLocations().contains(media.getLocation()))
+            mAudioController.removeLocation(media.getLocation());
+    }
+
+
+    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mDeleteHandler.removeMessages(DELETE_MEDIA);
+        }
+    };
+
+    Handler mDeleteHandler = new VideoDeleteHandler(this);
+
+    private static class VideoDeleteHandler extends WeakHandler<VideoGridFragment>{
+
+        public VideoDeleteHandler(VideoGridFragment owner) {
+            super(owner);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case DELETE_MEDIA:
+                    getOwner().deleteMedia(msg.arg1);
+            }
+        }
     }
 }

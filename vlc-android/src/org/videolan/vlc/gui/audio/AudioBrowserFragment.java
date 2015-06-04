@@ -59,6 +59,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceController;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -103,7 +104,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     public static final int DELETE_MEDIA = 101;
     public static final int DELETE_PLAYLIST = 102;
-    public static final int DELETE_DURATION = 4000;
+    public static final int DELETE_DURATION = 3000;
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
@@ -666,7 +667,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     Toast.makeText(fragment.getActivity(), "deleting file", Toast.LENGTH_SHORT).show();
                     new Thread(new Runnable() {
                         public void run() {
-                            Util.recursiveDelete(fragment.getActivity(), new File(path));
+                            Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
                         }
                     }).start();
                     fragment.mMediaLibrary.getMediaItems().remove(mw);

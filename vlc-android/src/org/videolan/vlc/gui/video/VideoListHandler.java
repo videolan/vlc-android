@@ -25,6 +25,7 @@ public class VideoListHandler extends WeakHandler<IVideoBrowser> {
                 break;
             case MediaLibrary.MEDIA_ITEMS_UPDATED:
                 owner.updateList();
+                break;
         }
     }
 };
