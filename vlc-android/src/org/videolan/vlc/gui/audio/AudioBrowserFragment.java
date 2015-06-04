@@ -430,12 +430,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 return false;
             Message msg;
             if (mode == MODE_PLAYLIST) {
-                Snackbar.make(getView(), getString(R.string.playlist_deleted), DELETE_DURATION)
+                Snackbar.make(getView(), getString(R.string.playlist_deleted), Snackbar.LENGTH_LONG)
                 .setAction(android.R.string.cancel, mCancelDeletePlayListListener)
                 .show();
                 msg = mHandler.obtainMessage(DELETE_PLAYLIST, position, 0);
             } else {
-                Snackbar.make(getView(), getString(R.string.file_deleted), DELETE_DURATION)
+                Snackbar.make(getView(), getString(R.string.file_deleted), Snackbar.LENGTH_LONG)
                         .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
                         .show();
                 msg = mHandler.obtainMessage(DELETE_MEDIA, position, 0);
