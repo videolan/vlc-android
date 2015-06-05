@@ -44,9 +44,14 @@ public class MediaList extends VLCObject {
 
     private int mCount = 0;
     private final SparseArray<Media> mMediaArray = new SparseArray<Media>();
+    private boolean mLocked = false;
 
     private void init() {
+        lock();
         mCount = nativeGetCount();
+        for (int i = 0; i < mCount; ++i)
+            mMediaArray.put(i, new Media(this, i));
+        unlock();
     }
 
     /**
@@ -80,7 +85,7 @@ public class MediaList extends VLCObject {
         init();
     }
 
-    private synchronized Media insertMedia(int index) {
+    private synchronized Media insertMediaFromEvent(int index) {
         mCount++;
 
         for (int i = mCount - 1; i >= index; --i)
@@ -90,7 +95,7 @@ public class MediaList extends VLCObject {
         return media;
     }
 
-    private synchronized Media removeMedia(int index) {
+    private synchronized Media removeMediaFromEvent(int index) {
         mCount--;
         final Media media = mMediaArray.get(index);
         if (media != null)
@@ -103,26 +108,33 @@ public class MediaList extends VLCObject {
 
     @Override
     protected synchronized Event onEventNative(int eventType, long arg1, long arg2) {
+        if (mLocked)
+            throw new IllegalStateException("already locked from event callback");
+        mLocked = true;
+        Event event = null;
         int index = -1;
+
         switch (eventType) {
         case Events.MediaListItemAdded:
             index = (int) arg1;
             if (index != -1) {
-                final Media media = insertMedia(index);
-                return new Event(eventType, media, index);
-            } else
-                return null;
+                final Media media = insertMediaFromEvent(index);
+                event = new Event(eventType, media, index);
+            }
+            break;
         case Events.MediaListItemDeleted:
             index = (int) arg1;
             if (index != -1) {
-                final Media media = removeMedia(index);
-                return new Event(eventType, media, index);
-            } else
-                return null;
+                final Media media = removeMediaFromEvent(index);
+                event = new Event(eventType, media, index);
+            }
+            break;
         case Events.MediaListEndReached:
-            return new Event(eventType, null, -1);
+            event = new Event(eventType, null, -1);
+            break;
         }
-        return null;
+        mLocked = false;
+        return event;
     }
 
     /**
@@ -157,10 +169,30 @@ public class MediaList extends VLCObject {
         nativeRelease();
     }
 
+    private synchronized void lock() {
+        if (mLocked)
+            throw new IllegalStateException("already locked");
+        mLocked = true;
+        nativeLock();
+    }
+
+    private synchronized void unlock() {
+        if (!mLocked)
+            throw new IllegalStateException("not locked");
+        mLocked = false;
+        nativeUnlock();
+    }
+
+    protected synchronized boolean isLocked() {
+        return mLocked;
+    }
+
     /* JNI */
     private native void nativeNewFromLibVlc(LibVLC libvlc);
     private native void nativeNewFromMediaDiscoverer(MediaDiscoverer md);
     private native void nativeNewFromMedia(Media m);
     private native void nativeRelease();
     private native int nativeGetCount();
+    private native void nativeLock();
+    private native void nativeUnlock();
 }

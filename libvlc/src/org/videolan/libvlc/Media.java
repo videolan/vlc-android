@@ -263,12 +263,14 @@ public class Media extends VLCObject {
 
     /**
      *
-     * @param ml Should not be released
+     * @param ml Should not be released and locked
      * @param index
      */
     protected Media(MediaList ml, int index) {
         if (ml == null || ml.isReleased())
             throw new IllegalArgumentException("MediaList is null or released");
+        if (!ml.isLocked())
+            throw new IllegalStateException("MediaList should be locked");
         nativeNewFromMediaList(ml, index);
         mMrl = nativeGetMrl();
         mNativeMetas = nativeGetMetas();
