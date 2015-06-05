@@ -335,7 +335,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 }
                 return true;
             case R.id.video_list_delete:
-                Snackbar.make(getView(), getString(R.string.playlist_deleted), Snackbar.LENGTH_LONG)
+                Snackbar.make(getView(), getString(R.string.file_deleted), Snackbar.LENGTH_LONG)
                     .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
                     .show();
                 Message msg = mDeleteHandler.obtainMessage(DELETE_MEDIA, position, 0);

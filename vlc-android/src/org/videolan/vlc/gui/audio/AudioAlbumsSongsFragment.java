@@ -231,7 +231,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         boolean append = id == R.id.audio_list_browser_append;
 
         if (id == R.id.audio_list_browser_delete) {
-            Snackbar.make(getView(), getString(R.string.playlist_deleted), Snackbar.LENGTH_LONG)
+            Snackbar.make(getView(), getString(R.string.file_deleted), Snackbar.LENGTH_LONG)
                 .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
                 .show();
                 Message msg = mHandler.obtainMessage(DELETE_MEDIA, position, 0);
