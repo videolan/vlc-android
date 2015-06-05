@@ -133,9 +133,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.StreamCorruptedException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -174,7 +172,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private SecondaryDisplay mPresentation;
     private int mPresentationDisplayId = -1;
     private MediaWrapperListPlayer mMediaListPlayer;
-    private String mLocation;
+    private Uri mUri;
     private boolean mAskResume = true;
     private GestureDetectorCompat mDetector;
 
@@ -751,7 +749,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mPlaybackStarted = false;
 
         if(mSwitchingView) {
-            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
+            Log.d(TAG, "mLocation = \"" + mUri + "\"");
             PlaybackServiceController.getInstance().showWithoutParse(savedIndexPosition);
             unbindAudioService();
             return;
@@ -785,9 +783,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
         if (time >= 0 && mCanSeek) {
-            if(MediaDatabase.getInstance().mediaItemExists(mLocation)) {
+            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
                 MediaDatabase.getInstance().updateMedia(
-                        mLocation,
+                        mUri,
                         MediaDatabase.mediaColumn.MEDIA_TIME,
                         time);
             } else {
@@ -812,7 +810,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-        editor.putString(PreferencesActivity.VIDEO_LAST, Uri.encode(mLocation));
+        editor.putString(PreferencesActivity.VIDEO_LAST, mUri.toString());
 
         // Save user playback speed and restore normal speed
         editor.putFloat(PreferencesActivity.VIDEO_SPEED, MediaPlayer().getRate());
@@ -844,25 +842,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSubtitleSelectedFiles.add(subtitlePath);
     }
 
-    public static void start(Context context, String location) {
-        start(context, location, null, false, -1);
+    public static void start(Context context, Uri uri) {
+        start(context, uri, null, false, -1);
     }
 
-    public static void start(Context context, String location, boolean fromStart) {
-        start(context, location, null, fromStart, -1);
+    public static void start(Context context, Uri uri, boolean fromStart) {
+        start(context, uri, null, fromStart, -1);
     }
 
-    public static void start(Context context, String location, String title) {
-        start(context, location, title, false, -1);
+    public static void start(Context context, Uri uri, String title) {
+        start(context, uri, title, false, -1);
     }
     public static void startOpened(Context context, int openedPosition) {
         start(context, null, null, false, openedPosition);
     }
 
-    private static void start(Context context, String location, String title, boolean fromStart, int openedPosition) {
+    private static void start(Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(PLAY_FROM_VIDEOGRID);
-        intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, location);
+        intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, uri);
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
         intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
         intent.putExtra(PLAY_EXTRA_OPENED_POSITION, openedPosition);
@@ -899,8 +897,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void exit(int resultCode){
         Intent resultIntent = new Intent(ACTION_RESULT);
-        if (mLocation != null) {
-            resultIntent.setData(Uri.parse(mLocation));
+        if (mUri != null) {
+            resultIntent.setData(mUri);
             resultIntent.putExtra(EXTRA_POSITION, MediaPlayer().getTime());
             resultIntent.putExtra(EXTRA_DURATION, MediaPlayer().getLength());
         }
@@ -2181,7 +2179,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                         if (trackID < 0)
                             return false;
                         MediaDatabase.getInstance().updateMedia(
-                                mLocation,
+                                mUri,
                                 MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
                                 trackID);
                         MediaPlayer().setAudioTrack(trackID);
@@ -2200,7 +2198,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                             return false;
 
                         MediaDatabase.getInstance().updateMedia(
-                                mLocation,
+                                mUri,
                                 MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
                                 trackID);
                         MediaPlayer().setSpuTrack(trackID);
@@ -2560,7 +2558,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         int time = (int) getTime();
         int length = (int) MediaPlayer().getLength();
         if (length == 0) {
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
+            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -2641,7 +2639,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     @TargetApi(12)
     @SuppressWarnings({ "unchecked" })
     private void loadMedia() {
-        mLocation = null;
+        mUri = null;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
         int openedPosition = -1;
@@ -2696,7 +2694,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                             while((bytesRead = is.read(buffer)) >= 0) {
                                 os.write(buffer, 0, bytesRead);
                             }
-                            mLocation = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename).toString();
+                            mUri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");
@@ -2715,17 +2713,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                         if (cursor != null) {
                             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
                             if (cursor.moveToFirst())
-                                mLocation = AndroidUtil.PathToUri(cursor.getString(column_index)).toString();
+                                mUri = AndroidUtil.PathToUri(cursor.getString(column_index));
                             cursor.close();
                         }
                         // other content-based URI (probably file pickers)
                         else {
-                            mLocation = data.getPath();
+                            mUri = data;
                         }
                     } catch (Exception e) {
-                        mLocation = data.getPath();
-                        if (!mLocation.startsWith("file://"))
-                            mLocation = "file://"+mLocation;
+                        mUri = data;
+                        if (mUri.getScheme() == null)
+                            mUri = AndroidUtil.PathToUri(mUri.getPath());
                         Log.e(TAG, "Couldn't read the file from media or MMS");
                     }
                 } else {
@@ -2733,10 +2731,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     try {
                         inputPFD = getContentResolver().openFileDescriptor(data, "r");
                         if (AndroidUtil.isHoneycombMr1OrLater())
-                            mLocation = "fd://"+inputPFD.getFd();
+                            mUri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
                         else {
                             String fdString = inputPFD.getFileDescriptor().toString();
-                            mLocation = "fd://" + fdString.substring(15, fdString.length()-1);
+                            mUri = AndroidUtil.LocationToUri("fd://" + fdString.substring(15, fdString.length() - 1));
                         }
 
                         Cursor returnCursor =
@@ -2758,18 +2756,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             } /* External application */
             else if (intent.getDataString() != null) {
                 // Plain URI
-                mLocation = intent.getDataString();
+                final String location = intent.getDataString();
                 // Remove VLC prefix if needed
-                if (mLocation.startsWith("vlc://")) {
-                    mLocation = mLocation.substring(6);
-                }
-                // Decode URI
-                if (!mLocation.contains("/")){
-                    try {
-                        mLocation = URLDecoder.decode(mLocation,"UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        Log.w(TAG, "UnsupportedEncodingException while decoding MRL " + mLocation);
-                    }
+                if (location.startsWith("vlc://")) {
+                    mUri = AndroidUtil.LocationToUri(location.substring(6));
+                } else {
+                    mUri = intent.getData();
+                    if (mUri.getScheme() == null)
+                        mUri = AndroidUtil.PathToUri(mUri.getPath());
                 }
             } else {
                 Log.e(TAG, "Couldn't understand the intent");
@@ -2783,7 +2777,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         } /* ACTION_VIEW */
         /* Started from VideoListActivity */
         else if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
-            mLocation = extras.getString(PLAY_EXTRA_ITEM_LOCATION);
+            mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START);
             if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
@@ -2800,15 +2794,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 encounteredError();
                 return;
             }
-            mLocation = openedMedia.getLocation();
+            mUri = openedMedia.getUri();
             itemTitle = openedMedia.getTitle();
             savedIndexPosition = openedPosition;
         } else {
             /* prepare playback */
             PlaybackServiceController.getInstance().stop(); // Stop the previous playback.
-            if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
+            if (savedIndexPosition == -1 && mUri != null) {
                 mMediaListPlayer.getMediaList().clear();
-                final Media media = new Media(LibVLC(), Uri.parse(mLocation));
+                final Media media = new Media(LibVLC(), mUri);
                 media.parse(); // FIXME: parse shouldn't be done asynchronously
                 media.release();
                 mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
@@ -2817,9 +2811,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         }
         mCanSeek = false;
 
-        if (mLocation != null && mLocation.length() > 0) {
+        if (mUri != null) {
             // restore last position
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
+            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart && openedPosition == -1) {
@@ -2901,19 +2895,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
              }
 
             // Get the title
-            if (itemTitle == null) {
-                try {
-                    title = URLDecoder.decode(mLocation, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                } catch (IllegalArgumentException e) {
-                }
-                if (title.startsWith("file:")) {
-                    title = new File(title).getName();
-                    int dotIndex = title.lastIndexOf('.');
-                    if (dotIndex != -1)
-                        title = title.substring(0, dotIndex);
-                }
-            }
+            if (itemTitle == null)
+                title = mUri.getLastPathSegment();
         }
         if (itemTitle != null)
             title = itemTitle;
@@ -3161,7 +3144,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void updateNavStatus() {
-        mHasMenu = MediaPlayer().getChapterCountForTitle(0) > 1 && MediaPlayer().getTitleCount() > 1 && (mLocation == null || !mLocation.endsWith(".mkv"));
+        mHasMenu = MediaPlayer().getChapterCountForTitle(0) > 1 && MediaPlayer().getTitleCount() > 1 && (mUri == null || !mUri.toString().endsWith(".mkv"));
         mIsNavMenu = mHasMenu && MediaPlayer().getTitle() == 0;
         /***
          * HACK ALERT: assume that any media with >1 titles = DVD with menus

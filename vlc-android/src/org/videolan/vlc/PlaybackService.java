@@ -476,20 +476,22 @@ public class PlaybackService extends Service {
                     service.executeUpdate();
                     service.executeUpdateProgress();
 
-                    String location = service.mMediaListPlayer.getMediaList().getMRL(service.mCurrentIndex);
-                    long length = service.MediaPlayer().getLength();
-                    MediaDatabase dbManager = MediaDatabase.getInstance();
-                    MediaWrapper m = dbManager.getMedia(location);
-                    /**
-                     * 1) There is a media to update
-                     * 2) It has a length of 0
-                     * (dynamic track loading - most notably the OGG container)
-                     * 3) We were able to get a length even after parsing
-                     * (don't want to replace a 0 with a 0)
-                     */
-                    if(m != null && m.getLength() == 0 && length > 0) {
-                        dbManager.updateMedia(location,
-                                MediaDatabase.mediaColumn.MEDIA_LENGTH, length);
+                    final MediaWrapper mw = service.mMediaListPlayer.getMediaList().getMedia(service.mCurrentIndex);
+                    if (mw != null) {
+                        long length = service.MediaPlayer().getLength();
+                        MediaDatabase dbManager = MediaDatabase.getInstance();
+                        MediaWrapper m = dbManager.getMedia(mw.getUri());
+                        /**
+                         * 1) There is a media to update
+                         * 2) It has a length of 0
+                         * (dynamic track loading - most notably the OGG container)
+                         * 3) We were able to get a length even after parsing
+                         * (don't want to replace a 0 with a 0)
+                         */
+                        if (m != null && m.getLength() == 0 && length > 0) {
+                            dbManager.updateMedia(mw.getUri(),
+                                    MediaDatabase.mediaColumn.MEDIA_LENGTH, length);
+                        }
                     }
 
                     service.changeAudioFocus(true);
@@ -1346,7 +1348,7 @@ public class PlaybackService extends Service {
 
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
-                MediaWrapper mediaWrapper = db.getMedia(location);
+                MediaWrapper mediaWrapper = db.getMedia(AndroidUtil.LocationToUri(location));
                 if (mediaWrapper == null) {
                     if (!validateLocation(location)) {
                         Log.w(TAG, "Invalid location " + location);

@@ -210,9 +210,8 @@ public class Util {
     public static void openMedia(Context context, final MediaWrapper media){
         if (media == null)
             return;
-        String mrl = media.getLocation();
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
-            VideoPlayerActivity.start(context, mrl, media.getTitle());
+            VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
         else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
             VLCCallbackTask task = new VLCCallbackTask(context) {
                 @Override

@@ -108,7 +108,7 @@ public class RecommendationsService extends IntentService {
     private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
         Intent intent = new Intent(mContext, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
-        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getLocation());
+        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getUri());
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_FROM_START, false);
 
@@ -144,7 +144,7 @@ public class RecommendationsService extends IntentService {
         for (MediaWrapper mediaWrapper : videoList){
             if (TextUtils.equals(mediaWrapper.getLocation(), last))
                 continue;
-            pic = mMediaDatabase.getPicture(mediaWrapper.getLocation());
+            pic = mMediaDatabase.getPicture(mediaWrapper.getUri());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }

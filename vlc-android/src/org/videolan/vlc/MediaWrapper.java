@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.Locale;
 
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.VideoTrack;
@@ -79,24 +80,15 @@ public class MediaWrapper implements Parcelable {
     private int mFlags = 0;
     private long mLastModified = 0l;
 
-    private static Uri getUri(String mrl) {
-        Uri uri = Uri.parse(mrl);
-        if (uri.getScheme() == null) {
-            Log.w(TAG, "invalid mrl: " + mrl);
-            return Uri.fromFile(new File(mrl));
-        } else
-            return uri;
-    }
-
     /**
      * Create a new MediaWrapper
-     * @param mrl Should not be null.
+     * @param uri Should not be null.
      */
-    public MediaWrapper(String mrl) {
-        if (mrl == null)
-            throw new NullPointerException("mrl was null");
+    public MediaWrapper(Uri uri) {
+        if (uri == null)
+            throw new NullPointerException("uri was null");
 
-        mUri = getUri(mrl);
+        mUri = uri;
         init(null);
     }
 
@@ -180,10 +172,10 @@ public class MediaWrapper implements Parcelable {
         mLastModified = lastModified;
     }
 
-    public MediaWrapper(String location, long time, long length, int type,
+    public MediaWrapper(Uri uri, long time, long length, int type,
                  Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                  int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
-        mUri = getUri(location);
+        mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
              width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified);
     }
@@ -446,7 +438,7 @@ public class MediaWrapper implements Parcelable {
     }
 
     public MediaWrapper(Parcel in) {
-        mUri = getUri(in.readString());
+        mUri = in.readParcelable(Uri.class.getClassLoader());
         init(in.readLong(),
                 in.readLong(),
                 in.readInt(),
@@ -468,7 +460,7 @@ public class MediaWrapper implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getLocation());
+        dest.writeParcelable(mUri, flags);
         dest.writeLong(getTime());
         dest.writeLong(getLength());
         dest.writeInt(getType());

@@ -97,7 +97,7 @@ public class BitmapUtil {
                  */
                 picture = readCoverBitmap(media.getArtworkURL());
                 if (picture == null)
-                    picture = MediaDatabase.getInstance().getPicture(media.getLocation());
+                    picture = MediaDatabase.getInstance().getPicture(media.getUri());
                 cache.addBitmapToMemCache(media.getLocation(), picture);
             }
             return picture;

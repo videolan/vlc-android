@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -89,8 +90,8 @@ public class MediaWrapperList {
         return position >= 0 && position < mInternalList.size();
     }
 
-    public void insert(int position, String mrl) {
-        insert(position, new MediaWrapper(mrl));
+    public void insert(int position, Uri uri) {
+        insert(position, new MediaWrapper(uri));
     }
     public void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);

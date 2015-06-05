@@ -303,7 +303,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
-        VideoPlayerActivity.start(getActivity(), media.getLocation(), fromStart);
+        VideoPlayerActivity.start(getActivity(), media.getUri(), fromStart);
     }
 
     protected void playAudio(MediaWrapper media) {

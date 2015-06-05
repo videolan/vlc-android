@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv;
 
 import java.util.ArrayList;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
@@ -83,7 +84,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         mMedia = extras.getParcelable("item");
         boolean hasMedia = extras.containsKey("media");
         ClassPresenterSelector selector = new ClassPresenterSelector();
-        final MediaWrapper media = hasMedia ? (MediaWrapper) extras.getParcelable("media") : new MediaWrapper(mMedia.getLocation());
+        final MediaWrapper media = hasMedia ? (MediaWrapper) extras.getParcelable("media") : new MediaWrapper(AndroidUtil.LocationToUri(mMedia.getLocation()));
         if (!hasMedia){
             media.setTitle(mMedia.getTitle());
         }

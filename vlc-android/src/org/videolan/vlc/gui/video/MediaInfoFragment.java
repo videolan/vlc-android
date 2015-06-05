@@ -108,7 +108,7 @@ public class MediaInfoFragment extends ListFragment {
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                VideoPlayerActivity.start(getActivity(), mItem.getLocation());
+                VideoPlayerActivity.start(getActivity(), mItem.getUri());
             }
         });
 

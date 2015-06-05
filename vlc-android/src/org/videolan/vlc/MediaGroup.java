@@ -35,7 +35,7 @@ public class MediaGroup extends MediaWrapper {
 
     public MediaGroup(MediaWrapper media)
     {
-        super(media.getLocation(),
+        super(media.getUri(),
                 media.getTime(),
                 media.getLength(),
                 MediaWrapper.TYPE_GROUP,

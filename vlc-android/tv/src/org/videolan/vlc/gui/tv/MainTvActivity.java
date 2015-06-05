@@ -405,7 +405,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
                 MediaDatabase mediaDatabase = MediaDatabase.getInstance();
                 if (sThumbnailer != null && videoList != null && !videoList.isEmpty()) {
                     for (MediaWrapper MediaWrapper : videoList){
-                        picture = mediaDatabase.getPicture(MediaWrapper.getLocation());
+                        picture = mediaDatabase.getPicture(MediaWrapper.getUri());
                         if (picture== null)
                             sThumbnailer.addJob(MediaWrapper);
                     }

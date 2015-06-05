@@ -421,14 +421,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             case  R.id.directory_view_info:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
                 i.putExtra("fragment", "mediaInfo");
-                i.putExtra("param", mw.getLocation());
+                i.putExtra("param", mw.getUri().toString());
                 startActivity(i);
                 return true;
             case R.id.directory_view_play_audio:
                 PlaybackServiceController.getInstance().load(mw);
                 return true;
             case  R.id.directory_view_play_video:
-                VideoPlayerActivity.start(getActivity(), mw.getLocation());
+                VideoPlayerActivity.start(getActivity(), mw.getUri());
                 return true;
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
@@ -481,7 +481,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         while (mCurrentParsedPosition <mAdapter.getItemCount()){
             item = mAdapter.getItem(mCurrentParsedPosition);
             if (item instanceof BaseBrowserAdapter.Storage) {
-                mw = new MediaWrapper(((BaseBrowserAdapter.Storage) item).getPath());
+                mw = new MediaWrapper(AndroidUtil.LocationToUri(((BaseBrowserAdapter.Storage) item).getPath()));
                 mw.setType(MediaWrapper.TYPE_DIR);
             } else  if (item instanceof MediaWrapper){
                 mw = (MediaWrapper) item;
@@ -533,7 +533,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
                         break;
                 } else if (mAdapter.getItem(mCurrentParsedPosition) instanceof BaseBrowserAdapter.Storage) {
-                    mw = new MediaWrapper(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getPath());
+                    mw = new MediaWrapper(AndroidUtil.LocationToUri(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getPath()));
                     break;
                 } else
                     mw = null;

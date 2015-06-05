@@ -503,9 +503,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_PLAYLIST);
                     sendBroadcast(i);
                 } else if (current instanceof VideoGridFragment) {
-                    String location = Uri.decode(mSettings.getString(PreferencesActivity.VIDEO_LAST, null));
-                    if (location != null)
-                        VideoPlayerActivity.start(this, location);
+                    final Uri uri = Uri.parse(mSettings.getString(PreferencesActivity.VIDEO_LAST, null));
+                    if (uri != null)
+                        VideoPlayerActivity.start(this, uri);
                 }
                 break;
             case android.R.id.home:

@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
@@ -69,7 +70,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaWrapper mw = new MediaWrapper(((Storage) getItem(vh.getAdapterPosition())).getPath());
+                MediaWrapper mw = new MediaWrapper(AndroidUtil.LocationToUri(((Storage) getItem(vh.getAdapterPosition())).getPath()));
                 mw.setType(MediaWrapper.TYPE_DIR);
                 ((StorageBrowserFragment) fragment).browse(mw, holder.getAdapterPosition(), vh.checkBox.isChecked());
             }

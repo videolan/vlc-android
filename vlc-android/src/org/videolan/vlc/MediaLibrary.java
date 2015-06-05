@@ -201,7 +201,7 @@ public class MediaLibrary {
                 continue;
             playList = new AudioBrowserListAdapter.ListItem(playlistName, null, null, false);
             for (String track : items){
-                playList.mMediaList.add(new MediaWrapper(track));
+                playList.mMediaList.add(new MediaWrapper(AndroidUtil.LocationToUri(track)));
             }
             playlistItems.add(playList);
         }
@@ -338,14 +338,14 @@ public class MediaLibrary {
                 }
 
                 //Remove ignored files
-                HashSet<String> mediasToRemove = new HashSet<String>();
+                HashSet<Uri> mediasToRemove = new HashSet<Uri>();
                 String path;
                 outloop:
                 for (Map.Entry<String, MediaWrapper> entry : existingMedias.entrySet()){
                     path = entry.getKey();
                     for (String dirPath : dirsToIgnore) {
                         if (path.startsWith(dirPath)) {
-                            mediasToRemove.add(path);
+                            mediasToRemove.add(entry.getValue().getUri());
                             mItemList.remove(existingMedias.get(path));
                             continue outloop;
                         }
@@ -408,7 +408,7 @@ public class MediaLibrary {
                     for (String fileURI : addedLocations) {
                         existingMedias.remove(fileURI);
                     }
-                    mediaDatabase.removeMedias(existingMedias.keySet());
+                    mediaDatabase.removeMediaWrappers(existingMedias.values());
 
                     /*
                      * In case of file matching path of a folder from another removable storage

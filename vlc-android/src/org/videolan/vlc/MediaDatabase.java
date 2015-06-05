@@ -24,12 +24,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -43,6 +43,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import org.videolan.libvlc.util.AndroidUtil;
 
 public class MediaDatabase {
     public final static String TAG = "VLC/MediaDatabase";
@@ -395,7 +397,7 @@ public class MediaDatabase {
      */
     public void playlistDelete(String name) {
         mDb.delete(PLAYLIST_TABLE_NAME, PLAYLIST_NAME + "=?",
-                new String[] { name });
+                new String[]{ name });
         mDb.delete(PLAYLIST_MEDIA_TABLE_NAME, PLAYLIST_MEDIA_PLAYLISTNAME
                 + "=?", new String[] { name });
     }
@@ -539,7 +541,7 @@ public class MediaDatabase {
         values.put(PLAYLIST_MEDIA_PLAYLISTNAME, newPlaylistName);
         mDb.update(PLAYLIST_MEDIA_TABLE_NAME, values,
                 PLAYLIST_MEDIA_PLAYLISTNAME + " =?",
-                new String[] { playlistName });
+                new String[]{ playlistName });
 
         return true;
     }
@@ -559,7 +561,7 @@ public class MediaDatabase {
 
         ContentValues values = new ContentValues();
 
-        values.put(MEDIA_LOCATION, media.getLocation());
+        values.put(MEDIA_LOCATION, media.getUri().toString());
         values.put(MEDIA_TIME, media.getTime());
         values.put(MEDIA_LENGTH, media.getLength());
         values.put(MEDIA_TYPE, media.getType());
@@ -586,12 +588,12 @@ public class MediaDatabase {
      * @param location of the item (primary key)
      * @return True if the item exists, false if it does not
      */
-    public synchronized boolean mediaItemExists(String location) {
+    public synchronized boolean mediaItemExists(Uri uri) {
         try {
             Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
                     new String[] { MEDIA_LOCATION },
                     MEDIA_LOCATION + "=?",
-                    new String[] { location },
+                    new String[] { uri.toString() },
                     null, null, null);
             boolean exists = cursor.moveToFirst();
             cursor.close();
@@ -682,8 +684,8 @@ public class MediaDatabase {
             if (cursor.moveToFirst()) {
                 try {
                     do {
-                        String location = cursor.getString(0);
-                        MediaWrapper media = new MediaWrapper(location,
+                        final Uri uri = AndroidUtil.LocationToUri(cursor.getString(0));
+                        MediaWrapper media = new MediaWrapper(uri,
                                 cursor.getLong(1),      // MEDIA_TIME
                                 cursor.getLong(2),      // MEDIA_LENGTH
                                 cursor.getInt(3),       // MEDIA_TYPE
@@ -701,7 +703,7 @@ public class MediaDatabase {
                                 cursor.getInt(14),      // MEDIA_TRACKNUMBER
                                 cursor.getInt(15),     // MEDIA_DISCNUMBER
                                 cursor.getLong(16));     // MEDIA_LAST_MODIFIED
-                        medias.put(media.getLocation(), media);
+                        medias.put(media.getUri().toString(), media);
 
                         count++;
                     } while (cursor.moveToNext());
@@ -750,7 +752,7 @@ public class MediaDatabase {
         return times;
     }
 
-    public synchronized MediaWrapper getMedia(String location) {
+    public synchronized MediaWrapper getMedia(Uri uri) {
 
         Cursor cursor;
         MediaWrapper media = null;
@@ -777,14 +779,14 @@ public class MediaDatabase {
                         MEDIA_LAST_MODIFIED, //15 long
                 },
                 MEDIA_LOCATION + "=?",
-                new String[] { location },
+                new String[] { uri.toString() },
                 null, null, null);
         } catch(IllegalArgumentException e) {
             // java.lang.IllegalArgumentException: the bind value at index 1 is null
             return null;
         }
         if (cursor.moveToFirst()) {
-            media = new MediaWrapper(location,
+            media = new MediaWrapper(uri,
                     cursor.getLong(0),
                     cursor.getLong(1),
                     cursor.getInt(2),
@@ -807,7 +809,7 @@ public class MediaDatabase {
         return media;
     }
 
-    public synchronized Bitmap getPicture(String location) {
+    public synchronized Bitmap getPicture(Uri uri) {
         /* Used for the lazy loading */
         Cursor cursor;
         Bitmap picture = null;
@@ -817,7 +819,7 @@ public class MediaDatabase {
                 MEDIA_TABLE_NAME,
                 new String[] { MEDIA_PICTURE },
                 MEDIA_LOCATION + "=?",
-                new String[] { location },
+                new String[] { uri.toString() },
                 null, null, null);
         if (cursor.moveToFirst()) {
             blob = cursor.getBlob(0);
@@ -835,25 +837,36 @@ public class MediaDatabase {
         return picture;
     }
 
-    public synchronized void removeMedia(String location) {
-        mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[] { location });
+    public synchronized void removeMedia(Uri uri) {
+        mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[]{uri.toString()});
     }
 
-    public void removeMedias(Set<String> locations) {
+    public void removeMedias(Collection<Uri> uris) {
         mDb.beginTransaction();
         try {
-            for (String location : locations)
-                mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[] { location });
+            for (Uri uri : uris)
+                removeMedia(uri);
             mDb.setTransactionSuccessful();
         } finally {
             mDb.endTransaction();
         }
     }
 
-    public synchronized void updateMedia(String location, mediaColumn col,
+    public void removeMediaWrappers(Collection<MediaWrapper> mws) {
+        mDb.beginTransaction();
+        try {
+            for (MediaWrapper mw : mws)
+                removeMedia(mw.getUri());
+            mDb.setTransactionSuccessful();
+        } finally {
+            mDb.endTransaction();
+        }
+    }
+
+    public synchronized void updateMedia(Uri uri, mediaColumn col,
             Object object) {
 
-        if (location == null)
+        if (uri == null)
             return;
 
         ContentValues values = new ContentValues();
@@ -888,7 +901,7 @@ public class MediaDatabase {
             default:
                 return;
         }
-        mDb.update(MEDIA_TABLE_NAME, values, MEDIA_LOCATION + "=?", new String[]{location});
+        mDb.update(MEDIA_TABLE_NAME, values, MEDIA_LOCATION + "=?", new String[]{uri.toString()});
     }
 
     /**
@@ -1061,7 +1074,7 @@ public class MediaDatabase {
                 null, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            mw = new MediaWrapper(Uri.decode(cursor.getString(0)));
+            mw = new MediaWrapper(AndroidUtil.LocationToUri(cursor.getString(0)));
             mw.setTitle(Uri.decode(cursor.getString(1)));
             mw.setType(MediaWrapper.TYPE_DIR);
             favs.add(mw);
@@ -1089,8 +1102,8 @@ public class MediaDatabase {
         Log.d(TAG, "Setting new picture for " + m.getTitle());
         try {
             getInstance().updateMedia(
-                m.getLocation(),
-                mediaColumn.MEDIA_PICTURE,
+                m.getUri(),
+                    mediaColumn.MEDIA_PICTURE,
                 p);
         } catch (SQLiteFullException e) {
             Log.d(TAG, "SQLiteFullException while setting picture");
