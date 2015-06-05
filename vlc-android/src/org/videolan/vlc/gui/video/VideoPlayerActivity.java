@@ -1598,6 +1598,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void endReached() {
         if(mMediaListPlayer.expand(savedIndexPosition) == 0) {
+            startLoadingAnimation();
             Log.d(TAG, "Found a video playlist, expanding it");
             mEventHandler.postDelayed(new Runnable() {
                 @Override
