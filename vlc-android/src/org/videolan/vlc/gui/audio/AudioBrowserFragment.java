@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -42,7 +43,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -99,7 +99,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private SlidingTabLayout mSlidingTabLayout;
     private TextView mEmptyView;
     private List<View> mLists;
-    private ImageView mFabPlayShuffleAll;
+    private FloatingActionButton mFabPlayShuffleAll;
 
     public static final int DELETE_MEDIA = 101;
     public static final int DELETE_PLAYLIST = 102;
@@ -199,7 +199,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         genreList.setOnScrollListener(mScrollListener);
         playlistsList.setOnScrollListener(mScrollListener);
 
-        mFabPlayShuffleAll = (ImageView) v.findViewById(R.id.fab_play_shuffle_all);
+        mFabPlayShuffleAll = (FloatingActionButton)v.findViewById(R.id.fab_play_shuffle_all);
         mFabPlayShuffleAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

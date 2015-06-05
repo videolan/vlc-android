@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -45,7 +46,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
     boolean mScannedDirectory = false;
-    ImageView mAddDirectoryFAB;
+    FloatingActionButton mAddDirectoryFAB;
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
@@ -72,7 +73,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (mRoot) {
-            mAddDirectoryFAB = (ImageView) v.findViewById(R.id.fab_add_custom_dir);
+            mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
             mAddDirectoryFAB.setVisibility(View.VISIBLE);
             mAddDirectoryFAB.setOnClickListener(this);
         }

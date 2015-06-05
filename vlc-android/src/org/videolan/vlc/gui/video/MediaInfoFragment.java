@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -67,7 +68,7 @@ public class MediaInfoFragment extends ListFragment {
     private TextView mLengthView;
     private TextView mSizeView;
     private TextView mPathView;
-    private ImageButton mPlayButton;
+    private FloatingActionButton mPlayButton;
     private ImageButton mDelete;
     private ImageView mSubtitles;
     private Media mMedia;
@@ -95,7 +96,7 @@ public class MediaInfoFragment extends ListFragment {
         mLengthView = (TextView) v.findViewById(R.id.length);
         mSizeView = (TextView) v.findViewById(R.id.size_value);
         mPathView = (TextView) v.findViewById(R.id.info_path);
-        mPlayButton = (ImageButton) v.findViewById(R.id.play);
+        mPlayButton = (FloatingActionButton) v.findViewById(R.id.play);
         mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
 
