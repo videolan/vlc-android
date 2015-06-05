@@ -241,7 +241,7 @@ public class MediaBrowser {
                     /* one item can be found by severals discoverers */
                     boolean found = false;
                     for (Media media : mDiscovererMediaArray) {
-                        if (media.getMrl().equals(mlEvent.media.getMrl())) {
+                        if (media.getUri().equals(mlEvent.media.getUri())) {
                             found = true;
                             break;
                         }

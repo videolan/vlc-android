@@ -108,7 +108,7 @@ public class MediaWrapper implements Parcelable {
         if (media == null)
             throw new NullPointerException("media was null");
 
-        mUri = getUri(media.getMrl());
+        mUri = media.getUri();
         init(media);
     }
 

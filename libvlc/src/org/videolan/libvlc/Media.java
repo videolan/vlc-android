@@ -216,7 +216,7 @@ public class Media extends VLCObject {
     private static final int PARSE_STATUS_PARSING = 0x01;
     private static final int PARSE_STATUS_PARSED = 0x02;
 
-    private String mMrl = null;
+    private Uri mUri = null;
     private MediaList mSubItems = null;
     private int mParseStatus = PARSE_STATUS_INIT;
     private String mNativeMetas[] = null;
@@ -233,7 +233,7 @@ public class Media extends VLCObject {
      */
     public Media(LibVLC libVLC, String path) {
         nativeNewFromPath(libVLC, path);
-        mMrl = nativeGetMrl();
+        mUri = UriFromMrl(nativeGetMrl());
         mType = nativeGetType();
     }
 
@@ -244,8 +244,8 @@ public class Media extends VLCObject {
      * @param uri
      */
     public Media(LibVLC libVLC, Uri uri) {
-        nativeNewFromLocation(libVLC, uri.toString());
-        mMrl = nativeGetMrl();
+        nativeNewFromLocation(libVLC, locationFromUri(uri));
+        mUri = uri;
         mType = nativeGetType();
     }
 
@@ -257,7 +257,7 @@ public class Media extends VLCObject {
      */
     public Media(LibVLC libVLC, FileDescriptor fd) {
         nativeNewFromFD(libVLC, fd);
-        mMrl = nativeGetMrl();
+        mUri = UriFromMrl(nativeGetMrl());
         mType = nativeGetType();
     }
 
@@ -272,9 +272,61 @@ public class Media extends VLCObject {
         if (!ml.isLocked())
             throw new IllegalStateException("MediaList should be locked");
         nativeNewFromMediaList(ml, index);
-        mMrl = nativeGetMrl();
+        mUri = UriFromMrl(nativeGetMrl());
         mNativeMetas = nativeGetMetas();
         mType = nativeGetType();
+    }
+
+    private static final String URI_AUTHORIZED_CHARS = "!'()*";
+
+    /**
+     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
+     * Therefore, decode the characters authorized by Android Uri when creating an Uri from VLC.
+     * @param mrl
+     * @return
+     */
+    private static Uri UriFromMrl(String mrl) {
+        final char array[] = mrl.toCharArray();
+        final StringBuilder sb = new StringBuilder(array.length);
+
+        for (int i = 0; i < array.length; ++i) {
+            final char c = array[i];
+            if (c == '%') {
+                if (array.length - i < 3)
+                    throw new IllegalArgumentException("bad mrl format");
+
+                final int hex = Integer.parseInt(new String(array, i + 1, 2), 16);
+                if (URI_AUTHORIZED_CHARS.indexOf(hex) != -1) {
+                    sb.append((char)hex);
+                    i += 2;
+                    continue;
+                }
+            }
+            sb.append(c);
+        }
+
+        return Uri.parse(sb.toString());
+    }
+
+    /**
+     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
+     * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
+     * @param uri
+     * @return
+     */
+    private static String locationFromUri(Uri uri) {
+        final char array[] = uri.toString().toCharArray();
+        final StringBuilder sb = new StringBuilder(array.length * 2);
+
+        for (int i = 0; i < array.length; ++i) {
+            final char c = array[i];
+            if (URI_AUTHORIZED_CHARS.indexOf(c) != -1)
+                sb.append("%").append(Integer.toHexString(c));
+            else
+                sb.append(c);
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -306,8 +358,8 @@ public class Media extends VLCObject {
     /**
      * Get the MRL associated with the Media.
      */
-    public synchronized String getMrl() {
-        return mMrl;
+    public synchronized Uri getUri() {
+        return mUri;
     }
 
     /**

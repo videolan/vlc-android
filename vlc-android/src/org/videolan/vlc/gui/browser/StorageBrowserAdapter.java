@@ -107,7 +107,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     public void addItem(Media media, boolean notify, boolean top){
-        Storage storage = new Storage(media.getMrl());
+        Storage storage = new Storage(media.getUri().toString());
         addItem(storage, notify, top);
     }
 
