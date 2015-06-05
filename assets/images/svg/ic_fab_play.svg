@@ -9,26 +9,17 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="36"
-   height="36"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="ic_fab_play.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684">
-    <filter
-       inkscape:collect="always"
-       id="filter5590">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.5"
-         id="feGaussianBlur5592" />
-    </filter>
-  </defs>
+     id="defs4684" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -37,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="18.270833"
-     inkscape:cx="-11.34182"
-     inkscape:cy="21.656208"
+     inkscape:cx="6.8073316"
+     inkscape:cy="15.656191"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -46,14 +37,32 @@
      inkscape:window-height="1056"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="1">
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true">
     <inkscape:grid
        type="xygrid"
        id="grid2983"
        empspacing="4"
        visible="true"
        enabled="true"
-       snapvisiblegridlinesonly="true" />
+       snapvisiblegridlinesonly="true"
+       originx="-7.4928101"
+       originy="-6.0000172" />
   </sodipodi:namedview>
   <metadata
      id="metadata4687">
@@ -63,7 +72,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -71,44 +80,23 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1016.3622)">
-    <path
-       transform="matrix(1.35,-1.3440112e-8,1.3440112e-8,1.35,-103.5,959.26818)"
-       sodipodi:type="arc"
-       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;filter:url(#filter5590)"
-       id="path5176"
-       sodipodi:cx="90"
-       sodipodi:cy="56.362183"
-       sodipodi:rx="10"
-       sodipodi:ry="10"
-       d="m 100,56.362183 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522848 4.477153,-10 10,-10 5.522847,0 10,4.477152 10,10 z" />
-    <path
-       d="m 100,56.362183 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522848 4.477153,-10 10,-10 5.522847,0 10,4.477152 10,10 z"
-       sodipodi:ry="10"
-       sodipodi:rx="10"
-       sodipodi:cy="56.362183"
-       sodipodi:cx="90"
-       id="path5178"
-       style="color:#000000;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       sodipodi:type="arc"
-       transform="matrix(1.4,0,0,1.4,-108,955.45513)" />
+     transform="translate(-7.4928101,-1022.3622)">
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:#fafafa;stroke-width:1.19954252;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:#212121;stroke-width:1.42905498;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="path5180"
        sodipodi:sides="3"
-       sodipodi:cx="62"
-       sodipodi:cy="242.36218"
-       sodipodi:r1="9"
-       sodipodi:r2="5"
+       sodipodi:cx="18.563544"
+       sodipodi:cy="1034.3622"
+       sodipodi:r1="10.722"
+       sodipodi:r2="5.9566665"
        sodipodi:arg1="0"
        sodipodi:arg2="1.0471976"
        inkscape:flatsided="true"
        inkscape:rounded="0"
        inkscape:randomized="0"
-       d="m 71,242.36218 -13.5,7.79423 0,-15.58846 z"
-       transform="matrix(0.69494087,0,0,0.69494087,-25.084462,865.93157)"
-       inkscape:transform-center-y="-0.0032446367"
-       inkscape:transform-center-x="-1.5654907" />
+       d="m 29.285543,1034.3622 -16.083,9.2855 0,-18.571 z"
+       inkscape:transform-center-y="-0.0055772233"
+       inkscape:transform-center-x="-2.6837118" />
   </g>
 </svg>

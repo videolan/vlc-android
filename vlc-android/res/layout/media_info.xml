@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_play_normal"
+                android:src="@drawable/ic_fab_play"
                 android:tint="@color/grey50"
                 android:visibility="invisible" />
 

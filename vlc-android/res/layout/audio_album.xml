@@ -31,7 +31,7 @@
         android:layout_marginRight="25dp"
         android:layout_below="@+id/album_cover"
         android:layout_marginTop="-40dp"
-        android:src="@drawable/ic_play_normal"
+        android:src="@drawable/ic_fab_play"
         android:tint="@color/grey50"/>
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"
