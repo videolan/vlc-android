@@ -22,6 +22,7 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 
@@ -66,22 +67,28 @@ public class AndroidUtil {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
-    public static File URItoFile(String URI) {
-        if (URI == null) return null;
-        return new File(Uri.decode(URI).replaceFirst("file://", ""));
+    public static File UriToFile(Uri uri) {
+        return new File(uri.getPath().replaceFirst("file://", ""));
     }
 
     /**
      * Quickly converts path to URIs, which are mandatory in libVLC.
      *
-     * @param path
-     *            The path to be converted.
+     * @param path The path to be converted.
      * @return A URI representation of path
      */
-    public static String PathToURI(String path) {
-        if (path == null) {
-            throw new NullPointerException("Cannot convert null path!");
-        }
-        return Uri.fromFile(new File(path)).toString();
+    public static Uri PathToUri(String path) {
+        return Uri.fromFile(new File(path));
+    }
+
+    public static Uri LocationToUri(String location) {
+        Uri uri = Uri.parse(location);
+        if (uri.getScheme() == null)
+            throw new IllegalArgumentException("location has no scheme");
+        return uri;
+    }
+
+    public static Uri FileToUri(File file) {
+        return Uri.fromFile(file);
     }
 }

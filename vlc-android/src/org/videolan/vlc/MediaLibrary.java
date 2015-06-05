@@ -355,7 +355,7 @@ public class MediaLibrary {
 
                 // Process the stacked items
                 for (File file : mediaToScan) {
-                    String fileURI = AndroidUtil.PathToURI(file.getPath());
+                    String fileURI = AndroidUtil.FileToUri(file).toString();
                     if (mBrowser != null && mBrowser.get() != null)
                         mBrowser.get().sendTextInfo(file.getName(), count,
                                 mediaToScan.size());

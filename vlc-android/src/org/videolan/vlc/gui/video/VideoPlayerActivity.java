@@ -2696,7 +2696,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                             while((bytesRead = is.read(buffer)) >= 0) {
                                 os.write(buffer, 0, bytesRead);
                             }
-                            mLocation = AndroidUtil.PathToURI(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
+                            mLocation = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename).toString();
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");
@@ -2715,7 +2715,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                         if (cursor != null) {
                             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
                             if (cursor.moveToFirst())
-                                mLocation = AndroidUtil.PathToURI(cursor.getString(column_index));
+                                mLocation = AndroidUtil.PathToUri(cursor.getString(column_index)).toString();
                             cursor.close();
                         }
                         // other content-based URI (probably file pickers)

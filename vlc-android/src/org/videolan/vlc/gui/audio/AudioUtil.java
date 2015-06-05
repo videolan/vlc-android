@@ -76,7 +76,7 @@ public class AudioUtil {
     public static String PLAYLIST_DIR = null;
 
     public static void setRingtone(MediaWrapper song, Context context){
-        File newringtone = AndroidUtil.URItoFile(song.getLocation());
+        File newringtone = AndroidUtil.UriToFile(song.getUri());
         if(newringtone == null || !newringtone.exists()) {
             Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
@@ -220,7 +220,7 @@ public class AudioUtil {
     }
 
     private static String getCoverFromFolder(MediaWrapper media) {
-        File f = AndroidUtil.URItoFile(media.getLocation());
+        File f = AndroidUtil.UriToFile(media.getUri());
         if (f == null)
             return null;
 
