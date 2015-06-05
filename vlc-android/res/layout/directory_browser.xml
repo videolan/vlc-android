@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <org.videolan.vlc.widget.SwipeRefreshLayout
@@ -26,6 +28,8 @@
     <include layout="@layout/shadow_top"/>
 
     <android.support.design.widget.FloatingActionButton
+        app:borderWidth="0dp"
+        app:rippleColor="@color/orange50"
         android:id="@+id/fab_add_custom_dir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
