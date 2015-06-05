@@ -36,7 +36,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
@@ -44,6 +43,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.Util;
 
 import java.io.File;
 
@@ -172,7 +172,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 String path = input.getText().toString().trim();
                 File f = new File(path);
                 if (!f.exists() || !f.isDirectory()) {
-                    Toast.makeText(context, getString(R.string.directorynotfound, path), Toast.LENGTH_SHORT).show();
+                    Util.snacker(getView(), getString(R.string.directorynotfound, path));
                     return;
                 }
 

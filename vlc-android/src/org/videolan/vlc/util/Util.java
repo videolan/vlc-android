@@ -31,11 +31,12 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -64,8 +65,13 @@ public class Util {
     public static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
 
     /** Print an on-screen message to alert the user */
-    public static void toaster(Context context, int stringId) {
-        Toast.makeText(context, stringId, Toast.LENGTH_SHORT).show();
+    public static void snacker(View view, int stringId) {
+        Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT).show();
+    }
+
+    /** Print an on-screen message to alert the user */
+    public static void snacker(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
     public static int convertPxToDp(int px) {

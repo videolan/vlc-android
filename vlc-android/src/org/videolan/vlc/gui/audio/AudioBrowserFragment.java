@@ -47,7 +47,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.widget.SlidingTabLayout;
 
@@ -664,7 +663,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     MediaWrapper mw = fragment.mSongsAdapter.getItem(msg.arg1).mMediaList.get(0);
                     final String path = mw.getUri().getPath();
                     //Let's keep this toast while duration is not set correctly
-                    Toast.makeText(fragment.getActivity(), "deleting file", Toast.LENGTH_SHORT).show();
                     new Thread(new Runnable() {
                         public void run() {
                             Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
@@ -676,7 +674,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 case DELETE_PLAYLIST:
                     AudioBrowserListAdapter.ListItem listItem = fragment.mPlaylistAdapter.getItem(msg.arg1);
                     //Let's keep this toast while duration is not set correctly
-                    Toast.makeText(fragment.getActivity(), "deleting playlist "+listItem.mTitle, Toast.LENGTH_SHORT).show();
                     if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) { //File playlist
                         MediaWrapper media = listItem.mMediaList.get(0);
                         fragment.mMediaLibrary.getMediaItems().remove(media);

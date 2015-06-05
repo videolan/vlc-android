@@ -2073,7 +2073,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                 mTime.setText(Strings.millisToString(progress));
                 showInfo(Strings.millisToString(progress));
             }
-
         }
     };
 

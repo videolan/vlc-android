@@ -48,7 +48,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.LibVLC;
@@ -191,7 +190,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         BitmapCache.getInstance().clear();
                         AudioUtil.clearCacheFolders();
                         setResult(RESULT_RESCAN);
-                        Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
+                        Util.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.media_db_cleared);
                         return true;
                     }
                 });
@@ -257,7 +256,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Toast.makeText(getBaseContext(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
+                Util.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.set_locale_popup);
                 return true;
             }
         });
@@ -363,7 +362,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 if (dialog!=null) {
                     Window window = dialog.getWindow();
                     if (window != null) {
-                        ConstantState state = this.getWindow().getDecorView().getBackground().getConstantState();
+                        ConstantState state = this.getWindow().getDecorView().findViewById(android.R.id.content).getBackground().getConstantState();
                         if (state != null)
                             window.getDecorView().setBackgroundDrawable(state.newDrawable());
                     }
