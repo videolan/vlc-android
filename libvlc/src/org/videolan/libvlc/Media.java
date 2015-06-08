@@ -22,6 +22,9 @@ package org.videolan.libvlc;
 
 import android.net.Uri;
 
+import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.HWDecoderUtil;
+
 import java.io.FileDescriptor;
 
 public class Media extends VLCObject {
@@ -224,6 +227,7 @@ public class Media extends VLCObject {
     private long mDuration;
     private int mState = State.NothingSpecial;
     private int mType = Type.Unknown;
+    private boolean mCodecOptionSet = false;
 
     /**
      * Create a Media from libVLC and a local path starting with '/'.
@@ -512,12 +516,68 @@ public class Media extends VLCObject {
         return mNativeMetas != null ? mNativeMetas[id] : null;
     }
 
+    private static String getMediaCodecModule() {
+        return AndroidUtil.isLolliPopOrLater() ? "mediacodec_ndk" : "mediacodec_jni";
+    }
+
+
+    /**
+     * Add or remove hw acceleration media options
+     *
+     * @param enabled
+     * @param force force hw acceleration even for unknown devices
+     */
+    public void setHWDecoderEnabled(boolean enabled, boolean force) {
+        final HWDecoderUtil.Decoder decoder = enabled ?
+                HWDecoderUtil.getDecoderFromDevice() :
+                HWDecoderUtil.Decoder.NONE;
+
+        if (decoder == HWDecoderUtil.Decoder.NONE ||
+                (decoder == HWDecoderUtil.Decoder.UNKNOWN && !force)) {
+            addOption(":codec=all");
+            return;
+        }
+
+        /*
+         * Set higher caching values if using iomx decoding, since some omx
+         * decoders have a very high latency, and if the preroll data isn't
+         * enough to make the decoder output a frame, the playback timing gets
+         * started too soon, and every decoded frame appears to be too late.
+         * On Nexus One, the decoder latency seems to be 25 input packets
+         * for 320x170 H.264, a few packets less on higher resolutions.
+         * On Nexus S, the decoder latency seems to be about 7 packets.
+         */
+        addOption(":file-caching=1500");
+        addOption(":network-caching=1500");
+
+        final StringBuilder sb = new StringBuilder(":codec=");
+        if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
+            sb.append(getMediaCodecModule()).append(",");
+        else if (decoder == HWDecoderUtil.Decoder.OMX)
+            sb.append("iomx,");
+        else
+            sb.append(getMediaCodecModule()).append(",iomx,");
+        sb.append("all");
+
+        addOption(sb.toString());
+    }
+
+    /**
+     * Enable HWDecoder options if not already set
+     */
+    protected void setDefaultMediaPlayerOptions() {
+        if (!mCodecOptionSet)
+            setHWDecoderEnabled(true, false);
+    }
+
     /**
      * Add an option to this Media. This Media should be alive (not released).
      *
      * @param option ":option" or ":option=value"
      */
     public synchronized void addOption(String option) {
+        if (!mCodecOptionSet && option.startsWith(":codec="))
+            mCodecOptionSet = true;
         nativeAddOption(option);
     }
 

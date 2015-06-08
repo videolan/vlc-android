@@ -64,12 +64,10 @@ public class MediaWrapperListPlayer {
         if (mrl == null)
             return;
         final MediaWrapper mw = mMediaList.getMedia(position);
-        String[] options = VLCOptions.getMediaOptions(context, flags | (mw != null ? mw.getFlags() : 0));
         mPlayerIndex = position;
 
         final Media media = new Media(VLCInstance.get(), mw.getUri());
-        for (String option : options)
-            media.addOption(option);
+        VLCOptions.setMediaOptions(media, context, flags | (mw != null ? mw.getFlags() : 0));
         VLCInstance.getMainMediaPlayer().setMedia(media);
         media.release();
         VLCInstance.getMainMediaPlayer().setEqualizer(VLCOptions.getEqualizer());

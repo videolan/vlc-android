@@ -84,6 +84,7 @@ public class MediaPlayer extends VLCObject {
             if (media.isReleased())
                 throw new IllegalArgumentException("Media is released");
             media.retain();
+            media.setDefaultMediaPlayerOptions();
         }
         mMedia = media;
         nativeSetMedia(mMedia);
