@@ -31,7 +31,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.audio.MediaComparators;
-import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.AndroidDevices;
 
 import android.app.Activity;
@@ -47,7 +46,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements PlaybackServiceClient.AudioServiceConnectionListener, IAudioPlayer, View.OnFocusChangeListener {
+public class AudioPlayerActivity extends Activity implements PlaybackServiceClient.AudioServiceConnectionListener, PlaybackServiceClient.Callback, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
@@ -101,12 +100,12 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     public void onStart(){
         super.onStart();
         mAudioController.bindAudioService(this, this);
-        mAudioController.addAudioPlayer(this);
+        mAudioController.addCallback(this);
     }
 
     public void onStop(){
         super.onStop();
-        mAudioController.removeAudioPlayer(this);
+        mAudioController.removeCallback(this);
         mAudioController.unbindAudioService(this);
         mMediaList.clear();
     }

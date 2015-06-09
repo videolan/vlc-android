@@ -31,7 +31,6 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IPlaybackService;
 import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 
@@ -43,17 +42,18 @@ import java.util.List;
 public class PlaybackServiceClient {
     public static final String TAG = "PlaybackServiceClient";
 
+    public interface Callback {
+        void update();
+        void updateProgress();
+        void onMediaPlayedAdded(MediaWrapper media, int index);
+        void onMediaPlayedRemoved(int index);
+    }
+
     private static PlaybackServiceClient mInstance;
     private static boolean mIsBound = false;
     private IPlaybackService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
-    private final ArrayList<IAudioPlayer> mAudioPlayer;
-    private final ArrayList<MediaPlayedListener> mMediaPlayedListener;
-
-    public interface MediaPlayedListener {
-        public void onMediaPlayedAdded(MediaWrapper media, int index);
-        public void onMediaPlayedRemoved(int index);
-    }
+    private final ArrayList<Callback> mCallbacks;
 
     private final IPlaybackServiceCallback mCallback = new IPlaybackServiceCallback.Stub() {
         @Override
@@ -78,8 +78,7 @@ public class PlaybackServiceClient {
     };
 
     private PlaybackServiceClient() {
-        mAudioPlayer = new ArrayList<IAudioPlayer>();
-        mMediaPlayedListener = new ArrayList<MediaPlayedListener>();
+        mCallbacks = new ArrayList<Callback>();
     }
 
     public static PlaybackServiceClient getInstance() {
@@ -186,46 +185,28 @@ public class PlaybackServiceClient {
     }
 
     /**
-     * Add a MediaPlayedListener
-     * @param li
+     * Add a Callback
+     * @param callback
      */
-    public void addMediaPlayedListener(MediaPlayedListener li) {
-        if (!mMediaPlayedListener.contains(li))
-            mMediaPlayedListener.add(li);
+    public void addCallback(Callback callback) {
+        if (!mCallbacks.contains(callback))
+            mCallbacks.add(callback);
     }
 
     /**
-     * Remove MediaPlayedListener from list
-     * @param li
+     * Remove Callback from list
+     * @param callback
      */
-    public void removeMediaPlayedListener(MediaPlayedListener li) {
-        if (mMediaPlayedListener.contains(li))
-            mMediaPlayedListener.remove(li);
-    }
-
-    /**
-     * Add a AudioPlayer
-     * @param ap
-     */
-    public void addAudioPlayer(IAudioPlayer ap) {
-        if (!mAudioPlayer.contains(ap))
-            mAudioPlayer.add(ap);
-    }
-
-    /**
-     * Remove AudioPlayer from list
-     * @param ap
-     */
-    public void removeAudioPlayer(IAudioPlayer ap) {
-        if (mAudioPlayer.contains(ap))
-            mAudioPlayer.remove(ap);
+    public void removeCallback(Callback callback) {
+        if (mCallbacks.contains(callback))
+            mCallbacks.remove(callback);
     }
 
     /**
      * Update all AudioPlayer
      */
     private void updateAudioPlayer() {
-        for (IAudioPlayer player : mAudioPlayer)
+        for (Callback player : mCallbacks)
             player.update();
     }
 
@@ -233,18 +214,18 @@ public class PlaybackServiceClient {
      * Update the progress of all AudioPlayers
      */
     private void updateProgressAudioPlayer() {
-        for (IAudioPlayer player : mAudioPlayer)
+        for (Callback player : mCallbacks)
             player.updateProgress();
     }
 
     private void updateMediaPlayedAdded(MediaWrapper media, int index) {
-        for (MediaPlayedListener listener : mMediaPlayedListener) {
+        for (Callback listener : mCallbacks) {
             listener.onMediaPlayedAdded(media, index);
         }
     }
 
     private void updateMediaPlayedRemoved(int index) {
-        for (MediaPlayedListener listener : mMediaPlayedListener) {
+        for (Callback listener : mCallbacks) {
             listener.onMediaPlayedRemoved(index);
         }
     }

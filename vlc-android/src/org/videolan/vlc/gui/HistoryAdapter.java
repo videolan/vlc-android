@@ -39,7 +39,7 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
-public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient.MediaPlayedListener {
+public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient.Callback {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
@@ -53,11 +53,11 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
 
         mMediaList = new ArrayList<MediaWrapper>();
 
-        mAudioController.addMediaPlayedListener(this);
+        mAudioController.addCallback(this);
     }
 
     public void release () {
-        mAudioController.removeMediaPlayedListener(this);
+        mAudioController.removeCallback(this);
     }
 
     @Override
@@ -113,6 +113,14 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
 
     public void remove(int position) {
         mAudioController.remove(position);
+    }
+
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void updateProgress() {
     }
 
     @Override

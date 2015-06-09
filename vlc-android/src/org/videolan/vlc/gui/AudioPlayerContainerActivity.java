@@ -111,14 +111,14 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mAudioController.addAudioPlayer(mAudioPlayer);
+        mAudioController.addCallback(mAudioPlayer);
         PlaybackServiceClient.getInstance().bindAudioService(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mAudioController.removeAudioPlayer(mAudioPlayer);
+        mAudioController.removeCallback(mAudioPlayer);
         PlaybackServiceClient.getInstance().unbindAudioService(this);
     }
 

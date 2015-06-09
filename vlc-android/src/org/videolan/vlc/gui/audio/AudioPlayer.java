@@ -61,7 +61,6 @@ import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
-import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
@@ -69,7 +68,7 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickListener {
+public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callback, View.OnClickListener {
     public static final String TAG = "VLC/AudioPlayer";
 
     private ProgressBar mProgressBar;
@@ -398,6 +397,14 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             mTimeline.setProgress(time);
             mProgressBar.setProgress(time);
         }
+    }
+
+    @Override
+    public void onMediaPlayedAdded(MediaWrapper media, int index) {
+    }
+
+    @Override
+    public void onMediaPlayedRemoved(int index) {
     }
 
     private void updateList() {
