@@ -26,7 +26,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -46,7 +46,7 @@ import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.widget.Toast;
 
-public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackServiceController.AudioServiceConnectionListener {
+public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackServiceClient.AudioServiceConnectionListener {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
     private static final int ID_LISTEN = 2;
@@ -54,7 +54,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_FAVORITE_DELETE = 4;
     private static final int ID_BROWSE = 5;
     private ArrayObjectAdapter mRowsAdapter;
-    private PlaybackServiceController mAudioController;
+    private PlaybackServiceClient mAudioController;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
     private MediaDatabase mDb;
@@ -63,7 +63,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
         buildDetails();
     }
 

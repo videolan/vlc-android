@@ -43,7 +43,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCallbackTask;
@@ -216,7 +216,7 @@ public class Util {
             VLCCallbackTask task = new VLCCallbackTask(context) {
                 @Override
                 public void run() {
-                    PlaybackServiceController c = PlaybackServiceController.getInstance();
+                    PlaybackServiceClient c = PlaybackServiceClient.getInstance();
                     c.load(media);
                 }
             };
@@ -228,7 +228,7 @@ public class Util {
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                PlaybackServiceController c = PlaybackServiceController.getInstance();
+                PlaybackServiceClient c = PlaybackServiceClient.getInstance();
 
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video
@@ -246,7 +246,7 @@ public class Util {
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                PlaybackServiceController c = PlaybackServiceController.getInstance();
+                PlaybackServiceClient c = PlaybackServiceClient.getInstance();
 
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video

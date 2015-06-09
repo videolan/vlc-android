@@ -52,14 +52,12 @@ import com.android.widget.SlidingTabLayout;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -76,7 +74,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     private static final int DELETE_MEDIA = 0;
     private static final int DELETE_DURATION = 3000;
 
-    PlaybackServiceController mAudioController;
+    PlaybackServiceClient mAudioController;
     private MediaLibrary mMediaLibrary;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -108,7 +106,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         mAlbumsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
         mSongsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
         mMediaLibrary = MediaLibrary.getInstance();
         if (savedInstanceState != null)
             setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));

@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.widget;
 
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -42,7 +42,7 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
     }
 
     public void updateMedia() {
-        PlaybackServiceController audioController = PlaybackServiceController.getInstance();
+        PlaybackServiceClient audioController = PlaybackServiceClient.getInstance();
         if (audioController == null)
             return;
 

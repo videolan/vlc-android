@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioServiceController.java
+ * PlaybackServiceClient.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaybackServiceController implements IAudioPlayerControl {
-    public static final String TAG = "VLC/PlaylistServiceCtrl";
+public class PlaybackServiceClient implements IAudioPlayerControl {
+    public static final String TAG = "PlaybackServiceClient";
 
-    private static PlaybackServiceController mInstance;
+    private static PlaybackServiceClient mInstance;
     private static boolean mIsBound = false;
     private IPlaybackService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
@@ -78,14 +78,14 @@ public class PlaybackServiceController implements IAudioPlayerControl {
         }
     };
 
-    private PlaybackServiceController() {
+    private PlaybackServiceClient() {
         mAudioPlayer = new ArrayList<IAudioPlayer>();
         mMediaPlayedListener = new ArrayList<MediaPlayedListener>();
     }
 
-    public static PlaybackServiceController getInstance() {
+    public static PlaybackServiceClient getInstance() {
         if (mInstance == null) {
-            mInstance = new PlaybackServiceController();
+            mInstance = new PlaybackServiceClient();
         }
         return mInstance;
     }

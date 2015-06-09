@@ -46,13 +46,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -405,7 +404,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 Util.openMedia(getActivity(), (MediaWrapper) mAdapter.getItem(position));
                 return true;
             case R.id.directory_view_append:
-                PlaybackServiceController.getInstance().append(mw);
+                PlaybackServiceClient.getInstance().append(mw);
                 return true;
             case R.id.directory_view_delete:
                 AlertDialog alertDialog = CommonDialogs.deleteMedia(
@@ -425,7 +424,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 startActivity(i);
                 return true;
             case R.id.directory_view_play_audio:
-                PlaybackServiceController.getInstance().load(mw);
+                PlaybackServiceClient.getInstance().load(mw);
                 return true;
             case  R.id.directory_view_play_video:
                 VideoPlayerActivity.start(getActivity(), mw.getUri());

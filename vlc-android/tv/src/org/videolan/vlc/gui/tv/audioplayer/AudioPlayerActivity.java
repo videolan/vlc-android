@@ -26,7 +26,7 @@ import java.util.Collections;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -47,12 +47,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements PlaybackServiceController.AudioServiceConnectionListener, IAudioPlayer, View.OnFocusChangeListener {
+public class AudioPlayerActivity extends Activity implements PlaybackServiceClient.AudioServiceConnectionListener, IAudioPlayer, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
 
-    private PlaybackServiceController mAudioController;
+    private PlaybackServiceClient mAudioController;
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -84,7 +84,7 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceCont
         mAdapter = new PlaylistAdapter(this, mMediaList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
 
         mAudioController.getRepeatType();
         mTitleTv = (TextView)findViewById(R.id.media_title);

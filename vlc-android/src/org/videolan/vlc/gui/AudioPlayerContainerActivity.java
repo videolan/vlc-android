@@ -39,7 +39,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.util.Util;
@@ -53,7 +53,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
     protected ActionBar mActionBar;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
-    protected PlaybackServiceController mAudioController;
+    protected PlaybackServiceClient mAudioController;
     protected SlidingPaneLayout mSlidingPane;
     protected View mAudioPlayerFilling;
     protected SharedPreferences mSettings;
@@ -83,7 +83,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
         /* Set up the audio player */
         mAudioPlayer = new AudioPlayer();
         mAudioPlayer.setUserVisibleHint(false);
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.audio_player, mAudioPlayer)
@@ -112,14 +112,14 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAudioController.addAudioPlayer(mAudioPlayer);
-        PlaybackServiceController.getInstance().bindAudioService(this);
+        PlaybackServiceClient.getInstance().bindAudioService(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mAudioController.removeAudioPlayer(mAudioPlayer);
-        PlaybackServiceController.getInstance().unbindAudioService(this);
+        PlaybackServiceClient.getInstance().unbindAudioService(this);
     }
 
     private void applyTheme() {

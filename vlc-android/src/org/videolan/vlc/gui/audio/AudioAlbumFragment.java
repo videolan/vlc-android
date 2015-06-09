@@ -46,7 +46,7 @@ import android.widget.ListView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
@@ -56,7 +56,7 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
 
     public final static String TAG = "VLC/AudioAlbumFragment";
 
-    PlaybackServiceController mAudioController;
+    PlaybackServiceClient mAudioController;
 
     private AlbumAdapter mAdapter;
     private ArrayList<MediaWrapper> mMediaList;
@@ -70,7 +70,7 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
 
         mAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
         if (savedInstanceState != null)
             setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));
     }

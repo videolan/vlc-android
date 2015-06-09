@@ -52,7 +52,7 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
@@ -91,7 +91,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
 
     ViewSwitcher mSwitcher;
 
-    private PlaybackServiceController mAudioController;
+    private PlaybackServiceClient mAudioController;
     private boolean mShowRemainingTime = false;
     private boolean mPreviewingSeek = false;
 
@@ -112,7 +112,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
 
         mSongsListAdapter = new AudioPlaylistAdapter(getActivity());
     }

@@ -31,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceController;
+import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -39,17 +39,17 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
-public class HistoryAdapter extends BaseAdapter implements PlaybackServiceController.MediaPlayedListener {
+public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient.MediaPlayedListener {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
-    private final PlaybackServiceController mAudioController;
+    private final PlaybackServiceClient mAudioController;
     private final ArrayList<MediaWrapper> mMediaList;
 
     public HistoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
 
-        mAudioController = PlaybackServiceController.getInstance();
+        mAudioController = PlaybackServiceClient.getInstance();
 
         mMediaList = new ArrayList<MediaWrapper>();
 
