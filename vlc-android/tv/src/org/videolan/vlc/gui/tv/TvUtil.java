@@ -38,7 +38,7 @@ public class TvUtil {
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
             if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
-                VideoPlayerActivity.start(activity, mediaWrapper.getLocation(), Strings.getMediaTitle(mediaWrapper));
+                VideoPlayerActivity.start(activity, mediaWrapper.getUri(), Strings.getMediaTitle(mediaWrapper));
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 Intent intent = new Intent(activity,
                         DetailsActivity.class);
