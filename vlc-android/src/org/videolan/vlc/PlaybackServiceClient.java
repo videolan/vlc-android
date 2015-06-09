@@ -51,8 +51,8 @@ public class PlaybackServiceClient {
 
     private static PlaybackServiceClient mInstance;
     private static boolean mIsBound = false;
-    private IPlaybackService mAudioServiceBinder;
-    private ServiceConnection mAudioServiceConnection;
+    private IPlaybackService mIService;
+    private ServiceConnection mServiceConnection;
     private final ArrayList<Callback> mCallbacks;
 
     private final IPlaybackServiceCallback mCallback = new IPlaybackServiceCallback.Stub() {
@@ -117,11 +117,11 @@ public class PlaybackServiceClient {
             final boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
 
             // Setup audio service connection
-            mAudioServiceConnection = new ServiceConnection() {
+            mServiceConnection = new ServiceConnection() {
                 @Override
                 public void onServiceDisconnected(ComponentName name) {
                     Log.d(TAG, "Service Disconnected");
-                    mAudioServiceBinder = null;
+                    mIService = null;
                     mIsBound = false;
                 }
 
@@ -130,12 +130,12 @@ public class PlaybackServiceClient {
                     if (!mIsBound) // Can happen if unbind is called quickly before this callback
                         return;
                     Log.d(TAG, "Service Connected");
-                    mAudioServiceBinder = IPlaybackService.Stub.asInterface(service);
+                    mIService = IPlaybackService.Stub.asInterface(service);
 
                     // Register controller to the service
                     try {
-                        mAudioServiceBinder.addAudioCallback(mCallback);
-                        mAudioServiceBinder.detectHeadset(enableHS);
+                        mIService.addAudioCallback(mCallback);
+                        mIService.detectHeadset(enableHS);
                         if (connectionListerner != null)
                             connectionListerner.onConnectionSuccess();
                     } catch (RemoteException e) {
@@ -147,12 +147,12 @@ public class PlaybackServiceClient {
                 }
             };
 
-            mIsBound = context.bindService(service, mAudioServiceConnection, Context.BIND_AUTO_CREATE);
+            mIsBound = context.bindService(service, mServiceConnection, Context.BIND_AUTO_CREATE);
         } else {
             // Register controller to the service
             try {
-                if (mAudioServiceBinder != null)
-                    mAudioServiceBinder.addAudioCallback(mCallback);
+                if (mIService != null)
+                    mIService.addAudioCallback(mCallback);
                 if (connectionListerner != null)
                     connectionListerner.onConnectionSuccess();
             } catch (RemoteException e) {
@@ -173,14 +173,14 @@ public class PlaybackServiceClient {
         if (mIsBound) {
             mIsBound = false;
             try {
-                if (mAudioServiceBinder != null)
-                    mAudioServiceBinder.removeAudioCallback(mCallback);
+                if (mIService != null)
+                    mIService.removeAudioCallback(mCallback);
             } catch (RemoteException e) {
                 Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
             }
-            context.unbindService(mAudioServiceConnection);
-            mAudioServiceBinder = null;
-            mAudioServiceConnection = null;
+            context.unbindService(mServiceConnection);
+            mIService = null;
+            mServiceConnection = null;
         }
     }
 
@@ -231,10 +231,10 @@ public class PlaybackServiceClient {
     }
 
     /**
-     * This is a handy utility function to call remote procedure calls from mAudioServiceBinder
+     * This is a handy utility function to call remote procedure calls from mIService
      * to reduce code duplication across methods of AudioServiceController.
      *
-     * @param instance The instance of IPlaybackService to call, usually mAudioServiceBinder
+     * @param instance The instance of IPlaybackService to call, usually mIService
      * @param returnType Return type of the method being called
      * @param defaultValue Default value to return in case of null or exception
      * @param functionName The function name to call, e.g. "stop"
@@ -287,7 +287,7 @@ public class PlaybackServiceClient {
     }
 
     public void loadLocations(List<String> mediaPathList, int position) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void) null, "loadLocations",
+        remoteProcedureCall(mIService, Void.class, (Void) null, "loadLocations",
                 new Class<?>[]{List.class, int.class},
                 new Object[]{mediaPathList, position});
     }
@@ -297,7 +297,7 @@ public class PlaybackServiceClient {
     }
 
     public void load(List<MediaWrapper> mediaList, int position, boolean forceAudio) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void) null, "load",
+        remoteProcedureCall(mIService, Void.class, (Void) null, "load",
                 new Class<?>[]{List.class, int.class, boolean.class},
                 new Object[]{mediaList, position, forceAudio});
     }
@@ -309,181 +309,181 @@ public class PlaybackServiceClient {
     }
 
     public void append(List<MediaWrapper> mediaList) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void) null, "append",
+        remoteProcedureCall(mIService, Void.class, (Void) null, "append",
                 new Class<?>[]{List.class},
                 new Object[]{mediaList});
     }
 
     public void moveItem(int positionStart, int positionEnd) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "moveItem",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "moveItem",
                 new Class<?>[] { int.class, int.class },
                 new Object[] { positionStart, positionEnd } );
     }
 
     public void remove(int position) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "remove",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "remove",
                 new Class<?>[] { int.class },
                 new Object[] { position } );
     }
 
     public void removeLocation(String location) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "removeLocation",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "removeLocation",
                 new Class<?>[] { String.class },
                 new Object[] { location } );
     }
 
     @SuppressWarnings("unchecked")
     public List<MediaWrapper> getMedias() {
-        return remoteProcedureCall(mAudioServiceBinder, List.class, null, "getMedias", null, null);
+        return remoteProcedureCall(mIService, List.class, null, "getMedias", null, null);
     }
 
     @SuppressWarnings("unchecked")
     public List<String> getMediaLocations() {
         List<String> def = new ArrayList<String>();
-        return remoteProcedureCall(mAudioServiceBinder, List.class, def, "getMediaLocations", null, null);
+        return remoteProcedureCall(mIService, List.class, def, "getMediaLocations", null, null);
     }
 
     public String getCurrentMediaLocation() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getCurrentMediaLocation", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getCurrentMediaLocation", null, null);
     }
 
     public MediaWrapper getCurrentMediaWrapper() {
-        return remoteProcedureCall(mAudioServiceBinder, MediaWrapper.class, (MediaWrapper)null, "getCurrentMediaWrapper", null, null);
+        return remoteProcedureCall(mIService, MediaWrapper.class, (MediaWrapper)null, "getCurrentMediaWrapper", null, null);
     }
 
     public void stop() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "stop", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "stop", null, null);
     }
 
     public void showWithoutParse(int u) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "showWithoutParse",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "showWithoutParse",
                 new Class<?>[] { int.class },
                 new Object[] { u } );
     }
 
     public void playIndex(int i) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "playIndex",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "playIndex",
                 new Class<?>[] { int.class },
                 new Object[] { i } );
     }
 
     public String getAlbum() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getAlbum", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getAlbum", null, null);
     }
 
     public String getArtist() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtist", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getArtist", null, null);
     }
 
     public String getArtistPrev() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistPrev", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getArtistPrev", null, null);
     }
 
     public String getArtistNext() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistNext", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getArtistNext", null, null);
     }
 
     public String getTitle() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitle", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getTitle", null, null);
     }
 
     public String getTitlePrev() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitlePrev", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getTitlePrev", null, null);
     }
 
     public String getTitleNext() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitleNext", null, null);
+        return remoteProcedureCall(mIService, String.class, (String)null, "getTitleNext", null, null);
     }
 
     public boolean isPlaying() {
-        return hasMedia() && remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isPlaying", null, null);
+        return hasMedia() && remoteProcedureCall(mIService, boolean.class, false, "isPlaying", null, null);
     }
 
     public void pause() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "pause", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "pause", null, null);
     }
 
     public void play() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "play", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "play", null, null);
     }
 
     public boolean hasMedia() {
-        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasMedia", null, null);
+        return remoteProcedureCall(mIService, boolean.class, false, "hasMedia", null, null);
     }
 
     public int getLength() {
-        return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getLength", null, null);
+        return remoteProcedureCall(mIService, int.class, 0, "getLength", null, null);
     }
 
     public int getTime() {
-        return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getTime", null, null);
+        return remoteProcedureCall(mIService, int.class, 0, "getTime", null, null);
     }
 
     public Bitmap getCover() {
-        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCover", null, null);
+        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCover", null, null);
     }
 
     public Bitmap getCoverPrev() {
-        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverPrev", null, null);
+        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCoverPrev", null, null);
     }
 
     public Bitmap getCoverNext() {
-        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverNext", null, null);
+        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCoverNext", null, null);
     }
 
     public void next() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "next", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "next", null, null);
     }
 
     public void previous() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "previous", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "previous", null, null);
     }
 
     public void setTime(long time) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setTime",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "setTime",
                 new Class<?>[] { long.class },
                 new Object[] { time } );
     }
 
     public boolean hasNext() {
-        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasNext", null, null);
+        return remoteProcedureCall(mIService, boolean.class, false, "hasNext", null, null);
     }
 
     public boolean hasPrevious() {
-        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasPrevious", null, null);
+        return remoteProcedureCall(mIService, boolean.class, false, "hasPrevious", null, null);
     }
 
     public void shuffle() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "shuffle", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "shuffle", null, null);
     }
 
     public void setRepeatType(PlaybackService.RepeatType t) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setRepeatType",
+        remoteProcedureCall(mIService, Void.class, (Void)null, "setRepeatType",
                 new Class<?>[] { int.class },
                 new Object[] { t.ordinal() } );
     }
 
     public boolean isShuffling() {
-        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isShuffling", null, null);
+        return remoteProcedureCall(mIService, boolean.class, false, "isShuffling", null, null);
     }
 
     public PlaybackService.RepeatType getRepeatType() {
         return PlaybackService.RepeatType.values()[
-            remoteProcedureCall(mAudioServiceBinder, int.class, PlaybackService.RepeatType.None.ordinal(), "getRepeatType", null, null)
+            remoteProcedureCall(mIService, int.class, PlaybackService.RepeatType.None.ordinal(), "getRepeatType", null, null)
         ];
     }
 
     public void detectHeadset(boolean enable) {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, null, "detectHeadset",
+        remoteProcedureCall(mIService, Void.class, null, "detectHeadset",
                 new Class<?>[] { boolean.class },
                 new Object[] { enable } );
     }
 
     public float getRate() {
-        return remoteProcedureCall(mAudioServiceBinder, Float.class, (float) 1.0, "getRate", null, null);
+        return remoteProcedureCall(mIService, Float.class, (float) 1.0, "getRate", null, null);
     }
 
     public void handleVout() {
-        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "handleVout", null, null);
+        remoteProcedureCall(mIService, Void.class, (Void)null, "handleVout", null, null);
     }
 }
