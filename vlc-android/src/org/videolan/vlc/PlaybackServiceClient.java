@@ -32,7 +32,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.videolan.vlc.interfaces.IAudioPlayer;
-import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IPlaybackService;
 import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 
@@ -41,7 +40,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaybackServiceClient implements IAudioPlayerControl {
+public class PlaybackServiceClient {
     public static final String TAG = "PlaybackServiceClient";
 
     private static PlaybackServiceClient mInstance;
@@ -387,92 +386,74 @@ public class PlaybackServiceClient implements IAudioPlayerControl {
                 new Object[] { i } );
     }
 
-    @Override
     public String getAlbum() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getAlbum", null, null);
     }
 
-    @Override
     public String getArtist() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtist", null, null);
     }
 
-    @Override
     public String getArtistPrev() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistPrev", null, null);
     }
 
-    @Override
     public String getArtistNext() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistNext", null, null);
     }
 
-    @Override
     public String getTitle() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitle", null, null);
     }
 
-    @Override
     public String getTitlePrev() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitlePrev", null, null);
     }
 
-    @Override
     public String getTitleNext() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitleNext", null, null);
     }
 
-    @Override
     public boolean isPlaying() {
         return hasMedia() && remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isPlaying", null, null);
     }
 
-    @Override
     public void pause() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "pause", null, null);
     }
 
-    @Override
     public void play() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "play", null, null);
     }
 
-    @Override
     public boolean hasMedia() {
         return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasMedia", null, null);
     }
 
-    @Override
     public int getLength() {
         return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getLength", null, null);
     }
 
-    @Override
     public int getTime() {
         return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getTime", null, null);
     }
 
-    @Override
     public Bitmap getCover() {
         return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCover", null, null);
     }
 
-    @Override
     public Bitmap getCoverPrev() {
         return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverPrev", null, null);
     }
 
-    @Override
     public Bitmap getCoverNext() {
         return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverNext", null, null);
     }
 
-    @Override
     public void next() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "next", null, null);
     }
 
-    @Override
     public void previous() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "previous", null, null);
     }
@@ -483,53 +464,44 @@ public class PlaybackServiceClient implements IAudioPlayerControl {
                 new Object[] { time } );
     }
 
-    @Override
     public boolean hasNext() {
         return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasNext", null, null);
     }
 
-    @Override
     public boolean hasPrevious() {
         return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasPrevious", null, null);
     }
 
-    @Override
     public void shuffle() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "shuffle", null, null);
     }
 
-    @Override
     public void setRepeatType(PlaybackService.RepeatType t) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setRepeatType",
                 new Class<?>[] { int.class },
                 new Object[] { t.ordinal() } );
     }
 
-    @Override
     public boolean isShuffling() {
         return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isShuffling", null, null);
     }
 
-    @Override
     public PlaybackService.RepeatType getRepeatType() {
         return PlaybackService.RepeatType.values()[
             remoteProcedureCall(mAudioServiceBinder, int.class, PlaybackService.RepeatType.None.ordinal(), "getRepeatType", null, null)
         ];
     }
 
-    @Override
     public void detectHeadset(boolean enable) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, null, "detectHeadset",
                 new Class<?>[] { boolean.class },
                 new Object[] { enable } );
     }
 
-    @Override
     public float getRate() {
         return remoteProcedureCall(mAudioServiceBinder, Float.class, (float) 1.0, "getRate", null, null);
     }
 
-    @Override
     public void handleVout() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "handleVout", null, null);
     }
