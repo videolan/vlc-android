@@ -177,6 +177,9 @@ android {
         res.srcDirs = ['tv/res']
         assets.srcDirs = ['tv/assets']
     }
+    sourceSets.chrome {
+        manifest.srcFile 'chrome/AndroidManifest.xml'
+    }
 }
 
 dependencies {
