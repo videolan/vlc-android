@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="22"
-   height="22"
+   width="20"
+   height="20"
    id="svg4682"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -28,14 +28,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.627417"
-     inkscape:cx="0.60605391"
+     inkscape:cx="-6.9732469"
      inkscape:cy="12.525855"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="1920"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
@@ -70,10 +70,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1030.3622)">
+     transform="translate(0,-1032.3622)">
     <path
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ffb54c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 16,1046.3622 0,-10 -7,5 7,5 z m -8.5,0 0,-10 -1.5,0 0,10 1.5,0 z"
+       d="m 15,1047.3622 0,-10 -7,5 7,5 z m -8.5,0 0,-10 -1.5,0 0,10 1.5,0 z"
        id="rect4195"
        inkscape:connector-curvature="0" />
   </g>
