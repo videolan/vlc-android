@@ -21,6 +21,7 @@
 package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +47,6 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import java.io.BufferedReader;
@@ -206,6 +206,27 @@ public class Util {
         VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
+    private static class DialogCallback implements PlaybackServiceClient.ResultCallback<Void> {
+        private final ProgressDialog dialog;
+
+        private DialogCallback(Context context) {
+            this.dialog = ProgressDialog.show(
+                    context,
+                    context.getApplicationContext().getString(R.string.loading) + "…",
+                    context.getApplicationContext().getString(R.string.please_wait), true);
+            dialog.setCancelable(true);
+        }
+
+        @Override
+        public void onResult(PlaybackServiceClient client, Void result) {
+            dialog.dismiss();
+        }
+
+        @Override
+        public void onError(PlaybackServiceClient client) {
+            dialog.dismiss();
+        }
+    }
 
     public static void openMedia(final Context context, final MediaWrapper media){
         if (media == null)
@@ -213,46 +234,16 @@ public class Util {
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
         else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
-            VLCCallbackTask task = new VLCCallbackTask(context) {
-                @Override
-                public void run() {
-                    PlaybackServiceClient.load(context, null, media);
-                }
-            };
-            task.execute();
+            PlaybackServiceClient.load(context, new DialogCallback(context), media);
         }
     }
 
-    public static  void openList(final Context context, final List<MediaWrapper> list, final int position){
-        VLCCallbackTask task = new VLCCallbackTask(context){
-            @Override
-            public void run() {
-                      /* Use the audio player by default. If a video track is
-                       * detected, then it will automatically switch to the video
-                       * player. This allows us to support more types of streams
-                       * (for example, RTSP and TS streaming) where ES can be
-                       * dynamically adapted rather than a simple scan.
-                       */
-                PlaybackServiceClient.load(context, null, list, position);
-            }
-        };
-        task.execute();
+    public static void openList(final Context context, final List<MediaWrapper> list, final int position){
+        PlaybackServiceClient.load(context, new DialogCallback(context), list, position);
     }
 
     public static void openStream(final Context context, final String uri){
-        VLCCallbackTask task = new VLCCallbackTask(context){
-            @Override
-            public void run() {
-                      /* Use the audio player by default. If a video track is
-                       * detected, then it will automatically switch to the video
-                       * player. This allows us to support more types of streams
-                       * (for example, RTSP and TS streaming) where ES can be
-                       * dynamically adapted rather than a simple scan.
-                       */
-                PlaybackServiceClient.loadLocation(context, null, uri);
-            }
-        };
-        task.execute();
+        PlaybackServiceClient.loadLocation(context, new DialogCallback(context), uri);
     }
 
     private static String getMediaString(Context ctx, int id) {
