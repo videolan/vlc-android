@@ -29,9 +29,9 @@ public class MediaWrapperList {
     private static final String TAG = "VLC/MediaWrapperList";
 
     public interface EventListener {
-        public void onItemAdded(int index, String mrl);
-        public void onItemRemoved(int index, String mrl);
-        public void onItemMoved(int indexBefore, int indexAfter, String mrl);
+        void onItemAdded(int index, String mrl);
+        void onItemRemoved(int index, String mrl);
+        void onItemMoved(int indexBefore, int indexAfter, String mrl);
     }
 
     private static final int EVENT_ADDED = 0;
