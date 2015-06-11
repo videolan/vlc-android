@@ -48,6 +48,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
@@ -56,23 +57,27 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
 
     public final static String TAG = "VLC/AudioAlbumFragment";
 
-    PlaybackServiceClient mAudioController;
-
     private AlbumAdapter mAdapter;
     private ArrayList<MediaWrapper> mMediaList;
     private String mTitle;
+    private PlaybackServiceClient mClient;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new AlbumAdapter(getActivity(), mMediaList);
+        mClient = AudioPlayerContainerActivity.getPlaybackClient(this);
 
         mAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
 
-        mAudioController = PlaybackServiceClient.getInstance();
         if (savedInstanceState != null)
             setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     public void setMediaList(ArrayList<MediaWrapper> mediaList, String title) {
@@ -123,7 +128,8 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mAudioController.load(mMediaList, position);
+        if (mClient.isConnected())
+            mClient.load(mMediaList, position);
     }
 
     AlbumAdapter.ContextPopupMenuListener mContextPopupMenuListener
@@ -198,7 +204,8 @@ public class AudioAlbumFragment extends Fragment implements AdapterView.OnItemCl
         final int id = v.getId();
         switch (id){
             case R.id.album_play:
-                mAudioController.load(mMediaList, 0);
+                if (mClient.isConnected())
+                    mClient.load(mMediaList, 0);
                 break;
             default:
                 break;

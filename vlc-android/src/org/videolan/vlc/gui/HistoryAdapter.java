@@ -43,21 +43,13 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
-    private final PlaybackServiceClient mAudioController;
     private final ArrayList<MediaWrapper> mMediaList;
 
     public HistoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
 
-        mAudioController = PlaybackServiceClient.getInstance();
 
         mMediaList = new ArrayList<MediaWrapper>();
-
-        mAudioController.addCallback(this);
-    }
-
-    public void release () {
-        mAudioController.removeCallback(this);
     }
 
     @Override
@@ -112,7 +104,15 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
     }
 
     public void remove(int position) {
-        mAudioController.remove(position);
+        PlaybackServiceClient.remove(VLCApplication.getAppContext(), null, position);
+    }
+
+    @Override
+    public void onConnected() {
+    }
+
+    @Override
+    public void onDisconnected() {
     }
 
     @Override

@@ -160,6 +160,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
 
+    private PlaybackServiceClient mClient;
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -304,9 +305,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private boolean mLostFocus = false;
     private boolean mHasAudioFocus = false;
 
-    /* Flag to indicate if AudioService is bound or binding */
-    private boolean mBound = false;
-
     // Tips
     private View mOverlayTips;
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
@@ -322,7 +320,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
 
-    private boolean mAudioServiceReady = false;
+    private boolean mPlaybackServiceReady = false;
     private boolean mSurfaceReady = false;
     private boolean mSubtitleSurfaceReady = false;
 
@@ -361,6 +359,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             };
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
         }
+
+        mClient = new PlaybackServiceClient(this, mPlaybackServiceCallback);
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -563,8 +563,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mTime.setOnClickListener(mRemainingTimeListener);
         mSize.setOnClickListener(mSizeListener);
 
-        bindAudioService();
-
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
     }
@@ -606,10 +604,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mOverlayButtons.setLayoutParams(layoutParams);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mClient.connect();
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onStop() {
         super.onStop();
+        mClient.disconnect();
 
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
@@ -652,32 +658,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mAudioManager = null;
     }
 
-    private void bindAudioService() {
-        if (mBound)
-            return;
-        mBound = true;
-        PlaybackServiceClient.getInstance().bindAudioService(this,
-                new PlaybackServiceClient.AudioServiceConnectionListener() {
-                    @Override
-                    public void onConnectionSuccess() {
-                        mAudioServiceReady = true;
-                        mHandler.sendEmptyMessage(START_PLAYBACK);
-                    }
-
-                    @Override
-                    public void onConnectionFailed() {
-                        mBound = false;
-                        mAudioServiceReady = false;
-                        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
-                    }
-                });
-    }
-    private void unbindAudioService() {
-        PlaybackServiceClient.getInstance().unbindAudioService(this);
-        mAudioServiceReady = false;
-        mBound = false;
-    }
-
     /**
      * Add or remove MediaRouter callbacks. This is provided for version targeting.
      *
@@ -696,7 +676,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
-        if (mPlaybackStarted || !mAudioServiceReady || !mSurfaceReady || !mSubtitleSurfaceReady)
+        if (mPlaybackStarted || !mPlaybackServiceReady || !mSurfaceReady || !mSubtitleSurfaceReady)
             return;
 
         mPlaybackStarted = true;
@@ -750,8 +730,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
-            PlaybackServiceClient.getInstance().showWithoutParse(savedIndexPosition);
-            unbindAudioService();
+            mClient.showWithoutParse(savedIndexPosition);
             return;
         }
 
@@ -820,8 +799,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         if (AndroidUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
-
-        unbindAudioService();
     }
 
     @Override
@@ -2799,7 +2776,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             savedIndexPosition = openedPosition;
         } else {
             /* prepare playback */
-            PlaybackServiceClient.getInstance().stop(); // Stop the previous playback.
+            mClient.stop();
             if (savedIndexPosition == -1 && mUri != null) {
                 mMediaListPlayer.getMediaList().clear();
                 final Media media = new Media(LibVLC(), mUri);
@@ -3192,6 +3169,37 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             return false;
+        }
+    };
+
+    private PlaybackServiceClient.Callback mPlaybackServiceCallback= new PlaybackServiceClient.Callback() {
+
+        @Override
+        public void onConnected() {
+            mPlaybackServiceReady = true;
+            mHandler.sendEmptyMessage(START_PLAYBACK);
+        }
+
+        @Override
+        public void onDisconnected() {
+            mPlaybackServiceReady = false;
+            mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+        }
+
+        @Override
+        public void update() {
+        }
+
+        @Override
+        public void updateProgress() {
+        }
+
+        @Override
+        public void onMediaPlayedAdded(MediaWrapper media, int index) {
+        }
+
+        @Override
+        public void onMediaPlayedRemoved(int index) {
         }
     };
 }

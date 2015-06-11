@@ -46,7 +46,7 @@ import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.widget.Toast;
 
-public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackServiceClient.AudioServiceConnectionListener {
+public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackServiceClient.Callback {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
     private static final int ID_LISTEN = 2;
@@ -54,7 +54,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_FAVORITE_DELETE = 4;
     private static final int ID_BROWSE = 5;
     private ArrayObjectAdapter mRowsAdapter;
-    private PlaybackServiceClient mAudioController;
+    private PlaybackServiceClient mClient;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
     private MediaDatabase mDb;
@@ -63,19 +63,20 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = PlaybackServiceClient.getInstance();
+        mClient = new PlaybackServiceClient(getActivity(), this);
         buildDetails();
     }
 
-    public void onResume(){
-        super.onResume();
+    @Override
+    public void onStop() {
+        super.onStop();
+        mClient.disconnect();
     }
 
     public void onPause(){
         super.onPause();
-        if (mAudioController.isPlaying()){
-            mAudioController.stop();
-            mAudioController.unbindAudioService(getActivity());
+        if (mClient.isConnected() && mClient.isPlaying()){
+            mClient.stop();
         }
     }
 
@@ -105,7 +106,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             public void onActionClicked(Action action) {
                 switch ((int)action.getId()){
                     case ID_LISTEN:
-                        mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
+                        mClient.connect();
                         break;
                     case ID_PLAY:
                         ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>();
@@ -165,11 +166,27 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     }
 
     @Override
-    public void onConnectionSuccess() {
-        mAudioController.load(mMediaWrapper);
+    public void onConnected() {
+        mClient.load(mMediaWrapper);
     }
 
     @Override
-    public void onConnectionFailed() {}
+    public void onDisconnected() {
+    }
 
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void updateProgress() {
+    }
+
+    @Override
+    public void onMediaPlayedAdded(MediaWrapper media, int index) {
+    }
+
+    @Override
+    public void onMediaPlayedRemoved(int index) {
+    }
 }

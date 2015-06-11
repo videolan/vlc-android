@@ -207,7 +207,7 @@ public class Util {
     }
 
 
-    public static void openMedia(Context context, final MediaWrapper media){
+    public static void openMedia(final Context context, final MediaWrapper media){
         if (media == null)
             return;
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
@@ -216,45 +216,40 @@ public class Util {
             VLCCallbackTask task = new VLCCallbackTask(context) {
                 @Override
                 public void run() {
-                    PlaybackServiceClient c = PlaybackServiceClient.getInstance();
-                    c.load(media);
+                    PlaybackServiceClient.load(context, null, media);
                 }
             };
             task.execute();
         }
     }
 
-    public static  void openList(Context context, final List<MediaWrapper> list, final int position){
+    public static  void openList(final Context context, final List<MediaWrapper> list, final int position){
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                PlaybackServiceClient c = PlaybackServiceClient.getInstance();
-
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video
                        * player. This allows us to support more types of streams
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                c.load(list, position);
+                PlaybackServiceClient.load(context, null, list, position);
             }
         };
         task.execute();
     }
 
-    public static void openStream(Context context, final String uri){
+    public static void openStream(final Context context, final String uri){
         VLCCallbackTask task = new VLCCallbackTask(context){
             @Override
             public void run() {
-                PlaybackServiceClient c = PlaybackServiceClient.getInstance();
-
                       /* Use the audio player by default. If a video track is
                        * detected, then it will automatically switch to the video
                        * player. This allows us to support more types of streams
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                c.loadLocation(uri);
+                PlaybackServiceClient.loadLocation(context, null, uri);
             }
         };
         task.execute();

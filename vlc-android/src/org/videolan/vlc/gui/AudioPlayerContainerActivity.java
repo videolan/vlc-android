@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;
@@ -46,18 +49,18 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.HackyDrawerLayout;
 import com.android.widget.SlidingPaneLayout;
 
-public class AudioPlayerContainerActivity extends AppCompatActivity {
+public class AudioPlayerContainerActivity extends AppCompatActivity  {
 
     public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
 
     protected ActionBar mActionBar;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
-    protected PlaybackServiceClient mAudioController;
     protected SlidingPaneLayout mSlidingPane;
     protected View mAudioPlayerFilling;
     protected SharedPreferences mSettings;
     protected ViewGroup mRootContainer;
+    private PlaybackServiceClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,11 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         /* Theme must be applied before super.onCreate */
         applyTheme();
+
+        /* Set up the audio player */
+        mAudioPlayer = new AudioPlayer();
+        mClient = new PlaybackServiceClient(this, mAudioPlayer);
+
         super.onCreate(savedInstanceState);
     }
 
@@ -80,10 +88,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
         mAudioPlayerFilling = findViewById(R.id.audio_player_filling);
 
-        /* Set up the audio player */
-        mAudioPlayer = new AudioPlayer();
         mAudioPlayer.setUserVisibleHint(false);
-        mAudioController = PlaybackServiceClient.getInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.audio_player, mAudioPlayer)
@@ -98,6 +103,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_SHOW_PLAYER);
         registerReceiver(messageReceiver, filter);
+        mClient.connect();
     }
 
     @Override
@@ -106,20 +112,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAudioController.addCallback(mAudioPlayer);
-        PlaybackServiceClient.getInstance().bindAudioService(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mAudioController.removeCallback(mAudioPlayer);
-        PlaybackServiceClient.getInstance().unbindAudioService(this);
+        mClient.disconnect();
     }
 
     private void applyTheme() {
@@ -278,4 +271,16 @@ public class AudioPlayerContainerActivity extends AppCompatActivity {
 
     protected void onPanelOpenedUiSet() {}
 
+    public PlaybackServiceClient getPlaybackClient() {
+        return mClient;
+    }
+
+    public static PlaybackServiceClient getPlaybackClient(Fragment fragment) {
+        final Activity activity = fragment.getActivity();
+        if (activity == null)
+            return null;
+        if (!(activity instanceof AudioPlayerContainerActivity))
+            throw new IllegalArgumentException("Fragment must be inside AudioPlayerContainerActivity");
+        return ((AudioPlayerContainerActivity) activity).getPlaybackClient();
+    }
 }

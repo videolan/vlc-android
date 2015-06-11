@@ -107,12 +107,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     @Override
-    public void onDestroy() {
-        mHistoryAdapter.release();
-        super.onDestroy();
-    }
-
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.history_view, menu);
@@ -124,9 +118,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     private void playListIndex(int position) {
-        PlaybackServiceClient audioController = PlaybackServiceClient.getInstance();
-
-        audioController.playIndex(position);
+        PlaybackServiceClient.playIndex(getActivity(), null, position);
     }
 
     @Override

@@ -24,463 +24,870 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
 import android.util.Log;
 
 import org.videolan.vlc.interfaces.IPlaybackService;
 import org.videolan.vlc.interfaces.IPlaybackServiceCallback;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaybackServiceClient {
+public class PlaybackServiceClient implements ServiceConnection {
     public static final String TAG = "PlaybackServiceClient";
 
+    @MainThread
     public interface Callback {
+        void onConnected();
+        void onDisconnected();
         void update();
         void updateProgress();
         void onMediaPlayedAdded(MediaWrapper media, int index);
         void onMediaPlayedRemoved(int index);
     }
 
-    private static PlaybackServiceClient mInstance;
-    private static boolean mIsBound = false;
-    private IPlaybackService mIService;
-    private ServiceConnection mServiceConnection;
-    private final ArrayList<Callback> mCallbacks;
+    @MainThread
+    public interface ResultCallback<T> {
+        void onResult(PlaybackServiceClient client, T result);
+        void onError(PlaybackServiceClient client);
+    }
 
-    private final IPlaybackServiceCallback mCallback = new IPlaybackServiceCallback.Stub() {
+    private boolean mBound = false;
+    private IPlaybackService mIService = null;
+    private final Callback mCallback;
+    private final Context mContext;
+
+    private final IPlaybackServiceCallback mICallback = new IPlaybackServiceCallback.Stub() {
         @Override
         public void update() throws RemoteException {
-            updateAudioPlayer();
+            mCallback.update();
         }
 
         @Override
         public void updateProgress() throws RemoteException {
-            updateProgressAudioPlayer();
+            mCallback.updateProgress();
         }
 
         @Override
         public void onMediaPlayedAdded(MediaWrapper media, int index) throws RemoteException {
-            updateMediaPlayedAdded(media, index);
+            mCallback.onMediaPlayedAdded(media, index);
         }
 
         @Override
         public void onMediaPlayedRemoved(int index) throws RemoteException {
-            updateMediaPlayedRemoved(index);
+            mCallback.onMediaPlayedRemoved(index);
         }
     };
 
-    private PlaybackServiceClient() {
-        mCallbacks = new ArrayList<Callback>();
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        Log.d(TAG, "Service Disconnected");
+        onDisconnected(false);
     }
 
-    public static PlaybackServiceClient getInstance() {
-        if (mInstance == null) {
-            mInstance = new PlaybackServiceClient();
-        }
-        return mInstance;
-    }
-
-    /**
-     * The connection listener interface for the audio service
-     */
-    public interface AudioServiceConnectionListener {
-        public void onConnectionSuccess();
-        public void onConnectionFailed();
-    }
-
-    /**
-     * Bind to audio service if it is running
-     */
-    public void bindAudioService(Context context) {
-        bindAudioService(context, null);
-    }
-
-    public void bindAudioService(Context context, final AudioServiceConnectionListener connectionListerner) {
-        if (context == null) {
-            Log.w(TAG, "bindAudioService() with null Context. Ooops" );
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        Log.d(TAG, "Service Connected");
+        if (!mBound)
             return;
-        }
-        context = context.getApplicationContext();
+        mIService = IPlaybackService.Stub.asInterface(service);
 
-        if (!mIsBound) {
-            Intent service = new Intent(context, PlaybackService.class);
-
-
-            // Setup audio service connection
-            mServiceConnection = new ServiceConnection() {
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    Log.d(TAG, "Service Disconnected");
-                    mIService = null;
-                    mIsBound = false;
-                }
-
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    if (!mIsBound) // Can happen if unbind is called quickly before this callback
-                        return;
-                    Log.d(TAG, "Service Connected");
-                    mIService = IPlaybackService.Stub.asInterface(service);
-
-                    // Register controller to the service
-                    try {
-                        mIService.addAudioCallback(mCallback);
-                        if (connectionListerner != null)
-                            connectionListerner.onConnectionSuccess();
-                    } catch (RemoteException e) {
-                        Log.e(TAG, "remote procedure call failed: addAudioCallback()");
-                        if (connectionListerner != null)
-                            connectionListerner.onConnectionFailed();
-                    }
-                    updateAudioPlayer();
-                }
-            };
-
-            mIsBound = context.bindService(service, mServiceConnection, Context.BIND_AUTO_CREATE);
-        } else {
-            // Register controller to the service
+        if (mCallback != null) {
             try {
-                if (mIService != null)
-                    mIService.addAudioCallback(mCallback);
-                if (connectionListerner != null)
-                    connectionListerner.onConnectionSuccess();
+                mIService.addAudioCallback(mICallback);
+                mCallback.onConnected();
+                mCallback.update();
             } catch (RemoteException e) {
-                Log.e(TAG, "remote procedure call failed: addAudioCallback()");
-                if (connectionListerner != null)
-                    connectionListerner.onConnectionFailed();
+                Log.e(TAG, "remote procedure send failed: addAudioCallback()");
+                onDisconnected(true);
             }
         }
     }
 
-    public void unbindAudioService(Context context) {
-        if (context == null) {
-            Log.w(TAG, "unbindAudioService() with null Context. Ooops" );
-            return;
-        }
-        context = context.getApplicationContext();
+    private static Intent getServiceIntent(Context context) {
+        return new Intent(context, PlaybackService.class);
+    }
 
-        if (mIsBound) {
-            mIsBound = false;
+    private static void startService(Context context) {
+        context.startService(getServiceIntent(context));
+    }
+
+    private static void stopService(Context context) {
+        context.stopService(getServiceIntent(context));
+    }
+
+    public PlaybackServiceClient(Context context, Callback callback) {
+        if (context == null)
+            throw new IllegalArgumentException("Context can't be null");
+        mContext = context;
+        mCallback = callback;
+    }
+
+    @MainThread
+    public void connect() {
+        if (mBound)
+            throw new IllegalStateException("already connected");
+        startService(mContext);
+        mBound = mContext.bindService(getServiceIntent(mContext), this, Context.BIND_AUTO_CREATE);
+    }
+
+    @MainThread
+    public void disconnect() {
+        if (mBound) {
             try {
-                if (mIService != null)
-                    mIService.removeAudioCallback(mCallback);
+                if (mIService != null && mCallback != null)
+                    mIService.removeAudioCallback(mICallback);
             } catch (RemoteException e) {
-                Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
+                Log.e(TAG, "remote procedure send failed: removeAudioCallback()");
             }
-            context.unbindService(mServiceConnection);
             mIService = null;
-            mServiceConnection = null;
+            mBound = false;
+            mContext.unbindService(this);
         }
     }
 
-    /**
-     * Add a Callback
-     * @param callback
-     */
-    public void addCallback(Callback callback) {
-        if (!mCallbacks.contains(callback))
-            mCallbacks.add(callback);
+    private void onDisconnected(boolean error) {
+        if (error && mBound && mCallback != null)
+            mCallback.onDisconnected();
+        disconnect();
+
+        if (error)
+            stopService(mContext);
+        else
+            connect();
     }
 
-    /**
-     * Remove Callback from list
-     * @param callback
-     */
-    public void removeCallback(Callback callback) {
-        if (mCallbacks.contains(callback))
-            mCallbacks.remove(callback);
+    @MainThread
+    public void restartService() {
+        disconnect();
+        stopService(mContext);
+        startService(mContext);
+        connect();
     }
 
-    /**
-     * Update all AudioPlayer
-     */
-    private void updateAudioPlayer() {
-        for (Callback player : mCallbacks)
-            player.update();
+    public static void restartService(Context context) {
+        stopService(context);
+        startService(context);
     }
 
-    /**
-     * Update the progress of all AudioPlayers
-     */
-    private void updateProgressAudioPlayer() {
-        for (Callback player : mCallbacks)
-            player.updateProgress();
+    @MainThread
+    public boolean isConnected() {
+        return mBound && mIService != null;
     }
 
-    private void updateMediaPlayedAdded(MediaWrapper media, int index) {
-        for (Callback listener : mCallbacks) {
-            listener.onMediaPlayedAdded(media, index);
-        }
-    }
-
-    private void updateMediaPlayedRemoved(int index) {
-        for (Callback listener : mCallbacks) {
-            listener.onMediaPlayedRemoved(index);
-        }
-    }
-
-    /**
-     * This is a handy utility function to call remote procedure calls from mIService
-     * to reduce code duplication across methods of AudioServiceController.
-     *
-     * @param instance The instance of IPlaybackService to call, usually mIService
-     * @param returnType Return type of the method being called
-     * @param defaultValue Default value to return in case of null or exception
-     * @param functionName The function name to call, e.g. "stop"
-     * @param parameterTypes List of parameter types. Pass null if none.
-     * @param parameters List of parameters. Must be in same order as parameterTypes. Pass null if none.
-     * @return The results of the RPC or defaultValue if error
-     */
-    private <T> T remoteProcedureCall(IPlaybackService instance, Class<T> returnType, T defaultValue, String functionName, Class<?> parameterTypes[], Object parameters[]) {
-        if(instance == null) {
-            return defaultValue;
+    private static abstract class Command<T> {
+        public Command() {
         }
 
-        try {
-            Method m = IPlaybackService.class.getMethod(functionName, parameterTypes);
-            @SuppressWarnings("unchecked")
-            T returnVal = (T) m.invoke(instance, parameters);
-            return returnVal;
-        } catch(NoSuchMethodException e) {
-            e.printStackTrace();
-            return defaultValue;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return defaultValue;
-        } catch (InvocationTargetException e) {
-            if(e.getTargetException() instanceof RemoteException) {
-                Log.e(TAG, "remote procedure call failed: " + functionName + "()");
+        protected abstract T run(IPlaybackService iService) throws RemoteException;
+
+        public T send(IPlaybackService iService, T defaultValue) {
+            if (iService == null)
+                throw new IllegalStateException("can't send remote methods without being connected");
+            try {
+                return run(iService);
+            } catch (RemoteException e) {
+                Log.e(TAG, "remote send failed", e);
+                return defaultValue;
             }
-            return defaultValue;
+        }
+
+        @MainThread
+        public T send(IPlaybackService iService) {
+            return send(iService, null);
+        }
+
+        public void sendAsync(Context context, final ResultCallback<T> asyncCb) {
+            class Holder {
+                PlaybackServiceClient client;
+            }
+
+            final Holder holder = new Holder();
+            holder.client = new PlaybackServiceClient(context, new PlaybackServiceClient.Callback() {
+
+                @Override
+                public void onConnected() {
+                    try {
+                        final T result = run(holder.client.mIService);
+                        if (asyncCb != null)
+                            asyncCb.onResult(holder.client, result);
+                    } catch (RemoteException e) {
+                        if (asyncCb != null)
+                            asyncCb.onError(holder.client);
+                    }
+                    holder.client.disconnect();
+                    holder.client = null;
+                }
+
+                @Override
+                public void onDisconnected() {
+                    if (asyncCb != null)
+                        asyncCb.onError(holder.client);
+                    holder.client.disconnect();
+                    holder.client = null;
+                }
+
+                @Override
+                public void update() {}
+                @Override
+                public void updateProgress() {}
+                @Override
+                public void onMediaPlayedAdded(MediaWrapper media, int index) {}
+                @Override
+                public void onMediaPlayedRemoved(int index) {}
+            });
+            holder.client.connect();
         }
     }
 
-    public void loadLocation(String mediaPath) {
-        ArrayList < String > arrayList = new ArrayList<String>();
-        arrayList.add(mediaPath);
-        loadLocations(arrayList, 0);
+    private static class LoadCmd extends Command<Void> {
+        final List<MediaWrapper> mediaList; final int position; final boolean forceAudio;
+
+        private LoadCmd(List<MediaWrapper> mediaList, int position, boolean forceAudio) {
+            this.mediaList = mediaList;
+            this.position = position;
+            this.forceAudio = forceAudio;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.load(mediaList, position, forceAudio); return null;
+        }
     }
 
+    private static class LoadLocationsCmd extends Command<Void> {
+        final List<String> mediaPathList; final int position;
 
-    public void load(MediaWrapper media, boolean forceAudio) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
-        arrayList.add(media);
-        load(arrayList, 0, forceAudio);
+        private LoadLocationsCmd(List<String> mediaPathList, int position) {
+            this.mediaPathList = mediaPathList;
+            this.position = position;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.loadLocations(mediaPathList, position); return null;
+        }
     }
 
-    public void load(MediaWrapper media) {
-        load(media, false);
+    private static class AppendCmd extends Command<Void> {
+        final List<MediaWrapper> mediaList;
+
+        private AppendCmd(List<MediaWrapper> mediaList) {
+            this.mediaList = mediaList;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.append(mediaList); return null;
+        }
     }
 
-    public void loadLocations(List<String> mediaPathList, int position) {
-        remoteProcedureCall(mIService, Void.class, (Void) null, "loadLocations",
-                new Class<?>[]{List.class, int.class},
-                new Object[]{mediaPathList, position});
+    private static class MoveItemCmd extends Command<Void> {
+        final int positionStart, positionEnd;
+
+        private MoveItemCmd(int positionStart, int positionEnd) {
+            this.positionStart = positionStart;
+            this.positionEnd = positionEnd;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.moveItem(positionStart, positionEnd); return null;
+        }
+    }
+
+    private static class RemoveCmd extends Command<Void> {
+        final int position;
+
+        private RemoveCmd(int position) {
+            this.position = position;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.remove(position); return null;
+        }
+    }
+
+    private static class RemoveLocationCmd extends Command<Void> {
+        final String location;
+
+        private RemoveLocationCmd(String location) {
+            this.location = location;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.removeLocation(location); return null;
+        }
+    }
+
+    private static class GetMediasCmd extends Command<List<MediaWrapper>> {
+        @Override
+        protected List<MediaWrapper> run(IPlaybackService iService) throws RemoteException {
+            return iService.getMedias();
+        }
+    }
+
+    private static class GetMediaLocationsCmd extends Command<List<String>> {
+        @Override
+        protected List<String> run(IPlaybackService iService) throws RemoteException {
+            return iService.getMediaLocations();
+        }
+    }
+
+    private static class GetCurrentMediaLocationCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getCurrentMediaLocation();
+        }
+    }
+
+    private static class GetCurrentMediaWrapperCmd extends Command<MediaWrapper> {
+        @Override
+        protected MediaWrapper run(IPlaybackService iService) throws RemoteException {
+            return iService.getCurrentMediaWrapper();
+        }
+    }
+
+    private static class StopCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.stop(); return null;
+        }
+    }
+
+    private static class ShowWithoutParseCmd extends Command<Void> {
+        final int index;
+
+        private ShowWithoutParseCmd(int index) {
+            this.index = index;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.showWithoutParse(index); return null;
+        }
+    }
+
+    private static class PlayIndexCmd extends Command<Void> {
+        final int index;
+
+        private PlayIndexCmd(int index) {
+            this.index = index;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.playIndex(index); return null;
+        }
+    }
+
+    private static class GetAlbumCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getAlbum();
+        }
+    }
+
+    private static class GetArtistCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getArtist();
+        }
+    }
+
+    private static class GetArtistPrevCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getArtistPrev();
+        }
+    }
+
+    private static class GetArtistNextCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getArtistNext();
+        }
+    }
+
+    private static class GetTitleCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getTitle();
+        }
+    }
+
+    private static class GetTitlePrevCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getTitlePrev();
+        }
+    }
+
+    private static class GetTitleNextCmd extends Command<String> {
+        @Override
+        protected String run(IPlaybackService iService) throws RemoteException {
+            return iService.getTitleNext();
+        }
+    }
+
+    private static class IsPlayingCmd extends Command<Boolean> {
+        @Override
+        protected Boolean run(IPlaybackService iService) throws RemoteException {
+            return iService.isPlaying();
+        }
+    }
+
+    private static class PauseCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.pause(); return null;
+        }
+    }
+
+    private static class PlayCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.play(); return null;
+        }
+    }
+
+    private static class HasMediasCmd extends Command<Boolean> {
+        @Override
+        protected Boolean run(IPlaybackService iService) throws RemoteException {
+            return iService.hasMedia();
+        }
+    }
+
+    private static class GetLengthCmd extends Command<Integer> {
+        @Override
+        protected Integer run(IPlaybackService iService) throws RemoteException {
+            return iService.getLength();
+        }
+    }
+
+    private static class GetTimeCmd extends Command<Integer> {
+        @Override
+        protected Integer run(IPlaybackService iService) throws RemoteException {
+            return iService.getTime();
+        }
+    }
+
+    private static class GetCoverCmd extends Command<Bitmap> {
+        @Override
+        protected Bitmap run(IPlaybackService iService) throws RemoteException {
+            return iService.getCover();
+        }
+    }
+
+    private static class GetCoverPrevCmd extends Command<Bitmap> {
+        @Override
+        protected Bitmap run(IPlaybackService iService) throws RemoteException {
+            return iService.getCoverPrev();
+        }
+    }
+
+    private static class GetCoverNextCmd extends Command<Bitmap> {
+        @Override
+        protected Bitmap run(IPlaybackService iService) throws RemoteException {
+            return iService.getCoverNext();
+        }
+    }
+
+    private static class NextCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.next(); return null;
+        }
+    }
+
+    private static class PreviousCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.previous(); return null;
+        }
+    }
+
+    private static class SetTimeCmd extends Command<Void> {
+        final long time;
+
+        private SetTimeCmd(long time) {
+            this.time = time;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.setTime(time); return null;
+        }
+    }
+
+    private static class HasNextCmd extends Command<Boolean> {
+        @Override
+        protected Boolean run(IPlaybackService iService) throws RemoteException {
+            return iService.hasNext();
+        }
+    }
+
+    private static class HasPreviousCmd extends Command<Boolean> {
+        @Override
+        protected Boolean run(IPlaybackService iService) throws RemoteException {
+            return iService.hasPrevious();
+        }
+    }
+
+    private static class ShuffleCmd extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.shuffle(); return null;
+        }
+    }
+
+    private static class IsShufflingCmd extends Command<Boolean> {
+        @Override
+        protected Boolean run(IPlaybackService iService) throws RemoteException {
+            return iService.isShuffling();
+        }
+    }
+
+    private static class SetRepeatTypeCmd extends Command<Void> {
+        final PlaybackService.RepeatType type;
+
+        private SetRepeatTypeCmd(PlaybackService.RepeatType type) {
+            this.type = type;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.setRepeatType(type.ordinal()); return null;
+        }
+    }
+
+    private static class GetRepeatTypeCmd extends Command<PlaybackService.RepeatType> {
+        @Override
+        protected PlaybackService.RepeatType run(IPlaybackService iService) throws RemoteException {
+            return PlaybackService.RepeatType.values()[iService.getRepeatType()];
+        }
+    }
+
+    private static class DetectHeadsetCmd extends Command<Void> {
+        final boolean enable;
+
+        private DetectHeadsetCmd(boolean enable) {
+            this.enable = enable;
+        }
+
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.detectHeadset(enable); return null;
+        }
+    }
+
+    private static class GetRateCmd extends Command<Float> {
+        @Override
+        protected Float run(IPlaybackService iService) throws RemoteException {
+            return iService.getRate();
+        }
+    }
+
+    private static class HandleVout extends Command<Void> {
+        @Override
+        protected Void run(IPlaybackService iService) throws RemoteException {
+            iService.handleVout(); return null;
+        }
     }
 
     public void load(List<MediaWrapper> mediaList, int position) {
         load(mediaList, position, false);
     }
-
     public void load(List<MediaWrapper> mediaList, int position, boolean forceAudio) {
-        remoteProcedureCall(mIService, Void.class, (Void) null, "load",
-                new Class<?>[]{List.class, int.class, boolean.class},
-                new Object[]{mediaList, position, forceAudio});
+        new LoadCmd(mediaList, position, forceAudio).send(mIService);
     }
-
+    public void load(MediaWrapper media, boolean forceAudio) {
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        arrayList.add(media);
+        load(arrayList, 0, forceAudio);
+    }
+    public void load(MediaWrapper media) {
+        load(media, false);
+    }
+    public void loadLocation(String mediaPath) {
+        ArrayList < String > arrayList = new ArrayList<>();
+        arrayList.add(mediaPath);
+        loadLocations(arrayList, 0);
+    }
+    public void loadLocations(List<String> mediaPathList, int position) {
+        new LoadLocationsCmd(mediaPathList, position).send(mIService);
+    }
     public void append(MediaWrapper media) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
         arrayList.add(media);
         append(arrayList);
     }
-
     public void append(List<MediaWrapper> mediaList) {
-        remoteProcedureCall(mIService, Void.class, (Void) null, "append",
-                new Class<?>[]{List.class},
-                new Object[]{mediaList});
+        new AppendCmd(mediaList).send(mIService);
     }
-
     public void moveItem(int positionStart, int positionEnd) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "moveItem",
-                new Class<?>[] { int.class, int.class },
-                new Object[] { positionStart, positionEnd } );
+        new MoveItemCmd(positionStart, positionEnd).send(mIService);
     }
-
     public void remove(int position) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "remove",
-                new Class<?>[] { int.class },
-                new Object[] { position } );
+        new RemoveCmd(position).send(mIService);
     }
-
     public void removeLocation(String location) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "removeLocation",
-                new Class<?>[] { String.class },
-                new Object[] { location } );
+        new RemoveLocationCmd(location).send(mIService);
     }
-
-    @SuppressWarnings("unchecked")
     public List<MediaWrapper> getMedias() {
-        return remoteProcedureCall(mIService, List.class, null, "getMedias", null, null);
+        return new GetMediasCmd().send(mIService);
     }
-
-    @SuppressWarnings("unchecked")
     public List<String> getMediaLocations() {
-        List<String> def = new ArrayList<String>();
-        return remoteProcedureCall(mIService, List.class, def, "getMediaLocations", null, null);
+        return new GetMediaLocationsCmd().send(mIService);
     }
-
     public String getCurrentMediaLocation() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getCurrentMediaLocation", null, null);
+        return new GetCurrentMediaLocationCmd().send(mIService);
     }
-
     public MediaWrapper getCurrentMediaWrapper() {
-        return remoteProcedureCall(mIService, MediaWrapper.class, (MediaWrapper)null, "getCurrentMediaWrapper", null, null);
+        return new GetCurrentMediaWrapperCmd().send(mIService);
     }
-
     public void stop() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "stop", null, null);
+        new StopCmd().send(mIService);
     }
-
     public void showWithoutParse(int u) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "showWithoutParse",
-                new Class<?>[] { int.class },
-                new Object[] { u } );
+        new ShowWithoutParseCmd(u).send(mIService);
     }
-
     public void playIndex(int i) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "playIndex",
-                new Class<?>[] { int.class },
-                new Object[] { i } );
+        new PlayIndexCmd(i).send(mIService);
     }
-
     public String getAlbum() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getAlbum", null, null);
+        return new GetAlbumCmd().send(mIService);
     }
-
     public String getArtist() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getArtist", null, null);
+        return new GetArtistCmd().send(mIService);
     }
-
     public String getArtistPrev() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getArtistPrev", null, null);
+        return new GetArtistPrevCmd().send(mIService);
     }
-
     public String getArtistNext() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getArtistNext", null, null);
+        return new GetArtistNextCmd().send(mIService);
     }
-
     public String getTitle() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getTitle", null, null);
+        return new GetTitleCmd().send(mIService);
     }
-
     public String getTitlePrev() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getTitlePrev", null, null);
+        return new GetTitlePrevCmd().send(mIService);
     }
-
     public String getTitleNext() {
-        return remoteProcedureCall(mIService, String.class, (String)null, "getTitleNext", null, null);
+        return new GetTitleNextCmd().send(mIService);
     }
-
     public boolean isPlaying() {
-        return hasMedia() && remoteProcedureCall(mIService, boolean.class, false, "isPlaying", null, null);
+        return new IsPlayingCmd().send(mIService, false);
     }
-
     public void pause() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "pause", null, null);
+        new PauseCmd().send(mIService);
     }
-
     public void play() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "play", null, null);
+        new PlayCmd().send(mIService);
     }
-
     public boolean hasMedia() {
-        return remoteProcedureCall(mIService, boolean.class, false, "hasMedia", null, null);
+        return new HasMediasCmd().send(mIService, false);
     }
-
     public int getLength() {
-        return remoteProcedureCall(mIService, int.class, 0, "getLength", null, null);
+        return new GetLengthCmd().send(mIService, 0);
     }
-
     public int getTime() {
-        return remoteProcedureCall(mIService, int.class, 0, "getTime", null, null);
+        return new GetTimeCmd().send(mIService, 0);
     }
-
     public Bitmap getCover() {
-        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCover", null, null);
+        return new GetCoverCmd().send(mIService);
     }
-
     public Bitmap getCoverPrev() {
-        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCoverPrev", null, null);
+        return new GetCoverPrevCmd().send(mIService);
     }
-
     public Bitmap getCoverNext() {
-        return remoteProcedureCall(mIService, Bitmap.class, (Bitmap)null, "getCoverNext", null, null);
+        return new GetCoverNextCmd().send(mIService);
     }
-
     public void next() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "next", null, null);
+        new NextCmd().send(mIService);
     }
-
     public void previous() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "previous", null, null);
+        new PreviousCmd().send(mIService);
     }
-
     public void setTime(long time) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "setTime",
-                new Class<?>[] { long.class },
-                new Object[] { time } );
+        new SetTimeCmd(time).send(mIService);
     }
-
     public boolean hasNext() {
-        return remoteProcedureCall(mIService, boolean.class, false, "hasNext", null, null);
+        return new HasNextCmd().send(mIService, false);
     }
-
     public boolean hasPrevious() {
-        return remoteProcedureCall(mIService, boolean.class, false, "hasPrevious", null, null);
+        return new HasPreviousCmd().send(mIService, false);
     }
-
     public void shuffle() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "shuffle", null, null);
+        new ShuffleCmd().send(mIService);
     }
-
-    public void setRepeatType(PlaybackService.RepeatType t) {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "setRepeatType",
-                new Class<?>[] { int.class },
-                new Object[] { t.ordinal() } );
-    }
-
     public boolean isShuffling() {
-        return remoteProcedureCall(mIService, boolean.class, false, "isShuffling", null, null);
+        return new IsShufflingCmd().send(mIService, false);
     }
-
+    public void setRepeatType(PlaybackService.RepeatType t) {
+        new SetRepeatTypeCmd(t).send(mIService);
+    }
     public PlaybackService.RepeatType getRepeatType() {
-        return PlaybackService.RepeatType.values()[
-            remoteProcedureCall(mIService, int.class, PlaybackService.RepeatType.None.ordinal(), "getRepeatType", null, null)
-        ];
+        return new GetRepeatTypeCmd().send(mIService, PlaybackService.RepeatType.None);
     }
-
     public void detectHeadset(boolean enable) {
-        remoteProcedureCall(mIService, Void.class, null, "detectHeadset",
-                new Class<?>[] { boolean.class },
-                new Object[] { enable } );
+        new DetectHeadsetCmd(enable).send(mIService);
     }
-
     public float getRate() {
-        return remoteProcedureCall(mIService, Float.class, (float) 1.0, "getRate", null, null);
+        return new GetRateCmd().send(mIService, 1.0f);
+    }
+    public void handleVout() {
+        new HandleVout().send(mIService);
     }
 
-    public void handleVout() {
-        remoteProcedureCall(mIService, Void.class, (Void)null, "handleVout", null, null);
+    /* Static commands: can be run without a PlaybackServiceClient instance */
+    public static void load(Context context, ResultCallback<Void> asyncCb, MediaWrapper media, boolean forceAudio) {
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        arrayList.add(media);
+        load(context, asyncCb, arrayList, 0, forceAudio);
+    }
+    public static void load(Context context, ResultCallback<Void> asyncCb, MediaWrapper media) {
+        load(context, asyncCb, media, false);
+    }
+    public static void load(Context context, ResultCallback<Void> asyncCb, List<MediaWrapper> mediaList, int position) {
+        load(context, asyncCb, mediaList, position, false);
+    }
+    public static void load(Context context, ResultCallback<Void> asyncCb, List<MediaWrapper> mediaList, int position, boolean forceAudio) {
+        new LoadCmd(mediaList, position, forceAudio).sendAsync(context, asyncCb);
+    }
+    public static void loadLocation(Context context, ResultCallback<Void> asyncCb, String mediaPath) {
+        ArrayList < String > arrayList = new ArrayList<>();
+        arrayList.add(mediaPath);
+        loadLocations(context, asyncCb, arrayList, 0);
+    }
+    public static void loadLocations(Context context, ResultCallback<Void> asyncCb, List<String> mediaPathList, int position) {
+        new LoadLocationsCmd(mediaPathList, position).sendAsync(context, asyncCb);
+    }
+    public static void append(Context context, ResultCallback<Void> asyncCb, MediaWrapper media) {
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        arrayList.add(media);
+        append(context, asyncCb, arrayList);
+    }
+    public static void append(Context context, ResultCallback<Void> asyncCb, List<MediaWrapper> mediaList) {
+        new AppendCmd(mediaList).sendAsync(context, asyncCb);
+    }
+    public static void moveItem(Context context, ResultCallback<Void> asyncCb, int positionStart, int positionEnd) {
+        new MoveItemCmd(positionStart, positionEnd).sendAsync(context, asyncCb);
+    }
+    public static void remove(Context context, ResultCallback<Void> asyncCb, int position) {
+        new RemoveCmd(position).sendAsync(context, asyncCb);
+    }
+    public static void removeLocation(Context context, ResultCallback<Void> asyncCb, String location) {
+        new RemoveLocationCmd(location).sendAsync(context, asyncCb);
+    }
+    public static void getMedias(Context context, ResultCallback<List<MediaWrapper>> asyncCb) {
+        new GetMediasCmd().sendAsync(context, asyncCb);
+    }
+    public static void getMediaLocations(Context context, ResultCallback<List<String>> asyncCb) {
+        new GetMediaLocationsCmd().sendAsync(context, asyncCb);
+    }
+    public static void getCurrentMediaLocation(Context context, ResultCallback<String> asyncCb) {
+        new GetCurrentMediaLocationCmd().sendAsync(context, asyncCb);
+    }
+    public static void getCurrentMediaWrapper(Context context, ResultCallback<MediaWrapper> asyncCb) {
+        new GetCurrentMediaWrapperCmd().sendAsync(context, asyncCb);
+    }
+    public static void stop(Context context, ResultCallback<Void> asyncCb) {
+        new StopCmd().sendAsync(context, asyncCb);
+    }
+    public static void showWithoutParse(Context context, ResultCallback<Void> asyncCb, int u) {
+        new ShowWithoutParseCmd(u).sendAsync(context, asyncCb);
+    }
+    public static void playIndex(Context context, ResultCallback<Void> asyncCb, int i) {
+        new PlayIndexCmd(i).sendAsync(context, asyncCb);
+    }
+    public static void getAlbum(Context context, ResultCallback<String> asyncCb) {
+        new GetAlbumCmd().sendAsync(context, asyncCb);
+    }
+    public static void getArtist(Context context, ResultCallback<String> asyncCb) {
+        new GetArtistCmd().sendAsync(context, asyncCb);
+    }
+    public static void getArtistPrev(Context context, ResultCallback<String> asyncCb) {
+        new GetArtistPrevCmd().sendAsync(context, asyncCb);
+    }
+    public static void getArtistNext(Context context, ResultCallback<String> asyncCb) {
+        new GetArtistNextCmd().sendAsync(context, asyncCb);
+    }
+    public static void getTitle(Context context, ResultCallback<String> asyncCb) {
+        new GetTitleCmd().sendAsync(context, asyncCb);
+    }
+    public static void getTitlePrev(Context context, ResultCallback<String> asyncCb) {
+        new GetTitlePrevCmd().sendAsync(context, asyncCb);
+    }
+    public static void getTitleNext(Context context, ResultCallback<String> asyncCb) {
+        new GetTitleNextCmd().sendAsync(context, asyncCb);
+    }
+    public static void isPlaying(Context context, ResultCallback<Boolean> asyncCb) {
+        new IsPlayingCmd().sendAsync(context, asyncCb);
+    }
+    public static void pause(Context context, ResultCallback<Void> asyncCb) {
+        new PauseCmd().sendAsync(context, asyncCb);
+    }
+    public static void play(Context context, ResultCallback<Void> asyncCb) {
+        new PlayCmd().sendAsync(context, asyncCb);
+    }
+    public static void hasMedia(Context context, ResultCallback<Boolean> asyncCb) {
+        new HasMediasCmd().sendAsync(context, asyncCb);
+    }
+    public static void getLength(Context context, ResultCallback<Integer> asyncCb) {
+        new GetLengthCmd().sendAsync(context, asyncCb);
+    }
+    public static void getTime(Context context, ResultCallback<Integer> asyncCb) {
+        new GetTimeCmd().sendAsync(context, asyncCb);
+    }
+    public static void getCover(Context context, ResultCallback<Bitmap> asyncCb) {
+        new GetCoverCmd().sendAsync(context, asyncCb);
+    }
+    public static void getCoverPrev(Context context, ResultCallback<Bitmap> asyncCb) {
+        new GetCoverPrevCmd().sendAsync(context, asyncCb);
+    }
+    public static void getCoverNext(Context context, ResultCallback<Bitmap> asyncCb) {
+        new GetCoverNextCmd().sendAsync(context, asyncCb);
+    }
+    public static void next(Context context, ResultCallback<Void> asyncCb) {
+        new NextCmd().sendAsync(context, asyncCb);
+    }
+    public static void previous(Context context, ResultCallback<Void> asyncCb) {
+        new PreviousCmd().sendAsync(context, asyncCb);
+    }
+    public static void setTime(Context context, ResultCallback<Void> asyncCb, long time) {
+        new SetTimeCmd(time).sendAsync(context, asyncCb);
+    }
+    public static void hasNext(Context context, ResultCallback<Boolean> asyncCb) {
+        new HasNextCmd().sendAsync(context, asyncCb);
+    }
+    public static void hasPrevious(Context context, ResultCallback<Boolean> asyncCb) {
+        new HasPreviousCmd().sendAsync(context, asyncCb);
+    }
+    public static void shuffle(Context context, ResultCallback<Void> asyncCb) {
+        new ShuffleCmd().sendAsync(context, asyncCb);
+    }
+    public static void isShuffling(Context context, ResultCallback<Boolean> asyncCb) {
+        new IsShufflingCmd().sendAsync(context, asyncCb);
+    }
+    public static void setRepeatType(Context context, ResultCallback<Void> asyncCb, PlaybackService.RepeatType t) {
+        new SetRepeatTypeCmd(t).sendAsync(context, asyncCb);
+    }
+    public static void getRepeatType(Context context, ResultCallback<PlaybackService.RepeatType> asyncCb) {
+        new GetRepeatTypeCmd().sendAsync(context, asyncCb);
+    }
+    public static void detectHeadset(Context context, ResultCallback<Void> asyncCb, boolean enable) {
+        new DetectHeadsetCmd(enable).sendAsync(context, asyncCb);
+    }
+    public static void getRate(Context context, ResultCallback<Float> asyncCb) {
+        new GetRateCmd().sendAsync(context, asyncCb);
+    }
+    public static void handleVout(Context context, ResultCallback<Void> asyncCb) {
+        new HandleVout().sendAsync(context, asyncCb);
     }
 }

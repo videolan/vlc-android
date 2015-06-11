@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,7 +50,6 @@ import android.widget.ListView;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -83,6 +81,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         applyTheme();
 
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.preferences);
 
         if (!AndroidDevices.hasTsp()){
@@ -124,7 +123,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        PlaybackServiceClient.getInstance().detectHeadset(checkboxHS.isChecked());
+                        PlaybackServiceClient.detectHeadset(PreferencesActivity.this, null, checkboxHS.isChecked());
                         return true;
                     }
                 });
@@ -135,7 +134,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        restartService(preference.getContext());
+                        PlaybackServiceClient.restartService(PreferencesActivity.this);
                         return true;
                     }
                 });
@@ -283,6 +282,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void applyTheme() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
@@ -347,7 +351,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("network_caching")
                 || key.equalsIgnoreCase("dev_hardware_decoder")) {
             VLCInstance.restart(this, sharedPreferences);
-            restartService(this);
+            PlaybackServiceClient.restartService(PreferencesActivity.this);
         }
     }
 
@@ -369,27 +373,5 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             }
         } catch(Exception e){}
         return false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        PlaybackServiceClient.getInstance().bindAudioService(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        PlaybackServiceClient.getInstance().unbindAudioService(this);
-    }
-
-    private void restartService(Context context) {
-        Intent service = new Intent(context, PlaybackService.class);
-
-        PlaybackServiceClient.getInstance().unbindAudioService(PreferencesActivity.this);
-        context.stopService(service);
-
-        context.startService(service);
-        PlaybackServiceClient.getInstance().bindAudioService(PreferencesActivity.this);
     }
 }

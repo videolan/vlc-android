@@ -202,7 +202,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         reloadPreferences();
     }
 
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

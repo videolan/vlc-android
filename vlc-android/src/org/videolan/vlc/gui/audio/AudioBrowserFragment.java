@@ -59,6 +59,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -82,7 +83,6 @@ import java.util.concurrent.Executors;
 public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
-    private PlaybackServiceClient mAudioController;
     private MediaLibrary mMediaLibrary;
     private MediaBrowser mMediaBrowser;
     private MainActivity mMainActivity;
@@ -113,6 +113,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     public final static int MSG_LOADING = 0;
     private volatile boolean mDisplaying = false;
+    private PlaybackServiceClient mClient;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -121,9 +122,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioController = PlaybackServiceClient.getInstance();
-
         mMediaLibrary = MediaLibrary.getInstance();
+        mClient = AudioPlayerContainerActivity.getPlaybackClient(this);
 
         mSongsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
@@ -318,7 +318,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            mAudioController.load(mSongsAdapter.getMedias(p), 0);
+            if (mClient.isConnected())
+                mClient.load(mSongsAdapter.getMedias(p), 0);
         }
     };
 
@@ -368,10 +369,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     private void loadPlaylist(int position) {
         ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(position).mMediaList;
+        if (!mClient.isConnected())
+            return;
         if (mediaList.size() == 1 && mediaList.get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
-            mAudioController.load(mediaList.get(0));
+            mClient.load(mediaList.get(0));
         } else {
-            mAudioController.load(mPlaylistAdapter.getMedias(position), 0);
+            mClient.load(mPlaylistAdapter.getMedias(position), 0);
         }
     }
 
@@ -490,11 +493,14 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             medias = adapter.getMedias(position);
         }
 
-        if (append)
-            mAudioController.append(medias);
-        else
-            mAudioController.load(medias, startPosition);
-        return true;
+        if (mClient.isConnected()) {
+            if (append)
+                mClient.append(medias);
+            else
+                mClient.load(medias, startPosition);
+            return true;
+        } else
+            return false;
     }
 
     View.OnClickListener mCancelDeletePlayListListener = new View.OnClickListener() {
@@ -516,8 +522,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         if (mSongsAdapter.getCount() > 0) {
             Random rand = new Random();
             int randomSong = rand.nextInt(mSongsAdapter.getCount());
-            mAudioController.load(medias, randomSong);
-            mAudioController.shuffle();
+            if (mClient.isConnected()) {
+                mClient.load(medias, randomSong);
+                mClient.shuffle();
+            }
         }
     }
 
@@ -617,7 +625,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     @Override
     public void onBrowseEnd() {
-        mAudioController.append(mTracksToAppend);
+        if (mClient.isConnected())
+            mClient.append(mTracksToAppend);
     }
 
     @Override
@@ -687,8 +696,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         }
 
         private void refresh(AudioBrowserFragment fragment, String path) {
-            if (fragment.mAudioController.getMediaLocations().contains(path))
-                fragment.mAudioController.removeLocation(path);
+            if (!fragment.mClient.isConnected())
+                return;
+
+            final List<String> mediaLocations = fragment.mClient.getMediaLocations();
+            if (mediaLocations != null && mediaLocations.contains(path))
+                fragment.mClient.removeLocation(path);
             fragment.updateLists();
         }
     }
