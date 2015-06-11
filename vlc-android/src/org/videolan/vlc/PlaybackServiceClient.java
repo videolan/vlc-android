@@ -113,8 +113,6 @@ public class PlaybackServiceClient {
         if (!mIsBound) {
             Intent service = new Intent(context, PlaybackService.class);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            final boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
 
             // Setup audio service connection
             mServiceConnection = new ServiceConnection() {
@@ -135,7 +133,6 @@ public class PlaybackServiceClient {
                     // Register controller to the service
                     try {
                         mIService.addAudioCallback(mCallback);
-                        mIService.detectHeadset(enableHS);
                         if (connectionListerner != null)
                             connectionListerner.onConnectionSuccess();
                     } catch (RemoteException e) {

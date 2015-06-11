@@ -169,6 +169,9 @@ public class PlaybackService extends Service {
             return;
         }
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mDetectHeadset = prefs.getBoolean("enable_headset_detection", true);
+
         mMediaListPlayer = MediaWrapperListPlayer.getInstance();
 
         mCallback = new HashMap<IPlaybackServiceCallback, Integer>();
