@@ -105,10 +105,6 @@ public class PlaybackService extends Service {
     public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
-    public static final int CURRENT_ITEM = 1;
-    public static final int PREVIOUS_ITEM = 2;
-    public static final int NEXT_ITEM = 3;
-
     private MediaWrapperListPlayer mMediaListPlayer;
     private boolean mForceAudio = false;
     private HashMap<IPlaybackServiceCallback, Integer> mCallback;
