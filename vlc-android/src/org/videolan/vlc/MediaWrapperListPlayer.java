@@ -21,9 +21,6 @@
 package org.videolan.vlc;
 
 import android.content.Context;
-import android.net.Uri;
-
-import java.util.ArrayList;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaList;
