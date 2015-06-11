@@ -622,7 +622,7 @@ public class PlaybackService extends Service {
     private void handleVout() {
         if (mForceAudio || MediaPlayer().getVideoTracksCount() <= 0 || !hasCurrentMedia())
             return;
-        final MediaWrapper mw = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
+        final MediaWrapper mw = getCurrentMedia();
         if (mw == null)
             return;
 
@@ -664,7 +664,7 @@ public class PlaybackService extends Service {
     }
 
     private void executeOnMediaPlayedAdded() {
-        final MediaWrapper media = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
+        final MediaWrapper media = getCurrentMedia();
         for (IPlaybackServiceCallback callback : mCallback.keySet()) {
             try {
                 callback.onMediaPlayedAdded(media, 0);
