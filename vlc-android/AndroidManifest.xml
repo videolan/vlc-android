@@ -426,7 +426,7 @@
         <receiver
             android:name=".widget.VLCAppWidgetProvider"
             android:exported="false"
-            android:label="VLC mini player" >
+            android:label="VLC resizable widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

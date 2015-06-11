@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/widget_margin"
     android:background="@color/grey50"
     android:clickable="true"
-    android:clipChildren="true"
     android:gravity="center"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/cover"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
             android:background="@color/orange100"
             android:src="@drawable/icon" />
 
@@ -28,17 +27,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/half_default_margin"
+            android:paddingRight="@dimen/half_default_margin">
 
             <TextView
                 android:id="@+id/artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/half_default_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text=""
                 android:textColor="@color/grey600"
                 android:textSize="14sp" />
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/half_default_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/widget_name"
@@ -55,9 +55,9 @@
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="4"
+                android:weightSum="3"
                 android:orientation="horizontal" >
 
                 <ImageButton
@@ -66,11 +66,13 @@
                     android:layout_height="wrap_content"
                     android:background="#00ffffff"
                     android:clickable="true"
-                    android:layout_gravity="left"
                     android:scaleType="centerInside"
-                    android:layout_weight="1"
                     android:src="@drawable/ic_widget_previous" />
-
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </RelativeLayout>
                 <ImageButton
                     android:id="@+id/play_pause"
                     android:layout_width="wrap_content"
@@ -78,9 +80,12 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="centerInside"
-                    android:layout_weight="1"
                     android:src="@drawable/ic_widget_play" />
-
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </RelativeLayout>
                 <ImageButton
                     android:id="@+id/forward"
                     android:layout_width="wrap_content"
@@ -88,16 +93,17 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="centerInside"
-                    android:layout_weight="1"
                     android:src="@drawable/ic_widget_next" />
-
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" >
+                </RelativeLayout>
                 <ImageButton
                     android:id="@+id/stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:background="#00ffffff"
-                    android:layout_weight="1"
                     android:clickable="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_widget_close" />
@@ -105,14 +111,14 @@
 
             <LinearLayout
                 android:id="@+id/timeline_parent"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible">
 
                 <ProgressBar
                     android:id="@+id/timeline"
                     style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dip"
                     android:focusable="false"
