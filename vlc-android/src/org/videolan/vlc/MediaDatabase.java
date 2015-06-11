@@ -654,7 +654,7 @@ public class MediaDatabase {
         Cursor cursor;
         HashMap<String, MediaWrapper> medias = new HashMap<String, MediaWrapper>();
         int chunk_count = 0;
-        int count = 0;
+        int count;
 
         do {
             count = 0;

@@ -287,7 +287,6 @@ public class MediaLibrary {
                 while (!directories.isEmpty()) {
                     File dir = directories.pop();
                     String dirPath = dir.getAbsolutePath();
-                    File[] f = null;
 
                     // Skip some system folders
                     if (dirPath.startsWith("/proc/") || dirPath.startsWith("/sys/") || dirPath.startsWith("/dev/"))
@@ -313,17 +312,15 @@ public class MediaLibrary {
                     // Filter the extensions and the folders
                     try {
                         String[] files = dir.list();
-                        File file;
-                        if (files != null){
-                            for (String fileName : files){
-                                file = new File(dirPath, fileName);
+                        if (files != null) {
+                            for (String fileName : files) {
+                                File file = new File(dirPath, fileName);
                                 if (mediaFileFilter.accept(file)){
                                     if (file.isFile())
                                         mediaToScan.add(file);
                                     else if (file.isDirectory())
                                         directories.push(file);
                                 }
-                                file = null;
                             }
                         }
                     } catch (Exception e){
