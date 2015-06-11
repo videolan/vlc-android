@@ -50,7 +50,7 @@ public class VLCApplication extends Application {
         // Are we using advanced debugging - locale?
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String p = pref.getString("set_locale", "");
-        if (p != null && !p.equals("")) {
+        if (!p.equals("")) {
             Locale locale;
             // workaround due to region code
             if(p.equals("zh-TW")) {
