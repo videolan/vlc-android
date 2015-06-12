@@ -243,9 +243,10 @@ public class AudioUtil {
         int index = f.getName().lastIndexOf('.');
         if (index > 0) {
             final String name = f.getName().substring(0, index);
+            final String ext  = f.getName().substring(index);
             File[] files = folder.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
-                    return filename.startsWith(name);
+                    return filename.startsWith(name) && Arrays.asList(imageExt).contains(ext);
                 }
             });
             if (files.length > 0)
