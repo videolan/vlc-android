@@ -211,8 +211,8 @@ public class Thumbnailer implements Runnable {
         if (mVideoBrowser != null && mVideoBrowser.get() != null) {
             mVideoBrowser.get().hideProgressBar();
             mVideoBrowser.get().clearTextInfo();
+            mVideoBrowser.clear();
         }
-        mVideoBrowser.clear();
         Log.d(TAG, "Thumbnailer stopped");
     }
 
