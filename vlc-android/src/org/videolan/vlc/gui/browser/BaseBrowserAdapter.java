@@ -188,13 +188,13 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public static class Storage {
-        String path;
+        Uri uri;
         String name;
         String description;
 
-        public Storage(String location){
-            path = location;
-            name = Strings.getName(path);
+        public Storage(Uri uri){
+            this.uri = uri;
+            name = uri.getLastPathSegment();
         }
 
         public String getName() {
@@ -213,8 +213,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             return description;
         }
 
-        public String getPath() {
-            return path;
+        public Uri getUri() {
+            return uri;
         }
     }
 

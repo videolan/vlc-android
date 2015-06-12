@@ -482,7 +482,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         while (mCurrentParsedPosition <mAdapter.getItemCount()){
             item = mAdapter.getItem(mCurrentParsedPosition);
             if (item instanceof BaseBrowserAdapter.Storage) {
-                mw = new MediaWrapper(AndroidUtil.LocationToUri(((BaseBrowserAdapter.Storage) item).getPath()));
+                mw = new MediaWrapper(((BaseBrowserAdapter.Storage) item).getUri());
                 mw.setType(MediaWrapper.TYPE_DIR);
             } else  if (item instanceof MediaWrapper){
                 mw = (MediaWrapper) item;
@@ -534,7 +534,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
                         break;
                 } else if (mAdapter.getItem(mCurrentParsedPosition) instanceof BaseBrowserAdapter.Storage) {
-                    mw = new MediaWrapper(AndroidUtil.LocationToUri(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getPath()));
+                    mw = new MediaWrapper(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getUri());
                     break;
                 } else
                     mw = null;

@@ -189,8 +189,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         if (mRoot) {
             if (item.getItemId() == R.id.directory_remove_custom_path){
                 BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
-                MediaDatabase.getInstance().recursiveRemoveDir(storage.getPath());
-                CustomDirectories.removeCustomDirectory(storage.getPath());
+                MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
+                CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
                 mAdapter.updateMediaDirs();
                 mAdapter.removeItem(position, true);
                 updateLib();
