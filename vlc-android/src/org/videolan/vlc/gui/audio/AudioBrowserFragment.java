@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -47,8 +48,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
-
-import com.android.widget.SlidingTabLayout;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
@@ -80,7 +79,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
+public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaLibrary mMediaLibrary;
@@ -96,7 +95,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<AudioBrowserListAdapter>();
 
     private ViewPager mViewPager;
-    private SlidingTabLayout mSlidingTabLayout;
+    private TabLayout mSlidingTabLayout;
     private TextView mEmptyView;
     private List<View> mLists;
     private FloatingActionButton mFabPlayShuffleAll;
@@ -165,10 +164,25 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
-        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
-        mSlidingTabLayout.setViewPager(mViewPager);
-        mSlidingTabLayout.setOnTabChangedListener(this);
+
+        mSlidingTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setupWithViewPager(mViewPager);
+        mSlidingTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mSlidingTabLayout));
+        mSlidingTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                updateEmptyView(tab.getPosition());
+                setFabPlayShuffleAllVisibility();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
@@ -595,12 +609,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     @Override
     protected String getTitle() {
         return getString(R.string.audio);
-    }
-
-    @Override
-    public void tabChanged(int position) {
-        updateEmptyView(position);
-        setFabPlayShuffleAllVisibility();
     }
 
     private void updateEmptyView(int position) {
