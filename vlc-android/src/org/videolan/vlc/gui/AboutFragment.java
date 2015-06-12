@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -36,8 +37,6 @@ import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.widget.SlidingTabLayout;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
@@ -55,7 +54,7 @@ public class AboutFragment extends Fragment {
     public final static int MODE_TOTAL = 2; // Number of audio browser modes
 
     private ViewPager mViewPager;
-    private SlidingTabLayout mSlidingTabLayout;
+    private TabLayout mSlidingTabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,10 +96,9 @@ public class AboutFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
         mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
-        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setupWithViewPager(mViewPager);
+        mSlidingTabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         return v;
     }
