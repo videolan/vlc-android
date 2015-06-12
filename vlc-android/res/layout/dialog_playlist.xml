@@ -3,14 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/dialog_playlist_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:hint="@string/playlist_name_hint"
-        android:inputType="text"
-        android:imeOptions="actionSend"/>
+        android:hint="@string/playlist_name_hint">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:hint="@string/playlist_name_hint"
+            android:inputType="text"
+            android:imeOptions="actionSend"/>
+    </android.support.design.widget.TextInputLayout>
     <FrameLayout
         android:id="@+id/dialog_list_container"
         android:layout_width="match_parent"

@@ -27,6 +27,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialog;
 import android.view.KeyEvent;
@@ -85,7 +86,9 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
         mListView = (ListView) view.findViewById(android.R.id.list);
         mSaveButton = (Button) view.findViewById(R.id.dialog_playlist_save);
         mEmptyView = (TextView) view.findViewById(android.R.id.empty);
-        mEditText = (EditText) view.findViewById(R.id.dialog_playlist_name);
+        TextInputLayout mLayout = (TextInputLayout)view.findViewById(R.id.dialog_playlist_name);
+        mLayout.setHint(getString(R.string.playlist_name_hint));
+        mEditText = mLayout.getEditText();
         mListView.setOnItemClickListener(this);
         mSaveButton.setOnClickListener(this);
 
