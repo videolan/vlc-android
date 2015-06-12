@@ -100,7 +100,7 @@ public class BitmapCache {
         mMemCache.evictAll();
     }
 
-    public static Bitmap GetFromResource(View v, int resId) {
+    public static Bitmap getFromResource(View v, int resId) {
         BitmapCache cache = BitmapCache.getInstance();
         Bitmap bitmap = cache.getBitmapFromMemCache(resId);
         if (bitmap == null) {

@@ -344,7 +344,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                     testedAlbums.add(media.getAlbum());
             }
             if (cover == null)
-                cover = BitmapCache.GetFromResource(v, R.drawable.icon);
+                cover = BitmapCache.getFromResource(v, R.drawable.icon);
             holder.cover.setImageBitmap(cover);
             int size = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_size);
             paramsCover = new RelativeLayout.LayoutParams(size, size);

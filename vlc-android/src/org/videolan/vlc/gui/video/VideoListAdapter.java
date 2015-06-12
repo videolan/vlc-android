@@ -36,7 +36,6 @@ import android.widget.TextView;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
@@ -205,12 +204,12 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         if (thumbnail == null) {
             // missing thumbnail
             holder.thumbnail.setScaleType(ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.GetFromResource(v, R.drawable.ic_cone_o);
+            thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
         }
         else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
             // dummy thumbnail
             holder.thumbnail.setScaleType(ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.GetFromResource(v, R.drawable.ic_cone_o);
+            thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
         }
         //FIXME Warning: the thumbnails are upscaled in the grid view!
         holder.thumbnail.setImageBitmap(thumbnail);
