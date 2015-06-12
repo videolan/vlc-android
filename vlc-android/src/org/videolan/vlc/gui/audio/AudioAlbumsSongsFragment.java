@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
@@ -46,8 +47,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-
-import com.android.widget.SlidingTabLayout;
+import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
@@ -134,10 +134,9 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
         mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
-        SlidingTabLayout mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        TabLayout mSlidingTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mSlidingTabLayout.setupWithViewPager(mViewPager);
 
         songsList.setAdapter(mSongsAdapter);
         albumsList.setAdapter(mAlbumsAdapter);
