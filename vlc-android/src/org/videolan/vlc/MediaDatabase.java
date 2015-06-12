@@ -1047,18 +1047,18 @@ public class MediaDatabase {
     }
 
 
-    public synchronized void addNetworkFavItem(String mrl, String title) {
+    public synchronized void addNetworkFavItem(Uri uri, String title) {
         ContentValues values = new ContentValues();
-        values.put(NETWORK_FAV_URI, Uri.encode(mrl));
+        values.put(NETWORK_FAV_URI, uri.toString());
         values.put(NETWORK_FAV_TITLE, Uri.encode(title));
         mDb.replace(NETWORK_FAV_TABLE_NAME, null, values);
     }
 
-    public synchronized boolean networkFavExists(String mrl) {
+    public synchronized boolean networkFavExists(Uri uri) {
         Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
                 new String[] { NETWORK_FAV_URI },
                 NETWORK_FAV_URI + "=?",
-                new String[] { Uri.encode(mrl) },
+                new String[] { uri.toString() },
                 null, null, null);
         boolean exists = cursor.moveToFirst();
         cursor.close();
@@ -1074,7 +1074,7 @@ public class MediaDatabase {
                 null, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            mw = new MediaWrapper(Uri.parse(Uri.decode(cursor.getString(0))));
+            mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
             mw.setTitle(Uri.decode(cursor.getString(1)));
             mw.setType(MediaWrapper.TYPE_DIR);
             favs.add(mw);
@@ -1084,8 +1084,8 @@ public class MediaDatabase {
         return favs;
     }
 
-    public synchronized void deleteNetworkFav(String uri) {
-        mDb.delete(NETWORK_FAV_TABLE_NAME, NETWORK_FAV_URI + "=?", new String[] { Uri.encode(uri) });
+    public synchronized void deleteNetworkFav(Uri uri) {
+        mDb.delete(NETWORK_FAV_TABLE_NAME, NETWORK_FAV_URI + "=?", new String[] { uri.toString() });
     }
 
     public synchronized void clearNetworkFavTable() {

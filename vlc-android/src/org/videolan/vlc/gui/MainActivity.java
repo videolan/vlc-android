@@ -446,7 +446,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
-            item.setIcon(MediaDatabase.getInstance().networkFavExists(mrl) ?
+            item.setIcon(MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl)) ?
                     R.drawable.ic_menu_bookmark_w :
                     R.drawable.ic_menu_bookmark_outline_w);
         } else

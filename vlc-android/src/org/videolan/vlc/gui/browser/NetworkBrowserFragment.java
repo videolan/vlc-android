@@ -129,10 +129,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public void toggleFavorite() {
         MediaDatabase db = MediaDatabase.getInstance();
-        if (db.networkFavExists(mMrl))
-            db.deleteNetworkFav(mMrl);
+        if (db.networkFavExists(mCurrentMedia.getUri()))
+            db.deleteNetworkFav(mCurrentMedia.getUri());
         else
-            db.addNetworkFavItem(mMrl, mCurrentMedia.getTitle());
+            db.addNetworkFavItem(mCurrentMedia.getUri(), mCurrentMedia.getTitle());
         getActivity().supportInvalidateOptionsMenu();
     }
 
