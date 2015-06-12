@@ -1163,6 +1163,8 @@ public class PlaybackService extends Service {
                 f = new File(new URI(location));
             } catch (URISyntaxException e) {
                 return false;
+            } catch (IllegalArgumentException e) {
+                return false;
             }
             if (!f.isFile())
                 return false;
@@ -1349,7 +1351,7 @@ public class PlaybackService extends Service {
 
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
-                MediaWrapper mediaWrapper = db.getMedia(AndroidUtil.LocationToUri(location));
+                MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
                 if (mediaWrapper == null) {
                     if (!validateLocation(location)) {
                         Log.w(TAG, "Invalid location " + location);
