@@ -54,7 +54,7 @@ public class AboutFragment extends Fragment {
     public final static int MODE_TOTAL = 2; // Number of audio browser modes
 
     private ViewPager mViewPager;
-    private TabLayout mSlidingTabLayout;
+    private TabLayout mTabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,9 +96,9 @@ public class AboutFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
         mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
-        mSlidingTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setupWithViewPager(mViewPager);
-        mSlidingTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         return v;
     }
