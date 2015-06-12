@@ -95,7 +95,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<AudioBrowserListAdapter>();
 
     private ViewPager mViewPager;
-    private TabLayout mSlidingTabLayout;
+    private TabLayout mTabLayout;
     private TextView mEmptyView;
     private List<View> mLists;
     private FloatingActionButton mFabPlayShuffleAll;
@@ -165,12 +165,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
         mViewPager.setOnTouchListener(mSwipeFilter);
 
-        mSlidingTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setupWithViewPager(mViewPager);
-        mSlidingTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mSlidingTabLayout));
-        mSlidingTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 updateEmptyView(tab.getPosition());
@@ -720,10 +720,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         if (mAudioList.isEmpty()){
             updateEmptyView(mViewPager.getCurrentItem());
             mSwipeRefreshLayout.setRefreshing(false);
-            mSlidingTabLayout.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.GONE);
             focusHelper(true, R.id.artists_list);
         } else {
-            mSlidingTabLayout.setVisibility(View.VISIBLE);
+            mTabLayout.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
             ExecutorService tpe = Executors.newSingleThreadExecutor();
