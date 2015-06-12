@@ -245,7 +245,7 @@ public class AudioUtil {
             final String name = f.getName().substring(0, index);
             File[] files = folder.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
-                    return filename.startsWith(filename);
+                    return filename.startsWith(name);
                 }
             });
             if (files.length > 0)
