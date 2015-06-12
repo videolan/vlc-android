@@ -101,14 +101,14 @@ public class MediaPlayer
 
     public void setDataSource(Context context, Uri uri)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
-        mCurrentMedia = new Media(mLibVLC, uri);
-        mMediaPlayer.setMedia(mCurrentMedia);
+        setDataSource(context, uri, null);
     }
 
     // FIXME, this is INCORRECT, @headers are ignored
     public void setDataSource(Context context, Uri uri, Map<String, String> headers)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
-        setDataSource(context, uri, null);
+        mCurrentMedia = new Media(mLibVLC, uri);
+        mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     public void setDataSource(String path)
