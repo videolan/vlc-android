@@ -981,10 +981,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+        case KeyEvent.KEYCODE_MEDIA_NEXT:
             seekDelta(10000);
             return true;
         case KeyEvent.KEYCODE_R:
         case KeyEvent.KEYCODE_MEDIA_REWIND:
+        case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
             seekDelta(-10000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_R1:

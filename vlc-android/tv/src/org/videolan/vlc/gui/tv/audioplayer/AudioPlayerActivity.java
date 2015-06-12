@@ -184,6 +184,7 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
                 return true;
             case KeyEvent.KEYCODE_F:
             case KeyEvent.KEYCODE_BUTTON_R1:
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
                 goNext();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
@@ -194,6 +195,7 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
                 return true;
             case KeyEvent.KEYCODE_R:
             case KeyEvent.KEYCODE_BUTTON_L1:
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                 goPrevious();
                 return true;
             /*
