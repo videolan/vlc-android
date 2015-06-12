@@ -19,7 +19,8 @@
             android:scaleType="fitXY"
             android:paddingTop="2dip"
             android:layout_marginLeft="5dip"
-            android:layout_marginRight="7dip" />
+            android:layout_marginRight="7dip"
+            android:contentDescription="@string/searchable_hint" />
         <EditText
             android:id="@+id/search_text"
             android:layout_width="0px"
