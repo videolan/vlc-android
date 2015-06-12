@@ -1114,6 +1114,8 @@ public class PlaybackService extends Service {
     private synchronized void loadLastPlaylist() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String currentMedia = prefs.getString("current_media", "");
+        if (currentMedia.equals(""))
+            return;
         String[] locations = prefs.getString("media_list", "").split(" ");
 
         List<String> mediaPathList = new ArrayList<String>(locations.length);
