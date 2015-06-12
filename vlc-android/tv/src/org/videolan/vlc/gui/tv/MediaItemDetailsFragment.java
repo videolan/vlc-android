@@ -34,6 +34,7 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
@@ -116,14 +117,14 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         startActivity(intent);
                         break;
                     case ID_FAVORITE_ADD:
-                        mDb.addNetworkFavItem(mMedia.getLocation(), mMedia.getTitle());
+                        mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle());
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
                         Toast.makeText(getActivity(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
-                        mDb.deleteNetworkFav(mMedia.getLocation());
+                        mDb.deleteNetworkFav(Uri.parse(mMedia.getLocation()));
                         detailsOverview.removeAction(actionDelete);
                         detailsOverview.addAction(actionAdd);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
@@ -144,7 +145,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_network_big));
             detailsOverview.setImageScaleUpAllowed(true);
             detailsOverview.addAction(new Action(ID_BROWSE, "Browse folder"));
-            if (mDb.networkFavExists(mMedia.getLocation()))
+            if (mDb.networkFavExists(Uri.parse(mMedia.getLocation())))
                 detailsOverview.addAction(actionDelete);
             else
                 detailsOverview.addAction(actionAdd);
