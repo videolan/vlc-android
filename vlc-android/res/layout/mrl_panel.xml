@@ -2,16 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mrl_root"
     android:layout_width="match_parent" android:layout_height="match_parent">
-    <EditText
-        android:id="@+id/mrl_edit"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_margin="10dp"
-        android:hint="@string/open_mrl_dialog_msg"
-        android:inputType="textUri"
-        android:maxLines="2"
-        android:imeOptions="actionGo"/>
+        android:id="@+id/mrl_edit">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:hint="@string/open_mrl_dialog_msg"
+            android:inputType="textUri"
+            android:maxLines="2"
+            android:imeOptions="actionGo"/>
+    </android.support.design.widget.TextInputLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mrl_list"
         android:layout_width="match_parent"

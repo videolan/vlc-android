@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,7 +49,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     private MRLAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<String> mHistory;
-    EditText mEditText;
+    TextInputLayout mEditText;
     View mRootView;
 
     public MRLPanelFragment(){}
@@ -62,9 +63,10 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.open_mrl_dialog_title);
         View v = inflater.inflate(R.layout.mrl_panel, container, false);
         mRootView = v.findViewById(R.id.mrl_root);
-        mEditText = (EditText) v.findViewById(R.id.mrl_edit);
-        mEditText.setOnKeyListener(this);
-        mEditText.setOnEditorActionListener(this);
+        mEditText = (TextInputLayout) v.findViewById(R.id.mrl_edit);
+        mEditText.getEditText().setOnKeyListener(this);
+        mEditText.getEditText().setOnEditorActionListener(this);
+        mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -97,12 +99,12 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     }
 
     private boolean processUri() {
-        if (!TextUtils.isEmpty(mEditText.getText().toString())){
-            Util.openStream(getActivity(), mEditText.getText().toString().trim());
-            MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getText().toString().trim());
+        if (!TextUtils.isEmpty(mEditText.getEditText().getText().toString())){
+            Util.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
+            MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getEditText().getText().toString().trim());
             updateHistory();
             getActivity().supportInvalidateOptionsMenu();
-            mEditText.getText().clear();
+            mEditText.getEditText().getText().clear();
             return true;
         }
         return false;
