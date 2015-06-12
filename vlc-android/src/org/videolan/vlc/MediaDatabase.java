@@ -1074,7 +1074,7 @@ public class MediaDatabase {
                 null, null, null, null, null);
 
         while (cursor.moveToNext()) {
-            mw = new MediaWrapper(AndroidUtil.LocationToUri(cursor.getString(0)));
+            mw = new MediaWrapper(Uri.parse(Uri.decode(cursor.getString(0))));
             mw.setTitle(Uri.decode(cursor.getString(1)));
             mw.setType(MediaWrapper.TYPE_DIR);
             favs.add(mw);
