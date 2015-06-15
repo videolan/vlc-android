@@ -9,11 +9,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20"
-   height="20"
+   width="24"
+   height="24"
    id="svg3428"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="ic_minus_circle_normal_o.svg">
   <defs
      id="defs3430" />
@@ -24,17 +24,29 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-34.786324"
-     inkscape:cy="21.719492"
+     inkscape:zoom="22.4"
+     inkscape:cx="4.5999773"
+     inkscape:cy="16.888033"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1">
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true">
     <inkscape:grid
        type="xygrid"
        id="grid3436"
@@ -59,24 +71,21 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1032.3622)">
-    <path
-       transform="matrix(-0.8,0,0,-0.8,82,1087.4519)"
-       sodipodi:type="arc"
-       style="color:#000000;fill:#ff8800;fill-opacity:0.8509804;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     transform="translate(0,-1028.3622)">
+    <circle
+       transform="scale(-1,-1)"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff8800;fill-opacity:0.85098039;fill-rule:nonzero;stroke:none;stroke-width:0.1;marker:none;enable-background:accumulate"
        id="path5679"
-       sodipodi:cx="90"
-       sodipodi:cy="56.362183"
-       sodipodi:rx="10"
-       sodipodi:ry="10"
-       d="m 100,56.362183 a 10,10 0 1 1 -20,0 10,10 0 1 1 20,0 z" />
+       cx="-12"
+       cy="-1040.3622"
+       r="10" />
     <rect
-       style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"
        id="rect5709"
-       width="9"
+       width="12"
        height="2.0000253"
-       x="5.5"
-       y="1041.3622"
+       x="6"
+       y="1039.3622"
        ry="0" />
   </g>
 </svg>
