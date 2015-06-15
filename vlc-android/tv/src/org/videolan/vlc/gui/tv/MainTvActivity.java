@@ -52,6 +52,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -136,14 +137,16 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
         mBrowseFragment.setTitle(getString(R.string.app_name));
         mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.icon));
-        // set search icon color
-        mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
 
         // add a listener for selected items
         mBrowseFragment.setOnItemViewClickedListener(this);
         mBrowseFragment.setOnItemViewSelectedListener(this);
 
-        mBrowseFragment.setOnSearchClickedListener(this);
+        if (!Build.MANUFACTURER.equalsIgnoreCase("amazon")) { //Hide search for Amazon Fire TVs
+            mBrowseFragment.setOnSearchClickedListener(this);
+            // set search icon color
+            mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
+        }
         mRootContainer = mBrowseFragment.getView();
         mMediaLibrary.loadMediaItems(true);
         BackgroundManager.getInstance(this).attach(getWindow());
