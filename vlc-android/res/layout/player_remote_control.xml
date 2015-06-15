@@ -40,7 +40,7 @@
         android:fitsSystemWindows="true" >
 
         <TextView
-            android:id="@+id/player_overlay_info"
+            android:id="@+id/player_overlay_textinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

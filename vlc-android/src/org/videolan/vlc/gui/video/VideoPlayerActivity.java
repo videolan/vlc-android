@@ -424,7 +424,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mLength = (TextView) findViewById(R.id.player_overlay_length);
 
         // the info textView is not on the overlay
-        mInfo = (TextView) findViewById(R.id.player_overlay_info);
+        mInfo = (TextView) findViewById(R.id.player_overlay_textinfo);
         mVerticalBar = findViewById(R.id.verticalbar);
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
@@ -1123,6 +1123,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void initDelayInfo() {
+        if (mPresentation == null)
+            mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         String text = "";
         if (mDelay == DelayState.AUDIO) {
@@ -1300,7 +1302,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      */
     private void showInfo(String text, int duration) {
         if (mPresentation == null)
-            mVerticalBar.setVisibility(View.INVISIBLE);
+            mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1309,7 +1311,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private void showInfo(int textid, int duration) {
         if (mPresentation == null)
-            mVerticalBar.setVisibility(View.INVISIBLE);
+            mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1322,7 +1324,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
      */
     private void showInfo(String text) {
         if (mPresentation == null)
-            mVerticalBar.setVisibility(View.INVISIBLE);
+            mVerticalBar.setVisibility(View.GONE);
         mHandler.removeMessages(FADE_OUT_INFO);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
