@@ -151,8 +151,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private void releaseBrowser() {
-        if (mMediaBrowser != null)
+        if (mMediaBrowser != null) {
             mMediaBrowser.release();
+            mMediaBrowser = null;
+        }
     }
 
     public void onSaveInstanceState(Bundle outState){
