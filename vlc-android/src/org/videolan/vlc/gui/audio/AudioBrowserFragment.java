@@ -167,12 +167,13 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
         mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
                 updateEmptyView(tab.getPosition());
                 setFabPlayShuffleAllVisibility();
             }
@@ -181,7 +182,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
         });
 
         songsList.setOnItemClickListener(songListener);
