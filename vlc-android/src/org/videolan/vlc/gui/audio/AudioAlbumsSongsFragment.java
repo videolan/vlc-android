@@ -135,7 +135,6 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
         mViewPager.setOnTouchListener(mSwipeFilter);
         TabLayout mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setupWithViewPager(mViewPager);
 
         songsList.setAdapter(mSongsAdapter);

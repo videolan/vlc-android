@@ -98,7 +98,6 @@ public class AboutFragment extends Fragment {
 
         mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         return v;
     }

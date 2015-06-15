@@ -5,14 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/background_actionbar"
-        app:tabSelectedTextColor="?attr/font_actionbar_selected"
-        app:tabTextColor="?attr/font_actionbar"
-        app:tabIndicatorColor="?attr/font_actionbar_selected"/>
+    <include layout="@layout/tab_layout" />
 
     <TextView
         android:id="@+id/no_media"
