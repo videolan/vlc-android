@@ -536,6 +536,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         public void onBrowseEnd() {
             if (mAdapter.isEmpty()) {
                 mCurrentParsedPosition = -1;
+                releaseBrowser();
                 return;
             }
             String holderText = getDescription(directories.size(), files.size());
@@ -565,7 +566,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     mCurrentParsedPosition = -1;
                     releaseBrowser();
                 }
-            }
+            } else
+                releaseBrowser();
             directories .clear();
             files.clear();
         }
