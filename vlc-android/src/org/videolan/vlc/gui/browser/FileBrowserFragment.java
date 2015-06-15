@@ -30,6 +30,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
@@ -39,11 +41,13 @@ import android.view.MenuItem;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
 
@@ -127,8 +131,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
         filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        filter.addAction(Intent.ACTION_MEDIA_REMOVED);
-        filter.addAction(Intent.ACTION_MEDIA_EJECT);
+        filter.addDataScheme("file");
         getActivity().registerReceiver(storageReceiver, filter);
         if (mReadyToDisplay)
             update();
@@ -147,6 +150,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         getActivity().unregisterReceiver(storageReceiver);
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
+    }
+
+    private void stopBackgroundTasks() {
+        MediaLibrary ml = MediaLibrary.getInstance();
+        if (ml.isWorking())
+            ml.stop();
     }
 
     public void showAddDirectoryDialog() {
@@ -206,13 +215,39 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED) ||
-                    action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED) ||
-                    action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED) ||
-                    action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT)) {
-                if (mReadyToDisplay)
-                    update();
+            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
+                mStorageHandlerHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
+            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
+                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100);
             }
         }
     };
+
+    Handler mStorageHandlerHandler = new FileBrowserFragmentHandler(this);
+
+    private static final int ACTION_MEDIA_MOUNTED = 1337;
+    private static final int ACTION_MEDIA_UNMOUNTED = 1338;
+
+    private static class FileBrowserFragmentHandler extends WeakHandler<FileBrowserFragment> {
+
+        public FileBrowserFragmentHandler(FileBrowserFragment owner) {
+            super(owner);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what){
+                case ACTION_MEDIA_MOUNTED:
+                    removeMessages(ACTION_MEDIA_UNMOUNTED);
+                    getOwner().update(true);
+                    break;
+                case ACTION_MEDIA_UNMOUNTED:
+                    getOwner().stopBackgroundTasks();
+                    getOwner().update(true);
+                    break;
+            }
+        }
+    }
 }

@@ -147,7 +147,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     public void onStop(){
         super.onStop();
-        mMediaBrowser.release();
+        releaseBrowser();
+    }
+
+    private void releaseBrowser() {
+        if (mMediaBrowser != null)
+            mMediaBrowser.release();
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -218,6 +223,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onBrowseEnd() {
+        releaseBrowser();
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         if (mReadyToDisplay)
             display();
@@ -260,9 +266,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void update(){
+        update(false);
+    }
+
+    protected void update(boolean force){
         if (mReadyToDisplay) {
             updateEmptyView();
-            if (mAdapter.isEmpty()) {
+            if (force || mAdapter.isEmpty()) {
                 refresh();
             } else {
                 updateDisplay();
@@ -285,7 +295,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void refresh() {
         mAdapter.clear();
-        mMediaBrowser.changeEventListener(this);
+        if (mMediaBrowser == null)
+            mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
+        else
+            mMediaBrowser.changeEventListener(this);
         mCurrentParsedPosition = 0;
         if (mRoot)
             browseRoot();
@@ -475,7 +488,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
         mMediaLists.clear();
-        mMediaBrowser.changeEventListener(mFoldersBrowserListener);
+        if (mMediaBrowser == null)
+            mMediaBrowser = new MediaBrowser(VLCInstance.get(), mFoldersBrowserListener);
+        else
+            mMediaBrowser.changeEventListener(mFoldersBrowserListener);
         mCurrentParsedPosition = 0;
         Object item;
         MediaWrapper mw;
@@ -545,6 +561,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     mMediaBrowser.browse(mw.getUri());
                 } else {
                     mCurrentParsedPosition = -1;
+                    releaseBrowser();
                 }
             }
             directories .clear();
