@@ -56,14 +56,6 @@
             android:layout_centerInParent="true"
             android:src="@drawable/ic_cone_o" />
 
-        <TextView
-            android:id="@+id/player_overlay_loading_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/player_overlay_info"
-            android:layout_centerHorizontal="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
-
         <LinearLayout
             android:id="@+id/player_overlay_info"
             android:layout_width="wrap_content"

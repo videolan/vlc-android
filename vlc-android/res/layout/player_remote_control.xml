@@ -71,14 +71,6 @@
                 android:src="@drawable/ic_cone_o"
                 android:top="40dp" />
 
-            <TextView
-                android:id="@+id/player_overlay_loading_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_overlay_loading"
-                android:layout_centerHorizontal="true"
-                android:text="@string/please_wait"
-                android:textSize="20sp" />
         </RelativeLayout>
 
         <ImageView

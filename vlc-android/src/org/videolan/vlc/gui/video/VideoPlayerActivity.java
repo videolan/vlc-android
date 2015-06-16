@@ -217,7 +217,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private View mVerticalBar;
     private View mVerticalBarProgress;
     private ImageView mLoading;
-    private TextView mLoadingText;
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
     private ImageView mTracks;
@@ -467,7 +466,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
-        mLoadingText = (TextView) findViewById(R.id.player_overlay_loading_text);
         if (mPresentation != null)
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
         startLoadingAnimation();
@@ -3098,7 +3096,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         rotate.setRepeatCount(RotateAnimation.INFINITE);
         anim.addAnimation(rotate);
         mLoading.startAnimation(anim);
-        mLoadingText.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -3107,7 +3104,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private void stopLoadingAnimation() {
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
-        mLoadingText.setVisibility(View.GONE);
         if (mPresentation != null) {
             mTipsBackground.setVisibility(View.VISIBLE);
         }
