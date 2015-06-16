@@ -860,6 +860,7 @@ public class PlaybackService extends Service {
     }
 
     private void stop() {
+        savePosition();
         MediaPlayer().stop();
         mEventHandler.removeHandler(mVlcEventHandler);
         mMediaListPlayer.getMediaList().removeEventListener(mListEventListener);
@@ -1124,12 +1125,20 @@ public class PlaybackService extends Service {
 
         mShuffling = prefs.getBoolean("shuffling", false);
         mRepeating = RepeatType.values()[prefs.getInt("repeating", RepeatType.None.ordinal())];
-        int position = Math.max(0, mediaPathList.indexOf(currentMedia));
+        int position = prefs.getInt("position_in_list", Math.max(0, mediaPathList.indexOf(currentMedia)));
+        long time = prefs.getLong("position_in_song", -1);
         // load playlist
         try {
             mInterface.loadLocations(mediaPathList, position);
+            if (time > 0)
+                mInterface.setTime(time);
         } catch (RemoteException e) {
             e.printStackTrace();
+        } finally {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("position_in_list", 0);
+            editor.putLong("position_in_song", 0);
+            Util.commitPreferences(editor);
         }
     }
 
@@ -1148,6 +1157,13 @@ public class PlaybackService extends Service {
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putString("media_list", locations.toString().trim());
+        Util.commitPreferences(editor);
+    }
+
+    private synchronized void savePosition(){
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putInt("position_in_list", mCurrentIndex);
+        editor.putLong("position_in_song", MediaPlayer().getTime());
         Util.commitPreferences(editor);
     }
 
