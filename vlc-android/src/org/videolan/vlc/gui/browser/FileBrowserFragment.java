@@ -44,6 +44,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Util;
@@ -126,13 +127,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     public void onStart(){
         super.onStart();
-
-        //Handle network connection state
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-        filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        filter.addDataScheme("file");
-        getActivity().registerReceiver(storageReceiver, filter);
         if (mReadyToDisplay)
             update();
     }
@@ -147,15 +141,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onStop() {
         super.onStop();
-        getActivity().unregisterReceiver(storageReceiver);
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
-    }
-
-    private void stopBackgroundTasks() {
-        MediaLibrary ml = MediaLibrary.getInstance();
-        if (ml.isWorking())
-            ml.stop();
     }
 
     public void showAddDirectoryDialog() {
@@ -187,7 +174,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
                 CustomDirectories.addCustomDirectory(f.getAbsolutePath());
                 refresh();
-                updateLib();
+                ((AudioPlayerContainerActivity)getActivity()).updateLib();
             }
         });
         mAlertDialog = builder.show();
@@ -202,52 +189,11 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
                 mAdapter.updateMediaDirs();
                 mAdapter.removeItem(position, true);
-                updateLib();
+                ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
             } else
                 return false;
         } else
             return super.handleContextItemSelected(item, position);
-    }
-
-    private final BroadcastReceiver storageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100);
-            }
-        }
-    };
-
-    Handler mStorageHandlerHandler = new FileBrowserFragmentHandler(this);
-
-    private static final int ACTION_MEDIA_MOUNTED = 1337;
-    private static final int ACTION_MEDIA_UNMOUNTED = 1338;
-
-    private static class FileBrowserFragmentHandler extends WeakHandler<FileBrowserFragment> {
-
-        public FileBrowserFragmentHandler(FileBrowserFragment owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what){
-                case ACTION_MEDIA_MOUNTED:
-                    removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    getOwner().update(true);
-                    break;
-                case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().stopBackgroundTasks();
-                    getOwner().update(true);
-                    break;
-            }
-        }
     }
 }

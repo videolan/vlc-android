@@ -468,24 +468,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return false;
     }
 
-    protected void updateLib() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
-        if (fragment != null) {
-            ft.remove(fragment);
-            ((MediaBrowserFragment)fragment).clear();
-        }
-        fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_VIDEO);
-        if (fragment != null) {
-            ft.remove(fragment);
-            ((MediaBrowserFragment)fragment).clear();
-        }
-        if (!ft.isEmpty())
-            ft.commit();
-        MediaLibrary.getInstance().loadMediaItems();
-    }
-
     protected void parseSubDirectories() {
         if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
