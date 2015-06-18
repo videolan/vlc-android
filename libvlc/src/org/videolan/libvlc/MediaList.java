@@ -43,7 +43,7 @@ public class MediaList extends VLCObject {
     }
 
     private int mCount = 0;
-    private final SparseArray<Media> mMediaArray = new SparseArray<Media>();
+    private final SparseArray<Media> mMediaArray = new SparseArray<>();
     private boolean mLocked = false;
 
     private void init() {
@@ -112,7 +112,7 @@ public class MediaList extends VLCObject {
             throw new IllegalStateException("already locked from event callback");
         mLocked = true;
         Event event = null;
-        int index = -1;
+        int index;
 
         switch (eventType) {
         case Events.MediaListItemAdded:

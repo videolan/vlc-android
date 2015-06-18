@@ -86,7 +86,7 @@ public class LibVLC extends VLCObject {
             }
         }
 
-        nativeNew(options != null ? options.toArray(new String[options.size()]) : null);
+        nativeNew(options.toArray(new String[options.size()]));
         setEventHandler(EventHandler.getInstance());
     }
 

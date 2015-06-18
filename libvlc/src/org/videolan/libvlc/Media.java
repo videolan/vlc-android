@@ -150,7 +150,7 @@ public class Media extends VLCObject {
         }
     }
 
-    /* Used from JNI */
+    @SuppressWarnings("unused") /* Used from JNI */
     private static Track createAudioTrackFromNative(String codec, String originalCodec, int id, int profile,
             int level, int bitrate, String language, String description,
             int channels, int rate) {
@@ -206,7 +206,7 @@ public class Media extends VLCObject {
         }
     }
 
-    /* Used from JNI */
+    @SuppressWarnings("unused") /* Used from JNI */
     private static Track createSubtitleTrackFromNative(String codec, String originalCodec, int id, int profile,
             int level, int bitrate, String language, String description,
             String encoding) {
@@ -322,8 +322,7 @@ public class Media extends VLCObject {
         final char array[] = uri.toString().toCharArray();
         final StringBuilder sb = new StringBuilder(array.length * 2);
 
-        for (int i = 0; i < array.length; ++i) {
-            final char c = array[i];
+        for (final char c : array) {
             if (URI_AUTHORIZED_CHARS.indexOf(c) != -1)
                 sb.append("%").append(Integer.toHexString(c));
             else
