@@ -25,7 +25,35 @@ package org.videolan.libvlc;
 import java.util.Map;
 
 
-public class MediaPlayer extends VLCObject {
+public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
+
+    public static class Event extends VLCEvent {
+        //public static final int MediaChanged         = 0x100;
+        //public static final int NothingSpecial       = 0x101;
+        //public static final int Opening              = 0x102;
+        //public static final int Buffering            = 0x103;
+        //public static final int Playing                = 0x104;
+        //public static final int Paused                 = 0x105;
+        //public static final int Stopped                = 0x106;
+        //public static final int Forward              = 0x107;
+        //public static final int Backward             = 0x108;
+        //public static final int EndReached             = 0x109;
+        //public static final int EncounteredError       = 0x10a;
+        //public static final int TimeChanged            = 0x10b;
+        //public static final int PositionChanged        = 0x10c;
+        //public static final int SeekableChanged      = 0x10d;
+        //public static final int PausableChanged      = 0x10e;
+        //public static final int TitleChanged         = 0x10f;
+        //public static final int SnapshotTaken        = 0x110;
+        //public static final int LengthChanged        = 0x111;
+        //public static final int Vout                   = 0x112;
+
+        protected Event(int type) {
+            super(type);
+        }
+    }
+
+    public interface EventListener extends VLCEvent.Listener<MediaPlayer.Event> {}
 
     public static class Position {
         public static final int Disable = -1;
@@ -258,6 +286,10 @@ public class MediaPlayer extends VLCObject {
     public native float[] getBands();
     public native String[] getPresets();
     public native float[] getPreset(int index);
+
+    public synchronized void setEventListener(EventListener listener) {
+        super.setEventListener(listener);
+    }
 
     @Override
     protected Event onEventNative(int eventType, long arg1, long arg2) {

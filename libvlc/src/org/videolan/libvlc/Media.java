@@ -27,8 +27,24 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.io.FileDescriptor;
 
-public class Media extends VLCObject {
+public class Media extends VLCObject<Media.Event> {
     private final static String TAG = "LibVLC/Media";
+
+    public static class Event extends VLCEvent {
+        public static final int MetaChanged = 0;
+        public static final int SubItemAdded = 1;
+        public static final int DurationChanged = 2;
+        public static final int ParsedChanged = 3;
+        //public static final int Freed                      = 4;
+        public static final int StateChanged = 5;
+        public static final int SubItemTreeAdded = 6;
+
+        protected Event(int type) {
+            super(type);
+        }
+    }
+
+    public interface EventListener extends VLCEvent.Listener<Media.Event> {}
 
     /**
      * libvlc_media_type_t
@@ -332,10 +348,14 @@ public class Media extends VLCObject {
         return sb.toString();
     }
 
+    public void setEventListener(EventListener listener) {
+        super.setEventListener(listener);
+    }
+
     @Override
     protected synchronized Event onEventNative(int eventType, long arg1, long arg2) {
         switch (eventType) {
-        case VLCObject.Events.MediaMetaChanged:
+        case Event.MetaChanged:
             // either we update all metas (if first call) or we update a specific meta
             if (mNativeMetas == null) {
                 mNativeMetas = nativeGetMetas();
@@ -345,13 +365,13 @@ public class Media extends VLCObject {
                     mNativeMetas[id] = nativeGetMeta(id);
             }
             break;
-        case VLCObject.Events.MediaDurationChanged:
+        case Event.DurationChanged:
             mDuration = nativeGetDuration();
             break;
-        case VLCObject.Events.MediaParsedChanged:
+        case Event.ParsedChanged:
             postParse();
             break;
-        case VLCObject.Events.MediaStateChanged:
+        case Event.StateChanged:
             mState = nativeGetState();
             break;
         }
@@ -442,7 +462,7 @@ public class Media extends VLCObject {
     /**
      * Parse the media asynchronously with a flag. This Media should be alive (not released).
      *
-     * To track when this is over you can listen to {@link VLCObject.Events#MediaParsedChanged}
+     * To track when this is over you can listen to {@link Event#ParsedChanged}
      * event (only if this methods returned true).
      *
      * @param flags see {@link Parse}

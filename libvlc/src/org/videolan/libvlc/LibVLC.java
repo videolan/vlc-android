@@ -28,8 +28,14 @@ import android.view.Surface;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 
-public class LibVLC extends VLCObject {
+public class LibVLC extends VLCObject<LibVLC.Event> {
     private static final String TAG = "VLC/LibVLC";
+
+    public static class Event extends VLCEvent {
+        protected Event(int type) {
+            super(type);
+        }
+    }
 
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;

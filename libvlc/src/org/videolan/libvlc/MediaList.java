@@ -22,10 +22,17 @@ package org.videolan.libvlc;
 
 import android.util.SparseArray;
 
-public class MediaList extends VLCObject {
+public class MediaList extends VLCObject<MediaList.Event> {
     private final static String TAG = "LibVLC/MediaList";
 
-    public static class Event extends VLCObject.Event {
+    public static class Event extends VLCEvent {
+
+        public static final int ItemAdded              = 0x200;
+        //public static final int WillAddItem            = 0x201;
+        public static final int ItemDeleted            = 0x202;
+        //public static final int WillDeleteItem         = 0x203;
+        public static final int EndReached             = 0x204;
+
         /**
          * The media can be already released. If it's released, cached attributes are still
          * available (like media.getMrl()).
@@ -41,6 +48,8 @@ public class MediaList extends VLCObject {
             this.index = index;
         }
     }
+
+    public interface EventListener extends VLCEvent.Listener<MediaList.Event> {}
 
     private int mCount = 0;
     private final SparseArray<Media> mMediaArray = new SparseArray<>();
@@ -106,6 +115,10 @@ public class MediaList extends VLCObject {
         return media;
     }
 
+    public void setEventListener(EventListener listener) {
+        super.setEventListener(listener);
+    }
+
     @Override
     protected synchronized Event onEventNative(int eventType, long arg1, long arg2) {
         if (mLocked)
@@ -115,21 +128,21 @@ public class MediaList extends VLCObject {
         int index;
 
         switch (eventType) {
-        case Events.MediaListItemAdded:
+        case Event.ItemAdded:
             index = (int) arg1;
             if (index != -1) {
                 final Media media = insertMediaFromEvent(index);
                 event = new Event(eventType, media, index);
             }
             break;
-        case Events.MediaListItemDeleted:
+        case Event.ItemDeleted:
             index = (int) arg1;
             if (index != -1) {
                 final Media media = removeMediaFromEvent(index);
                 event = new Event(eventType, media, index);
             }
             break;
-        case Events.MediaListEndReached:
+        case Event.EndReached:
             event = new Event(eventType, null, -1);
             break;
         }

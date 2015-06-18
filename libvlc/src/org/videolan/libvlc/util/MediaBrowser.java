@@ -29,7 +29,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaDiscoverer;
 import org.videolan.libvlc.MediaList;
-import org.videolan.libvlc.VLCObject;
 
 public class MediaBrowser {
     private static final String TAG = "LibVLC/util/MediaBrowser";
@@ -203,7 +202,7 @@ public class MediaBrowser {
 
     private final MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {
         @Override
-        public void onEvent(VLCObject.Event event) {
+        public void onEvent(MediaList.Event event) {
             if (mEventListener == null)
                 return;
             final MediaList.Event mlEvent = (MediaList.Event) event;
@@ -212,13 +211,13 @@ public class MediaBrowser {
              * We use an intermediate array here since more than one MediaDiscoverer can be used
              */
             switch (mlEvent.type) {
-            case MediaList.Events.MediaListItemAdded:
+            case MediaList.Event.ItemAdded:
                 mEventListener.onMediaAdded(mlEvent.index, mlEvent.media);
                 break;
-            case MediaList.Events.MediaListItemDeleted:
+            case MediaList.Event.ItemDeleted:
                 mEventListener.onMediaRemoved(mlEvent.index, mlEvent.media);
                 break;
-            case MediaList.Events.MediaListEndReached:
+            case MediaList.Event.EndReached:
                 mEventListener.onBrowseEnd();
             }
         }
@@ -226,7 +225,7 @@ public class MediaBrowser {
 
     private final MediaList.EventListener mDiscovererMediaListEventListener = new MediaList.EventListener() {
         @Override
-        public void onEvent(VLCObject.Event event) {
+        public void onEvent(MediaList.Event event) {
             if (mEventListener == null)
                 return;
             final MediaList.Event mlEvent = (MediaList.Event) event;
@@ -236,7 +235,7 @@ public class MediaBrowser {
              * We use an intermediate array here since more than one MediaDiscoverer can be used
              */
             switch (mlEvent.type) {
-            case MediaList.Events.MediaListItemAdded:
+            case MediaList.Event.ItemAdded:
                 synchronized (MediaBrowser.this) {
                     /* one item can be found by severals discoverers */
                     boolean found = false;
@@ -254,7 +253,7 @@ public class MediaBrowser {
                 if (index != -1)
                     mEventListener.onMediaAdded(index, mlEvent.media);
                 break;
-            case MediaList.Events.MediaListItemDeleted:
+            case MediaList.Event.ItemDeleted:
                 synchronized (MediaBrowser.this) {
                     index = mDiscovererMediaArray.indexOf(mlEvent.media);
                     if (index != -1)
@@ -263,7 +262,7 @@ public class MediaBrowser {
                 if (index != -1)
                     mEventListener.onMediaRemoved(index, mlEvent.media);
                 break;
-            case MediaList.Events.MediaListEndReached:
+            case MediaList.Event.EndReached:
                 mEventListener.onBrowseEnd();
             }
         }

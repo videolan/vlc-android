@@ -20,8 +20,21 @@
 
 package org.videolan.libvlc;
 
-public class MediaDiscoverer extends VLCObject {
+public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     private final static String TAG = "LibVLC/MediaDiscoverer";
+
+    public static class Event extends VLCEvent {
+
+        public static final int Started = 0x500;
+        public static final int Ended   = 0x501;
+
+        protected Event(int type) {
+            super(type);
+        }
+    }
+
+    public interface EventListener extends VLCEvent.Listener<MediaDiscoverer.Event> {}
+
     private MediaList mMediaList;
 
     /**
@@ -55,8 +68,17 @@ public class MediaDiscoverer extends VLCObject {
         nativeStop();
     }
 
+    public void setEventListener(EventListener listener) {
+        super.setEventListener(listener);
+    }
+
     @Override
-    protected Event onEventNative(int event, long arg1, long arg2) {
+    protected Event onEventNative(int eventType, long arg1, long arg2) {
+        switch (eventType) {
+            case Event.Started:
+            case Event.Ended:
+                return new Event(eventType);
+        }
         return null;
     }
 
