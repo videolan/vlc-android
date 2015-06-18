@@ -377,6 +377,9 @@ fi
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 
+# XXX: remove when ndk C++11 is updated
+EXTRA_CXXFLAGS="-D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MACROS=1 -D__STDC_LIMIT_MACROS=1"
+
 CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 
 #################
@@ -520,7 +523,7 @@ fi
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 CPPFLAGS="$CPPFLAGS" \
 CFLAGS="$CFLAGS ${EXTRA_CFLAGS}" \
-CXXFLAGS="$CFLAGS" \
+CXXFLAGS="$CFLAGS ${EXTRA_CXXFLAGS}" \
 LDFLAGS="$LDFLAGS" \
 CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \
 CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT} -D__cpp_static_assert=200410" \
