@@ -68,7 +68,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         if (mAdapter.size() == 0) {
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
             if (mMediaBrowser != null) {
-                mMediaList = new ArrayList<>();
+                mMediaList = new ArrayList<MediaWrapper>();
                 if (mUri != null)
                     mMediaBrowser.browse(mUri);
                 else

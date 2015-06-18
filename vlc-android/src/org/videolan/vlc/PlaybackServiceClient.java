@@ -607,7 +607,7 @@ public class PlaybackServiceClient implements ServiceConnection {
         new LoadCmd(mediaList, position, forceAudio).send(mIService);
     }
     public void load(MediaWrapper media, boolean forceAudio) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
         arrayList.add(media);
         load(arrayList, 0, forceAudio);
     }
@@ -615,7 +615,7 @@ public class PlaybackServiceClient implements ServiceConnection {
         load(media, false);
     }
     public void loadLocation(String mediaPath) {
-        ArrayList < String > arrayList = new ArrayList<>();
+        ArrayList <String> arrayList = new ArrayList<String>();
         arrayList.add(mediaPath);
         loadLocations(arrayList, 0);
     }
@@ -623,7 +623,7 @@ public class PlaybackServiceClient implements ServiceConnection {
         new LoadLocationsCmd(mediaPathList, position).send(mIService);
     }
     public void append(MediaWrapper media) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
         arrayList.add(media);
         append(arrayList);
     }
@@ -747,7 +747,7 @@ public class PlaybackServiceClient implements ServiceConnection {
 
     /* Static commands: can be run without a PlaybackServiceClient instance */
     public static void load(Context context, ResultCallback<Void> asyncCb, MediaWrapper media, boolean forceAudio) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
         arrayList.add(media);
         load(context, asyncCb, arrayList, 0, forceAudio);
     }
@@ -761,7 +761,7 @@ public class PlaybackServiceClient implements ServiceConnection {
         new LoadCmd(mediaList, position, forceAudio).sendAsync(context, asyncCb);
     }
     public static void loadLocation(Context context, ResultCallback<Void> asyncCb, String mediaPath) {
-        ArrayList < String > arrayList = new ArrayList<>();
+        ArrayList <String> arrayList = new ArrayList<String>();
         arrayList.add(mediaPath);
         loadLocations(context, asyncCb, arrayList, 0);
     }
@@ -769,7 +769,7 @@ public class PlaybackServiceClient implements ServiceConnection {
         new LoadLocationsCmd(mediaPathList, position).sendAsync(context, asyncCb);
     }
     public static void append(Context context, ResultCallback<Void> asyncCb, MediaWrapper media) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
         arrayList.add(media);
         append(context, asyncCb, arrayList);
     }
