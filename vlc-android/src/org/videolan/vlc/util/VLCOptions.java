@@ -104,7 +104,7 @@ public class VLCOptions {
             options.add("--network-caching=" + networkCaching);
         options.add(aout == AOUT_OPENSLES ? "--aout=opensles" : (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy"));
         options.add("--androidwindow-chroma");
-        options.add(chroma.indexOf(0) == 0 ? chroma : "RV32");
+        options.add(chroma.indexOf(0) != 0 ? chroma : "RV32");
 
         if (sHdmiAudioEnabled) {
             options.add("--spdif");
