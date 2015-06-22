@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class HWDecoderUtil {
 
-    public static final boolean HAS_WINDOW_VOUT = AndroidUtil.isGingerbreadOrLater();
+    public static final boolean HAS_SUBTITLES_SURFACE = AndroidUtil.isGingerbreadOrLater();
 
     public enum Decoder {
         UNKNOWN, NONE, OMX, MEDIACODEC, ALL

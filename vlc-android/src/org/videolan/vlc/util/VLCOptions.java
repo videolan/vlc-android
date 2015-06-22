@@ -41,10 +41,6 @@ public class VLCOptions {
     public static final int AOUT_AUDIOTRACK = 0;
     public static final int AOUT_OPENSLES = 1;
 
-    public static final int VOUT_ANDROID_SURFACE = 0;
-    public static final int VOUT_OPEGLES2 = 1;
-    public static final int VOUT_ANDROID_WINDOW = 2;
-
     public static final int HW_ACCELERATION_AUTOMATIC = -1;
     public static final int HW_ACCELERATION_DISABLED = 0;
     public static final int HW_ACCELERATION_DECODING = 1;
@@ -80,13 +76,6 @@ public class VLCOptions {
         }
         aout = getAout(aout);
 
-        int vout = -1;
-        try {
-            vout = Integer.parseInt(pref.getString("vout", "-1"));
-        } catch (NumberFormatException nfe) {
-        }
-        vout = getVout(vout);
-
         int deblocking = -1;
         try {
             deblocking = getDeblocking(Integer.parseInt(pref.getString("deblocking", "-1")));
@@ -114,7 +103,6 @@ public class VLCOptions {
         if (networkCaching > 0)
             options.add("--network-caching=" + networkCaching);
         options.add(aout == AOUT_OPENSLES ? "--aout=opensles" : (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy"));
-        options.add(vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" : (vout == VOUT_OPEGLES2 ? "--vout=gles2" : "--vout=androidsurface"));
         options.add("--androidsurface-chroma");
         options.add(chroma.indexOf(0) == 0 ? chroma : "RV32");
 
@@ -133,16 +121,6 @@ public class VLCOptions {
             return hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
 
         return aout == AOUT_OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
-    }
-
-    private static int getVout(int vout) {
-        if (vout < 0 || vout > VOUT_ANDROID_WINDOW)
-            vout = VOUT_ANDROID_SURFACE;
-
-        if (vout == VOUT_ANDROID_SURFACE && HWDecoderUtil.HAS_WINDOW_VOUT)
-            return VOUT_ANDROID_WINDOW;
-        else
-            return vout;
     }
 
     private static int getDeblocking(int deblocking) {

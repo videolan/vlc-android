@@ -453,7 +453,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (!HWDecoderUtil.HAS_WINDOW_VOUT) {
+        if (!HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
             mSubtitlesSurfaceView.setVisibility(View.GONE);
             mSubtitleSurfaceReady = true;
         }
@@ -1687,7 +1687,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
-        if (LibVLC() != null && HWDecoderUtil.HAS_WINDOW_VOUT)
+        if (LibVLC() != null)
             LibVLC().setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
@@ -3079,7 +3079,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
-            if (!HWDecoderUtil.HAS_WINDOW_VOUT)
+            if (!HWDecoderUtil.HAS_SUBTITLES_SURFACE)
                 mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }

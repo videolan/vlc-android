@@ -54,23 +54,21 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      * @param options
      */
     public LibVLC(ArrayList<String> options) {
-        boolean setAout = true, setVout = true, setChroma = true;
+        boolean setAout = true, setChroma = true;
         // check if aout/vout options are already set
         if (options != null) {
             for (String option : options) {
                 if (option.startsWith("--aout="))
                     setAout = false;
-                if (option.startsWith("--vout="))
-                    setVout = false;
                 if (option.startsWith("--androidsurface-chroma"))
                     setChroma = false;
-                if (!setAout && !setVout && !setChroma)
+                if (!setAout && !setChroma)
                     break;
             }
         }
 
         // set aout/vout options if they are not set
-        if (setAout || setVout || setChroma) {
+        if (setAout || setChroma) {
             if (options == null)
                 options = new ArrayList<String>();
             if (setAout) {
@@ -79,12 +77,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
                     options.add("--aout=opensles");
                 else
                     options.add("--aout=android_audiotrack");
-            }
-            if (setVout) {
-                if (HWDecoderUtil.HAS_WINDOW_VOUT)
-                    options.add("--vout=androidwindow");
-                else
-                    options.add("--vout=androidsurface");
             }
             if (setChroma) {
                 options.add("--androidsurface-chroma");
