@@ -50,7 +50,7 @@
         android:layout_alignRight="@+id/player_overlay_seekbar"
         android:layout_marginRight="@dimen/time_margin_sides"
         android:gravity="right"
-        android:text="--:-- "
+        android:text="--:--"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textSize="16sp" />
 
