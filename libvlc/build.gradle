@@ -29,6 +29,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    // Make per-variant version code
+    libraryVariants.all { variant ->
+        def manifestParser = new com.android.builder.core.DefaultManifestParser()
+        // get the version code of each flavor
+        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
+        //Custom APK name
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "libvlc-${vlcVersion}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
 }
 
 /*
