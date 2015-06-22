@@ -60,7 +60,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
             for (String option : options) {
                 if (option.startsWith("--aout="))
                     setAout = false;
-                if (option.startsWith("--androidsurface-chroma"))
+                if (option.startsWith("--androidwindow-chroma"))
                     setChroma = false;
                 if (!setAout && !setChroma)
                     break;
@@ -79,7 +79,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
                     options.add("--aout=android_audiotrack");
             }
             if (setChroma) {
-                options.add("--androidsurface-chroma");
+                options.add("--androidwindow-chroma");
                 options.add("RV32");
             }
         }
