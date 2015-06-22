@@ -32,8 +32,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- STORAGE -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-       android:maxSdkVersion="19" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- DEVELOPMENT_TOOLS signature -->
     <uses-permission android:name="android.permission.READ_LOGS"
@@ -48,7 +47,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="org.videolan.vlc.VLCApplication"

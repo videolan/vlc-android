@@ -2,8 +2,7 @@ Changes between 1.4.1 and 1.5.0:
 --------------------------------
 
 Application:
- * Removed some permissions WRITE_EXTERNAL_STORAGE & READ_LOGS for recent Android versions
- * Added READ_EXTERNAL_STORAGE permission, needed for Android 5+ (since we removed WRITE)
+ * Removed permission READ_LOGS for recent Android versions
  * Handle media (external SD cards & USB keys) mount and unmount
  * position in playlist and in song are now restored when you load last playlist
  * Design improvements, replaced some dialogs and toasts by snackbars
