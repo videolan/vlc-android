@@ -108,7 +108,6 @@ VLC_CONFIGURE_ARGS="\
     --enable-avcodec \
     --enable-opus \
     --enable-opensles \
-    --enable-android-surface \
     --enable-mkv \
     --enable-taglib \
     --enable-dvbpsi \
