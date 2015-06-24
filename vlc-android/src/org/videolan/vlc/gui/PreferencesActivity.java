@@ -58,6 +58,7 @@ import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
+import org.videolan.vlc.BuildConfig;
 
 @SuppressWarnings("deprecation")
 public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -207,15 +208,18 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         /*** Attach debugging items **/
         Preference quitAppPref = findPreference("quit_app");
-        quitAppPref.setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
+        if (BuildConfig.FLAVOR_target != "chrome") {
+            quitAppPref.setOnPreferenceClickListener(
+                    new OnPreferenceClickListener() {
 
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                        return true;
-                    }
-                });
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            return true;
+                        }
+                    });
+        } else
+            quitAppPref.setEnabled(false);
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
