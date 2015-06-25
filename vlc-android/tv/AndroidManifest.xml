@@ -59,7 +59,8 @@
         <activity
             android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
+            android:allowTaskReparenting="true"
             android:theme="@style/Theme.Leanback" >
             <!-- This filter captures protocols without type info -->
             <intent-filter>
@@ -233,6 +234,8 @@
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             tools:node="replace"
+            android:launchMode="singleTop"
+            android:allowTaskReparenting="true"
             android:configChanges="orientation|screenSize|keyboard"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC.Player" >
