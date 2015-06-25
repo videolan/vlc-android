@@ -613,7 +613,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     @Override
     protected void onStop() {
         super.onStop();
-        mClient.disconnect();
 
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
@@ -630,6 +629,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mPresentation = null;
         }
         restoreBrightness();
+        mClient.disconnect();
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
