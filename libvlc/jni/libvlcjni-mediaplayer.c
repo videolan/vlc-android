@@ -26,8 +26,14 @@
 
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
+extern JavaVM *libvlc_get_jvm();
 
 extern jobject eventHandlerInstance;
+
+struct vlcjni_object_sys
+{
+    jobject jwindow;
+};
 
 /* TODO REMOVE */
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
@@ -119,14 +125,26 @@ end:
 }
 
 static void
-MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
+MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj,
+                      jobject jwindow)
 {
-    if (!p_obj->u.p_mp)
+    p_obj->p_sys = calloc(1, sizeof(vlcjni_object_sys));
+
+    if (!p_obj->u.p_mp || !p_obj->p_sys)
     {
         VLCJniObject_release(env, thiz, p_obj);
         throw_IllegalStateException(env, "can't create MediaPlayer instance");
         return;
     }
+    p_obj->p_sys->jwindow = (*env)->NewGlobalRef(env, jwindow);
+    if (!p_obj->p_sys->jwindow)
+    {
+        VLCJniObject_release(env, thiz, p_obj);
+        throw_IllegalStateException(env, "can't create MediaPlayer instance");
+        return;
+    }
+    libvlc_media_player_set_android_context(p_obj->u.p_mp, libvlc_get_jvm(),
+                                            p_obj->p_sys->jwindow);
     /*
     VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
                               libvlc_media_event_manager(p_obj->u.p_mp),
@@ -156,7 +174,8 @@ MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 void
 Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
                                                          jobject thiz,
-                                                         jobject libvlc)
+                                                         jobject libvlc,
+                                                         jobject jwindow)
 {
     vlcjni_object *p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libvlc);
     if (!p_obj)
@@ -164,13 +183,14 @@ Java_org_videolan_libvlc_MediaPlayer_nativeNewFromLibVlc(JNIEnv *env,
 
     /* Create a media player playing environment */
     p_obj->u.p_mp = libvlc_media_player_new(p_obj->p_libvlc);
-    MediaPlayer_newCommon(env, thiz, p_obj);
+    MediaPlayer_newCommon(env, thiz, p_obj, jwindow);
 }
 
 void
 Java_org_videolan_libvlc_MediaPlayer_nativeNewFromMedia(JNIEnv *env,
                                                         jobject thiz,
-                                                        jobject jmedia)
+                                                        jobject jmedia,
+                                                        jobject jwindow)
 {
     vlcjni_object *p_obj;
     vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, jmedia);
@@ -182,7 +202,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeNewFromMedia(JNIEnv *env,
     if (!p_obj)
         return;
     p_obj->u.p_mp = libvlc_media_player_new_from_media(p_m_obj->u.p_m);
-    MediaPlayer_newCommon(env, thiz, p_obj);
+    MediaPlayer_newCommon(env, thiz, p_obj, jwindow);
 }
 
 void
@@ -211,6 +231,11 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_detach(ev, mp_events[i], vlc_event_callback, NULL);
     libvlc_media_player_release(p_obj->u.p_mp);
+
+    if (p_obj->p_sys && p_obj->p_sys->jwindow)
+        (*env)->DeleteGlobalRef(env, p_obj->p_sys->jwindow);
+
+    free(p_obj->p_sys);
 
     VLCJniObject_release(env, thiz, p_obj);
 }

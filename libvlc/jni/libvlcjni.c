@@ -36,7 +36,6 @@
 
 #include "libvlcjni-modules.h"
 #include "libvlcjni-vlcobject.h"
-#include "vout.h"
 #include "utils.h"
 #include "native_crash_handler.h"
 #include "std_logger.h"
@@ -55,6 +54,13 @@ jobject eventHandlerInstance = NULL;
  * can only be one instance of this shared library in a single VM
  */
 static JavaVM *myVm;
+
+JavaVM *
+libvlc_get_jvm()
+{
+    return myVm;
+}
+
 static pthread_key_t jni_env_key;
 
 /* This function is called when a thread attached to the Java VM is canceled or
@@ -116,9 +122,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
      * previously set the jni_env_key is canceled or exited */
     if (pthread_key_create(&jni_env_key, jni_detach_thread) != 0)
         return -1;
-
-    pthread_mutex_init(&vout_android_lock, NULL);
-    pthread_cond_init(&vout_android_surf_attached, NULL);
 
 #ifndef NDEBUG
     p_std_logger = std_logger_Open("VLC-std");
@@ -241,9 +244,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 void JNI_OnUnload(JavaVM* vm, void* reserved)
 {
     JNIEnv* env = NULL;
-
-    pthread_mutex_destroy(&vout_android_lock);
-    pthread_cond_destroy(&vout_android_surf_attached);
 
     destroy_native_crash_handler();
 
@@ -371,27 +371,6 @@ jstring Java_org_videolan_libvlc_LibVLC_changeset(JNIEnv* env, jobject thiz)
     return (*env)->NewStringUTF(env, libvlc_get_changeset());
 }
 
-// TODO: remove static variables
-static int i_window_width = 0;
-static int i_window_height = 0;
-
-void Java_org_videolan_libvlc_LibVLC_setWindowSize(JNIEnv *env, jobject thiz, jint width, jint height)
-{
-    pthread_mutex_lock(&vout_android_lock);
-    i_window_width = width;
-    i_window_height = height;
-    pthread_mutex_unlock(&vout_android_lock);
-}
-
-int jni_GetWindowSize(int *width, int *height)
-{
-    pthread_mutex_lock(&vout_android_lock);
-    *width = i_window_width;
-    *height = i_window_height;
-    pthread_mutex_unlock(&vout_android_lock);
-    return 0;
-}
-
 /* used by opensles module */
 int aout_get_native_sample_rate(void)
 {
@@ -402,4 +381,39 @@ int aout_get_native_sample_rate(void)
     jmethodID method = (*p_env)->GetStaticMethodID (p_env, cls, "getNativeOutputSampleRate", "(I)I");
     int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
     return sample_rate;
+}
+
+/* TODO REMOVE */
+static jobject error_obj = NULL;
+pthread_mutex_t error_obj_lock;
+
+void Java_org_videolan_libvlc_LibVLC_nativeSetOnHardwareAccelerationError(JNIEnv *env, jobject thiz, jobject error_obj_)
+{
+    pthread_mutex_lock(&error_obj_lock);
+
+    if (error_obj != NULL)
+        (*env)->DeleteGlobalRef(env, error_obj);
+    error_obj = error_obj_ ? (*env)->NewGlobalRef(env, error_obj_) : NULL;
+    pthread_mutex_unlock(&error_obj_lock);
+}
+
+void jni_EventHardwareAccelerationError()
+{
+    JNIEnv *env;
+
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
+
+    pthread_mutex_lock(&error_obj_lock);
+    if (error_obj == NULL) {
+        pthread_mutex_unlock(&error_obj_lock);
+        return;
+    }
+
+    jclass cls = (*env)->GetObjectClass(env, error_obj);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "eventHardwareAccelerationError", "()V");
+    (*env)->CallVoidMethod(env, error_obj, methodId);
+
+    (*env)->DeleteLocalRef(env, cls);
+    pthread_mutex_unlock(&error_obj_lock);
 }

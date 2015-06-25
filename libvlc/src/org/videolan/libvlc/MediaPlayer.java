@@ -24,8 +24,7 @@ package org.videolan.libvlc;
 
 import java.util.Map;
 
-
-public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
+public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow.SurfaceCallback {
 
     public static class Event extends VLCEvent {
         //public static final int MediaChanged         = 0x100;
@@ -77,6 +76,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     private Media mMedia = null;
+    private boolean mPlaying = false;
+    private boolean mPlayRequested = false;
+    private final AWindow mWindow = new AWindow(this);
 
     /**
      * Create an empty MediaPlayer
@@ -84,7 +86,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param libVLC
      */
     public MediaPlayer(LibVLC libVLC) {
-        nativeNewFromLibVlc(libVLC);
+        nativeNewFromLibVlc(libVLC, mWindow);
     }
 
     /**
@@ -97,7 +99,15 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             throw new IllegalArgumentException("Media is null or released");
         mMedia = media;
         mMedia.retain();
-        nativeNewFromMedia(mMedia);
+        nativeNewFromMedia(mMedia, mWindow);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public IVLCVout getVLCVout() {
+        return mWindow;
     }
 
     /**
@@ -134,6 +144,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      */
     public synchronized void play() {
+        if (!mPlaying) {
+            mPlayRequested = true;
+            if (mWindow.areSurfacesWaiting())
+                return;
+        }
+        mPlaying = true;
         nativePlay();
     }
 
@@ -142,7 +158,24 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      */
     public synchronized void stop() {
+        mPlayRequested = false;
+        mPlaying = false;
         nativeStop();
+    }
+
+
+    @Override
+    public synchronized void onSurfacesCreated(AWindow vout) {
+        if (!mPlaying && mPlayRequested)
+            play();
+    }
+
+    @Override
+    public synchronized void onSurfacesDestroyed(AWindow vout) {
+        if (mPlaying) {
+            setVideoTrackEnabled(false);
+            /* TODO wait for no VOUT event */
+        }
     }
 
     /**
@@ -305,8 +338,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /* JNI */
-    private native void nativeNewFromLibVlc(LibVLC libVLC);
-    private native void nativeNewFromMedia(Media media);
+    private native void nativeNewFromLibVlc(LibVLC libVLC, IAWindowNativeHandler window);
+    private native void nativeNewFromMedia(Media media, IAWindowNativeHandler window);
     private native void nativeRelease();
     private native void nativeSetMedia(Media media);
     private native void nativePlay();

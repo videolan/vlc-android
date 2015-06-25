@@ -40,13 +40,9 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;
 
-    /** Check in libVLC already initialized otherwise crash */
-    public native void attachSurface(Surface surface, IVideoPlayer player);
-
-    public native void detachSurface();
-
-    public native void attachSubtitlesSurface(Surface surface);
-    public native void detachSubtitlesSurface();
+    public interface HardwareAccelerationError {
+        void eventHardwareAccelerationError(); // TODO REMOVE
+    }
 
     /**
      * Create a LibVLC withs options
@@ -95,11 +91,10 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         this(null);
     }
 
-    /**
-     * Give to LibVLC the surface to draw the video.
-     * @param f the surface to draw
-     */
-    public native void setSurface(Surface f);
+    public void setOnHardwareAccelerationError(HardwareAccelerationError error) {
+        nativeSetOnHardwareAccelerationError(error);
+    }
+    private native void nativeSetOnHardwareAccelerationError(HardwareAccelerationError error);
 
     /**
      * Get the libVLC version
@@ -118,8 +113,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      * @return the libVLC changeset string
      */
     public native String changeset();
-
-    public native static void sendMouseEvent( int action, int button, int x, int y);
 
     private native void setEventHandler(EventHandler eventHandler);
 
@@ -148,8 +141,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         if (sOnNativeCrashListener != null)
             sOnNativeCrashListener.onNativeCrash();
     }
-
-    public native int setWindowSize(int width, int height);
 
     /* JNI */
     private native void nativeNew(String[] options);

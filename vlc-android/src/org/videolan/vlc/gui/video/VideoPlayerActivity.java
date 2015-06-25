@@ -44,7 +44,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
@@ -71,8 +70,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +93,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.videolan.libvlc.EventHandler;
-import org.videolan.libvlc.IVideoPlayer;
+import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -138,7 +135,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener, IDelayController {
+public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
+        GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -161,12 +159,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
 
     private PlaybackServiceClient mClient;
-    private SurfaceView mSurfaceView;
-    private SurfaceView mSubtitlesSurfaceView;
-    private SurfaceHolder mSurfaceHolder;
-    private SurfaceHolder mSubtitlesSurfaceHolder;
-    private Surface mSurface = null;
-    private Surface mSubtitleSurface = null;
+    private SurfaceView mSurfaceView = null;
+    private SurfaceView mSubtitlesSurfaceView = null;
     private FrameLayout mSurfaceFrame;
     private MediaRouter mMediaRouter;
     private MediaRouter.SimpleCallback mMediaRouterCallback;
@@ -197,12 +191,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
-    private static final int SURFACE_LAYOUT = 3;
-    private static final int FADE_OUT_INFO = 4;
-    private static final int START_PLAYBACK = 5;
-    private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
-    private static final int RESET_BACK_LOCK = 7;
-    private static final int CHECK_VIDEO_TRACKS = 8;
+    private static final int FADE_OUT_INFO = 3;
+    private static final int START_PLAYBACK = 4;
+    private static final int AUDIO_SERVICE_CONNECTION_FAILED = 5;
+    private static final int RESET_BACK_LOCK = 6;
+    private static final int CHECK_VIDEO_TRACKS = 7;
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -318,10 +311,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
-
-    private boolean mPlaybackServiceReady = false;
-    private boolean mSurfaceReady = false;
-    private boolean mSubtitleSurfaceReady = false;
 
     private boolean mHasHdmiAudio = false;
 
@@ -445,22 +434,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mMediaListPlayer = MediaWrapperListPlayer.getInstance();
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
-        mSurfaceHolder = mSurfaceView.getHolder();
-        mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
-
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
-        mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
-        mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-        mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (!HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
+        if (HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
+            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+            mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        } else
             mSubtitlesSurfaceView.setVisibility(View.GONE);
-            mSubtitleSurfaceReady = true;
-        }
-        if (mPresentation == null) {
-            mSurfaceHolder.addCallback(mSurfaceCallback);
-            mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
-        }
+
+        mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
 
@@ -583,7 +565,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         if (!AndroidUtil.isHoneycombOrLater())
-            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+            changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
         resetHudLayout();
     }
@@ -674,8 +656,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
-        if (mPlaybackStarted || !mPlaybackServiceReady || !mSurfaceReady || !mSubtitleSurfaceReady)
+        if (mPlaybackStarted || !mClient.isConnected())
             return;
+
+        LibVLC().setOnHardwareAccelerationError(this);
+        final IVLCVout vlcVout = MediaPlayer().getVLCVout();
+        if (mPresentation == null) {
+            vlcVout.setVideoView(mSurfaceView);
+            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
+                vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
+        } else {
+            vlcVout.setVideoView(mPresentation.mSurfaceView);
+            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
+                vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
+        }
+        vlcVout.setCallback(this);
+        vlcVout.attachViews();
 
         mPlaybackStarted = true;
 
@@ -686,13 +682,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                     public void onLayoutChange(View v, int left, int top, int right,
                                                int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom)
-                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+                            changeSurfaceLayout();
                     }
                 };
             }
             mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
         }
-        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        changeSurfaceLayout();
 
         if (mMediaRouter != null) {
             // Listen for changes to media routes.
@@ -723,6 +719,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     private void stopPlayback() {
         if (!mPlaybackStarted)
             return;
+
+        LibVLC().setOnHardwareAccelerationError(null);
 
         mPlaybackStarted = false;
 
@@ -756,6 +754,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
         MediaPlayer().stop();
+
+        final IVLCVout vlcVout = MediaPlayer().getVLCVout();
+        vlcVout.detachViews();
+        vlcVout.setCallback(null);
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -1081,22 +1083,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     @Override
-    public void setSurfaceLayout(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den) {
-        if (width * height == 0)
-            return;
-
-        // store video size
-        mVideoHeight = height;
-        mVideoWidth = width;
-        mVideoVisibleHeight = visible_height;
-        mVideoVisibleWidth  = visible_width;
-        mSarNum = sar_num;
-        mSarDen = sar_den;
-        Message msg = mHandler.obtainMessage(SURFACE_LAYOUT);
-        mHandler.sendMessage(msg);
-    }
-
-    @Override
     public void showAudioDelaySetting() {
         mDelay = DelayState.AUDIO;
         showDelayControls();
@@ -1188,57 +1174,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             mDelay = DelayState.SUBS;
             initDelayInfo();
         }
-    }
-
-    private static class ConfigureSurfaceHolder {
-        private final Surface surface;
-        private boolean configured;
-
-        private ConfigureSurfaceHolder(Surface surface) {
-            this.surface = surface;
-        }
-    }
-
-    @Override
-    public int configureSurface(Surface surface, final int width, final int height, final int hal) {
-        if (AndroidUtil.isICSOrLater() || surface == null)
-            return -1;
-        if (width * height == 0)
-            return 0;
-        Log.d(TAG, "configureSurface: " + width +"x"+height);
-
-        final ConfigureSurfaceHolder holder = new ConfigureSurfaceHolder(surface);
-
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mSurface == holder.surface && mSurfaceHolder != null) {
-                    if (hal != 0)
-                        mSurfaceHolder.setFormat(hal);
-                    mSurfaceHolder.setFixedSize(width, height);
-                } else if (mSubtitleSurface == holder.surface && mSubtitlesSurfaceHolder != null) {
-                    if (hal != 0)
-                        mSubtitlesSurfaceHolder.setFormat(hal);
-                    mSubtitlesSurfaceHolder.setFixedSize(width, height);
-                }
-
-                synchronized (holder) {
-                    holder.configured = true;
-                    holder.notifyAll();
-                }
-            }
-        });
-
-        try {
-            synchronized (holder) {
-                while (!holder.configured)
-                    holder.wait();
-            }
-        } catch (InterruptedException e) {
-            return 0;
-        }
-        return 1;
     }
 
     /**
@@ -1536,9 +1471,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
                         sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
                     break;
-                case SURFACE_LAYOUT:
-                    activity.changeSurfaceLayout();
-                    break;
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
                     break;
@@ -1607,6 +1539,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         mAlertDialog.show();
     }
 
+    @Override
     public void eventHardwareAccelerationError() {
         EventHandler em = EventHandler.getInstance();
         em.callback(EventHandler.HardwareAccelerationError, new Bundle());
@@ -1645,7 +1578,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
     }
 
     private void handleVout(Message msg) {
-        if (msg.getData().getInt("data") == 0 && !mEndReached) {
+        final IVLCVout vlcVout = MediaPlayer().getVLCVout();
+        if (vlcVout.areViewsAttached() && msg.getData().getInt("data") == 0 && !mEndReached) {
             /* Video track lost, open in audio mode */
             Log.i(TAG, "Video track lost, switching to audio");
             mSwitchingView = true;
@@ -1687,8 +1621,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
-        if (LibVLC() != null)
-            LibVLC().setWindowSize(sw, sh);
+        final IVLCVout vlcVout = MediaPlayer().getVLCVout();
+        vlcVout.setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
         boolean isPortrait;
@@ -1780,7 +1714,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         surface.setLayoutParams(lp);
-        subtitlesSurface.setLayoutParams(lp);
+        if (subtitlesSurface != null)
+            subtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         lp = surfaceFrame.getLayoutParams();
@@ -1789,7 +1724,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         surfaceFrame.setLayoutParams(lp);
 
         surface.invalidate();
-        subtitlesSurface.invalidate();
+        if (subtitlesSurface != null)
+            subtitlesSurface.invalidate();
+    }
+
+    private void sendMouseEvent(int action, int button, int x, int y) {
+        final IVLCVout vlcVout = MediaPlayer().getVLCVout();
+        vlcVout.sendMouseEvent(action, button, x, y);
     }
 
     /**
@@ -1853,12 +1794,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             // Seek
             mTouchX = event.getRawX();
             // Mouse events for the core
-            LibVLC.sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
+            sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
             break;
 
         case MotionEvent.ACTION_MOVE:
             // Mouse events for the core
-            LibVLC.sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
+            sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
 
             // No volume/brightness action if coef < 2 or a secondary display is connected
             //TODO : Volume action when a secondary display is connected
@@ -1885,7 +1826,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         case MotionEvent.ACTION_UP:
             // Mouse events for the core
-            LibVLC.sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
+            sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
 
             if (mTouchAction == TOUCH_NONE) {
                 if (!mShowing) {
@@ -2321,67 +2262,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         public void onClick(View v) {
             mDisplayRemainingTime = !mDisplayRemainingTime;
             showOverlay();
-        }
-    };
-
-    /**
-     * attach and disattach surface to the lib
-     */
-    private final SurfaceHolder.Callback mSurfaceCallback = new Callback() {
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(MediaPlayer() != null) {
-                final Surface newSurface = holder.getSurface();
-                if (mSurface != newSurface) {
-                    mSurface = newSurface;
-                    Log.d(TAG, "surfaceChanged: " + mSurface);
-                    LibVLC().attachSurface(mSurface, VideoPlayerActivity.this);
-                    mSurfaceReady = true;
-                    mHandler.sendEmptyMessage(START_PLAYBACK);
-                }
-            }
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            Log.d(TAG, "surfaceDestroyed");
-            if(MediaPlayer() != null) {
-                mSurface = null;
-                LibVLC().detachSurface();
-                mSurfaceReady = false;
-            }
-        }
-    };
-
-    private final SurfaceHolder.Callback mSubtitlesSurfaceCallback = new Callback() {
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(MediaPlayer() != null) {
-                final Surface newSurface = holder.getSurface();
-                if (mSubtitleSurface != newSurface) {
-                    mSubtitleSurface = newSurface;
-                    LibVLC().attachSubtitlesSurface(mSubtitleSurface);
-                    mSubtitleSurfaceReady = true;
-                    mHandler.sendEmptyMessage(START_PLAYBACK);
-                }
-            }
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            if(MediaPlayer() != null) {
-                mSubtitleSurface = null;
-                LibVLC().detachSubtitlesSurface();
-                mSubtitleSurfaceReady = false;
-            }
         }
     };
 
@@ -3045,8 +2925,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         private SurfaceView mSurfaceView;
         private SurfaceView mSubtitlesSurfaceView;
-        private SurfaceHolder mSurfaceHolder;
-        private SurfaceHolder mSubtitlesSurfaceHolder;
         private FrameLayout mSurfaceFrame;
 
         public SecondaryDisplay(Context context, LibVLC libVLC, Display display) {
@@ -3062,25 +2940,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
             setContentView(R.layout.player_remote);
 
             mSurfaceView = (SurfaceView) findViewById(R.id.remote_player_surface);
-            mSurfaceHolder = mSurfaceView.getHolder();
+            mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
             mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
 
+            if (HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
+                mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+                mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+            } else
+                mSubtitlesSurfaceView.setVisibility(View.GONE);
             VideoPlayerActivity activity = (VideoPlayerActivity)getOwnerActivity();
             if (activity == null) {
                 Log.e(TAG, "Failed to get the VideoPlayerActivity instance, secondary display won't work");
                 return;
             }
 
-            mSurfaceHolder.addCallback(activity.mSurfaceCallback);
-
-            mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
-            mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
-            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-            mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
-            mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
-
-            if (!HWDecoderUtil.HAS_SUBTITLES_SURFACE)
-                mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }
     }
@@ -3176,13 +3049,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
 
         @Override
         public void onConnected() {
-            mPlaybackServiceReady = true;
             mHandler.sendEmptyMessage(START_PLAYBACK);
         }
 
         @Override
         public void onDisconnected() {
-            mPlaybackServiceReady = false;
             mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
         }
 
@@ -3202,4 +3073,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVideoPlay
         public void onMediaPlayedRemoved(int index) {
         }
     };
+
+    @Override
+    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+        if (width * height == 0)
+            return;
+
+        // store video size
+        mVideoWidth = width;
+        mVideoHeight = height;
+        mVideoVisibleWidth  = visibleWidth;
+        mVideoVisibleHeight = visibleHeight;
+        mSarNum = sarNum;
+        mSarDen = sarDen;
+        changeSurfaceLayout();
+    }
 }
