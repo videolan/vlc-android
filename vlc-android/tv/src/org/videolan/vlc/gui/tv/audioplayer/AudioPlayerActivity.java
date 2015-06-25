@@ -85,7 +85,6 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
 
         mClient = new PlaybackServiceClient(this, this);
 
-        mClient.getRepeatType();
         mTitleTv = (TextView)findViewById(R.id.media_title);
         mArtistTv = (TextView)findViewById(R.id.media_artist);
         mNext = (ImageView)findViewById(R.id.button_next);
