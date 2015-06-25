@@ -282,7 +282,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     public native int nextChapter();
     public native void setChapter(int chapter);
     public native int getTitleCount();
-    public native void playerNavigate(int navigate);
+    public native void navigate(int navigate);
 
     public native int getAudioTracksCount();
 

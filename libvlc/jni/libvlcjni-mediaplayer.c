@@ -625,7 +625,7 @@ Java_org_videolan_libvlc_MediaPlayer_getTitleCount(JNIEnv *env, jobject thiz)
 }
 
 void
-Java_org_videolan_libvlc_MediaPlayer_playerNavigate(JNIEnv *env, jobject thiz,
+Java_org_videolan_libvlc_MediaPlayer_navigate(JNIEnv *env, jobject thiz,
                                                     jint navigate)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
