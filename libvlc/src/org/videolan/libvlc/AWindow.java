@@ -21,7 +21,6 @@
 package org.videolan.libvlc;
 
 import android.annotation.TargetApi;
-import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Handler;
@@ -35,7 +34,7 @@ import android.view.TextureView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class AWindow implements IAWindowNativeHandler, IVLCVout {
     private static final String TAG = "AWindow";
@@ -173,11 +172,13 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
                 AndroidUtil.isICSOrLater() ? createSurfaceTextureListener() : null;
     }
 
-    private final SurfaceHelper[] mSurfaceHelpers;
+    private final static int SURFACE_STATE_INIT = 0;
+    private final static int SURFACE_STATE_ATTACHED = 1;
+    private final static int SURFACE_STATE_READY = 2;
 
+    private final SurfaceHelper[] mSurfaceHelpers;
     private final SurfaceCallback mSurfaceCallback;
-    private final AtomicBoolean mSurfacesReady = new AtomicBoolean(false);
-    private boolean mViewsAttached = false;
+    private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
     private IVLCVout.Callback mIAndroidWindowCallback = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Object mNativeLock = new Object();
@@ -198,7 +199,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     private void setView(int id, SurfaceView view) {
-        if (mViewsAttached)
+        if (mSurfacesState.get() != SURFACE_STATE_INIT)
             throw new IllegalStateException("Can't set view when already attached");
         if (view == null)
             throw new NullPointerException("view is null");
@@ -212,7 +213,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     private void setView(int id, TextureView view) {
         if (!AndroidUtil.isICSOrLater())
             throw new IllegalArgumentException("TextureView not implemented in this android version");
-        if (mViewsAttached)
+        if (mSurfacesState.get() != SURFACE_STATE_INIT)
             throw new IllegalStateException("Can't set view when already attached");
         if (view == null)
             throw new NullPointerException("view is null");
@@ -250,29 +251,28 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     @Override
     @MainThread
     public void attachViews() {
-        if (mViewsAttached || mSurfaceHelpers[ID_VIDEO] == null)
+        if (mSurfacesState.get() != SURFACE_STATE_INIT || mSurfaceHelpers[ID_VIDEO] == null)
             throw new IllegalStateException("already attached or video view not configured");
+        mSurfacesState.set(SURFACE_STATE_ATTACHED);
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
             if (surfaceHelper != null)
                 surfaceHelper.attach();
         }
-        mViewsAttached = true;
     }
 
     @Override
     @MainThread
     public void detachViews() {
-        if (!mViewsAttached)
+        if (mSurfacesState.get() == SURFACE_STATE_INIT)
             return;
-        mSurfacesReady.set(false);
+        mSurfacesState.set(SURFACE_STATE_INIT);
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
             if (surfaceHelper != null)
                 surfaceHelper.release();
             mSurfaceHelpers[id] = null;
         }
-        mViewsAttached = false;
         if (mSurfaceCallback != null)
             mSurfaceCallback.onSurfacesDestroyed(this);
     }
@@ -280,25 +280,24 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     @Override
     @MainThread
     public boolean areViewsAttached() {
-        return mViewsAttached;
+        return mSurfacesState.get() != SURFACE_STATE_INIT;
     }
 
     @MainThread
     private void onSurfaceCreated() {
-        if (mSurfacesReady.get())
-            throw new IllegalArgumentException("callback already called");
+        if (mSurfacesState.get() != SURFACE_STATE_ATTACHED)
+            throw new IllegalArgumentException("invalid state");
 
         final SurfaceHelper videoHelper = mSurfaceHelpers[ID_VIDEO];
         final SurfaceHelper subtitlesHelper = mSurfaceHelpers[ID_SUBTITLES];
         if (videoHelper == null)
             throw new NullPointerException("videoHelper shouldn't be null here");
 
-        boolean ready = false;
-        if (videoHelper.isReady() && (subtitlesHelper == null || subtitlesHelper.isReady()))
-            ready = true;
-        mSurfacesReady.set(ready);
-        if (mSurfaceCallback != null && ready)
-            mSurfaceCallback.onSurfacesCreated(this);
+        if (videoHelper.isReady() && (subtitlesHelper == null || subtitlesHelper.isReady())) {
+            mSurfacesState.set(SURFACE_STATE_READY);
+            if (mSurfaceCallback != null)
+                mSurfaceCallback.onSurfacesCreated(this);
+        }
     }
 
     @MainThread
@@ -307,7 +306,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     protected boolean areSurfacesWaiting() {
-        return !mSurfacesReady.get();
+        return mSurfacesState.get() == SURFACE_STATE_ATTACHED;
     }
 
     @Override
