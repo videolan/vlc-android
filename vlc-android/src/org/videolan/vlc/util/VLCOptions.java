@@ -69,13 +69,6 @@ public class VLCOptions {
         if (pref.getBoolean("equalizer_enabled", false))
             setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
 
-        int aout = -1;
-        try {
-            aout = Integer.parseInt(pref.getString("aout", "-1"));
-        } catch (NumberFormatException nfe) {
-        }
-        aout = getAout(aout);
-
         int deblocking = -1;
         try {
             deblocking = getDeblocking(Integer.parseInt(pref.getString("deblocking", "-1")));
@@ -102,7 +95,6 @@ public class VLCOptions {
         /* XXX: why can't the default be fine ? #7792 */
         if (networkCaching > 0)
             options.add("--network-caching=" + networkCaching);
-        options.add(aout == AOUT_OPENSLES ? "--aout=opensles" : (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy"));
         options.add("--androidwindow-chroma");
         options.add(chroma.indexOf(0) != 0 ? chroma : "RV32");
 
@@ -115,12 +107,17 @@ public class VLCOptions {
         return options;
     }
 
-    private static int getAout(int aout) {
+    public static String getAout(SharedPreferences pref) {
+        int aout = -1;
+        try {
+            aout = Integer.parseInt(pref.getString("aout", "-1"));
+        } catch (NumberFormatException nfe) {
+        }
         final HWDecoderUtil.AudioOutput hwaout = HWDecoderUtil.getAudioOutputFromDevice();
         if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
-            return hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
+            aout = hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
 
-        return aout == AOUT_OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
+        return aout == AOUT_OPENSLES ? "opensles_android" : "android_audiotrack";
     }
 
     private static int getDeblocking(int deblocking) {

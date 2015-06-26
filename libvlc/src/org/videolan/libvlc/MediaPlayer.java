@@ -188,6 +188,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
         nativeSetVideoTitleDisplay(position, timeout);
     }
 
+    public synchronized boolean setAudioOutput(String aout) {
+        return nativeSetAudioOutput(aout);
+    }
+
     /**
      * TODO: this doesn't respect API
      *
@@ -346,4 +350,5 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     private native void nativeStop();
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
     private native void nativeSetEqualizer(float[] bands);
+    private native boolean nativeSetAudioOutput(String aout);
 }

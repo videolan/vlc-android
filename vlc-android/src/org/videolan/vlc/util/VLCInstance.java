@@ -70,7 +70,10 @@ public class VLCInstance {
         if (sMediaPlayer == null) {
             if (sLibVLC == null)
                 get();
+            final Context context = VLCApplication.getAppContext();
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             sMediaPlayer = new MediaPlayer(sLibVLC);
+            sMediaPlayer.setAudioOutput(VLCOptions.getAout(pref));
         }
         return sMediaPlayer;
     }

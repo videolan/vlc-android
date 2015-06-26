@@ -635,3 +635,27 @@ Java_org_videolan_libvlc_MediaPlayer_navigate(JNIEnv *env, jobject thiz,
 
     libvlc_media_player_navigate(p_obj->u.p_mp, (unsigned) navigate);
 }
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioOutput(JNIEnv *env,
+                                                          jobject thiz,
+                                                          jstring jaout)
+{
+    const char* psz_aout;
+    int i_ret;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    if (!jaout || !(psz_aout = (*env)->GetStringUTFChars(env, jaout, 0)))
+    {
+        throw_IllegalArgumentException(env, "aout invalid");
+        return false;
+    }
+
+    i_ret = libvlc_audio_output_set(p_obj->u.p_mp, psz_aout);
+    (*env)->ReleaseStringUTFChars(env, jaout, psz_aout);
+
+    return i_ret == 0 ? true : false;
+}
