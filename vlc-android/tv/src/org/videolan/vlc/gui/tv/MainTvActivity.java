@@ -31,6 +31,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
@@ -72,7 +73,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
-public class MainTvActivity extends Activity implements IVideoBrowser, OnItemViewSelectedListener,
+public class MainTvActivity extends PlaybackServiceActivity implements IVideoBrowser, OnItemViewSelectedListener,
         OnItemViewClickedListener, OnClickListener {
 
     private static final int NUM_ITEMS_PREVIEW = 5;

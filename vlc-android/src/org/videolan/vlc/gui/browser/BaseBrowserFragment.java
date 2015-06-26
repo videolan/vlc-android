@@ -49,7 +49,6 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DividerItemDecoration;
@@ -423,7 +422,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 Util.openMedia(getActivity(), (MediaWrapper) mAdapter.getItem(position));
                 return true;
             case R.id.directory_view_append: {
-                PlaybackServiceClient.append(getActivity(), null, mw);
+                if (mService != null)
+                    mService.append(mw);
                 return true;
             }
             case R.id.directory_view_delete:
@@ -444,7 +444,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 startActivity(i);
                 return true;
             case R.id.directory_view_play_audio: {
-                PlaybackServiceClient.load(getActivity(), null, mw);
+                if (mService != null)
+                    mService.load(mw);
                 return true;
             }
             case  R.id.directory_view_play_video:

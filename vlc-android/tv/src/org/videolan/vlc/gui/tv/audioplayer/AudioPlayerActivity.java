@@ -26,14 +26,13 @@ import java.util.Collections;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.DividerItemDecoration;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.util.AndroidDevices;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,12 +45,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements PlaybackServiceClient.Callback, View.OnFocusChangeListener {
+public class AudioPlayerActivity extends PlaybackServiceActivity implements PlaybackService.Client.Callback,
+        PlaybackService.Callback, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
 
-    private PlaybackServiceClient mClient;
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -83,8 +82,6 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
         mAdapter = new PlaylistAdapter(this, mMediaList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mClient = new PlaybackServiceClient(this, this);
-
         mTitleTv = (TextView)findViewById(R.id.media_title);
         mArtistTv = (TextView)findViewById(R.id.media_artist);
         mNext = (ImageView)findViewById(R.id.button_next);
@@ -96,16 +93,12 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
         findViewById(R.id.button_shuffle).setOnFocusChangeListener(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mClient.connect();
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mClient.disconnect();
+        if (mService != null)
+            mService.removeCallback(this);
     }
 
     protected void onResume() {
@@ -119,10 +112,13 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     };
 
     @Override
-    public void onConnected() {
-        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mClient.getMedias();
+    public void onConnected(PlaybackService service) {
+        super.onConnected(service);
+
+        mService.addCallback(this);
+        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
         if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
-            mClient.load(mMediaList, 0);
+            mService.load(mMediaList, 0);
         } else {
             mMediaList = medias;
             update();
@@ -132,22 +128,18 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     }
 
     @Override
-    public void onDisconnected() {
-    }
-
-    @Override
     public void update() {
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
-        mPlayPauseButton.setImageResource(mClient.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
-        if (mClient.hasMedia()) {
-            mTitleTv.setText(mClient.getTitle());
-            mArtistTv.setText(mClient.getArtist());
-            mProgressBar.setMax(mClient.getLength());
-            MediaWrapper MediaWrapper = MediaLibrary.getInstance().getMediaItem(mClient.getCurrentMediaLocation());
+        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+        if (mService.hasMedia()) {
+            mTitleTv.setText(mService.getTitle());
+            mArtistTv.setText(mService.getArtist());
+            mProgressBar.setMax(mService.getLength());
+            MediaWrapper MediaWrapper = MediaLibrary.getInstance().getMediaItem(mService.getCurrentMediaLocation());
             Bitmap cover = AudioUtil.getCover(this, MediaWrapper, mCover.getWidth());
             if (cover == null)
-                cover = mClient.getCover();
+                cover = mService.getCover();
             if (cover == null)
                 mCover.setImageResource(R.drawable.background_cone);
             else
@@ -157,7 +149,8 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
 
     @Override
     public void updateProgress() {
-        mProgressBar.setProgress(mClient.getTime());
+        if (mService != null)
+            mProgressBar.setProgress(mService.getTime());
     }
 
     @Override
@@ -220,7 +213,9 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     }
 
     public void playSelection() {
-        mClient.playIndex(mAdapter.getmSelectedItem());
+        if (mService == null)
+            return;
+        mService.playIndex(mAdapter.getmSelectedItem());
         mCurrentlyPlaying = mAdapter.getmSelectedItem();
     }
 
@@ -252,10 +247,12 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     }
 
     private void seek(int delta) {
-        int time = mClient.getTime()+delta;
-        if (time < 0 || time > mClient.getLength())
+        if (mService == null)
             return;
-        mClient.setTime(time);
+        int time = mService.getTime()+delta;
+        if (time < 0 || time > mService.getLength())
+            return;
+        mService.setTime(time);
     }
 
     public void onClick(View v){
@@ -279,55 +276,59 @@ public class AudioPlayerActivity extends Activity implements PlaybackServiceClie
     }
 
     private void setShuffleMode(boolean shuffle) {
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
         mShuffling = shuffle;
         mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle);
-        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mClient.getMedias();
+        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
         if (shuffle){
             Collections.shuffle(medias);
         } else {
             Collections.sort(medias, MediaComparators.byTrackNumber);
         }
-        mClient.load(medias, 0);
+        mService.load(medias, 0);
         mAdapter.updateList(medias);
         update();
     }
 
     private void updateRepeatMode() {
-        PlaybackService.RepeatType type = mClient.getRepeatType();
+        if (mService == null)
+            return;
+        PlaybackService.RepeatType type = mService.getRepeatType();
         if (type == PlaybackService.RepeatType.None){
-            mClient.setRepeatType(PlaybackService.RepeatType.All);
+            mService.setRepeatType(PlaybackService.RepeatType.All);
             mRepeat.setImageResource(R.drawable.ic_repeat_on);
         } else if (type == PlaybackService.RepeatType.All) {
-            mClient.setRepeatType(PlaybackService.RepeatType.Once);
+            mService.setRepeatType(PlaybackService.RepeatType.Once);
             mRepeat.setImageResource(R.drawable.ic_repeat_one);
         } else if (type == PlaybackService.RepeatType.Once) {
-            mClient.setRepeatType(PlaybackService.RepeatType.None);
+            mService.setRepeatType(PlaybackService.RepeatType.None);
             mRepeat.setImageResource(R.drawable.ic_repeat);
         }
     }
 
     private void goPrevious() {
-        if (mClient.hasPrevious()) {
-            mClient.previous();
+        if (mService != null && mService.hasPrevious()) {
+            mService.previous();
             selectItem(--mCurrentlyPlaying);
         }
     }
 
     private void goNext() {
-        if (mClient.hasNext()){
-            mClient.next();
+        if (mService != null && mService.hasNext()){
+            mService.next();
             selectItem(++mCurrentlyPlaying);
         }
     }
 
     private void togglePlayPause() {
-        if (mClient.isPlaying())
-            mClient.pause();
-        else if (mClient.hasMedia())
-            mClient.play();
+        if (mService == null)
+            return;
+        if (mService.isPlaying())
+            mService.pause();
+        else if (mService.hasMedia())
+            mService.play();
     }
 
     private void selectNext() {

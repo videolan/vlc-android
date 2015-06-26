@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -44,7 +45,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceClient;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -206,24 +207,40 @@ public class Util {
         VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
-    private static class DialogCallback implements PlaybackServiceClient.ResultCallback<Void> {
+    private static class DialogCallback implements PlaybackService.Client.Callback {
         private final ProgressDialog dialog;
+        final private PlaybackService.Client mClient;
+        final private Runnable mRunnable;
 
-        private DialogCallback(Context context) {
+        private interface Runnable {
+            void run(PlaybackService service);
+        }
+
+        private DialogCallback(Context context, Runnable runnable) {
+            mClient = new PlaybackService.Client(context, this);
+            mRunnable = runnable;
             this.dialog = ProgressDialog.show(
                     context,
                     context.getApplicationContext().getString(R.string.loading) + "…",
                     context.getApplicationContext().getString(R.string.please_wait), true);
             dialog.setCancelable(true);
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    mClient.disconnect();
+                }
+            });
+            mClient.connect();
         }
 
         @Override
-        public void onResult(PlaybackServiceClient client, Void result) {
+        public void onConnected(PlaybackService service) {
+            mRunnable.run(service);
             dialog.dismiss();
         }
 
         @Override
-        public void onError(PlaybackServiceClient client) {
+        public void onDisconnected() {
             dialog.dismiss();
         }
     }
@@ -234,16 +251,31 @@ public class Util {
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
         else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
-            PlaybackServiceClient.load(context, new DialogCallback(context), media);
+            new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.load(media);
+                }
+            });
         }
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){
-        PlaybackServiceClient.load(context, new DialogCallback(context), list, position);
+        new DialogCallback(context, new DialogCallback.Runnable() {
+            @Override
+            public void run(PlaybackService service) {
+                service.load(list, position);
+            }
+        });
     }
 
     public static void openStream(final Context context, final String uri){
-        PlaybackServiceClient.loadLocation(context, new DialogCallback(context), uri);
+        new DialogCallback(context, new DialogCallback.Runnable() {
+            @Override
+            public void run(PlaybackService service) {
+                service.loadLocation(uri);
+            }
+        });
     }
 
     private static String getMediaString(Context ctx, int id) {

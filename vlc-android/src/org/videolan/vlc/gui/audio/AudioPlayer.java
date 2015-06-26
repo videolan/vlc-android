@@ -27,7 +27,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -52,10 +51,10 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
@@ -68,7 +67,7 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callback, View.OnClickListener {
+public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener {
     public static final String TAG = "VLC/AudioPlayer";
 
     private ProgressBar mProgressBar;
@@ -90,7 +89,6 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
     ViewSwitcher mSwitcher;
 
-    private PlaybackServiceClient mClient;
     private boolean mShowRemainingTime = false;
     private boolean mPreviewingSeek = false;
 
@@ -112,12 +110,6 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
         super.onCreate(savedInstanceState);
 
         mSongsListAdapter = new AudioPlaylistAdapter(getActivity());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mClient = AudioPlayerContainerActivity.getPlaybackClient(this);
     }
 
     @Override
@@ -232,8 +224,8 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-                if (mClient.isConnected())
-                    mClient.playIndex(p);
+                if (mService != null)
+                    mService.playIndex(p);
             }
         });
         mSongsList.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -247,15 +239,15 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
         mSongsList.setOnItemDraggedListener(new AudioPlaylistView.OnItemDraggedListener() {
             @Override
             public void onItemDragged(int positionStart, int positionEnd) {
-                if (mClient.isConnected())
-                    mClient.moveItem(positionStart, positionEnd);
+                if (mService != null)
+                    mService.moveItem(positionStart, positionEnd);
             }
         });
         mSongsList.setOnItemRemovedListener(new AudioPlaylistView.OnItemRemovedListener() {
             @Override
             public void onItemRemoved(int position) {
-                if (mClient.isConnected())
-                    mClient.remove(position);
+                if (mService != null)
+                    mService.remove(position);
                 update();
             }
         });
@@ -278,11 +270,6 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.audio_player, menu);
@@ -298,8 +285,8 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
             if(id == R.id.audio_player_mini_remove) {
                 Log.d(TAG, "Context menu removing " + info.position);
-                if (mClient.isConnected())
-                    mClient.remove(info.position);
+                if (mService != null)
+                    mService.remove(info.position);
                 return true;
             }
             return super.onContextItemSelected(item);
@@ -319,23 +306,15 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
     }
 
     @Override
-    public void onConnected() {
-    }
-
-    @Override
-    public void onDisconnected() {
-    }
-
-    @Override
     public void update() {
-        if (!mClient.isConnected())
+        if (mService == null || getActivity() == null)
             return;
 
-        if (mClient.hasMedia()) {
+        if (mService.hasMedia()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
-                mClient.handleVout();
+                mService.handleVout();
                 return;
             }
             show();
@@ -344,12 +323,12 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
             return;
         }
 
-        mHeaderMediaSwitcher.updateMedia(mClient);
-        mCoverMediaSwitcher.updateMedia(mClient);
+        mHeaderMediaSwitcher.updateMedia(mService);
+        mCoverMediaSwitcher.updateMedia(mService);
 
         FragmentActivity act = getActivity();
 
-        if (mClient.isPlaying()) {
+        if (mService.isPlaying()) {
             mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
             mPlayPause.setContentDescription(getString(R.string.pause));
             mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
@@ -360,14 +339,14 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
             mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
-        if (mClient.isShuffling()) {
+        if (mService.isShuffling()) {
             mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle_on));
         } else {
             mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle));
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle));
         }
-        switch(mClient.getRepeatType()) {
+        switch(mService.getRepeatType()) {
         case None:
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat));
@@ -383,13 +362,13 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
             break;
         }
 
-        final List<String> mediaLocations = mClient.getMediaLocations();
+        final List<String> mediaLocations = mService.getMediaLocations();
         mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
-        if (mClient.hasNext())
+        if (mService.hasNext())
             mNext.setVisibility(ImageButton.VISIBLE);
         else
             mNext.setVisibility(ImageButton.INVISIBLE);
-        if (mClient.hasPrevious())
+        if (mService.hasPrevious())
             mPrevious.setVisibility(ImageButton.VISIBLE);
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
@@ -400,10 +379,10 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
     @Override
     public void updateProgress() {
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
-        int time = mClient.getTime();
-        int length = mClient.getLength();
+        int time = mService.getTime();
+        int length = mService.getLength();
 
         mHeaderTime.setText(Strings.millisToString(time));
         mLength.setText(Strings.millisToString(length));
@@ -427,13 +406,13 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
     private void updateList() {
         int currentIndex = -1;
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
 
         mSongsListAdapter.clear();
 
-        final List<MediaWrapper> audioList = mClient.getMedias();
-        final String currentItem = mClient.getCurrentMediaLocation();
+        final List<MediaWrapper> audioList = mService.getMedias();
+        final String currentItem = mService.getCurrentMediaLocation();
 
         if (audioList != null) {
             for (int i = 0; i < audioList.size(); i++) {
@@ -465,9 +444,9 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
         @Override
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
-            if (fromUser && mClient.isConnected()) {
-                mClient.setTime(prog);
-                mTime.setText(Strings.millisToString(mShowRemainingTime ? prog- mClient.getLength() : prog));
+            if (fromUser && mService != null) {
+                mService.setTime(prog);
+                mTime.setText(Strings.millisToString(mShowRemainingTime ? prog- mService.getLength() : prog));
                 mHeaderTime.setText(Strings.millisToString(prog));
         }
     }
@@ -479,52 +458,52 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
     }
 
     public void onPlayPauseClick(View view) {
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
-        if (mClient.isPlaying()) {
-            mClient.pause();
+        if (mService.isPlaying()) {
+            mService.pause();
         } else {
-            mClient.play();
+            mService.play();
         }
     }
 
     public void onStopClick(View view) {
-        if (mClient.isConnected())
-            mClient.stop();
+        if (mService != null)
+            mService.stop();
     }
 
     public void onNextClick(View view) {
-        if (mClient.isConnected())
-            mClient.next();
+        if (mService != null)
+            mService.next();
     }
 
     public void onPreviousClick(View view) {
-        if (mClient.isConnected())
-            mClient.previous();
+        if (mService != null)
+            mService.previous();
     }
 
     public void onRepeatClick(View view) {
-        if (!mClient.isConnected())
+        if (mService == null)
             return;
 
-        switch (mClient.getRepeatType()) {
+        switch (mService.getRepeatType()) {
             case None:
-                mClient.setRepeatType(PlaybackService.RepeatType.All);
+                mService.setRepeatType(PlaybackService.RepeatType.All);
                 break;
             case All:
-                mClient.setRepeatType(PlaybackService.RepeatType.Once);
+                mService.setRepeatType(PlaybackService.RepeatType.Once);
                 break;
             default:
             case Once:
-                mClient.setRepeatType(PlaybackService.RepeatType.None);
+                mService.setRepeatType(PlaybackService.RepeatType.None);
                 break;
         }
         update();
     }
 
     public void onShuffleClick(View view) {
-        if (mClient.isConnected())
-            mClient.shuffle();
+        if (mService != null)
+            mService.shuffle();
         update();
     }
 
@@ -591,12 +570,12 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
         @Override
         public void onMediaSwitched(int position) {
-            if (!mClient.isConnected())
+            if (mService == null)
                 return;
             if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
-                mClient.previous();
+                mService.previous();
             else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
-                mClient.next();
+                mService.next();
         }
 
         @Override
@@ -623,12 +602,12 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
         @Override
         public void onMediaSwitched(int position) {
-            if (!mClient.isConnected())
+            if (mService == null)
                 return;
             if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
-                mClient.previous();
+                mService.previous();
             else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
-                mClient.next();
+                mService.next();
         }
 
         @Override
@@ -645,16 +624,30 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.playlist_save:
-                if (!mClient.isConnected())
+                if (mService == null)
                     return;
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mClient.getMedias());
+                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mService.getMedias());
                 savePlaylistDialog.setArguments(args);
                 savePlaylistDialog.show(fm, "fragment_save_playlist");
                 break;
         }
+    }
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        super.onConnected(service);
+        mService.addCallback(this);
+        update();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mService != null)
+            mService.removeCallback(this);
     }
 
     class LongSeekListener implements View.OnTouchListener {
@@ -701,16 +694,16 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (!mClient.isConnected())
+            if (mService == null)
                 return false;
             switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 (forward ? mNext : mPrevious).setImageResource(this.pressed);
 
-                possibleSeek = mClient.getTime();
+                possibleSeek = mService.getTime();
                 mPreviewingSeek = true;
                 vibrated = false;
-                length = mClient.getLength();
+                length = mService.getLength();
 
                 h.postDelayed(seekRunnable, 1000);
                 return true;
@@ -727,13 +720,13 @@ public class AudioPlayer extends Fragment implements PlaybackServiceClient.Callb
                         onPreviousClick(v);
                 } else {
                     if(forward) {
-                        if(possibleSeek < mClient.getLength())
-                            mClient.setTime(possibleSeek);
+                        if(possibleSeek < mService.getLength())
+                            mService.setTime(possibleSeek);
                         else
                             onNextClick(v);
                     } else {
                         if(possibleSeek > 0)
-                            mClient.setTime(possibleSeek);
+                            mService.setTime(possibleSeek);
                         else
                             onPreviousClick(v);
                     }

@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +44,7 @@ import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.PlaybackServiceClient;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -55,7 +54,7 @@ import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.HackyDrawerLayout;
 import com.android.widget.SlidingPaneLayout;
 
-public class AudioPlayerContainerActivity extends AppCompatActivity  {
+public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
     public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
@@ -67,7 +66,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
     protected View mAudioPlayerFilling;
     protected SharedPreferences mSettings;
     protected ViewGroup mRootContainer;
-    private PlaybackServiceClient mClient;
+    private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
+    protected PlaybackService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
 
         /* Set up the audio player */
         mAudioPlayer = new AudioPlayer();
-        mClient = new PlaybackServiceClient(this, mAudioPlayer);
 
         super.onCreate(savedInstanceState);
     }
@@ -105,6 +104,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
+        mHelper.onStart();
 
         //Handle external storage state
         IntentFilter storageFilter = new IntentFilter();
@@ -117,7 +117,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_SHOW_PLAYER);
         registerReceiver(messageReceiver, filter);
-        mClient.connect();
     }
 
     @Override
@@ -127,7 +126,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}
-        mClient.disconnect();
+        mHelper.onStop();
     }
 
     private void applyTheme() {
@@ -303,19 +302,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
 
     protected void onPanelOpenedUiSet() {}
 
-    public PlaybackServiceClient getPlaybackClient() {
-        return mClient;
-    }
-
-    public static PlaybackServiceClient getPlaybackClient(Fragment fragment) {
-        final Activity activity = fragment.getActivity();
-        if (activity == null)
-            return null;
-        if (!(activity instanceof AudioPlayerContainerActivity))
-            throw new IllegalArgumentException("Fragment must be inside AudioPlayerContainerActivity");
-        return ((AudioPlayerContainerActivity) activity).getPlaybackClient();
-    }
-
     private void stopBackgroundTasks() {
         MediaLibrary ml = MediaLibrary.getInstance();
         if (ml.isWorking())
@@ -361,5 +347,19 @@ public class AudioPlayerContainerActivity extends AppCompatActivity  {
                     break;
             }
         }
+    }
+
+    public PlaybackServiceActivity.Helper getHelper() {
+        return mHelper;
+    }
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        mService = service;
+    }
+
+    @Override
+    public void onDisconnected() {
+        mService = null;
     }
 }

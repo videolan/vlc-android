@@ -28,9 +28,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
+import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 
-public class VerticalGridActivity extends Activity implements GridFragment.BrowserActivity {
+public class VerticalGridActivity extends PlaybackServiceActivity implements GridFragment.BrowserActivity {
 
     GridFragment mFragment;
     ProgressBar mContentLoadingProgressBar;

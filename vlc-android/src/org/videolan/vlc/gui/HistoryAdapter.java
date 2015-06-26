@@ -31,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -39,7 +38,8 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
-public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient.Callback {
+/* TODO */
+public class HistoryAdapter extends BaseAdapter  {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
@@ -47,7 +47,6 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
 
     public HistoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
-
 
         mMediaList = new ArrayList<MediaWrapper>();
     }
@@ -104,35 +103,6 @@ public class HistoryAdapter extends BaseAdapter implements PlaybackServiceClient
     }
 
     public void remove(int position) {
-        PlaybackServiceClient.remove(VLCApplication.getAppContext(), null, position);
-    }
-
-    @Override
-    public void onConnected() {
-    }
-
-    @Override
-    public void onDisconnected() {
-    }
-
-    @Override
-    public void update() {
-    }
-
-    @Override
-    public void updateProgress() {
-    }
-
-    @Override
-    public void onMediaPlayedAdded(MediaWrapper media, int index) {
-        mMediaList.add(index, media);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onMediaPlayedRemoved(int index) {
-        mMediaList.remove(index);
-        notifyDataSetChanged();
     }
 
     private static class DirectoryViewHolder {

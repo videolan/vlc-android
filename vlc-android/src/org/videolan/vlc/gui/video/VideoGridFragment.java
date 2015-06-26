@@ -60,7 +60,6 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
@@ -301,7 +300,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playAudio(MediaWrapper media) {
-        PlaybackServiceClient.load(getActivity(), null, media, true);
+        if (mService != null)
+            mService.load(media, true);
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
@@ -574,17 +574,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         }).start();
         mMediaLibrary.getMediaItems().remove(media);
         mVideoAdapter.remove(media);
-        PlaybackServiceClient.getMediaLocations(getActivity(), new PlaybackServiceClient.ResultCallback<List<String>>() {
-            @Override
-            public void onResult(PlaybackServiceClient client, List<String> result) {
-                if (result != null && result.contains(media.getLocation()))
-                    client.removeLocation(media.getLocation());
+        if (mService != null) {
+            final List<String> list = mService.getMediaLocations();
+            if (list != null && list.contains(media.getLocation())) {
+                mService.removeLocation(media.getLocation());
             }
-
-            @Override
-            public void onError(PlaybackServiceClient client) {
-            }
-        });
+        }
     }
 
 

@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.widget;
 
-import org.videolan.vlc.PlaybackServiceClient;
+import org.videolan.vlc.PlaybackService;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -41,32 +41,32 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
         setOnViewSwitchedListener(mViewSwitchListener);
     }
 
-    public void updateMedia(PlaybackServiceClient client) {
+    public void updateMedia(PlaybackService service) {
         removeAllViews();
 
         hasPrevious = false;
         previousPosition = 0;
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (client.hasPrevious()) {
+        if (service.hasPrevious()) {
             addMediaView(inflater,
-                    client.getTitlePrev(),
-                    client.getArtistPrev(),
-                    client.getCoverPrev());
+                    service.getTitlePrev(),
+                    service.getArtistPrev(),
+                    service.getCoverPrev());
             hasPrevious = true;
         }
-        if (client.hasMedia())
+        if (service.hasMedia())
             addMediaView(inflater,
-                    client.getTitle(),
-                    client.getArtist(),
-                    client.getCover());
-        if (client.hasNext())
+                    service.getTitle(),
+                    service.getArtist(),
+                    service.getCover());
+        if (service.hasNext())
             addMediaView(inflater,
-                    client.getTitleNext(),
-                    client.getArtistNext(),
-                    client.getCoverNext());
+                    service.getTitleNext(),
+                    service.getArtistNext(),
+                    service.getCoverNext());
 
-        if (client.hasPrevious() && client.hasMedia()) {
+        if (service.hasPrevious() && service.hasMedia()) {
             previousPosition = 1;
             scrollTo(1);
         }

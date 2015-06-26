@@ -103,10 +103,11 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaWrapperListPlayer;
-import org.videolan.vlc.PlaybackServiceClient;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -137,7 +138,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
-        GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError {
+        GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError,
+        PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -159,7 +161,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
 
-    private PlaybackServiceClient mClient;
+    private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
+    private PlaybackService mService;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
     private FrameLayout mSurfaceFrame;
@@ -348,8 +351,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             };
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
         }
-
-        mClient = new PlaybackServiceClient(this, mPlaybackServiceCallback);
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -589,7 +590,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStart() {
         super.onStart();
-        mClient.connect();
+        mHelper.onStart();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -612,7 +613,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPresentation = null;
         }
         restoreBrightness();
-        mClient.disconnect();
+        mHelper.onStop();
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
@@ -657,7 +658,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
-        if (mPlaybackStarted || !mClient.isConnected())
+        if (mPlaybackStarted || mService == null)
             return;
 
         LibVLC().setOnHardwareAccelerationError(this);
@@ -725,9 +726,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mPlaybackStarted = false;
 
-        if(mSwitchingView) {
+        if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
-            mClient.showWithoutParse(savedIndexPosition);
+            mService.showWithoutParse(savedIndexPosition);
             return;
         }
 
@@ -2633,7 +2634,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             savedIndexPosition = openedPosition;
         } else {
             /* prepare playback */
-            mClient.stop();
+            mService.stop();
             if (savedIndexPosition == -1 && mUri != null) {
                 mMediaListPlayer.getMediaList().clear();
                 final Media media = new Media(LibVLC(), mUri);
@@ -3020,34 +3021,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    private PlaybackServiceClient.Callback mPlaybackServiceCallback= new PlaybackServiceClient.Callback() {
+    public PlaybackServiceActivity.Helper getHelper() {
+        return mHelper;
+    }
 
-        @Override
-        public void onConnected() {
-            mHandler.sendEmptyMessage(START_PLAYBACK);
-        }
+    @Override
+    public void onConnected(PlaybackService service) {
+        mService = service;
+        mHandler.sendEmptyMessage(START_PLAYBACK);
+    }
 
-        @Override
-        public void onDisconnected() {
-            mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
-        }
-
-        @Override
-        public void update() {
-        }
-
-        @Override
-        public void updateProgress() {
-        }
-
-        @Override
-        public void onMediaPlayedAdded(MediaWrapper media, int index) {
-        }
-
-        @Override
-        public void onMediaPlayedRemoved(int index) {
-        }
-    };
+    @Override
+    public void onDisconnected() {
+        mService = null;
+        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+    }
 
     @Override
     public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
