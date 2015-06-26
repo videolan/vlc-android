@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc;
 
+@SuppressWarnings("unused")
 public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     private final static String TAG = "LibVLC/MediaDiscoverer";
 
@@ -40,7 +41,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     /**
      * Create a MediaDiscover.
      *
-     * @param libVLC
+     * @param libVLC a valid LibVLC
      * @param name Name of the vlc service discovery ("dsm", "upnp", "bonjour"...).
      */
     public MediaDiscoverer(LibVLC libVLC, String name) {

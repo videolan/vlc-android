@@ -26,8 +26,6 @@ import android.os.Looper;
 import java.lang.ref.WeakReference;
 
 abstract class VLCObject<T extends VLCEvent> {
-    private final static String TAG = "LibVLC/VlcObject";
-
     private VLCEvent.Listener<T> mEventListener = null;
     private Handler mHandler = null;
     private int mNativeRefCount = 1;
@@ -96,9 +94,9 @@ abstract class VLCObject<T extends VLCEvent> {
     /**
      * Called when libvlc send events.
      *
-     * @param eventType
-     * @param arg1
-     * @param arg2
+     * @param eventType event type
+     * @param arg1 first argument
+     * @param arg2 second argument
      * @return Event that will be dispatched to listeners
      */
     protected abstract T onEventNative(int eventType, long arg1, long arg2);
@@ -111,7 +109,8 @@ abstract class VLCObject<T extends VLCEvent> {
     protected abstract void onReleaseNative();
 
     /* JNI */
-    private long mInstance = 0; // Read-only, reserved for JNI
+    @SuppressWarnings("unused") /* Used from JNI */
+    private long mInstance = 0;
     private synchronized void dispatchEventFromNative(int eventType, long arg1, long arg2) {
         if (isReleased())
             return;
@@ -137,9 +136,11 @@ abstract class VLCObject<T extends VLCEvent> {
     private native void nativeDetachEvents();
 
     /* used only before API 7: substitute for NewWeakGlobalRef */
+    @SuppressWarnings("unused") /* Used from JNI */
     private Object getWeakReference() {
         return new WeakReference<VLCObject>(this);
     }
+    @SuppressWarnings("unchecked,unused") /* Used from JNI */
     private static void dispatchEventFromWeakNative(Object weak, int eventType, long arg1, long arg2) {
         VLCObject obj = ((WeakReference<VLCObject>)weak).get();
         if (obj != null)

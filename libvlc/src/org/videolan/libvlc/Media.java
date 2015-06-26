@@ -27,6 +27,7 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.io.FileDescriptor;
 
+@SuppressWarnings("unused")
 public class Media extends VLCObject<Media.Event> {
     private final static String TAG = "LibVLC/Media";
 
@@ -248,8 +249,8 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * Create a Media from libVLC and a local path starting with '/'.
      *
-     * @param libVLC
-     * @param path
+     * @param libVLC a valid libVLC
+     * @param path an absolute local path
      */
     public Media(LibVLC libVLC, String path) {
         nativeNewFromPath(libVLC, path);
@@ -260,8 +261,8 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * Create a Media from libVLC and a Uri
      *
-     * @param libVLC
-     * @param uri
+     * @param libVLC a valid libVLC
+     * @param uri a valid RFC 2396 Uri
      */
     public Media(LibVLC libVLC, Uri uri) {
         nativeNewFromLocation(libVLC, locationFromUri(uri));
@@ -272,8 +273,8 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * Create a Media from libVLC and a FileDescriptor
      *
-     * @param libVLC
-     * @param fd
+     * @param libVLC a valid LibVLC
+     * @param fd file descriptor object
      */
     public Media(LibVLC libVLC, FileDescriptor fd) {
         nativeNewFromFD(libVLC, fd);
@@ -284,7 +285,7 @@ public class Media extends VLCObject<Media.Event> {
     /**
      *
      * @param ml Should not be released and locked
-     * @param index
+     * @param index index of the Media from the MediaList
      */
     protected Media(MediaList ml, int index) {
         if (ml == null || ml.isReleased())
@@ -302,8 +303,6 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
      * Therefore, decode the characters authorized by Android Uri when creating an Uri from VLC.
-     * @param mrl
-     * @return
      */
     private static Uri UriFromMrl(String mrl) {
         final char array[] = mrl.toCharArray();
@@ -331,8 +330,6 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
      * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
-     * @param uri
-     * @return
      */
     private static String locationFromUri(Uri uri) {
         final char array[] = uri.toString().toCharArray();
@@ -512,7 +509,7 @@ public class Media extends VLCObject<Media.Event> {
      * Get a Track
      * The Track can be casted to {@link AudioTrack}, {@link VideoTrack} or {@link SubtitleTrack} in function of the {@link Track.Type}.
      *
-     * @param idx
+     * @param idx index of the track
      * @return Track or null if not idx is not valid
      * @see #getTrackCount()
      */
@@ -543,7 +540,7 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * Add or remove hw acceleration media options
      *
-     * @param enabled
+     * @param enabled if true, hw decoder will be used
      * @param force force hw acceleration even for unknown devices
      */
     public void setHWDecoderEnabled(boolean enabled, boolean force) {

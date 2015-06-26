@@ -24,6 +24,7 @@ package org.videolan.libvlc;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow.SurfaceCallback {
 
     public static class Event extends VLCEvent {
@@ -83,7 +84,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     /**
      * Create an empty MediaPlayer
      *
-     * @param libVLC
+     * @param libVLC a valid libVLC
      */
     public MediaPlayer(LibVLC libVLC) {
         nativeNewFromLibVlc(libVLC, mWindow);
@@ -92,7 +93,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     /**
      * Create a MediaPlayer from a Media
      *
-     * @param media
+     * @param media a valid  Media
      */
     public MediaPlayer(Media media) {
         if (media == null || media.isReleased())
@@ -103,8 +104,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     }
 
     /**
-     *
-     * @return
+     * Get the IVLCVout helper.
      */
     public IVLCVout getVLCVout() {
         return mWindow;
@@ -113,7 +113,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     /**
      * Set a Media
      *
-     * @param media
+     * @param media a valid libVLC
      */
     public synchronized void setMedia(Media media) {
         if (mMedia != null)
@@ -130,8 +130,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
 
     /**
      * Get the Media used by this MediaPlayer. This Media should be released with {@link #release()}.
-     *
-     * @return
      */
     public synchronized Media getMedia() {
         if (mMedia != null)

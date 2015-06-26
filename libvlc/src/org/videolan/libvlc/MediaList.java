@@ -22,6 +22,7 @@ package org.videolan.libvlc;
 
 import android.util.SparseArray;
 
+@SuppressWarnings("unused")
 public class MediaList extends VLCObject<MediaList.Event> {
     private final static String TAG = "LibVLC/MediaList";
 
@@ -65,7 +66,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
 
     /**
      * Create a MediaList from libVLC
-     * @param libVLC
+     * @param libVLC a valid libVLC
      */
     public MediaList(LibVLC libVLC) {
         nativeNewFromLibVlc(libVLC);
@@ -160,7 +161,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
     /**
      * Get a Media at specified index.
      *
-     * @param index
+     * @param index index of the media
      * @return Media hold by MediaList. This Media should be released with {@link #release()}.
      */
     public synchronized Media getMediaAt(int index) {
