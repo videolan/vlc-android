@@ -660,6 +660,7 @@ $ANDROID_NDK/ndk-build -C libvlc \
     TARGET_TUPLE=$TARGET_TUPLE \
     HAVE_64=${HAVE_64} \
     NDK_PROJECT_PATH=jni \
+    NDK_TOOLCHAIN_VERSION=${GCCVER} \
     NDK_DEBUG=${NDK_DEBUG}
 
 checkfail "ndk-build failed"
