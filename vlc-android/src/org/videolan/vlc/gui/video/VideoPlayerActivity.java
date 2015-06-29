@@ -790,7 +790,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-        editor.putString(PreferencesActivity.VIDEO_LAST, mUri.toString());
+        if (mUri != null)
+            editor.putString(PreferencesActivity.VIDEO_LAST, mUri.toString());
 
         // Save user playback speed and restore normal speed
         editor.putFloat(PreferencesActivity.VIDEO_SPEED, MediaPlayer().getRate());
