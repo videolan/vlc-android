@@ -38,7 +38,6 @@ public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
 
     private static LibVLC sLibVLC = null;
-    private static MediaPlayer sMediaPlayer = null;
 
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
@@ -66,24 +65,8 @@ public class VLCInstance {
         return sLibVLC;
     }
 
-    public static synchronized MediaPlayer getMainMediaPlayer() {
-        if (sMediaPlayer == null) {
-            if (sLibVLC == null)
-                get();
-            final Context context = VLCApplication.getAppContext();
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            sMediaPlayer = new MediaPlayer(sLibVLC);
-            sMediaPlayer.setAudioOutput(VLCOptions.getAout(pref));
-        }
-        return sMediaPlayer;
-    }
-
-    public static synchronized void restart(Context context, SharedPreferences pref) throws IllegalStateException {
+    public static synchronized void restart(SharedPreferences pref) throws IllegalStateException {
         if (sLibVLC != null) {
-            if (sMediaPlayer != null) {
-                sMediaPlayer.release();
-                sMediaPlayer = null;
-            }
             sLibVLC.release();
             sLibVLC = new LibVLC(VLCOptions.getLibOptions(pref));
         }

@@ -28,6 +28,7 @@ import java.util.concurrent.CyclicBarrier;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
@@ -115,15 +116,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             return;
         }
 
-        /*
-         * skip browser and show directly Audio Player if a song is playing
-         */
-        if (VLCInstance.getMainMediaPlayer().isPlaying()){
-            startActivity(new Intent(this, AudioPlayerActivity.class));
-            finish();
-            return;
-        }
-
         mContext = this;
         setContentView(R.layout.tv_main_fragment);
 
@@ -151,6 +143,18 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
         mRootContainer = mBrowseFragment.getView();
         mMediaLibrary.loadMediaItems(true);
         BackgroundManager.getInstance(this).attach(getWindow());
+    }
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        super.onConnected(service);
+        /*
+         * skip browser and show directly Audio Player if a song is playing
+         */
+        if (mService.isPlaying()) {
+            startActivity(new Intent(this, AudioPlayerActivity.class));
+            finish();
+        }
     }
 
     @Override

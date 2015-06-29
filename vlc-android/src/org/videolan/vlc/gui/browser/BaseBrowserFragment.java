@@ -444,8 +444,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 startActivity(i);
                 return true;
             case R.id.directory_view_play_audio: {
-                if (mService != null)
+                if (mService != null) {
+                    mService.setVideoEnabled(false, false);
                     mService.load(mw);
+                }
                 return true;
             }
             case  R.id.directory_view_play_video:

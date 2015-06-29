@@ -30,22 +30,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.VLCInstance;
 
 public class JumpToTimeDialog extends PickTimeFragment {
 
     public JumpToTimeDialog(){
         super();
         mLiveAction = false;
-        max = VLCInstance.getMainMediaPlayer().getLength() * 1000l;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        if (VLCInstance.getMainMediaPlayer().getLength() > HOURS_IN_MICROS) {
+    private void setViewTime(View view) {
+        if (mService == null)
+            return;
+        if (mService.getLength() > HOURS_IN_MICROS) {
             mHours.setOnFocusChangeListener(this);
             mHours.setOnEditorActionListener(this);
             view.findViewById(R.id.jump_hours_up).setOnClickListener(this);
@@ -54,9 +50,16 @@ public class JumpToTimeDialog extends PickTimeFragment {
             view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
             view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        setViewTime(view);
         mMinutes.setNextFocusLeftId(R.id.jump_go);
         mSeconds.setNextFocusRightId(R.id.jump_go);
-        initTime(VLCInstance.getMainMediaPlayer().getTime()*1000);
         return view;
     }
 
@@ -64,13 +67,26 @@ public class JumpToTimeDialog extends PickTimeFragment {
         long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) * HOURS_IN_MICROS : 0l;
         long minutes = TextUtils.isEmpty(mMinutes.getText().toString()) ? 0l : Long.parseLong(mMinutes.getText().toString()) * MINUTES_IN_MICROS ;
         long seconds = TextUtils.isEmpty(mSeconds.getText().toString()) ? 0l : Long.parseLong(mSeconds.getText().toString()) * SECONDS_IN_MICROS;
-        VLCInstance.getMainMediaPlayer().setTime((hours +  minutes + seconds)/1000l); //Time in ms
+        mService.setTime((hours +  minutes + seconds) / 1000l); //Time in ms
         dismiss();
     }
 
     @Override
     protected void buttonAction() {
         executeAction();
+    }
+
+    @Override
+    protected long getMax() {
+        return mService.getLength() * 1000l;
+    }
+
+    @Override
+    protected long getInitTime() {
+        final View view = getView();
+        if (view != null)
+            setViewTime(view);
+        return mService.getTime() * 1000;
     }
 
     @Override

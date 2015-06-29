@@ -135,7 +135,7 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
         if (mService.hasMedia()) {
             mTitleTv.setText(mService.getTitle());
             mArtistTv.setText(mService.getArtist());
-            mProgressBar.setMax(mService.getLength());
+            mProgressBar.setMax((int) mService.getLength());
             MediaWrapper MediaWrapper = MediaLibrary.getInstance().getMediaItem(mService.getCurrentMediaLocation());
             Bitmap cover = AudioUtil.getCover(this, MediaWrapper, mCover.getWidth());
             if (cover == null)
@@ -150,7 +150,7 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
     @Override
     public void updateProgress() {
         if (mService != null)
-            mProgressBar.setProgress(mService.getTime());
+            mProgressBar.setProgress((int)mService.getTime());
     }
 
     @Override
@@ -249,7 +249,7 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
     private void seek(int delta) {
         if (mService == null)
             return;
-        int time = mService.getTime()+delta;
+        int time = (int) mService.getTime()+delta;
         if (time < 0 || time > mService.getLength())
             return;
         mService.setTime(time);

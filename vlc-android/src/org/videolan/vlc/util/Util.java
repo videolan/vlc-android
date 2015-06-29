@@ -254,6 +254,7 @@ public class Util {
             new DialogCallback(context, new DialogCallback.Runnable() {
                 @Override
                 public void run(PlaybackService service) {
+                    service.setVideoEnabled(true, false);
                     service.load(media);
                 }
             });
@@ -264,6 +265,7 @@ public class Util {
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
+                service.setVideoEnabled(true, false);
                 service.load(list, position);
             }
         });
@@ -273,6 +275,7 @@ public class Util {
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
+                service.setVideoEnabled(true, false);
                 service.loadLocation(uri);
             }
         });

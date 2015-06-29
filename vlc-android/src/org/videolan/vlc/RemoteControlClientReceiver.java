@@ -42,7 +42,6 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        MediaPlayer mediaPlayer = VLCInstance.getMainMediaPlayer();
 
         if(action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
@@ -83,15 +82,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                             }
                             // one click
                             else {
-                                if (mediaPlayer.isPlaying())
-                                    i = new Intent(PlaybackService.ACTION_REMOTE_PAUSE);
-                                else {
-                                    i = new Intent(context, PlaybackService.class);
-                                    i.setAction(PlaybackService.ACTION_REMOTE_PLAY);
-                                    context.startService(i);
-                                    mHeadsetUpTime = time;
-                                    return;
-                                }
+                                i = new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
                             }
                             mHeadsetUpTime = time;
                             break;

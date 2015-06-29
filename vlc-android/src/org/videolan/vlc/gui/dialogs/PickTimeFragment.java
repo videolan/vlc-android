@@ -37,14 +37,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 
-public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
+public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener,
+        View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener,
+        PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/PickTimeFragment";
 
@@ -62,7 +63,8 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected EditText mHours, mMinutes, mSeconds, mMillis;
     protected TextView mSign;
     protected Button mActionButton;
-    protected long max = -1;
+    private long mMax = -1;
+    protected PlaybackService mService;
 
     public PickTimeFragment(){
     }
@@ -166,8 +168,10 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
                 updateValue(-50, R.id.jump_millis);
                 break;
             case R.id.jump_sign:
-                toggleSign();
-                executeAction();
+                if (mService != null) {
+                    toggleSign();
+                    executeAction();
+                }
                 break;
             case R.id.jump_go:
             case R.id.jump_hours:
@@ -218,15 +222,16 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
                 slide = delta * MILLIS_IN_MICROS;
         }
         slide += getTime();
-        if (max == -1 || slide <= max)
+        if (mMax == -1 || slide <= mMax)
             initTime(slide);
-        if (mLiveAction)
+        if (mLiveAction && mService != null)
             executeAction();
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        executeAction();
+        if (mService != null)
+            executeAction();
         return true;
     }
 
@@ -262,7 +267,33 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
         return sign * (minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS + millis * MILLIS_IN_MICROS);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        PlaybackServiceFragment.registerPlaybackService(this, this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PlaybackServiceFragment.unregisterPlaybackService(this, this);
+    }
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        mService = service;
+        mMax = getMax();
+        initTime(getInitTime());
+    }
+
+    @Override
+    public void onDisconnected() {
+        mService = null;
+    }
+
     abstract protected int getTitle();
     abstract protected void executeAction();
     abstract protected void buttonAction();
+    abstract protected long getMax();
+    abstract protected long getInitTime();
 }

@@ -151,7 +151,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -300,8 +301,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playAudio(MediaWrapper media) {
-        if (mService != null)
-            mService.load(media, true);
+        if (mService != null) {
+            mService.setVideoEnabled(false, false);
+            mService.load(media);
+        }
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {

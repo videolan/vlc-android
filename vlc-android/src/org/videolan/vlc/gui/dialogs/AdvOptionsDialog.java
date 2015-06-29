@@ -45,12 +45,11 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
@@ -65,7 +64,7 @@ import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_AUDIO_DELAY;
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SPU_DELAY;
 
-public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener {
+public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final String MODE_KEY = "mode";
@@ -98,6 +97,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private Spinner mChapters;
     private TextView mChaptersTitle;
     private int mTextColor;
+    private PlaybackService mService;
 
     private IDelayController mDelayController;
     public AdvOptionsDialog() {}
@@ -119,6 +119,16 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         super.onAttach(activity);
         if (mMode == MODE_VIDEO) {
             mDelayController = (IDelayController) activity;
+        }
+    }
+
+    private void setRateProgress() {
+        if (mService != null) {
+            double speed = mService.getRate();
+            if (speed != 1.0d) {
+                speed = 100 * (1 + Math.log(speed) / Math.log(4));
+                mSeek.setProgress((int) speed);
+            }
         }
     }
 
@@ -190,13 +200,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             root.findViewById(R.id.opt_equalizer).setVisibility(View.GONE);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
-        final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
 
-        double speed = mediaplayer.getRate();
-        if (speed != 1.0d) {
-            speed = 100 * (1 + Math.log(speed) / Math.log(4));
-            mSeek.setProgress((int) speed);
-        }
+        setRateProgress();
 
         Window window = getDialog().getWindow();
         window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
@@ -205,9 +210,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initChapterSpinner() {
-        final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+        if (mService == null)
+            return;
 
-        int chaptersCount = mediaplayer.getChapterCount();
+        int chaptersCount = mService.getChapterCount();
         if (chaptersCount <= 1){
             mChapters.setVisibility(View.GONE);
             mChaptersTitle.setVisibility(View.GONE);
@@ -216,31 +222,34 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         String chapterDescription;
         for (int i = 0 ; i < chaptersCount ; ++i) {
-            chapterDescription = mediaplayer.getChapterDescription(i);
+            chapterDescription = mService.getChapterDescription(i);
             adapter.insert(chapterDescription != null ? chapterDescription : Integer.toString(i), i);
         }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
-        mChapters.setSelection(mediaplayer.getChapter());
+        mChapters.setSelection(mService.getChapter());
         mChapters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mediaplayer.getChapter())
-                    mediaplayer.setChapter(position);
+                if (position != mService.getChapter())
+                    mService.setChapter(position);
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     private SeekBar.OnSeekBarChangeListener mSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+            if (mService == null)
+                return;
 
             float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
             mHandler.obtainMessage(SPEED_TEXT, Strings.formatRateString(rate)).sendToTarget();
-            mediaplayer.setRate(rate);
+            mService.setRate(rate);
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -250,10 +259,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private View.OnClickListener mResetListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final MediaPlayer mediaplayer = VLCInstance.getMainMediaPlayer();
+            if (mService == null)
+                return;
 
             mSeek.setProgress(100);
-            mediaplayer.setRate(1);
+            mService.setRate(1);
         }
     };
 
@@ -412,5 +422,28 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        PlaybackServiceFragment.registerPlaybackService(this, this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PlaybackServiceFragment.unregisterPlaybackService(this, this);
+    }
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        mService = service;
+        setRateProgress();
+    }
+
+    @Override
+    public void onDisconnected() {
+        mService = null;
     }
 }

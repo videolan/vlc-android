@@ -66,9 +66,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onStop() {
         super.onStop();
-        final PlaybackServiceActivity.Helper helper = PlaybackServiceFragment.getHelper(this);
-        if (helper != null)
-            helper.unregisterFragment(this);
+        PlaybackServiceFragment.unregisterPlaybackService(this, this);
     }
 
     @Override
@@ -111,9 +109,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             public void onActionClicked(Action action) {
                 switch ((int)action.getId()){
                     case ID_LISTEN:
-                        final PlaybackServiceActivity.Helper helper = PlaybackServiceFragment.getHelper(MediaItemDetailsFragment.this);
-                        if (helper != null)
-                            helper.registerFragment(MediaItemDetailsFragment.this);
+                        PlaybackServiceFragment.registerPlaybackService(MediaItemDetailsFragment.this, MediaItemDetailsFragment.this);
                         break;
                     case ID_PLAY:
                         ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>();
@@ -175,6 +171,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
+        mService.setVideoEnabled(false, false);
         mService.load(mMediaWrapper);
     }
 

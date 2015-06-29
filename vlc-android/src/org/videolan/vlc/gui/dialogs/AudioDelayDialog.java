@@ -28,11 +28,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.VLCInstance;
 
-public class AudioDelayDialog extends PickTimeFragment {
-
+public class AudioDelayDialog extends PickTimeFragment implements PlaybackService.Client.Callback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,21 +51,29 @@ public class AudioDelayDialog extends PickTimeFragment {
         mSign.setVisibility(View.VISIBLE);
 
         mActionButton.setText(android.R.string.cancel);
-        long delay = VLCInstance.getMainMediaPlayer().getAudioDelay();
-        if (delay != 0f)
-            initTime(delay);
+
         return view;
     }
 
     @Override
     protected void executeAction(){
-        VLCInstance.getMainMediaPlayer().setAudioDelay(getTime());
+        mService.setAudioDelay(getTime());
     }
 
     @Override
     protected void buttonAction() {
         initTime(0l);
         executeAction();
+    }
+
+    @Override
+    protected long getMax() {
+        return -1;
+    }
+
+    @Override
+    protected long getInitTime() {
+        return mService.getAudioDelay();
     }
 
     @Override

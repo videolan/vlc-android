@@ -224,8 +224,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-                if (mService != null)
+                if (mService != null) {
                     mService.playIndex(p);
+                }
             }
         });
         mSongsList.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -381,8 +382,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void updateProgress() {
         if (mService == null)
             return;
-        int time = mService.getTime();
-        int length = mService.getLength();
+        int time = (int) mService.getTime();
+        int length = (int) mService.getLength();
 
         mHeaderTime.setText(Strings.millisToString(time));
         mLength.setText(Strings.millisToString(length));
@@ -700,7 +701,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             case MotionEvent.ACTION_DOWN:
                 (forward ? mNext : mPrevious).setImageResource(this.pressed);
 
-                possibleSeek = mService.getTime();
+                possibleSeek = (int) mService.getTime();
+
                 mPreviewingSeek = true;
                 vibrated = false;
                 length = mService.getLength();

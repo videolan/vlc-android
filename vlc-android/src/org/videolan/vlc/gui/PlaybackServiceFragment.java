@@ -45,26 +45,41 @@ public abstract class PlaybackServiceFragment extends Fragment implements Playba
             throw new IllegalArgumentException("Fragment must be inside AudioPlayerContainerActivity or PlaybackServiceActivity");
     }
 
-    public static PlaybackServiceActivity.Helper getHelper(Fragment frament) {
-        return getHelper(frament.getActivity());
+    private static void registerPlaybackService(Activity activity, PlaybackService.Client.Callback cb) {
+        final PlaybackServiceActivity.Helper helper = getHelper(activity);
+        if (helper != null)
+            helper.registerFragment(cb);
+    }
+    private static void unregisterPlaybackService(Activity activity, PlaybackService.Client.Callback cb) {
+        final PlaybackServiceActivity.Helper helper = getHelper(activity);
+        if (helper != null)
+            helper.unregisterFragment(cb);
     }
 
-    public static PlaybackServiceActivity.Helper getHelper(android.app.Fragment fragment) {
-        return getHelper(fragment.getActivity());
+    public static void registerPlaybackService(Fragment fragment, PlaybackService.Client.Callback cb) {
+        registerPlaybackService(fragment.getActivity(), cb);
+    }
+    public static void registerPlaybackService(android.app.Fragment fragment, PlaybackService.Client.Callback cb) {
+        registerPlaybackService(fragment.getActivity(), cb);
+
+    }
+
+    public static void unregisterPlaybackService(Fragment fragment, PlaybackService.Client.Callback cb) {
+        unregisterPlaybackService(fragment.getActivity(), cb);
+    }
+    public static void unregisterPlaybackService(android.app.Fragment fragment, PlaybackService.Client.Callback cb) {
+        unregisterPlaybackService(fragment.getActivity(), cb);
     }
 
     public void onStart(){
         super.onStart();
-        final PlaybackServiceActivity.Helper helper = getHelper(this);
-        if (helper != null)
-            helper.registerFragment(this);    }
+        registerPlaybackService(this, this);
+    }
 
     @Override
     public void onStop() {
         super.onStop();
-        final PlaybackServiceActivity.Helper helper = getHelper(this);
-        if (helper != null)
-            helper.unregisterFragment(this);
+        unregisterPlaybackService(this, this);
     }
 
     @Override
