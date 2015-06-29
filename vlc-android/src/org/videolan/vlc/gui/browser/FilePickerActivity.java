@@ -1,8 +1,9 @@
 /*
  * *************************************************************************
- *  MediaBrowserFragment.java
+ *  FilePickerActivity.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,32 +23,30 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import org.videolan.vlc.widget.SwipeRefreshLayout;
+import org.videolan.vlc.R;
 
-public abstract class MediaBrowserFragment extends Fragment {
+public class FilePickerActivity extends AppCompatActivity {
+    protected static final String TAG = "VLC/BaseBrowserFragment";
 
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
-    protected volatile boolean mReadyToDisplay = true;
-
-    public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReadyToDisplay)
-            display();
-        else
-            mReadyToDisplay = ready;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.file_picker_activity);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_placeholder, new FilePickerFragment(), "picker");
+        ft.commit();
     }
 
-    protected abstract void display();
-
-    protected abstract String getTitle();
-    public abstract void clear();
-    public void onStart(){
-        super.onStart();
-        if (getActivity().getActionBar() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
-            getActivity().supportInvalidateOptionsMenu();
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+        } else {
+            ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseUp();
         }
     }
 }

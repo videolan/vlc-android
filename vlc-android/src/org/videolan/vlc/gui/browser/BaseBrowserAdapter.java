@@ -117,7 +117,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(View v) {
                 MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
                 if (mw.getType() == MediaWrapper.TYPE_DIR)
-                    fragment.browse(mw, holder.getAdapterPosition());
+                    fragment.browse(mw, holder.getAdapterPosition(), true);
                 else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
                     Util.openMedia(v.getContext(), mw);
                 else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
@@ -321,7 +321,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
-    private int getIconResId(MediaWrapper media) {
+    protected int getIconResId(MediaWrapper media) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
                 return R.drawable.ic_browser_audio_normal;

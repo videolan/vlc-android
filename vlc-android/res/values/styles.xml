@@ -78,6 +78,17 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal</item>
     </style>
 
+    <style name="Theme.VLC.PickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
+        <item name="background_default">@color/grey50</item>
+        <item name="background_default_darker">@color/grey100</item>
+        <item name="font_default">@color/grey900</item>
+        <item name="font_light">@color/grey600</item>
+        <item name="list_subtitle">@color/list_subtitle</item>
+        <item name="list_title">@color/list_title</item>
+        <item name="android:windowBackground">@color/grey200</item>
+    </style>
+
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>

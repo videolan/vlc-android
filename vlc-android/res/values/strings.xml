@@ -349,6 +349,7 @@
     <string name="back_quit_lock">Press back again to quit video</string>
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
+    <string name="no_subs_found">No subtitles in this directory</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

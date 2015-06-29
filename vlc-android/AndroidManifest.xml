@@ -76,12 +76,11 @@
             android:name=".gui.SecondaryActivity"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC"/>
+        <activity
+            android:name=".gui.browser.FilePickerActivity"
+            android:theme="@style/Theme.VLC.PickerDialog"/>
         <activity android:name=".gui.CompatErrorActivity" />
         <activity android:name=".gui.PreferencesActivity"
-            android:theme="@style/Theme.VLC" />
-        <activity
-            android:name=".gui.BrowserActivity"
-            android:label="@string/mediafiles"
             android:theme="@style/Theme.VLC" />
 
         <activity android:name=".gui.DebugLogActivity"

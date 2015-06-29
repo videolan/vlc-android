@@ -24,31 +24,26 @@
 package org.videolan.vlc.gui.browser;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
 
@@ -68,6 +63,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mEmptyView.setText(getString(R.string.directory_empty));
+    }
+
+    @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }
@@ -76,13 +77,14 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         if (mRoot)
             return getCategoryTitle();
         else {
-            String title = mMrl;
+            String title;
             if (mCurrentMedia != null) {
-                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mMrl))
+                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.removeFileProtocole(mMrl)))
                     title = getString(R.string.internal_memory);
                 else
                     title = mCurrentMedia.getTitle();
-            }
+            } else
+                title = Strings.getName(mMrl);
             return title;
         }
     }
@@ -110,7 +112,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         directory.setTitle(getString(R.string.internal_memory));
                     mAdapter.addItem(directory, false, false);
                 }
-                mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
                 if (mReadyToDisplay) {
                     context.runOnUiThread(new Runnable() {
                         @Override

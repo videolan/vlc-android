@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<org.videolan.vlc.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeLayout"
+    android:layout_width="800dp"
+    android:layout_height="800dp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <org.videolan.vlc.widget.ContextMenuRecyclerView
+            android:id="@+id/network_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/android:empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/network_connection_needed"/>
+    </FrameLayout>
+</org.videolan.vlc.widget.SwipeRefreshLayout>

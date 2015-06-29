@@ -156,6 +156,8 @@ public class Strings {
     }
 
     public static String removeFileProtocole(String path){
+        if (path == null)
+            return null;
         if (path.startsWith("file://"))
             return path.substring(7);
         else

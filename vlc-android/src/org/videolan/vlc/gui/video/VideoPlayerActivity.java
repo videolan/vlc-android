@@ -106,6 +106,7 @@ import org.videolan.vlc.MediaWrapperListPlayer;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -1994,7 +1995,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     public void onAudioSubClick(View anchor){
-        final Context context = this;
+        final AppCompatActivity context = this;
         PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
         popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(MediaPlayer().getAudioTracksCount() > 2);
@@ -2009,33 +2010,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     selectSubtitles();
                     return true;
                 } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
-                    Intent intent = new Intent("org.openintents.action.PICK_FILE");
-
-                    File file = new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                    intent.setData(Uri.fromFile(file));
-
-                    // Set fancy title and button (optional)
-                    intent.putExtra("org.openintents.extra.TITLE", context.getString(R.string.subtitle_select));
-                    intent.putExtra("org.openintents.extra.BUTTON_TEXT", context.getString(R.string.open));
-
-                    if (getPackageManager()
-                            .queryIntentActivities(intent,
-                                    PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
-                        startActivityForResult(intent, CommonDialogs.INTENT_SPECIFIC);
-                    } else {
-                        // OI intent not found, trying anything
-                        Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent2.setType("*/*");
-                        intent2.addCategory(Intent.CATEGORY_OPENABLE);
-                        try {
-                            startActivityForResult(intent2, CommonDialogs.INTENT_GENERIC);
-                        } catch(ActivityNotFoundException e) {
-                            Log.i(TAG, "No file picker found on system");
-                            Toast.makeText(context,
-                                    R.string.no_file_picker_found,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                    Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
+                    filePickerIntent.setData(Uri.parse(Strings.getParent(MediaPlayer().getMedia().getUri().toString())));
+                    context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 }
                 return false;
@@ -2047,6 +2024,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private interface TrackSelectedListener {
         public boolean onTrackSelected(int trackID);
     }
+
     private void selectTrack(final Map<Integer,String> trackMap, int currentTrack, int titleId,
                              final TrackSelectedListener listener) {
         if (listener == null)

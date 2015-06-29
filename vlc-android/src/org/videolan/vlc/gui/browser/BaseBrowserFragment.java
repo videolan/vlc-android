@@ -29,7 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,16 +48,14 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackServiceClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.SidebarAdapter;
+import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
@@ -119,15 +116,22 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             else
                 mMrl = bundle.getString(KEY_MRL);
             mSavedPosition = bundle.getInt(KEY_POSITION);
+        } else if (getActivity().getIntent() != null){
+            mMrl = getActivity().getIntent().getDataString();
+            getActivity().setIntent(null);
         }
     }
 
+    protected int getLayoutId(){
+        return R.layout.directory_browser;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.directory_browser, container, false);
+        View v = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
@@ -195,7 +199,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             getActivity().finish();
     }
 
-    public void browse (MediaWrapper media, int position){
+    public void browse (MediaWrapper media, int position, boolean save){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
@@ -205,7 +209,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
-        ft.addToBackStack(mMrl);
+        if (save)
+            ft.addToBackStack(mMrl);
         ft.commit();
     }
 
@@ -256,7 +261,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
      */
     protected void updateEmptyView(){
         if (mAdapter.isEmpty()){
-            mEmptyView.setText(getString(R.string.directory_empty));
             mEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             mSwipeRefreshLayout.setEnabled(false);
@@ -334,10 +338,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void focusHelper() {
-        if (getActivity() == null)
+        if (getActivity() == null || !(getActivity() instanceof MainActivity))
             return;
         boolean isEmpty = mAdapter.isEmpty();
-        MainActivity main = (MainActivity)getActivity();
+        MainActivity main = (MainActivity) getActivity();
         main.setMenuFocusDown(isEmpty, R.id.network_list);
         main.setSearchAsFocusDown(isEmpty, getView(), R.id.network_list);
     }
