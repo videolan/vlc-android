@@ -280,11 +280,12 @@ fi
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
     10*)
-        GCCVER=4.8
         if [ "${HAVE_64}" = 1 ];then
             ANDROID_API=android-21
+            GCCVER=4.9
         else
             ANDROID_API=android-9
+            GCCVER=4.8
         fi
     ;;
     *)
