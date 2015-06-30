@@ -119,7 +119,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     private native void detachEventHandler();
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2) {
+    protected Event onEventNative(int eventType, long arg1, float arg2) {
         return null;
     }
 

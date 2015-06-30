@@ -326,7 +326,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     }
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2) {
+    protected Event onEventNative(int eventType, long arg1, float arg2) {
         /* TODO */
         return null;
     }

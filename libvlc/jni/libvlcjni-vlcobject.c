@@ -177,7 +177,8 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     assert(p_obj->p_libvlc);
 
     jevent.type = -1;
-    jevent.arg1 = jevent.arg2 = 0;
+    jevent.arg1 = 0;
+    jevent.arg2 = 0.0;
 
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
