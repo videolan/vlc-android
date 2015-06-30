@@ -2005,9 +2005,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     selectSubtitles();
                     return true;
                 } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
+                    if (mUri == null)
+                        return false;
                     Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    if (TextUtils.equals(MediaPlayer().getMedia().getUri().getScheme(), "file"))
-                        filePickerIntent.setData(Uri.parse(Strings.getParent(MediaPlayer().getMedia().getUri().toString())));
+                    if (TextUtils.equals(mUri.getScheme(), "file"))
+                        filePickerIntent.setData(Uri.parse(Strings.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 }
