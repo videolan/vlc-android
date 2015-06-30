@@ -273,7 +273,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
      */
     public native long getLength();
 
-    public native String getMeta(int meta);
     public native int getTitle();
     public native void setTitle(int title);
     public native int getChapterCountForTitle(int title);

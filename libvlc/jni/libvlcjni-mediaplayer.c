@@ -475,32 +475,6 @@ Java_org_videolan_libvlc_MediaPlayer_getLength(JNIEnv *env, jobject thiz)
     return (jlong) libvlc_media_player_get_length(p_obj->u.p_mp);
 }
 
-/* TODO Remove: use MediaPlayer.GetMedia().GetMeta instead */
-jstring
-Java_org_videolan_libvlc_MediaPlayer_getMeta(JNIEnv *env, jobject thiz,
-                                             int meta)
-{
-    char *psz_meta;
-    jstring string = NULL;
-
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return NULL;
-
-    libvlc_media_t *p_mp = libvlc_media_player_get_media(p_obj->u.p_mp);
-    if (!p_mp)
-        return NULL;
-
-    psz_meta = libvlc_media_get_meta(p_mp, meta);
-    if (psz_meta) {
-        string = (*env)->NewStringUTF(env, psz_meta);
-        free(psz_meta);
-    }
-    libvlc_media_release(p_mp);
-    return string;
-}
-
 jint
 Java_org_videolan_libvlc_MediaPlayer_getTitle(JNIEnv *env, jobject thiz)
 {

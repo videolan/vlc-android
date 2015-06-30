@@ -220,13 +220,17 @@ public class MediaWrapper implements Parcelable {
     }
 
     public void updateMeta(MediaPlayer mediaPlayer) {
-        mTitle = mediaPlayer.getMeta(Meta.Title);
-        mArtist = mediaPlayer.getMeta(Meta.Artist);
-        mGenre = mediaPlayer.getMeta(Meta.Genre);
-        mAlbum = mediaPlayer.getMeta(Meta.Album);
-        mAlbumArtist = mediaPlayer.getMeta(Meta.AlbumArtist);
-        mNowPlaying = mediaPlayer.getMeta(Meta.NowPlaying);
-        mArtworkURL = mediaPlayer.getMeta(Meta.ArtworkURL);
+        final Media media = mediaPlayer.getMedia();
+        if (media == null)
+            return;
+        mTitle = media.getMeta(Meta.Title);
+        mArtist = media.getMeta(Meta.Artist);
+        mGenre = media.getMeta(Meta.Genre);
+        mAlbum = media.getMeta(Meta.Album);
+        mAlbumArtist = media.getMeta(Meta.AlbumArtist);
+        mNowPlaying = media.getMeta(Meta.NowPlaying);
+        mArtworkURL = media.getMeta(Meta.ArtworkURL);
+        media.release();
     }
 
     public String getFileName() {
