@@ -59,6 +59,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     @Override
     public void onStart() {
         super.onStart();
+        mMediaBrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv");
         getActivity().setTitle(getTitle());
     }
 

@@ -128,6 +128,11 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     public void onStart(){
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (mReadyToDisplay)
             update();
     }
