@@ -292,12 +292,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private boolean mPlaybackStarted = false;
 
-    /**
-     * Flag used by changeAudioFocus and mAudioFocusListener
-     */
-    private boolean mLostFocus = false;
-    private boolean mHasAudioFocus = false;
-
     // Tips
     private View mOverlayTips;
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
@@ -728,8 +722,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Stop listening for changes to media routes.
             mediaRouterAddCallback(false);
         }
-
-        changeAudioFocus(false);
 
         final boolean isPaused = !mService.isPlaying();
         long time = getTime();
@@ -1277,65 +1269,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
-    private OnAudioFocusChangeListener mAudioFocusListener = !AndroidUtil.isFroyoOrLater() ? null :
-            new OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            if (!mPlaybackStarted)
-                return;
-            /*
-             * Pause playback during alerts and notifications
-             */
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    changeAudioFocus(false);
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    if (mService.isPlaying()) {
-                        mLostFocus = true;
-                        mService.pause();
-                    }
-                    break;
-                case AudioManager.AUDIOFOCUS_GAIN:
-                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                    if (!mService.isPlaying() && mLostFocus) {
-                        mService.play();
-                        mLostFocus = false;
-                    }
-                    break;
-            }
-        }
-    };
-
-    @TargetApi(Build.VERSION_CODES.FROYO)
-    private int changeAudioFocus(boolean acquire) {
-        if(!AndroidUtil.isFroyoOrLater()) // NOP if not supported
-            return AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
-
-        if (mAudioManager == null)
-            return AudioManager.AUDIOFOCUS_REQUEST_FAILED;
-
-        int result = AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
-        if (acquire) {
-            if (!mHasAudioFocus) {
-                result = mAudioManager.requestAudioFocus(mAudioFocusListener,
-                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-                mAudioManager.setParameters("bgm_state=true");
-                mHasAudioFocus = true;
-            }
-        }
-        else {
-            if (mHasAudioFocus) {
-                result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
-                mAudioManager.setParameters("bgm_state=false");
-                mHasAudioFocus = true;
-            }
-        }
-
-        return result;
-    }
-
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         return false;
@@ -1399,7 +1332,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 exitOK();
                 break;
             case MediaPlayer.Event.EndReached:
-                changeAudioFocus(false);
                 endReached();
                 break;
             case MediaPlayer.Event.EncounteredError:
@@ -1481,7 +1413,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         stopLoadingAnimation();
         showOverlay();
         setESTracks();
-        changeAudioFocus(true);
         updateNavStatus();
     }
 

@@ -131,7 +131,6 @@ public class PlaybackService extends Service {
     private MediaPlayer mMediaPlayer;
 
     private HashMap<Callback, Integer> mCallback;
-    private OnAudioFocusChangeListener audioFocusListener;
     private boolean mDetectHeadset = true;
     private boolean mPebbleEnabled;
     private PowerManager.WakeLock mWakeLock;
@@ -155,6 +154,7 @@ public class PlaybackService extends Service {
     private RepeatType mRepeating = RepeatType.None;
     private Random mRandom = null; // Used in shuffling process
 
+    private boolean mHasAudioFocus = false;
     // RemoteControlClient-related
     /**
      * RemoteControlClient is for lock screen playback control.
@@ -249,39 +249,6 @@ public class PlaybackService extends Service {
     }
 
     /**
-     * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
-     * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
-     */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    public void setUpRemoteControlClient() {
-        Context context = VLCApplication.getAppContext();
-        AudioManager audioManager = (AudioManager)VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
-
-        if (AndroidUtil.isICSOrLater()) {
-            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
-
-            if (mRemoteControlClient == null) {
-                Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-                mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
-                PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context, 0, mediaButtonIntent, 0);
-
-                // create and register the remote control client
-                mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
-                audioManager.registerRemoteControlClient(mRemoteControlClient);
-            }
-
-            mRemoteControlClient.setTransportControlFlags(
-                    RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
-                    RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
-                    RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
-                    RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
-                    RemoteControlClient.FLAG_KEY_MEDIA_STOP);
-        } else if (AndroidUtil.isFroyoOrLater()) {
-            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
-        }
-    }
-
-    /**
      * A function to control the Remote Control Client. It is needed for
      * compatibility with devices below Ice Cream Sandwich (4.0).
      *
@@ -348,47 +315,119 @@ public class PlaybackService extends Service {
         return mMediaPlayer.getVLCVout();
     }
 
+    private final OnAudioFocusChangeListener mAudioFocusListener = AndroidUtil.isFroyoOrLater() ?
+            createOnAudioFocusChangeListener() : null;
+
     @TargetApi(Build.VERSION_CODES.FROYO)
-    private void changeAudioFocus(boolean gain) {
-        if (!AndroidUtil.isFroyoOrLater()) // NOP if not supported
+    private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
+        return new OnAudioFocusChangeListener() {
+            private boolean mLossTransient = false;
+            private boolean mLossTransientCanDuck = false;
+
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                /*
+                 * Pause playback during alerts and notifications
+                 */
+                switch (focusChange) {
+                    case AudioManager.AUDIOFOCUS_LOSS:
+                        Log.i(TAG, "AUDIOFOCUS_LOSS");
+                        // Stop playback
+                        changeAudioFocus(false);
+                        stop();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
+                        // Pause playback
+                        if (mMediaPlayer.isPlaying()) {
+                            mLossTransient = true;
+                            mMediaPlayer.pause();
+                        }
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                        Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                        // Lower the volume
+                        if (mMediaPlayer.isPlaying()) {
+                            mMediaPlayer.setVolume(36);
+                            mLossTransientCanDuck = true;
+                        }
+                        break;
+                    case AudioManager.AUDIOFOCUS_GAIN:
+                        Log.i(TAG, "AUDIOFOCUS_GAIN: " + mLossTransientCanDuck + ", " + mLossTransient);
+                        // Resume playback
+                        if (mLossTransientCanDuck) {
+                            mMediaPlayer.setVolume(100);
+                            mLossTransientCanDuck = false;
+                        }
+                        if (mLossTransient) {
+                            mMediaPlayer.play();
+                            mLossTransient = false;
+                        }
+                        break;
+                }
+            }
+        };
+    }
+
+    /**
+     * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
+     */
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public void changeRemoteControlClient(AudioManager am, boolean acquire) {
+        if (acquire) {
+            Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
+            PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+
+            // create and register the remote control client
+            mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+            am.registerRemoteControlClient(mRemoteControlClient);
+
+            mRemoteControlClient.setTransportControlFlags(
+                    RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+                            RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+                            RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
+                            RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                            RemoteControlClient.FLAG_KEY_MEDIA_STOP);
+        } else {
+            am.unregisterRemoteControlClient(mRemoteControlClient);
+            mRemoteControlClient = null;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.FROYO)
+    private void changeAudioFocusFroyoOrLater(boolean acquire) {
+        final AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if (am == null)
             return;
 
-        if (audioFocusListener == null) {
-            audioFocusListener = new OnAudioFocusChangeListener() {
-                @Override
-                public void onAudioFocusChange(int focusChange) {
-                    if (!hasCurrentMedia())
-                        return;
-                    switch (focusChange)
-                    {
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                            if (mMediaPlayer.isPlaying())
-                                mMediaPlayer.pause();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            /*
-                             * Lower the volume to 36% to "duck" when an alert or something
-                             * needs to be played.
-                             */
-                            mMediaPlayer.setVolume(36);
-                            break;
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                            mMediaPlayer.setVolume(100);
-                            break;
-                    }
+        if (acquire) {
+            if (!mHasAudioFocus) {
+                final int result = am.requestAudioFocus(mAudioFocusListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    am.setParameters("bgm_state=true");
+                    am.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
+                    if (AndroidUtil.isICSOrLater())
+                        changeRemoteControlClient(am, acquire);
+                    mHasAudioFocus = true;
                 }
-            };
+            }
+        } else {
+            if (mHasAudioFocus) {
+                final int result = am.abandonAudioFocus(mAudioFocusListener);
+                am.setParameters("bgm_state=false");
+                am.unregisterMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
+                if (AndroidUtil.isICSOrLater())
+                    changeRemoteControlClient(am, acquire);
+                mHasAudioFocus = false;
+            }
         }
+    }
 
-        AudioManager am = (AudioManager)VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
-        if(gain)
-            am.requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        else
-            am.abandonAudioFocus(audioFocusListener);
-
+    private void changeAudioFocus(boolean acquire) {
+        if (AndroidUtil.isFroyoOrLater())
+            changeAudioFocusFroyoOrLater(acquire);
     }
 
     private final BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
@@ -493,7 +532,6 @@ public class PlaybackService extends Service {
                     final MediaWrapper mw = getCurrentMedia();
                     if (mw != null)
                         mw.updateMeta(mMediaPlayer);
-                    setUpRemoteControlClient();
                     executeUpdate();
                     showNotification();
                     updateRemoteControlClientMetadata();
@@ -555,6 +593,7 @@ public class PlaybackService extends Service {
                     setRemoteControlClientPlaybackState(event.type);
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
+                    changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
@@ -564,6 +603,7 @@ public class PlaybackService extends Service {
                     next();
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
+                    changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EncounteredError:
                     showToast(getString(
@@ -870,7 +910,6 @@ public class PlaybackService extends Service {
 
     @MainThread
     public void pause() {
-        setUpRemoteControlClient();
         mHandler.removeMessages(SHOW_PROGRESS);
         // hideNotification(); <-- see event handler
         mMediaPlayer.pause();
@@ -880,7 +919,6 @@ public class PlaybackService extends Service {
     @MainThread
     public void play() {
         if(hasCurrentMedia()) {
-            setUpRemoteControlClient();
             mMediaPlayer.play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
@@ -993,7 +1031,6 @@ public class PlaybackService extends Service {
         executeOnMediaPlayedAdded();
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        setUpRemoteControlClient();
         showNotification();
         updateWidget();
         broadcastMetadata();
@@ -1058,7 +1095,6 @@ public class PlaybackService extends Service {
         playIndex(mCurrentIndex, 0);
         executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        setUpRemoteControlClient();
         showNotification();
         updateWidget();
         broadcastMetadata();
@@ -1438,7 +1474,6 @@ public class PlaybackService extends Service {
 
         executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        setUpRemoteControlClient();
         showNotification();
         updateWidget();
         broadcastMetadata();
@@ -1495,7 +1530,6 @@ public class PlaybackService extends Service {
 
         executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        setUpRemoteControlClient();
         showNotification();
         updateWidget();
         broadcastMetadata();
