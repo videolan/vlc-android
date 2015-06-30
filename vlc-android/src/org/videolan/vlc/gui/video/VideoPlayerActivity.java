@@ -807,18 +807,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data == null) return;
 
-        if(data.getDataString() == null) {
+        if(data.getData() == null)
             Log.d(TAG, "Subtitle selection dialog was cancelled");
-        }
-        if(data.getData() == null) return;
 
-        String subtitlePath = data.getData().getPath();
-        if(requestCode == CommonDialogs.INTENT_SPECIFIC) {
-            Log.d(TAG, "Specific subtitle file: " + subtitlePath);
-        } else if(requestCode == CommonDialogs.INTENT_GENERIC) {
-            Log.d(TAG, "Generic subtitle file: " + subtitlePath);
-        }
-        mSubtitleSelectedFiles.add(subtitlePath);
+        String subtitlesPath = data.getData().getPath();
+        mSubtitleSelectedFiles.add(subtitlesPath);
+        MediaPlayer().addSubtitleTrack(subtitlesPath);
     }
 
     public static void start(Context context, Uri uri) {
@@ -2012,7 +2006,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
                     Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    filePickerIntent.setData(Uri.parse(Strings.getParent(MediaPlayer().getMedia().getUri().toString())));
+                    if (TextUtils.equals(MediaPlayer().getMedia().getUri().getScheme(), "file"))
+                        filePickerIntent.setData(Uri.parse(Strings.getParent(MediaPlayer().getMedia().getUri().toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 }
