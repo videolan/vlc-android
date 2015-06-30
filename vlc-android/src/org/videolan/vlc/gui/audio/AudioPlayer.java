@@ -49,6 +49,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -403,6 +405,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onMediaPlayedRemoved(int index) {
+    }
+
+    @Override
+    public void onMediaEvent(Media.Event event) {
+    }
+
+    @Override
+    public void onMediaPlayerEvent(MediaPlayer.Event event) {
     }
 
     private void updateList() {

@@ -58,7 +58,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -113,6 +112,8 @@ public class PlaybackService extends Service {
         void updateProgress();
         void onMediaPlayedAdded(MediaWrapper media, int index);
         void onMediaPlayedRemoved(int index);
+        void onMediaEvent(Media.Event event);
+        void onMediaPlayerEvent(MediaPlayer.Event event);
     }
 
     private class LocalBinder extends Binder {
@@ -130,7 +131,6 @@ public class PlaybackService extends Service {
     private MediaPlayer mMediaPlayer;
 
     private HashMap<Callback, Integer> mCallback;
-    private EventHandler mEventHandler;
     private OnAudioFocusChangeListener audioFocusListener;
     private boolean mDetectHeadset = true;
     private boolean mPebbleEnabled;
@@ -203,7 +203,6 @@ public class PlaybackService extends Service {
         mPrevIndex = -1;
         mNextIndex = -1;
         mPrevious = new Stack<Integer>();
-        mEventHandler = EventHandler.getInstance();
         mRemoteControlClientReceiverComponent = new ComponentName(BuildConfig.APPLICATION_ID,
                 RemoteControlClientReceiver.class.getName());
 
@@ -294,13 +293,13 @@ public class PlaybackService extends Service {
             return;
 
         switch (state) {
-            case EventHandler.MediaPlayerPlaying:
+            case MediaPlayer.Event.Playing:
                 mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
                 break;
-            case EventHandler.MediaPlayerPaused:
+            case MediaPlayer.Event.Paused:
                 mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
                 break;
-            case EventHandler.MediaPlayerStopped:
+            case MediaPlayer.Event.Stopped:
                 mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
                 break;
         }
@@ -485,33 +484,40 @@ public class PlaybackService extends Service {
         }
     };
 
-    /**
-     * Handle libvlc asynchronous events
-     */
-    private final Handler mVlcEventHandler = new AudioServiceEventHandler(this);
-
-    private static class AudioServiceEventHandler extends WeakHandler<PlaybackService> {
-        public AudioServiceEventHandler(PlaybackService fragment) {
-            super(fragment);
-        }
-
+    private final Media.EventListener mMediaListener = new Media.EventListener() {
         @Override
-        public void handleMessage(Message msg) {
-            PlaybackService service = getOwner();
-            if(service == null) return;
-
-            switch (msg.getData().getInt("event")) {
-                case EventHandler.MediaParsedChanged:
-                    Log.i(TAG, "MediaParsedChanged");
+        public void onEvent(Media.Event event) {
+            switch (event.type) {
+                case Media.Event.ParsedChanged:
+                    Log.i(TAG, "Media.Event.ParsedChanged");
+                    final MediaWrapper mw = getCurrentMedia();
+                    if (mw != null)
+                        mw.updateMeta(mMediaPlayer);
+                    setUpRemoteControlClient();
+                    executeUpdate();
+                    showNotification();
+                    updateRemoteControlClientMetadata();
                     break;
-                case EventHandler.MediaPlayerPlaying:
-                    Log.i(TAG, "MediaPlayerPlaying");
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
+                case Media.Event.MetaChanged:
+                    break;
+            }
+            for (Callback callback : mCallback.keySet())
+                callback.onMediaEvent(event);
+        }
+    };
 
-                    final MediaWrapper mw = service.mMediaList.getMedia(service.mCurrentIndex);
+    private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
+        @Override
+        public void onEvent(MediaPlayer.Event event) {
+            switch (event.type) {
+                case MediaPlayer.Event.Playing:
+                    Log.i(TAG, "MediaPlayer.Event.Playing");
+                    executeUpdate();
+                    executeUpdateProgress();
+
+                    final MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
                     if (mw != null) {
-                        long length = service.mMediaPlayer.getLength();
+                        long length = mMediaPlayer.getLength();
                         MediaDatabase dbManager = MediaDatabase.getInstance();
                         MediaWrapper m = dbManager.getMedia(mw.getUri());
                         /**
@@ -527,72 +533,63 @@ public class PlaybackService extends Service {
                         }
                     }
 
-                    service.changeAudioFocus(true);
-                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPlaying);
-                    service.showNotification();
-                    if (!service.mWakeLock.isHeld())
-                        service.mWakeLock.acquire();
+                    changeAudioFocus(true);
+                    setRemoteControlClientPlaybackState(event.type);
+                    showNotification();
+                    if (!mWakeLock.isHeld())
+                        mWakeLock.acquire();
                     break;
-                case EventHandler.MediaPlayerPaused:
-                    Log.i(TAG, "MediaPlayerPaused");
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
-                    service.showNotification();
-                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPaused);
-                    if (service.mWakeLock.isHeld())
-                        service.mWakeLock.release();
+                case MediaPlayer.Event.Paused:
+                    Log.i(TAG, "MediaPlayer.Event.Paused");
+                    executeUpdate();
+                    executeUpdateProgress();
+                    showNotification();
+                    setRemoteControlClientPlaybackState(event.type);
+                    if (mWakeLock.isHeld())
+                        mWakeLock.release();
                     break;
-                case EventHandler.MediaPlayerStopped:
-                    Log.i(TAG, "MediaPlayerStopped");
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
-                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
-                    if (service.mWakeLock.isHeld())
-                        service.mWakeLock.release();
+                case MediaPlayer.Event.Stopped:
+                    Log.i(TAG, "MediaPlayer.Event.Stopped");
+                    executeUpdate();
+                    executeUpdateProgress();
+                    setRemoteControlClientPlaybackState(event.type);
+                    if (mWakeLock.isHeld())
+                        mWakeLock.release();
                     break;
-                case EventHandler.MediaPlayerEndReached:
+                case MediaPlayer.Event.EndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
-                    service.determinePrevAndNextIndices(true);
-                    service.next();
-                    if (service.mWakeLock.isHeld())
-                        service.mWakeLock.release();
+                    executeUpdate();
+                    executeUpdateProgress();
+                    determinePrevAndNextIndices(true);
+                    next();
+                    if (mWakeLock.isHeld())
+                        mWakeLock.release();
                     break;
-                case EventHandler.MediaPlayerPositionChanged:
-                    float pos = msg.getData().getFloat("data");
-                    service.updateWidgetPosition(pos);
+                case MediaPlayer.Event.EncounteredError:
+                    showToast(getString(
+                            R.string.invalid_location,
+                            mMediaList.getMRL(mCurrentIndex)), Toast.LENGTH_SHORT);
+                    executeUpdate();
+                    executeUpdateProgress();
+                    next();
+                    if (mWakeLock.isHeld())
+                        mWakeLock.release();
                     break;
-                case EventHandler.MediaPlayerEncounteredError:
-                    service.showToast(service.getString(
-                        R.string.invalid_location,
-                        service.mMediaList.getMRL(
-                                service.mCurrentIndex)), Toast.LENGTH_SHORT);
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
-                    service.next();
-                    if (service.mWakeLock.isHeld())
-                        service.mWakeLock.release();
+                case MediaPlayer.Event.TimeChanged:
                     break;
-                case EventHandler.MediaPlayerTimeChanged:
-                    // avoid useless error logs
+                case MediaPlayer.Event.PositionChanged:
+                    updateWidgetPosition(event.getPositionChanged());
                     break;
-                case EventHandler.MediaMetaChanged:
-                    if (!service.hasCurrentMedia())
-                        break;
-                    service.getCurrentMedia().updateMeta(service.mMediaPlayer);
-                    service.setUpRemoteControlClient();
-                    service.executeUpdate();
-                    service.showNotification();
-                    service.updateRemoteControlClientMetadata();
+                case MediaPlayer.Event.Vout:
                     break;
-                case EventHandler.MediaPlayerESAdded:
-                    service.handleVout();
+                case MediaPlayer.Event.ESAdded:
+                    handleVout();
                     break;
-                default:
-                    Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
+                case MediaPlayer.Event.ESDeleted:
                     break;
             }
+            for (Callback callback : mCallback.keySet())
+                callback.onMediaPlayerEvent(event);
         }
     };
 
@@ -895,10 +892,16 @@ public class PlaybackService extends Service {
     @MainThread
     public void stop() {
         savePosition();
-        mMediaPlayer.stop();
-        mEventHandler.removeHandler(mVlcEventHandler);
+        final Media media = mMediaPlayer.getMedia();
+        if (media != null) {
+            media.setEventListener(null);
+            mMediaPlayer.setEventListener(null);
+            mMediaPlayer.stop();
+            mMediaPlayer.setMedia(null);
+            media.release();
+        }
         mMediaList.removeEventListener(mListEventListener);
-        setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
+        setRemoteControlClientPlaybackState(MediaPlayer.Event.Stopped);
         mCurrentIndex = -1;
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
@@ -1406,7 +1409,6 @@ public class PlaybackService extends Service {
     @MainThread
     public void load(List<MediaWrapper> mediaList, int position) {
         Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
-        mEventHandler.addHandler(mVlcEventHandler);
 
         mMediaList.removeEventListener(mListEventListener);
         mMediaList.clear();
@@ -1471,7 +1473,6 @@ public class PlaybackService extends Service {
             mCurrentIndex = 0;
         }
 
-        mEventHandler.addHandler(mVlcEventHandler);
         String mrl = mMediaList.getMRL(index);
         if (mrl == null)
             return;
@@ -1483,10 +1484,13 @@ public class PlaybackService extends Service {
             flags |= VLCOptions.MEDIA_NO_VIDEO;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
+        media.setEventListener(mMediaListener);
         mMediaPlayer.setMedia(media);
         media.release();
         mMediaPlayer.setEqualizer(VLCOptions.getEqualizer());
         mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
+        changeAudioFocus(true);
+        mMediaPlayer.setEventListener(mMediaPlayerListener);
         mMediaPlayer.play();
 
         executeOnMediaPlayedAdded();
@@ -1497,16 +1501,6 @@ public class PlaybackService extends Service {
         broadcastMetadata();
         updateRemoteControlClientMetadata();
         determinePrevAndNextIndices();
-    }
-
-    /**
-     * Play a media from the media list (playlist)
-     *
-     * @param position The index of the media
-     * @param paused start the media paused
-     */
-    public void playIndex(int position, boolean paused) {
-        playIndex(position, paused ? VLCOptions.MEDIA_PAUSED : 0);
     }
 
     /**
@@ -1533,7 +1527,6 @@ public class PlaybackService extends Service {
 
         if(URI == null || !mMediaPlayer.isPlaying())
             return;
-        mEventHandler.addHandler(mVlcEventHandler);
         mCurrentIndex = index;
 
         // Notify everyone

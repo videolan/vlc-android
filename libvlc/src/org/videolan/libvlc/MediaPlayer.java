@@ -28,28 +28,58 @@ import java.util.Map;
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow.SurfaceCallback {
 
     public static class Event extends VLCEvent {
-        //public static final int MediaChanged         = 0x100;
-        //public static final int NothingSpecial       = 0x101;
-        //public static final int Opening              = 0x102;
-        //public static final int Buffering            = 0x103;
-        //public static final int Playing                = 0x104;
-        //public static final int Paused                 = 0x105;
-        //public static final int Stopped                = 0x106;
-        //public static final int Forward              = 0x107;
-        //public static final int Backward             = 0x108;
-        //public static final int EndReached             = 0x109;
-        //public static final int EncounteredError       = 0x10a;
-        //public static final int TimeChanged            = 0x10b;
-        //public static final int PositionChanged        = 0x10c;
-        //public static final int SeekableChanged      = 0x10d;
-        //public static final int PausableChanged      = 0x10e;
-        //public static final int TitleChanged         = 0x10f;
-        //public static final int SnapshotTaken        = 0x110;
-        //public static final int LengthChanged        = 0x111;
-        //public static final int Vout                   = 0x112;
+        //public static final int MediaChanged        = 0x100;
+        //public static final int NothingSpecial      = 0x101;
+        //public static final int Opening             = 0x102;
+        //public static final int Buffering           = 0x103;
+        public static final int Playing             = 0x104;
+        public static final int Paused              = 0x105;
+        public static final int Stopped             = 0x106;
+        //public static final int Forward             = 0x107;
+        //public static final int Backward            = 0x108;
+        public static final int EndReached          = 0x109;
+        public static final int EncounteredError   = 0x10a;
+        public static final int TimeChanged         = 0x10b;
+        public static final int PositionChanged     = 0x10c;
+        //public static final int SeekableChanged     = 0x10d;
+        //public static final int PausableChanged     = 0x10e;
+        //public static final int TitleChanged        = 0x10f;
+        //public static final int SnapshotTaken       = 0x110;
+        //public static final int LengthChanged       = 0x111;
+        public static final int Vout                = 0x112;
+        //public static final int ScrambledChanged    = 0x113;
+        public static final int ESAdded             = 0x114;
+        public static final int ESDeleted           = 0x115;
+        //public static final int ESSelected          = 0x116;
 
+        private final long arg1;
+        private final float arg2;
         protected Event(int type) {
             super(type);
+            this.arg1 = 0;
+            this.arg2 = 0;
+        }
+        protected Event(int type, long arg1) {
+            super(type);
+            this.arg1 = arg1;
+            this.arg2 = 0;
+        }
+        protected Event(int type, float arg2) {
+            super(type);
+            this.arg1 = 0;
+            this.arg2 = arg2;
+        }
+        public long getTimeChanged() {
+            return arg1;
+        }
+        public float getPositionChanged() {
+            return arg2;
+        }
+        public int getVoutCount() {
+            return (int) arg1;
+        }
+        public int getEsChangedType() {
+            return (int) arg1;
         }
     }
 
@@ -327,7 +357,23 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
 
     @Override
     protected Event onEventNative(int eventType, long arg1, float arg2) {
-        /* TODO */
+        switch (eventType) {
+            case Event.Playing:
+            case Event.Paused:
+            case Event.Stopped:
+            case Event.EndReached:
+            case Event.EncounteredError:
+                return new Event(eventType);
+            case Event.TimeChanged:
+                return new Event(eventType, arg1);
+            case Event.PositionChanged:
+                return new Event(eventType, arg2);
+            case Event.Vout:
+                return new Event(eventType, arg1);
+            case Event.ESAdded:
+            case Event.ESDeleted:
+                return new Event(eventType, arg1);
+        }
         return null;
     }
 

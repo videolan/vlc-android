@@ -81,7 +81,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         }
 
         nativeNew(options.toArray(new String[options.size()]));
-        setEventHandler(EventHandler.getInstance());
     }
 
     /**
@@ -114,10 +113,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      */
     public native String changeset();
 
-    private native void setEventHandler(EventHandler eventHandler);
-
-    private native void detachEventHandler();
-
     @Override
     protected Event onEventNative(int eventType, long arg1, float arg2) {
         return null;
@@ -126,7 +121,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     @Override
     protected void onReleaseNative() {
         nativeRelease();
-        detachEventHandler();
     }
 
     public static interface OnNativeCrashListener {

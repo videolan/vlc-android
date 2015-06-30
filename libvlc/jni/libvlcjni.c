@@ -47,8 +47,6 @@ struct fields fields;
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
 
-jobject eventHandlerInstance = NULL;
-
 /* Pointer to the Java virtual machine
  * Note: It's okay to use a static variable for the VM pointer since there
  * can only be one instance of this shared library in a single VM
@@ -334,26 +332,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeRelease(JNIEnv *env, jobject thiz)
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
     libvlc_release(p_obj->u.p_libvlc);
-}
-
-/* TODO REMOVE */
-void Java_org_videolan_libvlc_LibVLC_detachEventHandler(JNIEnv *env, jobject thiz)
-{
-    if (eventHandlerInstance != NULL) {
-        (*env)->DeleteGlobalRef(env, eventHandlerInstance);
-        eventHandlerInstance = NULL;
-    }
-}
-
-/* TODO REMOVE */
-void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, jobject eventHandler)
-{
-    if (eventHandlerInstance != NULL) {
-        (*env)->DeleteGlobalRef(env, eventHandlerInstance);
-        eventHandlerInstance = NULL;
-    }
-
-    eventHandlerInstance = getEventHandlerReference(env, thiz, eventHandler);
 }
 
 jstring Java_org_videolan_libvlc_LibVLC_version(JNIEnv* env, jobject thiz)

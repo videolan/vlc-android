@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.video;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Presentation;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +31,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -44,6 +42,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
@@ -51,6 +50,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.annotation.MainThread;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -92,7 +92,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -107,7 +106,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
-import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
@@ -122,7 +120,6 @@ import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -138,7 +135,7 @@ import java.util.Map;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError,
-        PlaybackService.Client.Callback {
+        PlaybackService.Client.Callback, PlaybackService.Callback {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -198,6 +195,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 5;
     private static final int RESET_BACK_LOCK = 6;
     private static final int CHECK_VIDEO_TRACKS = 7;
+    private static final int HW_ERROR = 1000; // TODO REMOVE
+
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -604,6 +603,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPresentation = null;
         }
         restoreBrightness();
+        if (mService != null)
+            mService.removeCallback(this);
         mHelper.onStop();
     }
 
@@ -688,9 +689,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mediaRouterAddCallback(true);
         }
 
-        final EventHandler em = EventHandler.getInstance();
-        em.addHandler(mEventHandler);
-
         loadMedia();
 
         mSurfaceView.setKeepScreenOn(true);
@@ -721,10 +719,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.showWithoutParse(savedIndexPosition);
             return;
         }
-
-        final EventHandler em = EventHandler.getInstance();
-        em.removeHandler(mEventHandler);
-        mEventHandler.removeCallbacksAndMessages(null);
 
         mHandler.removeCallbacksAndMessages(null);
 
@@ -804,7 +798,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         String subtitlesPath = data.getData().getPath();
         mSubtitleSelectedFiles.add(subtitlesPath);
-        MediaPlayer().addSubtitleTrack(subtitlesPath);
+        mService.addSubtitleTrack(subtitlesPath);
     }
 
     public static void start(Context context, Uri uri) {
@@ -861,6 +855,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     private void exit(int resultCode){
+        if (isFinishing())
+            return;
         Intent resultIntent = new Intent(ACTION_RESULT);
         if (mUri != null && mService != null) {
             resultIntent.setData(mUri);
@@ -1154,10 +1150,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void delaySubs(long delta){
-        Log.d(TAG, "delaySubs "+delta);
+        Log.d(TAG, "delaySubs " + delta);
         long delay = mService.getSpuDelay()+delta;
         mService.setSpuDelay(delay);
-        mInfo.setText(getString(R.string.spu_delay)+"\n"+(delay/1000l)+" ms");
+        mInfo.setText(getString(R.string.spu_delay) + "\n" + (delay / 1000l) + " ms");
         if (mDelay == DelayState.OFF) {
             mDelay = DelayState.SUBS;
             initDelayInfo();
@@ -1340,11 +1336,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         return result;
     }
 
-    /**
-     *  Handle libvlc asynchronous events
-     */
-    private final Handler mEventHandler = new VideoPlayerEventHandler(this);
-
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         return false;
@@ -1366,123 +1357,121 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         return false;
     }
 
-    private static class VideoPlayerEventHandler extends WeakHandler<VideoPlayerActivity> {
-        public VideoPlayerEventHandler(VideoPlayerActivity owner) {
-            super(owner);
+    /* PlaybackService.Callback */
+
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void updateProgress() {
+    }
+
+    @Override
+    public void onMediaPlayedAdded(MediaWrapper media, int index) {
+    }
+
+    @Override
+    public void onMediaPlayedRemoved(int index) {
+    }
+
+    @Override
+    public void onMediaEvent(Media.Event event) {
+        switch (event.type) {
+            case Media.Event.ParsedChanged:
+                updateNavStatus();
+                break;
+            case Media.Event.MetaChanged:
+                break;
         }
+    }
 
-        @Override
-        public void handleMessage(Message msg) {
-
-            VideoPlayerActivity activity = getOwner();
-            if(activity == null) return;
-            // Do not handle events if we are leaving the VideoPlayerActivity
-            if (activity.mSwitchingView || activity.mService == null) return;
-
-            switch (msg.getData().getInt("event")) {
-                case EventHandler.MediaParsedChanged:
-                    activity.updateNavStatus();
-                    break;
-                case EventHandler.MediaPlayerPlaying:
-                    Log.i(TAG, "MediaPlayerPlaying");
-                    activity.onPlaying();
-                    break;
-                case EventHandler.MediaPlayerPaused:
-                    Log.i(TAG, "MediaPlayerPaused");
-                    break;
-                case EventHandler.MediaPlayerStopped:
-                    Log.i(TAG, "MediaPlayerStopped");
-                    activity.changeAudioFocus(false);
-                    break;
-                case EventHandler.MediaPlayerEndReached:
-                    Log.i(TAG, "MediaPlayerEndReached");
-                    activity.changeAudioFocus(false);
-                    activity.endReached();
-                    break;
-                case EventHandler.MediaPlayerVout:
-                    activity.updateNavStatus();
-                    if (!activity.mHasMenu)
-                        activity.handleVout(msg);
-                    break;
-                case EventHandler.MediaPlayerPositionChanged:
-                    if (!activity.mCanSeek)
-                        activity.mCanSeek = true;
-                    //don't spam the logs
-                    break;
-                case EventHandler.MediaPlayerEncounteredError:
-                    Log.i(TAG, "MediaPlayerEncounteredError");
-                    activity.encounteredError();
-                    break;
-                case EventHandler.HardwareAccelerationError:
-                    Log.i(TAG, "HardwareAccelerationError");
-                    activity.handleHardwareAccelerationError();
-                    break;
-                case EventHandler.MediaPlayerTimeChanged:
-                    // avoid useless error logs
-                    break;
-                case EventHandler.MediaPlayerESAdded:
-                case EventHandler.MediaPlayerESDeleted:
-                    if (!activity.mHasMenu) {
-                        activity.mHandler.removeMessages(CHECK_VIDEO_TRACKS);
-                        activity.mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
-                    }
-                    activity.invalidateESTracks(msg.getData().getInt("data"));
-                    break;
-                default:
-                    break;
-            }
-            activity.updateOverlayPausePlay();
+    @Override
+    public void onMediaPlayerEvent(MediaPlayer.Event event) {
+        switch (event.type) {
+            case MediaPlayer.Event.Playing:
+                onPlaying();
+                break;
+            case MediaPlayer.Event.Paused:
+                updateOverlayPausePlay();
+                break;
+            case MediaPlayer.Event.Stopped:
+                exitOK();
+                break;
+            case MediaPlayer.Event.EndReached:
+                changeAudioFocus(false);
+                endReached();
+                break;
+            case MediaPlayer.Event.EncounteredError:
+                encounteredError();
+                break;
+            case MediaPlayer.Event.TimeChanged:
+                break;
+            case MediaPlayer.Event.PositionChanged:
+                if (!mCanSeek)
+                    mCanSeek = true;
+                break;
+            case MediaPlayer.Event.Vout:
+                updateNavStatus();
+                if (!mHasMenu)
+                    handleVout(event.getVoutCount());
+                break;
+            case MediaPlayer.Event.ESAdded:
+            case MediaPlayer.Event.ESDeleted:
+                if (!mHasMenu) {
+                    mHandler.removeMessages(CHECK_VIDEO_TRACKS);
+                    mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
+                }
+                invalidateESTracks(event.getEsChangedType());
+                break;
         }
-    };
+    }
 
     /**
      * Handle resize of the surface and the overlay
      */
-    private final Handler mHandler = new VideoPlayerHandler(this);
-
-    private static class VideoPlayerHandler extends WeakHandler<VideoPlayerActivity> {
-        public VideoPlayerHandler(VideoPlayerActivity owner) {
-            super(owner);
-        }
-
+    private final Handler mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            VideoPlayerActivity activity = getOwner();
-            if(activity == null || activity.mService == null) // WeakReference could be GC'ed early
-                return;
+        public boolean handleMessage(Message msg) {
+            if (mService == null)
+                return true;
 
             switch (msg.what) {
                 case FADE_OUT:
-                    activity.hideOverlay(false);
+                    hideOverlay(false);
                     break;
                 case SHOW_PROGRESS:
-                    int pos = activity.setOverlayProgress();
-                    if (activity.canShowProgress()) {
-                        msg = obtainMessage(SHOW_PROGRESS);
-                        sendMessageDelayed(msg, 1000 - (pos % 1000));
+                    int pos = setOverlayProgress();
+                    if (canShowProgress()) {
+                        msg = mHandler.obtainMessage(SHOW_PROGRESS);
+                        mHandler.sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
                     break;
                 case FADE_OUT_INFO:
-                    activity.fadeOutInfo();
+                    fadeOutInfo();
                     break;
                 case START_PLAYBACK:
-                    activity.startPlayback();
+                    startPlayback();
                     break;
                 case AUDIO_SERVICE_CONNECTION_FAILED:
-                    activity.exit(RESULT_CONNECTION_FAILED);
+                    exit(RESULT_CONNECTION_FAILED);
                     break;
                 case RESET_BACK_LOCK:
-                    activity.mLockBackButton = true;
+                    mLockBackButton = true;
                     break;
                 case CHECK_VIDEO_TRACKS:
-                    if (activity.mService.getVideoTracksCount() < 1 && activity.mService.getAudioTracksCount() > 0) {
+                    if (mService.getVideoTracksCount() < 1 && mService.getAudioTracksCount() > 0) {
                         Log.i(TAG, "No video track, open in audio mode");
-                        activity.switchToAudioMode(true);
+                        switchToAudioMode(true);
                     }
                     break;
+                case HW_ERROR:
+                    handleHardwareAccelerationError();
+                    break;
             }
+            return true;
         }
-    };
+    });
 
     private boolean canShowProgress() {
         return !mDragging && mShowing && mService != null &&  mService.isPlaying();
@@ -1502,7 +1491,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if(mService.expand() == 0) {
             startLoadingAnimation();
             Log.d(TAG, "Found a video playlist, expanding it");
-            mEventHandler.post(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     loadMedia();
@@ -1534,8 +1523,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void eventHardwareAccelerationError() {
-        EventHandler em = EventHandler.getInstance();
-        em.callback(EventHandler.HardwareAccelerationError, new Bundle());
+        mHandler.sendEmptyMessage(HW_ERROR);
     }
 
     private void handleHardwareAccelerationError() {
@@ -1570,9 +1558,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mAlertDialog.show();
     }
 
-    private void handleVout(Message msg) {
+    private void handleVout(int voutCount) {
         final IVLCVout vlcVout = mService.getVLCVout();
-        if (vlcVout.areViewsAttached() && msg.getData().getInt("data") == 0 && !mEndReached) {
+        if (vlcVout.areViewsAttached() && voutCount == 0 && !mEndReached) {
             /* Video track lost, open in audio mode */
             Log.i(TAG, "Video track lost, switching to audio");
             mSwitchingView = true;
@@ -3033,6 +3021,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onConnected(PlaybackService service) {
         mService = service;
         mHandler.sendEmptyMessage(START_PLAYBACK);
+        mService.addCallback(this);
     }
 
     @Override

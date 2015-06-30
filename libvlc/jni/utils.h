@@ -65,22 +65,4 @@ struct fields {
 
 extern struct fields fields;
 
-jint getInt(JNIEnv *env, jobject thiz, const char* field);
-
-void setInt(JNIEnv *env, jobject item, const char* field, jint value);
-
-jlong getLong(JNIEnv *env, jobject thiz, const char* field);
-
-void setLong(JNIEnv *env, jobject item, const char* field, jlong value);
-
-void setFloat(JNIEnv *env, jobject item, const char* field, jfloat value);
-
-void setString(JNIEnv *env, jobject item, const char* field, const char* text);
-
-void arrayListGetIDs(JNIEnv *env, jclass* p_class, jmethodID* p_add, jmethodID* p_remove);
-
-void arrayListStringAdd(JNIEnv *env, jclass class, jmethodID methodID, jobject arrayList, const char* str);
-
-jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler);
-
 #endif // LIBVLCJNI_UTILS_H

@@ -28,100 +28,47 @@
 JNIEnv *jni_get_env(const char *name);
 extern JavaVM *libvlc_get_jvm();
 
-extern jobject eventHandlerInstance;
+static const libvlc_event_type_t mp_events[] = {
+    libvlc_MediaPlayerPlaying,
+    libvlc_MediaPlayerPaused,
+    libvlc_MediaPlayerStopped,
+    libvlc_MediaPlayerEndReached,
+    libvlc_MediaPlayerEncounteredError,
+    libvlc_MediaPlayerTimeChanged,
+    libvlc_MediaPlayerPositionChanged,
+    libvlc_MediaPlayerVout,
+    libvlc_MediaPlayerESAdded,
+    libvlc_MediaPlayerESDeleted,
+    -1,
+};
 
 struct vlcjni_object_sys
 {
     jobject jwindow;
 };
 
-/* TODO REMOVE */
-static void vlc_event_callback(const libvlc_event_t *ev, void *data)
+static bool
+MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
+                     java_event *p_java_event)
 {
-    JNIEnv *env;
-
-    if (eventHandlerInstance == NULL)
-        return;
-
-    if (!(env = jni_get_env(THREAD_NAME)))
-        return;
-
-    /* Creating the bundle in C allows us to subscribe to more events
-     * and get better flexibility for each event. For example, we can
-     * have totally different types of data for each event, instead of,
-     * for example, only an integer and/or string.
-     */
-    jclass clsBundle = (*env)->FindClass(env, "android/os/Bundle");
-    jmethodID clsCtor = (*env)->GetMethodID(env, clsBundle, "<init>", "()V" );
-    jobject bundle = (*env)->NewObject(env, clsBundle, clsCtor);
-
-    jmethodID putInt = (*env)->GetMethodID(env, clsBundle, "putInt", "(Ljava/lang/String;I)V" );
-    jmethodID putLong = (*env)->GetMethodID(env, clsBundle, "putLong", "(Ljava/lang/String;J)V" );
-    jmethodID putFloat = (*env)->GetMethodID(env, clsBundle, "putFloat", "(Ljava/lang/String;F)V" );
-    jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
-    (*env)->DeleteLocalRef(env, clsBundle);
-
-    if (ev->type == libvlc_MediaPlayerPositionChanged) {
-        jstring sData = (*env)->NewStringUTF(env, "data");
-        (*env)->CallVoidMethod(env, bundle, putFloat, sData, ev->u.media_player_position_changed.new_position);
-        (*env)->DeleteLocalRef(env, sData);
-    } else if (ev->type == libvlc_MediaPlayerTimeChanged) {
-        jstring sData = (*env)->NewStringUTF(env, "data");
-        (*env)->CallVoidMethod(env, bundle, putLong, sData, ev->u.media_player_time_changed.new_time);
-        (*env)->DeleteLocalRef(env, sData);
-    } else if(ev->type == libvlc_MediaPlayerVout) {
-        /* For determining the vout/ES track change */
-        jstring sData = (*env)->NewStringUTF(env, "data");
-        (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_vout.new_count);
-        (*env)->DeleteLocalRef(env, sData);
-    } else if(ev->type == libvlc_MediaListItemAdded ||
-              ev->type == libvlc_MediaListItemDeleted ) {
-        jstring item_uri = (*env)->NewStringUTF(env, "item_uri");
-        jstring item_index = (*env)->NewStringUTF(env, "item_index");
-        char* mrl = libvlc_media_get_mrl(
-            ev->type == libvlc_MediaListItemAdded ?
-            ev->u.media_list_item_added.item :
-            ev->u.media_list_item_deleted.item
-            );
-        jstring item_uri_value = (*env)->NewStringUTF(env, mrl);
-        jint item_index_value;
-        if(ev->type == libvlc_MediaListItemAdded)
-            item_index_value = ev->u.media_list_item_added.index;
-        else
-            item_index_value = ev->u.media_list_item_deleted.index;
-
-        (*env)->CallVoidMethod(env, bundle, putString, item_uri, item_uri_value);
-        (*env)->CallVoidMethod(env, bundle, putInt, item_index, item_index_value);
-
-        (*env)->DeleteLocalRef(env, item_uri);
-        (*env)->DeleteLocalRef(env, item_uri_value);
-        (*env)->DeleteLocalRef(env, item_index);
-        free(mrl);
-    } else if(ev->type == libvlc_MediaPlayerESAdded ||
-              ev->type == libvlc_MediaPlayerESDeleted ) {
-        jstring sData = (*env)->NewStringUTF(env, "data");
-        (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_es_changed.i_type);
-        (*env)->DeleteLocalRef(env, sData);
+    switch (p_ev->type)
+    {
+        case libvlc_MediaPlayerPositionChanged:
+            p_java_event->arg2 = p_ev->u.media_player_position_changed.new_position;
+            break;
+        case libvlc_MediaPlayerTimeChanged:
+            p_java_event->arg1 = p_ev->u.media_player_time_changed.new_time;
+            break;
+        case libvlc_MediaPlayerVout:
+            p_java_event->arg1 = p_ev->u.media_player_vout.new_count;
+            break;
+        case libvlc_MediaPlayerESAdded:
+        case libvlc_MediaPlayerESDeleted:
+            p_java_event->arg1 = p_ev->u.media_player_es_changed.i_type;
+            break;
     }
-
-    /* Get the object class */
-    jclass cls = (*env)->GetObjectClass(env, eventHandlerInstance);
-    if (!cls) {
-        LOGE("EventHandler: failed to get class reference");
-        goto end;
-    }
-
-    /* Find the callback ID */
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
-    if (methodID) {
-        (*env)->CallVoidMethod(env, eventHandlerInstance, methodID, ev->type, bundle);
-    } else {
-        LOGE("EventHandler: failed to get the callback method");
-    }
-    (*env)->DeleteLocalRef(env, cls);
-
-end:
-    (*env)->DeleteLocalRef(env, bundle);
+    p_java_event->type = p_ev->type;
+    return true;
 }
 
 static void
@@ -145,29 +92,10 @@ MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj,
     }
     libvlc_media_player_set_android_context(p_obj->u.p_mp, libvlc_get_jvm(),
                                             p_obj->p_sys->jwindow);
-    /*
-    VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
-                              libvlc_media_event_manager(p_obj->u.p_mp),
-                              m_events);
-    */
 
-    /* TODO NOT HERE */
-    /* Connect the event manager */
-    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(p_obj->u.p_mp);
-    static const libvlc_event_type_t mp_events[] = {
-        libvlc_MediaPlayerPlaying,
-        libvlc_MediaPlayerPaused,
-        libvlc_MediaPlayerEndReached,
-        libvlc_MediaPlayerStopped,
-        libvlc_MediaPlayerVout,
-        libvlc_MediaPlayerPositionChanged,
-        libvlc_MediaPlayerTimeChanged,
-        libvlc_MediaPlayerEncounteredError,
-        libvlc_MediaPlayerESAdded,
-        libvlc_MediaPlayerESDeleted,
-    };
-    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
-        libvlc_event_attach(ev, mp_events[i], vlc_event_callback, NULL);
+    VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
+                              libvlc_media_player_event_manager(p_obj->u.p_mp),
+                              mp_events);
 }
 
 
@@ -213,23 +141,6 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
     if (!p_obj)
         return;
 
-    /* TODO: REMOVE */
-    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(p_obj->u.p_mp);
-    static const libvlc_event_type_t mp_events[] = {
-        libvlc_MediaPlayerPlaying,
-        libvlc_MediaPlayerPaused,
-        libvlc_MediaPlayerEndReached,
-        libvlc_MediaPlayerStopped,
-        libvlc_MediaPlayerVout,
-        libvlc_MediaPlayerPositionChanged,
-        libvlc_MediaPlayerTimeChanged,
-        libvlc_MediaPlayerEncounteredError,
-        libvlc_MediaPlayerESAdded,
-        libvlc_MediaPlayerESDeleted,
-    };
-
-    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
-        libvlc_event_detach(ev, mp_events[i], vlc_event_callback, NULL);
     libvlc_media_player_release(p_obj->u.p_mp);
 
     if (p_obj->p_sys && p_obj->p_sys->jwindow)
@@ -331,18 +242,6 @@ Java_org_videolan_libvlc_MediaPlayer_nativePlay(JNIEnv *env, jobject thiz)
     if (!p_obj)
         return;
 
-    /* Connect the media event manager. */
-    /* TODO use VlcObject events */
-    libvlc_media_t* p_md = libvlc_media_player_get_media(p_obj->u.p_mp);
-    libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
-    static const libvlc_event_type_t mp_media_events[] = {
-        libvlc_MediaParsedChanged,
-        libvlc_MediaMetaChanged,
-    };
-    for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
-        libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
-    libvlc_media_release(p_md);
-
     libvlc_media_player_play(p_obj->u.p_mp);
 }
 
@@ -353,21 +252,6 @@ Java_org_videolan_libvlc_MediaPlayer_nativeStop(JNIEnv *env, jobject thiz)
 
     if (!p_obj)
         return;
-
-    /* TODO: REMOVE */
-    libvlc_media_t* p_md = libvlc_media_player_get_media(p_obj->u.p_mp);
-    if (p_md)
-    {
-        libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
-        static const libvlc_event_type_t mp_media_events[] = {
-            libvlc_MediaParsedChanged,
-            libvlc_MediaMetaChanged,
-        };
-        for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
-            libvlc_event_detach(ev_media, mp_media_events[i], vlc_event_callback, NULL);
-        libvlc_media_release(p_md);
-        libvlc_media_player_set_media(p_obj->u.p_mp, NULL);
-    }
 
     libvlc_media_player_stop(p_obj->u.p_mp);
 }
