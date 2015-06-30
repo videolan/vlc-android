@@ -48,6 +48,9 @@ public class MediaBrowser {
     private EventListener mEventListener;
     private boolean mAlive;
 
+    private static final String IGNORE_LIST_OPTION =  ":ignore-filetypes=";
+    private String mIgnoreList = "db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv,txt,sub,idx,srt,cue,ssa";
+
     /**
      * Listener called when medias are added or removed.
      */
@@ -174,6 +177,7 @@ public class MediaBrowser {
          * so increment ref count in order to don't clean it with the medialist
          */
         media.retain();
+        media.addOption(IGNORE_LIST_OPTION+mIgnoreList);
         reset();
         mBrowserMediaList = media.subItems();
         mBrowserMediaList.setEventListener(mBrowserMediaListEventListener);
@@ -198,6 +202,10 @@ public class MediaBrowser {
                 mDiscovererMediaArray.get(index);
         media.retain();
         return media;
+    }
+
+    public synchronized void setIgnoreFileTypes(String list){
+        mIgnoreList = list;
     }
 
     private final MediaList.EventListener mBrowserMediaListEventListener = new MediaList.EventListener() {
