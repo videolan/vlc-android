@@ -122,6 +122,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         }
                     });
                 }
+                mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
             }
         }).start();
     }
