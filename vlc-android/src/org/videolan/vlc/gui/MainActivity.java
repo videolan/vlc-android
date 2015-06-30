@@ -220,7 +220,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         super.onResume();
 
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
-        if (getIntent().hasExtra(PlaybackService.START_FROM_NOTIFICATION))
+        if (getIntent() != null && getIntent().hasExtra(PlaybackService.START_FROM_NOTIFICATION))
             getIntent().removeExtra(PlaybackService.START_FROM_NOTIFICATION);
 
 
