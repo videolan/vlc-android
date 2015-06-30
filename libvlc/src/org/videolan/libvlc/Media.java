@@ -416,18 +416,15 @@ public class Media extends VLCObject<Media.Event> {
         if (isReleased())
             throw new IllegalStateException("Media is released");
         // fetch if parsed and not fetched
-        if ((mParseStatus & PARSE_STATUS_PARSING) != 0
-                && (mParseStatus & PARSE_STATUS_PARSED) == 0) {
-            mParseStatus &= ~PARSE_STATUS_PARSING;
-            mParseStatus |= PARSE_STATUS_PARSED;
-            mNativeTracks = nativeGetTracks();
-            mNativeMetas = nativeGetMetas();
-            if (mNativeMetas != null && mNativeMetas.length != Meta.MAX)
-                throw new IllegalStateException("native metas size doesn't match");
-            mDuration = nativeGetDuration();
-            mState = nativeGetState();
-            mType = nativeGetType();
-        }
+        mParseStatus &= ~PARSE_STATUS_PARSING;
+        mParseStatus |= PARSE_STATUS_PARSED;
+        mNativeTracks = nativeGetTracks();
+        mNativeMetas = nativeGetMetas();
+        if (mNativeMetas != null && mNativeMetas.length != Meta.MAX)
+            throw new IllegalStateException("native metas size doesn't match");
+        mDuration = nativeGetDuration();
+        mState = nativeGetState();
+        mType = nativeGetType();
     }
 
     /**
