@@ -204,7 +204,13 @@ public class MediaBrowser {
         return media;
     }
 
-    public synchronized void setIgnoreFileTypes(String list){
+    /**
+     * Override the extensions list to be ignored in browsing
+     * default is "db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv,txt,sub,idx,srt,cue,ssa"
+     *
+     * @param list files extensions to be ignored by browser
+     */
+    public synchronized void setIgnoreFileTypes(String list) {
         mIgnoreList = list;
     }
 
