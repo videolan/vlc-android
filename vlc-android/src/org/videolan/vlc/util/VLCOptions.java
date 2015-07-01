@@ -52,7 +52,6 @@ public class VLCOptions {
 
     private static final String DEFAULT_CODEC_LIST = "mediacodec_ndk,mediacodec_jni,iomx,all";
 
-    private static float[] sEqualizer = null;
     private static boolean sHdmiAudioEnabled = false;
 
     public static ArrayList<String> getLibOptions(SharedPreferences pref) {
@@ -65,9 +64,6 @@ public class VLCOptions {
         String chroma = pref.getString("chroma_format", "");
         chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
-
-        if (pref.getBoolean("equalizer_enabled", false))
-            setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
 
         int deblocking = -1;
         try {
@@ -195,12 +191,26 @@ public class VLCOptions {
     }
 
     // Equalizer
-    public static synchronized float[] getEqualizer() {
-        return sEqualizer;
+    public static float[] getEqualizer(Context context) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        if (pref.getBoolean("equalizer_enabled", false))
+            return Preferences.getFloatArray(pref, "equalizer_values");
+        else
+            return null;
     }
 
-    public static synchronized void setEqualizer(float[] equalizer) {
-        sEqualizer = equalizer;
+    public static int getEqualizerPreset(Context context) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getInt("equalizer_preset", 0);
+    }
+
+    public static void setEqualizer(Context context, boolean enabled, float[] values, int preset) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("equalizer_enabled", enabled);
+        Preferences.putFloatArray(editor, "equalizer_values", values);
+        editor.putInt("equalizer_preset", preset);
+        Util.commitPreferences(editor);
     }
 
     public static synchronized void setAudioHdmiEnabled(boolean enabled) {
