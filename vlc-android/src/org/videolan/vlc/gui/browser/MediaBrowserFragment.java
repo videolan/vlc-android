@@ -45,8 +45,9 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
     public abstract void clear();
     public void onStart(){
         super.onStart();
-        if (getActivity().getActionBar() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
+        final AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if (activity != null && activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setTitle(getTitle());
             getActivity().supportInvalidateOptionsMenu();
         }
     }
