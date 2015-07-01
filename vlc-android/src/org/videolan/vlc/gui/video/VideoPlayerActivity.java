@@ -2559,10 +2559,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.restartMediaPlayer();
             }
             if (savedIndexPosition == -1 && mUri != null) {
-                final Media media = new Media(LibVLC(), mUri);
-                media.parse(); // FIXME: parse shouldn't be done asynchronously
-                media.release();
-                mService.load(new MediaWrapper(media));
+                mService.load(new MediaWrapper(mUri));
                 savedIndexPosition = mService.getCurrentMediaPosition();
             }
         }

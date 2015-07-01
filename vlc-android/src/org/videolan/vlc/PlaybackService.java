@@ -1413,10 +1413,7 @@ public class PlaybackService extends Service {
                     continue;
                 }
                 Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                final Media media = new Media(LibVLC(), Uri.parse(location));
-                media.parse(); // FIXME: parse should be done asynchronously
-                media.release();
-                mediaWrapper = new MediaWrapper(media);
+                mediaWrapper = new MediaWrapper(Uri.parse(location));
             }
             mediaList.add(mediaWrapper);
         }
