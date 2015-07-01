@@ -2550,18 +2550,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mUri = openedMedia.getUri();
             itemTitle = openedMedia.getTitle();
             savedIndexPosition = openedPosition;
-        } else {
-            /* prepare playback */
-            mService.stop();
-            if (VLCOptions.isAudioHdmiEnabled() != mHasHdmiAudio) {
-                VLCOptions.setAudioHdmiEnabled(mHasHdmiAudio);
-                VLCInstance.restart(this);
-                mService.restartMediaPlayer();
-            }
-            if (savedIndexPosition == -1 && mUri != null) {
-                mService.load(new MediaWrapper(mUri));
-                savedIndexPosition = mService.getCurrentMediaPosition();
-            }
         }
         mCanSeek = false;
 
@@ -2609,12 +2597,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             // Start playback & seek
             if (openedPosition == -1) {
-                int flags = 0;
+                /* prepare playback */
+                mService.stop();
+                if (VLCOptions.isAudioHdmiEnabled() != mHasHdmiAudio) {
+                    VLCOptions.setAudioHdmiEnabled(mHasHdmiAudio);
+                    VLCInstance.restart(this);
+                    mService.restartMediaPlayer();
+                }
+                final MediaWrapper mw = new MediaWrapper(mUri);
                 if (wasPaused)
-                    flags |= VLCOptions.MEDIA_PAUSED;
+                    mw.addFlags(VLCOptions.MEDIA_PAUSED);
                 if (mHardwareAccelerationError)
-                    flags |= VLCOptions.MEDIA_NO_HWACCEL;
-                mService.playIndex(savedIndexPosition, flags);
+                    mw.addFlags(VLCOptions.MEDIA_NO_HWACCEL);
+                mService.load(mw);
+                savedIndexPosition = mService.getCurrentMediaPosition();
                 seek(intentPosition, mediaLength);
             } else {
                 // AudioService-transitioned playback for item after sleep and resume
