@@ -42,7 +42,7 @@ public abstract class PlaybackServiceFragment extends Fragment implements Playba
         else if ((activity instanceof VideoPlayerActivity))
             return ((VideoPlayerActivity) activity).getHelper();
         else
-            throw new IllegalArgumentException("Fragment must be inside AudioPlayerContainerActivity or PlaybackServiceActivity");
+            return null;
     }
 
     private static void registerPlaybackService(Activity activity, PlaybackService.Client.Callback cb) {
