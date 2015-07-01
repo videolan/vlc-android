@@ -130,7 +130,7 @@ public class PlaybackService extends Service {
     private MediaWrapperList mMediaList = new MediaWrapperList();
     private MediaPlayer mMediaPlayer;
 
-    private HashMap<Callback, Integer> mCallback;
+    final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
     private boolean mDetectHeadset = true;
     private boolean mPebbleEnabled;
     private PowerManager.WakeLock mWakeLock;
@@ -202,7 +202,6 @@ public class PlaybackService extends Service {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         mDetectHeadset = prefs.getBoolean("enable_headset_detection", true);
 
-        mCallback = new HashMap<Callback, Integer>();
         mCurrentIndex = -1;
         mPrevIndex = -1;
         mNextIndex = -1;
@@ -547,7 +546,7 @@ public class PlaybackService extends Service {
                 case Media.Event.MetaChanged:
                     break;
             }
-            for (Callback callback : mCallback.keySet())
+            for (Callback callback : mCallbacks)
                 callback.onMediaEvent(event);
         }
     };
@@ -636,7 +635,7 @@ public class PlaybackService extends Service {
                 case MediaPlayer.Event.ESDeleted:
                     break;
             }
-            for (Callback callback : mCallback.keySet())
+            for (Callback callback : mCallbacks)
                 callback.onMediaPlayerEvent(event);
         }
     };
@@ -727,7 +726,7 @@ public class PlaybackService extends Service {
     }
 
     private void executeUpdate(Boolean updateWidget) {
-        for (Callback callback : mCallback.keySet()) {
+        for (Callback callback : mCallbacks) {
             callback.update();
         }
         if (updateWidget)
@@ -735,14 +734,14 @@ public class PlaybackService extends Service {
     }
 
     private void executeUpdateProgress() {
-        for (Callback callback : mCallback.keySet()) {
+        for (Callback callback : mCallbacks) {
             callback.updateProgress();
         }
     }
 
     private void executeOnMediaPlayedAdded() {
         final MediaWrapper media = getCurrentMedia();
-        for (Callback callback : mCallback.keySet()) {
+        for (Callback callback : mCallbacks) {
             callback.onMediaPlayedAdded(media, 0);
         }
     }
@@ -780,7 +779,7 @@ public class PlaybackService extends Service {
 
             switch (msg.what) {
                 case SHOW_PROGRESS:
-                    if (service.mCallback.size() > 0) {
+                    if (service.mCallbacks.size() > 0) {
                         removeMessages(SHOW_PROGRESS);
                         service.executeUpdateProgress();
                         sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
@@ -1382,23 +1381,16 @@ public class PlaybackService extends Service {
 
     @MainThread
     public synchronized void addCallback(Callback cb) {
-        Integer count = mCallback.get(cb);
-        if (count == null)
-            count = 0;
-        mCallback.put(cb, count + 1);
-        if (hasCurrentMedia())
+        if (!mCallbacks.contains(cb)) {
+            mCallbacks.add(cb);
+            if (hasCurrentMedia())
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        }
     }
 
     @MainThread
     public synchronized void removeCallback(Callback cb) {
-        Integer count = mCallback.get(cb);
-        if (count == null)
-            count = 0;
-        if (count > 1)
-            mCallback.put(cb, count - 1);
-        else
-            mCallback.remove(cb);
+        mCallbacks.remove(cb);
     }
 
     @MainThread
