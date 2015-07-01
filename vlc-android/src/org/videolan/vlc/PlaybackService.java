@@ -1827,6 +1827,8 @@ public class PlaybackService extends Service {
     @MainThread
     public int expand() {
         final Media media = mMediaPlayer.getMedia();
+        if (media == null)
+            return -1;
         final MediaList ml = media.subItems();
         media.release();
         int ret;
