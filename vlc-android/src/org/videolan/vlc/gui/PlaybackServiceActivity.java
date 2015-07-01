@@ -32,14 +32,8 @@ import org.videolan.vlc.PlaybackService;
 import java.util.ArrayList;
 
 public class PlaybackServiceActivity extends Activity implements PlaybackService.Client.Callback {
-    private Helper mHelper;
+    final private Helper mHelper = new Helper(this, this);
     protected PlaybackService mService;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHelper = new Helper(this, this);
-    }
 
     @Override
     protected void onStart() {
