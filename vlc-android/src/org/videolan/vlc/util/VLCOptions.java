@@ -53,7 +53,9 @@ public class VLCOptions {
 
     private static boolean sHdmiAudioEnabled = false;
 
-    public static ArrayList<String> getLibOptions(SharedPreferences pref) {
+    public static ArrayList<String> getLibOptions(Context context) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
         ArrayList<String> options = new ArrayList<String>(50);
 
         final boolean timeStrechingDefault = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);

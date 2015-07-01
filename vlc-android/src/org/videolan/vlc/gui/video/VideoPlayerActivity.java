@@ -2563,7 +2563,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.stop();
             if (VLCOptions.isAudioHdmiEnabled() != mHasHdmiAudio) {
                 VLCOptions.setAudioHdmiEnabled(mHasHdmiAudio);
-                VLCInstance.restart(PreferenceManager.getDefaultSharedPreferences(this));
+                VLCInstance.restart(this);
                 mService.restartMediaPlayer();
             }
             if (savedIndexPosition == -1 && mUri != null) {

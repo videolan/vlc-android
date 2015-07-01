@@ -22,13 +22,10 @@ package org.videolan.vlc.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
@@ -45,13 +42,12 @@ public class VLCInstance {
             Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
             final Context context = VLCApplication.getAppContext();
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             if(!VLCUtil.hasCompatibleCPU(context)) {
                 Log.e(TAG, VLCUtil.getErrorMsg());
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
 
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions(pref));
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions(context));
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -65,10 +61,10 @@ public class VLCInstance {
         return sLibVLC;
     }
 
-    public static synchronized void restart(SharedPreferences pref) throws IllegalStateException {
+    public static synchronized void restart(Context context) throws IllegalStateException {
         if (sLibVLC != null) {
             sLibVLC.release();
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions(pref));
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions(context));
         }
     }
 

@@ -365,7 +365,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("enable_verbose_mode")
                 || key.equalsIgnoreCase("network_caching")
                 || key.equalsIgnoreCase("dev_hardware_decoder")) {
-            VLCInstance.restart(sharedPreferences);
+            VLCInstance.restart(this);
             if (mService != null)
                 mService.restartMediaPlayer();
         }
