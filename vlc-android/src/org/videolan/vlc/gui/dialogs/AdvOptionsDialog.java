@@ -123,12 +123,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void setRateProgress() {
-        if (mService != null) {
-            double speed = mService.getRate();
-            if (speed != 1.0d) {
-                speed = 100 * (1 + Math.log(speed) / Math.log(4));
-                mSeek.setProgress((int) speed);
-            }
+        double speed = mService.getRate();
+        if (speed != 1.0d) {
+            speed = 100 * (1 + Math.log(speed) / Math.log(4));
+            mSeek.setProgress((int) speed);
         }
     }
 
@@ -182,7 +180,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mSpuDelay.setOnFocusChangeListener(mFocusListener);
             mAudioDelay.setOnClickListener(this);
             mAudioDelay.setOnFocusChangeListener(mFocusListener);
-            initChapterSpinner();
         } else {
             root.findViewById(R.id.audio_delay).setVisibility(View.GONE);
             root.findViewById(R.id.spu_delay).setVisibility(View.GONE);
@@ -201,8 +198,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
 
-        setRateProgress();
-
         Window window = getDialog().getWindow();
         window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -210,9 +205,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initChapterSpinner() {
-        if (mService == null)
-            return;
-
         int chaptersCount = mService.getChapterCount();
         if (chaptersCount <= 1){
             mChapters.setVisibility(View.GONE);
@@ -440,6 +432,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mService = service;
         setRateProgress();
+        initChapterSpinner();
     }
 
     @Override
