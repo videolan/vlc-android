@@ -2614,7 +2614,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.addCallback(this);
                 mService.load(mw);
                 savedIndexPosition = mService.getCurrentMediaPosition();
-                seek(intentPosition, mediaLength);
+                if (intentPosition > 0 && mediaLength >= 0l)
+                    seek(intentPosition, mediaLength);
             } else {
                 mService.addCallback(this);
                 // AudioService-transitioned playback for item after sleep and resume
