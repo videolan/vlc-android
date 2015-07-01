@@ -136,7 +136,7 @@ public class PlaybackService extends Service {
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
 
-    private static boolean mWasPlayingAudio = false;
+    private static boolean mWasPlayingAudio = false; // used only if readPhoneState returns true
 
     // Index management
     /**
@@ -184,6 +184,10 @@ public class PlaybackService extends Service {
         All
     }
 
+    private static boolean readPhoneState() {
+        return !AndroidUtil.isFroyoOrLater();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -224,8 +228,10 @@ public class PlaybackService extends Service {
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
-        filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
-        filter.addAction(VLCApplication.CALL_ENDED_INTENT);
+        if (readPhoneState()) {
+            filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
+            filter.addAction(VLCApplication.CALL_ENDED_INTENT);
+        }
         registerReceiver(serviceReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -440,21 +446,23 @@ public class PlaybackService extends Service {
                 return;
             }
 
-            /*
-             * Incoming Call : Pause if VLC is playing audio or video. 
-             */
-            if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
-                mWasPlayingAudio = mMediaPlayer.isPlaying() && hasCurrentMedia();
-                if (mWasPlayingAudio)
-                    pause();
-            }
+            if (readPhoneState()) {
+                /*
+                 * Incoming Call : Pause if VLC is playing audio or video.
+                 */
+                if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
+                    mWasPlayingAudio = mMediaPlayer.isPlaying() && hasCurrentMedia();
+                    if (mWasPlayingAudio)
+                        pause();
+                }
 
-            /*
-             * Call ended : Play only if VLC was playing audio.
-             */
-            if (action.equalsIgnoreCase(VLCApplication.CALL_ENDED_INTENT)
-                    && mWasPlayingAudio) {
-                play();
+                /*
+                 * Call ended : Play only if VLC was playing audio.
+                 */
+                if (action.equalsIgnoreCase(VLCApplication.CALL_ENDED_INTENT)
+                        && mWasPlayingAudio) {
+                    play();
+                }
             }
 
             // skip all headsets events if there is a call

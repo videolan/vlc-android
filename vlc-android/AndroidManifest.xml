@@ -29,7 +29,8 @@
     <!-- /!\ PHONE_CALLS
          See org.videolan.vlc.PhoneStateReceiver.java
          -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"
+       android:maxSdkVersion="10" />
 
     <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
