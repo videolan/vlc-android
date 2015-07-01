@@ -400,14 +400,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     @Override
-    public void onMediaPlayedAdded(MediaWrapper media, int index) {
-    }
-
-    @Override
-    public void onMediaPlayedRemoved(int index) {
-    }
-
-    @Override
     public void onMediaEvent(Media.Event event) {
     }
 

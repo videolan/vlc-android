@@ -110,8 +110,6 @@ public class PlaybackService extends Service {
     public interface Callback {
         void update();
         void updateProgress();
-        void onMediaPlayedAdded(MediaWrapper media, int index);
-        void onMediaPlayedRemoved(int index);
         void onMediaEvent(Media.Event event);
         void onMediaPlayerEvent(MediaPlayer.Event event);
     }
@@ -663,7 +661,6 @@ public class PlaybackService extends Service {
                     next();
                 else if (mCurrentIndex != -1) {
                     playIndex(mCurrentIndex, 0);
-                    executeOnMediaPlayedAdded();
                 } else
                     stop();
             }
@@ -736,13 +733,6 @@ public class PlaybackService extends Service {
     private void executeUpdateProgress() {
         for (Callback callback : mCallbacks) {
             callback.updateProgress();
-        }
-    }
-
-    private void executeOnMediaPlayedAdded() {
-        final MediaWrapper media = getCurrentMedia();
-        for (Callback callback : mCallbacks) {
-            callback.onMediaPlayedAdded(media, 0);
         }
     }
 
@@ -1035,7 +1025,6 @@ public class PlaybackService extends Service {
         }
 
         playIndex(mCurrentIndex, 0);
-        executeOnMediaPlayedAdded();
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
@@ -1100,7 +1089,6 @@ public class PlaybackService extends Service {
         }
 
         playIndex(mCurrentIndex, 0);
-        executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget();
@@ -1472,7 +1460,6 @@ public class PlaybackService extends Service {
 
         playIndex(mCurrentIndex, 0);
 
-        executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget();
@@ -1528,7 +1515,6 @@ public class PlaybackService extends Service {
         mMediaPlayer.setEventListener(mMediaPlayerListener);
         mMediaPlayer.play();
 
-        executeOnMediaPlayedAdded();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget();

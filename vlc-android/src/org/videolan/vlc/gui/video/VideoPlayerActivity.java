@@ -1301,14 +1301,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public void onMediaPlayedAdded(MediaWrapper media, int index) {
-    }
-
-    @Override
-    public void onMediaPlayedRemoved(int index) {
-    }
-
-    @Override
     public void onMediaEvent(Media.Event event) {
         switch (event.type) {
             case Media.Event.ParsedChanged:
