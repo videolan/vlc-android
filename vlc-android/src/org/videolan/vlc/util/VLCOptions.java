@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VLCConfig.java
+ * VLCOptions.java
  *****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -41,6 +41,7 @@ public class VLCOptions {
     public static final int AOUT_AUDIOTRACK = 0;
     public static final int AOUT_OPENSLES = 1;
 
+    @SuppressWarnings("unused")
     public static final int HW_ACCELERATION_AUTOMATIC = -1;
     public static final int HW_ACCELERATION_DISABLED = 0;
     public static final int HW_ACCELERATION_DECODING = 1;
@@ -49,8 +50,6 @@ public class VLCOptions {
     public final static int MEDIA_NO_VIDEO = 0x01;
     public final static int MEDIA_NO_HWACCEL = 0x02;
     public final static int MEDIA_PAUSED = 0x4;
-
-    private static final String DEFAULT_CODEC_LIST = "mediacodec_ndk,mediacodec_jni,iomx,all";
 
     private static boolean sHdmiAudioEnabled = false;
 
@@ -61,15 +60,15 @@ public class VLCOptions {
         final boolean timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault);
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
-        String chroma = pref.getString("chroma_format", "");
-        chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
+        String chroma = pref.getString("chroma_format", null);
+        if (chroma != null)
+            chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         int deblocking = -1;
         try {
             deblocking = getDeblocking(Integer.parseInt(pref.getString("deblocking", "-1")));
-        } catch (NumberFormatException nfe) {
-        }
+        } catch (NumberFormatException ignored) {}
 
         int networkCaching = pref.getInt("network_caching_value", 0);
         if (networkCaching > 60000)
@@ -92,7 +91,7 @@ public class VLCOptions {
         if (networkCaching > 0)
             options.add("--network-caching=" + networkCaching);
         options.add("--androidwindow-chroma");
-        options.add(chroma.indexOf(0) != 0 ? chroma : "RV32");
+        options.add(chroma != null ? chroma : "RV32");
 
         if (sHdmiAudioEnabled) {
             options.add("--spdif");
@@ -107,8 +106,7 @@ public class VLCOptions {
         int aout = -1;
         try {
             aout = Integer.parseInt(pref.getString("aout", "-1"));
-        } catch (NumberFormatException nfe) {
-        }
+        } catch (NumberFormatException ignored) {}
         final HWDecoderUtil.AudioOutput hwaout = HWDecoderUtil.getAudioOutputFromDevice();
         if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
             aout = hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
@@ -144,23 +142,6 @@ public class VLCOptions {
         return ret;
     }
 
-    private static int getHardwareAcceleration(HWDecoderUtil.Decoder decoder, int hardwareAcceleration) {
-        if (hardwareAcceleration == HW_ACCELERATION_DISABLED) {
-            return HW_ACCELERATION_DISABLED;
-        } else {
-            // Automatic or forced
-            if (decoder == HWDecoderUtil.Decoder.NONE ||
-                    (decoder == HWDecoderUtil.Decoder.UNKNOWN && hardwareAcceleration < HW_ACCELERATION_DISABLED)) {
-                return HW_ACCELERATION_DISABLED;
-            } else {
-                if (hardwareAcceleration <= HW_ACCELERATION_AUTOMATIC || hardwareAcceleration > HW_ACCELERATION_FULL)
-                    return HW_ACCELERATION_FULL;
-                else
-                    return hardwareAcceleration;
-            }
-        }
-    }
-
     public static void setMediaOptions(Media media, Context context, int flags) {
         boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
         boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
@@ -171,8 +152,7 @@ public class VLCOptions {
             try {
                 final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
                 hardwareAcceleration = Integer.parseInt(pref.getString("hardware_acceleration", "-1"));
-            } catch (NumberFormatException nfe) {
-            }
+            } catch (NumberFormatException ignored) {}
         }
         if (hardwareAcceleration == HW_ACCELERATION_DISABLED)
             media.setHWDecoderEnabled(false, false);
