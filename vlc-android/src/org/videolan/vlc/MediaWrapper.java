@@ -420,6 +420,16 @@ public class MediaWrapper implements Parcelable {
         this.mLastModified = mLastModified;
     }
 
+    public void addFlags(int flags) {
+        mFlags |= flags;
+    }
+    public void setFlags(int flags) {
+        mFlags = flags;
+    }
+    public int getFlags() {
+        return mFlags;
+    }
+
     @Override
     public int describeContents() {
         return 0;
