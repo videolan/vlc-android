@@ -1674,20 +1674,14 @@ public class PlaybackService extends Service {
         mMediaPlayer.navigate(where);
     }
 
-
     @MainThread
-    public int getChapterCount() {
-        return mMediaPlayer.getChapterCount();
+    public MediaPlayer.Chapter[] getChapters(int title) {
+        return mMediaPlayer.getChapters(title);
     }
 
     @MainThread
-    public int getChapterCountForTitle(int title) {
-        return mMediaPlayer.getChapterCountForTitle(title);
-    }
-
-    @MainThread
-    public String getChapterDescription(int title) {
-        return mMediaPlayer.getChapterDescription(title);
+    public MediaPlayer.Title[] getTitles() {
+        return mMediaPlayer.getTitles();
     }
 
     @MainThread
@@ -1708,11 +1702,6 @@ public class PlaybackService extends Service {
     @MainThread
     public void setTitleIdx(int title) {
         mMediaPlayer.setTitle(title);
-    }
-
-    @MainThread
-    public int getTitleCount() {
-        return mMediaPlayer.getTitleCount();
     }
 
     @MainThread

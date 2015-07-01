@@ -176,6 +176,12 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/Media", true);
     GET_CLASS(fields.Media.Track.clazz,
               "org/videolan/libvlc/Media$Track", true);
+    GET_CLASS(fields.MediaPlayer.clazz,
+              "org/videolan/libvlc/MediaPlayer", true);
+    GET_CLASS(fields.MediaPlayer.Title.clazz,
+              "org/videolan/libvlc/MediaPlayer$Title", true);
+    GET_CLASS(fields.MediaPlayer.Chapter.clazz,
+              "org/videolan/libvlc/MediaPlayer$Chapter", true);
 
     GET_ID(GetStaticMethodID,
            fields.LibVLC.onNativeCrashID,
@@ -229,6 +235,18 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            "createSubtitleTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
            "Lorg/videolan/libvlc/Media$Track;");
+
+    GET_ID(GetStaticMethodID,
+           fields.MediaPlayer.createTitleFromNativeID,
+           fields.MediaPlayer.clazz,
+           "createTitleFromNative",
+           "(JLjava/lang/String;Z)Lorg/videolan/libvlc/MediaPlayer$Title;");
+
+    GET_ID(GetStaticMethodID,
+           fields.MediaPlayer.createChapterFromNativeID,
+           fields.MediaPlayer.clazz,
+           "createChapterFromNative",
+           "(JJLjava/lang/String;)Lorg/videolan/libvlc/MediaPlayer$Chapter;");
 
 #undef GET_CLASS
 #undef GET_ID

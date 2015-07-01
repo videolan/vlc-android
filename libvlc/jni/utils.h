@@ -61,6 +61,18 @@ struct fields {
         jmethodID createVideoTrackFromNativeID;
         jmethodID createSubtitleTrackFromNativeID;
     } Media;
+    struct {
+        struct {
+            jclass clazz;
+        } Title;
+        struct {
+            jclass clazz;
+        } Chapter;
+
+        jclass clazz;
+        jmethodID createTitleFromNativeID;
+        jmethodID createChapterFromNativeID;
+    } MediaPlayer;
 };
 
 extern struct fields fields;

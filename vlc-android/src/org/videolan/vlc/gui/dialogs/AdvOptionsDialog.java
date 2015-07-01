@@ -45,6 +45,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -205,7 +206,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initChapterSpinner() {
-        int chaptersCount = mService.getChapterCount();
+        final MediaPlayer.Chapter[] chapters = mService.getChapters(0);
+        int chaptersCount = chapters != null ? chapters.length : 0;
         if (chaptersCount <= 1){
             mChapters.setVisibility(View.GONE);
             mChaptersTitle.setVisibility(View.GONE);
@@ -213,10 +215,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         String chapterDescription;
-        for (int i = 0 ; i < chaptersCount ; ++i) {
-            chapterDescription = mService.getChapterDescription(i);
-            adapter.insert(chapterDescription != null ? chapterDescription : Integer.toString(i), i);
-        }
+        for (int i = 0 ; i < chaptersCount ; ++i)
+            adapter.insert(chapters[i].name != null ? chapters[i].name : Integer.toString(i), i);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
         mChapters.setSelection(mService.getChapter());

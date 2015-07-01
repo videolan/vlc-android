@@ -297,7 +297,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
 
     // Navigation handling (DVD, Blu-Ray...)
-    private boolean mHasMenu = false;
+    private int mMenuIdx = -1;
     private boolean mIsNavMenu = false;
 
     /* for getTime and seek */
@@ -498,7 +498,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.pl_menu_nav);
         if (item != null) {
-            item.setVisible(mService.getChapterCountForTitle(0) > 1 && mService.getTitleCount() > 1 && mService.getTitleIdx() != 0);
+            item.setVisible(mMenuIdx >= 0 && !mIsNavMenu);
             MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -1338,12 +1338,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
-                if (!mHasMenu)
+                if (mMenuIdx == -1)
                     handleVout(event.getVoutCount());
                 break;
             case MediaPlayer.Event.ESAdded:
             case MediaPlayer.Event.ESDeleted:
-                if (!mHasMenu) {
+                if (mMenuIdx == -1) {
                     mHandler.removeMessages(CHECK_VIDEO_TRACKS);
                     mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
                 }
@@ -2021,9 +2021,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void showNavMenu() {
-        /* Try to return to the menu. */
-        /* FIXME: not working correctly in all cases */
-        mService.setTitleIdx(0);
+        if (mMenuIdx >= 0)
+            mService.setTitleIdx(mMenuIdx);
     }
 
     /**
@@ -2187,6 +2186,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * show overlay
      */
     private void showOverlayTimeout(int timeout) {
+        if (mService == null)
+            return;
         if (timeout != 0)
             mOverlayTimeout = timeout;
         if (mOverlayTimeout == 0)
@@ -2883,17 +2884,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void updateNavStatus() {
-        mHasMenu = mService.getChapterCountForTitle(0) > 1 && mService.getTitleCount() > 1 && (mUri == null || !mUri.toString().endsWith(".mkv"));
-        mIsNavMenu = mHasMenu && mService.getTitleIdx() == 0;
-        /***
-         * HACK ALERT: assume that any media with >1 titles = DVD with menus
-         * Should be replaced with a more robust title/chapter selection popup
-         */
+        mIsNavMenu = false;
+        mMenuIdx = -1;
 
-        Log.d(TAG,
-                "updateNavStatus: getChapterCountForTitle(0) = "
-                        + mService.getChapterCountForTitle(0)
-                        + ", getTitleCount() = " + mService.getTitleCount());
+        final MediaPlayer.Title[] titles = mService.getTitles();
+        if (titles != null) {
+            final int currentIdx = mService.getTitleIdx();
+            for (int i = 0; i < titles.length; ++i) {
+                final MediaPlayer.Title title = titles[i];
+                if (title.menu) {
+                    mMenuIdx = i;
+                    break;
+                }
+            }
+            mIsNavMenu = mMenuIdx == currentIdx;
+        }
+
         if (mIsNavMenu) {
             /*
              * Keep the overlay hidden in order to have touch events directly
@@ -2901,7 +2907,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
              */
             hideOverlay(false);
         }
-        else if (mHasMenu)
+        else if (mMenuIdx != -1)
             setESTracks();
         supportInvalidateOptionsMenu();
     }

@@ -106,6 +106,62 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
         public static final int Right = 4;
     }
 
+    public static class Title {
+        /**
+         * duration in milliseconds
+         */
+        public final long duration;
+
+        /**
+         * title name
+         */
+        public final String name;
+
+        /**
+         * true if the title is a menu
+         */
+        public final boolean menu;
+
+        public Title(long duration, String name, boolean menu) {
+            this.duration = duration;
+            this.name = name;
+            this.menu = menu;
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static Title createTitleFromNative(long duration, String name, boolean menu) {
+        return new Title(duration, name, menu);
+    }
+
+    public static class Chapter {
+        /**
+         * time-offset of the chapter in milliseconds
+         */
+        public final long timeOffset;
+
+        /**
+         * duration of the chapter in milliseconds
+         */
+        public final long duration;
+
+        /**
+         * chapter name
+         */
+        public final String name;
+
+        private Chapter(long timeOffset, long duration, String name) {
+            this.timeOffset = timeOffset;
+            this.duration = duration;
+            this.name = name;
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static Chapter createChapterFromNative(long timeOffset, long duration, String name) {
+        return new Chapter(timeOffset, duration, name);
+    }
+
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
@@ -221,6 +277,25 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     }
 
     /**
+     * Get the full description of available titles.
+     *
+     * @return the list of titles
+     */
+    public synchronized Title[] getTitles() {
+        return nativeGetTitles();
+    }
+
+    /**
+     * Get the full description of available chapters.
+     *
+     * @param title index of the title
+     * @return the list of Chapters for the title
+     */
+    public synchronized Chapter[] getChapters(int title) {
+        return nativeGetChapters(title);
+    }
+
+    /**
      * TODO: this doesn't respect API
      *
      * @param bands
@@ -305,14 +380,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
 
     public native int getTitle();
     public native void setTitle(int title);
-    public native int getChapterCountForTitle(int title);
-    public native int getChapterCount();
     public native int getChapter();
-    public native String getChapterDescription(int title);
     public native int previousChapter();
     public native int nextChapter();
     public native void setChapter(int chapter);
-    public native int getTitleCount();
     public native void navigate(int navigate);
 
     public native int getAudioTracksCount();
@@ -394,4 +465,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
     private native void nativeSetEqualizer(float[] bands);
     private native boolean nativeSetAudioOutput(String aout);
+    private native Title[] nativeGetTitles();
+    private native Chapter[] nativeGetChapters(int title);
 }

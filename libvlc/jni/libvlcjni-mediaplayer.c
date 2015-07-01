@@ -383,30 +383,6 @@ Java_org_videolan_libvlc_MediaPlayer_setTitle(JNIEnv *env, jobject thiz,
 }
 
 jint
-Java_org_videolan_libvlc_MediaPlayer_getChapterCount(JNIEnv *env, jobject thiz)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return -1;
-
-    return libvlc_media_player_get_chapter_count(p_obj->u.p_mp);
-}
-
-jint
-Java_org_videolan_libvlc_MediaPlayer_getChapterCountForTitle(JNIEnv *env,
-                                                             jobject thiz,
-                                                             jint title)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return -1;
-
-    return libvlc_media_player_get_chapter_count_for_title(p_obj->u.p_mp, title);
-}
-
-jint
 Java_org_videolan_libvlc_MediaPlayer_getChapter(JNIEnv *env, jobject thiz)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
@@ -471,17 +447,6 @@ Java_org_videolan_libvlc_MediaPlayer_nextChapter(JNIEnv *env, jobject thiz)
     libvlc_media_player_next_chapter(p_obj->u.p_mp);
 }
 
-jint
-Java_org_videolan_libvlc_MediaPlayer_getTitleCount(JNIEnv *env, jobject thiz)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return -1;
-
-    return libvlc_media_player_get_title_count(p_obj->u.p_mp);
-}
-
 void
 Java_org_videolan_libvlc_MediaPlayer_navigate(JNIEnv *env, jobject thiz,
                                                     jint navigate)
@@ -516,4 +481,114 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioOutput(JNIEnv *env,
     (*env)->ReleaseStringUTFChars(env, jaout, psz_aout);
 
     return i_ret == 0 ? true : false;
+}
+
+static jobject
+mediaplayer_title_to_object(JNIEnv *env, libvlc_title_description_t *p_title)
+{
+    jstring jname = NULL;
+
+    if (!p_title)
+        return NULL;
+
+    if (p_title->psz_name)
+        jname = (*env)->NewStringUTF(env, p_title->psz_name);
+
+    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+                        fields.MediaPlayer.createTitleFromNativeID,
+                        p_title->i_duration,
+                        jname,
+                        p_title->b_menu);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaPlayer_nativeGetTitles(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    libvlc_title_description_t **pp_titles = NULL;
+    int i_nb_titles;
+    jobjectArray array;
+
+    if (!p_obj)
+        return NULL;
+
+    i_nb_titles = libvlc_media_player_get_full_title_descriptions(p_obj->u.p_mp,
+                                                                  &pp_titles);
+    if (i_nb_titles <= 0)
+        return NULL;
+
+    array = (*env)->NewObjectArray(env, i_nb_titles,
+                                   fields.MediaPlayer.Title.clazz, NULL);
+    if (!array)
+        goto error;
+
+    for (int i = 0; i < i_nb_titles; ++i)
+    {
+        jobject jtitle = mediaplayer_title_to_object(env, pp_titles[i]);
+
+        if (jtitle)
+            (*env)->SetObjectArrayElement(env, array, i, jtitle);
+    }
+
+error:
+    if (pp_titles)
+        libvlc_title_descriptions_release(pp_titles, i_nb_titles);
+    return array;
+}
+
+static jobject
+mediaplayer_chapter_to_object(JNIEnv *env,
+                              libvlc_chapter_description_t *p_chapter)
+{
+    jstring jname = NULL;
+
+    if (!p_chapter)
+        return NULL;
+
+    if (p_chapter->psz_name)
+        jname = (*env)->NewStringUTF(env, p_chapter->psz_name);
+
+    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+                        fields.MediaPlayer.createChapterFromNativeID,
+                        p_chapter->i_time_offset,
+                        p_chapter->i_duration,
+                        jname);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaPlayer_nativeGetChapters(JNIEnv *env,
+                                                       jobject thiz,
+                                                       jint jtitle)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    libvlc_chapter_description_t **pp_chapters = NULL;
+    int i_nb_chapters;
+    jobjectArray array;
+
+    if (!p_obj)
+        return NULL;
+
+    i_nb_chapters =
+        libvlc_media_player_get_full_chapter_descriptions(p_obj->u.p_mp,
+                                                          jtitle, &pp_chapters);
+    if (i_nb_chapters <= 0)
+        return NULL;
+
+    array = (*env)->NewObjectArray(env, i_nb_chapters,
+                                   fields.MediaPlayer.Chapter.clazz, NULL);
+    if (!array)
+        goto error;
+
+    for (int i = 0; i < i_nb_chapters; ++i)
+    {
+        jobject jchapter = mediaplayer_chapter_to_object(env, pp_chapters[i]);
+
+        if (jchapter)
+            (*env)->SetObjectArrayElement(env, array, i, jchapter);
+    }
+
+error:
+    if (pp_chapters)
+        libvlc_chapter_descriptions_release(pp_chapters, i_nb_chapters);
+    return array;
 }
