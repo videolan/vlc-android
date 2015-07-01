@@ -731,6 +731,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             time = 0;
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
+        mService.removeCallback(this);
         mService.stop();
         mService.setVideoEnabled(false, false);
 
@@ -1453,6 +1454,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHardwareAccelerationError = true;
         if (mSwitchingView)
             return;
+        mService.removeCallback(this);
         mService.stop();
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -2609,10 +2611,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mw.addFlags(VLCOptions.MEDIA_PAUSED);
                 if (mHardwareAccelerationError)
                     mw.addFlags(VLCOptions.MEDIA_NO_HWACCEL);
+                mService.addCallback(this);
                 mService.load(mw);
                 savedIndexPosition = mService.getCurrentMediaPosition();
                 seek(intentPosition, mediaLength);
             } else {
+                mService.addCallback(this);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mService.isPlaying())
                     mService.playIndex(savedIndexPosition);
@@ -2937,7 +2941,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onConnected(PlaybackService service) {
         mService = service;
         mHandler.sendEmptyMessage(START_PLAYBACK);
-        mService.addCallback(this);
     }
 
     @Override
