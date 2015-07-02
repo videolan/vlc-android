@@ -31,6 +31,7 @@
     <string name="set_song">设为铃声</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件“%1$s”?</string>
+    <string name="confirm_delete_folder">是否删除文件夹“%1$s”及其全部内容?</string>
     <string name="confirm_delete_playlist">是否删除播放列表“%1$s”?</string>
     <string name="ringtone_set">文件“%1$s”已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
@@ -291,4 +292,7 @@
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
     <string name="back_quit_lock">再次按下“返回”可退出视频播放</string>
+    <string name="playlist_deleted">播放列表已删除</string>
+    <string name="file_deleted">文件已删除</string>
+    <string name="no_subs_found">该目录下无字幕文件</string>
 </resources>
