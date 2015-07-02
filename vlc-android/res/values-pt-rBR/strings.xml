@@ -32,6 +32,7 @@
     <string name="set_song">Definir como toque</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Excluir a pasta \'%1$s\' e todo o seu conteúdo?</string>
     <string name="confirm_delete_playlist">Excluir a lista de reprodução \'%1$s\'?</string>
     <string name="ringtone_set">O arquivo \'%1$s\' foi definido como toque.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque.</string>
@@ -298,4 +299,6 @@
     <string name="more_actions">Mais Ações</string>
     <string name="move">Mover</string>
     <string name="back_quit_lock">Pressione voltar novamente para fechar o vídeo</string>
+    <string name="playlist_deleted">Lista de reprodução excluída</string>
+    <string name="file_deleted">Arquivo excluído</string>
 </resources>
