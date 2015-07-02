@@ -32,6 +32,7 @@
     <string name="set_song">Ange som ringsignal</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Radera mappen \'%1$s\' och allt innehåll?</string>
     <string name="confirm_delete_playlist">Radera spellistan \'%1$s\'?</string>
     <string name="ringtone_set">Filen \'%1$s\' ställdes in som ringsignal.</string>
     <string name="ringtone_error">Ett fel inträffade när ringsignalen ställdes in.</string>
@@ -287,7 +288,7 @@
     <string name="directory_show_medialib">Visa i mediabiblioteket</string>
     <string name="directory_hide_medialib">Dölj från mediabiblioteket</string>
     <string name="playlist_save">Spara spellista</string>
-    <string name="playlist_name_hint">spellistans namn</string>
+    <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel...</string>
     <string name="resume_from_position">Fortsätt från senaste position</string>
     <string name="confirm_resume">Fortsätt från senaste position?</string>
@@ -298,4 +299,7 @@
     <string name="more_actions">Fler åtgärder</string>
     <string name="move">Flytta</string>
     <string name="back_quit_lock">Tryck på tillbaka igen för att avsluta videon</string>
+    <string name="playlist_deleted">Spellistan raderades</string>
+    <string name="file_deleted">Filen raderades</string>
+    <string name="no_subs_found">Inga undertexter i denna katalog</string>
 </resources>
