@@ -32,6 +32,7 @@
     <string name="set_song">அழைப்போசையாக அமை</string>
     <string name="info">தகவல்</string>
     <string name="confirm_delete">\'%1$s\' கோப்பை அழி?</string>
+    <string name="confirm_delete_folder">அடைவு  \'%1$s\' மற்றும் அதன் அனைத்து உள்ளடக்கங்களை நீக்கு?</string>
     <string name="confirm_delete_playlist">பட்டியலை நீக்கு \'%1$s\'?</string>
     <string name="ringtone_set">\'%1$s\' கோப்பு அழைப்போசையாக அமைக்கப்பட்டது.</string>
     <string name="ringtone_error">அழைப்போசையை அமைக்கும்போது பிழை ஏற்பட்டது.</string>
@@ -298,4 +299,6 @@
     <string name="more_actions">மேலும் செயல்கள்</string>
     <string name="move">நகர்த்து</string>
     <string name="back_quit_lock"> திரும்ப அழுத்தவும் காணொளி விட்டு வெளியேற</string>
+    <string name="playlist_deleted">தொகுப்பு பட்டியல் நீக்கப்பட்டது</string>
+    <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
 </resources>
