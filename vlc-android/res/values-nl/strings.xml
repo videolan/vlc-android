@@ -32,6 +32,7 @@
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
     <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
     <string name="ringtone_set">Het bestand \'%1$s\' werd als beltoon ingesteld.</string>
     <string name="ringtone_error">Er trad een fout op bij het instellen van de beltoon.</string>
@@ -298,4 +299,7 @@
     <string name="more_actions">Meer acties</string>
     <string name="move">Verplaatsen</string>
     <string name="back_quit_lock">Nogmaals op terug drukken om video af te sluiten</string>
+    <string name="playlist_deleted">Afspeellijst verwijderd</string>
+    <string name="file_deleted">Bestand verwijderd</string>
+    <string name="no_subs_found">Geen ondertitels in deze map</string>
 </resources>
