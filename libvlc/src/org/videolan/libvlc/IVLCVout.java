@@ -49,7 +49,7 @@ public interface IVLCVout {
      * @see #attachViews()
      */
     @MainThread
-    void setVideoView(SurfaceView videoSurface);
+    void setVideoView(SurfaceView videoSurfaceView);
 
     /**
      * Set a TextureView used for video out.
@@ -57,14 +57,14 @@ public interface IVLCVout {
      */
     @MainThread
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    void setVideoView(TextureView videoTexture);
+    void setVideoView(TextureView videoTextureView);
 
     /**
      * Set a surfaceView used for subtitles out.
      * @see #attachViews()
      */
     @MainThread
-    void setSubtitlesView(SurfaceView subtitlesSurface);
+    void setSubtitlesView(SurfaceView subtitlesSurfaceView);
 
     /**
      * Set a TextureView used for subtitles out.
@@ -72,7 +72,7 @@ public interface IVLCVout {
      */
     @MainThread
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    void setSubtitlesView(TextureView subtitlesSurface);
+    void setSubtitlesView(TextureView subtitlesTextureView);
 
     /**
      * Attach views previously set by setVideoView and setSubtitlesView.

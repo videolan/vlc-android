@@ -226,26 +226,26 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
 
     @Override
     @MainThread
-    public void setVideoView(SurfaceView videoSurface) {
-        setView(ID_VIDEO, videoSurface);
+    public void setVideoView(SurfaceView videoSurfaceView) {
+        setView(ID_VIDEO, videoSurfaceView);
     }
 
     @Override
     @MainThread
-    public void setVideoView(TextureView videoTexture) {
-        setView(ID_VIDEO, videoTexture);
+    public void setVideoView(TextureView videoTextureView) {
+        setView(ID_VIDEO, videoTextureView);
     }
 
     @Override
     @MainThread
-    public void setSubtitlesView(SurfaceView videoSurface) {
-        setView(ID_SUBTITLES, videoSurface);
+    public void setSubtitlesView(SurfaceView subtitlesSurfaceView) {
+        setView(ID_SUBTITLES, subtitlesSurfaceView);
     }
 
     @Override
     @MainThread
-    public void setSubtitlesView(TextureView videoTexture) {
-        setView(ID_SUBTITLES, videoTexture);
+    public void setSubtitlesView(TextureView subtitlesTextureView) {
+        setView(ID_SUBTITLES, subtitlesTextureView);
     }
 
     @Override
