@@ -31,6 +31,7 @@
     <string name="set_song">Setel sebagai nada dering</string>
     <string name="info">Informasi</string>
     <string name="confirm_delete">Hapus berkas \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Hapus folder \'%1$s\' dan semua isinya?</string>
     <string name="confirm_delete_playlist">Hapus daftar putar \'%1$s\'?</string>
     <string name="ringtone_set">Berkas \'%1$s\' disetel sebagai nada dering.</string>
     <string name="ringtone_error">Terjadi galat ketika menyetel nada dering.</string>
@@ -272,6 +273,7 @@
     <string name="file_other">Tutup laci navigasi</string>
     <string name="audio_delay">Penundaan audio</string>
     <string name="spu_delay">Penundaan terjemahan</string>
+    <string name="sleep_time_not_set">tidak diset</string>
     <string name="network_shares_discovery">Mencari jaringan berbagi...</string>
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tidak ada sambungan ke jaringan lokal.</string>
@@ -290,4 +292,7 @@
     <string name="more_actions">Tindakan Lainnya</string>
     <string name="move">Pindah</string>
     <string name="back_quit_lock">Tekan \\"kembali\\" lagi untuk menutup video</string>
+    <string name="playlist_deleted">Daftar putar dihapus</string>
+    <string name="file_deleted">Berkas dihapus</string>
+    <string name="no_subs_found">Tidak ada subtitel di dalam direktori ini</string>
 </resources>
