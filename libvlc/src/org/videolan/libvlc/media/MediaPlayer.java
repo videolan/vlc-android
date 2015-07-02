@@ -133,12 +133,16 @@ public class MediaPlayer
     }
 
     public void prepareAsync() {
+        mCurrentMedia.addOption(":video-paused");
+        mMediaPlayer.play();
     }
 
     public void setDisplay(SurfaceHolder sh) {
+        mMediaPlayer.getVLCVout().setVideoSurface(sh.getSurface(), sh);
     }
 
     public void setSurface(Surface surface) {
+        mMediaPlayer.getVLCVout().setVideoSurface(surface, null);
     }
 
     public void setVideoScalingMode(int mode) {
