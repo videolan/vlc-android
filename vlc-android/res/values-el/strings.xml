@@ -32,6 +32,7 @@
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
+    <string name="confirm_delete_folder">Διαγραφή του φακέλου \'%1$s\' και όλων των περιεχομένων του?</string>
     <string name="confirm_delete_playlist">Διαγραφή λίστας αναπαραγωγής \'%1$s\';</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
@@ -298,4 +299,7 @@
     <string name="more_actions">Περισσότερες Ενέργειες</string>
     <string name="move">Κίνηση</string>
     <string name="back_quit_lock">Πατήστε πάλι το πίσω για να κλείσετε το βίντεο</string>
+    <string name="playlist_deleted">Η λίστα αναπαραγωγής διαγράφηκε</string>
+    <string name="file_deleted">Το αρχείο διαγράφηκε</string>
+    <string name="no_subs_found">Δεν υπάρχουν υπότιτλοι σε αυτό τον κατάλογο</string>
 </resources>
