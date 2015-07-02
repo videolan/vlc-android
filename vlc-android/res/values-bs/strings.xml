@@ -33,6 +33,8 @@
     <string name="set_song">Postavi kao zvono</string>
     <string name="info">Informacije</string>
     <string name="confirm_delete">Izbriši datoteku \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Izbriši mapu \'%1$s\' i sve njezine sadržaje?</string>
+    <string name="confirm_delete_playlist">Izbriši listu izvođenja \'%1$s\'?</string>
     <string name="ringtone_set">Datoteka \'%1$s\' je postavljena kao zvono.</string>
     <string name="ringtone_error">Dogodila se greška tokom postavljanja zvona.</string>
     <string name="pause">Pauziraj</string>
@@ -94,6 +96,10 @@
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
     <string name="cover_art">Omot</string>
+    <string name="shuffle">Miješanje Isključeno</string>
+    <string name="shuffle_on">Miješanje Uključeno</string>
+    <string name="repeat">Ponovite nijednom</string>
+    <string name="repeat_single">Ponovite jednom</string>
     <string name="repeat_all">Ponovi sve</string>
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
@@ -106,7 +112,7 @@
     <string name="surface_fill">Popuni</string>
     <string name="surface_original">Centar</string>
     <string name="thumbnail">Slikica</string>
-    <string name="unseekable_stream">Nepotraživo stujanje</string>
+    <string name="unseekable_stream">Nepotraživo strujanje</string>
     <string name="refresh">Osvježi</string>
     <string name="track_audio">Trag zvuka</string>
     <string name="track_video">Trag videa</string>
@@ -118,6 +124,7 @@
     <string name="sound_on">Zvuk Uključen</string>
     <string name="sound_off">Zvuk Isključen</string>
     <string name="brightness">Svjetlost</string>
+    <string name="navmenu">navigacijski meni</string>
     <string name="advanced">dodatne opcije</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -138,7 +145,7 @@
     <string name="open">Otvori</string>
     <string name="open_mrl">Otvori MRL</string>
     <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
-    <string name="open_mrl_dialog_msg">Unesi mrežni MRL: npr. http://, mms:// ili rtsp://</string>
+    <string name="open_mrl_dialog_msg">Unesi mrežnu adresu: npr. http://, mms:// ili rtsp://</string>
     <string name="error_not_compatible">Izvinite, vaš uređaj trenutno nije podržan od ove verzije VLC-a za Android™.</string>
     <string name="error_problem">Izvinite, VLC za Android je imao problem s učitavanjem i morao se zatvoriti.</string>
     <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):\n</string>
@@ -153,6 +160,7 @@
     <string name="video_player_tips">Savjeti video izvođača:</string>
     <string name="seek">Traži</string>
     <string name="subtitles">Podtitlovi</string>
+    <string name="audio_sub">Audio tragovi\ni podtitlovi</string>
     <string name="resize">Promijeni veličinu</string>
     <string name="options">Opcije</string>
     <string name="lock">Zaključaj</string>
@@ -174,19 +182,23 @@
     <string name="compiled_by">Ova verzija VLC-a je kompajlirana od strane:</string>
     <string name="vlc_authors">VLC Autori.</string>
     <!-- Preferences -->
-    <string name="preferences">Podešavanja</string>
+    <string name="preferences">Postavke</string>
     <string name="general_prefs_category">Opće</string>
     <string name="directories_summary">Izaberi direktorije za uključivanje u medijskoj biblioteci</string>
-    <string name="add_custom_path">Dodaj prilagođen put</string>
-    <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
-    <string name="remove_custom_path">Ukloni prilagođen put</string>
+    <string name="add_custom_path">Dodaj prilagođenu putanju</string>
+    <string name="add_custom_path_description">Unesite dodatni prilagođen direktorij za skeniranje:</string>
+    <string name="remove_custom_path">Ukloni prilagođenu putanju</string>
     <string name="hardware_acceleration">Hardversko Ubrzanje</string>
-    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
+    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performanse.\nPuno: može dalje poboljšati performanse.</string>
     <string name="hardware_acceleration_disabled">Isključeno</string>
     <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
     <string name="hardware_acceleration_full">Puno ubrzanje</string>
+    <string name="dev_hardware_decoder">Napredni hardverski dekoder</string>
+    <string name="dev_hardware_decoder_summary">Prisili hardverski dekoder, samo za napredne korisnike</string>
     <string name="dev_hardware_decoder_omx">iomx</string>
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatski</string>
     <string name="screen_orientation">Orijentacija video ekrana</string>
     <string name="screen_orientation_sensor">Automatski (senzor)</string>
@@ -209,6 +221,8 @@
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_jump_buttons">Omogući skok dugmad</string>
     <string name="enable_jump_buttons_summary">Pokaži nazad i naprijed dugmad na video okruženju</string>
+    <string name="force_list_portrait">Nema rešetki u modu portreta</string>
+    <string name="force_list_portrait_summary">Prikaži videe u listi umjesto rešetki u modu portreta</string>
     <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
     <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
@@ -221,7 +235,7 @@
     <string name="audio_title_alignment_marquee">Pokretni tekst</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
+    <string name="chroma_format_summary">RGB 32-bit: zadani krom\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
     <string name="deblocking_summary">Izmijeni postavke filtera za deblokiranje. Moguće poboljšanje kvalitete videa. Samo za napredne korisnike.</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>
@@ -241,7 +255,7 @@
     <string name="clear_media_db">Očisti medijsku bazu podataka</string>
     <string name="clear_history">Očisti historiju pretraživanja</string>
     <string name="media_db_cleared">Medijska baza podataka očišćena!</string>
-    <string name="set_locale">Podesi lokaciju</string>
+    <string name="set_locale">Podesi mjesto</string>
     <string name="set_locale_detail">Ostavi prazno za resetovanje</string>
     <string name="set_locale_popup">Zatvori i restartuj VLC kako bi djelovale promjene.</string>
     <string name="network_caching">Veličina predmemoriranja mreže</string>
@@ -253,6 +267,8 @@
     <string name="start_logging">Pokreni zapisivanje</string>
     <string name="stop_logging">Zaustavi zapisivanje</string>
     <string name="clear_log">Očisti zapisnik</string>
+    <string name="log_service_title">VLC snimanje zapisnika</string>
+    <string name="log_service_text">Otvori konzolu zapisnika</string>
     <string name="copy_to_clipboard">Kopiraj u međuspremnik</string>
     <string name="copied_to_clipboard">Zapisnik kopiran u međuspremnik.</string>
     <string name="quit">Zatvori i ponovo pokreni aplikaciju</string>
@@ -266,14 +282,30 @@
     <string name="sending_log">Šaljem izvještaj...</string>
     <string name="drawer_open">Otvori navigacijsku ladicu</string>
     <string name="drawer_close">Zatvori navigacijsku ladicu</string>
+    <string name="network_browsing">Lokalna Mreža</string>
     <string name="file_size">Veličina datoteke:</string>
+    <string name="file_other">Zatvori navigacijsku ladicu</string>
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje titla</string>
+    <string name="sleep_time_not_set">nije postavljen</string>
+    <string name="network_shares_discovery">Tražim mrežna dijeljenja...</string>
+    <string name="network_empty">Ovaj direktorij je prazan.</string>
     <string name="network_connection_needed">Nema veze do lokalne mreže</string>
+    <string name="search_hint">Pretraži medije</string>
+    <string name="directory_show_medialib">Prikaži u MediaLib</string>
+    <string name="directory_hide_medialib">Sakrij iz MediaLib</string>
     <string name="playlist_save">Snimi Listu Izvođenja</string>
+    <string name="playlist_name_hint">naziv liste izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje...</string>
+    <string name="resume_from_position">Nastavi sa zadnje pozicije</string>
+    <string name="confirm_resume">Nastavi sa zadnje pozicije? </string>
+    <string name="confirm_resume_title">Pitaj potvrdu za nastavak</string>
+    <string name="confirm_resume_summary">ako se aktivira od vas će biti zatraženo da potvrdite kada se video može nastaviti sa zadnje pozicije</string>
+    <string name="directory_empty">Direktorij je prazan</string>
     <!--Accessibility-->
     <string name="more_actions">Više Akcija</string>
     <string name="move">Pomjeri</string>
     <string name="back_quit_lock">Pritisnite ponovo nazad kako bi zatvorili video</string>
+    <string name="playlist_deleted">Lista izvođenja izbrisana</string>
+    <string name="file_deleted">Datoteka izbrisana</string>
 </resources>
