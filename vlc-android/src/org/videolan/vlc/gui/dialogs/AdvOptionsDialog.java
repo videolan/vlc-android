@@ -56,7 +56,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.Calendar;
@@ -219,12 +218,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             adapter.insert(chapters[i].name != null ? chapters[i].name : Integer.toString(i), i);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
-        mChapters.setSelection(mService.getChapter());
+        mChapters.setSelection(mService.getChapterIdx());
         mChapters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mService.getChapter())
-                    mService.setChapter(position);
+                if (position != mService.getChapterIdx())
+                    mService.setChapterIdx(position);
             }
 
             @Override

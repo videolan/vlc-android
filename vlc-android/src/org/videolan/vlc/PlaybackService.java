@@ -1685,12 +1685,12 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int getChapter() {
+    public int getChapterIdx() {
         return mMediaPlayer.getChapter();
     }
 
     @MainThread
-    public void setChapter(int chapter) {
+    public void setChapterIdx(int chapter) {
         mMediaPlayer.setChapter(chapter);
     }
 
