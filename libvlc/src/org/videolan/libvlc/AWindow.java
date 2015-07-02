@@ -292,6 +292,10 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         if (mSurfacesState.get() != SURFACE_STATE_INIT || mSurfaceHelpers[ID_VIDEO] == null)
             throw new IllegalStateException("already attached or video view not configured");
         mSurfacesState.set(SURFACE_STATE_ATTACHED);
+        synchronized (mBuffersGeometryCond) {
+            mBuffersGeometryCond.configured = false;
+            mBuffersGeometryCond.abort = false;
+        }
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
             if (surfaceHelper != null)
@@ -305,6 +309,11 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         if (mSurfacesState.get() == SURFACE_STATE_INIT)
             return;
         mSurfacesState.set(SURFACE_STATE_INIT);
+        mHandler.removeCallbacksAndMessages(null);
+        synchronized (mBuffersGeometryCond) {
+            mBuffersGeometryCond.abort = true;
+            mBuffersGeometryCond.notifyAll();
+        }
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
             if (surfaceHelper != null)
@@ -415,6 +424,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
 
     private static class BuffersGeometryCond {
         private boolean configured = false;
+        private boolean abort = false;
     }
     private final BuffersGeometryCond mBuffersGeometryCond = new BuffersGeometryCond();
 
@@ -427,13 +437,11 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         Log.d(TAG, "configureSurface: " + width + "x" + height);
 
         synchronized (mBuffersGeometryCond) {
-            if (mBuffersGeometryCond.configured)
+            if (mBuffersGeometryCond.configured || mBuffersGeometryCond.abort)
                 return false;
         }
 
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-
+        mHandler.post(new Runnable() {
             private SurfaceHelper getSurfaceHelper(Surface surface) {
                 for (int id = 0; id < ID_MAX; ++id) {
                     final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
@@ -465,7 +473,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
 
         try {
             synchronized (mBuffersGeometryCond) {
-                while (!mBuffersGeometryCond.configured)
+                while (!mBuffersGeometryCond.configured && !mBuffersGeometryCond.abort)
                     mBuffersGeometryCond.wait();
                 mBuffersGeometryCond.configured = false;
             }
