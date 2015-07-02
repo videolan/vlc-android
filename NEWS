@@ -3,17 +3,35 @@ Changes between 1.4.1 and 1.5.0:
 
 Application:
  * Removed permission READ_LOGS for recent Android versions
+ * Removed permission READ_PHONE_STATE for recent Android versions
  * Handle media (external SD cards & USB keys) mount and unmount
- * position in playlist and in song are now restored when you load last playlist
+ * Position in playlist and in song are now restored when you load last playlist
  * Design improvements, replaced some dialogs and toasts by snackbars
- * Large code cleaning
+ * Merge Audio and Video playback in a PlaybackService
+ * Large code cleaning in all layers of the application
  * Fix advanced video options and video resolver crashing
+ * Chapters detection improvements
+ * Fix audio focus in numerous cases
+ * New subtitles file picker
+ * Improve incoming View Intent to get subtitles path
+ * Use TabLayout and FloatingActionButton from appcompat instead of custom code
+ * Widgets are now resizable
+ * Media Information is available from Directory browsing
 
 Chrome:
  * Fix runtime issue with pipe2 absence
+ * Disable quit&restart
 
 libVLC:
- * Start splitting libVLC and MediaPlayer classes
+ * Rewrite of most libVLCjni classes, notably MediaPlayer, libVLC and
+   the related ones
+ * Rewrite events managements, callbacks
+ * Creation of a .aar file for libVLC
+
+Core:
+ * libvlc new API to set the Android context for surfaces
+ * Removal of static and extern objects for thread-safety
+ * Merge of all video outputs into one
 
 
 Changes between 1.4.0 and 1.4.1:
