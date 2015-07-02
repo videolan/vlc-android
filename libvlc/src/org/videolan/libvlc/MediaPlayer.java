@@ -166,6 +166,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
     private final AWindow mWindow = new AWindow(this);
+    private int mVoutCount = 0;
 
     /**
      * Create an empty MediaPlayer
@@ -258,7 +259,11 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     public synchronized void onSurfacesDestroyed(AWindow vout) {
         if (mPlaying) {
             setVideoTrackEnabled(false);
-            /* TODO wait for no VOUT event */
+            while (mVoutCount > 0) {
+                try {
+                    wait();
+                } catch (InterruptedException ignored) {}
+            }
         }
     }
 
@@ -440,6 +445,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
             case Event.PositionChanged:
                 return new Event(eventType, arg2);
             case Event.Vout:
+                mVoutCount = (int) arg1;
+                notify();
                 return new Event(eventType, arg1);
             case Event.ESAdded:
             case Event.ESDeleted:
