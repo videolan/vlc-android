@@ -31,6 +31,7 @@
     <string name="set_song">呼び出し音に設定</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
+    <string name="confirm_delete_folder">\'%1$s\' フォルダーと含まれるすべてのファイルを削除しますか?</string>
     <string name="confirm_delete_playlist">プレイリスト \'%1$s\' を削除しますか?</string>
     <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
@@ -291,4 +292,7 @@
     <string name="more_actions">他のアクション</string>
     <string name="move">移動</string>
     <string name="back_quit_lock">ビデオを終了するには\"戻る\"をもう一度押してください。</string>
+    <string name="playlist_deleted">プレイリストが削除されました</string>
+    <string name="file_deleted">ファイルが削除されました</string>
+    <string name="no_subs_found">ディレクトリに字幕がありません</string>
 </resources>
