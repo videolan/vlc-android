@@ -31,6 +31,7 @@
     <string name="set_song">벨소리로 설정</string>
     <string name="info">정보</string>
     <string name="confirm_delete">\'%1$s\' 파일을 삭제할까요?</string>
+    <string name="confirm_delete_folder">\'%1$s\' 폴더와 모든 파일을 삭제할까요?</string>
     <string name="confirm_delete_playlist">재생목록 \'%1$s\' 을 삭제할까요?</string>
     <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">Ringtone 설정 중 오류가 발생했습니다.</string>
@@ -291,4 +292,6 @@
     <string name="more_actions">추가 동작</string>
     <string name="move">이동하기</string>
     <string name="back_quit_lock">비디오를 종료하려면 \"뒤로\" 를 한 번 더 누르세요</string>
+    <string name="playlist_deleted"> 재생목록을 삭제했습니다</string>
+    <string name="file_deleted">파일을 삭제했습니다</string>
 </resources>
