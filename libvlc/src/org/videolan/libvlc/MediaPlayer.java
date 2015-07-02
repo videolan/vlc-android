@@ -257,13 +257,15 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
 
     @Override
     public synchronized void onSurfacesDestroyed(AWindow vout) {
-        if (mPlaying) {
+        if (mVoutCount > 0)
             setVideoTrackEnabled(false);
-            while (mVoutCount > 0) {
-                try {
-                    wait();
-                } catch (InterruptedException ignored) {}
-            }
+        /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
+         * used after leaving this callback. This shouldn't be needed when using MediaCodec or
+         * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
+        while (mVoutCount > 0) {
+            try {
+                wait();
+            } catch (InterruptedException ignored) {}
         }
     }
 
@@ -434,11 +436,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     @Override
     protected Event onEventNative(int eventType, long arg1, float arg2) {
         switch (eventType) {
-            case Event.Playing:
-            case Event.Paused:
             case Event.Stopped:
             case Event.EndReached:
             case Event.EncounteredError:
+                mVoutCount = 0;
+                notify();
+            case Event.Playing:
+            case Event.Paused:
                 return new Event(eventType);
             case Event.TimeChanged:
                 return new Event(eventType, arg1);
