@@ -32,7 +32,8 @@
     <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
-    <string name="confirm_delete_playlist">Eliminare la scaletta \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
+    <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
     <string name="ringtone_set">Il file \'%1$s\' è stato impostato come suoneria.</string>
     <string name="ringtone_error">Si è verificato un errore durante l\'impostazione della suoneria.</string>
     <string name="pause">Pausa</string>
@@ -298,4 +299,6 @@
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
     <string name="back_quit_lock">Premi nuovamente Indietro per chiudere il video</string>
+    <string name="playlist_deleted">Scaletta eliminata</string>
+    <string name="file_deleted">File eliminato</string>
 </resources>
