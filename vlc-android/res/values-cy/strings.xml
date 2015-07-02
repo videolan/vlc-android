@@ -34,6 +34,8 @@
     <string name="set_song">Gosod fel sain canu</string>
     <string name="info">Gwybodaeth</string>
     <string name="confirm_delete">Dileu\'r ffeil \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Dileu\'r ffolder \'%1$s\' a\'i holl gynnwys?</string>
+    <string name="confirm_delete_playlist">Dileu rhestr chwarae \'%1$s\'?</string>
     <string name="ringtone_set">Gosodwyd y ffeil \'%1$s\' fel y tôn canu.</string>
     <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
@@ -292,6 +294,7 @@
     <string name="file_other">Cau\'r blwch llywio</string>
     <string name="audio_delay">Oediad sain</string>
     <string name="spu_delay">Oediad isdeitlau</string>
+    <string name="sleep_time_not_set">dim wedi\'i gosod</string>
     <string name="network_shares_discovery">Yn edrych am gynnwys a rhennir ar y rhwydwaith....</string>
     <string name="network_empty">Mae\'r cyfeiriadur hwn yn wag.</string>
     <string name="network_connection_needed">Dim cysylltiad i\'r rhwydwaith lleol</string>
@@ -310,4 +313,6 @@
     <string name="more_actions">Mwy o Weithredoedd</string>
     <string name="move">Symud</string>
     <string name="back_quit_lock">Pwyswch nôl eto i adael fideo</string>
+    <string name="playlist_deleted">Dileuwyd y rhestr chwarae</string>
+    <string name="file_deleted">Dileuwyd y ffeil</string>
 </resources>
