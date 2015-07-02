@@ -431,7 +431,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mService = service;
         setRateProgress();
-        initChapterSpinner();
+        if (mMode == MODE_VIDEO)
+            initChapterSpinner();
     }
 
     @Override
