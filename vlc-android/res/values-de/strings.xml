@@ -32,6 +32,7 @@
     <string name="set_song">Als Klingelton festlegen</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei „%1$s“ löschen?</string>
+    <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
     <string name="ringtone_set">Die Datei „%1$s“ wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
@@ -298,4 +299,7 @@
     <string name="more_actions">Weitere Aktionen</string>
     <string name="move">Verschieben</string>
     <string name="back_quit_lock">Zum Verlassen des Videos Zurück nochmals drücken</string>
+    <string name="playlist_deleted">Wiedergabeliste gelöscht</string>
+    <string name="file_deleted">Datei gelöscht</string>
+    <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
 </resources>
