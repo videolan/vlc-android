@@ -33,6 +33,7 @@
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
     <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
@@ -305,4 +306,7 @@
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
     <string name="back_quit_lock">Натисніть знову кнопку Назад для виходу із відео</string>
+    <string name="playlist_deleted">Список відтворення - вилучений</string>
+    <string name="file_deleted">Файл — вилучений</string>
+    <string name="no_subs_found">Немає субтитрів у цьому каталозі</string>
 </resources>
