@@ -71,9 +71,16 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
             mTextureView = textureView;
         }
 
+        private SurfaceHelper(int id, Surface surface, SurfaceHolder surfaceHolder) {
+            mId = id;
+            mSurfaceView = null;
+            mTextureView = null;
+            mSurfaceHolder = surfaceHolder;
+            mSurface = surface;
+        }
+
         private void setSurface(Surface surface) {
-            boolean surfaceValid = surface.isValid();
-            if (surfaceValid && mSurface == null) {
+            if (surface.isValid() && getNativeSurface(mId) == null) {
                 mSurface = surface;
                 setNativeSurface(mId, mSurface);
                 onSurfaceCreated();
@@ -91,12 +98,21 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
             setSurface(new Surface(mTextureView.getSurfaceTexture()));
         }
 
+        private void attachSurface() {
+            if (mSurfaceHolder != null)
+                mSurfaceHolder.addCallback(mSurfaceHolderCallback);
+            setSurface(mSurface);
+        }
+
         public void attach() {
             if (mSurfaceView != null) {
                 attachSurfaceView();
-            } else {
+            } else if (mTextureView != null) {
                 attachTextureView();
-            }
+            } else if (mSurface != null) {
+                attachSurface();
+            } else
+                throw new IllegalStateException();
         }
 
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -224,6 +240,18 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         mSurfaceHelpers[id] = new SurfaceHelper(id, view);
     }
 
+    private void setSurface(int id, Surface surface, SurfaceHolder surfaceHolder) {
+        if (mSurfacesState.get() != SURFACE_STATE_INIT)
+            throw new IllegalStateException("Can't set surface when already attached");
+        if (!surface.isValid() || surfaceHolder == null)
+            throw new IllegalStateException("surface is not attached and holder is null");
+        final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
+        if (surfaceHelper != null)
+            surfaceHelper.release();
+
+        mSurfaceHelpers[id] = new SurfaceHelper(id, surface, surfaceHolder);
+    }
+
     @Override
     @MainThread
     public void setVideoView(SurfaceView videoSurfaceView) {
@@ -237,6 +265,11 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     @Override
+    public void setVideoSurface(Surface videoSurface, SurfaceHolder surfaceHolder) {
+        setSurface(ID_VIDEO, videoSurface, surfaceHolder);
+    }
+
+    @Override
     @MainThread
     public void setSubtitlesView(SurfaceView subtitlesSurfaceView) {
         setView(ID_SUBTITLES, subtitlesSurfaceView);
@@ -246,6 +279,11 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     @MainThread
     public void setSubtitlesView(TextureView subtitlesTextureView) {
         setView(ID_SUBTITLES, subtitlesTextureView);
+    }
+
+    @Override
+    public void setSubtitlesSurface(Surface subtitlesSurface, SurfaceHolder surfaceHolder) {
+        setSurface(ID_SUBTITLES, subtitlesSurface, surfaceHolder);
     }
 
     @Override

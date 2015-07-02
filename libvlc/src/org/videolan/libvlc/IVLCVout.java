@@ -23,6 +23,8 @@ package org.videolan.libvlc;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.MainThread;
+import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
@@ -60,6 +62,16 @@ public interface IVLCVout {
     void setVideoView(TextureView videoTextureView);
 
     /**
+     * Set a surface used for video out.
+     * @param videoSurface if surfaceHolder is null, this surface must be valid and attached.
+     * @param surfaceHolder optional, used to configure buffers geometry before Android ICS
+     * and to get notified when surface is destroyed.
+     * @see #attachViews()
+     */
+    @MainThread
+    void setVideoSurface(Surface videoSurface, SurfaceHolder surfaceHolder);
+
+    /**
      * Set a surfaceView used for subtitles out.
      * @see #attachViews()
      */
@@ -75,11 +87,23 @@ public interface IVLCVout {
     void setSubtitlesView(TextureView subtitlesTextureView);
 
     /**
-     * Attach views previously set by setVideoView and setSubtitlesView.
+     * Set a surface used for video out.
+     * @param subtitlesSurface if surfaceHolder is null, this surface must be valid and attached.
+     * @param surfaceHolder optional, used to configure buffers geometry before Android ICS
+     * and to get notified when surface is destroyed.
+     * @see #attachViews()
+     */
+    @MainThread
+    void setSubtitlesSurface(Surface subtitlesSurface, SurfaceHolder surfaceHolder);
+
+    /**
+     * Attach views previously set by setVideoView, setSubtitlesView, setVideoSurface, setSubtitleSurface
      * @see #setVideoView(SurfaceView)
      * @see #setVideoView(TextureView)
+     * @see #setVideoSurface(Surface, SurfaceHolder)
      * @see #setSubtitlesView(SurfaceView)
      * @see #setSubtitlesView(TextureView)
+     * @see #setSubtitlesSurface(Surface, SurfaceHolder)
      */
     @MainThread
     void attachViews();
