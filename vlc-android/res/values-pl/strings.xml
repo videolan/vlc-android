@@ -33,6 +33,7 @@
     <string name="set_song">Ustaw jako dzwonek</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
+    <string name="confirm_delete_folder">Usunąć folder \'%1$s\' i całą jego zawartość?</string>
     <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
     <string name="ringtone_set">Plik \"%1$s\" został ustawiony jako dzwonek.</string>
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
@@ -305,4 +306,7 @@
     <string name="more_actions">Więcej operacji</string>
     <string name="move">Przenieś</string>
     <string name="back_quit_lock">Naciśnij ponownie z powrotem, aby wyjść z widea</string>
+    <string name="playlist_deleted">Lista odtwarzania została usunięta</string>
+    <string name="file_deleted">Plik został usunięty</string>
+    <string name="no_subs_found">Brak napisów w tym katalogu</string>
 </resources>
