@@ -32,6 +32,7 @@
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
+    <string name="confirm_delete_folder">¿Eliminar la carpeta «%1$s» y todo su contenido?</string>
     <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
     <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
@@ -298,4 +299,7 @@
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
     <string name="back_quit_lock">Presione atrás otra vez para salir del vídeo</string>
+    <string name="playlist_deleted">Lista de reproducción eliminada</string>
+    <string name="file_deleted">Archivo eliminado</string>
+    <string name="no_subs_found">No hay subtítulos en esta carpeta</string>
 </resources>
