@@ -393,26 +393,6 @@ Java_org_videolan_libvlc_MediaPlayer_getChapter(JNIEnv *env, jobject thiz)
     return libvlc_media_player_get_chapter(p_obj->u.p_mp);
 }
 
-jstring
-Java_org_videolan_libvlc_MediaPlayer_getChapterDescription(JNIEnv *env,
-                                                           jobject thiz,
-                                                           jint title)
-{
-    libvlc_track_description_t *description;
-    jstring string = NULL;
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-
-    if (!p_obj)
-        return NULL;
-
-    description = libvlc_video_get_chapter_description(p_obj->u.p_mp, title);
-    if (description) {
-        string = (*env)->NewStringUTF(env, description->psz_name);
-        free(description);
-    }
-    return string;
-}
-
 void
 Java_org_videolan_libvlc_MediaPlayer_setChapter(JNIEnv *env, jobject thiz,
                                                 jint chapter)
