@@ -22,10 +22,8 @@
 
 package org.videolan.libvlc;
 
-import java.util.Map;
-
 @SuppressWarnings("unused")
-public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow.SurfaceCallback {
+public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     public static class Event extends VLCEvent {
         //public static final int MediaChanged        = 0x100;
@@ -180,8 +178,29 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
-    private final AWindow mWindow = new AWindow(this);
     private int mVoutCount = 0;
+
+    private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
+        @Override
+        public synchronized void onSurfacesCreated(AWindow vout) {
+            if (!mPlaying && mPlayRequested)
+                play();
+        }
+
+        @Override
+        public synchronized void onSurfacesDestroyed(AWindow vout) {
+            if (mVoutCount > 0)
+                setVideoTrack(-1);
+        /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
+         * used after leaving this callback. This shouldn't be needed when using MediaCodec or
+         * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
+            while (mVoutCount > 0) {
+                try {
+                    wait();
+                } catch (InterruptedException ignored) {}
+            }
+        }
+    });
 
     /**
      * Create an empty MediaPlayer
@@ -261,27 +280,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
         mPlayRequested = false;
         mPlaying = false;
         nativeStop();
-    }
-
-
-    @Override
-    public synchronized void onSurfacesCreated(AWindow vout) {
-        if (!mPlaying && mPlayRequested)
-            play();
-    }
-
-    @Override
-    public synchronized void onSurfacesDestroyed(AWindow vout) {
-        if (mVoutCount > 0)
-            setVideoTrack(-1);
-        /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
-         * used after leaving this callback. This shouldn't be needed when using MediaCodec or
-         * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
-        while (mVoutCount > 0) {
-            try {
-                wait();
-            } catch (InterruptedException ignored) {}
-        }
     }
 
     /**
