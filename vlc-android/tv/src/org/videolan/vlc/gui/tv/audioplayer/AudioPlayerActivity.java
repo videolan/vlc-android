@@ -23,6 +23,8 @@ package org.videolan.vlc.gui.tv.audioplayer;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
@@ -154,12 +156,12 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
     }
 
     @Override
-    public void onMediaPlayedAdded(MediaWrapper media, int index) {
+    public void onMediaEvent(Media.Event event) {
 
     }
 
     @Override
-    public void onMediaPlayedRemoved(int index) {
+    public void onMediaPlayerEvent(MediaPlayer.Event event) {
 
     }
 
