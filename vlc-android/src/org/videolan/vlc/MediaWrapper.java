@@ -69,7 +69,8 @@ public class MediaWrapper implements Parcelable {
     private final Uri mUri;
     private String mFilename;
     private long mTime = 0;
-    private int mAudioTrack = -1;
+    /* -1 is a valid track (Disabled) */
+    private int mAudioTrack = -2;
     private int mSpuTrack = -2;
     private long mLength = 0;
     private int mType;

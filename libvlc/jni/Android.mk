@@ -4,7 +4,7 @@ ANDROID_PRIVATE_LIBDIR := $(LOCAL_PATH)/../../android-libs
 
 LOCAL_MODULE    := libvlcjni
 
-LOCAL_SRC_FILES := libvlcjni.c libvlcjni-track.c
+LOCAL_SRC_FILES := libvlcjni.c
 LOCAL_SRC_FILES += libvlcjni-mediaplayer.c
 LOCAL_SRC_FILES += libvlcjni-equalizer.c
 LOCAL_SRC_FILES += libvlcjni-vlcobject.c

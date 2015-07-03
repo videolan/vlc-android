@@ -68,10 +68,14 @@ struct fields {
         struct {
             jclass clazz;
         } Chapter;
+        struct {
+            jclass clazz;
+        } TrackDescription;
 
         jclass clazz;
         jmethodID createTitleFromNativeID;
         jmethodID createChapterFromNativeID;
+        jmethodID createTrackDescriptionFromNativeID;
     } MediaPlayer;
 };
 

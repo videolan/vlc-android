@@ -694,6 +694,21 @@ public class PlaybackService extends Service {
         }
     };
 
+    private void setVideoTrackEnabled(boolean enabled) {
+        if (!enabled) {
+            mMediaPlayer.setVideoTrack(-1);
+        } else {
+            final MediaPlayer.TrackDescription tracks[] = mMediaPlayer.getVideoTracks();
+
+            for (MediaPlayer.TrackDescription track : tracks) {
+                if (track.id != -1) {
+                    mMediaPlayer.setVideoTrack(track.id);
+                    break;
+                }
+            }
+        }
+    }
+
     @MainThread
     public void setVideoEnabled(boolean enabled, boolean videoPlayerInForeground) {
         if (videoPlayerInForeground)
@@ -701,7 +716,7 @@ public class PlaybackService extends Service {
         mVideoPlayerInForeground = videoPlayerInForeground;
         mVideoEnabled = enabled;
         if (hasCurrentMedia())
-            mMediaPlayer.setVideoTrackEnabled(mVideoEnabled);
+            setVideoTrackEnabled(mVideoEnabled);
     }
 
     @MainThread
@@ -713,7 +728,7 @@ public class PlaybackService extends Service {
         if (!mVideoPlayerInForeground) {
             mVideoPlayerInForeground = true;
             // no video player, hence no surface, so deactivate the video track that will be re-activated from the Video Player.
-            mMediaPlayer.setVideoTrackEnabled(false);
+            setVideoTrackEnabled(false);
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), mCurrentIndex);
         }
     }
@@ -1725,8 +1740,8 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public Map<Integer,String> getAudioTrackDescription() {
-        return mMediaPlayer.getAudioTrackDescription();
+    public MediaPlayer.TrackDescription[] getAudioTracks() {
+        return mMediaPlayer.getAudioTracks();
     }
 
     @MainThread
@@ -1735,7 +1750,7 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int setAudioTrack(int index) {
+    public boolean setAudioTrack(int index) {
         return mMediaPlayer.setAudioTrack(index);
     }
 
@@ -1745,13 +1760,13 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int addSubtitleTrack(String path) {
-        return mMediaPlayer.addSubtitleTrack(path);
+    public boolean addSubtitleTrack(String path) {
+        return mMediaPlayer.setSubtitleFile(path);
     }
 
     @MainThread
-    public Map<Integer,String> getSpuTrackDescription() {
-        return mMediaPlayer.getSpuTrackDescription();
+    public MediaPlayer.TrackDescription[] getSpuTracks() {
+        return mMediaPlayer.getSpuTracks();
     }
 
     @MainThread
@@ -1760,7 +1775,7 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int setSpuTrack(int index) {
+    public boolean setSpuTrack(int index) {
         return mMediaPlayer.setSpuTrack(index);
     }
 
@@ -1770,7 +1785,7 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int setAudioDelay(long delay) {
+    public boolean setAudioDelay(long delay) {
         return mMediaPlayer.setAudioDelay(delay);
     }
 
@@ -1780,7 +1795,7 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public int setSpuDelay(long delay) {
+    public boolean setSpuDelay(long delay) {
         return mMediaPlayer.setSpuDelay(delay);
     }
 

@@ -162,6 +162,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
         return new Chapter(timeOffset, duration, name);
     }
 
+    public static class TrackDescription {
+        public final int id;
+        public final String name;
+
+        private TrackDescription(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static TrackDescription createTrackDescriptionFromNative(int id, String name) {
+        return new TrackDescription(id, name);
+    }
+
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
@@ -258,7 +273,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     @Override
     public synchronized void onSurfacesDestroyed(AWindow vout) {
         if (mVoutCount > 0)
-            setVideoTrackEnabled(false);
+            setVideoTrack(-1);
         /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
          * used after leaving this callback. This shouldn't be needed when using MediaCodec or
          * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
@@ -300,6 +315,150 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
      */
     public synchronized Chapter[] getChapters(int title) {
         return nativeGetChapters(title);
+    }
+
+    /**
+     * Get the number of available video tracks.
+     */
+    public synchronized int getVideoTracksCount() {
+        return nativeGetVideoTracksCount();
+    }
+
+    /**
+     * Get the list of available video tracks.
+     */
+    public synchronized TrackDescription[] getVideoTracks() {
+        return nativeGetVideoTracks();
+    }
+
+    /**
+     * Get the current video track.
+     *
+     * @return the video track ID or -1 if no active input
+     */
+    public synchronized int getVideoTrack() {
+        return nativeGetVideoTrack();
+    }
+
+    /**
+     * Set the video track.
+     *
+     * @return true on success.
+     */
+    public synchronized boolean setVideoTrack(int index) {
+        return nativeSetVideoTrack(index);
+    }
+
+    /**
+     * Get the number of available audio tracks.
+     */
+    public synchronized int getAudioTracksCount() {
+        return nativeGetAudioTracksCount();
+    }
+
+    /**
+     * Get the list of available audio tracks.
+     */
+    public synchronized TrackDescription[] getAudioTracks() {
+        return nativeGetAudioTracks();
+    }
+
+    /**
+     * Get the current audio track.
+     *
+     * @return the audio track ID or -1 if no active input
+     */
+    public synchronized int getAudioTrack() {
+        return nativeGetAudioTrack();
+    }
+
+    /**
+     * Set the audio track.
+     *
+     * @return true on success.
+     */
+    public synchronized boolean setAudioTrack(int index) {
+        return nativeSetAudioTrack(index);
+    }
+
+    /**
+     * Get the current audio delay.
+     *
+     * @return delay in microseconds.
+     */
+    public synchronized long getAudioDelay() {
+        return nativeGetAudioDelay();
+    }
+
+    /**
+     * Set current audio delay. The audio delay will be reset to zero each time the media changes.
+     *
+     * @param delay in microseconds.
+     * @return true on success.
+     */
+    public synchronized boolean setAudioDelay(long delay) {
+        return nativeSetSpuDelay(delay);
+    }
+
+    /**
+     * Get the number of available spu (subtitle) tracks.
+     */
+    public synchronized int getSpuTracksCount() {
+        return nativeGetSpuTracksCount();
+    }
+
+    /**
+     * Get the list of available spu (subtitle) tracks.
+     */
+    public synchronized TrackDescription[] getSpuTracks() {
+        return nativeGetSpuTracks();
+    }
+
+    /**
+     * Get the current spu (subtitle) track.
+     *
+     * @return the spu (subtitle) track ID or -1 if no active input
+     */
+    public synchronized int getSpuTrack() {
+        return nativeGetSpuTrack();
+    }
+
+    /**
+     * Set the spu (subtitle) track.
+     *
+     * @return true on success.
+     */
+    public synchronized boolean setSpuTrack(int index) {
+        return nativeSetSpuTrack(index);
+    }
+
+    /**
+     * Get the current spu (subtitle) delay.
+     *
+     * @return delay in microseconds.
+     */
+    public synchronized long getSpuDelay() {
+        return nativeGetSpuDelay();
+    }
+
+    /**
+     * Set current spu (subtitle) delay. The spu delay will be reset to zero each time the media changes.
+     *
+     * @param delay in microseconds.
+     * @return true on success.
+     */
+    public synchronized boolean setSpuDelay(long delay) {
+        return nativeSetSpuDelay(delay);
+    }
+
+    /**
+     * Set a new video subtitle file.
+     *
+     * @param path local path.
+     * @return true on success.
+     */
+    public synchronized boolean setSubtitleFile(String path) {
+        return nativeSetSubtitleFile(path);
     }
 
     /**
@@ -393,38 +552,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     public native void setChapter(int chapter);
     public native void navigate(int navigate);
 
-    public native int getAudioTracksCount();
-
-    public native Map<Integer,String> getAudioTrackDescription();
-
-    public native Map<String, Object> getStats();
-
-    public native int getAudioTrack();
-
-    public native int setAudioTrack(int index);
-
-    public native int getVideoTracksCount();
-
-    public native int setVideoTrackEnabled(boolean enabled);
-
-    public native int addSubtitleTrack(String path);
-
-    public native Map<Integer,String> getSpuTrackDescription();
-
-    public native int getSpuTrack();
-
-    public native int setSpuTrack(int index);
-
-    public native int getSpuTracksCount();
-
-    public native int setAudioDelay(long delay);
-
-    public native long getAudioDelay();
-
-    public native int setSpuDelay(long delay);
-
-    public native long getSpuDelay();
-
     public native float[] getBands();
     public native String[] getPresets();
     public native float[] getPreset(int index);
@@ -478,4 +605,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> implements AWindow
     private native boolean nativeSetAudioOutput(String aout);
     private native Title[] nativeGetTitles();
     private native Chapter[] nativeGetChapters(int title);
+    private native int nativeGetVideoTracksCount();
+    private native TrackDescription[] nativeGetVideoTracks();
+    private native int nativeGetVideoTrack();
+    private native boolean nativeSetVideoTrack(int index);
+    private native int nativeGetAudioTracksCount();
+    private native TrackDescription[] nativeGetAudioTracks();
+    private native int nativeGetAudioTrack();
+    private native boolean nativeSetAudioTrack(int index);
+    private native long nativeGetAudioDelay();
+    private native boolean nativeSetAudioDelay(long delay);
+    private native int nativeGetSpuTracksCount();
+    private native TrackDescription[] nativeGetSpuTracks();
+    private native int nativeGetSpuTrack();
+    private native boolean nativeSetSpuTrack(int index);
+    private native long nativeGetSpuDelay();
+    private native boolean nativeSetSpuDelay(long delay);
+    private native boolean nativeSetSubtitleFile(String path);
 }

@@ -225,7 +225,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mLock;
     private ImageView mSize;
     private boolean mIsLocked = false;
-    private int mLastAudioTrack = -1;
+    /* -1 is a valid track (Disable) */
+    private int mLastAudioTrack = -2;
     private int mLastSpuTrack = -2;
     private int mOverlayTimeout = 0;
     private boolean mLockBackButton = false;
@@ -274,8 +275,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private float mRestoreAutoBrightness = -1f;
 
     // Tracks & Subtitles
-    private Map<Integer,String> mAudioTracksList;
-    private Map<Integer,String> mSubtitleTracksList;
+    private MediaPlayer.TrackDescription[] mAudioTracksList;
+    private MediaPlayer.TrackDescription[] mSubtitleTracksList;
     /**
      * Used to store a selected subtitle; see onActivityResult.
      * It is possible to have multiple custom subs in one session
@@ -1911,7 +1912,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final AppCompatActivity context = this;
         PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
-        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 2);
+        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
         popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -1941,21 +1942,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean onTrackSelected(int trackID);
     }
 
-    private void selectTrack(final Map<Integer,String> trackMap, int currentTrack, int titleId,
+    private void selectTrack(final MediaPlayer.TrackDescription[] tracks, int currentTrack, int titleId,
                              final TrackSelectedListener listener) {
         if (listener == null)
             throw new IllegalArgumentException("listener must not be null");
-        if (trackMap == null)
+        if (tracks == null)
             return;
-        final String[] nameList = new String[trackMap.size()];
-        final int[] idList = new int[trackMap.size()];
+        final String[] nameList = new String[tracks.length];
+        final int[] idList = new int[tracks.length];
         int i = 0;
         int listPosition = 0;
-        for(Map.Entry<Integer,String> entry : trackMap.entrySet()) {
-            idList[i] = entry.getKey();
-            nameList[i] = entry.getValue();
+        for (MediaPlayer.TrackDescription track : tracks) {
+            idList[i] = track.id;
+            nameList[i] = track.name;
             // map the track position to the list position
-            if(entry.getKey() == currentTrack)
+            if (track.id == currentTrack)
                 listPosition = i;
             i++;
         }
@@ -1967,9 +1968,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     public void onClick(DialogInterface dialog, int listPosition) {
                         int trackID = -1;
                         // Reverse map search...
-                        for (Map.Entry<Integer, String> entry : trackMap.entrySet()) {
-                            if (idList[listPosition] == entry.getKey()) {
-                                trackID = entry.getKey();
+                        for (MediaPlayer.TrackDescription track : tracks) {
+                            if (idList[listPosition] == track.id) {
+                                trackID = track.id;
                                 break;
                             }
                         }
@@ -1989,7 +1990,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 new TrackSelectedListener() {
                     @Override
                     public boolean onTrackSelected(int trackID) {
-                        if (trackID < 0 || mService == null)
+                        if (trackID < -1 || mService == null)
                             return false;
                         MediaDatabase.getInstance().updateMedia(
                                 mUri,
@@ -2341,9 +2342,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void setESTracks() {
-        if (mLastAudioTrack >= 0) {
+        if (mLastAudioTrack >= -1) {
             mService.setAudioTrack(mLastAudioTrack);
-            mLastAudioTrack = -1;
+            mLastAudioTrack = -2;
         }
         if (mLastSpuTrack >= -1) {
             mService.setSpuTrack(mLastSpuTrack);
@@ -2352,10 +2353,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void setESTrackLists() {
-        if (mAudioTracksList == null && mService.getAudioTracksCount() > 1)
-            mAudioTracksList = mService.getAudioTrackDescription();
+        if (mAudioTracksList == null && mService.getAudioTracksCount() > 0)
+            mAudioTracksList = mService.getAudioTracks();
         if (mSubtitleTracksList == null && mService.getSpuTracksCount() > 0)
-            mSubtitleTracksList = mService.getSpuTrackDescription();
+            mSubtitleTracksList = mService.getSpuTracks();
     }
 
 

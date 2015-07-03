@@ -592,3 +592,280 @@ error:
         libvlc_chapter_descriptions_release(pp_chapters, i_nb_chapters);
     return array;
 }
+
+static jobject
+mediaplayer_track_to_object(JNIEnv *env, libvlc_track_description_t *p_track)
+{
+    jstring jname = NULL;
+
+    if (!p_track)
+        return NULL;
+
+    if (p_track->psz_name)
+        jname = (*env)->NewStringUTF(env, p_track->psz_name);
+
+    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+                        fields.MediaPlayer.createTrackDescriptionFromNativeID,
+                        p_track->i_id,
+                        jname);
+}
+
+static jobject
+mediaplayer_tracklist_to_object(JNIEnv *env,
+                                libvlc_track_description_t *p_first)
+{
+    int i_idx = 0;
+    int i_nb_tracks = 0;
+    libvlc_track_description_t *p_track = p_first;
+    jobjectArray array;
+
+    if (!p_track)
+        return NULL;
+
+    do
+        i_nb_tracks++;
+    while ((p_track = p_track->p_next) != NULL);
+
+    p_track = p_first;
+
+    array = (*env)->NewObjectArray(env, i_nb_tracks,
+                                   fields.MediaPlayer.TrackDescription.clazz,
+                                   NULL);
+    if (!array)
+        goto error;
+
+    do
+    {
+        jobject jtrack = mediaplayer_track_to_object(env, p_track);
+
+        if (jtrack)
+            (*env)->SetObjectArrayElement(env, array, i_idx++, jtrack);
+    }
+    while ((p_track = p_track->p_next) != NULL);
+
+error:
+    libvlc_track_description_list_release(p_first);
+    return array;
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetVideoTracksCount(JNIEnv *env,
+                                                              jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
+
+    return libvlc_video_get_track_count(p_obj->u.p_mp);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaPlayer_nativeGetVideoTracks(JNIEnv *env,
+                                                          jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;
+
+    return mediaplayer_tracklist_to_object(env,
+                libvlc_video_get_track_description(p_obj->u.p_mp));
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetVideoTrack(JNIEnv *env,
+                                                         jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -2;
+
+    return libvlc_video_get_track(p_obj->u.p_mp);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetVideoTrack(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jint index)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    return libvlc_video_set_track(p_obj->u.p_mp, index) == 0 ? true : false;
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetAudioTracksCount(JNIEnv *env,
+                                                               jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
+
+    return libvlc_audio_get_track_count(p_obj->u.p_mp);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaPlayer_nativeGetAudioTracks(JNIEnv *env,
+                                                          jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;
+
+    return mediaplayer_tracklist_to_object(env,
+                libvlc_audio_get_track_description(p_obj->u.p_mp));
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetAudioTrack(JNIEnv *env,
+                                                         jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -2;
+
+    return libvlc_audio_get_track(p_obj->u.p_mp);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioTrack(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jint index)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    return libvlc_audio_set_track(p_obj->u.p_mp, index) == 0 ? true : false;
+}
+
+jlong
+Java_org_videolan_libvlc_MediaPlayer_nativeGetAudioDelay(JNIEnv *env,
+                                                         jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
+
+    return libvlc_audio_get_delay(p_obj->u.p_mp);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioDelay(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jlong delay)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    return libvlc_audio_set_delay(p_obj->u.p_mp, delay) == 0 ? true : false;
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetSpuTracksCount(JNIEnv *env,
+                                                             jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
+
+    return libvlc_video_get_spu_count(p_obj->u.p_mp);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaPlayer_nativeGetSpuTracks(JNIEnv *env,
+                                                        jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return NULL;
+
+    return mediaplayer_tracklist_to_object(env,
+                libvlc_video_get_spu_description(p_obj->u.p_mp));
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeGetSpuTrack(JNIEnv *env,
+                                                       jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return -2;
+
+    return libvlc_video_get_spu(p_obj->u.p_mp);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetSpuTrack(JNIEnv *env,
+                                                       jobject thiz, jint index)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    return libvlc_video_set_spu(p_obj->u.p_mp, index) == 0 ? true : false;
+}
+
+jlong
+Java_org_videolan_libvlc_MediaPlayer_nativeGetSpuDelay(JNIEnv *env,
+                                                       jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0;
+
+    return libvlc_video_get_spu_delay(p_obj->u.p_mp);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetSpuDelay(JNIEnv *env,
+                                                       jobject thiz,
+                                                       jlong delay)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+       return false;
+
+    return libvlc_video_set_spu_delay(p_obj->u.p_mp, delay) == 0 ? true : false;
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetSubtitleFile(JNIEnv *env,
+                                                           jobject thiz,
+                                                           jstring jpath)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    const char* psz_path;
+
+    if (!jpath || !(psz_path = (*env)->GetStringUTFChars(env, jpath, 0)))
+    {
+        throw_IllegalArgumentException(env, "path invalid");
+        return false;
+    }
+
+    if (!p_obj)
+        return false;
+
+    jboolean ret = libvlc_video_set_subtitle_file(p_obj->u.p_mp, psz_path);
+
+    (*env)->ReleaseStringUTFChars(env, jpath, psz_path);
+    return ret;
+}
