@@ -79,10 +79,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -1805,24 +1803,9 @@ public class PlaybackService extends Service {
     }
 
     @MainThread
-    public float[] getBands() {
-        return mMediaPlayer.getBands();
+    public void setEqualizer(MediaPlayer.Equalizer equalizer) {
+        mMediaPlayer.setEqualizer(equalizer);
     }
-    @MainThread
-    public void setEqualizer(float[] bands) {
-        mMediaPlayer.setEqualizer(bands);
-    }
-
-    @MainThread
-    public String[] getPresets() {
-        return mMediaPlayer.getPresets();
-    }
-
-    @MainThread
-    public float[] getPreset(int index) {
-        return mMediaPlayer.getPreset(index);
-    }
-
 
     /**
      * Expand the current media.

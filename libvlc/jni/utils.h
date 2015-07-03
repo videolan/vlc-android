@@ -71,6 +71,10 @@ struct fields {
         struct {
             jclass clazz;
         } TrackDescription;
+        struct {
+            jclass clazz;
+            jfieldID mInstanceID;
+        } Equalizer;
 
         jclass clazz;
         jmethodID createTitleFromNativeID;

@@ -20,9 +20,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -39,14 +37,11 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
-import org.videolan.vlc.util.Preferences;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.widget.EqualizerBar;
 
@@ -57,7 +52,8 @@ public class EqualizerFragment extends PlaybackServiceFragment {
     private Spinner equalizer_presets;
     private SeekBar preamp;
     private LinearLayout bands_layout;
-    float[] equalizer = null;
+    private MediaPlayer.Equalizer mEqualizer = null;
+    private static final int BAND_COUNT = MediaPlayer.Equalizer.getBandCount();
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public EqualizerFragment() {
@@ -70,6 +66,7 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.equalizer, container, false);
         saveViewChildren(v);
+        fillViews();
 
         return v;
     }
@@ -85,34 +82,28 @@ public class EqualizerFragment extends PlaybackServiceFragment {
     @Override
     public void onConnected(PlaybackService service) {
         super.onConnected(service);
-        fillViews();
     }
 
     private void fillViews() {
         final Context context = getActivity();
 
-        if (mService == null || context == null)
+        if (context == null)
             return;
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final float[] bands;
-        final String[] presets;
+        final String[] presets = getEqualizerPresets();
 
-        bands = mService.getBands();
-        presets = mService.getPresets();
-        final float[] equalizerOption = VLCOptions.getEqualizer(context);
-        if (equalizer == null)
-            equalizer = equalizerOption;
-        if (equalizer == null)
-            equalizer = new float[bands.length + 1];
+        mEqualizer = VLCOptions.getEqualizer(context);
+        final boolean isEnabled = mEqualizer != null;
+        if (mEqualizer == null)
+            mEqualizer = MediaPlayer.Equalizer.create();
 
         // on/off
-        button.setChecked(equalizerOption != null);
+        button.setChecked(isEnabled);
         button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (mService != null)
-                    mService.setEqualizer(isChecked ? equalizer : null);
+                    mService.setEqualizer(isChecked ? mEqualizer : null);
             }
         });
 
@@ -131,16 +122,16 @@ public class EqualizerFragment extends PlaybackServiceFragment {
 
         // preamp
         preamp.setMax(40);
-        preamp.setProgress((int) equalizer[0] + 20);
+        preamp.setProgress((int) mEqualizer.getPreAmp() + 20);
         preamp.setOnSeekBarChangeListener(mPreampListener);
 
         // bands
-        for (int i = 0; i < bands.length; i++) {
-            float band = bands[i];
+        for (int i = 0; i < BAND_COUNT; i++) {
+            float band = MediaPlayer.Equalizer.getBandFrequency(i);
 
             EqualizerBar bar = new EqualizerBar(getActivity(), band);
-            bar.setValue(equalizer[i + 1]);
-            bar.setListener(new BandListener(i + 1));
+            bar.setValue(mEqualizer.getAmp(i));
+            bar.setListener(new BandListener(i));
 
             bands_layout.addView(bar);
             LinearLayout.LayoutParams params =
@@ -158,7 +149,10 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         preamp.setOnSeekBarChangeListener(null);
         bands_layout.removeAllViews();
 
-        VLCOptions.setEqualizer(getActivity(), button.isChecked(), equalizer, equalizer_presets.getSelectedItemPosition());
+        if (button.isChecked())
+            VLCOptions.setEqualizer(getActivity(), mEqualizer, equalizer_presets.getSelectedItemPosition());
+        else
+            VLCOptions.setEqualizer(getActivity(), null, 0);
     }
 
     private final OnItemSelectedListener mPresetListener = new OnItemSelectedListener() {
@@ -166,15 +160,13 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             if (mService == null)
                 return;
-            float[] preset = mService.getPreset(pos);
-            if (preset == null)
-                return;
 
-            equalizer = preset;
-            preamp.setProgress((int) equalizer[0] + 20);
-            for (int i = 0; i < equalizer.length - 1; ++i) {
+            mEqualizer = MediaPlayer.Equalizer.createFromPreset(pos);
+
+            preamp.setProgress((int) mEqualizer.getPreAmp() + 20);
+            for (int i = 0; i < BAND_COUNT; ++i) {
                 EqualizerBar bar = (EqualizerBar) bands_layout.getChildAt(i);
-                bar.setValue(equalizer[i + 1]);
+                bar.setValue(mEqualizer.getAmp(i));
             }
         }
 
@@ -197,9 +189,9 @@ public class EqualizerFragment extends PlaybackServiceFragment {
             if (!fromUser || mService == null)
                 return;
 
-            equalizer[0] = progress - 20;
+            mEqualizer.setPreAmp(progress - 20);
             if (button.isChecked())
-                mService.setEqualizer(equalizer);
+                mService.setEqualizer(mEqualizer);
         }
     };
 
@@ -212,9 +204,20 @@ public class EqualizerFragment extends PlaybackServiceFragment {
 
         @Override
         public void onProgressChanged(float value) {
-            equalizer[index] = value;
+            mEqualizer.setAmp(index, value);
             if (button.isChecked() && mService != null)
-                mService.setEqualizer(equalizer);
+                mService.setEqualizer(mEqualizer);
         }
+    }
+
+    private static String[] getEqualizerPresets() {
+        final int count = MediaPlayer.Equalizer.getPresetCount();
+        if (count <= 0)
+            return null;
+        final String [] presets = new String[count];
+        for (int i = 0; i < count; ++i) {
+            presets[i] = MediaPlayer.Equalizer.getPresetName(i);
+        }
+        return presets;
     }
 }

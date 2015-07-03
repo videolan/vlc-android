@@ -47,6 +47,25 @@ struct vlcjni_object_sys
     jobject jwindow;
 };
 
+static libvlc_equalizer_t *
+Equalizer_getInstance(JNIEnv *env, jobject thiz)
+{
+    intptr_t i_ptr = (intptr_t)
+        (*env)->GetLongField(env, thiz,
+                             fields.MediaPlayer.Equalizer.mInstanceID);
+    if (!i_ptr)
+        throw_IllegalStateException(env, "can't get Equalizer instance");
+    return (libvlc_equalizer_t*) i_ptr;
+}
+
+static void
+VLCJniObject_setInstance(JNIEnv *env, jobject thiz, libvlc_equalizer_t *p_eq)
+{
+    (*env)->SetLongField(env, thiz,
+                         fields.MediaPlayer.Equalizer.mInstanceID,
+                         (jlong)(intptr_t)p_eq);
+}
+
 static bool
 MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
                      java_event *p_java_event)
@@ -848,4 +867,155 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetSubtitleFile(JNIEnv *env,
 
     (*env)->ReleaseStringUTFChars(env, jpath, psz_path);
     return ret;
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetEqualizer(JNIEnv *env,
+                                                        jobject thiz,
+                                                        jobject jequalizer)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    libvlc_equalizer_t *p_eq = NULL;
+
+    if (!p_obj)
+       return false;
+
+    if (jequalizer)
+    {
+        p_eq = Equalizer_getInstance(env, jequalizer);
+        if (!p_eq)
+            return false;
+    }
+
+    return libvlc_media_player_set_equalizer(p_obj->u.p_mp, p_eq) == 0 ? true: false;
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetPresetCount(JNIEnv *env,
+                                                                         jobject thiz)
+{
+    return libvlc_audio_equalizer_get_preset_count();
+}
+
+jstring
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetPresetName(JNIEnv *env,
+                                                                        jobject thiz,
+                                                                        jint index)
+{
+    const char *psz_name;
+
+    if (index < 0)
+    {
+        throw_IllegalArgumentException(env, "index invalid");
+        return NULL;
+    }
+
+    psz_name = libvlc_audio_equalizer_get_preset_name(index);
+
+    return psz_name ? (*env)->NewStringUTF(env, psz_name) : NULL;
+
+}
+
+jint
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetBandCount(JNIEnv *env,
+                                                                       jobject thiz)
+{
+    return libvlc_audio_equalizer_get_band_count();
+}
+
+jfloat
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetBandFrequency(JNIEnv *env,
+                                                                           jobject thiz,
+                                                                           jint index)
+{
+    if (index < 0)
+    {
+        throw_IllegalArgumentException(env, "index invalid");
+        return 0.0;
+    }
+
+    return libvlc_audio_equalizer_get_band_frequency(index);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeNew(JNIEnv *env,
+                                                              jobject thiz)
+{
+    libvlc_equalizer_t *p_eq = libvlc_audio_equalizer_new();
+    if (!p_eq)
+        throw_IllegalStateException(env, "can't create Equalizer instance");
+
+    VLCJniObject_setInstance(env, thiz, p_eq);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeNewFromPreset(JNIEnv *env,
+                                                                        jobject thiz,
+                                                                        jint index)
+{
+    libvlc_equalizer_t *p_eq = libvlc_audio_equalizer_new_from_preset(index);
+    if (!p_eq)
+        throw_IllegalStateException(env, "can't create Equalizer instance");
+
+    VLCJniObject_setInstance(env, thiz, p_eq);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeRelease(JNIEnv *env,
+                                                                  jobject thiz)
+{
+    libvlc_equalizer_t *p_eq = Equalizer_getInstance(env, thiz);
+    if (!p_eq)
+        return;
+
+    libvlc_audio_equalizer_release(p_eq);
+    VLCJniObject_setInstance(env, thiz, NULL);
+}
+
+jfloat
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetPreAmp(JNIEnv *env,
+                                                                    jobject thiz)
+{
+    libvlc_equalizer_t *p_eq = Equalizer_getInstance(env, thiz);
+    if (!p_eq)
+        return 0.0;
+
+    return libvlc_audio_equalizer_get_preamp(p_eq);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeSetPreAmp(JNIEnv *env,
+                                                                    jobject thiz,
+                                                                    jfloat preamp)
+{
+    libvlc_equalizer_t *p_eq = Equalizer_getInstance(env, thiz);
+    if (!p_eq)
+        return false;
+
+    return libvlc_audio_equalizer_set_preamp(p_eq, preamp) == 0 ? true : false;
+}
+
+jfloat
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeGetAmp(JNIEnv *env,
+                                                                 jobject thiz,
+                                                                 jint index)
+{
+    libvlc_equalizer_t *p_eq = Equalizer_getInstance(env, thiz);
+    if (!p_eq)
+        return 0.0;
+
+    return libvlc_audio_equalizer_get_amp_at_index(p_eq, index);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_00024Equalizer_nativeSetAmp(JNIEnv *env,
+                                                                 jobject thiz,
+                                                                 jint index,
+                                                                 jfloat amp)
+{
+    libvlc_equalizer_t *p_eq = Equalizer_getInstance(env, thiz);
+    if (!p_eq)
+        return false;
+
+    return libvlc_audio_equalizer_set_amp_at_index(p_eq, amp, index) == 0 ? true : false;
 }

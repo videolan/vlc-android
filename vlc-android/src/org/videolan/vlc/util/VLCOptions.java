@@ -23,9 +23,11 @@ package org.videolan.vlc.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
 import android.util.Log;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
@@ -172,12 +174,21 @@ public class VLCOptions {
             media.addOption(":start-paused");
     }
 
-    // Equalizer
-    public static float[] getEqualizer(Context context) {
+    @MainThread
+    public static MediaPlayer.Equalizer getEqualizer(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        if (pref.getBoolean("equalizer_enabled", false))
-            return Preferences.getFloatArray(pref, "equalizer_values");
-        else
+        if (pref.getBoolean("equalizer_enabled", false)) {
+            final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
+            final int bandCount = MediaPlayer.Equalizer.getBandCount();
+            if (bands.length != bandCount + 1)
+                return null;
+
+            final MediaPlayer.Equalizer eq = MediaPlayer.Equalizer.create();
+            eq.setPreAmp(bands[0]);
+            for (int i = 0; i < bandCount; ++i)
+                eq.setAmp(i, bands[i + 1]);
+            return eq;
+        } else
             return null;
     }
 
@@ -186,12 +197,22 @@ public class VLCOptions {
         return pref.getInt("equalizer_preset", 0);
     }
 
-    public static void setEqualizer(Context context, boolean enabled, float[] values, int preset) {
+    public static void setEqualizer(Context context, MediaPlayer.Equalizer eq, int preset) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("equalizer_enabled", enabled);
-        Preferences.putFloatArray(editor, "equalizer_values", values);
-        editor.putInt("equalizer_preset", preset);
+        if (eq != null) {
+            editor.putBoolean("equalizer_enabled", true);
+            final int bandCount = MediaPlayer.Equalizer.getBandCount();
+            final float[] bands = new float[bandCount + 1];
+            bands[0] = eq.getPreAmp();
+            for (int i = 0; i < bandCount; ++i) {
+                bands[i + 1] = eq.getAmp(i);
+            }
+            Preferences.putFloatArray(editor, "equalizer_values", bands);
+            editor.putInt("equalizer_preset", preset);
+        } else {
+            editor.putBoolean("equalizer_enabled", false);
+        }
         Util.commitPreferences(editor);
     }
 

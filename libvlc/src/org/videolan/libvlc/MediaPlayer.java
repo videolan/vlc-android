@@ -175,6 +175,150 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return new TrackDescription(id, name);
     }
 
+    public static class Equalizer {
+        @SuppressWarnings("unused") /* Used from JNI */
+        private long mInstance;
+
+        private Equalizer() {
+            nativeNew();
+        }
+
+        private Equalizer(int index) {
+            nativeNewFromPreset(index);
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            try {
+                nativeRelease();
+            } finally {
+                super.finalize();
+            }
+        }
+
+        /**
+         * Create a new default equalizer, with all frequency values zeroed.
+         * The new equalizer can subsequently be applied to a media player by invoking
+         * {@link MediaPlayer#setEqualizer}.
+         *
+         * @return equalizer or NULL on error, should be released via {@link Equalizer#release()}
+         * when it's not needed anymore.
+         */
+        public static Equalizer create() {
+            return new Equalizer();
+        }
+
+        /**
+         * Create a new equalizer, with initial frequency values copied from an existing
+         * preset.
+         * The new equalizer can subsequently be applied to a media player by invoking
+         * {@link MediaPlayer#setEqualizer}.
+         *
+         * @return equalizer or NULL on error, should be released via {@link Equalizer#release()}
+         * when it's not needed anymore.
+         */
+        public static Equalizer createFromPreset(int index) {
+            return new Equalizer(index);
+        }
+
+        /**
+         * Get the number of equalizer presets.
+         */
+        public static int getPresetCount() {
+            return nativeGetPresetCount();
+        }
+
+        /**
+         * Get the name of a particular equalizer preset.
+         * This name can be used, for example, to prepare a preset label or menu in a user
+         * interface.
+         *
+         * @param  index index of the preset, counting from zero.
+         * @return preset name, or NULL if there is no such preset
+         */
+
+        public static String getPresetName(int index) {
+            return nativeGetPresetName(index);
+        }
+
+        /**
+         * Get the number of distinct frequency bands for an equalizer.
+         */
+        public static int getBandCount() {
+            return nativeGetBandCount();
+        }
+
+        /**
+         * Get a particular equalizer band frequency.
+         * This value can be used, for example, to create a label for an equalizer band control
+         * in a user interface.
+         *
+         * @param index index of the band, counting from zero.
+         * @return equalizer band frequency (Hz), or -1 if there is no such band
+         */
+        public static float getBandFrequency(int index) {
+            return nativeGetBandFrequency(index);
+        }
+
+        /**
+         * Get the current pre-amplification value from an equalizer.
+         *
+         * @return preamp value (Hz)
+         */
+        public float getPreAmp() {
+            return nativeGetPreAmp();
+        }
+
+        /**
+         * Set a new pre-amplification value for an equalizer.
+         * The new equalizer settings are subsequently applied to a media player by invoking
+         * {@link MediaPlayer#setEqualizer}.
+         * The supplied amplification value will be clamped to the -20.0 to +20.0 range.
+         *
+         * @param preamp value (-20.0 to 20.0 Hz)
+         * @return true on success.
+         */
+        public boolean setPreAmp(float preamp) {
+            return nativeSetPreAmp(preamp);
+        }
+
+        /**
+         * Get the amplification value for a particular equalizer frequency band.
+         *
+         * @param index counting from zero, of the frequency band to get.
+         * @return amplification value (Hz); NaN if there is no such frequency band.
+         */
+        public float getAmp(int index) {
+            return nativeGetAmp(index);
+        }
+
+        /**
+         * Set a new amplification value for a particular equalizer frequency band.
+         * The new equalizer settings are subsequently applied to a media player by invoking
+         * {@link MediaPlayer#setEqualizer}.
+         * The supplied amplification value will be clamped to the -20.0 to +20.0 range.
+         *
+         * @param index counting from zero, of the frequency band to set.
+         * @param amp amplification value (-20.0 to 20.0 Hz).
+         * \return true on success.
+         */
+        public boolean setAmp(int index, float amp) {
+            return nativeSetAmp(index, amp);
+        }
+
+        private static native int nativeGetPresetCount();
+        private static native String nativeGetPresetName(int index);
+        private static native int nativeGetBandCount();
+        private static native float nativeGetBandFrequency(int index);
+        private native void nativeNew();
+        private native void nativeNewFromPreset(int index);
+        private native void nativeRelease();
+        private native float nativeGetPreAmp();
+        private native boolean nativeSetPreAmp(float preamp);
+        private native float nativeGetAmp(int index);
+        private native boolean nativeSetAmp(int index, float amp);
+    }
+
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
@@ -191,9 +335,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         public synchronized void onSurfacesDestroyed(AWindow vout) {
             if (mVoutCount > 0)
                 setVideoTrack(-1);
-        /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
-         * used after leaving this callback. This shouldn't be needed when using MediaCodec or
-         * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
+            /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
+             * used after leaving this callback. This shouldn't be needed when using MediaCodec or
+             * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
             while (mVoutCount > 0) {
                 try {
                     wait();
@@ -450,6 +594,32 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Apply new equalizer settings to a media player.
+     *
+     * The equalizer is first created by invoking {@link Equalizer#create()} or
+     * {@link Equalizer#createFromPreset(int)}}.
+     *
+     * It is possible to apply new equalizer settings to a media player whether the media
+     * player is currently playing media or not.
+     *
+     * Invoking this method will immediately apply the new equalizer settings to the audio
+     * output of the currently playing media if there is any.
+     *
+     * If there is no currently playing media, the new equalizer settings will be applied
+     * later if and when new media is played.
+     *
+     * Equalizer settings will automatically be applied to subsequently played media.
+     *
+     * To disable the equalizer for a media player invoke this method passing null.
+     *
+     * @param equalizer can be released with {@link Equalizer#release()} after this call.
+     * @return true on success.
+     */
+    public synchronized boolean setEqualizer(Equalizer equalizer) {
+        return nativeSetEqualizer(equalizer);
+    }
+
+    /**
      * Set a new video subtitle file.
      *
      * @param path local path.
@@ -457,15 +627,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      */
     public synchronized boolean setSubtitleFile(String path) {
         return nativeSetSubtitleFile(path);
-    }
-
-    /**
-     * TODO: this doesn't respect API
-     *
-     * @param bands
-     */
-    public synchronized void setEqualizer(float[] bands) {
-        nativeSetEqualizer(bands);
     }
 
     /**
@@ -550,10 +711,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public native void setChapter(int chapter);
     public native void navigate(int navigate);
 
-    public native float[] getBands();
-    public native String[] getPresets();
-    public native float[] getPreset(int index);
-
     public synchronized void setEventListener(EventListener listener) {
         super.setEventListener(listener);
     }
@@ -599,7 +756,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativePlay();
     private native void nativeStop();
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
-    private native void nativeSetEqualizer(float[] bands);
     private native boolean nativeSetAudioOutput(String aout);
     private native Title[] nativeGetTitles();
     private native Chapter[] nativeGetChapters(int title);
@@ -620,4 +776,5 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native long nativeGetSpuDelay();
     private native boolean nativeSetSpuDelay(long delay);
     private native boolean nativeSetSubtitleFile(String path);
+    private native boolean nativeSetEqualizer(Equalizer equalizer);
 }

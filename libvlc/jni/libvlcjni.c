@@ -184,6 +184,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/MediaPlayer$Chapter", true);
     GET_CLASS(fields.MediaPlayer.TrackDescription.clazz,
               "org/videolan/libvlc/MediaPlayer$TrackDescription", true);
+    GET_CLASS(fields.MediaPlayer.Equalizer.clazz,
+              "org/videolan/libvlc/MediaPlayer$Equalizer", true);
 
     GET_ID(GetStaticMethodID,
            fields.LibVLC.onNativeCrashID,
@@ -193,6 +195,11 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetFieldID,
            fields.VLCObject.mInstanceID,
            fields.VLCObject.clazz,
+           "mInstance", "J");
+
+    GET_ID(GetFieldID,
+           fields.MediaPlayer.Equalizer.mInstanceID,
+           fields.MediaPlayer.Equalizer.clazz,
            "mInstance", "J");
 
     GET_ID(GetMethodID,
