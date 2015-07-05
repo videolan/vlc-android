@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="800dp"
-    android:layout_height="800dp">
+    android:orientation="vertical" android:layout_width="@dimen/file_picker_width"
+    android:layout_height="@dimen/file_picker_height">
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="@dimen/file_picker"
-        android:minHeight="@dimen/file_picker"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
