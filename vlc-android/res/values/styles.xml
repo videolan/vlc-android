@@ -56,6 +56,7 @@
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_close">@drawable/ic_close</item>
         <item name="ic_save">@drawable/ic_save</item>
+        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_menu_video">@drawable/ic_menu_video</item>
         <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
@@ -144,6 +145,7 @@
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_close">@drawable/ic_close_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
+        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
         <item name="ic_menu_video">@drawable/ic_menu_video_w</item>
         <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
