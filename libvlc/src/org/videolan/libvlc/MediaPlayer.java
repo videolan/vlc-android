@@ -320,22 +320,27 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
-        public synchronized void onSurfacesCreated(AWindow vout) {
-            if (!mPlaying && mPlayRequested)
-                play();
+        public void onSurfacesCreated(AWindow vout) {
+            synchronized (MediaPlayer.this) {
+                if (!mPlaying && mPlayRequested)
+                    play();
+            }
         }
 
         @Override
-        public synchronized void onSurfacesDestroyed(AWindow vout) {
-            if (mVoutCount > 0)
-                setVideoTrack(-1);
-            /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
-             * used after leaving this callback. This shouldn't be needed when using MediaCodec or
-             * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
-            while (mVoutCount > 0) {
-                try {
-                    wait();
-                } catch (InterruptedException ignored) {}
+        public void onSurfacesDestroyed(AWindow vout) {
+            synchronized (MediaPlayer.this) {
+                if (mVoutCount > 0)
+                    setVideoTrack(-1);
+                /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
+                 * used after leaving this callback. This shouldn't be needed when using MediaCodec or
+                 * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
+                while (mVoutCount > 0) {
+                    try {
+                        MediaPlayer.this.wait();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
             }
         }
     });
