@@ -698,10 +698,12 @@ public class PlaybackService extends Service {
         } else {
             final MediaPlayer.TrackDescription tracks[] = mMediaPlayer.getVideoTracks();
 
-            for (MediaPlayer.TrackDescription track : tracks) {
-                if (track.id != -1) {
-                    mMediaPlayer.setVideoTrack(track.id);
-                    break;
+            if (tracks != null) {
+                for (MediaPlayer.TrackDescription track : tracks) {
+                    if (track.id != -1) {
+                        mMediaPlayer.setVideoTrack(track.id);
+                        break;
+                    }
                 }
             }
         }
