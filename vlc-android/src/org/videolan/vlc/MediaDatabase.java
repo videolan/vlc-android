@@ -362,9 +362,11 @@ public class MediaDatabase {
                 new String[] { PLAYLIST_NAME },
                 null, null, null, null, null);
 
-        while(c.moveToNext())
-            playlists.add(c.getString(c.getColumnIndex(PLAYLIST_NAME)));
-        c.close();
+        if (c != null) {
+            while (c.moveToNext())
+                playlists.add(c.getString(c.getColumnIndex(PLAYLIST_NAME)));
+            c.close();
+        }
         return playlists.toArray(new String[playlists.size()]);
     }
 
@@ -413,9 +415,12 @@ public class MediaDatabase {
         Cursor c = mDb.query(PLAYLIST_TABLE_NAME,
                 new String[] { PLAYLIST_NAME }, PLAYLIST_NAME + "= ?",
                 new String[] { name }, null, null, "1");
-        int count = c.getCount();
-        c.close();
-        return (count > 0);
+        if (c != null) {
+            final int count = c.getCount();
+            c.close();
+            return (count > 0);
+        } else
+            return false;
     }
 
    /**
@@ -436,14 +441,18 @@ public class MediaDatabase {
                 new String[] { playlistName }, null, null,
                 PLAYLIST_MEDIA_ORDER + " ASC");
 
-        int count = c.getCount();
-        String ret[] = new String[count]; int i = 0;
-        while(c.moveToNext()) {
-            ret[i] = c.getString(c.getColumnIndex(PLAYLIST_MEDIA_MEDIALOCATION));
-            i++;
-        }
-        c.close();
-        return ret;
+        if (c != null) {
+            int count = c.getCount();
+            String ret[] = new String[count];
+            int i = 0;
+            while (c.moveToNext()) {
+                ret[i] = c.getString(c.getColumnIndex(PLAYLIST_MEDIA_MEDIALOCATION));
+                i++;
+            }
+            c.close();
+            return ret;
+        } else
+            return null;
     }
 
     /**
@@ -492,15 +501,17 @@ public class MediaDatabase {
                 new String[] { playlistName, String.valueOf(position) },
                 null, null,
                 PLAYLIST_MEDIA_ORDER + " ASC");
-        while(c.moveToNext()) {
-            ContentValues cv = new ContentValues();
-            int ii = c.getInt(c.getColumnIndex(PLAYLIST_MEDIA_ORDER)) + factor;
-            Log.d(TAG, "ii = " + ii);
-            cv.put(PLAYLIST_MEDIA_ORDER, ii /* i */);
-            mDb.update(PLAYLIST_MEDIA_TABLE_NAME, cv, PLAYLIST_MEDIA_ID + "=?",
-                    new String[] { c.getString(c.getColumnIndex(PLAYLIST_MEDIA_ID)) });
+        if (c != null) {
+            while (c.moveToNext()) {
+                ContentValues cv = new ContentValues();
+                int ii = c.getInt(c.getColumnIndex(PLAYLIST_MEDIA_ORDER)) + factor;
+                Log.d(TAG, "ii = " + ii);
+                cv.put(PLAYLIST_MEDIA_ORDER, ii /* i */);
+                mDb.update(PLAYLIST_MEDIA_TABLE_NAME, cv, PLAYLIST_MEDIA_ID + "=?",
+                        new String[]{c.getString(c.getColumnIndex(PLAYLIST_MEDIA_ID))});
+            }
+            c.close();
         }
-        c.close();
     }
 
     /**
@@ -595,9 +606,12 @@ public class MediaDatabase {
                     MEDIA_LOCATION + "=?",
                     new String[] { uri.toString() },
                     null, null, null);
-            boolean exists = cursor.moveToFirst();
-            cursor.close();
-            return exists;
+            if (cursor != null) {
+                final boolean exists = cursor.moveToFirst();
+                cursor.close();
+                return exists;
+            } else
+                return false;
         } catch (Exception e) {
             Log.e(TAG, "Query failed");
             return false;
@@ -618,14 +632,16 @@ public class MediaDatabase {
                 MEDIA_TABLE_NAME,
                 new String[] { MEDIA_LOCATION },
                 null, null, null, null, null);
-        cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            do {
-                File file = new File(cursor.getString(0));
-                files.add(file);
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            cursor.moveToFirst();
+            if (!cursor.isAfterLast()) {
+                do {
+                    File file = new File(cursor.getString(0));
+                    files.add(file);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }
-        cursor.close();
 
         return files;
     }
@@ -640,12 +656,14 @@ public class MediaDatabase {
 
         ArrayList<String> mediaList = new ArrayList<String>();
         Cursor cursor = queryMedia(filter);
-        if (cursor.moveToFirst()){
-            do {
-                mediaList.add(cursor.getString(0));
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    mediaList.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }
-        cursor.close();
         return mediaList;
     }
 
@@ -681,36 +699,39 @@ public class MediaDatabase {
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
-            if (cursor.moveToFirst()) {
-                try {
-                    do {
-                        final Uri uri = AndroidUtil.LocationToUri(cursor.getString(0));
-                        MediaWrapper media = new MediaWrapper(uri,
-                                cursor.getLong(1),      // MEDIA_TIME
-                                cursor.getLong(2),      // MEDIA_LENGTH
-                                cursor.getInt(3),       // MEDIA_TYPE
-                                null,                   // MEDIA_PICTURE
-                                cursor.getString(4),    // MEDIA_TITLE
-                                cursor.getString(5),    // MEDIA_ARTIST
-                                cursor.getString(6),    // MEDIA_GENRE
-                                cursor.getString(7),    // MEDIA_ALBUM
-                                cursor.getString(8),    // MEDIA_ALBUMARTIST
-                                cursor.getInt(9),       // MEDIA_WIDTH
-                                cursor.getInt(10),       // MEDIA_HEIGHT
-                                cursor.getString(11),   // MEDIA_ARTWORKURL
-                                cursor.getInt(12),      // MEDIA_AUDIOTRACK
-                                cursor.getInt(13),      // MEDIA_SPUTRACK
-                                cursor.getInt(14),      // MEDIA_TRACKNUMBER
-                                cursor.getInt(15),     // MEDIA_DISCNUMBER
-                                cursor.getLong(16));     // MEDIA_LAST_MODIFIED
-                        medias.put(media.getUri().toString(), media);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    try {
+                        do {
+                            final Uri uri = AndroidUtil.LocationToUri(cursor.getString(0));
+                            MediaWrapper media = new MediaWrapper(uri,
+                                    cursor.getLong(1),      // MEDIA_TIME
+                                    cursor.getLong(2),      // MEDIA_LENGTH
+                                    cursor.getInt(3),       // MEDIA_TYPE
+                                    null,                   // MEDIA_PICTURE
+                                    cursor.getString(4),    // MEDIA_TITLE
+                                    cursor.getString(5),    // MEDIA_ARTIST
+                                    cursor.getString(6),    // MEDIA_GENRE
+                                    cursor.getString(7),    // MEDIA_ALBUM
+                                    cursor.getString(8),    // MEDIA_ALBUMARTIST
+                                    cursor.getInt(9),       // MEDIA_WIDTH
+                                    cursor.getInt(10),       // MEDIA_HEIGHT
+                                    cursor.getString(11),   // MEDIA_ARTWORKURL
+                                    cursor.getInt(12),      // MEDIA_AUDIOTRACK
+                                    cursor.getInt(13),      // MEDIA_SPUTRACK
+                                    cursor.getInt(14),      // MEDIA_TRACKNUMBER
+                                    cursor.getInt(15),     // MEDIA_DISCNUMBER
+                                    cursor.getLong(16));     // MEDIA_LAST_MODIFIED
+                            medias.put(media.getUri().toString(), media);
 
-                        count++;
-                    } while (cursor.moveToNext());
-                } catch (IllegalStateException e) {} //Google bug causing IllegalStateException, see https://code.google.com/p/android/issues/detail?id=32472
+                            count++;
+                        } while (cursor.moveToNext());
+                    } catch (IllegalStateException e) {
+                    } //Google bug causing IllegalStateException, see https://code.google.com/p/android/issues/detail?id=32472
+                }
+
+                cursor.close();
             }
-
-            cursor.close();
             chunk_count++;
         } while (count == CHUNK_SIZE);
 
@@ -736,16 +757,18 @@ public class MediaDatabase {
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
-            if (cursor.moveToFirst()) {
-                do {
-                    String location = cursor.getString(0);
-                    long time = cursor.getLong(1);
-                    times.put(location, time);
-                    count++;
-                } while (cursor.moveToNext());
-            }
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        String location = cursor.getString(0);
+                        long time = cursor.getLong(1);
+                        times.put(location, time);
+                        count++;
+                    } while (cursor.moveToNext());
+                }
 
-            cursor.close();
+                cursor.close();
+            }
             chunk_count++;
         } while (count == CHUNK_SIZE);
 
@@ -785,27 +808,29 @@ public class MediaDatabase {
             // java.lang.IllegalArgumentException: the bind value at index 1 is null
             return null;
         }
-        if (cursor.moveToFirst()) {
-            media = new MediaWrapper(uri,
-                    cursor.getLong(0),
-                    cursor.getLong(1),
-                    cursor.getInt(2),
-                    null, // lazy loading, see getPicture()
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getInt(8),
-                    cursor.getInt(9),
-                    cursor.getString(10),
-                    cursor.getInt(11),
-                    cursor.getInt(12),
-                    cursor.getInt(13),
-                    cursor.getInt(14),
-                    cursor.getLong(15));
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                media = new MediaWrapper(uri,
+                        cursor.getLong(0),
+                        cursor.getLong(1),
+                        cursor.getInt(2),
+                        null, // lazy loading, see getPicture()
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getInt(8),
+                        cursor.getInt(9),
+                        cursor.getString(10),
+                        cursor.getInt(11),
+                        cursor.getInt(12),
+                        cursor.getInt(13),
+                        cursor.getInt(14),
+                        cursor.getLong(15));
+            }
+            cursor.close();
         }
-        cursor.close();
         return media;
     }
 
@@ -821,19 +846,21 @@ public class MediaDatabase {
                 MEDIA_LOCATION + "=?",
                 new String[] { uri.toString() },
                 null, null, null);
-        if (cursor.moveToFirst()) {
-            blob = cursor.getBlob(0);
-            if (blob != null && blob.length > 1 && blob.length < 500000) {
-                try {
-                    picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                } catch(OutOfMemoryError e) {
-                    picture = null;
-                } finally {
-                    blob = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                blob = cursor.getBlob(0);
+                if (blob != null && blob.length > 1 && blob.length < 500000) {
+                    try {
+                        picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                    } catch (OutOfMemoryError e) {
+                        picture = null;
+                    } finally {
+                        blob = null;
+                    }
                 }
             }
+            cursor.close();
         }
-        cursor.close();
         return picture;
     }
 
@@ -951,14 +978,16 @@ public class MediaDatabase {
                 DIR_TABLE_NAME,
                 new String[] { DIR_ROW_PATH },
                 null, null, null, null, null);
-        cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            do {
-                File dir = new File(cursor.getString(0));
-                paths.add(dir);
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            cursor.moveToFirst();
+            if (!cursor.isAfterLast()) {
+                do {
+                    File dir = new File(cursor.getString(0));
+                    paths.add(dir);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }
-        cursor.close();
 
         return paths;
     }
@@ -1030,10 +1059,12 @@ public class MediaDatabase {
                 MRL_DATE + " DESC",
                 MRL_TABLE_SIZE);
 
-        while (cursor.moveToNext()) {
-            history.add(cursor.getString(0));
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                history.add(cursor.getString(0));
+            }
+            cursor.close();
         }
-        cursor.close();
 
         return history;
     }
@@ -1060,9 +1091,12 @@ public class MediaDatabase {
                 NETWORK_FAV_URI + "=?",
                 new String[] { uri.toString() },
                 null, null, null);
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        return exists;
+        if (cursor != null) {
+            final boolean exists = cursor.moveToFirst();
+            cursor.close();
+            return exists;
+        } else
+            return false;
     }
 
     public synchronized ArrayList<MediaWrapper> getAllNetworkFav() {
@@ -1072,14 +1106,15 @@ public class MediaDatabase {
         Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
                 new String[] { NETWORK_FAV_URI , NETWORK_FAV_TITLE},
                 null, null, null, null, null);
-
-        while (cursor.moveToNext()) {
-            mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
-            mw.setTitle(Uri.decode(cursor.getString(1)));
-            mw.setType(MediaWrapper.TYPE_DIR);
-            favs.add(mw);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
+                mw.setTitle(Uri.decode(cursor.getString(1)));
+                mw.setType(MediaWrapper.TYPE_DIR);
+                favs.add(mw);
+            }
+            cursor.close();
         }
-        cursor.close();
 
         return favs;
     }

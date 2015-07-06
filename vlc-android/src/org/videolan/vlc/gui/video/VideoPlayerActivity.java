@@ -117,6 +117,7 @@ import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -2506,11 +2507,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
                         Cursor returnCursor =
                                 getContentResolver().query(data, null, null, null, null);
-                        if (returnCursor != null && returnCursor.getCount() > 0) {
-                            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                            if (nameIndex > -1) {
-                                returnCursor.moveToFirst();
-                                title = returnCursor.getString(nameIndex);
+                        if (returnCursor != null) {
+                            if (returnCursor.getCount() > 0) {
+                                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                                if (nameIndex > -1) {
+                                    returnCursor.moveToFirst();
+                                    title = returnCursor.getString(nameIndex);
+                                }
                             }
                             returnCursor.close();
                         }
