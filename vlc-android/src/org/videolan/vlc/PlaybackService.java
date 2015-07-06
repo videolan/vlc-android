@@ -1090,6 +1090,27 @@ public class PlaybackService extends Service {
         }
     }
 
+    private void notifyTrackChanged() {
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        showNotification();
+        updateWidget();
+        broadcastMetadata();
+        updateRemoteControlClientMetadata();
+    }
+
+    private void onMediaChanged() {
+        notifyTrackChanged();
+
+        saveCurrentMedia();
+        determinePrevAndNextIndices();
+    }
+
+    private void onMediaListChanged() {
+        saveMediaList();
+        executeUpdate();
+        determinePrevAndNextIndices();
+    }
+
     @MainThread
     public void next() {
         mPrevious.push(mCurrentIndex);
@@ -1105,15 +1126,7 @@ public class PlaybackService extends Service {
         }
 
         playIndex(mCurrentIndex, 0);
-
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget();
-        broadcastMetadata();
-        updateRemoteControlClientMetadata();
-        saveCurrentMedia();
-
-        determinePrevAndNextIndices();
+        onMediaChanged();
     }
 
     @MainThread
@@ -1130,14 +1143,7 @@ public class PlaybackService extends Service {
         }
 
         playIndex(mCurrentIndex, 0);
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget();
-        broadcastMetadata();
-        updateRemoteControlClientMetadata();
-        saveCurrentMedia();
-
-        determinePrevAndNextIndices();
+        onMediaChanged();
     }
 
     @MainThread
@@ -1497,15 +1503,8 @@ public class PlaybackService extends Service {
         mMediaList.addEventListener(mListEventListener);
 
         playIndex(mCurrentIndex, 0);
-
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget();
-        broadcastMetadata();
-        updateRemoteControlClientMetadata();
-        PlaybackService.this.saveMediaList();
-        PlaybackService.this.saveCurrentMedia();
-        determinePrevAndNextIndices();
+        saveMediaList();
+        onMediaChanged();
     }
 
     @MainThread
@@ -1553,11 +1552,7 @@ public class PlaybackService extends Service {
         mMediaPlayer.setEventListener(mMediaPlayerListener);
         mMediaPlayer.play();
 
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget();
-        broadcastMetadata();
-        updateRemoteControlClientMetadata();
+        notifyTrackChanged();
         determinePrevAndNextIndices();
     }
 
@@ -1587,12 +1582,7 @@ public class PlaybackService extends Service {
             return;
         mCurrentIndex = index;
 
-        // Notify everyone
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        determinePrevAndNextIndices();
-        executeUpdate();
-        executeUpdateProgress();
+        notifyTrackChanged();
     }
 
     /**
@@ -1610,9 +1600,7 @@ public class PlaybackService extends Service {
             MediaWrapper mediaWrapper = mediaList.get(i);
             mMediaList.add(mediaWrapper);
         }
-        PlaybackService.this.saveMediaList();
-        determinePrevAndNextIndices();
-        executeUpdate();
+        onMediaListChanged();
     }
 
     @MainThread
@@ -1634,17 +1622,13 @@ public class PlaybackService extends Service {
     @MainThread
     public void remove(int position) {
         mMediaList.remove(position);
-        PlaybackService.this.saveMediaList();
-        determinePrevAndNextIndices();
-        executeUpdate();
+        onMediaListChanged();
     }
 
     @MainThread
     public void removeLocation(String location) {
         mMediaList.remove(location);
-        PlaybackService.this.saveMediaList();
-        determinePrevAndNextIndices();
-        executeUpdate();
+        onMediaListChanged();
     }
 
     @MainThread
