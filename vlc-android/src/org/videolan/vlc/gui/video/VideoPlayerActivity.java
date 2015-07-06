@@ -1356,7 +1356,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.ESAdded:
             case MediaPlayer.Event.ESDeleted:
-                if (mMenuIdx == -1) {
+                if (mMenuIdx == -1 && event.getEsChangedType() == Media.Track.Type.Video) {
                     mHandler.removeMessages(CHECK_VIDEO_TRACKS);
                     mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
                 }
@@ -1510,7 +1510,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mHardwareAccelerationError || mService == null)
             return;
         mSwitchingView = true;
-        mService.setVideoEnabled(false, false);
+        mService.setVideoEnabled(true, false);
         // Show the MainActivity if it is not in background.
         if (showUI && getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {

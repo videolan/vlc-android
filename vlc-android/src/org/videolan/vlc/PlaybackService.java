@@ -64,8 +64,8 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Util;
@@ -100,6 +100,7 @@ public class PlaybackService extends Service {
     public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
+    public static final String ACTION_REMOTE_RESUME_VIDEO = "org.videolan.vlc.remote.ResumeVideo";
     public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
     public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
@@ -219,6 +220,7 @@ public class PlaybackService extends Service {
         filter.addAction(ACTION_REMOTE_STOP);
         filter.addAction(ACTION_REMOTE_FORWARD);
         filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
+        filter.addAction(ACTION_REMOTE_RESUME_VIDEO);
         filter.addAction(ACTION_WIDGET_INIT);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -497,6 +499,8 @@ public class PlaybackService extends Service {
                 next();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
                 loadLastPlaylist();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_RESUME_VIDEO)) {
+                handleVout();
             } else if (action.equalsIgnoreCase(ACTION_WIDGET_INIT)) {
                 updateWidget();
             }
@@ -626,7 +630,11 @@ public class PlaybackService extends Service {
                 case MediaPlayer.Event.Vout:
                     break;
                 case MediaPlayer.Event.ESAdded:
-                    handleVout();
+                    if (event.getEsChangedType() == Media.Track.Type.Video) {
+                        if (!handleVout())
+                            /* Update notification content intent: resume video or resume audio activity */
+                            showNotification();
+                    }
                     break;
                 case MediaPlayer.Event.ESDeleted:
                     break;
@@ -711,18 +719,24 @@ public class PlaybackService extends Service {
 
     @MainThread
     public void setVideoEnabled(boolean enabled, boolean videoPlayerInForeground) {
-        if (videoPlayerInForeground)
+        if (videoPlayerInForeground) {
+            enabled = true;
             hideNotification(false);
+        }
         mVideoPlayerInForeground = videoPlayerInForeground;
         mVideoEnabled = enabled;
         if (hasCurrentMedia())
             setVideoTrackEnabled(mVideoEnabled);
     }
 
+    private boolean canSwitchToVideo () {
+        return mMediaPlayer.getVideoTracksCount() > 0 && hasCurrentMedia() && mVideoEnabled;
+    }
+
     @MainThread
-    public void handleVout() {
-        if (mMediaPlayer.getVideoTracksCount() <= 0 || !hasCurrentMedia() || !mVideoEnabled)
-            return;
+    public boolean handleVout() {
+        if (!canSwitchToVideo())
+            return false;
 
         // Switch to the video player & don't lose the currently playing stream
         if (!mVideoPlayerInForeground) {
@@ -731,6 +745,7 @@ public class PlaybackService extends Service {
             setVideoTrackEnabled(false);
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), mCurrentIndex);
         }
+        return true;
     }
 
     private void executeUpdate() {
@@ -831,11 +846,20 @@ public class PlaybackService extends Service {
                 .setOngoing(mMediaPlayer.isPlaying())
                 .setDeleteIntent(piStop);
 
-            Intent notificationIntent = new Intent(this, MainActivity.class);
-            notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
-            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            PendingIntent pendingIntent;
+            if (canSwitchToVideo()) {
+                /* Resume VideoPlayerActivity from from ACTION_REMOTE_RESUME_VIDEO intent */
+                final Intent notificationIntent = new Intent(ACTION_REMOTE_RESUME_VIDEO);
+                pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            } else {
+                /* Resume AudioPlayerActivity */
+                final Intent notificationIntent = new Intent(PlaybackService.this, MainActivity.class);
+                notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
+                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
+                pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
 
             if (AndroidUtil.isJellyBeanOrLater()) {
                 Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
@@ -917,8 +941,7 @@ public class PlaybackService extends Service {
      * @param stopPlayback True to also stop playback at the same time. Set to false to preserve playback (e.g. for vout events)
      */
     private void hideNotification(boolean stopPlayback) {
-        if (!mVideoPlayerInForeground)
-            stopForeground(true);
+        stopForeground(true);
         if(stopPlayback)
             stopSelf();
     }
