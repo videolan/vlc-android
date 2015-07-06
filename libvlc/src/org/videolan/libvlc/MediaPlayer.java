@@ -200,9 +200,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
          * Create a new default equalizer, with all frequency values zeroed.
          * The new equalizer can subsequently be applied to a media player by invoking
          * {@link MediaPlayer#setEqualizer}.
-         *
-         * @return equalizer or NULL on error, should be released via {@link Equalizer#release()}
-         * when it's not needed anymore.
          */
         public static Equalizer create() {
             return new Equalizer();
@@ -213,9 +210,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
          * preset.
          * The new equalizer can subsequently be applied to a media player by invoking
          * {@link MediaPlayer#setEqualizer}.
-         *
-         * @return equalizer or NULL on error, should be released via {@link Equalizer#release()}
-         * when it's not needed anymore.
          */
         public static Equalizer createFromPreset(int index) {
             return new Equalizer(index);
@@ -612,7 +606,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * To disable the equalizer for a media player invoke this method passing null.
      *
-     * @param equalizer can be released with {@link Equalizer#release()} after this call.
      * @return true on success.
      */
     public synchronized boolean setEqualizer(Equalizer equalizer) {
