@@ -1051,32 +1051,6 @@ public class PlaybackService extends Service {
         }
     }
 
-    @MainThread
-    public void next() {
-        mPrevious.push(mCurrentIndex);
-        mCurrentIndex = mNextIndex;
-
-        int size = mMediaList.size();
-        if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
-            if (mCurrentIndex < 0)
-                saveCurrentMedia();
-            Log.w(TAG, "Warning: invalid next index, aborted !");
-            stop();
-            return;
-        }
-
-        playIndex(mCurrentIndex, 0);
-
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget();
-        broadcastMetadata();
-        updateRemoteControlClientMetadata();
-        saveCurrentMedia();
-
-        determinePrevAndNextIndices();
-    }
-
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void updateRemoteControlClientMetadata() {
         if (!AndroidUtil.isICSOrLater()) // NOP check
@@ -1114,6 +1088,32 @@ public class PlaybackService extends Service {
             i.putExtra("track", media.getTitle());
             sendBroadcast(i);
         }
+    }
+
+    @MainThread
+    public void next() {
+        mPrevious.push(mCurrentIndex);
+        mCurrentIndex = mNextIndex;
+
+        int size = mMediaList.size();
+        if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
+            if (mCurrentIndex < 0)
+                saveCurrentMedia();
+            Log.w(TAG, "Warning: invalid next index, aborted !");
+            stop();
+            return;
+        }
+
+        playIndex(mCurrentIndex, 0);
+
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        showNotification();
+        updateWidget();
+        broadcastMetadata();
+        updateRemoteControlClientMetadata();
+        saveCurrentMedia();
+
+        determinePrevAndNextIndices();
     }
 
     @MainThread
