@@ -436,6 +436,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
         if (mPresentation != null)
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
+        dimStatusBar(false);
         startLoading();
 
         mSwitchingView = false;
