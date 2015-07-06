@@ -78,6 +78,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private TextView mTime;
     private TextView mHeaderTime;
     private TextView mLength;
+    private ImageButton mResumeToVideo;
     private ImageButton mPlayPause;
     private ImageButton mHeaderPlayPause;
     private ImageButton mNext;
@@ -128,6 +129,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mTime = (TextView) v.findViewById(R.id.time);
         mHeaderTime = (TextView) v.findViewById(R.id.header_time);
         mLength = (TextView) v.findViewById(R.id.length);
+        mResumeToVideo = (ImageButton) v.findViewById(R.id.playlist_playasaudio_off);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
         mHeaderPlayPause = (ImageButton) v.findViewById(R.id.header_play_pause);
         mNext = (ImageButton) v.findViewById(R.id.next);
@@ -158,6 +160,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             @Override
             public void onClick(View v) {
                 onTimeLabelClick(v);
+            }
+        });
+        mResumeToVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mService != null) {
+                    mService.setVideoEnabled(true, false);
+                    mService.handleVout();
+                }
             }
         });
         mPlayPause.setOnClickListener(new View.OnClickListener() {
@@ -330,6 +341,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mCoverMediaSwitcher.updateMedia(mService);
 
         FragmentActivity act = getActivity();
+        mResumeToVideo.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
 
         if (mService.isPlaying()) {
             mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
