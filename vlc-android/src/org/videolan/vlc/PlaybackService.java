@@ -87,7 +87,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlaybackService extends Service {
 
-    private static final String TAG = "VLC/AudioService";
+    private static final String TAG = "VLC/PlaybackService";
 
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
