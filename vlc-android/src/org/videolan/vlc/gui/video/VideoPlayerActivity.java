@@ -36,7 +36,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
-import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaRouter;
 import android.net.Uri;
 import android.os.Build;
@@ -50,7 +49,6 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.support.annotation.MainThread;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -115,7 +113,6 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
-import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
@@ -131,7 +128,6 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError,
@@ -210,6 +206,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private TextView mInfo;
     private View mVerticalBar;
     private View mVerticalBarProgress;
+    private boolean mIsLoading;
     private ImageView mLoading;
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
@@ -439,7 +436,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
         if (mPresentation != null)
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
-        startLoadingAnimation();
+        startLoading();
 
         mSwitchingView = false;
         mHardwareAccelerationError = false;
@@ -888,12 +885,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
+        if (mIsLoading)
+            return false;
         showOverlay();
         return true;
     }
 
     @TargetApi(12) //only active for Android 3.1+
     public boolean dispatchGenericMotionEvent(MotionEvent event){
+        if (mIsLoading)
+            return  false;
         //Check for a joystick event
         if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) !=
                 InputDevice.SOURCE_JOYSTICK ||
@@ -955,6 +956,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)
             return super.onKeyDown(keyCode, event);
+        if (mIsLoading) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_S:
+                case KeyEvent.KEYCODE_MEDIA_STOP:
+                    exitOK();
+                    return true;
+            }
+            return false;
+        }
         showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
@@ -1404,7 +1414,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void onPlaying() {
-        stopLoadingAnimation();
+        stopLoading();
         showOverlay();
         setESTracks();
         updateNavStatus();
@@ -1414,7 +1424,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mService == null)
             return;
         if(mService.expand() == 0) {
-            startLoadingAnimation();
+            startLoading();
             Log.d(TAG, "Found a video playlist, expanding it");
             mHandler.post(new Runnable() {
                 @Override
@@ -1651,7 +1661,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mService == null)
+        if (mService == null || mIsLoading)
             return false;
         if (mDelay != DelayState.OFF){
             endDelaySetting();
@@ -2852,7 +2862,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     /**
      * Start the video loading animation.
      */
-    private void startLoadingAnimation() {
+    private void startLoading() {
+        mIsLoading = true;
+        mOverlayProgress.setVisibility(View.INVISIBLE);
         AnimationSet anim = new AnimationSet(true);
         RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(800);
@@ -2865,7 +2877,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     /**
      * Stop the video loading animation.
      */
-    private void stopLoadingAnimation() {
+    private void stopLoading() {
+        mIsLoading = false;
+        mOverlayProgress.setVisibility(View.VISIBLE);
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
         if (mPresentation != null) {
