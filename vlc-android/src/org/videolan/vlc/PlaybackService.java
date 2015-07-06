@@ -852,6 +852,7 @@ public class PlaybackService extends Service {
                 view.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
                 view.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view.setOnClickPendingIntent(R.id.forward, piForward);
+                view.setViewVisibility(R.id.forward, hasNext() ? View.VISIBLE : View.INVISIBLE);
                 view.setOnClickPendingIntent(R.id.stop, piStop);
                 view.setOnClickPendingIntent(R.id.content, pendingIntent);
 
@@ -862,8 +863,10 @@ public class PlaybackService extends Service {
                 view_expanded.setTextViewText(R.id.album, album);
                 view_expanded.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
                 view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
+                view_expanded.setViewVisibility(R.id.backward, hasPrevious() ? View.VISIBLE : View.INVISIBLE);
                 view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
+                view_expanded.setViewVisibility(R.id.forward, hasNext() ? View.VISIBLE : View.INVISIBLE);
                 view_expanded.setOnClickPendingIntent(R.id.stop, piStop);
                 view_expanded.setOnClickPendingIntent(R.id.content, pendingIntent);
 
