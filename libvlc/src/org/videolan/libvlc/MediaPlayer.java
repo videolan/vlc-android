@@ -447,6 +447,16 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Configures an explicit audio output device.
+     * Audio output will be moved to the device specified by the device identifier string.
+     *
+     * @return true on success.
+     */
+    public synchronized boolean setAudioOutputDevice(String id) {
+        return nativeSetAudioOutputDevice(id);
+    }
+
+    /**
      * Get the full description of available titles.
      *
      * @return the list of titles

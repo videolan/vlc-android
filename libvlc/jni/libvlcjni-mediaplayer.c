@@ -482,6 +482,29 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioOutput(JNIEnv *env,
     return i_ret == 0 ? true : false;
 }
 
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeSetAudioOutputDevice(JNIEnv *env,
+                                                                jobject thiz,
+                                                                jstring jid)
+{
+    const char* psz_id;
+    int i_ret;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return false;
+
+    if (!jid || !(psz_id = (*env)->GetStringUTFChars(env, jid, 0)))
+    {
+        throw_IllegalArgumentException(env, "aout invalid");
+        return false;
+    }
+
+    libvlc_audio_output_device_set(p_obj->u.p_mp, NULL, psz_id);
+    (*env)->ReleaseStringUTFChars(env, jid, psz_id);
+    return true;
+}
+
 static jobject
 mediaplayer_title_to_object(JNIEnv *env, libvlc_title_description_t *p_title)
 {
