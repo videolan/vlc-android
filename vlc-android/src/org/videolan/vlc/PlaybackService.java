@@ -1539,8 +1539,6 @@ public class PlaybackService extends Service {
         if (mw == null)
             return;
 
-        if (!mVideoEnabled)
-            flags |= VLCOptions.MEDIA_NO_VIDEO;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
         media.setEventListener(mMediaListener);

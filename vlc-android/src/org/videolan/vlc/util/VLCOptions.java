@@ -49,7 +49,7 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
-    public final static int MEDIA_NO_VIDEO = 0x01;
+    public final static int MEDIA_VIDEO = 0x01;
     public final static int MEDIA_NO_HWACCEL = 0x02;
     public final static int MEDIA_PAUSED = 0x4;
 
@@ -148,7 +148,7 @@ public class VLCOptions {
 
     public static void setMediaOptions(Media media, Context context, int flags) {
         boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
-        boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
+        boolean noVideo = (flags & MEDIA_VIDEO) == 0;
         final boolean paused = (flags & MEDIA_PAUSED) != 0;
         int hardwareAcceleration = HW_ACCELERATION_DISABLED;
 

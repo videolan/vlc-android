@@ -2625,6 +2625,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mw.addFlags(VLCOptions.MEDIA_PAUSED);
                 if (mHardwareAccelerationError)
                     mw.addFlags(VLCOptions.MEDIA_NO_HWACCEL);
+                mw.addFlags(VLCOptions.MEDIA_VIDEO);
                 mService.addCallback(this);
                 mService.load(mw);
                 savedIndexPosition = mService.getCurrentMediaPosition();
