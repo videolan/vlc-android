@@ -228,7 +228,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
             filter.addAction(VLCApplication.CALL_ENDED_INTENT);
         }
-        registerReceiver(serviceReceiver, filter);
+        registerReceiver(mReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean stealRemoteControl = pref.getBoolean("enable_steal_remote_control", false);
@@ -299,7 +299,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         stop();
         if (mWakeLock.isHeld())
             mWakeLock.release();
-        unregisterReceiver(serviceReceiver);
+        unregisterReceiver(mReceiver);
         if (mRemoteControlClientReceiver != null) {
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
@@ -432,7 +432,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             changeAudioFocusFroyoOrLater(acquire);
     }
 
-    private final BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
