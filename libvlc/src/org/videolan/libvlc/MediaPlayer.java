@@ -435,6 +435,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         nativeSetVideoTitleDisplay(position, timeout);
     }
 
+    /**
+     * Selects an audio output module.
+     * Any change will take effect only after playback is stopped and
+     * restarted. Audio output cannot be changed while playing.
+     *
+     * @return true on success.
+     */
     public synchronized boolean setAudioOutput(String aout) {
         return nativeSetAudioOutput(aout);
     }
