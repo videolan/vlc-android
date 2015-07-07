@@ -171,7 +171,6 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        mService.setVideoEnabled(false, false);
         mService.load(mMediaWrapper);
     }
 

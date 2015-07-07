@@ -383,7 +383,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(position).mMediaList;
         if (mService == null)
             return;
-        mService.setVideoEnabled(false, false);
         if (mediaList.size() == 1 && mediaList.get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
             mService.load(mediaList.get(0));
         } else {

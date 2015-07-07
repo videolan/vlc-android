@@ -117,7 +117,6 @@ import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -1508,7 +1507,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mHardwareAccelerationError || mService == null)
             return;
         mSwitchingView = true;
-        mService.setVideoEnabled(true, false);
         // Show the MainActivity if it is not in background.
         if (showUI && getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -2554,7 +2552,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
             mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
 
-        mService.setVideoEnabled(true, true);
         if (openedPosition != -1) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from AudioService at index " + openedPosition);

@@ -301,10 +301,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playAudio(MediaWrapper media) {
-        if (mService != null) {
-            mService.setVideoEnabled(false, false);
+        if (mService != null)
             mService.load(media);
-        }
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {

@@ -85,7 +85,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PlaybackService extends Service {
+public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
 
@@ -140,8 +140,6 @@ public class PlaybackService extends Service {
      * Stack of previously played indexes, used in shuffle mode
      */
     private Stack<Integer> mPrevious;
-    private boolean mVideoEnabled = false;
-    private boolean mVideoPlayerInForeground = false;
     private int mCurrentIndex; // Set to -1 if no media is currently loaded
     private int mPrevIndex; // Set to -1 if no previous media
     private int mNextIndex; // Set to -1 if no next media
@@ -190,6 +188,7 @@ public class PlaybackService extends Service {
         super.onCreate();
 
         mMediaPlayer = newMediaPlayer();
+        mMediaPlayer.getVLCVout().addCallback(this);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             stopSelf();
@@ -500,7 +499,7 @@ public class PlaybackService extends Service {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
                 loadLastPlaylist();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_RESUME_VIDEO)) {
-                handleVout();
+                switchToVideo();
             } else if (action.equalsIgnoreCase(ACTION_WIDGET_INIT)) {
                 updateWidget();
             }
@@ -529,6 +528,21 @@ public class PlaybackService extends Service {
             }
         }
     };
+
+
+    @Override
+    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+    }
+
+    @Override
+    public void onSurfacesCreated(IVLCVout vlcVout) {
+        handleVout();
+    }
+
+    @Override
+    public void onSurfacesDestroyed(IVLCVout vlcVout) {
+        handleVout();
+    }
 
     private final Media.EventListener mMediaListener = new Media.EventListener() {
         @Override
@@ -631,9 +645,10 @@ public class PlaybackService extends Service {
                     break;
                 case MediaPlayer.Event.ESAdded:
                     if (event.getEsChangedType() == Media.Track.Type.Video) {
-                        if (!handleVout())
+                        if (!handleVout()) {
                             /* Update notification content intent: resume video or resume audio activity */
                             showNotification();
+                        }
                     }
                     break;
                 case MediaPlayer.Event.ESDeleted:
@@ -717,34 +732,30 @@ public class PlaybackService extends Service {
         }
     }
 
-    @MainThread
-    public void setVideoEnabled(boolean enabled, boolean videoPlayerInForeground) {
-        if (videoPlayerInForeground) {
-            enabled = true;
+
+    private boolean canSwitchToVideo() {
+        return hasCurrentMedia() && mMediaPlayer.getVideoTracksCount() > 0;
+    }
+
+    private boolean handleVout() {
+        if (!canSwitchToVideo() || !mMediaPlayer.isPlaying())
+            return false;
+        if (mMediaPlayer.getVLCVout().areViewsAttached()) {
+            setVideoTrackEnabled(true);
             hideNotification(false);
+            return true;
+        } else {
+            setVideoTrackEnabled(false);
+            return false;
         }
-        mVideoPlayerInForeground = videoPlayerInForeground;
-        mVideoEnabled = enabled;
-        if (hasCurrentMedia())
-            setVideoTrackEnabled(mVideoEnabled);
-    }
-
-    private boolean canSwitchToVideo () {
-        return mMediaPlayer.getVideoTracksCount() > 0 && hasCurrentMedia() && mVideoEnabled;
     }
 
     @MainThread
-    public boolean handleVout() {
+    public boolean switchToVideo() {
         if (!canSwitchToVideo())
             return false;
-
-        // Switch to the video player & don't lose the currently playing stream
-        if (!mVideoPlayerInForeground) {
-            mVideoPlayerInForeground = true;
-            // no video player, hence no surface, so deactivate the video track that will be re-activated from the Video Player.
-            setVideoTrackEnabled(false);
+        if (!mMediaPlayer.getVLCVout().areViewsAttached())
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), mCurrentIndex);
-        }
         return true;
     }
 
@@ -817,7 +828,7 @@ public class PlaybackService extends Service {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
-        if (mVideoPlayerInForeground)
+        if (mMediaPlayer.getVLCVout().areViewsAttached())
             return;
         try {
             MediaWrapper media = getCurrentMedia();

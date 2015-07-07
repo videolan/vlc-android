@@ -166,8 +166,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             @Override
             public void onClick(View v) {
                 if (mService != null) {
-                    mService.setVideoEnabled(true, false);
-                    mService.handleVout();
+                    mService.switchToVideo();
                 }
             }
         });
@@ -328,10 +327,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
-                mService.handleVout();
+                mService.switchToVideo();
                 return;
-            }
-            show();
+            } else
+                show();
         } else {
             hide();
             return;
