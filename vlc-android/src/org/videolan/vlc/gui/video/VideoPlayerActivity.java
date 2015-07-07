@@ -1273,10 +1273,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mInfo.setVisibility(View.INVISIBLE);
 
         if (mPresentation == null) {
-            if (mVerticalBar.getVisibility() == View.VISIBLE)
+            if (mVerticalBar.getVisibility() == View.VISIBLE) {
                 mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
                         VideoPlayerActivity.this, android.R.anim.fade_out));
-            mVerticalBar.setVisibility(View.INVISIBLE);
+                mVerticalBar.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
