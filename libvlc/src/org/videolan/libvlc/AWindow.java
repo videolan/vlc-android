@@ -34,6 +34,7 @@ import android.view.TextureView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class AWindow implements IAWindowNativeHandler, IVLCVout {
@@ -195,7 +196,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     private final SurfaceHelper[] mSurfaceHelpers;
     private final SurfaceCallback mSurfaceCallback;
     private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
-    private IVLCVout.Callback mIAndroidWindowCallback = null;
+    private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Object mNativeLock = new Object();
     /* synchronized Surfaces accessed by an other thread from JNI */
@@ -322,6 +323,8 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         }
         if (mSurfaceCallback != null)
             mSurfaceCallback.onSurfacesDestroyed(this);
+        for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+            cb.onSurfacesDestroyed(this);
     }
 
     @Override
@@ -344,6 +347,8 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
             mSurfacesState.set(SURFACE_STATE_READY);
             if (mSurfaceCallback != null)
                 mSurfaceCallback.onSurfacesCreated(this);
+            for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+                cb.onSurfacesCreated(this);
         }
     }
 
@@ -484,8 +489,14 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     @Override
-    public void setCallback(IVLCVout.Callback callback) {
-        mIAndroidWindowCallback = callback;
+    public void addCallback(IVLCVout.Callback callback) {
+        if (!mIVLCVoutCallbacks.contains(callback))
+            mIVLCVoutCallbacks.add(callback);
+    }
+
+    @Override
+    public void removeCallback(IVLCVout.Callback callback) {
+        mIVLCVoutCallbacks.remove(callback);
     }
 
     @Override
@@ -493,8 +504,8 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (mIAndroidWindowCallback != null)
-                    mIAndroidWindowCallback.onNewLayout(AWindow.this, width, height, visibleWidth, visibleHeight, sarNum, sarDen);
+                for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+                    cb.onNewLayout(AWindow.this, width, height, visibleWidth, visibleHeight, sarNum, sarDen);
             }
         });
     }

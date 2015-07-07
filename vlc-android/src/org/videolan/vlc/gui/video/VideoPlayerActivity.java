@@ -658,7 +658,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
                 vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
-        vlcVout.setCallback(this);
+        vlcVout.addCallback(this);
         vlcVout.attachViews();
 
         mPlaybackStarted = true;
@@ -708,6 +708,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mPlaybackStarted = false;
 
+        mService.removeCallback(this);
+        final IVLCVout vlcVout = mService.getVLCVout();
+        vlcVout.removeCallback(this);
+        vlcVout.detachViews();
         if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
             mService.showWithoutParse(savedIndexPosition);
@@ -731,13 +735,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             time = 0;
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
-        mService.removeCallback(this);
         mService.stop();
-        mService.setVideoEnabled(false, false);
-
-        final IVLCVout vlcVout = mService.getVLCVout();
-        vlcVout.detachViews();
-        vlcVout.setCallback(null);
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -2988,5 +2986,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSarNum = sarNum;
         mSarDen = sarDen;
         changeSurfaceLayout();
+    }
+
+    @Override
+    public void onSurfacesCreated(IVLCVout vlcVout) {
+    }
+
+    @Override
+    public void onSurfacesDestroyed(IVLCVout vlcVout) {
     }
 }

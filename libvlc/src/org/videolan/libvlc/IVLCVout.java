@@ -44,6 +44,18 @@ public interface IVLCVout {
          */
         @MainThread
         void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen);
+
+        /**
+         * This callback is called when surfaces are created.
+         */
+        @MainThread
+        void onSurfacesCreated(IVLCVout vlcVout);
+
+        /**
+         * This callback is called when surfaces are destroyed.
+         */
+        @MainThread
+        void onSurfacesDestroyed(IVLCVout vlcVout);
     }
 
     /**
@@ -122,10 +134,16 @@ public interface IVLCVout {
     boolean areViewsAttached();
 
     /**
-     * Set a callback to receive {@link Callback#onNewLayout} events.
+     * Add a callback to receive {@link Callback#onNewLayout} events.
      */
     @MainThread
-    void setCallback(Callback callback);
+    void addCallback(Callback callback);
+
+    /**
+     * Remove a callback.
+     */
+    @MainThread
+    void removeCallback(Callback callback);
 
     /**
      * Send a mouse event to the native vout.
