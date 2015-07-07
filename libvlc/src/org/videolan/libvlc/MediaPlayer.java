@@ -317,6 +317,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
     private int mVoutCount = 0;
+    private boolean mAudioReset = false;
+    private String mAudioOutput = null;
+    private String mAudioOutputDevice = null;
 
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
@@ -407,6 +410,14 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      */
     public synchronized void play() {
         if (!mPlaying) {
+            /* HACK: stop() reset the audio output, so set it again before first play. */
+            if (mAudioReset) {
+                if (mAudioOutput != null)
+                    nativeSetAudioOutput(mAudioOutput);
+                if (mAudioOutputDevice != null)
+                    nativeSetAudioOutputDevice(mAudioOutputDevice);
+                mAudioReset = false;
+            }
             mPlayRequested = true;
             if (mWindow.areSurfacesWaiting())
                 return;
@@ -422,6 +433,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public synchronized void stop() {
         mPlayRequested = false;
         mPlaying = false;
+        mAudioReset = true;
         nativeStop();
     }
 
@@ -443,7 +455,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public synchronized boolean setAudioOutput(String aout) {
-        return nativeSetAudioOutput(aout);
+        final boolean ret = nativeSetAudioOutput(aout);
+        if (ret)
+            mAudioOutput = aout;
+        return ret;
     }
 
     /**
@@ -453,7 +468,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public synchronized boolean setAudioOutputDevice(String id) {
-        return nativeSetAudioOutputDevice(id);
+        final boolean ret = nativeSetAudioOutputDevice(id);
+        if (ret)
+            mAudioOutputDevice = id;
+        return ret;
     }
 
     /**
@@ -772,6 +790,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativeStop();
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
     private native boolean nativeSetAudioOutput(String aout);
+    private native boolean nativeSetAudioOutputDevice(String id);
     private native Title[] nativeGetTitles();
     private native Chapter[] nativeGetChapters(int title);
     private native int nativeGetVideoTracksCount();
