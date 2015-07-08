@@ -978,6 +978,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void stop() {
+        if (mMediaPlayer == null)
+            return;
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
