@@ -31,12 +31,16 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
+import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.InputDevice;
@@ -135,6 +139,13 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
             return;
         mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
         if (mService.hasMedia()) {
+            SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
+            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
+                Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
+                mService.switchToVideo();
+                finish();
+                return;
+            }
             mTitleTv.setText(mService.getTitle());
             mArtistTv.setText(mService.getArtist());
             mProgressBar.setMax((int) mService.getLength());
