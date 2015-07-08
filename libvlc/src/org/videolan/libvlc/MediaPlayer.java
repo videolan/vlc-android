@@ -538,7 +538,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public synchronized boolean setAudioDelay(long delay) {
-        return nativeSetSpuDelay(delay);
+        return nativeSetAudioDelay(delay);
     }
 
     /**
