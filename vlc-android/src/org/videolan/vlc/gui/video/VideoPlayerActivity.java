@@ -305,8 +305,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
 
-    private boolean mHasHdmiAudio = false;
-
     private static LibVLC LibVLC() {
         return VLCInstance.get();
     }
@@ -461,8 +459,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
-        if (mReceiverV21 != null)
-            registerV21();
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -619,8 +615,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         super.onDestroy();
         if (mReceiver != null)
             unregisterReceiver(mReceiver);
-        if (mReceiverV21 != null)
-            unregisterReceiver(mReceiverV21);
 
         mAudioManager = null;
     }
@@ -860,27 +854,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void exitOK() {
         exit(RESULT_OK);
     }
-
-    @TargetApi(21)
-    private void registerV21() {
-        final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
-        registerReceiver(mReceiverV21, intentFilter);
-    }
-
-    private final BroadcastReceiver mReceiverV21 = AndroidUtil.isLolliPopOrLater() ? new BroadcastReceiver()
-    {
-        @TargetApi(21)
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (action == null)
-                return;
-            if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
-                mHasHdmiAudio = true;
-                Log.d(TAG, "has hdmi audio");
-            }
-        }
-    } : null;
 
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
@@ -2613,11 +2586,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (openedPosition == -1) {
                 /* prepare playback */
                 mService.stop();
-                if (VLCOptions.isAudioHdmiEnabled() != mHasHdmiAudio) {
-                    VLCOptions.setAudioHdmiEnabled(mHasHdmiAudio);
-                    VLCInstance.restart(this);
-                    mService.restartMediaPlayer();
-                }
                 final MediaWrapper mw = new MediaWrapper(mUri);
                 if (wasPaused)
                     mw.addFlags(VLCOptions.MEDIA_PAUSED);

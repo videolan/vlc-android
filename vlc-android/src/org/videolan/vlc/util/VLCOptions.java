@@ -53,8 +53,6 @@ public class VLCOptions {
     public final static int MEDIA_NO_HWACCEL = 0x02;
     public final static int MEDIA_PAUSED = 0x4;
 
-    private static boolean sHdmiAudioEnabled = false;
-
     public static ArrayList<String> getLibOptions(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -97,11 +95,6 @@ public class VLCOptions {
         options.add("--androidwindow-chroma");
         options.add(chroma != null ? chroma : "RV32");
 
-        if (sHdmiAudioEnabled) {
-            options.add("--spdif");
-            options.add("--audiotrack-audio-channels");
-            options.add("8"); // 7.1 maximum
-        }
         options.add(verboseMode ? "-vvv" : "-vv");
         return options;
     }
@@ -214,13 +207,5 @@ public class VLCOptions {
             editor.putBoolean("equalizer_enabled", false);
         }
         Util.commitPreferences(editor);
-    }
-
-    public static synchronized void setAudioHdmiEnabled(boolean enabled) {
-        sHdmiAudioEnabled = enabled;
-    }
-
-    public static synchronized boolean isAudioHdmiEnabled() {
-        return sHdmiAudioEnabled;
     }
 }

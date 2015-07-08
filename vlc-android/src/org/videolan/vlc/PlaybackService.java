@@ -126,6 +126,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
     private MediaPlayer mMediaPlayer;
+    private boolean mIsAudioTrack = false;
+    private boolean mHasHdmiAudio = false;
 
     final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
     private boolean mDetectHeadset = true;
@@ -169,7 +171,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private MediaPlayer newMediaPlayer() {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         final MediaPlayer mp = new MediaPlayer(LibVLC());
-        mp.setAudioOutput(VLCOptions.getAout(pref));
+        final String aout = VLCOptions.getAout(pref);
+        if (mp.setAudioOutput(aout) && aout.equals("android_audiotrack")) {
+            mIsAudioTrack = true;
+            if (mHasHdmiAudio)
+                mp.setAudioOutputDevice("hdmi");
+        } else
+            mIsAudioTrack = false;
         return mp;
     }
 
@@ -229,6 +237,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             filter.addAction(VLCApplication.CALL_ENDED_INTENT);
         }
         registerReceiver(mReceiver, filter);
+        registerV21();
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean stealRemoteControl = pref.getBoolean("enable_steal_remote_control", false);
@@ -300,6 +309,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mWakeLock.isHeld())
             mWakeLock.release();
         unregisterReceiver(mReceiver);
+        if (mReceiverV21 != null)
+            unregisterReceiver(mReceiverV21);
         if (mRemoteControlClientReceiver != null) {
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
@@ -432,6 +443,29 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             changeAudioFocusFroyoOrLater(acquire);
     }
 
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void registerV21() {
+        final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
+        registerReceiver(mReceiverV21, intentFilter);
+    }
+
+    private final BroadcastReceiver mReceiverV21 = AndroidUtil.isLolliPopOrLater() ? new BroadcastReceiver()
+    {
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action == null)
+                return;
+            if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
+                mHasHdmiAudio = intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 0) == 1;
+                if (mMediaPlayer != null && mIsAudioTrack)
+                    mMediaPlayer.setAudioOutputDevice(mHasHdmiAudio ? "hdmi" : "stereo");
+            }
+        }
+    } : null;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -507,7 +541,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             /*
              * headset plug events
              */
-            if (mDetectHeadset) {
+            if (mDetectHeadset && !mHasHdmiAudio) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
                     if (mMediaPlayer.isPlaying() && hasCurrentMedia())
