@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/player_overlay_time"
-        android:layout_width="64dp"
+        android:layout_width="66dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_alignLeft="@+id/player_overlay_seekbar"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/player_overlay_length"
-        android:layout_width="64dp"
+        android:layout_width="66dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_alignParentRight="true"

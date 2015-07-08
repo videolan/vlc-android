@@ -1800,7 +1800,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mTouchAction = TOUCH_VOLUME;
         vol = vol * 100 / mAudioMax;
-        showInfoWithVerticalBar(getString(R.string.volume) + '\u00A0' + Integer.toString(vol) + '%', 1000, vol);
+        showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%', 1000, vol);
     }
 
     private void mute(boolean mute) {
@@ -1859,7 +1859,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // Set Brightness
         getWindow().setAttributes(lp);
         int brightness = Math.round(lp.screenBrightness * 100);
-        showInfoWithVerticalBar(getString(R.string.brightness) + '\u00A0' + brightness + '%', 1000, brightness);
+        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + brightness + '%', 1000, brightness);
     }
 
     /**
@@ -2306,7 +2306,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
         if (time >= 0) mTime.setText(Strings.millisToString(time));
         if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
-                ? "- " + Strings.millisToString(length - time)
+                ? "-" + '\u00A0' + Strings.millisToString(length - time)
                 : Strings.millisToString(length));
 
         return time;
