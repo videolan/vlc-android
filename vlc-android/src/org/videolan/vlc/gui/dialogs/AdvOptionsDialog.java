@@ -61,7 +61,8 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.Calendar;
 
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_AUDIO_DELAY;
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragmentTemp.ACTION_JUMP_TO_TIME;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragmentTemp.ACTION_SLEEP_TIMER;
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SPU_DELAY;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback {
@@ -270,8 +271,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 case PickTimeFragment.ACTION_SPU_DELAY:
                     newFragment = new SubsDelayDialog();
                     break;
-                case PickTimeFragment.ACTION_JUMP_TO_TIME:
+                case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
                     newFragment = new JumpToTimeDialog();
+                    break;
+                case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
+                    newFragment = new SleepTimerDialog();
                     break;
                 default:
                     return;
@@ -286,8 +290,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     if (mDelayController != null)
                         mDelayController.showSubsDelaySetting();
                     break;
-                case PickTimeFragment.ACTION_JUMP_TO_TIME:
+                case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
                     newFragment = new JumpToTimeDialog();
+                    break;
+                case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
+                    newFragment = new SleepTimerDialog();
                     break;
                 default:
                     return;
@@ -306,17 +313,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                         getResources().getColor(R.color.orange500) : mTextColor);
         }
     };
-
-    private void showTimePicker(int action) {
-        DialogFragment newFragment = new TimePickerDialogFragment();
-        Bundle args = new Bundle();
-        args.putInt("action", action);
-        newFragment.setArguments(args);
-        newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-        mHandler.sendEmptyMessage(RESET_RETRY);
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(DIALOG_LISTENER, newFragment), 100);
-        dismiss();
-    }
 
     public static void setSleep(Calendar time) {
         AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
@@ -397,7 +393,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
             case R.id.sleep_timer_title:
             case R.id.sleep_timer_value:
-                showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);
+                showTimePickerFragment(ACTION_SLEEP_TIMER);
                 break;
             case R.id.sleep_timer_cancel:
                 setSleep(null);

@@ -50,8 +50,8 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     public final static String TAG = "VLC/PickTimeFragment";
 
     public static final int ACTION_JUMP_TO_TIME = 0;
-    public static final int ACTION_SPU_DELAY = 1;
-    public static final int ACTION_AUDIO_DELAY = 2;
+    public static final int ACTION_SPU_DELAY = 2;
+    public static final int ACTION_AUDIO_DELAY = 3;
     protected int mTextColor;
     protected boolean mLiveAction = true;
 
