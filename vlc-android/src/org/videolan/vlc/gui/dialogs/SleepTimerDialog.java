@@ -31,7 +31,7 @@ import org.videolan.vlc.R;
 
 import java.util.Calendar;
 
-public class SleepTimerDialog extends PickTimeFragmentTemp {
+public class SleepTimerDialog extends PickTimeFragment {
 
     protected static long ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 

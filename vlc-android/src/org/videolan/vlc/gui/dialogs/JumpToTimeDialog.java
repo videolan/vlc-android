@@ -23,14 +23,9 @@
 
 package org.videolan.vlc.gui.dialogs;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import org.videolan.vlc.R;
 
-public class JumpToTimeDialog extends PickTimeFragmentTemp {
+public class JumpToTimeDialog extends PickTimeFragment {
 
     public JumpToTimeDialog(){
         super();

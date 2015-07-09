@@ -59,10 +59,8 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.Calendar;
 
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_AUDIO_DELAY;
-import static org.videolan.vlc.gui.dialogs.PickTimeFragmentTemp.ACTION_JUMP_TO_TIME;
-import static org.videolan.vlc.gui.dialogs.PickTimeFragmentTemp.ACTION_SLEEP_TIMER;
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SPU_DELAY;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SLEEP_TIMER;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback {
 
@@ -76,6 +74,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public static final int TOGGLE_CANCEL = 2;
     public static final int DIALOG_LISTENER = 3;
     public static final int RESET_RETRY = 4;
+
+    public static final int ACTION_AUDIO_DELAY = 2 ;
+    public static final int ACTION_SPU_DELAY = 3 ;
 
     private int mMode = -1;
     private TextView mAudioMode;
@@ -255,22 +256,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     };
 
     private void showTimePickerFragment(int action) {
-        if (mDelayController == null && getActivity() instanceof IDelayController)
-            mDelayController = (IDelayController) getActivity();
         DialogFragment newFragment = null;
         switch (action){
-            case PickTimeFragment.ACTION_AUDIO_DELAY:
-                if (mDelayController != null)
-                    mDelayController.showAudioDelaySetting();
-                break;
-            case PickTimeFragment.ACTION_SPU_DELAY:
-                if (mDelayController != null)
-                    mDelayController.showSubsDelaySetting();
-                break;
-            case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
+            case PickTimeFragment.ACTION_JUMP_TO_TIME:
                 newFragment = new JumpToTimeDialog();
                 break;
-            case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
+            case PickTimeFragment.ACTION_SLEEP_TIMER:
                 newFragment = new SleepTimerDialog();
                 break;
             default:
@@ -278,6 +269,24 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "time");
+        dismiss();
+    }
+
+    private void showAudioSpuDelayControls(int action) {
+        if (mDelayController == null && getActivity() instanceof IDelayController)
+            mDelayController = (IDelayController) getActivity();
+        switch (action){
+            case ACTION_AUDIO_DELAY:
+                if (mDelayController != null)
+                    mDelayController.showAudioDelaySetting();
+                break;
+            case ACTION_SPU_DELAY:
+                if (mDelayController != null)
+                    mDelayController.showSubsDelaySetting();
+                break;
+            default:
+                return;
+        }
         dismiss();
     }
 
@@ -359,10 +368,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.audio_delay:
-                showTimePickerFragment(ACTION_AUDIO_DELAY);
+                showAudioSpuDelayControls(ACTION_AUDIO_DELAY);
                 break;
             case R.id.spu_delay:
-                showTimePickerFragment(ACTION_SPU_DELAY);
+                showAudioSpuDelayControls(ACTION_SPU_DELAY);
                 break;
             case R.id.jump_title:
                 showTimePickerFragment(ACTION_JUMP_TO_TIME);

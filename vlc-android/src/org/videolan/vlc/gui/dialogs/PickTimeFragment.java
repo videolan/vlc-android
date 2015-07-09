@@ -1,9 +1,9 @@
 /**
  * **************************************************************************
- * JumpToTimeFragment.java
+ * PickTimeFragment.java
  * ****************************************************************************
- * Copyright © 2015 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ * Copyright Â© 2015 VLC authors and VideoLAN
+ *  Author: Geoffrey MÃ©tais
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,48 +22,40 @@
  */
 package org.videolan.vlc.gui.dialogs;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.util.Util;
 
-public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener,
-        View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener,
+public abstract class PickTimeFragment extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener,
         PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/PickTimeFragment";
 
     public static final int ACTION_JUMP_TO_TIME = 0;
-    public static final int ACTION_SPU_DELAY = 2;
-    public static final int ACTION_AUDIO_DELAY = 3;
+    public static final int ACTION_SLEEP_TIMER = 1;
+
     protected int mTextColor;
-    protected boolean mLiveAction = true;
 
     protected static long MILLIS_IN_MICROS = 1000;
     protected static long SECONDS_IN_MICROS = 1000 * MILLIS_IN_MICROS;
-    protected static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
-    protected static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
+    protected static long MINUTES_IN_MICROS = 60 * SECONDS_IN_MICROS;
+    protected static long HOURS_IN_MICROS = 60 * MINUTES_IN_MICROS;
 
-    protected EditText mHours, mMinutes, mSeconds, mMillis;
-    protected TextView mSign;
-    protected Button mActionButton;
-    private long mMax = -1;
+    protected String mHours = "", mMinutes = "", mSeconds = "", mFormatTime, mRawTime = "";
+    protected int mMaxTimeSize = 6;
+    protected TextView mTVTimeToJump;
+
     protected PlaybackService mService;
 
     public PickTimeFragment(){
@@ -78,42 +70,44 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.jump_to_time, container);
-        ((TextView)view.findViewById(R.id.jump_dialog_title)).setText(getTitle());
-        mHours = (EditText) view.findViewById(R.id.jump_hours);
-        mMinutes = (EditText) view.findViewById(R.id.jump_minutes);
-        mSeconds = (EditText) view.findViewById(R.id.jump_seconds);
-        mMillis = (EditText) view.findViewById(R.id.jump_millis);
-        mActionButton = (Button) view.findViewById(R.id.jump_go);
-        mSign = (TextView) view.findViewById(R.id.jump_sign);
+        View view = inflater.inflate(R.layout.dialog_time_picker, container);
+        mTVTimeToJump = (TextView) view.findViewById(R.id.tim_pic_timetojump);
+        ((TextView)view.findViewById(R.id.tim_pic_title)).setText(getTitle());
+        ((ImageView) view.findViewById(R.id.tim_pic_icon)).setImageResource(Util.getResourceFromAttribute(getActivity(), getIcon()));
 
-        mMinutes.setOnFocusChangeListener(this);
-        mSeconds.setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_1).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_1).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_2).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_2).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_3).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_3).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_4).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_4).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_5).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_5).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_6).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_6).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_7).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_7).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_8).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_8).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_9).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_9).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_0).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_0).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_00).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_00).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_30).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_30).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_cancel).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_cancel).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_delete).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_delete).setOnFocusChangeListener(this);
+        view.findViewById(R.id.tim_pic_ok).setOnClickListener(this);
+        view.findViewById(R.id.tim_pic_ok).setOnFocusChangeListener(this);
 
-        mMinutes.setOnEditorActionListener(this);
-        mSeconds.setOnEditorActionListener(this);
+        mTextColor = mTVTimeToJump.getCurrentTextColor();
 
-        mActionButton.setOnClickListener(this);
-        mActionButton.setOnFocusChangeListener(this);
-
-        mTextColor = mMinutes.getCurrentTextColor();
-
-        view.findViewById(R.id.jump_minutes_up).setOnClickListener(this);
-        view.findViewById(R.id.jump_minutes_down).setOnClickListener(this);
-        view.findViewById(R.id.jump_seconds_up).setOnClickListener(this);
-        view.findViewById(R.id.jump_seconds_down).setOnClickListener(this);
-        if (BuildConfig.tv){
-            mHours.setInputType(InputType.TYPE_NULL);
-            mMinutes.setInputType(InputType.TYPE_NULL);
-            mSeconds.setInputType(InputType.TYPE_NULL);
-            mMillis.setInputType(InputType.TYPE_NULL);
-            mHours.setOnClickListener(this);
-            mMinutes.setOnClickListener(this);
-            mSeconds.setOnClickListener(this);
-            mMillis.setOnClickListener(this);
-        }
-
-        getDialog().setOnKeyListener(this);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         Window window = getDialog().getWindow();
@@ -128,143 +122,100 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     }
 
     @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_DOWN)
-            return false;
-        switch (keyCode){
-            case KeyEvent.KEYCODE_DPAD_UP:
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                updateViews(keyCode);
-                return true;
-        }
-        return false;
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.jump_hours_up:
-                updateValue(1, R.id.jump_hours);
+            case R.id.tim_pic_1:
+                updateValue("1");
                 break;
-            case R.id.jump_hours_down:
-                updateValue(-1, R.id.jump_hours);
+            case R.id.tim_pic_2:
+                updateValue("2");
                 break;
-            case R.id.jump_minutes_up:
-                updateValue(1, R.id.jump_minutes);
+            case R.id.tim_pic_3:
+                updateValue("3");
                 break;
-            case R.id.jump_minutes_down:
-                updateValue(-1, R.id.jump_minutes);
+            case R.id.tim_pic_4:
+                updateValue("4");
                 break;
-            case R.id.jump_seconds_up:
-                updateValue(1, R.id.jump_seconds);
+            case R.id.tim_pic_5:
+                updateValue("5");
                 break;
-            case R.id.jump_seconds_down:
-                updateValue(-1, R.id.jump_seconds);
+            case R.id.tim_pic_6:
+                updateValue("6");
                 break;
-            case R.id.jump_millis_up:
-                updateValue(50, R.id.jump_millis);
+            case R.id.tim_pic_7:
+                updateValue("7");
                 break;
-            case R.id.jump_millis_down:
-                updateValue(-50, R.id.jump_millis);
+            case R.id.tim_pic_8:
+                updateValue("8");
                 break;
-            case R.id.jump_sign:
-                if (mService != null) {
-                    toggleSign();
-                    executeAction();
-                }
+            case R.id.tim_pic_9:
+                updateValue("9");
                 break;
-            case R.id.jump_go:
-            case R.id.jump_hours:
-            case R.id.jump_minutes:
-            case R.id.jump_seconds:
-            case R.id.jump_millis:
-                buttonAction();
+            case R.id.tim_pic_0:
+                updateValue("0");
                 break;
-
+            case R.id.tim_pic_00:
+                updateValue("00");
+                break;
+            case R.id.tim_pic_30:
+                updateValue("30");
+                break;
+            case R.id.tim_pic_cancel:
+                dismiss();
+                break;
+            case R.id.tim_pic_delete:
+                deleteLastNumber();
+                break;
+            case R.id.tim_pic_ok:
+                executeAction();
+                break;
         }
     }
 
-    private void toggleSign() {
-        if (mSign.getText().equals("+"))
-            mSign.setText("-");
-        else
-            mSign.setText("+");
+    private String getLastNumbers(String rawTime){
+        if (rawTime.length() == 0)
+            return "";
+        return (rawTime.length() == 1) ?
+                rawTime:
+                rawTime.substring(rawTime.length()-2);
     }
 
-    private void updateViews(int keyCode){
-        long delta = keyCode == KeyEvent.KEYCODE_DPAD_UP ? 1 : -1;
-        int id = 0;
-        if (mMillis.hasFocus()) {
-            id = mMillis.getId();
-            delta = keyCode == KeyEvent.KEYCODE_DPAD_UP ? 50 : -50;
-        } else if (mSeconds.hasFocus())
-            id = mSeconds.getId();
-        else if  (mMinutes.hasFocus())
-            id = mMinutes.getId();
-        else if (mHours.hasFocus())
-            id = mHours.getId();
-        updateValue(delta, id);
+    private String removeLastNumbers(String rawTime){
+        return rawTime.length() <= 1 ? "" : rawTime.substring(0, rawTime.length()-2);
     }
 
-    private void updateValue(long delta, int resId) {
-        long slide = 0l;
-        switch(resId) {
-            case R.id.jump_hours:
-                slide = delta * HOURS_IN_MICROS;
-                break;
-            case R.id.jump_minutes:
-                slide = delta * MINUTES_IN_MICROS;
-                break;
-            case R.id.jump_seconds:
-                slide = delta * SECONDS_IN_MICROS;
-                break;
-            case R.id.jump_millis:
-                slide = delta * MILLIS_IN_MICROS;
+    private void deleteLastNumber(){
+        if (mRawTime != "") {
+            mRawTime = mRawTime.substring(0, mRawTime.length()-1);
+            updateValue("");
         }
-        slide += getTime();
-        if (mMax == -1 || slide <= mMax)
-            initTime(slide);
-        if (mLiveAction && mService != null)
-            executeAction();
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (mService != null)
-            executeAction();
-        return true;
-    }
+    private void updateValue(String value) {
+        if (mRawTime.length() >= mMaxTimeSize)
+            return;
+        mRawTime = mRawTime.concat(value);
+        String tempRawTime = mRawTime;
+        mFormatTime = "";
 
-    protected void initTime(long delay) {
-        if (delay < 0l){
-            if ( mSign.getVisibility() == View.VISIBLE) {
-                delay = -delay;
-                mSign.setText("-");
-            } else {
-                delay = 0l;
-            }
-        } else {
-            mSign.setText("+");
-        }
-        long minutes = 0;
-        long seconds = 0;
-        long millis = 0;
-        if (delay != 0) {
-            minutes = delay / MINUTES_IN_MICROS;
-            seconds = (delay - minutes * MINUTES_IN_MICROS)/ SECONDS_IN_MICROS;
-            millis = (delay - minutes * MINUTES_IN_MICROS - seconds * SECONDS_IN_MICROS)/ MILLIS_IN_MICROS;
-        }
-        mMinutes.setText(String.format("%02d", minutes));
-        mSeconds.setText(String.format("%02d", seconds));
-        mMillis.setText(String.format("%03d", millis));
-    }
+        if (mMaxTimeSize > 4) {
+            mSeconds = getLastNumbers(tempRawTime);
+            if (mSeconds != "")
+                mFormatTime = mSeconds + "s";
+            tempRawTime = removeLastNumbers(tempRawTime);
+        } else
+            mSeconds = "";
 
-    protected long getTime(){
-        long sign = mSign.getText().equals("-") ? -1 : 1;
-        long minutes = TextUtils.isEmpty(mMinutes.getText().toString()) ? 0l : Long.parseLong(mMinutes.getText().toString());
-        long seconds = TextUtils.isEmpty(mSeconds.getText().toString()) ? 0l : Long.parseLong(mSeconds.getText().toString());
-        long millis = TextUtils.isEmpty(mMillis.getText().toString()) ? 0l : Long.parseLong(mMillis.getText().toString());
-        return sign * (minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS + millis * MILLIS_IN_MICROS);
+        mMinutes = getLastNumbers(tempRawTime);
+        if (mMinutes != "")
+            mFormatTime = mMinutes + "m " + mFormatTime;
+        tempRawTime = removeLastNumbers(tempRawTime);
+
+        mHours = getLastNumbers(tempRawTime);
+        if (mHours != "")
+            mFormatTime = mHours + "h " + mFormatTime;
+
+        mTVTimeToJump.setText(mFormatTime);
     }
 
     @Override
@@ -282,8 +233,6 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        mMax = getMax();
-        initTime(getInitTime());
     }
 
     @Override
@@ -292,8 +241,6 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     }
 
     abstract protected int getTitle();
+    abstract protected int getIcon();
     abstract protected void executeAction();
-    abstract protected void buttonAction();
-    abstract protected long getMax();
-    abstract protected long getInitTime();
 }
