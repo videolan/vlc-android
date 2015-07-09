@@ -921,6 +921,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
             Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
+        } else if (mDelay != DelayState.OFF){
+            endDelaySetting();
         } else if (BuildConfig.tv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else
