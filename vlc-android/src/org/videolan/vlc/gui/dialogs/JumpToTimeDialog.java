@@ -24,73 +24,34 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.vlc.R;
 
-public class JumpToTimeDialog extends PickTimeFragment {
+public class JumpToTimeDialog extends PickTimeFragmentTemp {
 
     public JumpToTimeDialog(){
         super();
-        mLiveAction = false;
-    }
-
-    private void setViewTime(View view) {
-        if (mService == null)
-            return;
-        if (mService.getLength() > HOURS_IN_MICROS) {
-            mHours.setOnFocusChangeListener(this);
-            mHours.setOnEditorActionListener(this);
-            view.findViewById(R.id.jump_hours_up).setOnClickListener(this);
-            view.findViewById(R.id.jump_hours_down).setOnClickListener(this);
-        } else {
-            view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
-            view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        setViewTime(view);
-        mMinutes.setNextFocusLeftId(R.id.jump_go);
-        mSeconds.setNextFocusRightId(R.id.jump_go);
-        return view;
     }
 
     protected void executeAction() {
-        long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) * HOURS_IN_MICROS : 0l;
-        long minutes = TextUtils.isEmpty(mMinutes.getText().toString()) ? 0l : Long.parseLong(mMinutes.getText().toString()) * MINUTES_IN_MICROS ;
-        long seconds = TextUtils.isEmpty(mSeconds.getText().toString()) ? 0l : Long.parseLong(mSeconds.getText().toString()) * SECONDS_IN_MICROS;
-        mService.setTime((hours +  minutes + seconds) / 1000l); //Time in ms
+        if (mService == null)
+            return;
+        long hours = !mHours.equals("") ? Long.parseLong(mHours) * HOURS_IN_MICROS : 0l;
+        long minutes = !mMinutes.equals("") ? Long.parseLong(mMinutes) * MINUTES_IN_MICROS : 0l;
+        long seconds = !mSeconds.equals("") ? Long.parseLong(mSeconds) * SECONDS_IN_MICROS : 0l;
+        mService.setTime((hours +  minutes + seconds)/1000l); //Time in ms
         dismiss();
-    }
-
-    @Override
-    protected void buttonAction() {
-        executeAction();
-    }
-
-    @Override
-    protected long getMax() {
-        return mService.getLength() * 1000l;
-    }
-
-    @Override
-    protected long getInitTime() {
-        final View view = getView();
-        if (view != null)
-            setViewTime(view);
-        return mService.getTime() * 1000;
     }
 
     @Override
     protected int getTitle() {
         return R.string.jump_to_time;
+    }
+
+    protected int getIcon() {
+        return R.attr.ic_jumpto_normal_style;
     }
 }
