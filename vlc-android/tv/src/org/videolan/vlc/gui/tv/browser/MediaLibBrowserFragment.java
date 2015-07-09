@@ -32,7 +32,7 @@ import org.videolan.vlc.util.Util;
 import java.util.HashMap;
 import java.util.concurrent.CyclicBarrier;
 
-public class MediaLibBrowserFragment extends GridFragment {
+public abstract class MediaLibBrowserFragment extends GridFragment {
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     protected MediaWrapper mItemToUpdate;
     protected MediaLibrary mMediaLibrary;
@@ -46,13 +46,19 @@ public class MediaLibBrowserFragment extends GridFragment {
 
     public void onResume() {
         super.onResume();
-        if (mMediaLibrary.isWorking()) {
+        if (mMediaLibrary.isWorking())
             Util.actionScanStart();
-        }
     }
 
     public void onPause() {
         super.onPause();
         mBarrier.reset();
     }
+
+    protected void refresh() {
+        if (!mMediaLibrary.isWorking())
+            mMediaLibrary.loadMediaItems(true);
+    }
+
+    protected void updateList() {}
 }

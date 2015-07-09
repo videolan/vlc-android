@@ -134,6 +134,16 @@ public class AudioPlayerActivity extends PlaybackServiceActivity implements Play
     }
 
     @Override
+    protected void refresh() {
+        update();
+    }
+
+    @Override
+    protected void updateList() {
+        update();
+    }
+
+    @Override
     public void update() {
         if (mService == null)
             return;

@@ -31,4 +31,10 @@ public class DetailsActivity extends PlaybackServiceActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_details);
     }
+
+    @Override
+    protected void refresh() {}
+
+    @Override
+    protected void updateList() {}
 }

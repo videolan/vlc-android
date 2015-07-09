@@ -31,7 +31,6 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -41,23 +40,18 @@ import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -93,7 +87,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     protected BrowseFragment mBrowseFragment;
     private ProgressBar mProgressBar;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
-    private MediaLibrary mMediaLibrary;
     private static Thumbnailer sThumbnailer;
     private MediaWrapper mItemToUpdate;
     ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
@@ -110,6 +103,7 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMediaLibrary.loadMediaItems(false);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
@@ -119,7 +113,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
         mContext = this;
         setContentView(R.layout.tv_main_fragment);
 
-        mMediaLibrary = MediaLibrary.getInstance();
         mDefaultBackground = getResources().getDrawable(R.drawable.background);
         final FragmentManager fragmentManager = getFragmentManager();
         mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
@@ -141,7 +134,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
         }
         mRootContainer = mBrowseFragment.getView();
-        mMediaLibrary.loadMediaItems(true);
         BackgroundManager.getInstance(this).attach(getWindow());
     }
 
@@ -173,15 +165,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
 
         if (mMediaLibrary.isWorking()) //Display UI while MediaLib is scanning
             updateList();
-        //Handle network connection state
-        IntentFilter networkfilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-
-        IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
-        storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        storageFilter.addDataScheme("file");
-
-        registerReceiver(externalDevicesReceiver, networkfilter);
-        registerReceiver(externalDevicesReceiver, storageFilter);
     }
 
     protected void onPause() {
@@ -192,7 +175,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(null);
         mBarrier.reset();
-        unregisterReceiver(externalDevicesReceiver);
     }
 
     @Override
@@ -218,7 +200,7 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) && mSelectedItem instanceof MediaWrapper){
+        if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) && mSelectedItem instanceof MediaWrapper) {
             MediaWrapper media = (MediaWrapper) mSelectedItem;
             if (media.getType() != MediaWrapper.TYPE_DIR)
                 return false;
@@ -280,7 +262,8 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     }
 
     @Override
-    public void sendTextInfo(String info, int progress, int max) {}
+    public void sendTextInfo(String info, int progress, int max) {
+    }
 
     @Override
     public void setItemToUpdate(MediaWrapper item) {
@@ -297,7 +280,8 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
         try {
             mBarrier.await();
         } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {}
+        } catch (BrokenBarrierException e) {
+        }
 
     }
 
@@ -310,8 +294,8 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
 
     @Override
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-        if (row.getId() == HEADER_CATEGORIES){
-            CardPresenter.SimpleCard card = (CardPresenter.SimpleCard)item;
+        if (row.getId() == HEADER_CATEGORIES) {
+            CardPresenter.SimpleCard card = (CardPresenter.SimpleCard) item;
             Intent intent = new Intent(mContext, VerticalGridActivity.class);
             intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
             intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
@@ -320,7 +304,7 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             TvUtil.openMedia(mContext, item, row);
         else if (row.getId() == HEADER_MISC)
             startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        else if (row.getId() == HEADER_NETWORK){
+        else if (row.getId() == HEADER_NETWORK) {
             TvUtil.openMedia(mContext, item, row);
         }
     }
@@ -333,10 +317,11 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
 
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
 
-        public AsyncUpdate() { }
+        public AsyncUpdate() {
+        }
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             mRowsAdapter.clear();
             mProgressBar.setVisibility(View.VISIBLE);
 
@@ -420,9 +405,9 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
                 ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
                 MediaDatabase mediaDatabase = MediaDatabase.getInstance();
                 if (sThumbnailer != null && videoList != null && !videoList.isEmpty()) {
-                    for (MediaWrapper MediaWrapper : videoList){
+                    for (MediaWrapper MediaWrapper : videoList) {
                         picture = mediaDatabase.getPicture(MediaWrapper.getUri());
-                        if (picture== null)
+                        if (picture == null)
                             sThumbnailer.addJob(MediaWrapper);
                     }
                     if (sThumbnailer.getJobsCount() > 0)
@@ -432,61 +417,11 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
         }).start();
     }
 
-    public static Thumbnailer getThumbnailer(){
+    public static Thumbnailer getThumbnailer() {
         return sThumbnailer;
     }
 
-    private final BroadcastReceiver externalDevicesReceiver = new BroadcastReceiver() {
-        boolean connected = true;
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (mMediaLibrary.isWorking())
-                return;
-            String action = intent.getAction();
-            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
-                        Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-                if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    if (networkInfo == null){
-                        if (connected)
-                            connected = false;
-                        else
-                            return; //block consecutive calls when disconnected
-                    } else
-                        connected = true;
-                    updateList();
-                }
-
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100); //Delay to cancel it in case of MOUNT
-            }
-        }
-    };
-
-    Handler mStorageHandlerHandler = new FileBrowserFragmentHandler(this);
-
-    private static final int ACTION_MEDIA_MOUNTED = 1337;
-    private static final int ACTION_MEDIA_UNMOUNTED = 1338;
-
-    private static class FileBrowserFragmentHandler extends WeakHandler<MainTvActivity> {
-
-        public FileBrowserFragmentHandler(MainTvActivity owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what){
-                case ACTION_MEDIA_MOUNTED:
-                    removeMessages(ACTION_MEDIA_UNMOUNTED);
-                case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().mMediaLibrary.loadMediaItems(true);
-                    break;
-            }
-        }
+    protected void refresh() {
+        mMediaLibrary.loadMediaItems(true);
     }
 }

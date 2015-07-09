@@ -20,7 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 
 public class VerticalGridActivity extends PlaybackServiceActivity implements GridFragment.BrowserActivity {
@@ -59,6 +57,16 @@ public class VerticalGridActivity extends PlaybackServiceActivity implements Gri
         getFragmentManager().beginTransaction()
                 .add(R.id.tv_fragment_placeholder, mFragment)
                 .commit();
+    }
+
+    @Override
+    protected void refresh() {
+        mFragment.refresh();
+    }
+
+    @Override
+    protected void updateList() {
+        mFragment.updateList();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {

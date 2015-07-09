@@ -50,6 +50,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
     public void onResume() {
         super.onResume();
+        mMediaLibrary.addUpdateHandler(mHandler);
         if (mAdapter.size() == 0) {
             new AsyncVideoUpdate().execute();
         }
@@ -123,7 +124,9 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     public void sendTextInfo(String info, int progress, int max) {}
 
     @Override
-    public void updateList() {}
+    public void updateList() {
+        new AsyncVideoUpdate().execute();
+    }
 
     @Override
     public void showProgressBar() {}

@@ -66,4 +66,8 @@ public class GridFragment extends VerticalGridFragment {
             TvUtil.openMedia(getActivity(), item, null);
         }
     };
+
+    protected void refresh() {}
+
+    protected void updateList() {}
 }

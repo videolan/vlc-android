@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.tv.browser;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
@@ -37,6 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +85,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
         if (mAdapter.size() == 0) {
             new AsyncAudioUpdate().execute();
         }
+        mMediaLibrary.addUpdateHandler(mHandler);
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -225,5 +228,29 @@ public class MusicFragment extends MediaLibBrowserFragment {
             return item;
         }
         return null;
+    }
+
+    @Override
+    protected void updateList() {
+        new AsyncAudioUpdate().execute();
+    }
+
+    private MediaLibHandler mHandler = new MediaLibHandler(this);
+
+    private static class MediaLibHandler extends WeakHandler<MusicFragment> {
+
+        public MediaLibHandler(MusicFragment owner) {
+            super(owner);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                    getOwner().updateList();
+                    break;
+            }
+        }
     }
 }
