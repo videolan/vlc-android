@@ -20,34 +20,11 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
-import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
-import org.videolan.vlc.interfaces.IVideoBrowser;
-import org.videolan.vlc.gui.video.VideoListHandler;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.VLCInstance;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,7 +45,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
-public class MainTvActivity extends PlaybackServiceActivity implements IVideoBrowser, OnItemViewSelectedListener,
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.R;
+import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
+import org.videolan.vlc.gui.tv.browser.MusicFragment;
+import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
+import org.videolan.vlc.gui.video.VideoListHandler;
+import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.VLCInstance;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
+public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
         OnItemViewClickedListener, OnClickListener {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
@@ -85,7 +83,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     public static final String TAG = "VLC/MainTvActivity";
 
     protected BrowseFragment mBrowseFragment;
-    private BackgroundManager mBackgroundManager;
     private ProgressBar mProgressBar;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private static Thumbnailer sThumbnailer;
@@ -135,8 +132,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
         }
         mRootContainer = mBrowseFragment.getView();
-        mBackgroundManager = BackgroundManager.getInstance(this);
-        mBackgroundManager.attach(getWindow());
     }
 
     @Override
@@ -169,13 +164,11 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             updateList();
 
         mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
-        mBackgroundManager.setColor(getResources().getColor(R.color.grey700));
     }
 
     protected void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
-        mBackgroundManager.release();
 
         /* Stop the thumbnailer */
         if (sThumbnailer != null)
@@ -216,9 +209,6 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             intent.putExtra("media", (MediaWrapper) mSelectedItem);
             intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
             startActivity(intent);
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_SEARCH){
-            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);

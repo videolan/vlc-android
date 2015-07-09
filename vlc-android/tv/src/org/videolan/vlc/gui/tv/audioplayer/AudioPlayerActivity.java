@@ -34,6 +34,7 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 
@@ -51,7 +52,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends PlaybackServiceActivity implements PlaybackService.Client.Callback,
+public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
         PlaybackService.Callback, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 

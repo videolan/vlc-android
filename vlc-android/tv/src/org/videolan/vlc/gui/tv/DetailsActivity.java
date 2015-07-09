@@ -21,11 +21,11 @@
 package org.videolan.vlc.gui.tv;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 
 import android.os.Bundle;
 
-public class DetailsActivity extends PlaybackServiceActivity {
+public class DetailsActivity extends BaseTvActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
