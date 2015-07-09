@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -35,6 +36,7 @@ import org.videolan.vlc.gui.tv.SearchActivity;
 public class VerticalGridActivity extends PlaybackServiceActivity implements GridFragment.BrowserActivity {
 
     GridFragment mFragment;
+    private BackgroundManager mBackgroundManager;
     ProgressBar mContentLoadingProgressBar;
     TextView mEmptyView;
 
@@ -59,6 +61,21 @@ public class VerticalGridActivity extends PlaybackServiceActivity implements Gri
         getFragmentManager().beginTransaction()
                 .add(R.id.tv_fragment_placeholder, mFragment)
                 .commit();
+        mBackgroundManager = BackgroundManager.getInstance(this);
+        mBackgroundManager.attach(getWindow());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mBackgroundManager.setColor(getResources().getColor(R.color.grey700));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mBackgroundManager.release();
     }
 
     @Override

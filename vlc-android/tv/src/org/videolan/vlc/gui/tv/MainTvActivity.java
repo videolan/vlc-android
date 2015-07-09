@@ -85,6 +85,7 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     public static final String TAG = "VLC/MainTvActivity";
 
     protected BrowseFragment mBrowseFragment;
+    private BackgroundManager mBackgroundManager;
     private ProgressBar mProgressBar;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private static Thumbnailer sThumbnailer;
@@ -134,7 +135,8 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
         }
         mRootContainer = mBrowseFragment.getView();
-        BackgroundManager.getInstance(this).attach(getWindow());
+        mBackgroundManager = BackgroundManager.getInstance(this);
+        mBackgroundManager.attach(getWindow());
     }
 
     @Override
@@ -165,11 +167,15 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
 
         if (mMediaLibrary.isWorking()) //Display UI while MediaLib is scanning
             updateList();
+
+        mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
+        mBackgroundManager.setColor(getResources().getColor(R.color.grey700));
     }
 
     protected void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
+        mBackgroundManager.release();
 
         /* Stop the thumbnailer */
         if (sThumbnailer != null)
@@ -219,11 +225,11 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
     }
 
     protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(this).setDrawable(drawable);
+        mBackgroundManager.setDrawable(drawable);
     }
 
     protected void clearBackground() {
-        BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
+        mBackgroundManager.setDrawable(mDefaultBackground);
     }
 
     public void await() throws InterruptedException, BrokenBarrierException {
