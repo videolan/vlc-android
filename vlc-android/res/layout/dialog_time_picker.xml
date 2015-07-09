@@ -54,6 +54,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="1"
             android:textStyle="bold" />
@@ -64,6 +65,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="2"
             android:textStyle="bold" />
@@ -74,6 +76,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="3"
             android:textStyle="bold" />
@@ -93,6 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="4"
             android:textStyle="bold" />
@@ -103,6 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="5"
             android:textStyle="bold" />
@@ -113,6 +118,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="6"
             android:textStyle="bold" />
@@ -132,6 +138,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="7"
             android:textStyle="bold" />
@@ -142,6 +149,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="8"
             android:textStyle="bold" />
@@ -152,6 +160,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="9"
             android:textStyle="bold" />
@@ -171,6 +180,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text=":00"
             android:textStyle="bold" />
@@ -181,6 +191,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="0"
             android:textStyle="bold" />
@@ -191,6 +202,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text=":30"
             android:textStyle="bold" />
@@ -211,6 +223,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/cancel"
             android:textStyle="bold" />
@@ -221,6 +234,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/delete"
             android:textStyle="bold" />
@@ -231,6 +245,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/ok"
             android:textStyle="bold" />
