@@ -528,6 +528,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             setRequestedOrientation(mScreenOrientationLock);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
         super.onPause();
@@ -541,6 +542,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Stop the earliest possible to avoid vout error */
         if (isFinishing())
             stopPlayback();
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            requestVisibleBehind(true);
     }
 
     @Override
