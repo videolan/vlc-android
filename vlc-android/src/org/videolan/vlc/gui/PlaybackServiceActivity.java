@@ -33,12 +33,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.MainThread;
-import android.view.KeyEvent;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -84,15 +82,6 @@ public abstract class PlaybackServiceActivity extends Activity implements Playba
     protected void onStop() {
         super.onStop();
         mHelper.onStop();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_SEARCH){
-            startActivity(new Intent(this, SearchActivity.class));
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     public Helper getHelper() {

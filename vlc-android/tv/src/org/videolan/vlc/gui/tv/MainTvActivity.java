@@ -211,6 +211,9 @@ public class MainTvActivity extends PlaybackServiceActivity implements IVideoBro
             intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
             startActivity(intent);
             return true;
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH){
+            startActivity(new Intent(this, SearchActivity.class));
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

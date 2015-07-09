@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.MainTvActivity;
+import org.videolan.vlc.gui.tv.SearchActivity;
 
 public class VerticalGridActivity extends PlaybackServiceActivity implements GridFragment.BrowserActivity {
 
@@ -72,6 +74,9 @@ public class VerticalGridActivity extends PlaybackServiceActivity implements Gri
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (mFragment instanceof BrowserGridFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
             ((BrowserGridFragment)mFragment).showDetails();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH){
+            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return super.onKeyDown(keyCode, event);
