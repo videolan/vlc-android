@@ -153,13 +153,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         mJumpTitle.setOnClickListener(this);
 
-        if (BuildConfig.tv) {
-            root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
-        } else {
-            mSleepTitle.setOnClickListener(this);
-            mSleepTime.setOnClickListener(this);
-            mSleepCancel.setOnClickListener(this);
-        }
+        mSleepTitle.setOnClickListener(this);
+        mSleepTime.setOnClickListener(this);
+        mSleepCancel.setOnClickListener(this);
 
         mReset.setOnFocusChangeListener(mFocusListener);
         mSleepTime.setOnFocusChangeListener(mFocusListener);
