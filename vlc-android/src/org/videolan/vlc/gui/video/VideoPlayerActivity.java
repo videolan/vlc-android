@@ -1066,6 +1066,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mDelayPlus.setOnTouchListener(new OnRepeatListener(mAudioDelayListener));
         mDelayMinus.setVisibility(View.VISIBLE);
         mDelayPlus.setVisibility(View.VISIBLE);
+        mDelayPlus.requestFocus();
         initDelayInfo();
     }
 
@@ -1096,6 +1097,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mDelayPlus.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
+        mPlayPause.requestFocus();
     }
 
     private OnClickListener mAudioDelayListener = new OnClickListener() {

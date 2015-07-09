@@ -105,6 +105,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/default_margin"
             android:src="@drawable/ic_minus_circle"
+            android:focusable="true"
             android:visibility="invisible"/>
         <ImageView
             android:id="@+id/player_delay_plus"
@@ -114,6 +115,7 @@
             android:layout_above="@+id/player_delay_minus"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_plus_circle"
+            android:focusable="true"
             android:visibility="invisible"/>
 
         <include layout="@layout/player_hud"/>

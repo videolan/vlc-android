@@ -46,7 +46,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -259,42 +258,23 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (mDelayController == null && getActivity() instanceof IDelayController)
             mDelayController = (IDelayController) getActivity();
         DialogFragment newFragment = null;
-        if (BuildConfig.tv) {
-            switch (action){
-                case PickTimeFragment.ACTION_AUDIO_DELAY:
-                    newFragment = new AudioDelayDialog();
-                    break;
-                case PickTimeFragment.ACTION_SPU_DELAY:
-                    newFragment = new SubsDelayDialog();
-                    break;
-                case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
-                    newFragment = new JumpToTimeDialog();
-                    break;
-                case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
-                    newFragment = new SleepTimerDialog();
-                    break;
-                default:
-                    return;
-            }
-        } else {
-            switch (action){
-                case PickTimeFragment.ACTION_AUDIO_DELAY:
-                    if (mDelayController != null)
-                        mDelayController.showAudioDelaySetting();
-                    break;
-                case PickTimeFragment.ACTION_SPU_DELAY:
-                    if (mDelayController != null)
-                        mDelayController.showSubsDelaySetting();
-                    break;
-                case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
-                    newFragment = new JumpToTimeDialog();
-                    break;
-                case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
-                    newFragment = new SleepTimerDialog();
-                    break;
-                default:
-                    return;
-            }
+        switch (action){
+            case PickTimeFragment.ACTION_AUDIO_DELAY:
+                if (mDelayController != null)
+                    mDelayController.showAudioDelaySetting();
+                break;
+            case PickTimeFragment.ACTION_SPU_DELAY:
+                if (mDelayController != null)
+                    mDelayController.showSubsDelaySetting();
+                break;
+            case PickTimeFragmentTemp.ACTION_JUMP_TO_TIME:
+                newFragment = new JumpToTimeDialog();
+                break;
+            case PickTimeFragmentTemp.ACTION_SLEEP_TIMER:
+                newFragment = new SleepTimerDialog();
+                break;
+            default:
+                return;
         }
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "time");
