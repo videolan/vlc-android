@@ -71,7 +71,6 @@ import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -298,13 +297,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
-        media.removeFlags(VLCOptions.MEDIA_FORCE_AUDIO);
+        media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
         VideoPlayerActivity.start(getActivity(), media.getUri(), fromStart);
     }
 
     protected void playAudio(MediaWrapper media) {
         if (mService != null) {
-            media.addFlags(VLCOptions.MEDIA_FORCE_AUDIO);
+            media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             mService.load(media);
         }
     }

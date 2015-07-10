@@ -31,6 +31,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
@@ -48,11 +49,6 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_DISABLED = 0;
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
-
-    public final static int MEDIA_VIDEO = 0x01;
-    public final static int MEDIA_NO_HWACCEL = 0x02;
-    public final static int MEDIA_PAUSED = 0x4;
-    public final static int MEDIA_FORCE_AUDIO = 0x8;
 
     public static ArrayList<String> getLibOptions(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -141,9 +137,9 @@ public class VLCOptions {
     }
 
     public static void setMediaOptions(Media media, Context context, int flags) {
-        boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
-        boolean noVideo = (flags & MEDIA_VIDEO) == 0;
-        final boolean paused = (flags & MEDIA_PAUSED) != 0;
+        boolean noHardwareAcceleration = (flags & MediaWrapper.MEDIA_NO_HWACCEL) != 0;
+        boolean noVideo = (flags & MediaWrapper.MEDIA_VIDEO) == 0;
+        final boolean paused = (flags & MediaWrapper.MEDIA_PAUSED) != 0;
         int hardwareAcceleration = HW_ACCELERATION_DISABLED;
 
         if (!noHardwareAcceleration) {

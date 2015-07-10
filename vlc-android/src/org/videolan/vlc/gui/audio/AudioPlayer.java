@@ -64,7 +64,6 @@ import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import java.util.ArrayList;
@@ -425,7 +424,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mSwitchedToVideo = false;
                 break;
             case MediaPlayer.Event.ESAdded:
-                final boolean forceAudio = (mService.getCurrentMediaWrapper().getFlags() & VLCOptions.MEDIA_FORCE_AUDIO) != 0;
+                final boolean forceAudio = (mService.getCurrentMediaWrapper().getFlags() & MediaWrapper.MEDIA_FORCE_AUDIO) != 0;
                 if (!forceAudio && !mSwitchedToVideo && event.getEsChangedType() == Media.Track.Type.Video) {
                     mService.switchToVideo();
                     mSwitchedToVideo = true;

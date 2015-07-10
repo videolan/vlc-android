@@ -112,7 +112,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.widget.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
@@ -2595,11 +2594,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.stop();
                 final MediaWrapper mw = new MediaWrapper(mUri);
                 if (wasPaused)
-                    mw.addFlags(VLCOptions.MEDIA_PAUSED);
+                    mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 if (mHardwareAccelerationError)
-                    mw.addFlags(VLCOptions.MEDIA_NO_HWACCEL);
-                mw.removeFlags(VLCOptions.MEDIA_FORCE_AUDIO);
-                mw.addFlags(VLCOptions.MEDIA_VIDEO);
+                    mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
+                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                mw.addFlags(MediaWrapper.MEDIA_VIDEO);
                 mService.addCallback(this);
                 mService.load(mw);
                 savedIndexPosition = mService.getCurrentMediaPosition();
