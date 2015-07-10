@@ -215,11 +215,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     protected void updateBackground(Drawable drawable) {
-        mBackgroundManager.setDrawable(drawable);
+        BackgroundManager.getInstance(this).setDrawable(drawable);
     }
 
     protected void clearBackground() {
-        mBackgroundManager.setDrawable(mDefaultBackground);
+        BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
     }
 
     public void await() throws InterruptedException, BrokenBarrierException {

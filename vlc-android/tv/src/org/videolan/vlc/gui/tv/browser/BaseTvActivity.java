@@ -44,19 +44,15 @@ import org.videolan.vlc.util.WeakHandler;
 
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected MediaLibrary mMediaLibrary;
-    protected BackgroundManager mBackgroundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = MediaLibrary.getInstance();
-        mBackgroundManager = BackgroundManager.getInstance(this);
-        mBackgroundManager.attach(getWindow());
     }
 
     @Override
     protected void onResume() {
-        mBackgroundManager.setColor(getResources().getColor(R.color.grey700));
         super.onResume();
         //Handle network connection state
         IntentFilter networkfilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -72,7 +68,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mBackgroundManager.release();
         unregisterReceiver(mExternalDevicesReceiver);
     }
 
