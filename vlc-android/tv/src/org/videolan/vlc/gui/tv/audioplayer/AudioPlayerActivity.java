@@ -103,9 +103,10 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     @Override
     protected void onStop() {
-        super.onStop();
+        /* unregister before super.onStop() since mService is set to null from this call */
         if (mService != null)
             mService.removeCallback(this);
+        super.onStop();
     }
 
     protected void onResume() {
