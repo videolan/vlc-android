@@ -277,7 +277,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param fd file descriptor object
      */
     public Media(LibVLC libVLC, FileDescriptor fd) {
-        nativeNewFromFD(libVLC, fd);
+        nativeNewFromFd(libVLC, fd);
         mUri = UriFromMrl(nativeGetMrl());
         mType = nativeGetType();
     }
@@ -604,7 +604,7 @@ public class Media extends VLCObject<Media.Event> {
     /* JNI */
     private native void nativeNewFromPath(LibVLC libVLC, String path);
     private native void nativeNewFromLocation(LibVLC libVLC, String location);
-    private native void nativeNewFromFD(LibVLC libVLC, FileDescriptor fd);
+    private native void nativeNewFromFd(LibVLC libVLC, FileDescriptor fd);
     private native void nativeNewFromMediaList(MediaList ml, int index);
     private native void nativeRelease();
     private native boolean nativeParseAsync(int flags);
