@@ -28,7 +28,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public static class Event extends VLCEvent {
         //public static final int MediaChanged        = 0x100;
         //public static final int NothingSpecial      = 0x101;
-        //public static final int Opening             = 0x102;
+        public static final int Opening             = 0x102;
         //public static final int Buffering           = 0x103;
         public static final int Playing             = 0x104;
         public static final int Paused              = 0x105;
@@ -778,6 +778,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             case Event.EncounteredError:
                 mVoutCount = 0;
                 notify();
+            case Event.Opening:
             case Event.Playing:
             case Event.Paused:
                 return new Event(eventType);
