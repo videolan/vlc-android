@@ -324,17 +324,25 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
         public void onSurfacesCreated(AWindow vout) {
+            boolean play = false;
             synchronized (MediaPlayer.this) {
                 if (!mPlaying && mPlayRequested)
-                    play();
+                    play = true;
             }
+            if (play)
+                play();
         }
 
         @Override
         public void onSurfacesDestroyed(AWindow vout) {
+            boolean disableVideo = false;
             synchronized (MediaPlayer.this) {
                 if (mVoutCount > 0)
-                    setVideoTrack(-1);
+                    disableVideo = true;
+            }
+            if (disableVideo)
+                setVideoTrack(-1);
+            synchronized (MediaPlayer.this) {
                 /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
                  * used after leaving this callback. This shouldn't be needed when using MediaCodec or
                  * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
@@ -382,17 +390,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @param media a valid libVLC
      */
-    public synchronized void setMedia(Media media) {
-        if (mMedia != null)
-            mMedia.release();
+    public void setMedia(Media media) {
         if (media != null) {
             if (media.isReleased())
                 throw new IllegalArgumentException("Media is released");
-            media.retain();
             media.setDefaultMediaPlayerOptions();
         }
-        mMedia = media;
-        nativeSetMedia(mMedia);
+        nativeSetMedia(media);
+        synchronized (this) {
+            if (mMedia != null) {
+                mMedia.release();
+            }
+            if (media != null)
+                media.retain();
+            mMedia = media;
+        }
     }
 
     /**
@@ -408,21 +420,23 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * Play the media
      *
      */
-    public synchronized void play() {
-        if (!mPlaying) {
-            /* HACK: stop() reset the audio output, so set it again before first play. */
-            if (mAudioReset) {
-                if (mAudioOutput != null)
-                    nativeSetAudioOutput(mAudioOutput);
-                if (mAudioOutputDevice != null)
-                    nativeSetAudioOutputDevice(mAudioOutputDevice);
-                mAudioReset = false;
+    public void play() {
+        synchronized (this) {
+            if (!mPlaying) {
+                /* HACK: stop() reset the audio output, so set it again before first play. */
+                if (mAudioReset) {
+                    if (mAudioOutput != null)
+                        nativeSetAudioOutput(mAudioOutput);
+                    if (mAudioOutputDevice != null)
+                        nativeSetAudioOutputDevice(mAudioOutputDevice);
+                    mAudioReset = false;
+                }
+                mPlayRequested = true;
+                if (mWindow.areSurfacesWaiting())
+                    return;
             }
-            mPlayRequested = true;
-            if (mWindow.areSurfacesWaiting())
-                return;
+            mPlaying = true;
         }
-        mPlaying = true;
         nativePlay();
     }
 
@@ -430,10 +444,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * Stops the playing media
      *
      */
-    public synchronized void stop() {
-        mPlayRequested = false;
-        mPlaying = false;
-        mAudioReset = true;
+    public void stop() {
+        synchronized (this) {
+            mPlayRequested = false;
+            mPlaying = false;
+            mAudioReset = true;
+        }
         nativeStop();
     }
 
@@ -443,7 +459,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param position see {@link Position}
      * @param timeout
      */
-    public synchronized void setVideoTitleDisplay(int position, int timeout) {
+    public void setVideoTitleDisplay(int position, int timeout) {
         nativeSetVideoTitleDisplay(position, timeout);
     }
 
@@ -454,10 +470,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setAudioOutput(String aout) {
+    public boolean setAudioOutput(String aout) {
         final boolean ret = nativeSetAudioOutput(aout);
-        if (ret)
-            mAudioOutput = aout;
+        if (ret) {
+            synchronized (this) {
+                mAudioOutput = aout;
+            }
+        }
         return ret;
     }
 
@@ -467,10 +486,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setAudioOutputDevice(String id) {
+    public boolean setAudioOutputDevice(String id) {
         final boolean ret = nativeSetAudioOutputDevice(id);
-        if (ret)
-            mAudioOutputDevice = id;
+        if (ret) {
+            synchronized (this) {
+                mAudioOutputDevice = id;
+            }
+        }
         return ret;
     }
 
@@ -479,7 +501,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return the list of titles
      */
-    public synchronized Title[] getTitles() {
+    public Title[] getTitles() {
         return nativeGetTitles();
     }
 
@@ -489,21 +511,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param title index of the title
      * @return the list of Chapters for the title
      */
-    public synchronized Chapter[] getChapters(int title) {
+    public Chapter[] getChapters(int title) {
         return nativeGetChapters(title);
     }
 
     /**
      * Get the number of available video tracks.
      */
-    public synchronized int getVideoTracksCount() {
+    public int getVideoTracksCount() {
         return nativeGetVideoTracksCount();
     }
 
     /**
      * Get the list of available video tracks.
      */
-    public synchronized TrackDescription[] getVideoTracks() {
+    public TrackDescription[] getVideoTracks() {
         return nativeGetVideoTracks();
     }
 
@@ -512,7 +534,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return the video track ID or -1 if no active input
      */
-    public synchronized int getVideoTrack() {
+    public int getVideoTrack() {
         return nativeGetVideoTrack();
     }
 
@@ -521,21 +543,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setVideoTrack(int index) {
+    public boolean setVideoTrack(int index) {
         return nativeSetVideoTrack(index);
     }
 
     /**
      * Get the number of available audio tracks.
      */
-    public synchronized int getAudioTracksCount() {
+    public int getAudioTracksCount() {
         return nativeGetAudioTracksCount();
     }
 
     /**
      * Get the list of available audio tracks.
      */
-    public synchronized TrackDescription[] getAudioTracks() {
+    public TrackDescription[] getAudioTracks() {
         return nativeGetAudioTracks();
     }
 
@@ -544,7 +566,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return the audio track ID or -1 if no active input
      */
-    public synchronized int getAudioTrack() {
+    public int getAudioTrack() {
         return nativeGetAudioTrack();
     }
 
@@ -553,7 +575,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setAudioTrack(int index) {
+    public boolean setAudioTrack(int index) {
         return nativeSetAudioTrack(index);
     }
 
@@ -562,7 +584,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return delay in microseconds.
      */
-    public synchronized long getAudioDelay() {
+    public long getAudioDelay() {
         return nativeGetAudioDelay();
     }
 
@@ -572,21 +594,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param delay in microseconds.
      * @return true on success.
      */
-    public synchronized boolean setAudioDelay(long delay) {
+    public boolean setAudioDelay(long delay) {
         return nativeSetAudioDelay(delay);
     }
 
     /**
      * Get the number of available spu (subtitle) tracks.
      */
-    public synchronized int getSpuTracksCount() {
+    public int getSpuTracksCount() {
         return nativeGetSpuTracksCount();
     }
 
     /**
      * Get the list of available spu (subtitle) tracks.
      */
-    public synchronized TrackDescription[] getSpuTracks() {
+    public TrackDescription[] getSpuTracks() {
         return nativeGetSpuTracks();
     }
 
@@ -595,7 +617,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return the spu (subtitle) track ID or -1 if no active input
      */
-    public synchronized int getSpuTrack() {
+    public int getSpuTrack() {
         return nativeGetSpuTrack();
     }
 
@@ -604,7 +626,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setSpuTrack(int index) {
+    public boolean setSpuTrack(int index) {
         return nativeSetSpuTrack(index);
     }
 
@@ -613,7 +635,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return delay in microseconds.
      */
-    public synchronized long getSpuDelay() {
+    public long getSpuDelay() {
         return nativeGetSpuDelay();
     }
 
@@ -623,7 +645,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param delay in microseconds.
      * @return true on success.
      */
-    public synchronized boolean setSpuDelay(long delay) {
+    public boolean setSpuDelay(long delay) {
         return nativeSetSpuDelay(delay);
     }
 
@@ -648,7 +670,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public synchronized boolean setEqualizer(Equalizer equalizer) {
+    public boolean setEqualizer(Equalizer equalizer) {
         return nativeSetEqualizer(equalizer);
     }
 
@@ -658,7 +680,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param path local path.
      * @return true on success.
      */
-    public synchronized boolean setSubtitleFile(String path) {
+    public boolean setSubtitleFile(String path) {
         return nativeSetSubtitleFile(path);
     }
 
@@ -749,7 +771,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, float arg2) {
+    protected synchronized Event onEventNative(int eventType, long arg1, float arg2) {
         switch (eventType) {
             case Event.Stopped:
             case Event.EndReached:

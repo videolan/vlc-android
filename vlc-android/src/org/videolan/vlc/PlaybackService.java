@@ -1882,8 +1882,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             for (int i = 0; i < ml.getCount(); ++i) {
                 final Media child = ml.getMediaAt(i);
                 child.parse();
-                child.release();
                 mMediaList.insert(mCurrentIndex, new MediaWrapper(child));
+                child.release();
             }
             ret = 0;
         } else {

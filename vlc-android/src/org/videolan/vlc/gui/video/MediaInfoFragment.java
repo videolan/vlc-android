@@ -151,6 +151,8 @@ public class MediaInfoFragment extends ListFragment {
         super.onStop();
         if (mThreadPoolExecutor != null)
             mThreadPoolExecutor.shutdownNow();
+        if (mMedia != null)
+            mMedia.release();
     }
 
     @Override
@@ -226,7 +228,6 @@ public class MediaInfoFragment extends ListFragment {
             int videoHeight = mItem.getHeight();
             int videoWidth = mItem.getWidth();
             if (videoWidth == 0 || videoHeight == 0) {
-                mMedia.release();
                 return;
             }
 
@@ -246,7 +247,6 @@ public class MediaInfoFragment extends ListFragment {
             mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
             byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
-            mMedia.release();
 
             if (b == null) // We were not able to create a thumbnail for this item.
                 return;

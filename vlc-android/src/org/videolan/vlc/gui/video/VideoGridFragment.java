@@ -360,9 +360,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         boolean hasInfo = false;
         final Media media = new Media(VLCInstance.get(), mediaWrapper.getUri());
         media.parse();
-        media.release();
         if (media.getMeta(Media.Meta.Title) != null)
             hasInfo = true;
+        media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(!AndroidUtil.isLolliPopOrLater() ||
                 mediaWrapper.getLocation().startsWith("file://" + AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));

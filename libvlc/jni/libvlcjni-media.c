@@ -269,38 +269,6 @@ Java_org_videolan_libvlc_Media_nativeGetMeta(JNIEnv *env, jobject thiz, jint id)
     return jmeta;
 }
 
-jobject
-Java_org_videolan_libvlc_Media_nativeGetMetas(JNIEnv *env, jobject thiz)
-{
-    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-    jobjectArray array;
-
-    if (!p_obj)
-        return NULL;
-
-    array = (*env)->NewObjectArray(env, META_MAX, fields.String.clazz, NULL);
-    if (!array)
-        return NULL;
-
-    for (int i = 0; i < META_MAX; ++i)
-    {
-        char *psz_media = libvlc_media_get_meta(p_obj->u.p_m, i);
-        if (psz_media)
-        {
-            jstring jmedia = (*env)->NewStringUTF(env, psz_media);
-            free(psz_media);
-            if (!jmedia)
-            {
-                (*env)->DeleteLocalRef(env, array);
-                return NULL;
-            }
-            (*env)->SetObjectArrayElement(env, array, i, jmedia);
-        }
-    }
-
-    return array;
-}
-
 static jobject
 media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
 {

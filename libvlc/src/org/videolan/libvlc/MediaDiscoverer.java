@@ -36,7 +36,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
 
     public interface EventListener extends VLCEvent.Listener<MediaDiscoverer.Event> {}
 
-    private MediaList mMediaList;
+    private MediaList mMediaList = null;
 
     /**
      * Create a MediaDiscover.
@@ -89,13 +89,19 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
      *
      * @return MediaList. This MediaList should be released with {@link #release()}.
      */
-    public synchronized MediaList getMediaList() {
-        if (isReleased())
-            throw new IllegalStateException("MediaDiscoverer is released");
-        if (mMediaList == null)
-            mMediaList = new MediaList(this);
-        mMediaList.retain();
-        return mMediaList;
+    public MediaList getMediaList() {
+        synchronized (this) {
+            if (mMediaList != null) {
+                mMediaList.retain();
+                return mMediaList;
+            }
+        }
+        final MediaList mediaList = new MediaList(this);
+        synchronized (this) {
+            mMediaList = mediaList;
+            mMediaList.retain();
+            return mMediaList;
+        }
     }
 
     @Override

@@ -239,11 +239,11 @@ public class Media extends VLCObject<Media.Event> {
     private Uri mUri = null;
     private MediaList mSubItems = null;
     private int mParseStatus = PARSE_STATUS_INIT;
-    private String mNativeMetas[] = null;
+    private final String mNativeMetas[] = new String[Meta.MAX];
     private Track mNativeTracks[] = null;
-    private long mDuration;
-    private int mState = State.NothingSpecial;
-    private int mType = Type.Unknown;
+    private long mDuration = -1;
+    private int mState = -1;
+    private int mType = -1;
     private boolean mCodecOptionSet = false;
 
     /**
@@ -255,7 +255,6 @@ public class Media extends VLCObject<Media.Event> {
     public Media(LibVLC libVLC, String path) {
         nativeNewFromPath(libVLC, path);
         mUri = UriFromMrl(nativeGetMrl());
-        mType = nativeGetType();
     }
 
     /**
@@ -267,7 +266,6 @@ public class Media extends VLCObject<Media.Event> {
     public Media(LibVLC libVLC, Uri uri) {
         nativeNewFromLocation(libVLC, locationFromUri(uri));
         mUri = uri;
-        mType = nativeGetType();
     }
 
     /**
@@ -279,7 +277,6 @@ public class Media extends VLCObject<Media.Event> {
     public Media(LibVLC libVLC, FileDescriptor fd) {
         nativeNewFromFd(libVLC, fd);
         mUri = UriFromMrl(nativeGetMrl());
-        mType = nativeGetType();
     }
 
     /**
@@ -294,8 +291,6 @@ public class Media extends VLCObject<Media.Event> {
             throw new IllegalStateException("MediaList should be locked");
         nativeNewFromMediaList(ml, index);
         mUri = UriFromMrl(nativeGetMrl());
-        mNativeMetas = nativeGetMetas();
-        mType = nativeGetType();
     }
 
     private static final String URI_AUTHORIZED_CHARS = "!'()*";
@@ -354,22 +349,18 @@ public class Media extends VLCObject<Media.Event> {
         switch (eventType) {
         case Event.MetaChanged:
             // either we update all metas (if first call) or we update a specific meta
-            if (mNativeMetas == null) {
-                mNativeMetas = nativeGetMetas();
-            } else {
-                int id = (int) arg1;
-                if (id >= 0 && id < Meta.MAX)
-                    mNativeMetas[id] = nativeGetMeta(id);
-            }
+            int id = (int) arg1;
+            if (id >= 0 && id < Meta.MAX)
+                mNativeMetas[id] = null;
             break;
         case Event.DurationChanged:
-            mDuration = nativeGetDuration();
+            mDuration = -1;
             break;
         case Event.ParsedChanged:
             postParse();
             break;
         case Event.StateChanged:
-            mState = nativeGetState();
+            mState = -1;
             break;
         }
         return new Event(eventType);
@@ -385,8 +376,18 @@ public class Media extends VLCObject<Media.Event> {
     /**
      * Get the duration of the media.
      */
-    public synchronized long getDuration() {
-        return mDuration;
+    public long getDuration() {
+        synchronized (this) {
+            if (mDuration != -1)
+                return mDuration;
+            if (isReleased())
+                return 0;
+        }
+        final long duration = nativeGetDuration();
+        synchronized (this) {
+            mDuration = duration;
+            return mDuration;
+        }
     }
 
     /**
@@ -394,8 +395,18 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @see State
      */
-    public synchronized int getState() {
-        return mState;
+    public int getState() {
+        synchronized (this) {
+            if (mState != -1)
+                return mState;
+            if (isReleased())
+                return State.Error;
+        }
+        final int state = nativeGetState();
+        synchronized (this) {
+            mState = state;
+            return mState;
+        }
     }
 
     /**
@@ -403,28 +414,29 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @return subItems as a MediaList. This MediaList should be released with {@link #release()}.
      */
-    public synchronized MediaList subItems() {
-        if (isReleased())
-            throw new IllegalStateException("Media is released");
-        if (mSubItems == null)
-            mSubItems = new MediaList(this);
-        mSubItems.retain();
-        return mSubItems;
+    public MediaList subItems() {
+        synchronized (this) {
+            if (mSubItems != null) {
+                mSubItems.retain();
+                return mSubItems;
+            }
+        }
+        final MediaList subItems = new MediaList(this);
+        synchronized (this) {
+            mSubItems = subItems;
+            mSubItems.retain();
+            return mSubItems;
+        }
     }
 
     private synchronized void postParse() {
-        if (isReleased())
-            throw new IllegalStateException("Media is released");
         // fetch if parsed and not fetched
         mParseStatus &= ~PARSE_STATUS_PARSING;
         mParseStatus |= PARSE_STATUS_PARSED;
-        mNativeTracks = nativeGetTracks();
-        mNativeMetas = nativeGetMetas();
-        if (mNativeMetas != null && mNativeMetas.length != Meta.MAX)
-            throw new IllegalStateException("native metas size doesn't match");
-        mDuration = nativeGetDuration();
-        mState = nativeGetState();
-        mType = nativeGetType();
+        mNativeTracks = null;
+        mDuration = -1;
+        mState = -1;
+        mType = -1;
     }
 
     /**
@@ -433,15 +445,19 @@ public class Media extends VLCObject<Media.Event> {
      * @param flags see {@link Parse}
      * @return true in case of success, false otherwise.
      */
-    public synchronized boolean parse(int flags) {
-        if ((mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
-            mParseStatus |= PARSE_STATUS_PARSING;
-            if (nativeParse(flags)) {
-                postParse();
-                return true;
+    public boolean parse(int flags) {
+        boolean parse = false;
+        synchronized (this) {
+            if ((mParseStatus & (PARSE_STATUS_PARSED | PARSE_STATUS_PARSING)) == 0) {
+                mParseStatus |= PARSE_STATUS_PARSING;
+                parse = true;
             }
         }
-        return false;
+        if (parse && nativeParse(flags)) {
+            postParse();
+            return true;
+        } else
+            return false;
     }
 
     /**
@@ -449,7 +465,7 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @return true in case of success, false otherwise.
      */
-    public synchronized boolean parse() {
+    public boolean parse() {
         return parse(Parse.FetchLocal);
     }
 
@@ -462,12 +478,15 @@ public class Media extends VLCObject<Media.Event> {
      * @param flags see {@link Parse}
      * @return true in case of success, false otherwise.
      */
-    public synchronized boolean parseAsync(int flags) {
-        if ((mParseStatus & (PARSE_STATUS_PARSED|PARSE_STATUS_PARSING)) == 0) {
-            mParseStatus |= PARSE_STATUS_PARSING;
-            return nativeParseAsync(flags);
-        } else
-            return false;
+    public boolean parseAsync(int flags) {
+        boolean parse = false;
+        synchronized (this) {
+            if ((mParseStatus & (PARSE_STATUS_PARSED | PARSE_STATUS_PARSING)) == 0) {
+                mParseStatus |= PARSE_STATUS_PARSING;
+                parse = true;
+            }
+        }
+        return parse && nativeParseAsync(flags);
     }
 
     /**
@@ -475,7 +494,7 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @see #parseAsync(int)
      */
-    public synchronized boolean parseAsync() {
+    public boolean parseAsync() {
         return parseAsync(Parse.FetchLocal);
     }
 
@@ -491,15 +510,40 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @see {@link Type}
      */
-    public synchronized int getType() {
-        return mType;
+    public int getType() {
+        synchronized (this) {
+            if (mType != -1)
+                return mType;
+            if (isReleased())
+                return Type.Unknown;
+        }
+        final int type = nativeGetType();
+        synchronized (this) {
+            mType = type;
+            return mType;
+        }
+    }
+
+    private Track[] getTracks() {
+        synchronized (this) {
+            if (mNativeTracks != null)
+                return mNativeTracks;
+            if (isReleased())
+                return null;
+        }
+        final Track[] tracks = nativeGetTracks();
+        synchronized (this) {
+            mNativeTracks = tracks;
+            return mNativeTracks;
+        }
     }
 
     /**
      * Get the Track count.
      */
-    public synchronized int getTrackCount() {
-        return mNativeTracks != null ? mNativeTracks.length : 0;
+    public int getTrackCount() {
+        final Track[] tracks = getTracks();
+        return tracks != null ? tracks.length : 0;
     }
 
     /**
@@ -510,10 +554,11 @@ public class Media extends VLCObject<Media.Event> {
      * @return Track or null if not idx is not valid
      * @see #getTrackCount()
      */
-    public synchronized Track getTrack(int idx) {
-        if (mNativeTracks == null || idx < 0 || idx >= mNativeTracks.length)
+    public Track getTrack(int idx) {
+        final Track[] tracks = getTracks();
+        if (tracks == null || idx < 0 || idx >= tracks.length)
             return null;
-        return mNativeTracks[idx];
+        return tracks[idx];
     }
 
     /**
@@ -522,17 +567,28 @@ public class Media extends VLCObject<Media.Event> {
      * @param id see {@link Meta}
      * @return meta or null if not found
      */
-    public synchronized String getMeta(int id) {
+    public String getMeta(int id) {
         if (id < 0 || id >= Meta.MAX)
             return null;
 
-        return mNativeMetas != null ? mNativeMetas[id] : null;
+        synchronized (this) {
+            if (mNativeMetas[id] != null)
+                return mNativeMetas[id];
+            if (isReleased())
+                return null;
+        }
+
+        final String meta = nativeGetMeta(id);
+        synchronized (this) {
+            mNativeMetas[id] = meta;
+            return meta;
+        }
     }
+
 
     private static String getMediaCodecModule() {
         return AndroidUtil.isLolliPopOrLater() ? "mediacodec_ndk" : "mediacodec_jni";
     }
-
 
     /**
      * Add or remove hw acceleration media options
@@ -579,7 +635,12 @@ public class Media extends VLCObject<Media.Event> {
      * Enable HWDecoder options if not already set
      */
     protected void setDefaultMediaPlayerOptions() {
-        if (!mCodecOptionSet)
+        boolean codecOptionSet;
+        synchronized (this) {
+            codecOptionSet = mCodecOptionSet;
+            mCodecOptionSet = true;
+        }
+        if (!codecOptionSet)
             setHWDecoderEnabled(true, false);
     }
 
@@ -588,9 +649,11 @@ public class Media extends VLCObject<Media.Event> {
      *
      * @param option ":option" or ":option=value"
      */
-    public synchronized void addOption(String option) {
-        if (!mCodecOptionSet && option.startsWith(":codec="))
-            mCodecOptionSet = true;
+    public void addOption(String option) {
+        synchronized (this) {
+            if (!mCodecOptionSet && option.startsWith(":codec="))
+                mCodecOptionSet = true;
+        }
         nativeAddOption(option);
     }
 
@@ -612,7 +675,6 @@ public class Media extends VLCObject<Media.Event> {
     private native String nativeGetMrl();
     private native int nativeGetState();
     private native String nativeGetMeta(int id);
-    private native String[] nativeGetMetas();
     private native Track[] nativeGetTracks();
     private native long nativeGetDuration();
     private native int nativeGetType();

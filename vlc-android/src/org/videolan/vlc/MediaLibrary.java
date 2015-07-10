@@ -374,14 +374,15 @@ public class MediaLibrary {
                         // create new media item
                         final Media media = new Media(libVlcInstance, Uri.parse(fileURI));
                         media.parse();
-                        media.release();
                         /* skip files with .mod extension and no duration */
                         if ((media.getDuration() == 0 || (media.getTrackCount() != 0 && TextUtils.isEmpty(media.getTrack(0).codec))) &&
                             fileURI.endsWith(".mod")) {
                             mItemListLock.writeLock().unlock();
+                            media.release();
                             continue;
                         }
                         MediaWrapper mw = new MediaWrapper(media);
+                        media.release();
                         mw.setLastModified(file.lastModified());
                         mItemList.add(mw);
                         // Add this item to database
