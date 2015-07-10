@@ -62,6 +62,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     protected Map<String, ListItem> mMediaItemMap;
     protected ArrayList<ListItem> mMediaItemList;
+    private volatile AsyncAudioUpdate mUpdater = null;
 
     String mFilter;
     int mCategory;
@@ -82,10 +83,18 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     public void onResume() {
         super.onResume();
-        if (mAdapter.size() == 0) {
-            new AsyncAudioUpdate().execute();
+        if (mAdapter.size() == 0 && mUpdater == null) {
+            mUpdater = new AsyncAudioUpdate();
+            mUpdater.execute();
         }
         mMediaLibrary.addUpdateHandler(mHandler);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mUpdater != null)
+            mUpdater.cancel(true);
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -232,7 +241,10 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     @Override
     protected void updateList() {
-        new AsyncAudioUpdate().execute();
+        if (mUpdater == null) {
+            mUpdater = new AsyncAudioUpdate();
+            mUpdater.execute();
+        }
     }
 
     private MediaLibHandler mHandler = new MediaLibHandler(this);

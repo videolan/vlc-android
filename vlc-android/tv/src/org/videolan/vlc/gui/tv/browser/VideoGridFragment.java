@@ -43,6 +43,8 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     private Handler mHandler = new VideoListHandler(this);
     protected static Thumbnailer sThumbnailer;
 
+    private volatile AsyncVideoUpdate mUpdater = null;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sThumbnailer = MainTvActivity.getThumbnailer();
@@ -51,8 +53,9 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     public void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
-        if (mAdapter.size() == 0) {
-            new AsyncVideoUpdate().execute();
+        if (mAdapter.size() == 0 && mUpdater == null) {
+            mUpdater = new AsyncVideoUpdate();
+            mUpdater.execute();
         }
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(this);
@@ -125,7 +128,9 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
     @Override
     public void updateList() {
-        new AsyncVideoUpdate().execute();
+        if (mUpdater == null) {
+            new AsyncVideoUpdate().execute();
+        }
     }
 
     @Override
