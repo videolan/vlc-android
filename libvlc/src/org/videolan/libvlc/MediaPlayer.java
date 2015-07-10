@@ -508,7 +508,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Get the full description of available chapters.
      *
-     * @param title index of the title
+     * @param title index of the title (if -1, use the current title)
      * @return the list of Chapters for the title
      */
     public Chapter[] getChapters(int title) {
