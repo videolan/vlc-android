@@ -202,7 +202,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initChapterSpinner() {
-        final MediaPlayer.Chapter[] chapters = mService.getChapters(0);
+        final MediaPlayer.Chapter[] chapters = mService.getChapters(mService.getTitleIdx());
         int chaptersCount = chapters != null ? chapters.length : 0;
         if (chaptersCount <= 1){
             mChapters.setVisibility(View.GONE);
