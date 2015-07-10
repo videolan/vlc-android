@@ -78,8 +78,6 @@ public class MediaList extends VLCObject<MediaList.Event> {
      * @param md Should not be released
      */
     protected MediaList(MediaDiscoverer md) {
-        if (md.isReleased())
-            throw new IllegalArgumentException("MediaDiscoverer is not native");
         nativeNewFromMediaDiscoverer(md);
         init();
     }
@@ -89,8 +87,6 @@ public class MediaList extends VLCObject<MediaList.Event> {
      * @param m Should not be released
      */
     protected MediaList(Media m) {
-        if (m.isReleased())
-            throw new IllegalArgumentException("Media is not native");
         nativeNewFromMedia(m);
         init();
     }
