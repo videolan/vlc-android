@@ -41,6 +41,7 @@ import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCOptions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -116,6 +117,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
+                mw.removeFlags(VLCOptions.MEDIA_FORCE_AUDIO);
+
                 if (mw.getType() == MediaWrapper.TYPE_DIR)
                     fragment.browse(mw, holder.getAdapterPosition(), true);
                 else if (mw.getType() == MediaWrapper.TYPE_VIDEO)

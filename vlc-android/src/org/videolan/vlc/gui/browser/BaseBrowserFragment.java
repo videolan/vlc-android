@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.ContextMenuRecyclerView;
@@ -419,7 +420,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         switch (id){
             case R.id.directory_view_play:
-                Util.openMedia(getActivity(), (MediaWrapper) mAdapter.getItem(position));
+                mw.removeFlags(VLCOptions.MEDIA_FORCE_AUDIO);
+                Util.openMedia(getActivity(), mw);
                 return true;
             case R.id.directory_view_append: {
                 if (mService != null)
@@ -445,6 +447,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             case R.id.directory_view_play_audio: {
                 if (mService != null) {
+                    mw.addFlags(VLCOptions.MEDIA_FORCE_AUDIO);
                     mService.load(mw);
                 }
                 return true;

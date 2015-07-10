@@ -64,6 +64,7 @@ import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import java.util.ArrayList;
@@ -94,6 +95,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     private boolean mShowRemainingTime = false;
     private boolean mPreviewingSeek = false;
+    private boolean mSwitchedToVideo = false;
 
     private AudioPlaylistAdapter mSongsListAdapter;
 
@@ -167,6 +169,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             public void onClick(View v) {
                 if (mService != null) {
                     mService.switchToVideo();
+                    mSwitchedToVideo = true;
                 }
             }
         });
@@ -328,6 +331,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
                 mService.switchToVideo();
+                mSwitchedToVideo = true;
                 return;
             } else
                 show();
@@ -416,6 +420,18 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
+        switch (event.type) {
+            case MediaPlayer.Event.Opening:
+                mSwitchedToVideo = false;
+                break;
+            case MediaPlayer.Event.ESAdded:
+                final boolean forceAudio = (mService.getCurrentMediaWrapper().getFlags() & VLCOptions.MEDIA_FORCE_AUDIO) != 0;
+                if (!forceAudio && !mSwitchedToVideo && event.getEsChangedType() == Media.Track.Type.Video) {
+                    mService.switchToVideo();
+                    mSwitchedToVideo = true;
+                }
+                break;
+        }
     }
 
     private void updateList() {

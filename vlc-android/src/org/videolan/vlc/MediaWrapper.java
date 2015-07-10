@@ -430,6 +430,9 @@ public class MediaWrapper implements Parcelable {
     public int getFlags() {
         return mFlags;
     }
+    public void removeFlags(int flags) {
+        mFlags &= ~flags;
+    }
 
     @Override
     public int describeContents() {
