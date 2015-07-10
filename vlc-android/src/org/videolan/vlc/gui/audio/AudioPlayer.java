@@ -325,7 +325,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService == null || getActivity() == null)
             return;
 
-        if (mService.hasMedia()) {
+        if (mService.hasMedia() && !mService.isVideoPlaying()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));

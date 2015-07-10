@@ -1379,6 +1379,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
+    public boolean isVideoPlaying() {
+        return mMediaPlayer.getVLCVout().areViewsAttached();
+    }
+
+    @MainThread
     public String getAlbum() {
         if (hasCurrentMedia())
             return Util.getMediaAlbum(PlaybackService.this, getCurrentMedia());
