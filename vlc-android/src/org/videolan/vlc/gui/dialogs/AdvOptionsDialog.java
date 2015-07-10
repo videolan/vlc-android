@@ -210,9 +210,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             return;
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
-        String chapterDescription;
-        for (int i = 0 ; i < chaptersCount ; ++i)
-            adapter.insert(chapters[i].name != null ? chapters[i].name : Integer.toString(i), i);
+        for (int i = 0 ; i < chaptersCount ; ++i) {
+            String name;
+            if (chapters[i].name == null || chapters[i].name.equals("")) {
+                StringBuilder sb = new StringBuilder("Chapter ").append(i); /* TODO translate Chapter */
+                if (chapters[i].timeOffset >= 0)
+                    sb.append(" - ").append(Strings.millisToString(chapters[i].timeOffset));
+                name = sb.toString();
+            } else
+                name = chapters[i].name;
+            adapter.insert(name, i);
+        }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
         mChapters.setSelection(mService.getChapterIdx());
