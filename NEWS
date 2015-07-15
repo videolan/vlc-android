@@ -8,30 +8,37 @@ Application:
  * Position in playlist and in song are now restored when you load last playlist
  * Design improvements, replaced some dialogs and toasts by snackbars
  * Merge Audio and Video playback in a PlaybackService
+ * Improve audio<->video modes switches
  * Large code cleaning in all layers of the application
  * Fix advanced video options and video resolver crashing
- * Chapters detection improvements
+ * Chapters/titles detection improvements
  * Fix audio focus in numerous cases
  * New subtitles file picker
  * Improve incoming View Intent to get subtitles path
  * Use TabLayout and FloatingActionButton from appcompat instead of custom code
- * Widgets are now resizable
+ * Control Widget is now resizable
  * Media Information is available from Directory browsing
+ * New interface for sleep timer and jump to time
 
 Chrome:
  * Fix runtime issue with pipe2 absence
  * Disable quit&restart
 
 libVLC:
- * Rewrite of most libVLCjni classes, notably MediaPlayer, libVLC and
-   the related ones
- * Rewrite events managements, callbacks
+ * Rewrite of most libVLCjni classes, notably MediaPlayer, libVLC, Media,
+   Equalizer and the related ones
+ * Rewrite events managements, callbacks and surface callbacks
  * Creation of a .aar file for libVLC
 
 Core:
  * libvlc new API to set the Android context for surfaces
  * Removal of static and extern objects for thread-safety
  * Merge of all video outputs into one
+
+TV:
+ * Fix HDMI devices
+ * Support video in background
+ * Add more features in video playback that were only on the non-TV version
 
 
 Changes between 1.4.0 and 1.4.1:
