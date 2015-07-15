@@ -30,14 +30,14 @@
          See org.videolan.vlc.PhoneStateReceiver.java
          -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"
-       android:maxSdkVersion="10" />
+        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="10" -->
 
     <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- DEVELOPMENT_TOOLS signature -->
     <uses-permission android:name="android.permission.READ_LOGS"
-       android:maxSdkVersion="15" />
+        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->
 
     <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
