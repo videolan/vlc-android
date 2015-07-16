@@ -767,7 +767,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
 
-    private boolean canSwitchToVideo() {
+    public boolean canSwitchToVideo() {
         return hasCurrentMedia() && mMediaPlayer.getVideoTracksCount() > 0;
     }
 
