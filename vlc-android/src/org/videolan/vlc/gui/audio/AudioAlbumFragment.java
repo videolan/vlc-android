@@ -188,7 +188,10 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
 
 
         if (id == R.id.audio_list_browser_set_song) {
-            AudioUtil.setRingtone(mAdapter.getItem(position), getActivity());
+            AudioUtil.setRingtone(mMediaList.get(position), getActivity());
+            return true;
+        } else if (id == R.id.audio_list_browser_append) {
+            mService.append(mMediaList.get(position));
             return true;
         }
 
