@@ -968,6 +968,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         case KeyEvent.KEYCODE_SPACE:
             if (mIsNavMenu)
                 return navigateDvdMenu(keyCode);
+            else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) //prevent conflict with remote control
+                return super.onKeyDown(keyCode, event);
             else
                 doPlayPause();
             return true;
