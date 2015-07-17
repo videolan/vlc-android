@@ -83,7 +83,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     public void onResume() {
         super.onResume();
-        if (mAdapter.size() == 0 && mUpdater == null) {
+        if (mUpdater == null) {
             mUpdater = new AsyncAudioUpdate();
             mUpdater.execute();
         }

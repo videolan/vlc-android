@@ -53,7 +53,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     public void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
-        if (mAdapter.size() == 0 && mUpdater == null) {
+        if (mUpdater == null) {
             mUpdater = new AsyncVideoUpdate();
             mUpdater.execute();
         }
