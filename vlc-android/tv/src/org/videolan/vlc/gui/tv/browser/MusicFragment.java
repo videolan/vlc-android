@@ -260,7 +260,8 @@ public class MusicFragment extends MediaLibBrowserFragment {
             super.handleMessage(msg);
             switch (msg.what){
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                    getOwner().updateList();
+                    if (getOwner() != null)
+                        getOwner().updateList();
                     break;
             }
         }
