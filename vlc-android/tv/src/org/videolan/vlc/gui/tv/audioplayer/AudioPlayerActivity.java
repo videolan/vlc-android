@@ -199,6 +199,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             case KeyEvent.KEYCODE_SPACE:
                 togglePlayPause();
                 return true;
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+                pause();
+                return true;
             case KeyEvent.KEYCODE_F:
             case KeyEvent.KEYCODE_BUTTON_R1:
             case KeyEvent.KEYCODE_MEDIA_NEXT:
@@ -354,6 +357,11 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mService.pause();
         else if (mService.hasMedia())
             mService.play();
+    }
+
+    private void pause() {
+        if (mService != null && mService.isPlaying())
+            mService.pause();
     }
 
     private void selectNext() {
