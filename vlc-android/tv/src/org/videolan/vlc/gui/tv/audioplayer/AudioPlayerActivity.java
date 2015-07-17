@@ -193,7 +193,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             /*
              * Playback control
              */
-            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
             case KeyEvent.KEYCODE_SPACE:
@@ -204,7 +203,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 return true;
             case KeyEvent.KEYCODE_F:
             case KeyEvent.KEYCODE_BUTTON_R1:
-            case KeyEvent.KEYCODE_MEDIA_NEXT:
                 goNext();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
@@ -215,7 +213,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 return true;
             case KeyEvent.KEYCODE_R:
             case KeyEvent.KEYCODE_BUTTON_L1:
-            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                 goPrevious();
                 return true;
             /*

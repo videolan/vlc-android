@@ -228,9 +228,6 @@
             <action android:name="android.intent.action.BOOT_COMPLETED"/>
           </intent-filter>
         </receiver>
-        <receiver android:name=".RemoteControlClientReceiver"
-            tools:node="replace"
-            android:enabled="false"/>
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             tools:node="replace"
