@@ -351,6 +351,7 @@
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
+    <string name="music_now_playing">Now Playing</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

@@ -97,6 +97,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     Drawable mDefaultBackground;
     Activity mContext;
     private Object mSelectedItem;
+    private AsyncUpdate mUpdateTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,10 +141,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (service.isPlaying()) {
-            if (!service.canSwitchToVideo())
-                startActivity(new Intent(this, AudioPlayerActivity.class));
-            finish();
+        if (service.isPlaying() && !service.canSwitchToVideo()) {
+            updateList();
         }
     }
 
@@ -160,9 +159,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         mMediaLibrary.addUpdateHandler(mHandler);
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(this);
-
-        if (mMediaLibrary.isWorking()) //Display UI while MediaLib is scanning
-            updateList();
 
         mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
     }
@@ -232,7 +228,12 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     public void updateList() {
-        new AsyncUpdate().execute();
+        if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
+            mUpdateTask = new AsyncUpdate();
+            mUpdateTask.execute();
+        } else {
+            mUpdateTask.AskRefresh();
+        }
         checkThumbs();
     }
 
@@ -295,6 +296,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     @Override
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         if (row.getId() == HEADER_CATEGORIES) {
+            if (((CardPresenter.SimpleCard)item).getId() == MusicFragment.CATEGORY_NOW_PLAYING){ //NOW PLAYING CARD
+                startActivity(new Intent(this, AudioPlayerActivity.class));
+                return;
+            }
             CardPresenter.SimpleCard card = (CardPresenter.SimpleCard) item;
             Intent intent = new Intent(mContext, VerticalGridActivity.class);
             intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
@@ -316,8 +321,13 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
+        private boolean askRefresh = false;
 
         public AsyncUpdate() {
+        }
+
+        public void AskRefresh() { //Ask for refresh while update is ongoing
+            askRefresh = true;
         }
 
         @Override
@@ -336,6 +346,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio));
+            if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo())
+                mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, getString(R.string.music_now_playing), R.drawable.ic_play_circle_big_o));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
@@ -393,6 +405,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         protected void onPostExecute(Void result) {
             if (!mMediaLibrary.isWorking())
                 mProgressBar.setVisibility(View.GONE);
+            if (askRefresh) { //in case new event occured while loading view
+                mHandler.sendEmptyMessage(VideoListHandler.MEDIA_ITEMS_UPDATED);
+            }
         }
     }
 

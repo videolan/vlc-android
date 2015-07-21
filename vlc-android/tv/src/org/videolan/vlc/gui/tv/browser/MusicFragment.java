@@ -55,6 +55,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
     public static final long FILTER_ARTIST = 3;
     public static final long FILTER_GENRE = 4;
 
+    public static final int CATEGORY_NOW_PLAYING = 0;
     public static final int CATEGORY_ARTISTS = 1;
     public static final int CATEGORY_ALBUMS = 2;
     public static final int CATEGORY_GENRES = 3;
