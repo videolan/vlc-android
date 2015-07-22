@@ -1425,6 +1425,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                exit(RESULT_PLAYBACK_ERROR);
+            }
+        })
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
