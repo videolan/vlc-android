@@ -749,24 +749,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
     };
 
-    private void setVideoTrackEnabled(boolean enabled) {
-        if (!enabled) {
-            mMediaPlayer.setVideoTrack(-1);
-        } else {
-            final MediaPlayer.TrackDescription tracks[] = mMediaPlayer.getVideoTracks();
-
-            if (tracks != null) {
-                for (MediaPlayer.TrackDescription track : tracks) {
-                    if (track.id != -1) {
-                        mMediaPlayer.setVideoTrack(track.id);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-
     public boolean canSwitchToVideo() {
         return hasCurrentMedia() && mMediaPlayer.getVideoTracksCount() > 0;
     }
@@ -775,13 +757,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (!canSwitchToVideo() || !mMediaPlayer.isPlaying())
             return false;
         if (mMediaPlayer.getVLCVout().areViewsAttached()) {
-            setVideoTrackEnabled(true);
             hideNotification(false);
             return true;
-        } else {
-            setVideoTrackEnabled(false);
+        } else
             return false;
-        }
     }
 
     @MainThread

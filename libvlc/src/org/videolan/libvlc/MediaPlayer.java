@@ -325,12 +325,17 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         @Override
         public void onSurfacesCreated(AWindow vout) {
             boolean play = false;
+            boolean enableVideo = false;
             synchronized (MediaPlayer.this) {
                 if (!mPlaying && mPlayRequested)
                     play = true;
+                else if (mVoutCount == 0)
+                    enableVideo = true;
             }
             if (play)
                 play();
+            else if (enableVideo)
+                setVideoTrackEnabled(true);
         }
 
         @Override
@@ -341,7 +346,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                     disableVideo = true;
             }
             if (disableVideo)
-                setVideoTrack(-1);
+                setVideoTrackEnabled(false);
             synchronized (MediaPlayer.this) {
                 /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
                  * used after leaving this callback. This shouldn't be needed when using MediaCodec or
@@ -545,6 +550,23 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      */
     public boolean setVideoTrack(int index) {
         return nativeSetVideoTrack(index);
+    }
+
+    private void setVideoTrackEnabled(boolean enabled) {
+        if (!enabled) {
+            setVideoTrack(-1);
+        } else {
+            final MediaPlayer.TrackDescription tracks[] = getVideoTracks();
+
+            if (tracks != null) {
+                for (MediaPlayer.TrackDescription track : tracks) {
+                    if (track.id != -1) {
+                        setVideoTrack(track.id);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**
