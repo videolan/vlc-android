@@ -661,11 +661,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (AndroidUtil.isHoneycombOrLater()) {
             if (mOnLayoutChangeListener == null) {
                 mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+                    private final Runnable mRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            changeSurfaceLayout();
+                        }
+                    };
                     @Override
                     public void onLayoutChange(View v, int left, int top, int right,
                                                int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom)
-                            changeSurfaceLayout();
+                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom) {
+                            /* changeSurfaceLayout need to be called after the layout changed */
+                            mHandler.removeCallbacks(mRunnable);
+                            mHandler.post(mRunnable);
+                        }
                     }
                 };
             }
