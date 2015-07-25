@@ -81,7 +81,7 @@ if [ ! -d "gradle/wrapper" ]; then
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
 
-    unzip gradle-${GRADLE_VERSION}-all.zip
+    unzip -o gradle-${GRADLE_VERSION}-all.zip
     checkfail "gradle: unzip failed"
 
     cd gradle-${GRADLE_VERSION}
