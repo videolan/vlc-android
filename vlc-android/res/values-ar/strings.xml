@@ -2,11 +2,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
     <string name="ok">موافق</string>
-    <string name="cancel">ألغِ</string>
+    <string name="cancel">إلغاء الأمر</string>
     <string name="other">آخر</string>
-    <string name="sortby">افرز حسب...</string>
+    <string name="sortby">فرز حسب...</string>
     <string name="sortby_name">الاسم</string>
+    <string name="sortby_name_desc">الإسم (تنازليا)</string>
     <string name="sortby_length">الطول</string>
+    <string name="sortby_length_desc">الطول (تنازليا)</string>
+    <string name="sortby_date">التاريخ</string>
+    <string name="sortby_date_desc">التاريخ (تنازليا)</string>
     <string name="searchable_hint">ابحث...</string>
     <string name="history">التأريخ</string>
     <plurals name="search_found_results_quantity">
@@ -21,6 +25,8 @@
     <string name="play_from_start">شغّل من البداية</string>
     <string name="play_as_audio">شغّل كصوت</string>
     <string name="play_as_video">شغّل كمرئي</string>
+    <string name="play_as_audio_background">تشغيل الفيديو في الخلفية</string>
+    <string name="play_as_audio_background_summary">مواصلة تشغيل الفيديو في الخلفية عندما تحول شاشة الجهاز إلى وضع الأيقاف أو النقر على زر منزل</string>
     <string name="append">ألحِق</string>
     <string name="play_all">شغّل الكل</string>
     <string name="append_all">ألحِق الكل</string>
@@ -30,6 +36,8 @@
     <string name="set_song">اضبطها للرّنين</string>
     <string name="info">معلومات</string>
     <string name="confirm_delete">احذف الملف \'%1$s\'؟</string>
+    <string name="confirm_delete_folder">حذف المجلد \'%1$s\'  وكافة محتوياته؟</string>
+    <string name="confirm_delete_playlist">حذف قائمة التشغيل الـ \'%1$s\'؟</string>
     <string name="ringtone_set">لقد اعتُمد الملف \'%1$s\' كرنَّة الهاتف. </string>
     <string name="ringtone_error">حدث خطأ أثناء ضبطها للرّنين.</string>
     <string name="pause">ألبِث</string>
@@ -98,6 +106,7 @@
     <string name="loading">يجري التّحميل</string>
     <string name="please_wait">انتظر رجاءً...</string>
     <string name="nomedia">لا وجود لملفات الوسائط، رجاءً نقّل بعض الملفات إلى جهازك أو عدّل خياراتك.</string>
+    <string name="noplaylist">لا توجد قائمة التشغيل</string>
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير مُتاح</string>
     <string name="nosubdirectory">ليست مجلدات ثانوية.</string>
@@ -105,6 +114,11 @@
     <string name="nohistory">لم تمتلك تأريخَ تشغيلٍ بعد.</string>
     <string name="validation">هل أنت متأكد؟</string>
     <string name="cover_art">الغطاء الفنّي</string>
+    <string name="shuffle">العشوائي موقف</string>
+    <string name="shuffle_on">العشوائي مشغل</string>
+    <string name="repeat">لا تكرار التشغيل</string>
+    <string name="repeat_single">التكرار مرة واحدة</string>
+    <string name="repeat_all">تكرار الكل</string>
     <string name="previous">السّابق</string>
     <string name="stop">أوقِف</string>
     <string name="next">التّالي</string>
@@ -128,6 +142,8 @@
     <string name="sound_on">الصوت مفعَّل</string>
     <string name="sound_off">الصوت غير مفعَّل</string>
     <string name="brightness">السّطوع</string>
+    <string name="navmenu">قائمة شريط التنقل</string>
+    <string name="advanced">الإعدادات المتقدمة</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="zero">%1$d قناة\n</item>
         <item quantity="one">1 قناة\n</item>
@@ -142,6 +158,7 @@
     <string name="tools">الأدوات</string>
     <string name="playback_speed">سرعة التّشغيل</string>
     <string name="sleep_title">مؤقّت النّوم</string>
+    <string name="sleep_in">مؤقت النوم</string>
     <string name="sleep_cancel">ألغِ مؤقّت النّوم</string>
     <string name="jump_to_time">اقفز زمنيًا إلى</string>
     <string name="subtitle_label">أضِف ملف ترجمة</string>
@@ -165,6 +182,7 @@
     <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>
     <string name="subtitles">التّرجمات</string>
+    <string name="audio_sub">المقاطع الصوتية \ ترجمات ناندو</string>
     <string name="resize">غيّر الحجم</string>
     <string name="options">خيارات</string>
     <string name="lock">اقفلْ</string>
@@ -197,6 +215,12 @@
     <string name="hardware_acceleration_disabled">تعطيل</string>
     <string name="hardware_acceleration_decoding">يجري فك ترميز التسريع</string>
     <string name="hardware_acceleration_full">تسريع كامل</string>
+    <string name="dev_hardware_decoder">مفك شفرة الرموز عن طريق الهاردوير متقدم</string>
+    <string name="dev_hardware_decoder_summary">تشغيل فك الرموز عن طريق الهاردوير بالقوة, للمستخدمين المتقدمين</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">تلقائي</string>
     <string name="screen_orientation">اتّجاه الشّاشة المرئية</string>
     <string name="screen_orientation_sensor">تلقائي (حسّاس)</string>
@@ -219,6 +243,8 @@
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_jump_buttons">فعّل أزرار القفز</string>
     <string name="enable_jump_buttons_summary">أظهِر أزرار التّقدّم و العودة في واجهة المرئيات</string>
+    <string name="force_list_portrait">لا توجد شبكة في الوضع العمودي</string>
+    <string name="force_list_portrait_summary">عرض الفيديو في القائمة بدلا من الشبكة في وضع عمودي</string>
     <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
     <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
@@ -263,6 +289,8 @@
     <string name="start_logging">ابدأ التّسجيل</string>
     <string name="stop_logging">أوقِف التّسجيل</string>
     <string name="clear_log">امسح السّجل</string>
+    <string name="log_service_title">سجلات تسجيل الـVLC</string>
+    <string name="log_service_text">فتح وحدة السجل</string>
     <string name="copy_to_clipboard">انسخ إلى الحافظة</string>
     <string name="copied_to_clipboard">تم نسخ السّجل إلى الحافظة</string>
     <string name="quit">أغلق وأعِدْ تشغيل التّطبيق</string>
@@ -276,5 +304,32 @@
     <string name="sending_log">يجري إرسال التقرير...</string>
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
+    <string name="network_browsing">الشبكة المحلية</string>
+    <string name="file_size">حجم الملف:</string>
+    <string name="file_other">إغلاق درج شريط التنقل</string>
+    <string name="audio_delay">تأخير الصوت</string>
+    <string name="spu_delay">تأخير الترجمة النصية</string>
+    <string name="sleep_time_not_set">لا شيء مدخل</string>
+    <string name="network_shares_discovery">البحث عن المشاركة في الشبكة...</string>
+    <string name="network_empty">هذا المجلد فارغ</string>
+    <string name="network_connection_needed">لا يوجد إتصال داخل الشبكة المحلية</string>
+    <string name="search_hint">بحث عن الوسائط</string>
+    <string name="directory_show_medialib">إظهار في الـ MediaLib</string>
+    <string name="directory_hide_medialib">إخفاء من الـ MediaLib</string>
+    <string name="playlist_save">حفظ قائمة التشغيل</string>
+    <string name="playlist_name_hint">إسم قائمة التشغيل</string>
+    <string name="go_to_chapter">الإنتقال إلى الفصل...</string>
+    <string name="resume_from_position">إسئناف من آخر موقع</string>
+    <string name="confirm_resume">هل تريد إستئناف من آخر موقع؟</string>
+    <string name="confirm_resume_title">السؤال عند الموافقة على الإستئناف</string>
+    <string name="confirm_resume_summary">إذا تم التفعيل, سوف يتم سؤالك للموافقة أنه بإمكان إستئناف من آخر موقع له</string>
+    <string name="directory_empty">المجلد فارغ</string>
     <!--Accessibility-->
+    <string name="more_actions">المزيد من الإجراءات</string>
+    <string name="move">تحريك</string>
+    <string name="back_quit_lock">إضغط إلى الخلف من جديد للخروج من الفيديو</string>
+    <string name="playlist_deleted">حذفت قائمة التشغيل</string>
+    <string name="file_deleted">حـُذِفَ الملف</string>
+    <string name="no_subs_found">لا يوجد ملفات الترجمة في هذا المجلد</string>
+    <string name="music_now_playing">يشتغل الآن</string>
 </resources>
