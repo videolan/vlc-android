@@ -130,6 +130,7 @@
     <string name="tools">Værktøjer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="sleep_title">Sleep-timer</string>
+    <string name="sleep_in">Slumre om</string>
     <string name="sleep_cancel">Annullér sleep-timer</string>
     <string name="jump_to_time">Gå til tidspunkt</string>
     <string name="subtitle_label">Tilføj undertekstfil</string>
@@ -240,7 +241,7 @@
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
     <string name="enable_time_stretching_audio_summary">Øger og sænker lydhastigheden uden at ændre tonelejet (kræver en hurtig enhed).</string>
     <string name="advanced_prefs_category">Avanceret</string>
-    <string name="aout">Lydoutput</string>
+    <string name="aout">Lyd-output</string>
     <string name="aout_summary">Udskift den metode som VLC anvender til at udsende lyd med.</string>
     <string name="vout">Video-output</string>
     <string name="vout_summary">Udskift metoden som VLC bruger til at udsende lyd.</string>
@@ -301,4 +302,6 @@
     <string name="back_quit_lock">Tryk igen på tilbage for at afslutte videoen</string>
     <string name="playlist_deleted">Spilleliste slettet</string>
     <string name="file_deleted">Fil slettet</string>
+    <string name="no_subs_found">Ingen undertekster i denne mappe</string>
+    <string name="music_now_playing">Afspiller nu</string>
 </resources>
