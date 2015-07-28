@@ -33,6 +33,8 @@
     <string name="set_song">Postavi kao melodiju zvona</string>
     <string name="info">Informacije</string>
     <string name="confirm_delete">Želite li obrisati \'%1$s\' datoteku?</string>
+    <string name="confirm_delete_folder">Obriši mapu \'%1$s\' i sav njen sadržaj?</string>
+    <string name="confirm_delete_playlist">Obriši popis izvođenja \'%1$s\'?</string>
     <string name="ringtone_set">Datoteka \'%1$s\' je postavljena kao melodija zvona.</string>
     <string name="ringtone_error">Nastala je greška pri postavljanju melodije zvona.</string>
     <string name="pause">Pauza</string>
@@ -135,6 +137,7 @@
     <string name="tools">Alati</string>
     <string name="playback_speed">Brzina reprodukcije</string>
     <string name="sleep_title">Zadano vrijeme spavanja</string>
+    <string name="sleep_in">Spavaj</string>
     <string name="sleep_cancel">Poništi zadano vrijeme spavanja</string>
     <string name="jump_to_time">Premotaj na vrijeme</string>
     <string name="subtitle_label">Dodaj datoteku podnaslova</string>
@@ -285,6 +288,7 @@
     <string name="file_other">Zatvori površinu upravljanja</string>
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje podnaslova</string>
+    <string name="sleep_time_not_set">Ništa postavljeno</string>
     <string name="network_shares_discovery">Pretraživanje mrežnih dijeljenja...</string>
     <string name="network_empty">Direktorij je prazan.</string>
     <string name="network_connection_needed">Nema povezivanjiva s lokalnom mrežom.</string>
@@ -303,4 +307,7 @@
     <string name="more_actions">Više radnji</string>
     <string name="move">Premjesti</string>
     <string name="back_quit_lock">Pritisnite tipku povratka za zatvaranje video snimke</string>
+    <string name="playlist_deleted">Popis izvođenja obrisan</string>
+    <string name="file_deleted">Datoteka obrisana</string>
+    <string name="no_subs_found">Nema podnaslova u ovom direktoriju</string>
 </resources>
