@@ -130,6 +130,7 @@
     <string name="tools">Εργαλεία</string>
     <string name="playback_speed">Ταχύτητα αναπαραγωγής</string>
     <string name="sleep_title">Χρονοδιακόπτης ύπνου</string>
+    <string name="sleep_in">Ύπνος</string>
     <string name="sleep_cancel">Ακύρωση χρονοδιακόπτη ύπνου</string>
     <string name="jump_to_time">Άλμα στη χρονική στιγμή</string>
     <string name="subtitle_label">Προσθήκη αρχείου υποτίτλων</string>
