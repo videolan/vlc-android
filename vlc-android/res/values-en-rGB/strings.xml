@@ -6,7 +6,11 @@
     <string name="other">Other</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
+    <string name="sortby_name_desc">Name (desc)</string>
     <string name="sortby_length">Length</string>
+    <string name="sortby_length_desc">Length (desc)</string>
+    <string name="sortby_date">Date</string>
+    <string name="sortby_date_desc">Date (desc)</string>
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +21,8 @@
     <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">Play as audio</string>
     <string name="play_as_video">Play as video</string>
+    <string name="play_as_audio_background">Play videos in background</string>
+    <string name="play_as_audio_background_summary">Continue video playback in background when turning device screen off or clicking HOME button.</string>
     <string name="append">Append</string>
     <string name="play_all">Play all</string>
     <string name="append_all">Append all</string>
@@ -26,6 +32,8 @@
     <string name="set_song">Set as ringtone</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
+    <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>
@@ -74,6 +82,7 @@
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
+    <string name="noplaylist">No playlist found.</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>
@@ -81,6 +90,11 @@
     <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>
     <string name="cover_art">Cover art</string>
+    <string name="shuffle">Shuffle Off</string>
+    <string name="shuffle_on">Shuffle On</string>
+    <string name="repeat">Repeat none</string>
+    <string name="repeat_single">Repeat single</string>
+    <string name="repeat_all">Repeat all</string>
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
     <string name="next">Next</string>
@@ -116,6 +130,7 @@
     <string name="tools">Tools</string>
     <string name="playback_speed">Playback speed</string>
     <string name="sleep_title">Sleep timer</string>
+    <string name="sleep_in">Sleep in</string>
     <string name="sleep_cancel">Cancel sleep timer</string>
     <string name="jump_to_time">Jump to Time</string>
     <string name="subtitle_label">Add subtitle file</string>
@@ -266,9 +281,26 @@
     <string name="file_other">Close navigation drawer</string>
     <string name="audio_delay">Audio delay</string>
     <string name="spu_delay">Subtitle delay</string>
+    <string name="sleep_time_not_set">none set</string>
     <string name="network_shares_discovery">Looking for network shares...</string>
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
     <string name="search_hint">Search media</string>
+    <string name="directory_show_medialib">Show in MediaLib</string>
+    <string name="directory_hide_medialib">Hide from MediaLib</string>
+    <string name="playlist_save">Save Playlist</string>
+    <string name="playlist_name_hint">playlist name</string>
+    <string name="go_to_chapter">Go to chapter…</string>
+    <string name="resume_from_position">Resume from last position</string>
+    <string name="confirm_resume">Resume from last position?</string>
+    <string name="confirm_resume_title">Ask confirmation to resume</string>
+    <string name="confirm_resume_summary">if activated you will be asked to confirm when a video can be resumed from last position</string>
+    <string name="directory_empty">Directory is empty</string>
     <!--Accessibility-->
+    <string name="more_actions">More Actions</string>
+    <string name="move">Move</string>
+    <string name="back_quit_lock">Press back again to quit video</string>
+    <string name="playlist_deleted">Playlist deleted</string>
+    <string name="file_deleted">File deleted</string>
+    <string name="no_subs_found">No subtitles in this directory</string>
 </resources>
