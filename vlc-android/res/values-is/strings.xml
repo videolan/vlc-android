@@ -6,7 +6,11 @@
     <string name="other">Annað</string>
     <string name="sortby">Raða eftir…</string>
     <string name="sortby_name">Heiti</string>
+    <string name="sortby_name_desc">Heiti (lýsandi)</string>
     <string name="sortby_length">Lengd</string>
+    <string name="sortby_length_desc">Lengd (lýsandi)</string>
+    <string name="sortby_date">Dagsetning</string>
+    <string name="sortby_date_desc">Dagsetning (lýsandi)</string>
     <string name="searchable_hint">Leita…</string>
     <string name="history">Ferill</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +21,7 @@
     <string name="play_from_start">Spila frá byrjun</string>
     <string name="play_as_audio">Spila sem hljóð</string>
     <string name="play_as_video">Spila sem myndskeið</string>
+    <string name="play_as_audio_background">Spila myndskeið í bakgrunni</string>
     <string name="append">Bæta við</string>
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
@@ -26,6 +31,8 @@
     <string name="set_song">Setja sem hringitón</string>
     <string name="info">Upplýsingar</string>
     <string name="confirm_delete">Eyða skránni \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Eyða möppunni \'%1$s\' og öllu innihaldi hennar?</string>
+    <string name="confirm_delete_playlist">Eyða spilunarlistanum \'%1$s\'?</string>
     <string name="ringtone_set">Skráin \'%1$s\' var sett sem hringitónn.</string>
     <string name="ringtone_error">Upp kom villa þegar verið var að setja hringitón.</string>
     <string name="pause">Í bið</string>
@@ -74,6 +81,7 @@
     <string name="loading">Hleð inn</string>
     <string name="please_wait">Bíddu aðeins…</string>
     <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
+    <string name="noplaylist">Enginn spilunarlisti fannst.</string>
     <string name="mediafiles">Margmiðlunarskrár</string>
     <string name="notavailable">Ekki tiltækt</string>
     <string name="nosubdirectory">Engar undirmöppur.</string>
@@ -81,6 +89,11 @@
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
     <string name="validation">Ertu viss?</string>
     <string name="cover_art">Umslög</string>
+    <string name="shuffle">Stokkun af</string>
+    <string name="shuffle_on">Stokkun á</string>
+    <string name="repeat">Endurtaka ekkert</string>
+    <string name="repeat_single">Endurtaka einu sinni</string>
+    <string name="repeat_all">Endurtaka allt</string>
     <string name="previous">Fyrra</string>
     <string name="stop">Stöðva</string>
     <string name="next">Næsta</string>
@@ -104,6 +117,8 @@
     <string name="sound_on">Hljóð kveikt</string>
     <string name="sound_off">Hljóð slökkt</string>
     <string name="brightness">Birtustig</string>
+    <string name="navmenu">flakkvalmynd</string>
+    <string name="advanced">ítarlegir valkostir</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 rás\n</item>
         <item quantity="other">%1$d rásir\n</item>
@@ -169,6 +184,10 @@
     <string name="hardware_acceleration_disabled">Óvirkt</string>
     <string name="hardware_acceleration_decoding">Hröðun afkóðunar</string>
     <string name="hardware_acceleration_full">Full hröðun</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Sjálfvirkt</string>
     <string name="screen_orientation">Stefna myndspilunarglugga</string>
     <string name="screen_orientation_sensor">Sjálfvirkt (skynjari)</string>
@@ -244,5 +263,24 @@
     <string name="sending_log">Sendi annál…</string>
     <string name="drawer_open">Opna hliðarvalmynd</string>
     <string name="drawer_close">Loka hliðarvalmynd</string>
+    <string name="network_browsing">Staðarnet</string>
+    <string name="file_size">Skráarstærð:</string>
+    <string name="file_other">Loka flakkvalmynd</string>
+    <string name="audio_delay">Hljóðtöf</string>
+    <string name="spu_delay">Töf skjátexta</string>
+    <string name="sleep_time_not_set">ekkert stillt</string>
+    <string name="network_shares_discovery">Leita að netsameignum...</string>
+    <string name="network_empty">Þessi mappa er tóm</string>
+    <string name="network_connection_needed">Engin tenging við staðarnet.</string>
+    <string name="search_hint">Leita á miðlum</string>
+    <string name="playlist_save">Vista spilunarlista</string>
+    <string name="playlist_name_hint">heiti spilunarlista</string>
+    <string name="go_to_chapter">Fara á kafla…</string>
+    <string name="directory_empty">Mappa er tóm</string>
     <!--Accessibility-->
+    <string name="more_actions">Fleiri aðgerðir</string>
+    <string name="move">Færa</string>
+    <string name="playlist_deleted">Spilunarlista eytt</string>
+    <string name="file_deleted">Skrá eytt</string>
+    <string name="no_subs_found">Engir skjátextar í þessari möppu</string>
 </resources>
