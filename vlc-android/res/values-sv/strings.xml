@@ -130,6 +130,7 @@
     <string name="tools">Verktyg</string>
     <string name="playback_speed">Uppspelningshastighet</string>
     <string name="sleep_title">Sovtimer</string>
+    <string name="sleep_in">Somna</string>
     <string name="sleep_cancel">Avbryt sovtimer</string>
     <string name="jump_to_time">Hoppa till tid</string>
     <string name="subtitle_label">Lägg till undertextfil</string>
@@ -302,4 +303,5 @@
     <string name="playlist_deleted">Spellistan raderades</string>
     <string name="file_deleted">Filen raderades</string>
     <string name="no_subs_found">Inga undertexter i denna katalog</string>
+    <string name="music_now_playing">Spelas upp nu</string>
 </resources>
