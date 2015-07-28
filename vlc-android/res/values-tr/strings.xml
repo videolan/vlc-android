@@ -89,12 +89,12 @@
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz oynatma geçmişiniz yok.</string>
     <string name="validation">Emin misiniz?</string>
-    <string name="cover_art">Kapak resmi</string>
+    <string name="cover_art">Kapak görseli</string>
     <string name="shuffle">Karıştırma Kapalı</string>
     <string name="shuffle_on">Karıştırma Açık</string>
     <string name="repeat">Yineleme yok</string>
-    <string name="repeat_single">Parçayı yinele</string>
-    <string name="repeat_all">Tümünü yinele</string>
+    <string name="repeat_single">Parça yinelensin</string>
+    <string name="repeat_all">Tümü yinelensin</string>
     <string name="previous">Önceki</string>
     <string name="stop">Durdur</string>
     <string name="next">Sonraki</string>
@@ -130,6 +130,7 @@
     <string name="tools">Araçlar</string>
     <string name="playback_speed">Oynatma hızı</string>
     <string name="sleep_title">Uyku zamanlayıcı</string>
+    <string name="sleep_in">Uykuya dalma süresi</string>
     <string name="sleep_cancel">Uyku zamanlayıcıyı iptal et</string>
     <string name="jump_to_time">Sıçranacak Zaman</string>
     <string name="subtitle_label">Altyazı dosyası ekle</string>
@@ -180,7 +181,7 @@
     <string name="directories_summary">Ortam kitaplığına katılacak klasörleri seçin</string>
     <string name="add_custom_path">Özel klasör ekle</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
-    <string name="remove_custom_path">Özel klasörü silin</string>
+    <string name="remove_custom_path">Özel klasörü sil</string>
     <string name="hardware_acceleration">Donanım Hızlandırma</string>
     <string name="hardware_acceleration_summary">Devre dışı: daha iyi kararlılık.\nKod çözme: başarımı arttırabilir.\nTam: başarımı daha çok arttırabilir.</string>
     <string name="hardware_acceleration_disabled">Devre Dışı</string>
@@ -271,13 +272,13 @@
     <string name="serious_crash">Malesef önemli bir hata oluştuğundan VLC uygulaması kapatılacak.</string>
     <string name="help_us_send_log">Bu çökme kaydını göndererek VLC uygulamasının geliştirilmesine yardımcı olun:</string>
     <string name="restart_vlc">VLC uygulamasını yeniden başlatın</string>
-    <string name="send_log">Günlüğü gönderin</string>
+    <string name="send_log">Günlüğü gönder</string>
     <string name="sending_log">Günlük gönderiliyor...</string>
-    <string name="drawer_open">Gezinti çekmecesini açın</string>
-    <string name="drawer_close">Gezinti çekmecesini kapatın</string>
+    <string name="drawer_open">Gezinti çekmecesini aç</string>
+    <string name="drawer_close">Gezinti çekmecesini kapat</string>
     <string name="network_browsing">Yerel Ağ</string>
     <string name="file_size">Dosya boyutu:</string>
-    <string name="file_other">Gezinti çekmecesini kapatın</string>
+    <string name="file_other">Gezinti çekmecesini kapat</string>
     <string name="audio_delay">Ses gecikmesi</string>
     <string name="spu_delay">Altyazı gecikmesi</string>
     <string name="sleep_time_not_set">hiçbiri ayarlanmamış</string>
@@ -285,13 +286,13 @@
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
     <string name="search_hint">Ortam arayın</string>
-    <string name="directory_show_medialib">Ortam Kitaplığında Görüntüleyin</string>
-    <string name="directory_hide_medialib">Ortam Kitaplığından Gizleyin</string>
-    <string name="playlist_save">Oynatma Listesini Kaydedin</string>
+    <string name="directory_show_medialib">Ortam Kitaplığında Görüntüle</string>
+    <string name="directory_hide_medialib">Ortam Kitaplığında Gizle</string>
+    <string name="playlist_save">Oynatma Listesini Kaydet</string>
     <string name="playlist_name_hint">oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme gidin...</string>
-    <string name="resume_from_position">Kalınan konumdan oynatmayı sürdür</string>
-    <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün</string>
+    <string name="resume_from_position">Oaynatmayı kalınan konumdan sürdür</string>
+    <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Sürdürme onayı istensin</string>
     <string name="confirm_resume_summary">Bu seçenek etkinlleştirildiğinde, oynatılan bir görüntünün kalınan konumdan sürdürülmesi için onay istenir</string>
     <string name="directory_empty">Klasör boş</string>
@@ -302,4 +303,5 @@
     <string name="playlist_deleted">Oynatma listesi silindi</string>
     <string name="file_deleted">Dosya silindi</string>
     <string name="no_subs_found">Bu klasörde altyazı yok</string>
+    <string name="music_now_playing">Şimdi Oynatılan</string>
 </resources>
