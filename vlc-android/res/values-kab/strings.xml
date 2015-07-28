@@ -32,6 +32,7 @@
     <string name="set_song">Définir comme sonnerie</string>
     <string name="info">Isallen</string>
     <string name="confirm_delete">Ad tekkeseḍ afaylu  « %1$s » ?</string>
+    <string name="confirm_delete_folder">Ad tekkeseḍ akaram  \'%1$s\' aked igburen-ines ?</string>
     <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
@@ -129,6 +130,7 @@
     <string name="tools">Ifecka</string>
     <string name="playback_speed">Arured n tɣuri</string>
     <string name="sleep_title">Aqaraɛ </string>
+    <string name="sleep_in">Sleep in</string>
     <string name="sleep_cancel">Semmet aqaraɛ </string>
     <string name="jump_to_time">Akud</string>
     <string name="subtitle_label">Ajouter des sous-titres</string>
@@ -279,6 +281,7 @@
     <string name="file_other">Fermer le tiroir de navigation</string>
     <string name="audio_delay">Délai audio</string>
     <string name="spu_delay">Délai du sous-titrage</string>
+    <string name="sleep_time_not_set">Ur yettusbadu ara</string>
     <string name="network_shares_discovery">Recherche de partages réseau...</string>
     <string name="network_empty">Akaram agi d ilem</string>
     <string name="network_connection_needed">Ulac tuqqna ɣer uẓeṭṭa adigan.</string>
@@ -297,4 +300,8 @@
     <string name="more_actions">Ugar n tigawin</string>
     <string name="move">Mutti</string>
     <string name="back_quit_lock">Appuyez à nouveau sur Retour pour quitter la vidéo</string>
+    <string name="playlist_deleted">Playlist tetwakkes</string>
+    <string name="file_deleted">Afaylu yettwakkes</string>
+    <string name="no_subs_found">Ulac iduzwelen deg wekaram-agi</string>
+    <string name="music_now_playing">Ulac urar</string>
 </resources>
