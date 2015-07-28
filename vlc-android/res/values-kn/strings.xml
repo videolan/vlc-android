@@ -6,7 +6,10 @@
     <string name="other">ಇತರ</string>
     <string name="sortby">ಹೀಗೆ ವಿಂಗಡಿಸಿ</string>
     <string name="sortby_name">ಹೆಸರು</string>
+    <string name="sortby_name_desc">ಹೆಸರು (ವಿವರ)</string>
     <string name="sortby_length">ಉದ್ದ</string>
+    <string name="sortby_date">ದಿನಾಂಕ</string>
+    <string name="sortby_date_desc">ದಿನಾಂಕ (ವಿವರ)</string>
     <string name="searchable_hint">ಹುಡುಕು．．．</string>
     <string name="history">ಇತಿಹಾಸ</string>
     <plurals name="search_found_results_quantity">
@@ -68,6 +71,7 @@
     <string name="loading">ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ </string>
     <string name="please_wait">ತುಸು ನಿರೀಕ್ಷಿಸಿ ○○○</string>
     <string name="nomedia">ಯಾವುದೇ ಮಾಧ್ಯಮ ಕಡತ ಸಿಕ್ಕಿಲ್ಲ, ದಯವಿಟ್ಟು ಕೆಲವು ಕಡತವನ್ನು ನಿಮ್ಮ ಸಾಧನಕ್ಕೆ ವರ್ಗಾವಣೆ ಮಾಡಿ ಅಥವಾ ನಿಮ್ಮ ಆಧ್ಯತೆಯನ್ನು ಹೊಂದಿಸಿ</string>
+    <string name="noplaylist">ಯಾವುದೇ ಪ್ಲೇಪಟ್ಟಿ ದೊರಕಿಲ್ಲ</string>
     <string name="mediafiles">ಮಾಧ್ಯಮ ಕಡತಗಳು</string>
     <string name="notavailable">ಲಭ್ಯವಿಲ್ಲ</string>
     <string name="nosubdirectory">ಉಪಕಡತಕೋಶಗಳು ಇಲ್ಲ .</string>
@@ -202,4 +206,6 @@
     <string name="dump_logcat_success">Logcat ಅನ್ನು  ಯಶಸ್ವಿಯಾಗಿ %1$s! ಗೆ ಡಂಪ್ ಮಾಡಲಾಗಿದೆ </string>
     <string name="dump_logcat_failure">Logcat ಡಂಪ್ ವಿಫಲವಾಗಿದೆ.</string>
     <!--Accessibility-->
+    <string name="playlist_deleted">ಪ್ಲೇಪಟ್ಟಿ ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="music_now_playing">ಇವಾಗ ಆಡುತ್ತಿರುವುದು</string>
 </resources>
