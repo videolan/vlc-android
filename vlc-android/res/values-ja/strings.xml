@@ -123,6 +123,7 @@
     <string name="tools">ツール</string>
     <string name="playback_speed">再生速度</string>
     <string name="sleep_title">スリープタイマー</string>
+    <string name="sleep_in">スリープ</string>
     <string name="sleep_cancel">スリープタイマーの取消</string>
     <string name="jump_to_time">指定時間へジャンプ</string>
     <string name="subtitle_label">字幕ファイルの追加</string>
@@ -295,4 +296,5 @@
     <string name="playlist_deleted">プレイリストが削除されました</string>
     <string name="file_deleted">ファイルが削除されました</string>
     <string name="no_subs_found">ディレクトリに字幕がありません</string>
+    <string name="music_now_playing">再生中</string>
 </resources>
