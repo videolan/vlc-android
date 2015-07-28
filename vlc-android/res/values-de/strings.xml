@@ -32,8 +32,8 @@
     <string name="set_song">Als Klingelton festlegen</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei „%1$s“ löschen?</string>
-    <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
-    <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
+    <string name="confirm_delete_folder">Den Ordner »%1$s« mit dem gesamten Inhalt löschen?</string>
+    <string name="confirm_delete_playlist">Wiedergabeliste »%1$s« löschen?</string>
     <string name="ringtone_set">Die Datei „%1$s“ wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
@@ -130,6 +130,7 @@
     <string name="tools">Werkzeuge</string>
     <string name="playback_speed">Wiedergabegeschwindigkeit</string>
     <string name="sleep_title">Ruhemodus</string>
+    <string name="sleep_in">Ruhemodus verschieben</string>
     <string name="sleep_cancel">Ruhemodus abbrechen</string>
     <string name="jump_to_time">Zum Zeitpunkt springen</string>
     <string name="subtitle_label">Untertiteldatei hinzufügen</string>
@@ -260,8 +261,8 @@
     <string name="start_logging">Protokollierung starten</string>
     <string name="stop_logging">Protokollierung anhalten</string>
     <string name="clear_log">Protokoll löschen</string>
-    <string name="log_service_title">VLC-Logs aufzeichnen</string>
-    <string name="log_service_text">Log-Konsole öffnen</string>
+    <string name="log_service_title">VLC-Protokolle aufzeichnen</string>
+    <string name="log_service_text">Protokollkonsole öffnen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
     <string name="quit">Anwendung beenden und neustarten</string>
@@ -281,7 +282,7 @@
     <string name="audio_delay">Audioverzögerung</string>
     <string name="spu_delay">Untertitelverzögerung</string>
     <string name="sleep_time_not_set">nichts eingestellt</string>
-    <string name="network_shares_discovery">Nach Netzwerkfreigaben suchen...</string>
+    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht …</string>
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
     <string name="search_hint">Medien suchen</string>
@@ -302,4 +303,5 @@
     <string name="playlist_deleted">Wiedergabeliste gelöscht</string>
     <string name="file_deleted">Datei gelöscht</string>
     <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
+    <string name="music_now_playing">Läuft gerade</string>
 </resources>
