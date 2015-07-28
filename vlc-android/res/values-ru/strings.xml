@@ -34,6 +34,8 @@
     <string name="set_song">Сделать мелодией звонка</string>
     <string name="info">Информация</string>
     <string name="confirm_delete">Удалить файл \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Удалить папку \'%1$s\' и всё её содержимое?</string>
+    <string name="confirm_delete_playlist">Удалить плейлист \'%1$s\'?</string>
     <string name="ringtone_set">Теперь \'%1$s\' — мелодия звонка.</string>
     <string name="ringtone_error">При попытке сменить мелодию звонка произошла ошибка.</string>
     <string name="pause">Пауза</string>
@@ -142,6 +144,7 @@
     <string name="tools">Инструменты</string>
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="sleep_title">Таймер сна</string>
+    <string name="sleep_in">Уснуть через</string>
     <string name="sleep_cancel">Отменить таймер сна</string>
     <string name="jump_to_time">Перейти ко времени</string>
     <string name="subtitle_label">Добавить файл субтитров</string>
@@ -292,6 +295,7 @@
     <string name="file_other">Закрыть панель навигации</string>
     <string name="audio_delay">Задержка звука</string>
     <string name="spu_delay">Задержка субтитров</string>
+    <string name="sleep_time_not_set">не задано</string>
     <string name="network_shares_discovery">Поиск сетевых ресурсов...</string>
     <string name="network_empty">Каталог пуст.</string>
     <string name="network_connection_needed">Нет подключения к локальной сети.</string>
@@ -310,4 +314,7 @@
     <string name="more_actions">Другие действия</string>
     <string name="move">Переместить</string>
     <string name="back_quit_lock">Нажмите ещё раз, чтобы закрыть видео</string>
+    <string name="playlist_deleted">Плейлист удалён</string>
+    <string name="file_deleted">Файл удалён</string>
+    <string name="no_subs_found">В этом каталоге нет субтитров</string>
 </resources>
