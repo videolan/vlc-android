@@ -130,6 +130,7 @@
     <string name="tools">Ferramentas</string>
     <string name="playback_speed">Velocidade de reprodução</string>
     <string name="sleep_title">Despertador</string>
+    <string name="sleep_in">Hibernar</string>
     <string name="sleep_cancel">Cancelar despertador</string>
     <string name="jump_to_time">Ir ao Ponto</string>
     <string name="subtitle_label">Adicionar arquivo de legenda</string>
@@ -301,4 +302,6 @@
     <string name="back_quit_lock">Pressione voltar novamente para fechar o vídeo</string>
     <string name="playlist_deleted">Lista de reprodução excluída</string>
     <string name="file_deleted">Arquivo excluído</string>
+    <string name="no_subs_found">Nenhuma legenda nesta pasta</string>
+    <string name="music_now_playing">Reproduzindo</string>
 </resources>
