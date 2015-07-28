@@ -4,12 +4,15 @@
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
     <string name="other">Annet</string>
-    <string name="sortby">Sortér etter…</string>
+    <string name="sortby">Sorter etter…</string>
     <string name="sortby_name">Navn</string>
+    <string name="sortby_name_desc">Navn (besk.)</string>
     <string name="sortby_length">Lengde</string>
+    <string name="sortby_length_desc">Lengde (besk.)</string>
     <string name="sortby_date">Dato</string>
+    <string name="sortby_date_desc">Dato (besk.)</string>
     <string name="searchable_hint">Søk…</string>
-    <string name="history">Historie</string>
+    <string name="history">Historikk</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultat funnet</item>
         <item quantity="other">%d resultater funnet</item>
@@ -19,6 +22,7 @@
     <string name="play_as_audio">Spill som lyd</string>
     <string name="play_as_video">Spill som video</string>
     <string name="play_as_audio_background">Spill videoer i bakgrunnen</string>
+    <string name="play_as_audio_background_summary">Fortsett videoavspilling i bakgrunnen når enhetens skjerm skrus av eller når du trykker HJEM-knappen.</string>
     <string name="append">Legg til</string>
     <string name="play_all">Spill alle</string>
     <string name="append_all">Legg til alle</string>
@@ -28,7 +32,9 @@
     <string name="set_song">Bruk som ringetone</string>
     <string name="info">Informasjon</string>
     <string name="confirm_delete">Slette filen \'%1$s\'?</string>
-    <string name="ringtone_set">Filen \'%1$s\' ble satt som ringetone.</string>
+    <string name="confirm_delete_folder">Slett mappen \'%1$s\' og dens innhold?</string>
+    <string name="confirm_delete_playlist">Slett spillelisten \'%1$s\'?</string>
+    <string name="ringtone_set">Filen \'%1$s\' tatt i bruk som ringetone.</string>
     <string name="ringtone_error">En feil oppsto under valg av ny ringetone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ikke vis denne meldingen igjen.</string>
@@ -75,7 +81,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Laster</string>
     <string name="please_wait">Vent litt…</string>
-    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller justere dine innstillinger.</string>
+    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller juster dine innstillinger.</string>
     <string name="noplaylist">Ingen spilleliste funnet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
@@ -84,6 +90,8 @@
     <string name="nohistory">Du har ingen avspillingshistorie enda.</string>
     <string name="validation">Er du sikker?</string>
     <string name="cover_art">Omslagsbilde</string>
+    <string name="shuffle">Tilfeldig av</string>
+    <string name="shuffle_on">Tilfeldig på</string>
     <string name="repeat">Gjenta ingen</string>
     <string name="repeat_single">Gjenta enkel</string>
     <string name="repeat_all">Gjenta alle</string>
@@ -145,6 +153,7 @@
     <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>
     <string name="subtitles">Undertitler</string>
+    <string name="audio_sub">Lydspor\nog undertitler</string>
     <string name="resize">Endre størrelse</string>
     <string name="options">Valg</string>
     <string name="lock">Lås</string>
@@ -177,6 +186,10 @@
     <string name="hardware_acceleration_disabled">Avslått</string>
     <string name="hardware_acceleration_decoding">Dekoder aksellerasjon</string>
     <string name="hardware_acceleration_full">Full akselerasjon</string>
+    <string name="dev_hardware_decoder">Avansert maskinvarebasert dekoder</string>
+    <string name="dev_hardware_decoder_summary">Påtving maskinvarebasert dekoding, for avansert bruk å regne</string>
+    <string name="dev_hardware_decoder_mediacodec">mediakodek</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediakodek-dr</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skjermorientering</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
@@ -199,6 +212,8 @@
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
     <string name="enable_jump_buttons">Aktivér hoppeknapper</string>
     <string name="enable_jump_buttons_summary">Vis bakover- og fremoverknapper ved videoavspilling</string>
+    <string name="force_list_portrait">Inget rutenett i portrettmodus</string>
+    <string name="force_list_portrait_summary">Vis videoer i liste i steden for rutenett i portrettmodus</string>
     <string name="audio_title_alignment">Lydtittel justering</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
     <string name="enable_headset_detection_summary">Pauser når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
@@ -243,6 +258,7 @@
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>
     <string name="clear_log">Tøm logg</string>
+    <string name="log_service_text">Åpne loggføringskonsollen</string>
     <string name="copy_to_clipboard">Kopier til utklippstavla</string>
     <string name="copied_to_clipboard">Kopier logg til utklippstavla</string>
     <string name="quit">Avslutt og start på nytt</string>
@@ -261,6 +277,8 @@
     <string name="file_other">Lukk navigasjonsskuff</string>
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstsforsinkelse</string>
+    <string name="sleep_time_not_set">ingen satt</string>
+    <string name="network_shares_discovery">Søker etter nettverkslager...</string>
     <string name="network_empty">Denne mappen er tom.</string>
     <string name="network_connection_needed">Ingen tilgang til lokalt nettverk.</string>
     <string name="search_hint">Søk i media</string>
@@ -271,9 +289,15 @@
     <string name="go_to_chapter">Gå til kapittel...</string>
     <string name="resume_from_position">Fortsett fra siste posisjon</string>
     <string name="confirm_resume">Fortsett fra siste posisjon?</string>
+    <string name="confirm_resume_title">Spør om bekreftelse for å fortsette</string>
+    <string name="confirm_resume_summary">hvis dette er påskrudd vil du bli spurt om å bekrefte når en video kan fortsette der den slapp</string>
     <string name="directory_empty">Mappen er tom</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flytt</string>
     <string name="back_quit_lock">Trykk tilbake igjen for å avslutte video</string>
+    <string name="playlist_deleted">Spilleliste slettet</string>
+    <string name="file_deleted">Fil slettet</string>
+    <string name="no_subs_found">Ingen undertekster i denne mappen</string>
+    <string name="music_now_playing">Spilles nå</string>
 </resources>
