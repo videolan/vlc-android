@@ -69,6 +69,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
 
+    protected boolean mPreventRescan = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* Get settings */
@@ -120,6 +122,12 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        mPreventRescan = true;
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(storageReceiver);
@@ -137,11 +145,15 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     }
 
     public void updateLib() {
+        if (mPreventRescan){
+            mPreventRescan = false;
+            return;
+        }
         FragmentManager fm = getSupportFragmentManager();
         Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
-        if (current != null && current instanceof IRefreshable) {
+        if (current != null && current instanceof IRefreshable)
             ((IRefreshable) current).refresh();
-        } else
+        else
             MediaLibrary.getInstance().loadMediaItems();
         Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
         if (fragment != null && !fragment.equals(current)) {

@@ -105,7 +105,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
-    private boolean mScanNeeded = false;
 
     private Handler mHandler = new MainActivityHandler(this);
     private int mFocusedPrior = 0;
@@ -135,9 +134,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             Util.commitPreferences(editor);
         }
 
-        /* Load media items from database and storage */
         mMediaLibrary = MediaLibrary.getInstance();
-        mMediaLibrary.loadMediaItems();
+        if (savedInstanceState == null) { // means first creation, savedInstanceState is not null after rotation
+        /* Load media items from database and storage */
+            mMediaLibrary.loadMediaItems();
+        }
 
         /*** Start initializing the UI ***/
 
@@ -223,10 +224,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         if (getIntent() != null && getIntent().hasExtra(PlaybackService.START_FROM_NOTIFICATION))
             getIntent().removeExtra(PlaybackService.START_FROM_NOTIFICATION);
 
-
-        /* Load media items from database and storage */
-        if (mScanNeeded)
-            mMediaLibrary.loadMediaItems();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
    }
@@ -273,9 +270,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     @Override
     protected void onPause() {
         super.onPause();
-
-        /* Check for an ongoing scan that needs to be resumed during onResume */
-        mScanNeeded = mMediaLibrary.isWorking();
         /* Stop scanning for files */
         mMediaLibrary.stop();
         /* Save the tab status in pref */
