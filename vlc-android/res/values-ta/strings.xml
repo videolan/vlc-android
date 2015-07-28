@@ -130,6 +130,7 @@
     <string name="tools">கருவிகள்</string>
     <string name="playback_speed">இயக்க வேகம்</string>
     <string name="sleep_title">தூங்கு கடிகாரம்</string>
+    <string name="sleep_in">தூங்க</string>
     <string name="sleep_cancel">தூங்கு கடிகாரத்தை ரத்துச்செய்</string>
     <string name="jump_to_time">நேரத்திற்கு தாவு</string>
     <string name="subtitle_label">துணைத்தலைப்பு கோப்பைச் சேர்</string>
@@ -301,4 +302,5 @@
     <string name="back_quit_lock"> திரும்ப அழுத்தவும் காணொளி விட்டு வெளியேற</string>
     <string name="playlist_deleted">தொகுப்பு பட்டியல் நீக்கப்பட்டது</string>
     <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
+    <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை </string>
 </resources>
