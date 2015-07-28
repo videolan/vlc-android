@@ -130,6 +130,7 @@
     <string name="tools">Strumenti</string>
     <string name="playback_speed">Velocità di riproduzione</string>
     <string name="sleep_title">Sospendi</string>
+    <string name="sleep_in">Sospendi in</string>
     <string name="sleep_cancel">Annulla sospensione</string>
     <string name="jump_to_time">Salto temporale</string>
     <string name="subtitle_label">Aggiungi file di sottotitoli</string>
@@ -301,4 +302,6 @@
     <string name="back_quit_lock">Premi nuovamente Indietro per chiudere il video</string>
     <string name="playlist_deleted">Scaletta eliminata</string>
     <string name="file_deleted">File eliminato</string>
+    <string name="no_subs_found">Nessun sottotitolo in questa cartella</string>
+    <string name="music_now_playing">In riproduzione</string>
 </resources>
