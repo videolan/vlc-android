@@ -144,6 +144,7 @@
     <string name="tools">Offer</string>
     <string name="playback_speed">Cyflymder chwarae</string>
     <string name="sleep_title">Amserydd cwsg</string>
+    <string name="sleep_in">Cysgu\'n hwyr</string>
     <string name="sleep_cancel">Diffodd yr amserydd cwsg</string>
     <string name="jump_to_time">Neidio i amser</string>
     <string name="subtitle_label">Ychwanegu ffeil isdeitlau</string>
@@ -315,4 +316,6 @@
     <string name="back_quit_lock">Pwyswch nôl eto i adael fideo</string>
     <string name="playlist_deleted">Dileuwyd y rhestr chwarae</string>
     <string name="file_deleted">Dileuwyd y ffeil</string>
+    <string name="no_subs_found">Nid oes isdeitlau yn y cyfeiriadur hwn</string>
+    <string name="music_now_playing">Yn Chwarae Nawr</string>
 </resources>
