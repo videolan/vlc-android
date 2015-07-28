@@ -123,6 +123,7 @@
     <string name="tools">工具</string>
     <string name="playback_speed">回放速度</string>
     <string name="sleep_title">睡眠计时器</string>
+    <string name="sleep_in">睡眠倒计时</string>
     <string name="sleep_cancel">取消睡眠计时器</string>
     <string name="jump_to_time">转到时间</string>
     <string name="subtitle_label">添加字幕文件</string>
@@ -295,4 +296,5 @@
     <string name="playlist_deleted">播放列表已删除</string>
     <string name="file_deleted">文件已删除</string>
     <string name="no_subs_found">该目录下无字幕文件</string>
+    <string name="music_now_playing">正在播放</string>
 </resources>
