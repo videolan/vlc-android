@@ -137,6 +137,7 @@
     <string name="tools">Інструменти</string>
     <string name="playback_speed">Швидкість відтворення</string>
     <string name="sleep_title">Таймер сну</string>
+    <string name="sleep_in">Обіспати</string>
     <string name="sleep_cancel">Відмінити таймер сну</string>
     <string name="jump_to_time">Перейти до часу</string>
     <string name="subtitle_label">Додати файл субтитрів</string>
@@ -309,4 +310,5 @@
     <string name="playlist_deleted">Список відтворення - вилучений</string>
     <string name="file_deleted">Файл — вилучений</string>
     <string name="no_subs_found">Немає субтитрів у цьому каталозі</string>
+    <string name="music_now_playing">Зараз відтворюється</string>
 </resources>
