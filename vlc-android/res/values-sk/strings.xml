@@ -137,6 +137,7 @@
     <string name="tools">Nástroje</string>
     <string name="playback_speed">Rýchlosť prehrávania</string>
     <string name="sleep_title">Časovač pri zaspávaní</string>
+    <string name="sleep_in">Uspať</string>
     <string name="sleep_cancel">Prerušiť časovač pri zaspávaní</string>
     <string name="jump_to_time">Preskočiť na čas</string>
     <string name="subtitle_label">Pridať súbor s titulkami</string>
@@ -308,4 +309,6 @@
     <string name="back_quit_lock">Video prerušíte opätovným stlačením tlačidla pre návrat</string>
     <string name="playlist_deleted">Playlist bol vymazaný</string>
     <string name="file_deleted">Súbor bol vymazaný</string>
+    <string name="no_subs_found">V tomto priečinku nie sú žiadne titulky</string>
+    <string name="music_now_playing">Práve sa prehráva</string>
 </resources>
