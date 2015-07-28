@@ -123,6 +123,7 @@
     <string name="tools">Perkakas</string>
     <string name="playback_speed">Kecepatan pemutaran</string>
     <string name="sleep_title">Pengatur waktu tidur</string>
+    <string name="sleep_in">Tidur dalam</string>
     <string name="sleep_cancel">Batalkan pengatur waktu tidur</string>
     <string name="jump_to_time">Lompat ke Waktu</string>
     <string name="subtitle_label">Tambah berkas terjemahan</string>
@@ -295,4 +296,5 @@
     <string name="playlist_deleted">Daftar putar dihapus</string>
     <string name="file_deleted">Berkas dihapus</string>
     <string name="no_subs_found">Tidak ada subtitel di dalam direktori ini</string>
+    <string name="music_now_playing">Sekarang Diputar</string>
 </resources>
