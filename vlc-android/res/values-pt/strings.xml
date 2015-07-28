@@ -130,10 +130,11 @@
     <string name="tools">Ferramentas</string>
     <string name="playback_speed">Velocidade de reprodução</string>
     <string name="sleep_title">Temporizador</string>
+    <string name="sleep_in">Silenciar em</string>
     <string name="sleep_cancel">Cancelar temporizador</string>
     <string name="jump_to_time">Ir para posição temporal</string>
     <string name="subtitle_label">Adicionar ficheiro de legendas</string>
-    <string name="subtitle_select">Selecionar ficheiro de legendas</string>
+    <string name="subtitle_select">Selecione o ficheiro de legendas</string>
     <string name="no_file_picker_found">Não foi encontrado qualquer seletor de ficheiros no seu sistema.</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Emissão</string>
@@ -279,7 +280,7 @@
     <string name="file_size">Tamanho do ficheiro:</string>
     <string name="file_other">Fechar menu de navegação</string>
     <string name="audio_delay">Atraso de áudio</string>
-    <string name="spu_delay">Atraso de legendas</string>
+    <string name="spu_delay">Atraso das legendas</string>
     <string name="sleep_time_not_set">por definir</string>
     <string name="network_shares_discovery">A procurar partilhas de rede…</string>
     <string name="network_empty">Este diretório está vazio.</string>
@@ -302,4 +303,5 @@
     <string name="playlist_deleted">Lista de reprodução apagada</string>
     <string name="file_deleted">Ficheiro apagado</string>
     <string name="no_subs_found">Não existem legendas neste diretório</string>
+    <string name="music_now_playing">A reproduzir</string>
 </resources>
