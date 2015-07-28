@@ -130,6 +130,7 @@
     <string name="tools">Extra</string>
     <string name="playback_speed">Afspeelsnelheid</string>
     <string name="sleep_title">Slaapstand</string>
+    <string name="sleep_in">Slapen binnen</string>
     <string name="sleep_cancel">Slaapstand annuleren</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="subtitle_label">Ondertitelbestand toevoegen</string>
@@ -302,4 +303,5 @@
     <string name="playlist_deleted">Afspeellijst verwijderd</string>
     <string name="file_deleted">Bestand verwijderd</string>
     <string name="no_subs_found">Geen ondertitels in deze map</string>
+    <string name="music_now_playing">Nu afspelend</string>
 </resources>
