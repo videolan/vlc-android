@@ -6,7 +6,11 @@
     <string name="other">Muu</string>
     <string name="sortby">Järjestä...</string>
     <string name="sortby_name">Nimi</string>
+    <string name="sortby_name_desc">Nimi (seloste)</string>
     <string name="sortby_length">Pituus</string>
+    <string name="sortby_length_desc">Pituus (seloste)</string>
+    <string name="sortby_date">Päivämäärä</string>
+    <string name="sortby_date_desc">Päivämäärä (seloste)</string>
     <string name="searchable_hint">Etsi...</string>
     <string name="history">Historia</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +21,8 @@
     <string name="play_from_start">Toista alusta</string>
     <string name="play_as_audio">Toista äänenä</string>
     <string name="play_as_video">Toista videona</string>
+    <string name="play_as_audio_background">Toista videot taustalla</string>
+    <string name="play_as_audio_background_summary">Jatka videon toistoa taustalla kun laitteen näyttö kytketään pois päältä tai kun kotinäppäintä painetaan.</string>
     <string name="append">Lisää loppuun</string>
     <string name="play_all">Toista kaikki</string>
     <string name="append_all">Lisää kaikki loppuun</string>
@@ -26,6 +32,8 @@
     <string name="set_song">Aseta soittoääneksi</string>
     <string name="info">Tietoja</string>
     <string name="confirm_delete">Poista tiedosto \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Poista hakemisto \'%1$s\' sisältöineen?</string>
+    <string name="confirm_delete_playlist">Poista soittolista \'%1$s\'?</string>
     <string name="ringtone_set">Tiedosto \'%1$s\' asetettiin soittoääneksi.</string>
     <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
     <string name="pause">Tauota</string>
@@ -74,6 +82,7 @@
     <string name="loading">Ladataan</string>
     <string name="please_wait">Odota hetki...</string>
     <string name="nomedia">Yhtäkään mediatiedostoa ei löydetty, siirrä tiedostoja laitteeseesi tai muuta asetuksia.</string>
+    <string name="noplaylist">Soittolistaa ei löytynyt.</string>
     <string name="mediafiles">Mediatiedostot</string>
     <string name="notavailable">ei saatavilla</string>
     <string name="nosubdirectory">Ei alihakemistoja.</string>
@@ -81,6 +90,11 @@
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
     <string name="validation">Oletko varma?</string>
     <string name="cover_art">Kansikuva</string>
+    <string name="shuffle">Satunnaistoisto pois</string>
+    <string name="shuffle_on">Satunnaistoisto päälle</string>
+    <string name="repeat">Älä uudelleentoista</string>
+    <string name="repeat_single">Uudelleentoista kerran</string>
+    <string name="repeat_all">Uudelleentoista kaikki</string>
     <string name="previous">Edellinen</string>
     <string name="stop">Pysäytä</string>
     <string name="next">Seuraava</string>
@@ -116,6 +130,7 @@
     <string name="tools">Työkalut</string>
     <string name="playback_speed">Toistonopeus</string>
     <string name="sleep_title">Uniajastin</string>
+    <string name="sleep_in">Nukahda kohdassa</string>
     <string name="sleep_cancel">Peruuta uniajastin</string>
     <string name="jump_to_time">Hyppää kohtaan</string>
     <string name="subtitle_label">Lisää tekstitystiedosto</string>
@@ -266,9 +281,27 @@
     <string name="file_other">Sulje navigointilaatikko</string>
     <string name="audio_delay">Äänen viive</string>
     <string name="spu_delay">Tekstityksen viive</string>
+    <string name="sleep_time_not_set">ei asetettu</string>
     <string name="network_shares_discovery">Etsitään verkkojakoja...</string>
     <string name="network_empty">Tämä hakemisto on tyhjä.</string>
     <string name="network_connection_needed">Ei yhteyttä paikalliseen verkkoon.</string>
     <string name="search_hint">Etsi mediaa</string>
+    <string name="directory_show_medialib">Näytä mediakirjastossa</string>
+    <string name="directory_hide_medialib">Piilota mediakirjastosta</string>
+    <string name="playlist_save">Tallenna soittolista</string>
+    <string name="playlist_name_hint">soittolistan nimi</string>
+    <string name="go_to_chapter">Mene kappaleeseen...</string>
+    <string name="resume_from_position">Jatka viimeisimmästä kohdasta</string>
+    <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
+    <string name="confirm_resume_title">Kysy vahvistusta jatkamiselle</string>
+    <string name="confirm_resume_summary">Jos aktivoidaan, sinulta kysytään vahvistusta kun videon toistoa voidaan jatkaa viimeisimmästä kohdasta</string>
+    <string name="directory_empty">Hakemisto on tyhjä</string>
     <!--Accessibility-->
+    <string name="more_actions">Lisää toimintoja</string>
+    <string name="move">Siirrä</string>
+    <string name="back_quit_lock">Paina taaksepäin uudelleen poistuaksesi videosta</string>
+    <string name="playlist_deleted">Soittolista poistettu</string>
+    <string name="file_deleted">Tiedosto poistettu</string>
+    <string name="no_subs_found">Tässä hakemistossa ei ole tekstityksiä</string>
+    <string name="music_now_playing">Nyt toistetaan</string>
 </resources>
