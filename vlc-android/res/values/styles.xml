@@ -56,7 +56,6 @@
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_close">@drawable/ic_close</item>
         <item name="ic_save">@drawable/ic_save</item>
-        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_menu_video">@drawable/ic_menu_video</item>
         <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
@@ -73,11 +72,15 @@
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_style">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="rounded_bg">@drawable/rounded_corners_light</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
+        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
+        <item name="ic_audiodelay">@drawable/ic_audiodelay</item>
+        <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -146,7 +149,6 @@
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_close">@drawable/ic_close_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
-        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
         <item name="ic_menu_video">@drawable/ic_menu_video_w</item>
         <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
@@ -163,11 +165,15 @@
         <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
         <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
         <item name="rounded_bg">@drawable/rounded_corners</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
+        <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
         <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
+        <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
+        <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
     </style>
 
     <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">
@@ -202,10 +208,15 @@
 
         <item name="rounded_bg">@drawable/rounded_corners</item>
         <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
-        <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
-        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
-        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
-        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
+        <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
+        <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
+        <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
+        <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
+
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
