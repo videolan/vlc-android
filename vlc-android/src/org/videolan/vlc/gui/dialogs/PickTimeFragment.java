@@ -104,9 +104,12 @@ public abstract class PickTimeFragment extends DialogFragment implements View.On
 
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
-        Window window = getDialog().getWindow();
-        window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
-        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        if (getDialog() != null) {
+            int dialogWidth = getResources().getDimensionPixelSize(R.dimen.dialog_time_picker_width);
+            int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+            getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+            getDialog().getWindow().setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+        }
         return view;
     }
 

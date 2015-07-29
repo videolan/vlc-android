@@ -4,157 +4,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="@dimen/default_margin"
     tools:context="org.videolan.vlc.gui.dialogs.AdvOptionsDialog">
 
-    <!-- Playback speed -->
-
-    <TextView
-        android:id="@+id/playback_switch_audio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="5dp"
-        android:nextFocusDown="@+id/playback_speed_reset"
-        android:gravity="left"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/play_as_audio"/>
 
     <LinearLayout
-        android:id="@+id/playback_speed"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/half_default_margin"
         android:orientation="horizontal">
 
+        <!-- Sleep Timer -->
+
+        <LinearLayout
+            android:id="@+id/sleep_timer_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/sleep_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="?attr/ic_sleep_normal_style" />
+
+            <TextView
+                android:id="@+id/sleep_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Playback speed -->
+
+        <LinearLayout
+            android:id="@+id/playback_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/adv_options_margin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/playback_speed_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="?attr/ic_speed_normal_style" />
+
+            <TextView
+                android:id="@+id/playback_speed_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Play as Audio -->
+
         <ImageView
-            android:id="@+id/playback_speed_icon"
+            android:id="@+id/play_as_audio_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="?attr/ic_speed_normal_style" />
-
-
-        <TextView
-            android:id="@+id/playback_speed_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/playback_speed" />
-
-        <TextView
-            android:id="@+id/playback_speed_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/half_default_margin"
-            android:text="1.00x" />
-    </LinearLayout>
-
-    <!-- Sleep Timer -->
-
-    <LinearLayout
-        android:id="@+id/sleep_timer_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/sleep_timer_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:text="@string/sleep_title"
-            android:drawableLeft="?attr/ic_sleep_normal_style"/>
-
-        <TextView
-            android:id="@+id/sleep_timer_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/adv_options_margin"
             android:clickable="true"
             android:focusable="true"
-            android:text="none_set" />
-
-        <TextView
-            android:id="@+id/sleep_timer_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/sleep_cancel" />
+            android:src="?attr/ic_playasaudio_on" />
 
     </LinearLayout>
 
-    <!-- Jump to position -->
-
-    <LinearLayout
-        android:id="@+id/time_travel_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
-        <TextView
-            android:id="@+id/jump_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="@string/jump_to_time"
-            android:drawableLeft="?attr/ic_jumpto_normal_style"/>
-        <TextView
-            android:id="@+id/jump_chapter_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_chapter_normal_w"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="@string/go_to_chapter" />
-        <!--FIXME
-        It should be android:drawableLeft="?attr/ic_chapter_normal_style" but a weird bug, probably in the
-        styles, makes VLC crash -->
-    </LinearLayout>
+        android:layout_marginBottom="@dimen/half_default_margin"
+        android:orientation="horizontal">
 
-    <!-- Tracks delay -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <TextView
-            android:id="@+id/audio_delay"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:nextFocusRight="@+id/spu_delay"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="Audio delay" />
+        <!-- Subtitle delay -->
 
         <TextView
             android:id="@+id/spu_delay"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:nextFocusLeft="@+id/audio_delay"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:clickable="true"
+            android:drawableTop="?attr/ic_subtitledelay"
             android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="Subtitles delay" />
-    </LinearLayout>
+            android:gravity="center_horizontal" />
+
+        <!-- Audio delay -->
+
+        <TextView
+            android:id="@+id/audio_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:drawableTop="?attr/ic_audiodelay"
+            android:focusable="true"
+            android:gravity="center_horizontal" />
+
+        <!-- Jump To Time -->
+
+        <TextView
+            android:id="@+id/jump_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:drawableTop="?attr/ic_jumpto_normal_style"
+            android:focusable="true"
+            android:gravity="center_horizontal" />
+
+        <!-- Equalizer -->
+
+        <TextView
+            android:id="@+id/opt_equalizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:drawableTop="?attr/ic_equalizer_normal_style"
+            android:focusable="true" />
+
+    </RelativeLayout>
+
+    <!-- Chapter -->
 
     <TextView
-        android:id="@+id/opt_equalizer"
-        android:layout_width="match_parent"
+        android:id="@+id/jump_chapter_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_vertical"
-        android:text="@string/equalizer"
-        android:drawableLeft="?attr/ic_equalizer_normal_style"/>
+        android:clickable="true"
+        android:drawableLeft="?attr/ic_chapter_normal_style"
+        android:focusable="true"
+        android:gravity="center_vertical" />
+
 </LinearLayout>
+

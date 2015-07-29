@@ -29,6 +29,12 @@
     <dimen name="tv_overscan_vertical">0dp</dimen>
     <dimen name="tv_overscan_horizontal">0dp</dimen>
 
+    <dimen name="adv_options_video_width">224dp</dimen>
+    <dimen name="adv_options_music_width">152dp</dimen>
+    <dimen name="adv_options_margin">24dp</dimen>
+    <dimen name="dialog_time_picker_width">240dp</dimen>
+
+
     <dimen name="file_picker_width">300dip</dimen>
     <!-- -1px is fill/match_parent -->
     <dimen name="file_picker_height">-1px</dimen>

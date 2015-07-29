@@ -2753,7 +2753,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void showAdvancedOptions(View v) {
         FragmentManager fm = getSupportFragmentManager();
         AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
+        advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dimStatusBar(true);
+            }
+        });
         advOptionsDialog.show(fm, "fragment_adv_options");
+        hideOverlay(false);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
