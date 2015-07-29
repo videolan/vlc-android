@@ -13,13 +13,18 @@
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_jumpto_normal_w.svg"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ic_speed_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684" />
+     id="defs4684">
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect6553-2"
+       effect="spiro" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -28,16 +33,29 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="11.302427"
-     inkscape:cy="10.130341"
+     inkscape:cx="-0.25119252"
+     inkscape:cy="5.0795783"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="960"
+     inkscape:window-width="1918"
      inkscape:window-height="1028"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true">
     <inkscape:grid
        type="xygrid"
        id="grid3002" />
@@ -64,9 +82,9 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       inkscape:connector-curvature="0"
-       id="path6723"
-       d="m 9.5,1029.3622 0,2 5,0 0,-2 -5,0 z m 2.5,3 c -4.41828,0 -8,3.5817 -8,8 0,4.4183 3.58172,8 8,8 4.41828,0 8,-3.5817 8,-8 0,-1.8514 -0.63161,-3.5506 -1.6875,-4.9062 l 1.46875,-1.4688 -1.40625,-1.4062 -1.46875,1.4687 c -1.35566,-1.0559 -3.0548,-1.6875 -4.90625,-1.6875 z m 0,2 c 3.31371,0 6,2.6863 6,6 0,3.3137 -2.68629,6 -6,6 -3.31371,0 -6,-2.6863 -6,-6 0,-3.3137 2.68629,-6 6,-6 z m 1,1.5 -4,5 2.8125,0 -0.8125,4 4,-5 -2.8125,0 0.8125,-4 z"
-       style="color:#000000;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+       style="fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 18,1032.3622 c -1.1046,0 -2,0.8954 -2,2 0,1.1046 0.8954,2 2,2 1.1046,0 2,-0.8954 2,-2 0,-1.1046 -0.8954,-2 -2,-2 z m -8.8301,2 -2.584,2.5859 1.4141,1.4141 2,-2 2,0 -4,4 0,3 -4,0 0,2 6,0 0,-3 2,2 0,4.002 2,0 0,-5 -2,-2 0.5625,-0.5625 0.5625,-0.5625 0.5644,-0.5645 0.5625,-0.5625 c 1.0059,3.2454 4.7481,3.252 4.7481,3.252 l 0,-2 c -2.9687,0 -3,-3 -3,-3 0,-3 -3,-3 -3,-3 l -3.8301,0 z"
+       id="path6726-8"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

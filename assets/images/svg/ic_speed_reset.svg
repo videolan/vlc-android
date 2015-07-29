@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_speed_normal_w.svg"
+   sodipodi:docname="ic_speed_reset.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -32,9 +32,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="-0.25119252"
-     inkscape:cy="5.0795783"
+     inkscape:zoom="22.4"
+     inkscape:cx="18.697167"
+     inkscape:cy="13.617304"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -82,9 +82,10 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       style="fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 18,1032.3622 c -1.1046,0 -2,0.8954 -2,2 0,1.1046 0.8954,2 2,2 1.1046,0 2,-0.8954 2,-2 0,-1.1046 -0.8954,-2 -2,-2 z m -8.8301,2 -2.584,2.5859 1.4141,1.4141 2,-2 2,0 -4,4 0,3 -4,0 0,2 6,0 0,-3 2,2 0,4.002 2,0 0,-5 -2,-2 0.5625,-0.5625 0.5625,-0.5625 0.5644,-0.5645 0.5625,-0.5625 c 1.0059,3.2454 4.7481,3.252 4.7481,3.252 l 0,-2 c -2.9687,0 -3,-3 -3,-3 0,-3 -3,-3 -3,-3 l -3.8301,0 z"
-       id="path6726-8"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       id="path6717-1"
+       d="m 18,1032.3603 c -1.1046,0 -2,0.8954 -2,2 0,1.1045 0.8954,2 2,2 1.1046,0 2,-0.8955 2,-2 0,-1.1046 -0.8954,-2 -2,-2 z m -9,7.0019 -1,0.9981 0,3 -4,0 0,2 6,0 0,-3 2,2 0,4.0019 2,0 0,-4 5,5 1,-1 -7.5,-7.4981 -2.5,-2.5 -1,-1 -1.416,-1.4159 -3.584,-3.584 0,0 -1,1 z m 0.1699,-5.0018 -0.5859,0.5859 1.416,1.414 2,0 -1,1.0019 2.5,2.5 0.1894,-0.1913 0.5625,-0.5625 c 1.0059,3.2454 4.7481,3.2519 4.7481,3.2519 l 0,-2 c -2.9687,0 -3,-3 -3,-3 0,-2.9999 -3,-2.9999 -3,-2.9999 z"
+       style="fill:#ff8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:nodetypes="ssssscccccccccccccccccccccccccccccccccc" />
   </g>
 </svg>
