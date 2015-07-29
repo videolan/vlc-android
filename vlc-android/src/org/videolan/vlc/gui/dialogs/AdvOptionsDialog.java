@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -40,8 +41,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.SeekBar;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -82,9 +82,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private TextView mAudioMode;
     private TextView mEqualizer;
 
-    private TextView mSpeedTv;
-    private SeekBar mSeek;
-    private Button mReset;
+    private TextView mPlaybackSpeedValue;
+    private ImageView mPlaybackSpeed;
 
     private TextView mSleepTitle;
     private TextView mSleepTime;
@@ -123,14 +122,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     }
 
-    private void setRateProgress() {
-        double speed = mService.getRate();
-        if (speed != 1.0d) {
-            speed = 100 * (1 + Math.log(speed) / Math.log(4));
-            mSeek.setProgress((int) speed);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,12 +130,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         getDialog().setCanceledOnTouchOutside(true);
 
 
-        mSeek = (SeekBar) root.findViewById(R.id.playback_speed_seek);
-        mSpeedTv = (TextView) root.findViewById(R.id.playback_speed_value);
-        mReset = (Button) root.findViewById(R.id.playback_speed_reset);
-
-        mSeek.setOnSeekBarChangeListener(mSeekBarListener);
-        mReset.setOnClickListener(mResetListener);
+        mPlaybackSpeedValue = (TextView) root.findViewById(R.id.playback_speed_value);
+        mPlaybackSpeed = (ImageView) root.findViewById(R.id.playback_speed_icon);
+        mPlaybackSpeed.setOnClickListener(this);
 
         mSleepTitle = (TextView) root.findViewById(R.id.sleep_timer_title);
         mSleepTime = (TextView) root.findViewById(R.id.sleep_timer_value);
@@ -157,7 +145,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mSleepTime.setOnClickListener(this);
         mSleepCancel.setOnClickListener(this);
 
-        mReset.setOnFocusChangeListener(mFocusListener);
         mSleepTime.setOnFocusChangeListener(mFocusListener);
         mSleepCancel.setOnFocusChangeListener(mFocusListener);
         mJumpTitle.setOnFocusChangeListener(mFocusListener);
@@ -237,32 +224,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         });
     }
 
-    private SeekBar.OnSeekBarChangeListener mSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (mService == null)
-                return;
-
-            float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
-            mHandler.obtainMessage(SPEED_TEXT, Strings.formatRateString(rate)).sendToTarget();
-            mService.setRate(rate);
-        }
-
-        public void onStartTrackingTouch(SeekBar seekBar) {}
-        public void onStopTrackingTouch(SeekBar seekBar) {}
-    };
-
-    private View.OnClickListener mResetListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mService == null)
-                return;
-
-            mSeek.setProgress(100);
-            mService.setRate(1);
-        }
-    };
-
     private void showTimePickerFragment(int action) {
         DialogFragment newFragment = null;
         switch (action){
@@ -277,6 +238,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "time");
+        dismiss();
+    }
+
+    private void showPlayBackSpeedDialog() {
+        DialogFragment newFragment = null;
+        newFragment = new PlaybackSpeedDialog();
+        if (newFragment != null)
+            newFragment.show(getActivity().getSupportFragmentManager(), "playback_speed");
         dismiss();
     }
 
@@ -340,7 +309,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             switch (msg.what) {
                 case SPEED_TEXT:
                     text = (String) msg.obj;
-                    owner.mSpeedTv.setText(text);
+                    owner.mPlaybackSpeedValue.setText(text);
                     break;
                 case TOGGLE_CANCEL:
                     owner.mSleepCancel.setVisibility(VLCApplication.sPlayerSleepTime == null ? View.GONE : View.VISIBLE);
@@ -375,6 +344,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.playback_speed_icon:
+                showPlayBackSpeedDialog();
+                break;
             case R.id.audio_delay:
                 showAudioSpuDelayControls(ACTION_AUDIO_DELAY);
                 break;
@@ -419,7 +391,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        setRateProgress();
+        mPlaybackSpeedValue.setText(Strings.formatRateString(mService.getRate()));
+
         if (mMode == MODE_VIDEO)
             initChapterSpinner();
     }
