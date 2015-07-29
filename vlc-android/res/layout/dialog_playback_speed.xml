@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:nextFocusDown="@+id/playback_speed_seek"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_speed_reset" />
+            android:src="@drawable/ic_speed_reset_normal" />
 
     </RelativeLayout>
 
