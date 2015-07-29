@@ -111,12 +111,14 @@
             android:id="@+id/jump_chapter_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/go_to_chapter"/>
-        <Spinner
-            android:id="@+id/jump_chapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_chapter_normal_w"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="@string/go_to_chapter" />
+        <!--FIXME
+        It should be android:drawableLeft="?attr/ic_chapter_normal_style" but a weird bug, probably in the
+        styles, makes VLC crash -->
     </LinearLayout>
 
     <!-- Tracks delay -->

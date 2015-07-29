@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -39,10 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.videolan.libvlc.MediaPlayer;
@@ -94,7 +90,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private TextView mAudioDelay;
     private TextView mSpuDelay;
 
-    private Spinner mChapters;
     private TextView mChaptersTitle;
     private int mTextColor;
     private PlaybackService mService;
@@ -154,8 +149,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mAudioMode.setOnClickListener(this);
             mAudioMode.setOnFocusChangeListener(mFocusListener);
 
-            mChapters = (Spinner) root.findViewById(R.id.jump_chapter);
             mChaptersTitle = (TextView) root.findViewById(R.id.jump_chapter_title);
+            mChaptersTitle.setOnClickListener(this);
 
             mAudioDelay = (TextView) root.findViewById(R.id.audio_delay);
             mSpuDelay = (TextView) root.findViewById(R.id.spu_delay);
@@ -167,10 +162,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         } else {
             root.findViewById(R.id.audio_delay).setVisibility(View.GONE);
             root.findViewById(R.id.spu_delay).setVisibility(View.GONE);
-            root.findViewById(R.id.jump_chapter).setVisibility(View.GONE);
             root.findViewById(R.id.jump_chapter_title).setVisibility(View.GONE);
             root.findViewById(R.id.playback_switch_audio).setVisibility(View.GONE);
-
         }
 
         if (mMode == MODE_AUDIO){
@@ -186,42 +179,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return root;
-    }
-
-    private void initChapterSpinner() {
-        final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
-        int chaptersCount = chapters != null ? chapters.length : 0;
-        if (chaptersCount <= 1){
-            mChapters.setVisibility(View.GONE);
-            mChaptersTitle.setVisibility(View.GONE);
-            return;
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
-        for (int i = 0 ; i < chaptersCount ; ++i) {
-            String name;
-            if (chapters[i].name == null || chapters[i].name.equals("")) {
-                StringBuilder sb = new StringBuilder("Chapter ").append(i); /* TODO translate Chapter */
-                if (chapters[i].timeOffset >= 0)
-                    sb.append(" - ").append(Strings.millisToString(chapters[i].timeOffset));
-                name = sb.toString();
-            } else
-                name = chapters[i].name;
-            adapter.insert(name, i);
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mChapters.setAdapter(adapter);
-        mChapters.setSelection(mService.getChapterIdx());
-        mChapters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mService.getChapterIdx())
-                    mService.setChapterIdx(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 
     private void showTimePickerFragment(int action) {
@@ -246,6 +203,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         newFragment = new PlaybackSpeedDialog();
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "playback_speed");
+        dismiss();
+    }
+
+    private void showSelectChapterDialog() {
+        DialogFragment newFragment = null;
+        newFragment = new SelectChapterDialog();
+        if (newFragment != null)
+            newFragment.show(getActivity().getSupportFragmentManager(), "select_chapter");
         dismiss();
     }
 
@@ -347,6 +312,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case R.id.playback_speed_icon:
                 showPlayBackSpeedDialog();
                 break;
+            case R.id.jump_chapter_title:
+                showSelectChapterDialog();
+                break;
             case R.id.audio_delay:
                 showAudioSpuDelayControls(ACTION_AUDIO_DELAY);
                 break;
@@ -391,10 +359,16 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
+
         mPlaybackSpeedValue.setText(Strings.formatRateString(mService.getRate()));
 
-        if (mMode == MODE_VIDEO)
-            initChapterSpinner();
+        if (mMode == MODE_VIDEO) {
+            final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
+            if (chapters != null) {
+                mChaptersTitle.setText(chapters[mService.getChapterIdx()].name);
+            } else
+                mChaptersTitle.setVisibility(View.GONE);
+        }
     }
 
     @Override
