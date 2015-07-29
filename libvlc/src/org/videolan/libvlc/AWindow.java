@@ -271,6 +271,12 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public void setVideoSurface(SurfaceTexture videoSurfaceTexture) {
+        setSurface(ID_VIDEO, new Surface(videoSurfaceTexture), null);
+    }
+
+    @Override
     @MainThread
     public void setSubtitlesView(SurfaceView subtitlesSurfaceView) {
         setView(ID_SUBTITLES, subtitlesSurfaceView);
@@ -285,6 +291,12 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     @Override
     public void setSubtitlesSurface(Surface subtitlesSurface, SurfaceHolder surfaceHolder) {
         setSurface(ID_SUBTITLES, subtitlesSurface, surfaceHolder);
+    }
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public void setSubtitlesSurface(SurfaceTexture subtitlesSurfaceTexture) {
+        setSurface(ID_SUBTITLES, new Surface(subtitlesSurfaceTexture), null);
     }
 
     @Override
