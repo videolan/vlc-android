@@ -74,6 +74,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public static final int ACTION_AUDIO_DELAY = 2 ;
     public static final int ACTION_SPU_DELAY = 3 ;
 
+    private int mTheme;
     private int mMode = -1;
     private TextView mAudioMode;
     private TextView mEqualizer;
@@ -100,13 +101,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
         if (getArguments() != null && getArguments().containsKey(MODE_KEY))
             mMode = getArguments().getInt(MODE_KEY);
         else
             mMode = MODE_VIDEO;
+
+        mTheme = (mMode == MODE_VIDEO || Util.isBlackThemeEnabled()) ?
+                R.style.Theme_VLC_Black :
+                R.style.Theme_VLC;
+        setStyle(DialogFragment.STYLE_NO_FRAME, mTheme);
     }
 
     @Override
@@ -185,10 +190,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         DialogFragment newFragment = null;
         switch (action){
             case PickTimeFragment.ACTION_JUMP_TO_TIME:
-                newFragment = new JumpToTimeDialog();
+                newFragment = JumpToTimeDialog.newInstance(mTheme);
                 break;
             case PickTimeFragment.ACTION_SLEEP_TIMER:
-                newFragment = new SleepTimerDialog();
+                newFragment = SleepTimerDialog.newInstance(mTheme);
                 break;
             default:
                 return;
@@ -200,7 +205,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private void showPlayBackSpeedDialog() {
         DialogFragment newFragment = null;
-        newFragment = new PlaybackSpeedDialog();
+        newFragment = PlaybackSpeedDialog.newInstance(mTheme);
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "playback_speed");
         dismiss();
@@ -208,7 +213,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private void showSelectChapterDialog() {
         DialogFragment newFragment = null;
-        newFragment = new SelectChapterDialog();
+        newFragment = SelectChapterDialog.newInstance(mTheme);
         if (newFragment != null)
             newFragment.show(getActivity().getSupportFragmentManager(), "select_chapter");
         dismiss();

@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,22 @@ public class SleepTimerDialog extends PickTimeFragment {
 
     public SleepTimerDialog() {
         super();
+    }
+
+    public static SleepTimerDialog newInstance(int theme) {
+        SleepTimerDialog myFragment = new SleepTimerDialog();
+
+        Bundle args = new Bundle();
+        args.putInt("theme", theme);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, getArguments().getInt("theme"));
     }
 
     @Override

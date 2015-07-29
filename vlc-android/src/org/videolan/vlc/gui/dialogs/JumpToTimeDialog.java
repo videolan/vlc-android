@@ -23,12 +23,31 @@
 
 package org.videolan.vlc.gui.dialogs;
 
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+
 import org.videolan.vlc.R;
 
 public class JumpToTimeDialog extends PickTimeFragment {
 
     public JumpToTimeDialog(){
         super();
+    }
+
+    public static JumpToTimeDialog newInstance(int theme) {
+        JumpToTimeDialog myFragment = new JumpToTimeDialog();
+
+        Bundle args = new Bundle();
+        args.putInt("theme", theme);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, getArguments().getInt("theme"));
     }
 
     protected void executeAction() {

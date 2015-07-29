@@ -50,10 +50,20 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
     public SelectChapterDialog() {
     }
 
+    public static SelectChapterDialog newInstance(int theme) {
+        SelectChapterDialog myFragment = new SelectChapterDialog();
+
+        Bundle args = new Bundle();
+        args.putInt("theme", theme);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
+        setStyle(DialogFragment.STYLE_NO_FRAME, getArguments().getInt("theme"));
     }
 
     @Override

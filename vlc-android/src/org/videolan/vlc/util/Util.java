@@ -32,6 +32,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils.TruncateAt;
@@ -378,5 +379,10 @@ public class Util {
         List<ResolveInfo> list = VLCApplication.getAppContext().getPackageManager().queryIntentActivities(intent,
             PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
-}
+    }
+
+    public static boolean isBlackThemeEnabled() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return pref.getBoolean("enable_black_theme", false);
+    }
 }
