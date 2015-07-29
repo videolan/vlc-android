@@ -303,4 +303,5 @@
     <string name="playlist_deleted">தொகுப்பு பட்டியல் நீக்கப்பட்டது</string>
     <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை </string>
+    <string name="music_now_playing">இப்போ ஒடுவது </string>
 </resources>
