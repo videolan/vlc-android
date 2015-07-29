@@ -76,6 +76,7 @@
         <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
+        <item name="ic_chapter_normal_style">@drawable/ic_chapter</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal</item>
     </style>
 
@@ -165,6 +166,7 @@
         <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
+        <item name="ic_chapter_normal_style">@drawable/ic_chapter_w</item>
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
     </style>
 
