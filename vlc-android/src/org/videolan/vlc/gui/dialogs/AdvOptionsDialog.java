@@ -399,7 +399,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (mMode == MODE_VIDEO) {
             // Init Chapter
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
-            if (chapters != null) {
+            final int chaptersCount = chapters != null ? chapters.length : 0;
+
+            if (chaptersCount > 1) {
                 mChaptersTitle.setText(chapters[mService.getChapterIdx()].name);
             } else
                 mChaptersTitle.setVisibility(View.GONE);
