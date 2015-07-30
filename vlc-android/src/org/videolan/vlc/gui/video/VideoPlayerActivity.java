@@ -2541,13 +2541,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Started from VideoListActivity */
         else if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
             mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
-            itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START);
             mAskResume &= !fromStart;
             openedPosition = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
+
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
             mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
+        if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
+            itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
         if (openedPosition != -1) {
             // Provided externally from AudioService
