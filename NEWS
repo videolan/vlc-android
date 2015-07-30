@@ -2,7 +2,7 @@ Changes between 1.5.0 and 1.5.1:
 --------------------------------
 
 Core:
- * Fix performance issue, due to Audio synchronisation issue
+ * Fix performance regression, by fixing an Audio synchronisation issue
 
 libVLC:
  * Add Setters for SurfaceTextures in AWindow
@@ -18,7 +18,7 @@ Application:
 TV:
  * Fix some background video issue when playing audio
  * Support the stop button on remotes
- * Support Now Playing tile
+ * Add Now Playing tile in main view
 
 Translations
  * Update of all translations
