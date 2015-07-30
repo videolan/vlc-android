@@ -140,7 +140,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     public final static String PLAY_EXTRA_ITEM_LOCATION = "item_location";
     public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
-    public final static String PLAY_EXTRA_ITEM_TITLE = "item_title";
+    public final static String PLAY_EXTRA_ITEM_TITLE = "title";
     public final static String PLAY_EXTRA_FROM_START = "from_start";
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
 
