@@ -1,3 +1,29 @@
+Changes between 1.5.0 and 1.5.1:
+--------------------------------
+
+Core:
+ * Fix performance issue, due to Audio synchronisation issue
+
+libVLC:
+ * Add Setters for SurfaceTextures in AWindow
+
+Application:
+ * Fix append option in album view
+ * Fix crop after screen rotation
+ * Prevent too frequent devices scanning
+ * Fix intent listing
+ * New interface for advanced options: playback speed, chapters, Jump to Time,
+   Audio/Subtitles delay, Equalizer, play as audio...
+
+TV:
+ * Fix some background video issue when playing audio
+ * Support the stop button on remotes
+ * Support Now Playing tile
+
+Translations
+ * Update of all translations
+
+
 Changes between 1.4.1 and 1.5.0:
 --------------------------------
 
