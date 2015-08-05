@@ -519,6 +519,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
         mLock.setOnClickListener(mLockListener);
         mPlayPause.setOnClickListener(mPlayPauseListener);
+        mPlayPause.setOnLongClickListener(mPlayPauseLongListener);
         mLength.setOnClickListener(mRemainingTimeListener);
         mTime.setOnClickListener(mRemainingTimeListener);
         mSize.setOnClickListener(mSizeListener);
@@ -534,6 +535,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setOnSeekBarChangeListener(null);
         mLock.setOnClickListener(null);
         mPlayPause.setOnClickListener(null);
+        mPlayPause.setOnLongClickListener(null);
         mLength.setOnClickListener(null);
         mTime.setOnClickListener(null);
         mSize.setOnClickListener(null);
@@ -1413,6 +1415,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void endReached() {
         if (mService == null)
             return;
+        if (mService.getRepeatType() == PlaybackService.RepeatType.Once){
+            seek(0);
+            return;
+        }
         if(mService.expand() == 0) {
             startLoading();
             Log.d(TAG, "Found a video playlist, expanding it");
@@ -2038,6 +2044,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         @Override
         public void onClick(View v) {
             doPlayPause();
+        }
+    };
+
+    private final View.OnLongClickListener mPlayPauseLongListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (mService == null)
+                return false;
+            if (mService.getRepeatType() == PlaybackService.RepeatType.Once) {
+                showInfo("repeat off");
+                mService.setRepeatType(PlaybackService.RepeatType.None);
+            } else {
+                mService.setRepeatType(PlaybackService.RepeatType.Once);
+                showInfo("repeat video");
+            }
+            return true;
         }
     };
 
