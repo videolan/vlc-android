@@ -2053,11 +2053,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService == null)
                 return false;
             if (mService.getRepeatType() == PlaybackService.RepeatType.Once) {
-                showInfo("repeat off");
+                showInfo(getString(R.string.repeat));
                 mService.setRepeatType(PlaybackService.RepeatType.None);
             } else {
                 mService.setRepeatType(PlaybackService.RepeatType.Once);
-                showInfo("repeat video");
+                showInfo(getString(R.string.repeat_single));
             }
             return true;
         }
