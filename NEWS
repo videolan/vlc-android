@@ -14,6 +14,7 @@ Application:
  * Fix intent listing
  * New interface for advanced options: playback speed, chapters, Jump to Time,
    Audio/Subtitles delay, Equalizer, play as audio...
+ * Add a "title" option for extra Intents when calling VLC
 
 TV:
  * Fix some background video issue when playing audio
