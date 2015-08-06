@@ -102,10 +102,10 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.browser.FilePickerActivity;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;
@@ -1315,11 +1315,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
+    //FIXME hack to workaround playlist loading fail.
+    boolean mIgnorePlaylistEnd = false;
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Playing:
-                onPlaying();
+                if (mService.getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_PLAYLIST){
+                    mIgnorePlaylistEnd = true;
+                } else
+                    onPlaying();
                 break;
             case MediaPlayer.Event.Paused:
                 updateOverlayPausePlay();
@@ -1328,7 +1333,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 exitOK();
                 break;
             case MediaPlayer.Event.EndReached:
-                endReached();
+                if(mIgnorePlaylistEnd)
+                    mIgnorePlaylistEnd = false;
+                else
+                    endReached();
                 break;
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
