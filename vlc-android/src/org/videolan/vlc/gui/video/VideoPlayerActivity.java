@@ -548,6 +548,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
+    public void onVisibleBehindCanceled() {
+        super.onVisibleBehindCanceled();
+        pause();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         if (!AndroidUtil.isHoneycombOrLater())
             changeSurfaceLayout();
