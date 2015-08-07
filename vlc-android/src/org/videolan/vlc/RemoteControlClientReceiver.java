@@ -19,9 +19,6 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.util.VLCInstance;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,8 +47,8 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                 return;
 
             if (event.getKeyCode() != KeyEvent.KEYCODE_HEADSETHOOK &&
-                event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE &&
-                event.getAction() != KeyEvent.ACTION_DOWN)
+                    event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE &&
+                    event.getAction() != KeyEvent.ACTION_DOWN)
                 return;
 
             Intent i = null;
@@ -67,23 +64,22 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                     long time = SystemClock.uptimeMillis();
                     switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
-                            if (event.getRepeatCount() > 0)
-                                break;
-                            mHeadsetDownTime = time;
+                            if (event.getRepeatCount() <= 0)
+                                mHeadsetDownTime = time;
                             break;
                         case KeyEvent.ACTION_UP:
-                            // long click
-                            if (time - mHeadsetDownTime >= 1000) {
-                                i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD);
-                                time = 0;
-                                // double click
-                            } else if (time - mHeadsetUpTime <= 500) {
-                                i = new Intent(PlaybackService.ACTION_REMOTE_FORWARD);
+                            if (!BuildConfig.tv) { //no backward/forward on TV
+                                if (time - mHeadsetDownTime >= 1000) { // long click
+                                    i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD);
+                                    time = 0;
+                                    break;
+                                } else if (time - mHeadsetUpTime <= 500) { // double click
+                                    i = new Intent(PlaybackService.ACTION_REMOTE_FORWARD);
+                                    break;
+                                }
                             }
                             // one click
-                            else {
-                                i = new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
-                            }
+                            i = new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
                             mHeadsetUpTime = time;
                             break;
                     }
