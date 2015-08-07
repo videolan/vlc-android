@@ -201,7 +201,8 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 togglePlayPause();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_STOP:
-                pause();
+                mService.stop();
+                finish();
                 return true;
             case KeyEvent.KEYCODE_F:
             case KeyEvent.KEYCODE_BUTTON_R1:
