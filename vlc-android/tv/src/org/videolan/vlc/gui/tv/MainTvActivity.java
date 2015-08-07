@@ -322,6 +322,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
         private boolean askRefresh = false;
+        ArrayList<MediaWrapper> videoList;
 
         public AsyncUpdate() {
         }
@@ -378,7 +379,12 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
         @Override
         protected Void doInBackground(Void... params) {
-            final ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
+            videoList = mMediaLibrary.getVideoItems();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
             int size;
             // Update video section
             if (!videoList.isEmpty()) {
@@ -398,11 +404,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                     }
                 });
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
             if (!mMediaLibrary.isWorking())
                 mProgressBar.setVisibility(View.GONE);
             if (askRefresh) { //in case new event occured while loading view
