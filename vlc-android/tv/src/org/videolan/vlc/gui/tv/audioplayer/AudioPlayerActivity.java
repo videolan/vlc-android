@@ -57,6 +57,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
+    public static final String MEDIA_POSITION = "media_position";
 
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
@@ -78,6 +79,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         setContentView(R.layout.tv_audio_player);
 
         mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
+        mCurrentlyPlaying = getIntent().getIntExtra(MEDIA_POSITION, 0);
         mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -126,7 +128,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mService.addCallback(this);
         ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
         if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
-            mService.load(mMediaList, 0);
+            mService.load(mMediaList, mCurrentlyPlaying);
         } else {
             mMediaList = medias;
             update();

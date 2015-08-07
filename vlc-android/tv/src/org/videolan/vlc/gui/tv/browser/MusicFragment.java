@@ -31,6 +31,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.TextUtils;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
@@ -43,7 +44,6 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MusicFragment extends MediaLibBrowserFragment {
@@ -106,6 +106,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     public class AsyncAudioUpdate extends AsyncTask<Void, ListItem, String> {
 
+        ArrayList<MediaWrapper> audioList;
         public AsyncAudioUpdate() {}
 
         @Override
@@ -122,7 +123,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
             String title;
             ListItem item;
 
-            List<MediaWrapper> audioList = MediaLibrary.getInstance().getAudioItems();
+            audioList = MediaLibrary.getInstance().getAudioItems();
             if (CATEGORY_ARTISTS == mCategory){
                 Collections.sort(audioList, MediaComparators.byArtist);
                 title = getString(R.string.artists);
@@ -200,10 +201,22 @@ public class MusicFragment extends MediaLibBrowserFragment {
                         intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
                         intent.putExtra(AUDIO_FILTER, listItem.mediaList.get(0).getGenre());
                     } else {
-                        if (CATEGORY_ALBUMS == mCategory)
-                            Collections.sort(listItem.mediaList, MediaComparators.byTrackNumber);
                         intent = new Intent(mContext, AudioPlayerActivity.class);
-                        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, listItem.mediaList);
+                        if (CATEGORY_ALBUMS == mCategory) {
+                            Collections.sort(listItem.mediaList, MediaComparators.byTrackNumber);
+                            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, listItem.mediaList);
+                        } else {
+                            int position = 0;
+                            String location = listItem.mediaList.get(0).getLocation();
+                            for (int i = 0 ; i< audioList.size() ; ++i) {
+                                if (TextUtils.equals(location, audioList.get(i).getLocation())) {
+                                    position = i;
+                                    break;
+                                }
+                            }
+                            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, audioList);
+                            intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position);
+                        }
                     }
                     startActivity(intent);
                 }
