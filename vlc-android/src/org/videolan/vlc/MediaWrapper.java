@@ -137,7 +137,12 @@ public class MediaWrapper implements Parcelable {
         }
 
         if (mType == TYPE_ALL) {
-            final String location = mUri.toString();
+            final int index = mUri.toString().indexOf('?');
+            String location;
+            if (index == -1)
+                location = mUri.toString();
+            else
+                location = mUri.toString().substring(0, index);
             int dotIndex = location.lastIndexOf(".");
             if (dotIndex != -1) {
                 String fileExt = location.substring(dotIndex).toLowerCase(Locale.ENGLISH);
