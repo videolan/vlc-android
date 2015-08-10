@@ -55,10 +55,10 @@ public abstract class MediaLibBrowserFragment extends GridFragment {
         mBarrier.reset();
     }
 
-    protected void refresh() {
+    public void refresh() {
         if (!mMediaLibrary.isWorking())
             mMediaLibrary.loadMediaItems(true);
     }
 
-    protected void updateList() {}
+    public void updateList() {}
 }

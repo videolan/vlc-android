@@ -20,9 +20,8 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v17.leanback.app.BackgroundManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,11 +29,12 @@ import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
-import org.videolan.vlc.gui.tv.SearchActivity;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 
-public class VerticalGridActivity extends BaseTvActivity implements GridFragment.BrowserActivity {
+public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
 
-    GridFragment mFragment;
+    BrowserFragmentInterface mFragment;
     ProgressBar mContentLoadingProgressBar;
     TextView mEmptyView;
 
@@ -51,13 +51,13 @@ public class VerticalGridActivity extends BaseTvActivity implements GridFragment
         else if (type == MainTvActivity.HEADER_CATEGORIES)
                 mFragment = new MusicFragment();
         else if (type == MainTvActivity.HEADER_NETWORK)
-                mFragment = new BrowserGridFragment();
+                mFragment = new NetworkBrowserFragment();
         else {
             finish();
             return;
         }
         getFragmentManager().beginTransaction()
-                .add(R.id.tv_fragment_placeholder, mFragment)
+                .add(R.id.tv_fragment_placeholder, (Fragment) mFragment)
                 .commit();
     }
 
@@ -72,8 +72,8 @@ public class VerticalGridActivity extends BaseTvActivity implements GridFragment
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (mFragment instanceof BrowserGridFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
-            ((BrowserGridFragment)mFragment).showDetails();
+        if (mFragment instanceof NetworkBrowserFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+            ((NetworkBrowserFragment)mFragment).showDetails();
             return true;
         }
         return super.onKeyDown(keyCode, event);

@@ -32,13 +32,9 @@ import android.support.v17.leanback.widget.VerticalGridPresenter;
 
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.TvUtil;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 
-public class GridFragment extends VerticalGridFragment {
-
-    public interface BrowserActivity {
-        public void showProgress(boolean show);
-        public void updateEmptyView(boolean empty);
-    }
+public class GridFragment extends VerticalGridFragment implements BrowserFragmentInterface {
 
     protected static final String TAG = "VLC/GridFragment";
 
@@ -67,7 +63,7 @@ public class GridFragment extends VerticalGridFragment {
         }
     };
 
-    protected void refresh() {}
+    public void refresh() {}
 
-    protected void updateList() {}
+    public void updateList() {}
 }

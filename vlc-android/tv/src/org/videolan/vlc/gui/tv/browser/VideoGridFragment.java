@@ -31,6 +31,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.tv.MainTvActivity;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 
@@ -77,7 +78,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
         protected void onPreExecute(){
             setTitle(getString(R.string.app_name_full));
             mAdapter.clear();
-            ((BrowserActivity)getActivity()).showProgress(true);
+            ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
         @Override
         protected Void doInBackground(Void... params) {
@@ -102,7 +103,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
         @Override
         protected void onPostExecute(Void result) {
-            ((BrowserActivity)getActivity()).showProgress(false);
+            ((BrowserActivityInterface)getActivity()).showProgress(false);
             setOnItemViewClickedListener(mClickListener);
         }
     }

@@ -39,6 +39,7 @@ import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                     mMediaBrowser.browse(mUri);
                 else
                     mMediaBrowser.discoverNetworkShares();
-                ((BrowserActivity)getActivity()).showProgress(true);
+                ((BrowserActivityInterface)getActivity()).showProgress(true);
             }
         }
         setOnItemViewClickedListener(mClickListener);
@@ -85,7 +86,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mMediaBrowser.release();
             mMediaBrowser = null;
         }
-        ((BrowserActivity)getActivity()).updateEmptyView(false);
+        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
     }
     @Override
     public void onMediaAdded(int index, Media media) {
@@ -98,7 +99,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mAdapter.clear();
             mAdapter.addAll(0, mMediaList); //FIXME adding 1 by 1 doesn't work
         }
-        ((BrowserActivity)getActivity()).showProgress(false);
+        ((BrowserActivityInterface)getActivity()).showProgress(false);
     }
 
     @Override
@@ -106,8 +107,8 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
 
     @Override
     public void onBrowseEnd() {
-        ((BrowserActivity)getActivity()).showProgress(false);
-        ((BrowserActivity)getActivity()).updateEmptyView(mMediaList.isEmpty());
+        ((BrowserActivityInterface)getActivity()).showProgress(false);
+        ((BrowserActivityInterface)getActivity()).updateEmptyView(mMediaList.isEmpty());
         sortList();
     }
 

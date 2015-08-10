@@ -39,6 +39,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
             mAdapter.clear();
             mMediaItemMap = new HashMap<String, ListItem>();
             mMediaItemList = new ArrayList<ListItem>();
-            ((BrowserActivity)getActivity()).showProgress(true);
+            ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
 
         @Override
@@ -180,7 +181,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
         @Override
         protected void onPostExecute(String title) {
-            ((BrowserActivity)getActivity()).showProgress(false);
+            ((BrowserActivityInterface)getActivity()).showProgress(false);
             setTitle(title);
             setOnItemViewClickedListener(new OnItemViewClickedListener() {
                 @Override
@@ -238,14 +239,14 @@ public class MusicFragment extends MediaLibBrowserFragment {
         }
     }
 
-    public ListItem add(String title, String subTitle, MediaWrapper MediaWrapper) {
+    public ListItem add(String title, String subTitle, MediaWrapper mediaWrapper) {
         if(title == null) return null;
         title = title.trim();
         if(subTitle != null) subTitle = subTitle.trim();
         if (mMediaItemMap.containsKey(title))
-            mMediaItemMap.get(title).mediaList.add(MediaWrapper);
+            mMediaItemMap.get(title).mediaList.add(mediaWrapper);
         else {
-            ListItem item = new ListItem(title, subTitle, MediaWrapper);
+            ListItem item = new ListItem(title, subTitle, mediaWrapper);
             mMediaItemMap.put(title, item);
             mMediaItemList.add(item);
             return item;
@@ -254,7 +255,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
     }
 
     @Override
-    protected void updateList() {
+    public void updateList() {
         if (mUpdater == null) {
             mUpdater = new AsyncAudioUpdate();
             mUpdater.execute();
