@@ -1,6 +1,17 @@
 Changes between 1.5.1 and 1.5.2:
 --------------------------------
 
+Application:
+ * Fix remote play/pause button behaviour
+ * Fix delete option for playlists
+ * Play all songs starting on the one selected in 'songs' tab
+ * Hidden feature : play a video in loop by long press on 'play' in video player
+ * Fix audio browser showing 'no media' view
+
+TV:
+ * Immediatly pause video once not visible anymore on TV background
+ * Stop button now exits audio player on TV
+ * Refactored network browser, now showing alphabetically grouped files
 
 Changes between 1.5.0 and 1.5.1:
 --------------------------------
