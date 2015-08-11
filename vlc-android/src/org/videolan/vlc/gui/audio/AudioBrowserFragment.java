@@ -259,8 +259,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
                 mAlbumsAdapter.isEmpty() || mSongsAdapter.isEmpty())
             updateLists();
-        else
+        else {
+            updateEmptyView(mViewPager.getCurrentItem());
             focusHelper(false, mLists.get(mViewPager.getCurrentItem()).getId());
+        }
         mMediaLibrary.addUpdateHandler(mHandler);
         mMediaLibrary.setBrowser(this);
         final ListView current = (ListView)mLists.get(mViewPager.getCurrentItem());
