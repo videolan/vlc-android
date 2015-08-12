@@ -89,15 +89,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     private static final int DELETE_MEDIA = 0;
     private static final int DELETE_DURATION = 3000;
 
-    protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
-    protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
-    protected static final int UPDATE_ITEM = 0;
-
-    /* Constants used to switch from Grid to List and vice versa */
-    //FIXME If you know a way to do this in pure XML please do it!
-    private static final int GRID_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
-    private static final int LIST_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
-
     protected LinearLayout mLayoutFlipperLoading;
     protected GridView mGridView;
     protected TextView mTextViewNomedia;
@@ -264,14 +255,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if (!listMode) {
             sidePadding = (int) ((float)outMetrics.widthPixels / 100f * (float)Math.pow(outMetrics.density, 3) / 2f);
             mGridView.setNumColumns(GridView.AUTO_FIT);
-            mGridView.setStretchMode(GRID_STRETCH_MODE);
             mGridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.grid_card_width));
             mGridView.setVerticalSpacing(res.getDimensionPixelSize(R.dimen.grid_card_vertical_spacing));
             mVideoAdapter.setListMode(false);
         } else {
             sidePadding = res.getDimensionPixelSize(R.dimen.listview_side_padding);
             mGridView.setNumColumns(1);
-            mGridView.setStretchMode(LIST_STRETCH_MODE);
             mGridView.setVerticalSpacing(0);
             mGridView.setHorizontalSpacing(0);
             mVideoAdapter.setListMode(true);

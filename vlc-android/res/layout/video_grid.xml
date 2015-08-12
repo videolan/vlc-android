@@ -18,6 +18,7 @@
             android:numColumns="auto_fit"
             android:fastScrollEnabled="true"
             android:fadingEdge="none"
+            android:stretchMode="columnWidth"
             android:gravity="center"
             android:nextFocusUp="@+id/ml_menu_search"
             android:nextFocusDown="@id/android:list"
