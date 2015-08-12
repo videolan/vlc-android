@@ -40,7 +40,6 @@ import org.videolan.vlc.gui.MainActivity;
 
 public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
-    public static final String START_FROM_NOTIFICATION = "from_notification";
     public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
     public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
     public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
@@ -86,7 +85,6 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             Intent iStop = new Intent(ACTION_REMOTE_STOP);
             Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
             Intent iVlc = new Intent(VLCApplication.getAppContext(), MainActivity.class);
-            iVlc.putExtra(START_FROM_NOTIFICATION, true);
 
             PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);

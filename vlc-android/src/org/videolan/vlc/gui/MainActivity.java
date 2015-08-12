@@ -220,10 +220,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     protected void onResume() {
         super.onResume();
 
-        /* FIXME: this is used to avoid having MainActivity twice in the backstack */
-        if (getIntent() != null && getIntent().hasExtra(PlaybackService.START_FROM_NOTIFICATION))
-            getIntent().removeExtra(PlaybackService.START_FROM_NOTIFICATION);
-
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
    }

@@ -91,7 +91,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
-    public static final String START_FROM_NOTIFICATION = "from_notification";
     public static final String ACTION_REMOTE_GENERIC = "org.videolan.vlc.remote.";
     public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
     public static final String ACTION_REMOTE_PLAY = "org.videolan.vlc.remote.Play";
@@ -505,7 +504,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
              */
             if (action.startsWith(ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
                 Intent iVlc = new Intent(context, MainActivity.class);
-                iVlc.putExtra(START_FROM_NOTIFICATION, true);
                 iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(iVlc);
             }
@@ -881,7 +879,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 final Intent notificationIntent = new Intent(PlaybackService.this, MainActivity.class);
                 notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
                 notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
                 pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
