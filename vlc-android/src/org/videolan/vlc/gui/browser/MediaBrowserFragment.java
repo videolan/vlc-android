@@ -22,8 +22,10 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -31,6 +33,21 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
+    protected MediaLibrary mMediaLibrary;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMediaLibrary = MediaLibrary.getInstance();
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (MediaLibrary.getInstance().getMediaItems().isEmpty()) {
+            mMediaLibrary.loadMediaItems();
+        }
+    }
 
     public void setReadyToDisplay(boolean ready) {
         if (ready && !mReadyToDisplay)

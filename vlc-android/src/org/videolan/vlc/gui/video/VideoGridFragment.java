@@ -107,7 +107,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 
     private VideoListAdapter mVideoAdapter;
-    private MediaLibrary mMediaLibrary;
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
 
@@ -124,7 +123,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         super.onCreate(savedInstanceState);
 
         mVideoAdapter = new VideoListAdapter(this);
-        mMediaLibrary = MediaLibrary.getInstance();
 
         if (savedInstanceState != null)
             setGroup(savedInstanceState.getString(KEY_GROUP));
