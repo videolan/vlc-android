@@ -41,14 +41,6 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
         mMediaLibrary = MediaLibrary.getInstance();
     }
 
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (MediaLibrary.getInstance().getMediaItems().isEmpty()) {
-            mMediaLibrary.loadMediaItems();
-        }
-    }
-
     public void setReadyToDisplay(boolean ready) {
         if (ready && !mReadyToDisplay)
             display();

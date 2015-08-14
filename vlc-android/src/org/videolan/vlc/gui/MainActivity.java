@@ -136,7 +136,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         }
 
         mMediaLibrary = MediaLibrary.getInstance();
-        if (savedInstanceState == null) { // means first creation, savedInstanceState is not null after rotation
+        if (mMediaLibrary.getMediaItems().isEmpty()) { // means first creation, savedInstanceState is not null after rotation
         /* Load media items from database and storage */
             mMediaLibrary.loadMediaItems();
         }
