@@ -30,6 +30,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresPermission;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -75,6 +76,7 @@ public class AudioUtil {
      */
     public static String PLAYLIST_DIR = null;
 
+    @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Context context){
         File newringtone = AndroidUtil.UriToFile(song.getUri());
         if(newringtone == null || !newringtone.exists()) {
