@@ -214,7 +214,6 @@
                 <data android:pathPattern=".*\\.m2v" />
                 <data android:pathPattern=".*\\.m2t" />
                 <data android:pathPattern=".*\\.m2ts" />
-                <!-- <data android:pathPattern=".*\\.m3u" /> -->
                 <data android:pathPattern=".*\\.m3u8" />
                 <data android:pathPattern=".*\\.mkv" />
                 <data android:pathPattern=".*\\.mov" />
@@ -274,7 +273,6 @@
                 <data android:pathPattern=".*\\.M2V" />
                 <data android:pathPattern=".*\\.M2T" />
                 <data android:pathPattern=".*\\.M2TS" />
-                <!-- <data android:pathPattern=".*\\.M3U" /> -->
                 <data android:pathPattern=".*\\.M3U8" />
                 <data android:pathPattern=".*\\.MKV" />
                 <data android:pathPattern=".*\\.MOV" />
@@ -413,6 +411,17 @@
                 <data android:pathPattern=".*\\.WV" />
                 <data android:pathPattern=".*\\.XA" />
                 <data android:pathPattern=".*\\.XM" />
+
+                <!-- playlist -->
+
+                <data android:pathPattern=".*\\.asx" />
+                <data android:pathPattern=".*\\.ASX" />
+                <data android:pathPattern=".*\\.m3u" />
+                <data android:pathPattern=".*\\.M3U" />
+                <data android:pathPattern=".*\\.pls" />
+                <data android:pathPattern=".*\\.PLS" />
+                <data android:pathPattern=".*\\.xspf" />
+                <data android:pathPattern=".*\\.XSPF" />
             </intent-filter>
         </activity>
 
