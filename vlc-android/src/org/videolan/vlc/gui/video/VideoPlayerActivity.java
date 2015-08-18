@@ -1423,7 +1423,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void onPlaying() {
         stopLoading();
-        showOverlay();
+        showOverlay(true);
         setESTracks();
         updateNavStatus();
     }
