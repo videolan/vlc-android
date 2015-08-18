@@ -28,10 +28,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -156,20 +154,19 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     };
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
         int position = 0;
-        if (menuInfo instanceof AdapterViewCompat.AdapterContextMenuInfo)
-            position = ((AdapterViewCompat.AdapterContextMenuInfo)menuInfo).position;
+        if (menuInfo instanceof AdapterView.AdapterContextMenuInfo)
+            position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
         setContextMenuItems(menu, v, position);
     }
 
     private void setContextMenuItems(Menu menu, View v, int position) {
         menu.setGroupVisible(R.id.songs_view_only, false);
         menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
-        if (!AndroidDevices.isPhone())
-            menu.setGroupVisible(R.id.phone_only, true);
+        menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
     }
 
     @Override
