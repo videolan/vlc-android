@@ -234,6 +234,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mHardwareAccelerationError;
     private boolean mEndReached;
     private boolean mCanSeek;
+    private boolean mHasSubItems = false;
 
     // Playlist
     private int savedIndexPosition = -1;
@@ -1318,12 +1319,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case Media.Event.MetaChanged:
                 break;
+            case Media.Event.SubItemTreeAdded:
+                mHasSubItems = true;
+                break;
         }
     }
 
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
+            case MediaPlayer.Event.Opening:
+                mHasSubItems = false;
+                break;
             case MediaPlayer.Event.Playing:
                 onPlaying();
                 break;
@@ -1334,7 +1341,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 exitOK();
                 break;
             case MediaPlayer.Event.EndReached:
-                endReached();
+                /* Don't end the activity if the media has subitems since the next child will be
+                 * loaded by the PlaybackService */
+                if (!mHasSubItems)
+                    endReached();
                 break;
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
