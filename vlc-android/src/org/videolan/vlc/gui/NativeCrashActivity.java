@@ -10,17 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.zip.GZIPOutputStream;
 
 public class NativeCrashActivity extends Activity {
@@ -63,8 +63,8 @@ public class NativeCrashActivity extends Activity {
                 String revision = "Revision: " + getString(R.string.build_revision);
                 AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
                 asyncHttpRequest.execute(Build.BRAND, Build.MANUFACTURER, Build.PRODUCT, Build.MODEL,
-                                         Build.DEVICE, Build.VERSION.RELEASE,
-                                         buildDate, builder, revision, mLog);
+                        Build.DEVICE, Build.VERSION.RELEASE,
+                        buildDate, builder, revision, mLog);
             }
         });
 
@@ -106,23 +106,30 @@ public class NativeCrashActivity extends Activity {
         protected Boolean doInBackground(String... params) {
             if (params[0].length() == 0)
                 return false;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://people.videolan.org/~magsoft/vlc-android_crashes/upload_crash_log.php");
-
+            HttpURLConnection urlConnection = null;
             try {
+                URL url = new URL("http://people.videolan.org/~magsoft/vlc-android_crashes/upload_crash_log.php");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoInput(true);
+                OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+
                 StringBuilder msgBuilder = new StringBuilder();
                 for (int i = 0; i < params.length; ++i) {
                     msgBuilder.append(params[i]);
                     msgBuilder.append("\n");
                 }
-                httpPost.setEntity(new ByteArrayEntity(compress(msgBuilder.toString())));
-                httpClient.execute(httpPost);
-            } catch (ClientProtocolException e) {
+                byte[] body = compress(msgBuilder.toString());
+                urlConnection.setFixedLengthStreamingMode(body.length);
+                out.write(body);
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
-                return false;
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
             }
             return true;
         }
