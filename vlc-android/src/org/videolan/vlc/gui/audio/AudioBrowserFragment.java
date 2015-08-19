@@ -77,7 +77,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser {
+public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -161,23 +161,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-                updateEmptyView(tab.getPosition());
-                setFabPlayShuffleAllVisibility();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-        });
+        mViewPager.addOnPageChangeListener(this);
 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
@@ -652,6 +636,26 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     @Override
     public void sendTextInfo(String info, int progress, int max) {
         mMainActivity.sendTextInfo(info, progress, max);
+    }
+
+    TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        tcl.onPageScrolled(position, positionOffset, positionOffsetPixels);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        mViewPager.setCurrentItem(position);
+        updateEmptyView(position);
+        setFabPlayShuffleAllVisibility();
+        tcl.onPageSelected(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        tcl.onPageScrollStateChanged(state);
     }
 
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
