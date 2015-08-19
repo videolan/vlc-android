@@ -92,7 +92,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
             for (int i = 0 ; i < size ; ++i){
                 MediaWrapper = mediaList.get(i);
-                mMediaIndex.put(MediaWrapper.getLocation(), i);
+                mMediaIndex.put(MediaWrapper.getLocation(), Integer.valueOf(i));
                 publishProgress(MediaWrapper);
             }
             return null;
@@ -118,7 +118,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     public void updateItem() {
         if (mAdapter != null && mMediaIndex != null && mItemToUpdate != null
                 && mMediaIndex.containsKey(mItemToUpdate.getLocation()))
-            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(mItemToUpdate.getLocation()), 1);
+            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(mItemToUpdate.getLocation()).intValue(), 1);
         try {
             mBarrier.await();
         } catch (InterruptedException e) {

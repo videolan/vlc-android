@@ -93,7 +93,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     ArrayObjectAdapter mNetworkAdapter;
     ArrayObjectAdapter mOtherAdapter;
     View mRootContainer;
-    ArrayMap<String, Integer> mVideoIndex;
+    final ArrayMap<String, Integer> mVideoIndex = new ArrayMap<String, Integer>();
     Drawable mDefaultBackground;
     Activity mContext;
     private Object mSelectedItem;
@@ -280,7 +280,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public void updateItem() {
         if (mVideoAdapter != null && mVideoIndex != null && mItemToUpdate != null) {
             if (mVideoIndex.containsKey(mItemToUpdate.getLocation())) {
-                mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+                mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()).intValue(), 1);
             }
         }
         try {
@@ -342,7 +342,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mProgressBar.setVisibility(View.VISIBLE);
 
             //Video Section
-            mVideoIndex = new ArrayMap<String, Integer>();
+            mVideoIndex.clear();
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
@@ -404,7 +404,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                         for (int i = 0; i < total; ++i) {
                             item = videoList.get(i);
                             mVideoAdapter.add(item);
-                            mVideoIndex.put(item.getLocation(), i);
+                            mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
                         }
                     }
                 });
