@@ -5,6 +5,7 @@ Core:
  * Fix configuration of MediaCodec opening
 
 Application:
+ * Add an option to disable auto scanning device at application startup
  * Update to SDK 23 and appcompat 23
  * Fix remote play/pause button behaviour
  * Fix delete option for playlists
