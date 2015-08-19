@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.tv.browser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.util.SimpleArrayMap;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
@@ -36,13 +37,13 @@ import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.BrokenBarrierException;
 
 public class VideoGridFragment extends MediaLibBrowserFragment implements IVideoBrowser {
 
     private Handler mHandler = new VideoListHandler(this);
     protected static Thumbnailer sThumbnailer;
+    SimpleArrayMap<String, Integer> mMediaIndex;
 
     private volatile AsyncVideoUpdate mUpdater = null;
 
@@ -87,7 +88,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
             ArrayList<MediaWrapper> mediaList = mMediaLibrary.getVideoItems();
             size = mediaList == null ? 0 : mediaList.size();
-            mMediaIndex = new HashMap<String, Integer>(size);
+            mMediaIndex = new SimpleArrayMap<String, Integer>(size);
 
             for (int i = 0 ; i < size ; ++i){
                 MediaWrapper = mediaList.get(i);

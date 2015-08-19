@@ -24,6 +24,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SidebarAdapter extends BaseAdapter {
@@ -80,7 +80,7 @@ public class SidebarAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     static final List<SidebarEntry> entries;
     public static final List<String> sidebarFragments;
-    private HashMap<String, Fragment> mFragments;
+    private ArrayMap<String, Fragment> mFragments;
     private String mCurrentFragmentId;
 
     static {
@@ -104,7 +104,7 @@ public class SidebarAdapter extends BaseAdapter {
     public SidebarAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mFragments = new HashMap<String, Fragment>(entries.size());
+        mFragments = new ArrayMap<String, Fragment>(entries.size());
     }
 
     @Override

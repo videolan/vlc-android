@@ -29,14 +29,12 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.util.Util;
 
-import java.util.HashMap;
 import java.util.concurrent.CyclicBarrier;
 
 public abstract class MediaLibBrowserFragment extends GridFragment {
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     protected MediaWrapper mItemToUpdate;
     protected MediaLibrary mMediaLibrary;
-    HashMap<String, Integer> mMediaIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

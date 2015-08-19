@@ -31,6 +31,8 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 
 import org.videolan.vlc.MediaLibrary;
@@ -44,7 +46,6 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 public class MusicFragment extends MediaLibBrowserFragment {
@@ -62,7 +63,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
     public static final int CATEGORY_GENRES = 3;
     public static final int CATEGORY_SONGS = 4;
 
-    protected Map<String, ListItem> mMediaItemMap;
+    protected SimpleArrayMap<String, ListItem> mMediaItemMap;
     protected ArrayList<ListItem> mMediaItemList;
     private volatile AsyncAudioUpdate mUpdater = null;
 
@@ -114,7 +115,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
         protected void onPreExecute() {
             setTitle(getString(R.string.app_name_full));
             mAdapter.clear();
-            mMediaItemMap = new HashMap<String, ListItem>();
+            mMediaItemMap = new SimpleArrayMap<String, ListItem>();
             mMediaItemList = new ArrayList<ListItem>();
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }

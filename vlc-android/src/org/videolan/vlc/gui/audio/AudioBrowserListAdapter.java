@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.support.v4.util.ArrayMap;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,6 @@ import org.videolan.vlc.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -101,8 +101,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     }
 
     public AudioBrowserListAdapter(Activity context, int itemType) {
-        mMediaItemMap = new HashMap<String, ListItem>();
-        mSeparatorItemMap = new HashMap<String, ListItem>();
+        mMediaItemMap = new ArrayMap<String, ListItem>();
+        mSeparatorItemMap = new ArrayMap<String, ListItem>();
         mItems = new ArrayList<ListItem>();
         mSections = new SparseArray<String>();
         mContext = context;

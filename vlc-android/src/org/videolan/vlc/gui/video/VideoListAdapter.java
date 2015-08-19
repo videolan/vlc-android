@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +43,6 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
@@ -71,7 +71,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         }
     }
 
-    public void setTimes(HashMap<String, Long> times) {
+    public void setTimes(ArrayMap<String, Long> times) {
         boolean notify = false;
         // update times
         for (int i = 0; i < getCount(); ++i) {

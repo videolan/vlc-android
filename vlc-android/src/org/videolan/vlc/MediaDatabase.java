@@ -26,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -42,6 +41,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -667,10 +667,10 @@ public class MediaDatabase {
         return mediaList;
     }
 
-    public synchronized HashMap<String, MediaWrapper> getMedias() {
+    public synchronized ArrayMap<String, MediaWrapper> getMedias() {
 
         Cursor cursor;
-        HashMap<String, MediaWrapper> medias = new HashMap<String, MediaWrapper>();
+        ArrayMap<String, MediaWrapper> medias = new ArrayMap<String, MediaWrapper>();
         int chunk_count = 0;
         int count;
 
@@ -738,10 +738,10 @@ public class MediaDatabase {
         return medias;
     }
 
-    public synchronized HashMap<String, Long> getVideoTimes() {
+    public synchronized ArrayMap<String, Long> getVideoTimes() {
 
         Cursor cursor;
-        HashMap<String, Long> times = new HashMap<String, Long>();
+        ArrayMap<String, Long> times = new ArrayMap<String, Long>();
         int chunk_count = 0;
         int count;
 

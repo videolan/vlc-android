@@ -40,6 +40,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +63,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -93,7 +93,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     ArrayObjectAdapter mNetworkAdapter;
     ArrayObjectAdapter mOtherAdapter;
     View mRootContainer;
-    HashMap<String, Integer> mVideoIndex;
+    ArrayMap<String, Integer> mVideoIndex;
     Drawable mDefaultBackground;
     Activity mContext;
     private Object mSelectedItem;
@@ -342,7 +342,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mProgressBar.setVisibility(View.VISIBLE);
 
             //Video Section
-            mVideoIndex = new HashMap<String, Integer>();
+            mVideoIndex = new ArrayMap<String, Integer>();
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));

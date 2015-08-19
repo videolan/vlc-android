@@ -35,6 +35,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -75,7 +76,6 @@ import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -197,7 +197,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             focusHelper(false);
         }
         //Get & set times
-        HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
+        ArrayMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
         mVideoAdapter.setTimes(times);
         mGridView.setSelection(mGVFirstVisiblePos);
         updateViewMode();

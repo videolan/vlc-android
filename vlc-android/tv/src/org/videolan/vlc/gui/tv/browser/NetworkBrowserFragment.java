@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +38,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.util.Log;
+import android.support.v4.util.ArrayMap;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
@@ -58,7 +57,6 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -71,7 +69,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
     ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     private MediaBrowser mMediaBrowser;
     private MediaWrapper mItemSelected;
-    protected Map<String, ListItem> mMediaItemMap = new HashMap<String, ListItem>();
+    protected Map<String, ListItem> mMediaItemMap = new ArrayMap<String, ListItem>();
     private NetworkHandler mHandler = new NetworkHandler(this);
 
     private Uri mUri;

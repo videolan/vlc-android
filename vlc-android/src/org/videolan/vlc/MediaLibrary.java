@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,8 +45,6 @@ import java.io.IOException;
 import java.lang.Thread.State;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -280,7 +279,7 @@ public class MediaLibrary {
             directories.addAll(mediaDirs);
 
             // get all existing media items
-            HashMap<String, MediaWrapper> existingMedias = getStoredMedias(mediaDatabase);
+            ArrayMap<String, MediaWrapper> existingMedias = getStoredMedias(mediaDatabase);
 
             // list of all added files
             HashSet<String> addedLocations = new HashSet<String>();
@@ -453,7 +452,7 @@ public class MediaLibrary {
         }
     }
 
-    private HashMap<String, MediaWrapper> getStoredMedias(MediaDatabase mediaDatabase) {
+    private ArrayMap<String, MediaWrapper> getStoredMedias(MediaDatabase mediaDatabase) {
         return mediaDatabase.getMedias();
     }
 
