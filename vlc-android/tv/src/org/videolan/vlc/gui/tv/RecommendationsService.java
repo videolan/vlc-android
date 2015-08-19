@@ -73,7 +73,7 @@ public class RecommendationsService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null && !doRecommendations()) {
             MediaLibrary.getInstance().addUpdateHandler(mHandler);
-            MediaLibrary.getInstance().loadMediaItems();
+            MediaLibrary.getInstance().scanMediaItems();
         }
     }
     private void buildRecommendation(MediaWrapper movie, int id, int priority) {

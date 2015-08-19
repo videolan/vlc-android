@@ -136,9 +136,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         }
 
         mMediaLibrary = MediaLibrary.getInstance();
-        if (mMediaLibrary.getMediaItems().isEmpty()) { // means first creation, savedInstanceState is not null after rotation
-        /* Load media items from database and storage */
-            mMediaLibrary.loadMediaItems();
+        if (mMediaLibrary.getMediaItems().isEmpty()) {
+            if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
+                mMediaLibrary.scanMediaItems();
+            else
+                mMediaLibrary.loadMedaItems();
         }
 
         /*** Start initializing the UI ***/
@@ -223,7 +225,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            mMediaLibrary.loadMediaItems();
+            mMediaLibrary.scanMediaItems();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
     }
@@ -489,7 +491,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     if(current != null && current instanceof IRefreshable)
                         ((IRefreshable) current).refresh();
                     else
-                        mMediaLibrary.loadMediaItems(true);
+                        mMediaLibrary.scanMediaItems(true);
                 }
                 break;
             // Restore last playlist
@@ -532,7 +534,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                mMediaLibrary.loadMediaItems(true);
+                mMediaLibrary.scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 finish();

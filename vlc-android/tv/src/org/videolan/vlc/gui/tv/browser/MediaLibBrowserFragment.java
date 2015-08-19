@@ -57,7 +57,7 @@ public abstract class MediaLibBrowserFragment extends GridFragment {
 
     public void refresh() {
         if (!mMediaLibrary.isWorking())
-            mMediaLibrary.loadMediaItems(true);
+            mMediaLibrary.scanMediaItems(true);
     }
 
     public void updateList() {}

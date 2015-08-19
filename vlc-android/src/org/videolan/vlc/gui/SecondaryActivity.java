@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
@@ -117,7 +116,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
                 break;
             case R.id.ml_menu_refresh:
                 if (!MediaLibrary.getInstance().isWorking())
-                    MediaLibrary.getInstance().loadMediaItems(true);
+                    MediaLibrary.getInstance().scanMediaItems(true);
                 break;
         }
         return super.onOptionsItemSelected(item);

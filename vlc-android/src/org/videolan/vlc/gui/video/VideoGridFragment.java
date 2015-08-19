@@ -530,7 +530,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     @Override
     public void onRefresh() {
         if (getActivity()!=null && !MediaLibrary.getInstance().isWorking())
-            MediaLibrary.getInstance().loadMediaItems(true);
+            MediaLibrary.getInstance().scanMediaItems(true);
     }
 
     @Override

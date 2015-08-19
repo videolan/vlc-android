@@ -154,7 +154,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         if (current != null && current instanceof IRefreshable)
             ((IRefreshable) current).refresh();
         else
-            MediaLibrary.getInstance().loadMediaItems();
+            MediaLibrary.getInstance().scanMediaItems();
         Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
         if (fragment != null && !fragment.equals(current)) {
             ((MediaBrowserFragment)fragment).clear();

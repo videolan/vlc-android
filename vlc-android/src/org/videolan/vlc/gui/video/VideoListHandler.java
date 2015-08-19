@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui.video;
 
 import android.os.Message;
+import android.util.Log;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.interfaces.IVideoBrowser;
@@ -24,6 +25,7 @@ public class VideoListHandler extends WeakHandler<IVideoBrowser> {
                 owner.updateItem();
                 break;
             case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                Log.d("load", "MEDIA_ITEMS_UPDATED");
                 owner.updateList();
                 break;
         }

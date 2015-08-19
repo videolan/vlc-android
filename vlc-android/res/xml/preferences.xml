@@ -141,6 +141,12 @@
                     <!--android:summary="@string/vout_summary"-->
                     <!--android:title="@string/vout" />-->
 
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="auto_rescan"
+                    android:title="@string/auto_rescan"
+                    android:summary="@string/auto_rescan_summary"
+                    android:widgetLayout="@layout/custom_chexbox" />
                 <Preference
                     android:enabled="true"
                     android:key="clear_media_db"

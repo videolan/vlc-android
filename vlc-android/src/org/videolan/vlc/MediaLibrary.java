@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.lang.Thread.State;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -94,23 +95,36 @@ public class MediaLibrary {
         mItemListLock = new ReentrantReadWriteLock();
     }
 
-    public void loadMediaItems(boolean restart) {
+    public void scanMediaItems(boolean restart) {
         if (restart && isWorking()) {
             /* do a clean restart if a scan is ongoing */
             mRestart = true;
             isStopping = true;
         } else {
-            loadMediaItems();
+            scanMediaItems();
         }
     }
 
-    public void loadMediaItems() {
+    public void scanMediaItems() {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
             Util.actionScanStart();
             mLoadingThread = new Thread(new GetMediaItemsRunnable());
             mLoadingThread.start();
         }
+    }
+
+    public void loadMedaItems(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mItemListLock.writeLock().lock();
+                mItemList.clear();
+                mItemList.addAll(getStoredMedias(MediaDatabase.getInstance()).values());
+                mItemListLock.writeLock().unlock();
+                notifyMediaUpdated();
+            }
+        }).start();
     }
 
     public void stop() {
@@ -266,7 +280,7 @@ public class MediaLibrary {
             directories.addAll(mediaDirs);
 
             // get all existing media items
-            HashMap<String, MediaWrapper> existingMedias = mediaDatabase.getMedias();
+            HashMap<String, MediaWrapper> existingMedias = getStoredMedias(mediaDatabase);
 
             // list of all added files
             HashSet<String> addedLocations = new HashSet<String>();
@@ -343,7 +357,9 @@ public class MediaLibrary {
                     for (String dirPath : dirsToIgnore) {
                         if (path.startsWith(dirPath)) {
                             mediasToRemove.add(entry.getValue().getUri());
+                            mItemListLock.writeLock().lock();
                             mItemList.remove(existingMedias.get(path));
+                            mItemListLock.writeLock().unlock();
                             continue outloop;
                         }
                     }
@@ -395,11 +411,7 @@ public class MediaLibrary {
                     }
                 }
             } finally {
-                // update the video and audio activities
-                for (int i = 0; i < mUpdateHandler.size(); i++) {
-                    Handler h = mUpdateHandler.get(i);
-                    h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
-                }
+                notifyMediaUpdated();
 
                 // remove old files & folders from database if storage is mounted
                 if (!isStopping && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -433,6 +445,18 @@ public class MediaLibrary {
         }
     }
 
+    private void notifyMediaUpdated() {
+        // update the video and audio activities
+        for (int i = 0; i < mUpdateHandler.size(); i++) {
+            Handler h = mUpdateHandler.get(i);
+            h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
+        }
+    }
+
+    private HashMap<String, MediaWrapper> getStoredMedias(MediaDatabase mediaDatabase) {
+        return mediaDatabase.getMedias();
+    }
+
     private Handler restartHandler = new RestartHandler(this);
 
     private static class RestartHandler extends WeakHandler<MediaLibrary> {
@@ -444,7 +468,7 @@ public class MediaLibrary {
         public void handleMessage(Message msg) {
             MediaLibrary owner = getOwner();
             if(owner == null) return;
-            owner.loadMediaItems();
+            owner.scanMediaItems();
         }
     }
 

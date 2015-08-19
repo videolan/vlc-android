@@ -73,6 +73,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     public final static String VIDEO_SPEED = "VideoSpeed";
     public final static String VIDEO_BACKGROUND = "video_background";
     public final static String VIDEO_RESTORE = "video_restore";
+    public final static String AUTO_RESCAN = "auto_rescan";
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
     public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
 

@@ -102,7 +102,12 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMediaLibrary.loadMediaItems(false);
+        if (mMediaLibrary.getMediaItems().isEmpty()) {
+            if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
+                mMediaLibrary.scanMediaItems(false);
+            else
+                mMediaLibrary.loadMedaItems();
+        }
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
@@ -185,7 +190,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                MediaLibrary.getInstance().loadMediaItems(true);
+                MediaLibrary.getInstance().scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 finish();
@@ -438,6 +443,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     protected void refresh() {
-        mMediaLibrary.loadMediaItems(true);
+        mMediaLibrary.scanMediaItems(true);
     }
 }

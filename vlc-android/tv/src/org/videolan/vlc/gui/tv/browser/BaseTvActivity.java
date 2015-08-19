@@ -27,16 +27,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v17.leanback.app.BackgroundManager;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
@@ -44,11 +44,13 @@ import org.videolan.vlc.util.WeakHandler;
 
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected MediaLibrary mMediaLibrary;
+    protected SharedPreferences mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = MediaLibrary.getInstance();
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override

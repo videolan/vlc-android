@@ -298,6 +298,8 @@
     <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
 
     <string name="developer_prefs_category">Developer</string>
+    <string name="auto_rescan">Auto rescan</string>
+    <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Increase the verbosity (logcat)</string>
     <string name="debug_logs">Debug logs</string>
