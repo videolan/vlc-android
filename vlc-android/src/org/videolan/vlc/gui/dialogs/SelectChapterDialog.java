@@ -90,7 +90,7 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
         for (int i = 0; i < chaptersCount; ++i) {
             String name;
             if (chapters[i].name == null || chapters[i].name.equals("")) {
-                StringBuilder sb = new StringBuilder("Chapter ").append(i); /* TODO translate Chapter */
+                StringBuilder sb = new StringBuilder(getResources().getString(R.string.chapter) + " ").append(i);
                 if (chapters[i].timeOffset >= 0)
                     sb.append(" - ").append(Strings.millisToString(chapters[i].timeOffset));
                 name = sb.toString();
