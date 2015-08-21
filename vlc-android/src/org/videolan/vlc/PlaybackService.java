@@ -1287,6 +1287,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private synchronized void saveMediaList() {
+        if (getCurrentMedia() == null || getCurrentMedia().getType() == MediaWrapper.TYPE_VIDEO)
+            return;
         StringBuilder locations = new StringBuilder();
         for (int i = 0; i < mMediaList.size(); i++)
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
