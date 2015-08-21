@@ -503,9 +503,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
              * Launch the activity if needed
              */
             if (action.startsWith(ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
-                Intent iVlc = new Intent(context, MainActivity.class);
-                iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(iVlc);
+                context.startActivity(getPackageManager().getLaunchIntentForPackage(getPackageName()));
             }
 
             /*
@@ -876,7 +874,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             } else {
                 /* Resume AudioPlayerActivity */
-                final Intent notificationIntent = new Intent(PlaybackService.this, MainActivity.class);
+
+                final Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
                 notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
                 notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
