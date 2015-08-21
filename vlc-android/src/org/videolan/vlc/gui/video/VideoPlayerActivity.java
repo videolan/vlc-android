@@ -747,7 +747,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (length - time < 5000)
             time = 0;
         else
-            time -= 5000; // go back 5 seconds, to compensate loading time
+            time -= 2000; // go back 2 seconds, to compensate loading time
         mService.stop();
 
         SharedPreferences.Editor editor = mSettings.edit();
