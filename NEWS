@@ -1,3 +1,13 @@
+Changes between 1.5.2 and 1.5.3:
+--------------------------------
+
+Application:
+ * Fix last audio shortcut
+
+ Known bug:
+ * 'Save Playlist' option triggers application crash. Fix will comme with AppCompat hotfix release
+
+
 Changes between 1.5.1 and 1.5.2:
 --------------------------------
 
@@ -18,6 +28,7 @@ TV:
  * Immediatly pause video once not visible anymore on TV background
  * Stop button now exits audio player on TV
  * Refactored network browser, now showing alphabetically grouped files
+
 
 Changes between 1.5.0 and 1.5.1:
 --------------------------------
