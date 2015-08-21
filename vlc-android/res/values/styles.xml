@@ -111,7 +111,7 @@
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="colorAccent">@color/orange800</item>
+        <item name="colorAccent">@color/orange600</item>
         <item name="item_footer">@color/grey700</item>
         <item name="background_default">@color/grey850</item>
         <item name="background_default_darker">@color/grey875</item>

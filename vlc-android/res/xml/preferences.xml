@@ -21,11 +21,10 @@
             android:widgetLayout="@layout/custom_chexbox"
             android:title="@string/play_as_audio_background" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="enable_black_theme"
             android:summary="@string/enable_black_theme_summary"
-            android:widgetLayout="@layout/custom_chexbox"
             android:title="@string/enable_black_theme" />
 
         <ListPreference
