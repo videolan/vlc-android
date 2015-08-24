@@ -382,6 +382,32 @@ jstring Java_org_videolan_libvlc_LibVLC_changeset(JNIEnv* env, jobject thiz)
     return (*env)->NewStringUTF(env, libvlc_get_changeset());
 }
 
+void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,
+                                                        jobject thiz,
+                                                        jstring jname,
+                                                        jstring jhttp)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    const char *psz_name, *psz_http;
+
+    if (!p_obj)
+        return;
+
+    psz_name = jname ? (*env)->GetStringUTFChars(env, jname, 0) : NULL;
+    psz_http = jhttp ? (*env)->GetStringUTFChars(env, jhttp, 0) : NULL;
+
+    if (psz_http && psz_http)
+        libvlc_set_user_agent(p_obj->u.p_libvlc, psz_name, psz_http);
+
+    if (psz_name)
+        (*env)->ReleaseStringUTFChars(env, jname, psz_name);
+    if (psz_http)
+        (*env)->ReleaseStringUTFChars(env, jhttp, psz_http);
+
+    if (!psz_name || !psz_http)
+        throw_IllegalArgumentException(env, "name or http invalid");
+}
+
 /* used by opensles module */
 int aout_get_native_sample_rate(void)
 {

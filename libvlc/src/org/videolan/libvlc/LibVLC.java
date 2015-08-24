@@ -136,9 +136,21 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
             sOnNativeCrashListener.onNativeCrash();
     }
 
+    /**
+     * Sets the application name. LibVLC passes this as the user agent string
+     * when a protocol requires it.
+     *
+     * @param name human-readable application name, e.g. "FooBar player 1.2.3"
+     * @param http HTTP User Agent, e.g. "FooBar/1.2.3 Python/2.6.0"
+     */
+    public void setUserAgent(String name, String http){
+        nativeSetUserAgent(name, http);
+    }
+
     /* JNI */
     private native void nativeNew(String[] options);
     private native void nativeRelease();
+    private native void nativeSetUserAgent(String name, String http);
 
     /* Load library before object instantiation */
     static {
