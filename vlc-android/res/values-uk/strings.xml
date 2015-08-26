@@ -262,6 +262,8 @@
     <string name="network_caching">Розмір мережевого кешування</string>
     <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс). Не працює з апаратним декодуванням. Залиште порожнім, аби очистити.</string>
     <string name="developer_prefs_category">Розробник</string>
+    <string name="auto_rescan">Автоматично сканувати повторно</string>
+    <string name="auto_rescan_summary">Автоматично перевіряти пристрій на наявність нових або вилучених носіїв під час запуску програми</string>
     <string name="enable_verbose_mode">Інформативність</string>
     <string name="enable_verbose_mode_summary">Збільшити деталізацію (logcat)</string>
     <string name="debug_logs">Журнали налагодження</string>
@@ -298,6 +300,7 @@
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
+    <string name="chapter">Частина</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
