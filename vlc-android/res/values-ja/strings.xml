@@ -151,7 +151,7 @@
     <string name="resize">リサイズ</string>
     <string name="options">オプション</string>
     <string name="lock">ロック</string>
-    <string name="ok_got_it">こTipsを消去</string>
+    <string name="ok_got_it">このTipsを消去</string>
     <string name="playlist_tips">プレイリスト活用法</string>
     <string name="remove_song">歌を削除</string>
     <string name="rearrange_order">順序を再調整</string>
@@ -248,6 +248,8 @@
     <string name="network_caching">ネットワークキャッシュ値</string>
     <string name="network_caching_summary">ネットワークメディアのバッファーサイズをミリ秒単位で指定します。ハードウェアデコーディングとは同時に動作できません。空白入力でリセットします。</string>
     <string name="developer_prefs_category">開発者</string>
+    <string name="auto_rescan">自動再スキャン</string>
+    <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスをスキャンし、新しいメディア、および削除されたメディアを検出します。</string>
     <string name="enable_verbose_mode">出力レベル</string>
     <string name="enable_verbose_mode_summary">出力レベルを増加 (logcat)</string>
     <string name="debug_logs">デバッグログ</string>
@@ -284,6 +286,7 @@
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
     <string name="go_to_chapter">チャプター指定...</string>
+    <string name="chapter">チャプター</string>
     <string name="resume_from_position">前回の位置から再生</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
     <string name="confirm_resume_title">再開を確認する</string>
