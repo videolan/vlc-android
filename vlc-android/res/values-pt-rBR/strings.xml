@@ -255,6 +255,8 @@
     <string name="network_caching">Valor de memória para rede</string>
     <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
     <string name="developer_prefs_category">Desenvolvedor</string>
+    <string name="auto_rescan">Verificação automática</string>
+    <string name="auto_rescan_summary">Verifica um dispositivo automaticamente para encontrar mídias novas ou excluídas, na inicialização do aplicativo</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar o detalhamento (logcat)</string>
     <string name="debug_logs">Registros de depuração</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Salvar Lista de Reprodução</string>
     <string name="playlist_name_hint">nome da lista de reprodução</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
+    <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
     <string name="confirm_resume_title">Pedir confirmação para continuar a reprodução</string>
