@@ -255,6 +255,8 @@
     <string name="network_caching">Valor de cache de red</string>
     <string name="network_caching_summary">La cantidad de tiempo que almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
     <string name="developer_prefs_category">Desarrollador</string>
+    <string name="auto_rescan">Autoescanear</string>
+    <string name="auto_rescan_summary">Escanear automáticamente el dispositivo en busca de medios nuevos o eliminados al iniciar la aplicación</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
     <string name="debug_logs">Registros de depuración</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Guardar lista de reproducción</string>
     <string name="playlist_name_hint">Nombre de lista de reproducción</string>
     <string name="go_to_chapter">Ir a capítulo...</string>
+    <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde la última posición</string>
     <string name="confirm_resume">¿Continuar desde la última posición?</string>
     <string name="confirm_resume_title">Solicitar confirmación para continuar</string>
