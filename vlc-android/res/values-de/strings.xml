@@ -255,6 +255,8 @@
     <string name="network_caching">Netzwerkzwischenspeicherwert</string>
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="developer_prefs_category">Entwickler</string>
+    <string name="auto_rescan">Automatisch durchsuchen</string>
+    <string name="auto_rescan_summary">Gerät beim Start der Anwendung automatisch nach neuen oder gelöschten Medien durchsuchen</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Protokolls erhöhen (Logcat)</string>
     <string name="debug_logs">Fehlerprotokolle</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
     <string name="go_to_chapter">Wechsle zum Kapitel...</string>
+    <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
     <string name="confirm_resume_title">Nach Bestätigung zum Fortsetzen fragen</string>
