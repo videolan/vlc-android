@@ -137,6 +137,7 @@
     <string name="tools">Narzędzia</string>
     <string name="playback_speed">Prędkość odtwarzania</string>
     <string name="sleep_title">Wyłącznik czasowy</string>
+    <string name="sleep_in">Zmień wyłącznik czasowy</string>
     <string name="sleep_cancel">Anuluj wyłącznik czasowy</string>
     <string name="jump_to_time">Skocz do czasu</string>
     <string name="subtitle_label">Dodaj plik z napisami</string>
@@ -261,6 +262,8 @@
     <string name="network_caching">Wartość buforowania sieci</string>
     <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w milisekundach). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="developer_prefs_category">Programisty</string>
+    <string name="auto_rescan">Automatyczne przeszukiwanie</string>
+    <string name="auto_rescan_summary">Automatycznie przeszukuj urządzenie za nowymi lub usuniętymi plikami podczas uruchomienia programu</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_summary">Zwiększenie liczby komunikatów (logcat)</string>
     <string name="debug_logs">Dzienniki debugowania</string>
@@ -297,6 +300,7 @@
     <string name="playlist_save">Zapisz listę odtwarzania</string>
     <string name="playlist_name_hint">Nazwa listy odtwarzania</string>
     <string name="go_to_chapter">Przejdź do rozdziału...</string>
+    <string name="chapter">Rozdział</string>
     <string name="resume_from_position">Wznów od ostatniej pozycji</string>
     <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
     <string name="confirm_resume_title">Wyświetl potwierdzenie, aby wznowić</string>
@@ -309,4 +313,5 @@
     <string name="playlist_deleted">Lista odtwarzania została usunięta</string>
     <string name="file_deleted">Plik został usunięty</string>
     <string name="no_subs_found">Brak napisów w tym katalogu</string>
+    <string name="music_now_playing">Teraz odtwarzane</string>
 </resources>
