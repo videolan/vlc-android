@@ -373,7 +373,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Create a MediaPlayer from a Media
      *
-     * @param media a valid  Media
+     * @param media a valid Media object
      */
     public MediaPlayer(Media media) {
         if (media == null || media.isReleased())
@@ -393,7 +393,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Set a Media
      *
-     * @param media a valid libVLC
+     * @param media a valid Media object
      */
     public void setMedia(Media media) {
         if (media != null) {
