@@ -248,6 +248,8 @@
     <string name="network_caching">网络缓存值</string>
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
     <string name="developer_prefs_category">开发人员</string>
+    <string name="auto_rescan">自动重新扫描</string>
+    <string name="auto_rescan_summary">应用启动时，自动扫描设备中新增或删除的媒体文件</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>
     <string name="debug_logs">调试日志</string>
@@ -284,6 +286,7 @@
     <string name="playlist_save">保存播放列表</string>
     <string name="playlist_name_hint">播放列表名称</string>
     <string name="go_to_chapter">转到章节…</string>
+    <string name="chapter">章节</string>
     <string name="resume_from_position">从上次播放到的位置继续</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
     <string name="confirm_resume_title">确认是否继续播放</string>
