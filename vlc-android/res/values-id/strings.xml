@@ -248,6 +248,8 @@
     <string name="network_caching">Nilai tembolok jaringan</string>
     <string name="network_caching_summary">Lama durasi untuk menyangga media jaringan (dalam ms). Tidak berlaku untuk dekoding perangkat keras. Kosongkan untuk mengeset ulang.</string>
     <string name="developer_prefs_category">Pengembang</string>
+    <string name="auto_rescan">Pindai ulang otomatis</string>
+    <string name="auto_rescan_summary">Secara otomatis memindai perangkat untuk media baru atau dihapus pada saat aplikasi dijalankan</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Tingkatkan verbositas (logcat)</string>
     <string name="debug_logs">Log awakutu</string>
@@ -284,6 +286,7 @@
     <string name="playlist_save">Simpan Daftar Putar</string>
     <string name="playlist_name_hint">nama daftar putar</string>
     <string name="go_to_chapter">Pergi ke babak...</string>
+    <string name="chapter">Babak</string>
     <string name="resume_from_position">Lanjutkan dari posisi terakhir</string>
     <string name="confirm_resume">Lanjutkan dari posisi terakhir?</string>
     <string name="confirm_resume_title">Tanyakan konfirmasi untuk melanjutkan</string>
