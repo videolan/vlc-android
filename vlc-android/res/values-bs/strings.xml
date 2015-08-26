@@ -137,6 +137,7 @@
     <string name="tools">Alati</string>
     <string name="playback_speed">Brzina reproduciranja</string>
     <string name="sleep_title">Brojač za spavanje</string>
+    <string name="sleep_in">Uspavaj</string>
     <string name="sleep_cancel">Otkaži brojač za spavanje</string>
     <string name="jump_to_time">Skoči na Vrijeme</string>
     <string name="subtitle_label">Dodaj datoteku podtitla</string>
@@ -261,6 +262,8 @@
     <string name="network_caching">Veličina predmemoriranja mreže</string>
     <string name="network_caching_summary">Količina vremena za amortizovanje mrežnog medija (u ms). Ne radi sa hardverskim dekodiranjem. Ostavite prazno za resetovanje.</string>
     <string name="developer_prefs_category">Programer</string>
+    <string name="auto_rescan">Automatsko reskeniranje</string>
+    <string name="auto_rescan_summary">Automatski skeniraj uređaj za nove ili izbrisane medije pri pokretanju aplikacije</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
     <string name="enable_verbose_mode_summary">Povećaj pojačavanje (logcat)</string>
     <string name="debug_logs">Zapisnik otkrivanja grešaka</string>
@@ -297,6 +300,7 @@
     <string name="playlist_save">Snimi Listu Izvođenja</string>
     <string name="playlist_name_hint">naziv liste izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje...</string>
+    <string name="chapter">Poglavlje</string>
     <string name="resume_from_position">Nastavi sa zadnje pozicije</string>
     <string name="confirm_resume">Nastavi sa zadnje pozicije? </string>
     <string name="confirm_resume_title">Pitaj potvrdu za nastavak</string>
@@ -308,4 +312,6 @@
     <string name="back_quit_lock">Pritisnite ponovo nazad kako bi zatvorili video</string>
     <string name="playlist_deleted">Lista izvođenja izbrisana</string>
     <string name="file_deleted">Datoteka izbrisana</string>
+    <string name="no_subs_found">Nema titlova u ovom direktoriju</string>
+    <string name="music_now_playing">Trenutno Producira</string>
 </resources>
