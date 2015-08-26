@@ -130,6 +130,7 @@
     <string name="tools">Outils</string>
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="sleep_title">Veille</string>
+    <string name="sleep_in">Veille dans</string>
     <string name="sleep_cancel">Annuler veille</string>
     <string name="jump_to_time">Aller au temps</string>
     <string name="subtitle_label">Ajouter des sous-titres</string>
@@ -254,6 +255,8 @@
     <string name="network_caching">Taille du cache réseau</string>
     <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
     <string name="developer_prefs_category">Développeur</string>
+    <string name="auto_rescan">Rescanner automatiquement</string>
+    <string name="auto_rescan_summary">Scanner automatiquement au démarrage de l\'application les médias ajoutés ou supprimés sur l\'appareil</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_summary">Augmenter la verbosité (logcat)</string>
     <string name="debug_logs">Journal de débogage</string>
@@ -265,9 +268,9 @@
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
-    <string name="dump_logcat">Sauvegarder journal logcat</string>
-    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans le fichier: %1$s !</string>
-    <string name="dump_logcat_failure">Erreur lors de la sauvegarde du logcat.</string>
+    <string name="dump_logcat">Enregistrer journal logcat</string>
+    <string name="dump_logcat_success">Logcat enregistré avec succès dans le fichier : %1$s !</string>
+    <string name="dump_logcat_failure">Erreur lors de l\'enregistrement du logcat.</string>
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
     <string name="help_us_send_log">Aidez-nous à améliorer VLC en renvoyant le rapport de crash suivant :</string>
     <string name="restart_vlc">Redémarrer VLC</string>
@@ -290,6 +293,7 @@
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de la liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre...</string>
+    <string name="chapter">Chapitre</string>
     <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position?</string>
     <string name="confirm_resume_title">Demander la confirmation pour reprendre</string>
@@ -301,4 +305,6 @@
     <string name="back_quit_lock">Appuyez à nouveau sur Retour pour quitter la vidéo</string>
     <string name="playlist_deleted">Liste de lecture supprimée</string>
     <string name="file_deleted">Fichier supprimé</string>
+    <string name="no_subs_found">Pas de sous-titre dans ce répertoire</string>
+    <string name="music_now_playing">Lecture en cours</string>
 </resources>
