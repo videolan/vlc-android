@@ -123,6 +123,7 @@
     <string name="tools">도구</string>
     <string name="playback_speed">재생 속도</string>
     <string name="sleep_title">취침 타이머</string>
+    <string name="sleep_in">잠자기 시간:</string>
     <string name="sleep_cancel">취침 타이머 취소</string>
     <string name="jump_to_time">시간으로 이동하기</string>
     <string name="subtitle_label">자막 파일 추가</string>
@@ -247,6 +248,8 @@
     <string name="network_caching">네트워크 캐쉬 값</string>
     <string name="network_caching_summary">네트워크 미디어를 버퍼할 시간의 크기 (ms). 하드웨어 디코딩에서는 동작하지 않습니다. 초기화하려면 공백으로 놓아 두세요.</string>
     <string name="developer_prefs_category">개발자</string>
+    <string name="auto_rescan">자동 재검색</string>
+    <string name="auto_rescan_summary">앱 시작시 장치에서 삭제했거나 새로운 미디어를 자동으로 검색합니다</string>
     <string name="enable_verbose_mode">상세설명</string>
     <string name="enable_verbose_mode_summary">상세설명 늘림 (logcat)</string>
     <string name="debug_logs">디버그 로그</string>
@@ -283,6 +286,7 @@
     <string name="playlist_save">재생목록 저장</string>
     <string name="playlist_name_hint">재생목록 이름</string>
     <string name="go_to_chapter">챕터 이동...</string>
+    <string name="chapter">챕터</string>
     <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
     <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
     <string name="confirm_resume_title">이어서 재생할 때 확인하기</string>
@@ -295,4 +299,5 @@
     <string name="playlist_deleted"> 재생목록을 삭제했습니다</string>
     <string name="file_deleted">파일을 삭제했습니다</string>
     <string name="no_subs_found">이 폴더에 자막이 없습니다</string>
+    <string name="music_now_playing">지금 재생중</string>
 </resources>
