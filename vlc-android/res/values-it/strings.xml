@@ -255,6 +255,8 @@
     <string name="network_caching">Valore della cache di rete</string>
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
     <string name="developer_prefs_category">Sviluppatore</string>
+    <string name="auto_rescan">Nuova scansione automatica</string>
+    <string name="auto_rescan_summary">Scansione automatica del dispositivo all\'avvio dell\'applicazione per media nuovi o eliminati</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_summary">Aumenta la verbosità (logcat)</string>
     <string name="debug_logs">Log di debug</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">nome della scaletta</string>
     <string name="go_to_chapter">Vai al capitolo...</string>
+    <string name="chapter">Capitolo</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
     <string name="confirm_resume_title">Chiedi conferma per riprendere</string>
