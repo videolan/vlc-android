@@ -255,6 +255,8 @@
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
     <string name="network_caching_summary">Den tidsmængde for netværksmediet som mellemlagres (i ms). Fungerer ikke sammen med afkodning via hardware. Lad den stå tom for at nulstille.</string>
     <string name="developer_prefs_category">Udvikler</string>
+    <string name="auto_rescan">Scan igen auto.</string>
+    <string name="auto_rescan_summary">Automatisk scanning af enhed efter nye eller slettede medier ved opstart af program</string>
     <string name="enable_verbose_mode">Uddybende</string>
     <string name="enable_verbose_mode_summary">Forøg graden af uddybning (logcat)</string>
     <string name="debug_logs">Fejlsøgningslogge</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Gem spilleliste</string>
     <string name="playlist_name_hint">spillelistenavn</string>
     <string name="go_to_chapter">Gå til kapitel…</string>
+    <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Fortsæt fra sidste position</string>
     <string name="confirm_resume">Fortsæt fra sidste position?</string>
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
