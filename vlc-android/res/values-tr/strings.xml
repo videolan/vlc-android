@@ -255,6 +255,8 @@
     <string name="network_caching">Ağ ön bellekleme değeri</string>
     <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı süre. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
     <string name="developer_prefs_category">Geliştirici</string>
+    <string name="auto_rescan">Otomatik yeniden tarama</string>
+    <string name="auto_rescan_summary">Uygulama başlangıcında aygıtı yeni ya da silinmiş ortamlar için tarar</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
     <string name="enable_verbose_mode_summary">Ayrıntıyı arttırın (günlük)</string>
     <string name="debug_logs">Hata ayıklama günlükleri</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Oynatma Listesini Kaydet</string>
     <string name="playlist_name_hint">oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme gidin...</string>
+    <string name="chapter">Bölüm</string>
     <string name="resume_from_position">Oaynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Sürdürme onayı istensin</string>
