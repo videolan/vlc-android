@@ -262,6 +262,8 @@
     <string name="network_caching">Hodnota ukladania do vyrovnávacej pamäte zo siete</string>
     <string name="network_caching_summary">Čas ukladania do vyrovnávacej pamäte, pri sieťovom médiu (v ms). Nespolupracuje s hardvérovým dekódovaním. Pre obnovenie predvolenej hodnoty ponechajte políčko prázdne.</string>
     <string name="developer_prefs_category">Vývojár</string>
+    <string name="auto_rescan">Automatické opätovné skenovanie</string>
+    <string name="auto_rescan_summary">Pri spustení aplikácie automaticky vyhľadať v zariadení nové alebo vymazané médiá</string>
     <string name="enable_verbose_mode">Podrobnosť pri komunikácii</string>
     <string name="enable_verbose_mode_summary">Zvýšiť komunikatívnosť (logcat)</string>
     <string name="debug_logs">Záznamy pre ladenie</string>
@@ -298,6 +300,7 @@
     <string name="playlist_save">Uložiť playlist</string>
     <string name="playlist_name_hint">názov playlistu</string>
     <string name="go_to_chapter">Prejsť na kapitolu...</string>
+    <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Pokračovať od poslednej pozície</string>
     <string name="confirm_resume">Chcete pokračovať od poslednej pozície?</string>
     <string name="confirm_resume_title">Vyžiadať potvrdenie pre pokračovanie</string>
