@@ -269,6 +269,8 @@
     <string name="network_caching">Gwerth cof dros dro</string>
     <string name="network_caching_summary">Y cyfnod o amser i fyffro cyfrwng rhwydwaith (mewn milieiliadau). Nid yw\'n gweithio wrth ddatgodio gan y caledwedd. Gadael yn wag i\'w ailosod.</string>
     <string name="developer_prefs_category">Datblygwr</string>
+    <string name="auto_rescan">Ail-sganio awtomatig</string>
+    <string name="auto_rescan_summary">Sganio\'r ddyfais yn awtomatig am newid i ffeiliau cyfryngau wrth ddechrau\'r ap</string>
     <string name="enable_verbose_mode">Amleiriog</string>
     <string name="enable_verbose_mode_summary">Cynyddu\'r geiriogrwydd yn logcat Android.</string>
     <string name="debug_logs">Logiau dadfygio</string>
@@ -305,6 +307,7 @@
     <string name="playlist_save">Cadw Rhestr Chwarae</string>
     <string name="playlist_name_hint">enw\'r rhestr chwarae</string>
     <string name="go_to_chapter">Mynd at bennod...</string>
+    <string name="chapter">Pennod</string>
     <string name="resume_from_position">Parhau o\'r man diwethaf</string>
     <string name="confirm_resume">Parhau o\'r man diwethaf?</string>
     <string name="confirm_resume_title">Gofyn am gadarnhad cyn parhau</string>
