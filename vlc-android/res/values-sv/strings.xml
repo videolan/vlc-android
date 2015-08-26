@@ -255,6 +255,8 @@
     <string name="network_caching">Cachevärde för nätverk</string>
     <string name="network_caching_summary">Tid att buffra media (i ms). Fungerar ej vid hårdvarukodning. Lämna blankt för att nollställa.</string>
     <string name="developer_prefs_category">Utvecklare</string>
+    <string name="auto_rescan">Sök automatiskt</string>
+    <string name="auto_rescan_summary">Sök igenom enheten automatiskt efter ny eller raderad media vid uppstart</string>
     <string name="enable_verbose_mode">Detaljerad</string>
     <string name="enable_verbose_mode_summary">Utökad information (logcat)</string>
     <string name="debug_logs">Felsökningsloggar</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Spara spellista</string>
     <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel...</string>
+    <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Fortsätt från senaste position</string>
     <string name="confirm_resume">Fortsätt från senaste position?</string>
     <string name="confirm_resume_title">Bekräfta fortsatt uppspelning</string>
