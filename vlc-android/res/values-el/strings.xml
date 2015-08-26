@@ -255,6 +255,8 @@
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
     <string name="network_caching_summary">Το ποσό του χρόνου για να διαβαστούν δικτυακά μέσα (σε ms). Δεν λειτουργεί με την αποκωδικοποίηση υλικού. Αφήστε το κενό για επαναφορά.</string>
     <string name="developer_prefs_category">Για προγραμματιστές</string>
+    <string name="auto_rescan">Αυτόματη επανασάρωση</string>
+    <string name="auto_rescan_summary">Αυτόματη σάρωση της συσκευής για νέα ή διαγραμμένα μέσα ενημέρωσης κατά την εκκίνηση εφαρμογής</string>
     <string name="enable_verbose_mode">Πολύλογος</string>
     <string name="enable_verbose_mode_summary">Αυξήστε την πολυλογία (logcat)</string>
     <string name="debug_logs">Καταγραφές αποσφαλμάτωσης</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
     <string name="playlist_name_hint">όνομα λίστας αναπαραγωγής</string>
     <string name="go_to_chapter">Πήγαινε στο κεφάλαιο...</string>
+    <string name="chapter">Κεφάλαιο</string>
     <string name="resume_from_position">Συνέχιση από την τελευταία θέση</string>
     <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
     <string name="confirm_resume_title">Να ζητηθεί επιβεβαίωση για συνέχιση</string>
@@ -303,4 +306,5 @@
     <string name="playlist_deleted">Η λίστα αναπαραγωγής διαγράφηκε</string>
     <string name="file_deleted">Το αρχείο διαγράφηκε</string>
     <string name="no_subs_found">Δεν υπάρχουν υπότιτλοι σε αυτό τον κατάλογο</string>
+    <string name="music_now_playing">Αναπαράγεται τώρα</string>
 </resources>
