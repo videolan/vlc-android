@@ -33,6 +33,8 @@
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
     <string name="info">Informace</string>
     <string name="confirm_delete">Odstranit soubor \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Smazat složku \'%1$s\' a veškerý její obsah?</string>
+    <string name="confirm_delete_playlist">Smazat seznam skladeb \'%1$s\'?</string>
     <string name="ringtone_set">\'%1$s\' bylo nastaveno jako vyzváněcí melodie.</string>
     <string name="ringtone_error">Nastala chyba při nastavování vyzváněcí melodie.</string>
     <string name="pause">Pozastavit</string>
@@ -135,6 +137,7 @@
     <string name="tools">Nástroje</string>
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="sleep_title">Uspání</string>
+    <string name="sleep_in">Uspat za</string>
     <string name="sleep_cancel">Zrušit uspání</string>
     <string name="jump_to_time">Skočit na čas</string>
     <string name="subtitle_label">Přidat soubor s titulky</string>
@@ -259,6 +262,8 @@
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
     <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
     <string name="developer_prefs_category">Pro vývojáře</string>
+    <string name="auto_rescan">Automaticky prohledávat</string>
+    <string name="auto_rescan_summary">Automaticky prohledat zařízení a najít nové nebo smazané soubory při startu aplikace</string>
     <string name="enable_verbose_mode">Podrobné</string>
     <string name="enable_verbose_mode_summary">Zvýšit podrobnosti v záznamu (logcat)</string>
     <string name="debug_logs">Ladící záznamy</string>
@@ -285,6 +290,7 @@
     <string name="file_other">Zavřít navigační šuplík</string>
     <string name="audio_delay">Zpoždění zvuku</string>
     <string name="spu_delay">Zpoždění titulků</string>
+    <string name="sleep_time_not_set">nenastaveno</string>
     <string name="network_shares_discovery">Hledám síťové disky...</string>
     <string name="network_empty">Adresář je prázdný.</string>
     <string name="network_connection_needed">Žádné spojení s místní sítí.</string>
@@ -294,11 +300,18 @@
     <string name="playlist_save">Uložit seznam skladeb</string>
     <string name="playlist_name_hint">název seznamu skladeb</string>
     <string name="go_to_chapter">Přejít na kapitolu...</string>
+    <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Obnovit z poslední pozice</string>
     <string name="confirm_resume">Obnovit z poslední pozice?</string>
     <string name="confirm_resume_title">Ptát se při obnovení na poizici</string>
     <string name="confirm_resume_summary">Při zapnutí budete dotázáni zda si přejete pokračovat na původní pozici videa, nebo spustit přehrávaní od začátku</string>
+    <string name="directory_empty">Adresář je prázdný</string>
     <!--Accessibility-->
     <string name="more_actions">Více činností</string>
     <string name="move">Přesunout</string>
+    <string name="back_quit_lock">Stiskněte znovu zpět pro ukončení videa</string>
+    <string name="playlist_deleted">Seznam skladeb smazán</string>
+    <string name="file_deleted">Soubor smazán</string>
+    <string name="no_subs_found">V adresáři nejsou žádné titulky</string>
+    <string name="music_now_playing">Nyní se hraje</string>
 </resources>
