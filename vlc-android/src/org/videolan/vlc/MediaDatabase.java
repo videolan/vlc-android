@@ -102,12 +102,25 @@ public class MediaDatabase {
     private static final String NETWORK_FAV_URI = "uri";
     private static final String NETWORK_FAV_TITLE = "title";
 
-    public enum mediaColumn {
-        MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
-        MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM,
-        MEDIA_ALBUMARTIST, MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_ARTWORKURL, MEDIA_AUDIOTRACK,
-        MEDIA_SPUTRACK, MEDIA_TRACKNUMBER, MEDIA_DISCNUMBER, MEDIA_LAST_MODIFIED
-    }
+//    public static final int INDEX_MEDIA_TABLE_NAME = 0;
+//    public static final int INDEX_MEDIA_PATH = 1;
+    public static final int INDEX_MEDIA_TIME = 2;
+    public static final int INDEX_MEDIA_LENGTH = 3;
+//    public static final int INDEX_MEDIA_TYPE = 4;
+    public static final int INDEX_MEDIA_PICTURE = 5;
+//    public static final int INDEX_MEDIA_TITLE = 6;
+//    public static final int INDEX_MEDIA_ARTIST = 7;
+//    public static final int INDEX_MEDIA_GENRE = 8;
+//    public static final int INDEX_MEDIA_ALBUM = 9;
+//    public static final int INDEX_MEDIA_ALBUMARTIST = 10;
+//    public static final int INDEX_MEDIA_WIDTH = 11;
+//    public static final int INDEX_MEDIA_HEIGHT = 12;
+//    public static final int INDEX_MEDIA_ARTWORKURL = 13;
+    public static final int INDEX_MEDIA_AUDIOTRACK = 14;
+    public static final int INDEX_MEDIA_SPUTRACK = 15;
+//    public static final int INDEX_MEDIA_TRACKNUMBER = 16;
+//    public static final int INDEX_MEDIA_DISCNUMBER = 17;
+//    public static final int INDEX_MEDIA_LAST_MODIFIED = 18;
 
     /**
      * Constructor
@@ -890,7 +903,7 @@ public class MediaDatabase {
         }
     }
 
-    public synchronized void updateMedia(Uri uri, mediaColumn col,
+    public synchronized void updateMedia(Uri uri, int col,
             Object object) {
 
         if (uri == null)
@@ -898,7 +911,7 @@ public class MediaDatabase {
 
         ContentValues values = new ContentValues();
         switch (col) {
-            case MEDIA_PICTURE:
+            case INDEX_MEDIA_PICTURE:
                 if (object != null) {
                     Bitmap picture = (Bitmap) object;
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -909,19 +922,19 @@ public class MediaDatabase {
                     values.put(MEDIA_PICTURE, new byte[1]);
                 }
                 break;
-            case MEDIA_TIME:
+            case INDEX_MEDIA_TIME:
                 if (object != null)
                     values.put(MEDIA_TIME, (Long)object);
                 break;
-            case MEDIA_AUDIOTRACK:
+            case INDEX_MEDIA_AUDIOTRACK:
                 if (object != null)
                     values.put(MEDIA_AUDIOTRACK, (Integer)object);
                 break;
-            case MEDIA_SPUTRACK:
+            case INDEX_MEDIA_SPUTRACK:
                 if (object != null)
                     values.put(MEDIA_SPUTRACK, (Integer)object);
                 break;
-            case MEDIA_LENGTH:
+            case INDEX_MEDIA_LENGTH:
                 if (object != null)
                     values.put(MEDIA_LENGTH, (Long)object);
                 break;
@@ -1138,7 +1151,7 @@ public class MediaDatabase {
         try {
             getInstance().updateMedia(
                 m.getUri(),
-                    mediaColumn.MEDIA_PICTURE,
+                    INDEX_MEDIA_PICTURE,
                 p);
         } catch (SQLiteFullException e) {
             Log.d(TAG, "SQLiteFullException while setting picture");

@@ -618,7 +618,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                          */
                         if (m != null && m.getLength() == 0 && length > 0) {
                             dbManager.updateMedia(mw.getUri(),
-                                    MediaDatabase.mediaColumn.MEDIA_LENGTH, length);
+                                    MediaDatabase.INDEX_MEDIA_LENGTH, length);
                         }
                     }
 

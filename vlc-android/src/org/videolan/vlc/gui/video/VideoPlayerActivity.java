@@ -756,7 +756,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
                 MediaDatabase.getInstance().updateMedia(
                         mUri,
-                        MediaDatabase.mediaColumn.MEDIA_TIME,
+                        MediaDatabase.INDEX_MEDIA_TIME,
                         time);
             } else {
                 // Video file not in media library, store time just for onResume()
@@ -2021,7 +2021,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                             return false;
                         MediaDatabase.getInstance().updateMedia(
                                 mUri,
-                                MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
+                                MediaDatabase.INDEX_MEDIA_AUDIOTRACK,
                                 trackID);
                         mService.setAudioTrack(trackID);
                         return true;
@@ -2040,7 +2040,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
                         MediaDatabase.getInstance().updateMedia(
                                 mUri,
-                                MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
+                                MediaDatabase.INDEX_MEDIA_SPUTRACK,
                                 trackID);
                         mService.setSpuTrack(trackID);
                         return true;
