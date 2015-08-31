@@ -1431,7 +1431,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void endReached() {
         if (mService == null)
             return;
-        if (mService.getRepeatType() == PlaybackService.RepeatType.Once){
+        if (mService.getRepeatType() == PlaybackService.REPEAT_ONE){
             seek(0);
             return;
         }
@@ -2068,11 +2068,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         public boolean onLongClick(View v) {
             if (mService == null)
                 return false;
-            if (mService.getRepeatType() == PlaybackService.RepeatType.Once) {
+            if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
                 showInfo(getString(R.string.repeat));
-                mService.setRepeatType(PlaybackService.RepeatType.None);
+                mService.setRepeatType(PlaybackService.REPEAT_NONE);
             } else {
-                mService.setRepeatType(PlaybackService.RepeatType.Once);
+                mService.setRepeatType(PlaybackService.REPEAT_ONE);
                 showInfo(getString(R.string.repeat_single));
             }
             return true;

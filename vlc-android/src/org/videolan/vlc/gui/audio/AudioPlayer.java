@@ -364,16 +364,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle));
         }
         switch(mService.getRepeatType()) {
-        case None:
+        case PlaybackService.REPEAT_NONE:
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat));
             break;
-        case Once:
+        case PlaybackService.REPEAT_ONE:
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_one));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat_single));
             break;
         default:
-        case All:
+        case PlaybackService.REPEAT_ALL:
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_on));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
             break;
@@ -516,15 +516,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             return;
 
         switch (mService.getRepeatType()) {
-            case None:
-                mService.setRepeatType(PlaybackService.RepeatType.All);
+            case PlaybackService.REPEAT_NONE:
+                mService.setRepeatType(PlaybackService.REPEAT_ALL);
                 break;
-            case All:
-                mService.setRepeatType(PlaybackService.RepeatType.Once);
+            case PlaybackService.REPEAT_ALL:
+                mService.setRepeatType(PlaybackService.REPEAT_ONE);
                 break;
             default:
-            case Once:
-                mService.setRepeatType(PlaybackService.RepeatType.None);
+            case PlaybackService.REPEAT_ONE:
+                mService.setRepeatType(PlaybackService.REPEAT_NONE);
                 break;
         }
         update();

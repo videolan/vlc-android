@@ -323,15 +323,15 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private void updateRepeatMode() {
         if (mService == null)
             return;
-        PlaybackService.RepeatType type = mService.getRepeatType();
-        if (type == PlaybackService.RepeatType.None){
-            mService.setRepeatType(PlaybackService.RepeatType.All);
+        int type = mService.getRepeatType();
+        if (type == PlaybackService.REPEAT_NONE){
+            mService.setRepeatType(PlaybackService.REPEAT_ALL);
             mRepeat.setImageResource(R.drawable.ic_repeat_on);
-        } else if (type == PlaybackService.RepeatType.All) {
-            mService.setRepeatType(PlaybackService.RepeatType.Once);
+        } else if (type == PlaybackService.REPEAT_ALL) {
+            mService.setRepeatType(PlaybackService.REPEAT_ONE);
             mRepeat.setImageResource(R.drawable.ic_repeat_one);
-        } else if (type == PlaybackService.RepeatType.Once) {
-            mService.setRepeatType(PlaybackService.RepeatType.None);
+        } else if (type == PlaybackService.REPEAT_ONE) {
+            mService.setRepeatType(PlaybackService.REPEAT_NONE);
             mRepeat.setImageResource(R.drawable.ic_repeat);
         }
     }

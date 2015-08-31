@@ -146,8 +146,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private int mNextIndex; // Set to -1 if no next media
 
     // Playback management
+
+    public static final int REPEAT_NONE = 0;
+    public static final int REPEAT_ONE = 1;
+    public static final int REPEAT_ALL = 2;
     private boolean mShuffling = false;
-    private RepeatType mRepeating = RepeatType.None;
+    private int mRepeating = REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
 
     private boolean mHasAudioFocus = false;
@@ -178,12 +182,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         } else
             mIsAudioTrack = false;
         return mp;
-    }
-
-    public static enum RepeatType {
-        None,
-        Once,
-        All
     }
 
     private static boolean readPhoneState() {
@@ -1030,7 +1028,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mShuffling &= size > 2;
 
             // Repeating once doesn't change the index
-            if (mRepeating == RepeatType.Once) {
+            if (mRepeating == REPEAT_ONE) {
                 mPrevIndex = mNextIndex = mCurrentIndex;
             } else {
 
@@ -1040,7 +1038,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     // If we've played all songs already in shuffle, then either
                     // reshuffle or stop (depending on RepeatType).
                     if(mPrevious.size() + 1 == size) {
-                        if(mRepeating == RepeatType.None) {
+                        if(mRepeating == REPEAT_NONE) {
                             mNextIndex = -1;
                             return;
                         } else {
@@ -1062,7 +1060,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     if(mCurrentIndex + 1 < size)
                         mNextIndex = mCurrentIndex + 1;
                     else {
-                        if(mRepeating == RepeatType.None) {
+                        if(mRepeating == REPEAT_NONE) {
                             mNextIndex = -1;
                         } else {
                             mNextIndex = 0;
@@ -1178,8 +1176,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public void setRepeatType(RepeatType t) {
-        mRepeating = t;
+    public void setRepeatType(int repeatType) {
+        mRepeating = repeatType;
         saveCurrentMedia();
         determinePrevAndNextIndices();
     }
@@ -1264,7 +1262,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mediaPathList.add(Uri.decode(locations[i]));
 
         mShuffling = prefs.getBoolean("shuffling", false);
-        mRepeating = RepeatType.values()[prefs.getInt("repeating", RepeatType.None.ordinal())];
+        mRepeating = prefs.getInt("repeating", REPEAT_NONE);
         int position = prefs.getInt("position_in_list", Math.max(0, mediaPathList.indexOf(currentMedia)));
         long time = prefs.getLong("position_in_song", -1);
         // load playlist
@@ -1281,7 +1279,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putString("current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
         editor.putBoolean("shuffling", mShuffling);
-        editor.putInt("repeating", mRepeating.ordinal());
+        editor.putInt("repeating", mRepeating);
         Util.commitPreferences(editor);
     }
 
@@ -1346,7 +1344,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public RepeatType getRepeatType() {
+    public int getRepeatType() {
         return mRepeating;
     }
 
