@@ -262,7 +262,7 @@
     <string name="network_caching">Veličina predmemoriranja mreže</string>
     <string name="network_caching_summary">Količina vremena za amortizovanje mrežnog medija (u ms). Ne radi sa hardverskim dekodiranjem. Ostavite prazno za resetovanje.</string>
     <string name="developer_prefs_category">Programer</string>
-    <string name="auto_rescan">Automatsko reskeniranje</string>
+    <string name="auto_rescan">Automatsko ponovno skeniranje</string>
     <string name="auto_rescan_summary">Automatski skeniraj uređaj za nove ili izbrisane medije pri pokretanju aplikacije</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
     <string name="enable_verbose_mode_summary">Povećaj pojačavanje (logcat)</string>
