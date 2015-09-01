@@ -269,6 +269,8 @@
     <string name="network_caching">Размер кэша сетевых данных</string>
     <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
     <string name="developer_prefs_category">Для разработчиков</string>
+    <string name="auto_rescan">Автосканирование</string>
+    <string name="auto_rescan_summary">Автоматически сканировать устройство и выявлять новые или удалённые медиафайлы при запуске приложения</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>
     <string name="debug_logs">Отладочные сообщения</string>
@@ -305,6 +307,7 @@
     <string name="playlist_save">Сохранить плейлист</string>
     <string name="playlist_name_hint">название плейлиста</string>
     <string name="go_to_chapter">Перейти к главе...</string>
+    <string name="chapter">Глава</string>
     <string name="resume_from_position">Продолжить с последней позиции</string>
     <string name="confirm_resume">Продолжить с последней позиции?</string>
     <string name="confirm_resume_title">Предлагать продолжить воспроизведение</string>
@@ -317,4 +320,5 @@
     <string name="playlist_deleted">Плейлист удалён</string>
     <string name="file_deleted">Файл удалён</string>
     <string name="no_subs_found">В этом каталоге нет субтитров</string>
+    <string name="music_now_playing">Сейчас играет</string>
 </resources>
