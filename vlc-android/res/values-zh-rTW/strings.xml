@@ -112,7 +112,7 @@
     <string name="sound_on">聲音開啟</string>
     <string name="sound_off">聲音關閉</string>
     <string name="brightness">亮度</string>
-    <string name="navmenu">導覽選單</string>
+    <string name="navmenu">側邊欄</string>
     <string name="advanced">進階選項</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 聲道\n</item>
@@ -269,8 +269,8 @@
     <string name="restart_vlc">重新啟動 VLC</string>
     <string name="send_log">發送記錄</string>
     <string name="sending_log">正在發送記錄...</string>
-    <string name="drawer_open">開啟導覽選單</string>
-    <string name="drawer_close">關閉導覽選單</string>
+    <string name="drawer_open">開啟側邊欄</string>
+    <string name="drawer_close">關閉側邊欄</string>
     <string name="network_browsing">區域網路</string>
     <string name="file_size">檔案大小：</string>
     <string name="file_other">關閉導覽</string>
