@@ -49,7 +49,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     protected static final int TYPE_MEDIA = 0;
@@ -111,13 +111,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         vh.icon.setImageResource(getIconResId(media));
         if (hasContextMenu) {
-//            vh.more.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
-//                }
-//            });
-            vh.itemView.setOnLongClickListener(mLongClickListener);
+            vh.itemView.setOnLongClickListener(this);
         }
     }
 
@@ -346,12 +340,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     protected void checkBoxAction(View v){}
 
-    View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
-            fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-            return true;
-        }
-    };
+    @Override
+    public boolean onLongClick(View v) {
+        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+        fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
+        return true;
+    }
 }

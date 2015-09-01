@@ -80,7 +80,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             }
         });
         if (hasContextMenu)
-            vh.itemView.setOnLongClickListener(mLongClickListener);
+            vh.itemView.setOnLongClickListener(this);
     }
 
     public void addItem(Media media, boolean notify, boolean top){
