@@ -283,6 +283,8 @@
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
     <string name="network_caching_summary">الوقت اللازم لدفق الوسيط الشّبكي (بالميللي ثانية). لا تستعمله مع فك التّرميز العتادي. اتركه فارغًا لإعادة ضبطه.</string>
     <string name="developer_prefs_category">مطوِّر</string>
+    <string name="auto_rescan">إعادة المسح التلقائي</string>
+    <string name="auto_rescan_summary">مسح العتاد تلقائيا لإيجاد الوسائط الجديدة أو المحذوفة خلال إقلاع التطبيق</string>
     <string name="enable_verbose_mode">المطوّل</string>
     <string name="enable_verbose_mode_summary">زِد التّطويل</string>
     <string name="debug_logs">سجلّات الإصلاح</string>
@@ -319,6 +321,7 @@
     <string name="playlist_save">حفظ قائمة التشغيل</string>
     <string name="playlist_name_hint">إسم قائمة التشغيل</string>
     <string name="go_to_chapter">الإنتقال إلى الفصل...</string>
+    <string name="chapter">فصل</string>
     <string name="resume_from_position">إسئناف من آخر موقع</string>
     <string name="confirm_resume">هل تريد إستئناف من آخر موقع؟</string>
     <string name="confirm_resume_title">السؤال عند الموافقة على الإستئناف</string>
