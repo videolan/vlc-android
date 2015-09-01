@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
@@ -59,24 +60,14 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         final Storage storage = (Storage) getItem(position);
         String storagePath = storage.getUri().getPath();
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
-        vh.title.setText(storage.getName());
-        vh.icon.setVisibility(View.GONE);
-        vh.checkBox.setVisibility(View.VISIBLE);
-        vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
-        vh.text.setVisibility(View.GONE);
-
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaWrapper mw = new MediaWrapper(((Storage) getItem(vh.getAdapterPosition())).getUri());
-                mw.setType(MediaWrapper.TYPE_DIR);
-                ((StorageBrowserFragment) fragment).browse(mw, holder.getAdapterPosition(), vh.checkBox.isChecked());
-            }
-        });
-        vh.checkBox.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
+        vh.binding.setHandler(mClickHandler);
+        vh.binding.setStorage(storage);
+        vh.binding.setHasContextMenu(hasContextMenu);
+        vh.binding.setType(TYPE_STORAGE);
+        vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
                 (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
                 mMediaDirsLocation.contains(storagePath));
-        vh.checkBox.setEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
+        vh.binding.setChechEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         vh.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,21 +79,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                     removeDir(path);
             }
         });
-        if (hasContextMenu) {
-            vh.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
-                }
-            });
-            vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-                    return true;
-                }
-            });
-        }
+        if (hasContextMenu)
+            vh.itemView.setOnLongClickListener(mLongClickListener);
     }
 
     public void addItem(Media media, boolean notify, boolean top){
@@ -164,5 +142,22 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                     fragment.refresh();
             }
         });
+    }
+
+    protected void openMediaFromView(View v) {
+        MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+        MediaWrapper mw = new MediaWrapper(((Storage) getItem(holder.getAdapterPosition())).getUri());
+        mw.setType(MediaWrapper.TYPE_DIR);
+        fragment.browse(mw, holder.getAdapterPosition(), holder.checkBox.isChecked());
+    }
+
+    protected void checkBoxAction(View v){
+        MediaViewHolder holder = (MediaViewHolder) ((LinearLayout)v.getParent()).getTag(R.id.layout_item);
+            boolean isChecked = ((CheckBox) v).isChecked();
+            String path = ((Storage) getItem(holder.getAdapterPosition())).getUri().getPath();
+            if (isChecked)
+                addDir(path);
+            else
+                removeDir(path);
     }
 }

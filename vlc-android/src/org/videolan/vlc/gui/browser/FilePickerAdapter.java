@@ -29,6 +29,7 @@ import android.view.View;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 
@@ -45,28 +46,24 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        vh.checkBox.setVisibility(View.GONE);
-        vh.title.setText(media.getTitle());
-        if (!TextUtils.isEmpty(media.getDescription())) {
-            vh.text.setVisibility(View.VISIBLE);
-            vh.text.setText(media.getDescription());
-        } else
-            vh.text.setVisibility(View.INVISIBLE);
+        vh.binding.setHandler(mClickHandler);
+        vh.binding.setMedia(media);
+        vh.binding.setHasContextMenu(false);
+        vh.binding.setType(TYPE_MEDIA);
         vh.icon.setImageResource(getIconResId(media));
-        vh.more.setVisibility(View.GONE);
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (media.getType() == MediaWrapper.TYPE_DIR)
-                    fragment.browse(media, holder.getAdapterPosition(), true);
-                else
-                    ((FilePickerFragment)fragment).pickFile(media);
-            }
-        });
     }
 
     //TODO update with different filter types in other cases than subtitles selection
     private boolean filter(MediaWrapper mediaWrapper) {
         return mediaWrapper.getType() == MediaWrapper.TYPE_DIR || mediaWrapper.getType() == MediaWrapper.TYPE_SUBTITLE;
+    }
+
+    protected void openMediaFromView(View v) {
+        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+        final MediaWrapper media = (MediaWrapper) getItem(holder.getAdapterPosition());
+        if (media.getType() == MediaWrapper.TYPE_DIR)
+            fragment.browse(media, holder.getAdapterPosition(), true);
+        else
+            ((FilePickerFragment)fragment).pickFile(media);
     }
 }

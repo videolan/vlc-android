@@ -22,21 +22,22 @@
  */
 package org.videolan.vlc.gui.browser;
 
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
+import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Util;
@@ -51,9 +52,9 @@ import java.util.List;
 public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
-    private static final int TYPE_MEDIA = 0;
-    private static final int TYPE_SEPARATOR = 1;
-    private static final int TYPE_STORAGE = 2;
+    protected static final int TYPE_MEDIA = 0;
+    protected static final int TYPE_SEPARATOR = 1;
+    protected static final int TYPE_STORAGE = 2;
 
     protected int FOLDER_RES_ID = R.drawable.ic_menu_folder;
 
@@ -92,7 +93,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             onBindMediaViewHolder(holder, position);
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
-            vh.title.setText(getItem(position).toString());
+            vh.binding.setTitle(getItem(position).toString());
         }
     }
 
@@ -102,58 +103,21 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
                 media.getType() == MediaWrapper.TYPE_VIDEO ||
                 media.getType() == MediaWrapper.TYPE_DIR );
-        vh.checkBox.setVisibility(View.GONE);
-        vh.title.setText(media.getTitle());
-        if (!TextUtils.isEmpty(media.getDescription())) {
-            vh.text.setVisibility(View.VISIBLE);
-            vh.text.setText(media.getDescription());
-        } else
-            vh.text.setVisibility(View.INVISIBLE);
-        vh.icon.setImageResource(getIconResId(media));
-        vh.more.setVisibility(hasContextMenu ? View.VISIBLE : View.GONE);
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
-                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+        vh.binding.setHandler(mClickHandler);
+        vh.binding.setMedia(media);
+        vh.binding.setHasContextMenu(hasContextMenu);
+        vh.binding.setType(TYPE_MEDIA);
+        vh.binding.executePendingBindings();
 
-                if (mw.getType() == MediaWrapper.TYPE_DIR)
-                    fragment.browse(mw, holder.getAdapterPosition(), true);
-                else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
-                    Util.openMedia(v.getContext(), mw);
-                else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
-                    int position = 0;
-                    LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
-                    MediaWrapper mediaItem;
-                    for (Object item : mMediaList)
-                        if (item instanceof MediaWrapper) {
-                            mediaItem = (MediaWrapper) item;
-                            if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                                mediaLocations.add(mediaItem);
-                                if (mediaItem.equals(mw))
-                                    position = mediaLocations.size() - 1;
-                            }
-                        }
-                    Util.openList(v.getContext(), mediaLocations, position);
-                } else {
-                    Util.openStream(v.getContext(), mw.getLocation());
-                }
-            }
-        });
+        vh.icon.setImageResource(getIconResId(media));
         if (hasContextMenu) {
-            vh.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
-                }
-            });
-            vh.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-                    return true;
-                }
-            });
+//            vh.more.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    fragment.onPopupMenu(vh.more, holder.getAdapterPosition());
+//                }
+//            });
+            vh.itemView.setOnLongClickListener(mLongClickListener);
         }
     }
 
@@ -163,28 +127,27 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class MediaViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
         public CheckBox checkBox;
-        public TextView text;
         public ImageView icon;
         public ImageView more;
+        DirectoryViewItemBinding binding;
 
         public MediaViewHolder(View v) {
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
+            binding = DataBindingUtil.bind(v);
             checkBox = (CheckBox) v.findViewById(R.id.browser_checkbox);
-            text = (TextView) v.findViewById(R.id.text);
             icon = (ImageView) v.findViewById(R.id.dvi_icon);
             more = (ImageView) v.findViewById(R.id.item_more);
+            v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
         }
     }
 
     public static class SeparatorViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        BrowserItemSeparatorBinding binding;
 
         public SeparatorViewHolder(View v) {
             super(v);
-            title = (TextView) v.findViewById(R.id.separator_title);
+            binding = DataBindingUtil.bind(v);
         }
     }
 
@@ -336,4 +299,59 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 return R.drawable.ic_browser_unknown_normal;
         }
     }
+
+    public ClickHandler mClickHandler = new ClickHandler();
+    public class ClickHandler {
+        public void onClick(View v){
+            openMediaFromView(v);
+        }
+
+        public void onCheckBoxClick(View v){
+            checkBoxAction(v);
+        }
+
+        public void onMoreClick(View v){
+            final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+            fragment.onPopupMenu(holder.more, holder.getAdapterPosition());
+        }
+    }
+
+    protected void openMediaFromView(View v) {
+        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+        final MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
+        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+
+        if (mw.getType() == MediaWrapper.TYPE_DIR)
+            fragment.browse(mw, holder.getAdapterPosition(), true);
+        else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
+            Util.openMedia(v.getContext(), mw);
+        else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
+            int position = 0;
+            LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
+            MediaWrapper mediaItem;
+            for (Object item : mMediaList)
+                if (item instanceof MediaWrapper) {
+                    mediaItem = (MediaWrapper) item;
+                    if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
+                        mediaLocations.add(mediaItem);
+                        if (mediaItem.equals(mw))
+                            position = mediaLocations.size() - 1;
+                    }
+                }
+            Util.openList(v.getContext(), mediaLocations, position);
+        } else {
+            Util.openStream(v.getContext(), mw.getLocation());
+        }
+    }
+
+    protected void checkBoxAction(View v){}
+
+    View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+            fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
+            return true;
+        }
+    };
 }

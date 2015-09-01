@@ -1,72 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_item"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:focusable="true"
-    android:clickable="true"
-    android:background="@drawable/background_item">
-
-    <CheckBox
-        android:id="@+id/browser_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:button="@drawable/custom_checkbox_button"
-        android:layout_marginLeft="15dp"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:id="@+id/dvi_icon"
-        android:layout_width="@dimen/directory_browser_item_size"
-        android:layout_height="@dimen/directory_browser_item_size"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:contentDescription="@string/cover_art"
-        android:src="@drawable/icon" />
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ClickHandler"/>
+        <variable
+            name="media"
+            type="org.videolan.vlc.MediaWrapper"/>
+        <variable
+            name="storage"
+            type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.Storage"/>
+        <variable
+            name="type"
+            type="int"/>
+        <variable
+            name="hasContextMenu"
+            type="boolean"/>
+        <variable
+            name="chechEnabled"
+            type="boolean"/>
+        <variable
+            name="checked"
+            type="boolean"/>
+    </data>
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/layout_item"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="15dp" >
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:clickable="true"
+        android:longClickable="@{hasContextMenu}"
+        android:onClick="@{handler.onClick}"
+        android:background="@drawable/background_item">
 
-        <TextView
-            android:id="@+id/title"
+        <CheckBox
+            android:id="@+id/browser_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:text="@string/title"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?attr/list_title"
-            android:textSize="16sp" />
+            android:button="@drawable/custom_checkbox_button"
+            android:layout_marginLeft="15dp"
+            android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
+            android:enabled="@{chechEnabled}"
+            android:checked="@{checked}"
+            android:onClick="@{handler.onCheckBoxClick}"/>
 
-        <TextView
-            android:id="@+id/text"
+        <ImageView
+            android:id="@+id/dvi_icon"
+            android:layout_width="@dimen/directory_browser_item_size"
+            android:layout_height="@dimen/directory_browser_item_size"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:contentDescription="@string/cover_art"
+            android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
+            android:src="@drawable/icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{storage.name ?? media.title}"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?attr/list_title"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="@{media.description}"
+                android:fontFamily="sans-serif-light"
+                android:visibility="@{media.description != null ? View.VISIBLE : View.INVISIBLE}"
+                android:textColor="?attr/list_subtitle"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:maxLines="1"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?attr/list_subtitle"/>
+            android:layout_gravity="center"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/ic_more"
+            android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE}"
+            android:onClick="@{@{handler.onMoreClick}}"
+            android:clickable="@{hasContextMenu}" />
+
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/item_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:background="@drawable/ic_more"
-        android:clickable="true" />
-
-</LinearLayout>
+</layout>
