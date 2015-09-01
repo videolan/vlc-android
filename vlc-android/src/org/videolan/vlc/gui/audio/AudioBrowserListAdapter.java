@@ -302,7 +302,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     public View getViewMedia(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        ViewHolder holder;
+        ViewHolder holder = null;
 
         /* convertView may be a recycled view but we must recreate it
          * if it does not correspond to a media view. */
@@ -322,8 +322,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             Util.setAlignModeByPref(mAlignMode, (TextView) v.findViewById(R.id.title));
             holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
-        } else
-            holder = (ViewHolder) v.getTag();
+        }
 
         holder.position = position;
         ListItem item = getItem(position);
@@ -356,7 +355,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     public View getViewSeparator(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        ViewHolder holder;
+        ViewHolder holder = null;
 
         /* convertView may be a recycled view but we must recreate it
          * if it does not correspond to a separator view. */
@@ -374,8 +373,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             v = holder.binding.getRoot();
             holder.viewType = VIEW_SEPARATOR;
             v.setTag(holder);
-        } else
-            holder = (ViewHolder) v.getTag();
+        }
 
         ListItem item = getItem(position);
         holder.binding.setVariable(BR.item, item);
