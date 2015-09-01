@@ -31,6 +31,7 @@
     <string name="set_song">Tetapkan sebagai nada dering</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
+    <string name="confirm_delete_folder">Padam folder \'%1$s\' dan semua kandungannya?</string>
     <string name="confirm_delete_playlist">Padam senarai main \'%1$s\'?</string>
     <string name="ringtone_set">Fail \'%1$s\' telah ditetapkan sebagai nada dering.</string>
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
@@ -122,6 +123,7 @@
     <string name="tools">Alatan</string>
     <string name="playback_speed">Kelajuan mainbalik</string>
     <string name="sleep_title">Pemasa tidur</string>
+    <string name="sleep_in">Tidur dalam tempoh</string>
     <string name="sleep_cancel">Batal pemasa tidur</string>
     <string name="jump_to_time">Lompat ke Masa</string>
     <string name="subtitle_label">Tambah fail sarikata</string>
@@ -246,6 +248,8 @@
     <string name="network_caching">Nilai caching rangkaian</string>
     <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
     <string name="developer_prefs_category">Pembangun</string>
+    <string name="auto_rescan">Auto imbas semula</string>
+    <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
     <string name="enable_verbose_mode">Berjela</string>
     <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
     <string name="debug_logs">Nyahpijat log</string>
@@ -272,6 +276,7 @@
     <string name="file_other">Tutup laci navigasi</string>
     <string name="audio_delay">Lengahan audio</string>
     <string name="spu_delay">Lengahan sarikata</string>
+    <string name="sleep_time_not_set">tidak ditetapkan</string>
     <string name="network_shares_discovery">Mencari rangkaian kongsi...</string>
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tiada sambungan untuk rangkaian lokal.</string>
@@ -281,6 +286,7 @@
     <string name="playlist_save">Simpan Senarai Main</string>
     <string name="playlist_name_hint">nama senarai main</string>
     <string name="go_to_chapter">Pergi ke bab...</string>
+    <string name="chapter">Bab</string>
     <string name="resume_from_position">Sambung dari kedudukan terakhir</string>
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
     <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
@@ -290,4 +296,8 @@
     <string name="more_actions">Lagi Tindakan</string>
     <string name="move">Alih</string>
     <string name="back_quit_lock">Tekan undur sekali lagi untuk tutup video</string>
+    <string name="playlist_deleted">Senarai main dipadam</string>
+    <string name="file_deleted">Fail dipadam</string>
+    <string name="no_subs_found">Tiada sarikata dalam direktori ini</string>
+    <string name="music_now_playing">Kini Dimainkan</string>
 </resources>
