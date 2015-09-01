@@ -24,20 +24,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
@@ -313,24 +315,20 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         if (b_createView) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.audio_browser_item, parent, false);
+
             holder = new ViewHolder();
-            holder.layout = v.findViewById(R.id.layout_item);
-            holder.title = (TextView) v.findViewById(R.id.title);
-            Util.setAlignModeByPref(mAlignMode, holder.title);
-            holder.cover = (ImageView) v.findViewById(R.id.cover);
-            holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
-            holder.footer = v.findViewById(R.id.footer);
-            holder.more = (ImageView) v.findViewById(R.id.item_more);
+            holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
+            v = holder.binding.getRoot();
+            Util.setAlignModeByPref(mAlignMode, (TextView) v.findViewById(R.id.title));
             holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
 
+        holder.position = position;
         ListItem item = getItem(position);
-        holder.title.setText(item.mTitle);
+        holder.binding.setVariable(BR.item, item);
 
-        RelativeLayout.LayoutParams paramsCover;
         if (mItemType == ITEM_WITH_COVER) {
             Bitmap cover = null;
             LinkedList<String> testedAlbums = new LinkedList<String>();
@@ -345,31 +343,13 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             }
             if (cover == null)
                 cover = BitmapCache.getFromResource(v, R.drawable.icon);
-            holder.cover.setImageBitmap(cover);
-            int size = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_size);
-            paramsCover = new RelativeLayout.LayoutParams(size, size);
+            holder.binding.setVariable(BR.cover, new BitmapDrawable(mContext.getResources(), cover));
         }
-        else
-            paramsCover = new RelativeLayout.LayoutParams(0, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        holder.cover.setLayoutParams(paramsCover);
 
-        holder.subtitle.setVisibility(item.mSubTitle == null ? TextView.GONE : TextView.VISIBLE);
-        holder.subtitle.setText(item.mSubTitle);
-
-        // Remove the footer if the item is just above a separator.
-        holder.footer.setVisibility(isMediaItemAboveASeparator(position) ? View.GONE : View.VISIBLE);
-
-        final int pos = position;
-        if (mContextPopupMenuListener != null)
-            holder.more.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mContextPopupMenuListener != null)
-                        mContextPopupMenuListener.onPopupMenu(v, pos);
-                }
-            });
-        else
-            holder.more.setVisibility(View.GONE);
+        holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
+        holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
+        holder.binding.setVariable(BR.handler, mClickHandler);
+        holder.binding.executePendingBindings();
 
         return v;
     }
@@ -389,29 +369,25 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         if (b_createView) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.audio_browser_separator, parent, false);
             holder = new ViewHolder();
-            holder.layout = v.findViewById(R.id.layout_item);
-            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_separator, parent, false);
+            v = holder.binding.getRoot();
             holder.viewType = VIEW_SEPARATOR;
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
 
         ListItem item = getItem(position);
-        holder.title.setText(item.mTitle);
+        holder.binding.setVariable(BR.item, item);
+        holder.binding.executePendingBindings();
 
         return v;
     }
 
     static class ViewHolder {
-        View layout;
-        ImageView cover;
-        TextView title;
-        TextView subtitle;
-        View footer;
-        ImageView more;
+        int position;
         int viewType;
+        ViewDataBinding binding;
     }
 
     @Override
@@ -586,4 +562,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             return String.CASE_INSENSITIVE_ORDER.compare(lhs.mTitle, rhs.mTitle);
         }
     };
+
+    public ClickHandler mClickHandler = new ClickHandler();
+    public class ClickHandler {
+        public void onClick(View v){
+            if (mContextPopupMenuListener != null)
+                mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag()).position);
+        }
+    }
 }

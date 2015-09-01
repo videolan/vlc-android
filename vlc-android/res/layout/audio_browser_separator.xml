@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_item"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginTop="10dip"
-        android:singleLine="true"
-        android:text="@string/title"
-        android:textColor="?attr/audio_browser_separator"
-        android:textSize="20sp" />
-    
-    <View
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="fill_parent"
-        android:layout_height="2dip"
-        android:background="?attr/audio_browser_separator" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:singleLine="true"
+            android:text="@{item.mTitle}"
+            android:textColor="?attr/audio_browser_separator"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="?attr/audio_browser_separator" />
+
+    </LinearLayout>
+</layout>

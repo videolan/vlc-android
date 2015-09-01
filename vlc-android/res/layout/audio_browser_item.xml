@@ -1,70 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
-
-    <RelativeLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="item"
+            type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable"/>
+        <variable
+            name="footer"
+            type="boolean"/>
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ClickHandler"/>
+        <variable
+            name="clickable"
+            type="boolean"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp" >
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="@dimen/audio_browser_item_size"
-            android:layout_height="@dimen/audio_browser_item_size"
-            android:layout_gravity="center" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/cover"
-            android:layout_toLeftOf="@+id/item_more"
-            android:paddingLeft="15dp"
-            android:layout_centerVertical="true"
-            android:orientation="vertical" >
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-            <TextView
-                android:id="@+id/title"
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="@dimen/audio_browser_item_size"
+                android:layout_height="@dimen/audio_browser_item_size"
+                android:src="@{cover}"
+                android:layout_gravity="center"
+                android:visibility="@{cover != null ? View.VISIBLE : View.GONE}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cover"
+                android:layout_toLeftOf="@+id/item_more"
+                android:paddingLeft="15dp"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:maxLines="1"
+                    android:text="@{item.mTitle}"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="?attr/list_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:maxLines="1"
+                    android:text="@{item.mSubTitle}"
+                    android:visibility="@{item.mSubTitle != null ? View.VISIBLE : View.GONE}"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="?attr/list_subtitle" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/item_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="middle"
-                android:maxLines="1"
-                android:text="@string/title"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_title"
-                android:textSize="16sp" />
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_more"
+                android:contentDescription="@string/more_actions"
+                android:visibility="@{clickable ? View.VISIBLE : View.GONE}"
+                android:onClick="@{handler.onClick}"
+                android:clickable="@{clickable}" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="middle"
-                android:maxLines="1"
-                android:text="@string/artist"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_subtitle" />
-        </LinearLayout>
+        <View
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/item_footer"
+            android:visibility="@{footer ? View.VISIBLE : View.GONE}"/>
 
-        <ImageView
-            android:id="@+id/item_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ic_more"
-            android:contentDescription="@string/more_actions"
-            android:clickable="true" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/item_footer" />
-
-</LinearLayout>
+    </LinearLayout>
+</layout>
