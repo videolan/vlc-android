@@ -29,8 +29,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -49,7 +47,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WeakHandler;
 
 import java.util.Calendar;
 
@@ -62,11 +59,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public static final String MODE_KEY = "mode";
     public static final int MODE_VIDEO = 0;
     public static final int MODE_AUDIO = 1;
-
-    public static final int SLEEP_TEXT = 1;
-    public static final int TOGGLE_CANCEL = 2;
-    public static final int DIALOG_LISTENER = 3;
-    public static final int RESET_RETRY = 4;
 
     public static final int ACTION_AUDIO_DELAY = 2 ;
     public static final int ACTION_SPU_DELAY = 3 ;
@@ -171,7 +163,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mEqualizer.setOnClickListener(this);
         } else
             root.findViewById(R.id.opt_equalizer).setVisibility(View.GONE);
-        mHandler.sendEmptyMessage(TOGGLE_CANCEL);
+
         mTextColor = mSleep.getCurrentTextColor();
 
         if (getDialog() != null) {
@@ -271,53 +263,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     }
 
-    private final Handler mHandler = new AdvOptionsDialogHandler(this);
-
-    private static class AdvOptionsDialogHandler extends WeakHandler<AdvOptionsDialog> {
-
-        public boolean retry = true;
-
-        public AdvOptionsDialogHandler(AdvOptionsDialog owner) {
-            super(owner);
+    public void initSleep () {
+        String text = null;
+        if (VLCApplication.sPlayerSleepTime == null) {
+            mSleep.setCompoundDrawablesWithIntrinsicBounds(0,
+                    Util.getResourceFromAttribute(mActivity, R.attr.ic_sleep_normal_style),
+                    0, 0);
+        } else {
+            mSleep.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_sleep_on, 0, 0);
+            text = DateFormat.getTimeFormat(mActivity).format(VLCApplication.sPlayerSleepTime.getTime());
         }
-
-        @Override
-        public void handleMessage(Message msg) {
-            String text = null;
-            AdvOptionsDialog owner = getOwner();
-            if (owner == null || owner.isDetached())
-                return;
-            switch (msg.what) {
-                case TOGGLE_CANCEL:
-                    owner.mSleep.setCompoundDrawablesWithIntrinsicBounds(0,
-                            VLCApplication.sPlayerSleepTime == null ?
-                                    Util.getResourceFromAttribute(owner.getActivity(), R.attr.ic_sleep_normal_style):
-                                    R.drawable.ic_sleep_on,
-                            0 , 0);
-                case SLEEP_TEXT:
-                    if (VLCApplication.sPlayerSleepTime != null)
-                        text = DateFormat.getTimeFormat(owner.mSleep.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
-                    owner.mSleep.setText(text);
-                    break;
-                case DIALOG_LISTENER:
-                    DialogFragment newFragment = (DialogFragment) msg.obj;
-                    if (newFragment.getShowsDialog()) {
-                        newFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                obtainMessage(TOGGLE_CANCEL).sendToTarget();
-                            }
-                        });
-                    } else if (retry) {
-                        retry = false;
-                        sendMessageDelayed(msg, 300);
-                    }
-                    break;
-                case RESET_RETRY:
-                    retry = true;
-                    break;
-            }
-        }
+        mSleep.setText(text);
     }
 
     @Override
@@ -328,7 +284,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     showTimePickerFragment(ACTION_SLEEP_TIMER);
                 else {
                     setSleep(null);
-                    mHandler.sendEmptyMessage(TOGGLE_CANCEL);
+                    initSleep();
                 }
                 break;
             case R.id.playback_speed:
@@ -399,6 +355,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mService = service;
 
+        initSleep();
         initPlaybackSpeed();
 
         if (mMode == MODE_VIDEO) {
