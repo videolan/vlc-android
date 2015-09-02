@@ -21,26 +21,25 @@
 package org.videolan.vlc.gui.video;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -160,83 +159,67 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         ViewHolder holder;
         View v = convertView;
 
-        if (v == null || (((ViewHolder)v.getTag()).listmode != mListMode)) {
+        if (v == null || (((ViewHolder)v.getTag(R.layout.video_grid)).listmode != mListMode)) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            if (!mListMode)
-                v = inflater.inflate(R.layout.video_grid_card, parent, false);
-            else
-                v = inflater.inflate(R.layout.video_list_card, parent, false);
-
             holder = new ViewHolder();
-            holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
-            holder.title = (TextView) v.findViewById(R.id.ml_item_title);
-            holder.time = (TextView) v.findViewById(R.id.ml_item_time);
-            holder.resolution = (TextView) v.findViewById(R.id.ml_item_resolution);
-            holder.progress = (ProgressBar) v.findViewById(R.id.ml_item_progress);
-            holder.more = (ImageView) v.findViewById(R.id.item_more);
+            holder.binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+            v = holder.binding.getRoot();
             holder.listmode = mListMode;
-            v.setTag(holder);
-
-
-            /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
-            v.setLayoutParams(new GridView.LayoutParams(v.getLayoutParams().width, v.getLayoutParams().height));
+            v.setTag(R.layout.video_grid, holder);
         } else {
-            holder = (ViewHolder) v.getTag();
+            holder = (ViewHolder) v.getTag(R.layout.video_grid);
         }
 
         if (position >= getCount() || position < 0)
             return v;
 
-        holder.more.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mFragment != null)
-                    mFragment.onContextPopupMenu(v, position);
-            }
-        });
+        holder.position = position;
 
         MediaWrapper media = getItem(position);
 
         /* Thumbnail */
         Bitmap thumbnail = BitmapUtil.getPictureFromCache(media);
-        holder.thumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
         if (thumbnail == null) {
             // missing thumbnail
-            holder.thumbnail.setScaleType(ImageView.ScaleType.CENTER);
+            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
             thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
-        }
-        else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
+        } else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
             // dummy thumbnail
-            holder.thumbnail.setScaleType(ImageView.ScaleType.CENTER);
+            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
             thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
-        }
-        //FIXME Warning: the thumbnails are upscaled in the grid view!
-        holder.thumbnail.setImageBitmap(thumbnail);
+        } else
+            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
 
-        /* Color state */
-        ColorStateList titleColor = v.getResources().getColorStateList(
-                Util.getResourceFromAttribute(getContext(), R.attr.list_title));
-        holder.title.setTextColor(titleColor);
+        //FIXME Warning: the thumbnails are upscaled in the grid view!
+        holder.binding.setVariable(BR.cover, new BitmapDrawable(getContext().getResources(), thumbnail));
 
         if (media instanceof MediaGroup)
             fillGroupView(holder, media);
         else
             fillVideoView(holder, media);
 
+        holder.binding.setVariable(BR.media, media);
+        holder.binding.setVariable(BR.handler, mClickHandler);
+        holder.binding.executePendingBindings();
         return v;
     }
 
+    public ClickHandler mClickHandler = new ClickHandler();
+    public class ClickHandler {
+        public void onMoreClick(View v){
+            if (mFragment != null)
+                    mFragment.onContextPopupMenu(v, ((ViewHolder) ((CardView)v.getParent().getParent()).getTag(R.layout.video_grid)).position);
+        }
+    }
+
     private void fillGroupView(ViewHolder holder, MediaWrapper media) {
+        holder.binding.setVariable(BR.group, true);
         MediaGroup mediaGroup = (MediaGroup) media;
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
-
-        holder.time.setText("");
-        holder.resolution.setText(text);
-        holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
-        holder.more.setVisibility(View.GONE);
-        holder.progress.setVisibility(View.INVISIBLE);
+        mediaGroup.setTitle(media.getTitle() + "\u2026");
+        holder.binding.setVariable(BR.resolution, text);
     }
 
     private void fillVideoView(ViewHolder holder, MediaWrapper media) {
@@ -248,33 +231,22 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 text = String.format("%s / %s",
                         Strings.millisToText(lastTime),
                         Strings.millisToText(media.getLength()));
-                holder.progress.setVisibility(View.VISIBLE);
-                holder.progress.setMax((int) (media.getLength() / 1000));
-                holder.progress.setProgress((int) (lastTime / 1000));
+                holder.binding.setVariable(BR.max, (int) (media.getLength() / 1000));
+                holder.binding.setVariable(BR.progress, (int) (lastTime / 1000));
             } else {
                 text = Strings.millisToText(media.getLength());
-                holder.progress.setVisibility(View.INVISIBLE);
             }
 
-            holder.time.setText(text);
-        } else
-                holder.progress.setVisibility(View.INVISIBLE);
+            holder.binding.setVariable(BR.time, text);
+        }
         if (media.getWidth() > 0 && media.getHeight() > 0)
-            holder.resolution.setText(String.format("%dx%d", media.getWidth(), media.getHeight()));
-        else
-            holder.resolution.setText("");
-        holder.title.setText(media.getTitle());
-        holder.more.setVisibility(View.VISIBLE);
+            holder.binding.setVariable(BR.resolution, String.format("%dx%d", media.getWidth(), media.getHeight()));
     }
 
     static class ViewHolder {
         boolean listmode;
-        ImageView thumbnail;
-        TextView title;
-        TextView time;
-        TextView resolution;
-        ImageView more;
-        ProgressBar progress;
+        int position;
+        ViewDataBinding binding;
     }
 
     public void setListMode(boolean value) {
