@@ -551,7 +551,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onVisibleBehindCanceled() {
         super.onVisibleBehindCanceled();
-        pause();
+        stopPlayback();
+        exitOK();
     }
 
     @Override
