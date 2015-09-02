@@ -1133,10 +1133,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void next() {
+        int size = mMediaList.size();
+        if (size == 1){
+            setPosition(0f);
+            return;
+        }
+
         mPrevious.push(mCurrentIndex);
         mCurrentIndex = mNextIndex;
-
-        int size = mMediaList.size();
         if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
             if (mCurrentIndex < 0)
                 saveCurrentMedia();
@@ -1151,11 +1155,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void previous() {
+        int size = mMediaList.size();
+        if (size == 1){
+            setPosition(0f);
+            return;
+        }
         mCurrentIndex = mPrevIndex;
         if (mPrevious.size() > 0)
             mPrevious.pop();
-
-        int size = mMediaList.size();
         if (size == 0 || mPrevIndex < 0 || mCurrentIndex >= size) {
             Log.w(TAG, "Warning: invalid previous index, aborted !");
             stop();
