@@ -178,6 +178,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     /** Overlay */
     private ActionBar mActionBar;
+    private ViewGroup mActionBarView;
     private View mOverlayProgress;
     private View mOverlayBackground;
     private View mOverlayButtons;
@@ -346,21 +347,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         createPresentation();
         setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
-        if (AndroidUtil.isICSOrLater())
-            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(
-                    new OnSystemUiVisibilityChangeListener() {
-                        @Override
-                        public void onSystemUiVisibilityChange(int visibility) {
-                            if (visibility == mUiVisibility)
-                                return;
-                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && !isFinishing()) {
-                                showOverlay();
-                            }
-                            mUiVisibility = visibility;
-                        }
-                    }
-            );
-
         /** initialize Views an their Events */
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -369,16 +355,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(R.layout.player_action_bar);
 
-        ViewGroup view = (ViewGroup) mActionBar.getCustomView();
-        /* Dispatch ActionBar touch events to the Activity */
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                onTouchEvent(event);
-                return true;
-            }
-        });
-        mTitle = (TextView) view.findViewById(R.id.player_overlay_title);
+        mActionBarView = (ViewGroup) mActionBar.getCustomView();
+
+        mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         mOverlayProgress = findViewById(R.id.progress_overlay);
@@ -482,7 +461,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         resetHudLayout();
         mDetector = new GestureDetectorCompat(this, mGestureListener);
-        mDetector.setOnDoubleTapListener(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -597,12 +575,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         stopPlayback();
 
-        // Dismiss the presentation when the activity is not visible.
-        if (mPresentation != null) {
-            Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
-            mPresentation.dismiss();
-            mPresentation = null;
-        }
+
         restoreBrightness();
         if (mService != null)
             mService.removeCallback(this);
@@ -628,6 +601,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mReceiver != null)
             unregisterReceiver(mReceiver);
 
+        // Dismiss the presentation when the activity is not visible.
+        if (mPresentation != null) {
+            Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
+            mPresentation.dismiss();
+            mPresentation = null;
+        }
+
         mAudioManager = null;
     }
 
@@ -652,21 +632,31 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPlaybackStarted || mService == null)
             return;
 
-        LibVLC().setOnHardwareAccelerationError(this);
-        final IVLCVout vlcVout = mService.getVLCVout();
-        if (mPresentation == null) {
-            vlcVout.setVideoView(mSurfaceView);
-            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
-                vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
-        } else {
-            vlcVout.setVideoView(mPresentation.mSurfaceView);
-            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
-                vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
-        }
-        vlcVout.addCallback(this);
-        vlcVout.attachViews();
-
         mPlaybackStarted = true;
+
+        /* Dispatch ActionBar touch events to the Activity */
+        mActionBarView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onTouchEvent(event);
+                return true;
+            }
+        });
+
+        if (AndroidUtil.isICSOrLater())
+            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(
+                    new OnSystemUiVisibilityChangeListener() {
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if (visibility == mUiVisibility)
+                                return;
+                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && !isFinishing()) {
+                                showOverlay();
+                            }
+                            mUiVisibility = visibility;
+                        }
+                    }
+            );
 
         if (AndroidUtil.isHoneycombOrLater()) {
             if (mOnLayoutChangeListener == null) {
@@ -692,14 +682,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         changeSurfaceLayout();
 
-        if (mMediaRouter != null) {
-            // Listen for changes to media routes.
+        /* Listen for changes to media routes. */
+        if (mMediaRouter != null)
             mediaRouterAddCallback(true);
+
+        mDetector.setOnDoubleTapListener(this);
+
+        LibVLC().setOnHardwareAccelerationError(this);
+        final IVLCVout vlcVout = mService.getVLCVout();
+        if (mPresentation == null) {
+            vlcVout.setVideoView(mSurfaceView);
+            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
+                vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
+        } else {
+            vlcVout.setVideoView(mPresentation.mSurfaceView);
+            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
+                vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
+        vlcVout.addCallback(this);
+        vlcVout.attachViews();
+        mSurfaceView.setKeepScreenOn(true);
 
         loadMedia();
-
-        mSurfaceView.setKeepScreenOn(true);
 
         // Add any selected subtitle file from the file picker
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -726,19 +730,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.removeCallback(this);
         vlcVout.detachViews();
+        mSurfaceView.setKeepScreenOn(false);
+
+        mHandler.removeCallbacksAndMessages(null);
+
+        mDetector.setOnDoubleTapListener(null);
+
+        /* Stop listening for changes to media routes. */
+        if (mMediaRouter != null)
+            mediaRouterAddCallback(false);
+
+        if (AndroidUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
+            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
+
+        if (AndroidUtil.isICSOrLater())
+            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(null);
+
+        mActionBarView.setOnTouchListener(null);
+
         if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
             mService.showWithoutParse(savedIndexPosition);
             return;
-        }
-
-        mHandler.removeCallbacksAndMessages(null);
-
-        mSurfaceView.setKeepScreenOn(false);
-
-        if (mMediaRouter != null) {
-            // Stop listening for changes to media routes.
-            mediaRouterAddCallback(false);
         }
 
         final boolean isPaused = !mService.isPlaying();
@@ -789,9 +802,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.setRate(1.0f);
 
         Util.commitPreferences(editor);
-
-        if (AndroidUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
-            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
     }
 
     @Override
