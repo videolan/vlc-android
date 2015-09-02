@@ -544,8 +544,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Stop the earliest possible to avoid vout error */
         if (isFinishing())
             stopPlayback();
-        else if (BuildConfig.tv && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            requestVisibleBehind(true);
+        else if (BuildConfig.tv && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !requestVisibleBehind(true))
+            stopPlayback();
     }
 
     @Override
