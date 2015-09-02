@@ -56,14 +56,13 @@ import java.util.Calendar;
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
 import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SLEEP_TIMER;
 
-public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback {
+public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final String MODE_KEY = "mode";
     public static final int MODE_VIDEO = 0;
     public static final int MODE_AUDIO = 1;
 
-    public static final int SPEED_TEXT = 0;
     public static final int SLEEP_TEXT = 1;
     public static final int TOGGLE_CANCEL = 2;
     public static final int DIALOG_LISTENER = 3;
@@ -78,8 +77,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private ImageView mPlayAsAudio;
     private TextView mEqualizer;
 
-    private ImageView mPlaybackSpeedIcon;
-    private TextView mPlaybackSpeedValue;
+    private TextView mPlaybackSpeed;
 
     private ImageView mSleepIcon;
     private TextView mSleepValue;
@@ -136,10 +134,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         getDialog().setCanceledOnTouchOutside(true);
 
 
-        mPlaybackSpeedValue = (TextView) root.findViewById(R.id.playback_speed_value);
-        mPlaybackSpeedValue.setOnFocusChangeListener(mFocusListener);
-        mPlaybackSpeedIcon = (ImageView) root.findViewById(R.id.playback_speed_icon);
-        mPlaybackSpeedIcon.setOnClickListener(this);
+        mPlaybackSpeed = (TextView) root.findViewById(R.id.playback_speed);
+        mPlaybackSpeed.setOnFocusChangeListener(mFocusListener);
+        mPlaybackSpeed.setOnClickListener(this);
+        mPlaybackSpeed.setOnLongClickListener(this);
 
         mSleepValue = (TextView) root.findViewById(R.id.sleep_value);
         mSleepIcon = (ImageView) root.findViewById(R.id.sleep_icon);
@@ -264,7 +262,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         VLCApplication.sPlayerSleepTime = time;
     }
 
-        private final Handler mHandler = new AdvOptionsDialogHandler(this);
+    public void initPlaybackSpeed () {
+        if (mService.getRate() == 1.0f) {
+            mPlaybackSpeed.setText(null);
+            mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
+                    Util.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style),
+                    0, 0);
+        } else {
+            mPlaybackSpeed.setText(Strings.formatRateString(mService.getRate()));
+            mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_speed_on, 0, 0);
+        }
+    }
+
+    private final Handler mHandler = new AdvOptionsDialogHandler(this);
 
     private static class AdvOptionsDialogHandler extends WeakHandler<AdvOptionsDialog> {
 
@@ -281,13 +291,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             if (owner == null || owner.isDetached())
                 return;
             switch (msg.what) {
-                case SPEED_TEXT:
-                    text = (String) msg.obj;
-                    owner.mPlaybackSpeedValue.setText(text);
-                    owner.mPlaybackSpeedIcon.setImageResource(VLCApplication.sPlayerSleepTime == null ?
-                            Util.getResourceFromAttribute(owner.getActivity(), R.attr.ic_speed_normal_style) :
-                            R.drawable.ic_speed_on);
-                    break;
                 case TOGGLE_CANCEL:
                     owner.mSleepIcon.setImageResource(VLCApplication.sPlayerSleepTime == null ?
                             Util.getResourceFromAttribute(owner.getActivity(), R.attr.ic_sleep_normal_style):
@@ -329,7 +332,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     mHandler.sendEmptyMessage(TOGGLE_CANCEL);
                 }
                 break;
-            case R.id.playback_speed_icon:
+            case R.id.playback_speed:
                 showPlayBackSpeedDialog();
                 break;
             case R.id.jump_chapter_title:
@@ -355,6 +358,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
         }
     }
+
+    public boolean onLongClick (View v) {
+        switch (v.getId()) {
+            case R.id.playback_speed:
+                mService.setRate(1);
+                initPlaybackSpeed();
+                return true;
+        }
+        return false;
+    }
+
 
     private DialogInterface.OnDismissListener onDismissListener;
 
@@ -386,15 +400,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mService = service;
 
-        // Init Playback Speed
-        if (mService.getRate() == 1.0f) {
-            mPlaybackSpeedValue.setText(null);
-            mPlaybackSpeedIcon.setImageResource(
-                    Util.getResourceFromAttribute(this.getActivity(), R.attr.ic_speed_normal_style));
-        } else {
-            mPlaybackSpeedValue.setText(Strings.formatRateString(mService.getRate()));
-            mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_on);
-        }
+        initPlaybackSpeed();
 
         if (mMode == MODE_VIDEO) {
             // Init Chapter

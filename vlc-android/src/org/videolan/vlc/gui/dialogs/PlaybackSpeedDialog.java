@@ -44,9 +44,10 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
 
     private TextView mSpeedValue;
     private SeekBar mSeekSpeed;
-    private ImageView mResetSpeed;
+    private ImageView mPlaybackSpeedIcon;
 
     protected PlaybackService mService;
+    protected int mTextColor;
 
     public PlaybackSpeedDialog() {
     }
@@ -73,10 +74,14 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         View view = inflater.inflate(R.layout.dialog_playback_speed, container);
         mSpeedValue = (TextView) view.findViewById(R.id.playback_speed_value);
         mSeekSpeed = (SeekBar) view.findViewById(R.id.playback_speed_seek);
-        mResetSpeed = (ImageView) view.findViewById(R.id.playback_speed_reset);
+        mPlaybackSpeedIcon = (ImageView) view.findViewById(R.id.playback_speed_icon);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
-        mResetSpeed.setOnClickListener(mResetListener);
+        mPlaybackSpeedIcon.setOnClickListener(mResetListener);
+        mSpeedValue.setOnClickListener(mResetListener);
+
+        mTextColor = mSpeedValue.getCurrentTextColor();
+
 
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
@@ -93,6 +98,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             speed = 100 * (1 + Math.log(speed) / Math.log(4));
             mSeekSpeed.setProgress((int) speed);
         }
+        updateInterface();
     }
 
     private SeekBar.OnSeekBarChangeListener mSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
@@ -104,6 +110,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
             mSpeedValue.setText(Strings.formatRateString(rate));
             mService.setRate(rate);
+            updateInterface();
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
@@ -119,10 +126,24 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             if (mService == null)
                 return;
 
+            if (mService.getRate() == 1.0d)
+                return;
+
             mSeekSpeed.setProgress(100);
             mService.setRate(1);
         }
     };
+
+    private void updateInterface() {
+        if (mService.getRate() != 1.0d) {
+            mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
+            mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));
+        } else {
+            mPlaybackSpeedIcon.setImageResource(Util.getResourceFromAttribute(getActivity(), R.attr.ic_speed_normal_style));
+            mSpeedValue.setTextColor(mTextColor);
+        }
+
+    }
 
     @Override
     public void onStart() {
