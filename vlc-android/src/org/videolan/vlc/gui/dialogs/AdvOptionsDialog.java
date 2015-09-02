@@ -78,9 +78,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private TextView mEqualizer;
 
     private TextView mPlaybackSpeed;
-
-    private ImageView mSleepIcon;
-    private TextView mSleepValue;
+    private TextView mSleep;
 
     private TextView mJumpTitle;
 
@@ -139,10 +137,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mPlaybackSpeed.setOnClickListener(this);
         mPlaybackSpeed.setOnLongClickListener(this);
 
-        mSleepValue = (TextView) root.findViewById(R.id.sleep_value);
-        mSleepIcon = (ImageView) root.findViewById(R.id.sleep_icon);
-        mSleepIcon.setOnClickListener(this);
-        mSleepValue.setOnFocusChangeListener(mFocusListener);
+        mSleep = (TextView) root.findViewById(R.id.sleep);
+        mSleep.setOnClickListener(this);
+        mSleep.setOnFocusChangeListener(mFocusListener);
 
         mJumpTitle = (TextView) root.findViewById(R.id.jump_title);
         mJumpTitle.setOnClickListener(this);
@@ -175,7 +172,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         } else
             root.findViewById(R.id.opt_equalizer).setVisibility(View.GONE);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
-        mTextColor = mSleepValue.getCurrentTextColor();
+        mTextColor = mSleep.getCurrentTextColor();
 
         if (getDialog() != null) {
             int dialogWidth = getResources().getDimensionPixelSize(mMode == MODE_VIDEO ?
@@ -292,13 +289,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 return;
             switch (msg.what) {
                 case TOGGLE_CANCEL:
-                    owner.mSleepIcon.setImageResource(VLCApplication.sPlayerSleepTime == null ?
-                            Util.getResourceFromAttribute(owner.getActivity(), R.attr.ic_sleep_normal_style):
-                            R.drawable.ic_sleep_on);
+                    owner.mSleep.setCompoundDrawablesWithIntrinsicBounds(0,
+                            VLCApplication.sPlayerSleepTime == null ?
+                                    Util.getResourceFromAttribute(owner.getActivity(), R.attr.ic_sleep_normal_style):
+                                    R.drawable.ic_sleep_on,
+                            0 , 0);
                 case SLEEP_TEXT:
                     if (VLCApplication.sPlayerSleepTime != null)
-                        text = DateFormat.getTimeFormat(owner.mSleepValue.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
-                    owner.mSleepValue.setText(text);
+                        text = DateFormat.getTimeFormat(owner.mSleep.getContext()).format(VLCApplication.sPlayerSleepTime.getTime());
+                    owner.mSleep.setText(text);
                     break;
                 case DIALOG_LISTENER:
                     DialogFragment newFragment = (DialogFragment) msg.obj;
@@ -324,7 +323,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sleep_icon:
+            case R.id.sleep:
                 if (VLCApplication.sPlayerSleepTime == null)
                     showTimePickerFragment(ACTION_SLEEP_TIMER);
                 else {

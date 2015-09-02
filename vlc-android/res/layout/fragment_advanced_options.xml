@@ -16,27 +16,15 @@
 
         <!-- Sleep Timer -->
 
-        <LinearLayout
-            android:id="@+id/sleep_timer_container"
+        <TextView
+            android:id="@+id/sleep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/sleep_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="?attr/ic_sleep_normal_style" />
-
-            <TextView
-                android:id="@+id/sleep_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:drawableTop="?attr/ic_sleep_normal_style"
+            android:focusable="true"
+            android:gravity="center_horizontal" />
 
         <!-- Playback speed -->
 
