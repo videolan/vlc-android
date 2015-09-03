@@ -42,6 +42,7 @@ import android.widget.TextView;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.interfaces.IAudioClickHandler;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 
@@ -53,7 +54,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer {
+public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer, IAudioClickHandler {
     public final static String TAG = "VLC/AudioBrowserListAdapter";
 
     public final static int TYPE_ARTISTS = 0;
@@ -347,7 +348,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
         holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
-        holder.binding.setVariable(BR.handler, mClickHandler);
+        holder.binding.setVariable(BR.handler, this);
         holder.binding.executePendingBindings();
 
         return v;
@@ -561,11 +562,9 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     };
 
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
-        public void onClick(View v){
-            if (mContextPopupMenuListener != null)
-                mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag()).position);
-        }
+    @Override
+    public void onMoreClick(View v) {
+        if (mContextPopupMenuListener != null)
+            mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag()).position);
     }
 }

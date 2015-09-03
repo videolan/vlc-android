@@ -13,7 +13,7 @@
             type="boolean"/>
         <variable
             name="handler"
-            type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ClickHandler"/>
+            type="org.videolan.vlc.interfaces.IAudioClickHandler"/>
         <variable
             name="clickable"
             type="boolean"/>
@@ -81,7 +81,7 @@
                 android:background="@drawable/ic_more"
                 android:contentDescription="@string/more_actions"
                 android:visibility="@{clickable ? View.VISIBLE : View.GONE}"
-                android:onClick="@{handler.onClick}"
+                android:onClick="@{handler.onMoreClick}"
                 android:clickable="@{clickable}" />
         </RelativeLayout>
 
