@@ -25,20 +25,22 @@ package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.databinding.AudioBrowserItemBinding;
+import org.videolan.vlc.interfaces.IAudioClickHandler;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends ArrayAdapter<MediaWrapper> {
+public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioClickHandler{
 
     private ArrayList<MediaWrapper> mMediaList;
 
@@ -56,31 +58,20 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> {
         MediaWrapper mw = mMediaList.get(position);
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
-            holder.title = (TextView) v.findViewById(R.id.title);
-            holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
-            holder.more = (ImageView) v.findViewById(R.id.item_more);
-            holder.footer = v.findViewById(R.id.footer);
+            holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
+            v = holder.binding.getRoot();
 
-            v.setTag(holder);
+            v.setTag(R.layout.audio_browser_item, holder);
         } else
-            holder = (ViewHolder) v.getTag();
+            holder = (ViewHolder) v.getTag(R.layout.audio_browser_item);
 
-        holder.title.setText(mw.getTitle());
-        holder.subtitle.setText(mw.getArtist());
-        holder.footer.setVisibility(position == mMediaList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
-        if (mContextPopupMenuListener != null)
-            holder.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mContextPopupMenuListener != null)
-                        mContextPopupMenuListener.onPopupMenu(v, position);
-                }
-            });
-        else
-            holder.more.setVisibility(View.GONE);
-        v.findViewById(R.id.cover).setVisibility(View.GONE);
+        holder.position = position;
+        holder.binding.setMedia(mw);
+        holder.binding.setFooter(position != mMediaList.size() - 1);
+        holder.binding.setClickable(mContextPopupMenuListener != null);
+        holder.binding.setHandler(this);
+        holder.binding.executePendingBindings();
         return v;
     }
 
@@ -108,11 +99,15 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> {
             super.unregisterDataSetObserver(observer);
     }
 
+    @Override
+    public void onMoreClick(View v) {
+        if (mContextPopupMenuListener != null)
+                mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag(R.layout.audio_browser_item)).position);
+    }
+
     static class ViewHolder {
-        TextView title;
-        TextView subtitle;
-        ImageView more;
-        View footer;
+        AudioBrowserItemBinding binding;
+        int position;
     }
 
     public interface ContextPopupMenuListener {

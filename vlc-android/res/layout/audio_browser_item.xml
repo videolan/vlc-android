@@ -2,9 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
+        <import type="android.text.TextUtils"/>
         <variable
             name="item"
             type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
+        <variable
+            name="media"
+            type="org.videolan.vlc.MediaWrapper"/>
         <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
@@ -54,7 +58,7 @@
                     android:singleLine="true"
                     android:ellipsize="middle"
                     android:maxLines="1"
-                    android:text="@{item.mTitle}"
+                    android:text="@{media.title ?? item.mTitle}"
                     android:fontFamily="sans-serif-light"
                     android:textColor="?attr/list_title"
                     android:textSize="16sp" />
@@ -66,8 +70,8 @@
                     android:singleLine="true"
                     android:ellipsize="middle"
                     android:maxLines="1"
-                    android:text="@{item.mSubTitle}"
-                    android:visibility="@{item.mSubTitle != null ? View.VISIBLE : View.GONE}"
+                    android:text="@{media.artist ?? item.mSubTitle}"
+                    android:visibility="@{TextUtils.isEmpty(item.mSubTitle) &amp;&amp; TextUtils.isEmpty(media.artist)  ? View.GONE : View.VISIBLE}"
                     android:fontFamily="sans-serif-light"
                     android:textColor="?attr/list_subtitle" />
             </LinearLayout>
