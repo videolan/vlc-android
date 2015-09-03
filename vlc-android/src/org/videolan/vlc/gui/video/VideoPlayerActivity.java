@@ -507,6 +507,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             setRequestedOrientation(mScreenOrientationLock);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        if (mPlaybackStarted) {
+            Uri uri = intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION) ? (Uri) intent.getExtras().getParcelable(PLAY_EXTRA_ITEM_LOCATION) : intent.getData();
+            if (uri == null || uri.equals(mUri))
+                return;
+            stopPlayback();
+            startPlayback();
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
