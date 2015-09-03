@@ -722,6 +722,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!mPlaybackStarted)
             return;
 
+        if (mMute)
+            mute(false);
+
         LibVLC().setOnHardwareAccelerationError(null);
 
         mPlaybackStarted = false;
