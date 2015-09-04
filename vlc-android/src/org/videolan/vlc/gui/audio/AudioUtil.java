@@ -20,6 +20,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,18 +30,22 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresPermission;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.MurmurHash;
 import org.videolan.vlc.util.Util;
 
@@ -103,7 +108,7 @@ public class AudioUtil {
                     context.getApplicationContext(),
                     RingtoneManager.TYPE_RINGTONE,
                     newUri
-                    );
+            );
         } catch(Exception e) {
             Toast.makeText(context.getApplicationContext(),
                     context.getString(R.string.ringtone_error),
@@ -167,11 +172,11 @@ public class AudioUtil {
             return null;
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, new String[] {
-                       MediaStore.Audio.Albums.ALBUM,
-                       MediaStore.Audio.Albums.ALBUM_ART },
-                       MediaStore.Audio.Albums.ALBUM + " LIKE ?",
-                       new String[] { album }, null);
+        Cursor cursor = contentResolver.query(uri, new String[]{
+                        MediaStore.Audio.Albums.ALBUM,
+                        MediaStore.Audio.Albums.ALBUM_ART},
+                MediaStore.Audio.Albums.ALBUM + " LIKE ?",
+                new String[]{album}, null);
         if (cursor == null) {
             // do nothing
         } else if (!cursor.moveToFirst()) {
@@ -197,8 +202,8 @@ public class AudioUtil {
 
             /* Parse decoded attachment */
             if( mArtist.length() == 0 || mAlbum.length() == 0 ||
-                mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
-                mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
+                    mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
+                    mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
             {
                 /* If artist or album are missing, it was cached by title MD5 hash */
                 MessageDigest md = MessageDigest.getInstance("MD5");
@@ -355,6 +360,8 @@ public class AudioUtil {
 
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true;
+        options.inMutable = true;
+        BitmapUtil.setInBitmap(options);
         BitmapFactory.decodeFile(path, options);
 
         if (options.outWidth > 0 && options.outHeight > 0) {
@@ -366,6 +373,7 @@ public class AudioUtil {
                 options.inSampleSize = options.inSampleSize * 2;
 
             // Decode the file (with memory allocation this time)
+            BitmapUtil.setInBitmap(options);
             cover = BitmapFactory.decodeFile(path, options);
         }
 
