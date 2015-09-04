@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VLCAppWidgetProviderWhite.java
+ * VLCAppWidgetProviderBlack.java
  *****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -22,14 +22,14 @@ package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
 
-public class VLCAppWidgetProviderWhite extends VLCAppWidgetProvider {
+public class VLCAppWidgetProviderBlack extends VLCAppWidgetProvider {
 
     protected int getLayout() {
-        return R.layout.widget_w;
+        return R.layout.widget_b;
     }
 
     protected int getPlayPauseImage(boolean isPlaying){
-        return isPlaying ? R.drawable.ic_widget_pause : R.drawable.ic_widget_play;
+        return isPlaying ? R.drawable.ic_widget_pause_w : R.drawable.ic_widget_play_w;
     }
 
 }

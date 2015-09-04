@@ -107,7 +107,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
 
             views.setTextViewText(R.id.songName, title);
             views.setTextViewText(R.id.artist, artist);
-            views.setImageViewResource(R.id.play_pause, isplaying ? R.drawable.ic_widget_pause : R.drawable.ic_widget_play);
+            views.setImageViewResource(R.id.play_pause, getPlayPauseImage(isplaying));
             views.setViewVisibility(R.id.timeline_parent, artist != null && artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
         }
         else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
@@ -132,5 +132,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     }
 
     abstract protected int getLayout();
+
+    abstract protected int getPlayPauseImage(boolean isPlaying);
 
 }

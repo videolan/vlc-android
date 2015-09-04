@@ -358,6 +358,7 @@
     <!--Widget-->
     <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="widget_name_w">VLC White Widget</string>
+    <string name="widget_name_b">VLC Dark Widget</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
