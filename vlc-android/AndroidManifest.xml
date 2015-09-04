@@ -433,16 +433,20 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".widget.VLCAppWidgetProvider"
+            android:name=".widget.VLCAppWidgetProviderWhite"
             android:exported="false"
-            android:label="VLC resizable widget" >
+            android:label="@string/widget_name_w" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="org.videolan.vlc.widget.INIT" />
+                <action android:name="org.videolan.vlc.widget.UPDATE" />
+                <action android:name="org.videolan.vlc.widget.UPDATE_COVER" />
+                <action android:name="org.videolan.vlc.widget.UPDATE_POSITION" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/vlcwidget" />
+                android:resource="@xml/widget_provider_w" />
         </receiver>
         <receiver android:name=".RemoteControlClientReceiver" >
             <intent-filter>

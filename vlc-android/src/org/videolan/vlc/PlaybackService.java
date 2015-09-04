@@ -72,7 +72,6 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
 import java.io.File;
 import java.net.URI;
@@ -1195,8 +1194,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private void updateWidgetState() {
-        Intent i = new Intent(this, VLCAppWidgetProvider.class);
-        i.setAction(ACTION_WIDGET_UPDATE);
+        Intent i = new Intent(ACTION_WIDGET_UPDATE);
 
         if (hasCurrentMedia()) {
             final MediaWrapper media = getCurrentMedia();
@@ -1206,7 +1204,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     : Util.getMediaArtist(this, media));
         }
         else {
-            i.putExtra("title", getString(R.string.widget_name));
+            i.putExtra("title", getString(R.string.widget_default_text));
             i.putExtra("artist", "");
         }
         i.putExtra("isplaying", mMediaPlayer.isPlaying());
@@ -1215,8 +1213,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private void updateWidgetCover() {
-        Intent i = new Intent(this, VLCAppWidgetProvider.class);
-        i.setAction(ACTION_WIDGET_UPDATE_COVER);
+        Intent i = new Intent(ACTION_WIDGET_UPDATE_COVER);
 
         Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
         i.putExtra("cover", cover);
@@ -1234,8 +1231,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         updateWidgetState();
 
         mWidgetPositionTimestamp = timestamp;
-        Intent i = new Intent(this, VLCAppWidgetProvider.class);
-        i.setAction(ACTION_WIDGET_UPDATE_POSITION);
+        Intent i = new Intent(ACTION_WIDGET_UPDATE_POSITION);
         i.putExtra("position", pos);
         sendBroadcast(i);
     }

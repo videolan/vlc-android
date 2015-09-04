@@ -50,7 +50,7 @@
                 android:layout_marginLeft="@dimen/half_default_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/widget_name"
+                android:text="@string/widget_default_text"
                 android:textColor="@color/grey900"
                 android:textSize="16sp" />
 

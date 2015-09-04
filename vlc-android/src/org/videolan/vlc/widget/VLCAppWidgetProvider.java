@@ -38,7 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 
-public class VLCAppWidgetProvider extends AppWidgetProvider {
+abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
     public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
     public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
@@ -75,7 +75,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             return;
         }
 
-        RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.vlcwidget);
+        RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, getLayout());
         boolean partial = AndroidUtil.isHoneycombOrLater();
 
         if (ACTION_WIDGET_INIT.equals(action) || !partial) {
@@ -123,11 +123,14 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setProgressBar(R.id.timeline, 100, (int) (100 * pos), false);
         }
 
-        ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
+        ComponentName widget = new ComponentName(context, this.getClass());
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         if (partial)
             manager.partiallyUpdateAppWidget(manager.getAppWidgetIds(widget), views);
         else
             manager.updateAppWidget(widget, views);
     }
+
+    abstract protected int getLayout();
+
 }
