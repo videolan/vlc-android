@@ -68,7 +68,7 @@
                 android:layout_above="@+id/ml_item_time"
                 android:layout_toLeftOf="@+id/item_more"
                 android:layout_marginTop="5dp"
-                android:text="@{media.title}"
+                android:text="@{media.displayTitle}"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:ellipsize="end"

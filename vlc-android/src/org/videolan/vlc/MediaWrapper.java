@@ -338,6 +338,10 @@ public class MediaWrapper implements Parcelable {
         }
     }
 
+    public String getDisplayTitle() {
+        return getTitle();
+    }
+
     public String getReferenceArtist() {
         return mAlbumArtist == null ? mArtist : mAlbumArtist;
     }

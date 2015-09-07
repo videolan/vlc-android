@@ -218,7 +218,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         MediaGroup mediaGroup = (MediaGroup) media;
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
-        mediaGroup.setTitle(media.getTitle() + "\u2026");
         holder.binding.setVariable(BR.resolution, text);
     }
 

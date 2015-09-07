@@ -57,6 +57,9 @@ public class MediaGroup extends MediaWrapper {
         mMedias.add(media);
     }
 
+    public String getDisplayTitle() {
+        return getTitle() + "\u2026";
+    }
     public void add(MediaWrapper media) {
         mMedias.add(media);
     }

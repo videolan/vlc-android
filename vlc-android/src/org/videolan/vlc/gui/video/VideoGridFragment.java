@@ -234,7 +234,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if (mGroup == null)
             return getString(R.string.video);
         else
-            return mGroup;
+            return mGroup + "\u2026";
     }
 
     private void updateViewMode() {
