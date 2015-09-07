@@ -24,8 +24,12 @@
 package org.videolan.vlc.gui;
 
 import android.app.Activity;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
-import android.widget.ImageView;
+import android.graphics.drawable.BitmapDrawable;
+
+import org.videolan.vlc.BR;
+import org.videolan.vlc.VLCApplication;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -38,30 +42,27 @@ public class AsyncImageLoader {
 
     static ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public static void LoadImage(Callable<Bitmap> loader, final ImageView view, Activity activity){
+    public static void LoadImage(Callable<Bitmap> loader, final ViewDataBinding binding, Activity activity){
 
         Future<Bitmap> future = executor.submit(loader);
-        handleImage(view, activity, future);
+        handleImage(binding, activity, future);
     }
 
-    private static void handleImage(final ImageView view, final Activity activity, final Future<Bitmap> future) {
+    private static void handleImage(final ViewDataBinding binding, final Activity activity, final Future<Bitmap> future) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     final Bitmap bitmap = future.get();
-
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.setImageBitmap(bitmap);
-                                }
-                            });
-                        }
-                    });
+                    if (activity != null) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                                binding.executePendingBindings();
+                            }
+                        });
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

@@ -26,18 +26,12 @@ import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
@@ -46,9 +40,8 @@ import android.widget.TextView;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.interfaces.IAudioClickHandler;
 import org.videolan.vlc.gui.AsyncImageLoader;
-import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.interfaces.IAudioClickHandler;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
@@ -58,7 +51,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer, IAudioClickHandler {
     public final static String TAG = "VLC/AudioBrowserListAdapter";
@@ -337,9 +329,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         if (mItemType == ITEM_WITH_COVER) {
             AudioUtil.AudioCoverFetcher fetcher = new AudioUtil.AudioCoverFetcher(mContext, mItems.get(position).mMediaList);
-            AsyncImageLoader.LoadImage(fetcher, holder.cover, mContext);
-            //TODO
-            //holder.binding.setVariable(BR.cover, new BitmapDrawable(mContext.getResources(), cover));
+            AsyncImageLoader.LoadImage(fetcher, holder.binding, mContext);
         }
 
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
