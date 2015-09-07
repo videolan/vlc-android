@@ -28,6 +28,8 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
@@ -45,6 +47,7 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
+import org.videolan.vlc.gui.AsyncImageLoader;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 
@@ -55,6 +58,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer, IAudioClickHandler {
     public final static String TAG = "VLC/AudioBrowserListAdapter";
@@ -332,20 +336,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.item, item);
 
         if (mItemType == ITEM_WITH_COVER) {
-            Bitmap cover = null;
-            LinkedList<String> testedAlbums = new LinkedList<String>();
-            for (MediaWrapper media : mItems.get(position).mMediaList) {
-                if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
-                    continue;
-                cover = AudioUtil.getCover(v.getContext(), media, 64);
-                if (cover != null)
-                    break;
-                else if (media.getAlbum() != null)
-                    testedAlbums.add(media.getAlbum());
-            }
-            if (cover == null)
-                cover = BitmapCache.getFromResource(v, R.drawable.icon);
-            holder.binding.setVariable(BR.cover, new BitmapDrawable(mContext.getResources(), cover));
+            AudioUtil.AudioCoverFetcher fetcher = new AudioUtil.AudioCoverFetcher(mContext, mItems.get(position).mMediaList);
+            AsyncImageLoader.LoadImage(fetcher, holder.cover, mContext);
+            //TODO
+            //holder.binding.setVariable(BR.cover, new BitmapDrawable(mContext.getResources(), cover));
         }
 
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));

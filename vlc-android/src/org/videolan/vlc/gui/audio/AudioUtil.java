@@ -59,7 +59,10 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.concurrent.Callable;
 
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
@@ -360,7 +363,8 @@ public class AudioUtil {
 
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true;
-        options.inMutable = true;
+        if (AndroidUtil.isHoneycombOrLater())
+            options.inMutable = true;
         BitmapUtil.setInBitmap(options);
         BitmapFactory.decodeFile(path, options);
 
@@ -378,5 +382,35 @@ public class AudioUtil {
         }
 
         return cover;
+    }
+
+    public static class AudioCoverFetcher implements Callable<Bitmap> {
+
+        ArrayList<MediaWrapper> list;
+        Context context;
+
+        AudioCoverFetcher(Context context, ArrayList<MediaWrapper> list){
+            this.list = list;
+            this.context = context;
+        }
+
+        @Override
+        public Bitmap call() throws Exception {
+            Bitmap cover = null;
+            LinkedList<String> testedAlbums = new LinkedList<String>();
+            for (MediaWrapper media : list) {
+                if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
+                    continue;
+
+                cover = AudioUtil.getCover(context, media, 64);
+                if (cover != null)
+                    break;
+                else if (media.getAlbum() != null)
+                    testedAlbums.add(media.getAlbum());
+            }
+            if (cover == null)
+                cover = BitmapCache.getFromResource(context.getResources(), R.drawable.icon);
+            return cover;
+        }
     }
 }
