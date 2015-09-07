@@ -183,11 +183,11 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         if (thumbnail == null) {
             // missing thumbnail
             holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
+            thumbnail = BitmapCache.getFromResource(v.getResources(), R.drawable.ic_cone_o);
         } else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
             // dummy thumbnail
             holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.getFromResource(v, R.drawable.ic_cone_o);
+            thumbnail = BitmapCache.getFromResource(v.getResources(), R.drawable.ic_cone_o);
         } else
             holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
 
