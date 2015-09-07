@@ -23,8 +23,8 @@ package org.videolan.vlc.gui.tv;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AsyncImageLoader;
 import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.gui.tv.browser.GridFragment;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.util.BitmapUtil;
 
@@ -39,6 +39,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import java.util.concurrent.Callable;
 
 public class CardPresenter extends Presenter {
 
@@ -72,24 +74,8 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(MediaWrapper mediaWrapper) {
-                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
-            Bitmap picture = null;
-            if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
-                picture = AudioUtil.getCover(sContext, mediaWrapper, 320);
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
-            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
-                picture = BitmapUtil.getPictureFromCache(mediaWrapper);
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
-            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)
-                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
-            else
-                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_unknown_big_normal);
-            if (picture != null && picture.getByteCount() > 4)
-                mCardView.setMainImage(new BitmapDrawable(mRes, picture));
-            else
-                mCardView.setMainImage(sDefaultCardImage);
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), sImageUpdater, mCardView);
         }
 
         protected void updateCardViewImage(Drawable image) {
@@ -181,4 +167,46 @@ public class CardPresenter extends Presenter {
             this.name = name;
         }
     }
+
+    public static class CoverFetcher implements Callable<Bitmap>{
+        MediaWrapper mediaWrapper;
+
+        CoverFetcher(MediaWrapper mediaWrapper){
+            this.mediaWrapper = mediaWrapper;
+        }
+
+        @Override
+        public Bitmap call() throws Exception {
+            Bitmap picture = null;
+            if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
+                picture = AudioUtil.getCover(sContext, mediaWrapper, 320);
+                if (picture == null)
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
+            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
+                picture = BitmapUtil.getPictureFromCache(mediaWrapper);
+                if (picture == null)
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
+            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)
+                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
+            else
+                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_unknown_big_normal);
+            return picture;
+        }
+    }
+
+    public static AsyncImageLoader.ImageUpdater sImageUpdater = new AsyncImageLoader.ImageUpdater() {
+        @Override
+        public void updateImage(final Bitmap picture, final View target) {
+            target.post(new Runnable() {
+                @Override
+                public void run() {
+                    ImageCardView cardView = (ImageCardView) target;
+                    if (picture != null && picture.getByteCount() > 4)
+                        cardView.setMainImage(new BitmapDrawable(mRes, picture));
+                    else
+                        cardView.setMainImage(sDefaultCardImage);
+                }
+            });
+        }
+    };
 }

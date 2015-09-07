@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
@@ -38,37 +39,52 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class AsyncImageLoader {
+
+    public interface ImageUpdater {
+        void updateImage(Bitmap bitmap, View target);
+    }
+
     public final static String TAG = "VLC/AsyncImageLoader";
 
     static ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public static void LoadImage(Callable<Bitmap> loader, final ViewDataBinding binding, Activity activity){
-
-        Future<Bitmap> future = executor.submit(loader);
-        handleImage(binding, activity, future);
-    }
-
-    private static void handleImage(final ViewDataBinding binding, final Activity activity, final Future<Bitmap> future) {
+    public static void LoadImage(Callable<Bitmap> loader, final ImageUpdater updater, final View target){
+        final Future<Bitmap> future = executor.submit(loader);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    final Bitmap bitmap = future.get();
-                    if (activity != null) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                                binding.executePendingBindings();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                handleImage(updater, future, target);
             }
         }).start();
+    }
+
+    public static void LoadAudioCover(Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
+        ImageUpdater updater = new ImageUpdater() {
+            @Override
+            public void updateImage(final Bitmap bitmap, View target) {
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                            binding.executePendingBindings();
+                        }
+                    });
+                }
+
+            }
+        };
+        LoadImage(loader, updater, null);
+    }
+
+    private static void handleImage(final ImageUpdater updater, final Future<Bitmap> future, View target){
+        try {
+            final Bitmap bitmap = future.get();
+            updater.updateImage(bitmap, target);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

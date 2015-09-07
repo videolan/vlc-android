@@ -329,7 +329,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         if (mItemType == ITEM_WITH_COVER) {
             AudioUtil.AudioCoverFetcher fetcher = new AudioUtil.AudioCoverFetcher(mContext, mItems.get(position).mMediaList);
-            AsyncImageLoader.LoadImage(fetcher, holder.binding, mContext);
+            AsyncImageLoader.LoadAudioCover(fetcher, holder.binding, mContext);
         }
 
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
