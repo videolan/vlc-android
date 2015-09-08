@@ -430,6 +430,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                     mSwitchedToVideo = true;
                 }
                 break;
+            case MediaPlayer.Event.Stopped:
+                hide();
+                break;
         }
     }
 
