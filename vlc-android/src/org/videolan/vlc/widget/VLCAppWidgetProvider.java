@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -108,7 +107,6 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setTextViewText(R.id.songName, title);
             views.setTextViewText(R.id.artist, artist);
             views.setImageViewResource(R.id.play_pause, getPlayPauseImage(isplaying));
-            views.setViewVisibility(R.id.timeline_parent, artist != null && artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
         }
         else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
             Bitmap cover = intent.getParcelableExtra("cover");

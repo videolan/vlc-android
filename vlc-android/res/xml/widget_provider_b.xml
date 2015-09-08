@@ -5,5 +5,5 @@
     android:minResizeWidth="180dp"
     android:updatePeriodMillis="86400000"
     android:initialLayout="@layout/widget_b"
-    android:previewImage="@drawable/widget_preview_w">
+    android:previewImage="@drawable/widget_preview_b">
 </appwidget-provider>
