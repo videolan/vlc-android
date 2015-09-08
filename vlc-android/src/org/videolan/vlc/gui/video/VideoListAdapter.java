@@ -219,6 +219,9 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
         holder.binding.setVariable(BR.resolution, text);
+        holder.binding.setVariable(BR.time, "");
+        holder.binding.setVariable(BR.max, 0);
+        holder.binding.setVariable(BR.progress, 0);
     }
 
     private void fillVideoView(ViewHolder holder, MediaWrapper media) {
@@ -240,6 +243,8 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         }
         if (media.getWidth() > 0 && media.getHeight() > 0)
             holder.binding.setVariable(BR.resolution, String.format("%dx%d", media.getWidth(), media.getHeight()));
+        else
+            holder.binding.setVariable(BR.resolution, "");
     }
 
     static class ViewHolder {

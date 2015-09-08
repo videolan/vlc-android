@@ -130,6 +130,7 @@
                 android:minHeight="2dip"
                 android:max="@{max}"
                 android:progress="@{progress}"
+                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}"
                 android:progressDrawable="?attr/gridview_progressbar" />
 
         </RelativeLayout>
