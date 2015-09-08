@@ -547,12 +547,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        //Respect user locked rotation setting
-        try {
-            if (0 == Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION))
-                return;
-        } catch (SettingNotFoundException e) {}
-
         if (!AndroidUtil.isHoneycombOrLater())
             changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
