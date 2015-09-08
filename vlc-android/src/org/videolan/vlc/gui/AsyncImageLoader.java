@@ -62,7 +62,7 @@ public class AsyncImageLoader {
         ImageUpdater updater = new ImageUpdater() {
             @Override
             public void updateImage(final Bitmap bitmap, View target) {
-                if (activity != null) {
+                if (bitmap != null && activity != null) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

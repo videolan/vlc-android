@@ -20,7 +20,6 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,17 +27,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresPermission;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
@@ -83,6 +80,8 @@ public class AudioUtil {
      * User-defined playlist storage directory
      */
     public static String PLAYLIST_DIR = null;
+
+    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
 
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Context context){
@@ -408,8 +407,6 @@ public class AudioUtil {
                 else if (media.getAlbum() != null)
                     testedAlbums.add(media.getAlbum());
             }
-            if (cover == null)
-                cover = BitmapCache.getFromResource(context.getResources(), R.drawable.icon);
             return cover;
         }
     }

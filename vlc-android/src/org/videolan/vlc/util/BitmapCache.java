@@ -28,9 +28,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.util.LruCache;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.lang.ref.SoftReference;
@@ -44,6 +46,7 @@ public class BitmapCache {
     public final static String TAG = "VLC/BitmapCache";
     private final static boolean LOG_ENABLED = false;
 
+    private static final String CONE_KEY = "res:"+ R.drawable.cone;
     private static BitmapCache mInstance;
     private final LruCache<String, SoftReference<Bitmap>> mMemCache;
     Set<SoftReference<Bitmap>> mCachedBitmaps;
@@ -82,7 +85,7 @@ public class BitmapCache {
             protected void entryRemoved(boolean evicted, String key, SoftReference<Bitmap> oldValue, SoftReference<Bitmap> newValue) {
                 if (evicted) {
                     mCachedBitmaps.remove(oldValue);
-                    if (oldValue.get() != null)
+                    if (oldValue.get() != null && !TextUtils.equals(key, CONE_KEY))
                         addReusableBitmapRef(oldValue);
                 }
             }

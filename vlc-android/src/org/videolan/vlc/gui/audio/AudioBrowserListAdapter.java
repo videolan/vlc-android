@@ -332,6 +332,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             AsyncImageLoader.LoadAudioCover(fetcher, holder.binding, mContext);
         }
 
+        holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
         holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
         holder.binding.setVariable(BR.handler, this);
