@@ -30,7 +30,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.BitmapUtil;
@@ -55,7 +54,6 @@ public class Thumbnailer implements Runnable {
     private final Condition notEmpty = lock.newCondition();
 
     protected Thread mThread;
-    private LibVLC mLibVlc;
     private int totalCount;
     private final String mPrefix;
 
@@ -66,8 +64,6 @@ public class Thumbnailer implements Runnable {
     }
 
     public void start(IVideoBrowser videoBrowser) {
-        mLibVlc = VLCInstance.get();
-
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
             mVideoBrowser = new WeakReference<IVideoBrowser>(videoBrowser);
