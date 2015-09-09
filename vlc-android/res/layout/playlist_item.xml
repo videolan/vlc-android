@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.audio.PlaylistAdapter.ClickHandler"/>
+        <variable
+            name="media"
+            type="org.videolan.vlc.MediaWrapper"/>
+        <variable
+            name="subTitle"
+            type="String"/>
+        <variable
+            name="position"
+            type="int"/>
+        <variable
+            name="titleColor"
+            type="int"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/background_default">
+        <TextView
+            android:id="@+id/audio_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:text="@{media.title}"
+            android:textColor="@{titleColor}"
+            android:fontFamily="sans-serif-light"
+            android:textSize="16sp"
+            android:tag="@{position}"
+            android:onClick="@{handler.onClick}"/>
+        <TextView
+            android:id="@+id/audio_item_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{subTitle}"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:textColor="?attr/list_subtitle"
+            android:fontFamily="sans-serif-light"
+            android:textSize="12sp"
+            android:tag="@{position}"
+            android:onClick="@{handler.onClick}" />
+    </LinearLayout>
+</layout>
