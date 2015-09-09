@@ -54,7 +54,7 @@ public class Thumbnailer implements Runnable {
     private final Condition notEmpty = lock.newCondition();
 
     protected Thread mThread;
-    private int totalCount;
+    private int mTotalCount;
     private final String mPrefix;
 
     public Thumbnailer(Context context, Display display) {
@@ -85,7 +85,7 @@ public class Thumbnailer implements Runnable {
         lock.lock();
         try {
             mItems.clear();
-            totalCount = 0;
+            mTotalCount = 0;
         } finally {
             lock.unlock();
         }
@@ -93,12 +93,12 @@ public class Thumbnailer implements Runnable {
 
     /**
      * Gives the count of pending thumbnails
-     * @return totalCount
+     * @return mTotalCount
      */
     public int getJobsCount(){
         int count;
         lock.lock();
-        count = totalCount;
+        count = mTotalCount;
         lock.unlock();
         return count;
     }
@@ -113,7 +113,7 @@ public class Thumbnailer implements Runnable {
         lock.lock();
         try {
             mItems.add(item);
-            totalCount++;
+            mTotalCount++;
             notEmpty.signal();
         } finally {
             lock.unlock();
@@ -143,7 +143,7 @@ public class Thumbnailer implements Runnable {
                         mVideoBrowser.get().hideProgressBar();
                         mVideoBrowser.get().clearTextInfo();
                     }
-                    totalCount = 0;
+                    mTotalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     interrupted = true;
@@ -155,7 +155,7 @@ public class Thumbnailer implements Runnable {
                 lock.unlock();
                 break;
             }
-            total = totalCount;
+            total = mTotalCount;
             MediaWrapper item = mItems.poll();
             lock.unlock();
 
