@@ -48,7 +48,7 @@ public class BitmapCache {
 
     private static final String CONE_KEY = "res:"+ R.drawable.cone;
     private static BitmapCache mInstance;
-    private final LruCache<String, SoftReference<Bitmap>> mMemCache;
+    private final LruCache<String, CacheableBitmap> mMemCache;
     Set<SoftReference<Bitmap>> mCachedBitmaps;
     Set<SoftReference<Bitmap>> mReusableBitmaps;
 
@@ -72,21 +72,19 @@ public class BitmapCache {
 
         Log.i(TAG, "LRUCache size set to " + cacheSize);
 
-        mMemCache = new LruCache<String, SoftReference<Bitmap>>(cacheSize) {
+        mMemCache = new LruCache<String, CacheableBitmap>(cacheSize) {
 
             @Override
-            protected int sizeOf(String key, SoftReference<Bitmap> value) {
-                if (value.get() == null)
-                    return 0;
-                return value.get().getRowBytes() * value.get().getHeight();
+            protected int sizeOf(String key, CacheableBitmap value) {
+                return value.getSize();
             }
 
             @Override
-            protected void entryRemoved(boolean evicted, String key, SoftReference<Bitmap> oldValue, SoftReference<Bitmap> newValue) {
+            protected void entryRemoved(boolean evicted, String key, CacheableBitmap oldValue, CacheableBitmap newValue) {
                 if (evicted) {
-                    mCachedBitmaps.remove(oldValue);
+                    mCachedBitmaps.remove(oldValue.getReference());
                     if (oldValue.get() != null && !TextUtils.equals(key, CONE_KEY))
-                        addReusableBitmapRef(oldValue);
+                        addReusableBitmapRef(oldValue.getReference());
                 }
             }
         };
@@ -97,19 +95,19 @@ public class BitmapCache {
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
-        final SoftReference<Bitmap> ref = mMemCache.get(key);
-        if (ref == null)
+        final CacheableBitmap cacheableBitmap = mMemCache.get(key);
+        if (cacheableBitmap == null)
             return null;
-        Bitmap b = ref.get();
+        Bitmap b = cacheableBitmap.get();
         if (b == null){
             mMemCache.remove(key);
-            mCachedBitmaps.remove(ref);
+            mCachedBitmaps.remove(cacheableBitmap.getReference());
             return null;
         }
         if (b.isRecycled()) {
             /* A recycled bitmap cannot be used again */
-            addReusableBitmapRef(ref);
-            mCachedBitmaps.remove(ref);
+            addReusableBitmapRef(cacheableBitmap.getReference());
+            mCachedBitmaps.remove(cacheableBitmap.getReference());
             mMemCache.remove(key);
             b = null;
         }
@@ -120,9 +118,9 @@ public class BitmapCache {
 
     public void addBitmapToMemCache(String key, Bitmap bitmap) {
         if (key != null && bitmap != null && getBitmapFromMemCache(key) == null) {
-            final SoftReference<Bitmap> ref =new SoftReference<Bitmap>(bitmap);
-            mMemCache.put(key, ref);
-            mCachedBitmaps.add(ref);
+            final CacheableBitmap cacheableBitmap = new CacheableBitmap(bitmap);
+            mMemCache.put(key, cacheableBitmap);
+            mCachedBitmaps.add(cacheableBitmap.getReference());
         }
     }
 
@@ -181,5 +179,29 @@ public class BitmapCache {
         if (!itemsToRemove.isEmpty())
             mReusableBitmaps.removeAll(itemsToRemove);
         return null;
+    }
+
+    private static class CacheableBitmap {
+        final int mSize;
+        final SoftReference<Bitmap> mReference;
+
+        CacheableBitmap(Bitmap bitmap){
+            mReference = new SoftReference<Bitmap>(bitmap);
+            mSize = bitmap == null ? 0 : bitmap.getRowBytes() * bitmap.getHeight();
+        }
+
+        public SoftReference<Bitmap> getReference(){
+            return mReference;
+        }
+
+        public Bitmap get(){
+            if (mReference != null)
+                return mReference.get();
+            return null;
+        }
+
+        public int getSize(){
+            return mSize;
+        }
     }
 }
