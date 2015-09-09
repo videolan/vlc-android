@@ -39,7 +39,6 @@ import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.AndroidUtil;
 
 public class VLCUtil {
     public final static String TAG = "VLC/LibVLC/Util";
@@ -519,6 +518,9 @@ public class VLCUtil {
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     public static byte[] getThumbnail(LibVLC libVLC, Uri uri, int i_width, int i_height) {
+        /* dvd thumbnails can work only with dvdsimple demux */
+        if (uri.getLastPathSegment().endsWith(".iso"))
+            uri = Uri.parse("dvdsimple://" + uri.getEncodedPath());
         final Media media = new Media(libVLC, uri);
         byte[] bytes = getThumbnail(media, i_width, i_height);
         media.release();
