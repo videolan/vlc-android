@@ -525,13 +525,6 @@ public class VLCUtil {
         return bytes;
     }
 
-    public static byte[] getThumbnail(LibVLC libVLC, String path, int i_width, int i_height) {
-        final Media media = new Media(libVLC, path);
-        byte[] bytes = getThumbnail(media, i_width, i_height);
-        media.release();
-        return bytes;
-    }
-
     public static byte[] getThumbnail(Media media, int i_width, int i_height) {
         media.addOption(":no-audio");
         media.addOption(":no-spu");
