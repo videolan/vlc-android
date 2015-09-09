@@ -29,8 +29,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
@@ -38,6 +38,10 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SelectChapterDialog extends DialogFragment implements PlaybackService.Client.Callback {
 
@@ -86,18 +90,23 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
         if (chaptersCount <= 1) {
             return;
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.dialog_select_chapter_item);
-        for (int i = 0; i < chaptersCount; ++i) {
+
+        ArrayList<Map<String, String>> chapterList = new ArrayList<Map<String, String>>();
+
+        for (int i = 0; i < chaptersCount; i++) {
             String name;
-            if (chapters[i].name == null || chapters[i].name.equals("")) {
-                StringBuilder sb = new StringBuilder(getResources().getString(R.string.chapter) + " ").append(i);
-                if (chapters[i].timeOffset >= 0)
-                    sb.append(" - ").append(Strings.millisToString(chapters[i].timeOffset));
-                name = sb.toString();
-            } else
+            if (chapters[i].name == null || chapters[i].name.equals(""))
+                name = getResources().getString(R.string.chapter) + " " + i;
+            else
                 name = chapters[i].name;
-            adapter.insert(name, i);
+            chapterList.add(putData(name, Strings.millisToString(chapters[i].timeOffset)));
         }
+
+        String[] from = { "name", "time" };
+        int[] to = { R.id.chapter_name, R.id.chapter_time };
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), chapterList,
+                R.layout.dialog_select_chapter_item, from, to);
+
         mChapterList.setAdapter(adapter);
         mChapterList.setSelection(mService.getChapterIdx());
         mChapterList.setItemChecked(mService.getChapterIdx(), true);
@@ -133,4 +142,10 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
         mService = null;
     }
 
+    private HashMap<String, String> putData(String name, String time) {
+        HashMap<String, String> item = new HashMap<String, String>();
+        item.put("name", name);
+        item.put("time", time);
+        return item;
+    }
 }

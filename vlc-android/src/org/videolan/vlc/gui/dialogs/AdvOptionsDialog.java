@@ -364,7 +364,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             final int chaptersCount = chapters != null ? chapters.length : 0;
 
             if (chaptersCount > 1) {
-                mChaptersTitle.setText(chapters[mService.getChapterIdx()].name);
+                int index = mService.getChapterIdx();
+                if (chapters[index].name == null || chapters[index].name.equals(""))
+                    mChaptersTitle.setText(getResources().getString(R.string.chapter) + " " + index);
+                else
+                    mChaptersTitle.setText(chapters[index].name);
             } else
                 mChaptersTitle.setVisibility(View.GONE);
 
