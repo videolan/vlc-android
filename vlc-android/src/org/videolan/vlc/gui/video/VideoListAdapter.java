@@ -245,6 +245,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
             holder.binding.setVariable(BR.resolution, String.format("%dx%d", media.getWidth(), media.getHeight()));
         else
             holder.binding.setVariable(BR.resolution, "");
+        holder.binding.setVariable(BR.group, false);
     }
 
     static class ViewHolder {
