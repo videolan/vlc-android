@@ -10,6 +10,8 @@ Application:
  * Performance improvement for Audio media lists display
  * Databinding implementation
  * Upgraded AppCompat to version 23.0.1
+ * Fix thumbnail for ts and dvd
+ * Fix thumbnail aspect ratio with some videos
 
 TV:
  * Fix video player behaviour while playing in background
