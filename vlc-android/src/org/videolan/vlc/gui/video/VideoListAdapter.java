@@ -37,12 +37,15 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.AsyncImageLoader;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 
 public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                                  implements Comparator<MediaWrapper> {
@@ -54,6 +57,8 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
     private VideoGridFragment mFragment;
+
+    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_cone_o));
 
     public VideoListAdapter(VideoGridFragment fragment) {
         super(fragment.getActivity(), 0);
@@ -178,21 +183,10 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
         MediaWrapper media = getItem(position);
 
-        /* Thumbnail */
-        Bitmap thumbnail = BitmapUtil.getPictureFromCache(media);
-        if (thumbnail == null) {
-            // missing thumbnail
-            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.getFromResource(v.getResources(), R.drawable.ic_cone_o);
-        } else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
-            // dummy thumbnail
-            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-            thumbnail = BitmapCache.getFromResource(v.getResources(), R.drawable.ic_cone_o);
-        } else
-            holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+        AsyncImageLoader.LoadVideoCover(new VideoCoverFetcher(media), holder.binding, mFragment.getActivity());
 
-        //FIXME Warning: the thumbnails are upscaled in the grid view!
-        holder.binding.setVariable(BR.cover, new BitmapDrawable(getContext().getResources(), thumbnail));
+        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
+        holder.binding.setVariable(BR.cover, DEFAULT_COVER);
 
         if (media instanceof MediaGroup)
             fillGroupView(holder, media);
@@ -260,5 +254,19 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     public boolean isListMode() {
         return mListMode;
+    }
+
+    public static class VideoCoverFetcher implements Callable<Bitmap> {
+
+        MediaWrapper media;
+
+        VideoCoverFetcher(MediaWrapper media){
+            this.media = media;
+        }
+
+        @Override
+        public Bitmap call() throws Exception {
+            return BitmapUtil.getPictureFromCache(media);
+        }
     }
 }

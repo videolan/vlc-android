@@ -28,6 +28,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
@@ -66,6 +67,27 @@ public class AsyncImageLoader {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                            binding.executePendingBindings();
+                        }
+                    });
+                }
+
+            }
+        };
+        LoadImage(loader, updater, null);
+    }
+
+    public static void LoadVideoCover(Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
+        ImageUpdater updater = new ImageUpdater() {
+            @Override
+            public void updateImage(final Bitmap bitmap, View target) {
+                if (bitmap != null && activity != null &&
+                        (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                             binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
                             binding.executePendingBindings();
                         }

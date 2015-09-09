@@ -47,6 +47,7 @@ public class BitmapCache {
     private final static boolean LOG_ENABLED = false;
 
     private static final String CONE_KEY = "res:"+ R.drawable.cone;
+    private static final String CONE_O_KEY = "res:"+ R.drawable.ic_cone_o;
     private static BitmapCache mInstance;
     private final LruCache<String, CacheableBitmap> mMemCache;
     Set<SoftReference<Bitmap>> mCachedBitmaps;
@@ -83,7 +84,7 @@ public class BitmapCache {
             protected void entryRemoved(boolean evicted, String key, CacheableBitmap oldValue, CacheableBitmap newValue) {
                 if (evicted) {
                     mCachedBitmaps.remove(oldValue.getReference());
-                    if (oldValue.get() != null && !TextUtils.equals(key, CONE_KEY))
+                    if (oldValue.get() != null && !TextUtils.equals(key, CONE_KEY) && !TextUtils.equals(key, CONE_O_KEY))
                         addReusableBitmapRef(oldValue.getReference());
                 }
             }
