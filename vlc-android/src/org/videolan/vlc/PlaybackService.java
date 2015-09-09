@@ -644,7 +644,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EndReached:
-                    Log.i(TAG, "MediaPlayerEndReached");
+                    Log.i(TAG, "MediaPlayer.Event.EndReached");
                     executeUpdate();
                     executeUpdateProgress();
                     determinePrevAndNextIndices(true);
@@ -1133,21 +1133,19 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void next() {
         int size = mMediaList.size();
-        if (size == 1){
+        if (size > 1) {
+            mPrevious.push(mCurrentIndex);
+            mCurrentIndex = mNextIndex;
+            Log.d(TAG, "setting current to "+mCurrentIndex);
+            if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
+                if (mCurrentIndex < 0)
+                    saveCurrentMedia();
+                Log.w(TAG, "Warning: invalid next index, aborted !");
+                stop();
+                return;
+            }
+        } else
             setPosition(0f);
-            return;
-        }
-
-        mPrevious.push(mCurrentIndex);
-        mCurrentIndex = mNextIndex;
-        if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
-            if (mCurrentIndex < 0)
-                saveCurrentMedia();
-            Log.w(TAG, "Warning: invalid next index, aborted !");
-            stop();
-            return;
-        }
-
         playIndex(mCurrentIndex, 0);
         onMediaChanged();
     }
@@ -1155,18 +1153,17 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void previous() {
         int size = mMediaList.size();
-        if (size == 1){
+        if (size > 1) {
+            mCurrentIndex = mPrevIndex;
+            if (mPrevious.size() > 0)
+                mPrevious.pop();
+            if (size == 0 || mPrevIndex < 0 || mCurrentIndex >= size) {
+                Log.w(TAG, "Warning: invalid previous index, aborted !");
+                stop();
+                return;
+            }
+        } else
             setPosition(0f);
-            return;
-        }
-        mCurrentIndex = mPrevIndex;
-        if (mPrevious.size() > 0)
-            mPrevious.pop();
-        if (size == 0 || mPrevIndex < 0 || mCurrentIndex >= size) {
-            Log.w(TAG, "Warning: invalid previous index, aborted !");
-            stop();
-            return;
-        }
 
         playIndex(mCurrentIndex, 0);
         onMediaChanged();
