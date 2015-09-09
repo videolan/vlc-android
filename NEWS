@@ -1,17 +1,21 @@
 Changes between 1.5.2 and 1.5.3:
 --------------------------------
 
+Core:
+ * Hardware decoding performance improvements
+
 Application:
- * Translations update
  * Revamped Advanced options dialog
  * Properly restore audio volume
- * Fix last audio shortcut
  * Restored 'delete playlist' option
- * Performance improvement for Audio media lists display
+ * Introduction of a 'dark' widget
+ * Performance improvement for Audio/Video media lists display
  * Databinding implementation
  * Upgraded AppCompat to version 23.0.1
+ * Fix last audio shortcut
  * Fix thumbnail for ts and dvd
  * Fix thumbnail aspect ratio with some videos
+ * Translations update
 
 TV:
  * Fix video player behaviour while playing in background
