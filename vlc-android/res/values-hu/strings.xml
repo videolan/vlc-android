@@ -231,4 +231,5 @@
     <string name="audio_delay">Hang csúszás</string>
     <string name="spu_delay">Felirat csúszás</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
