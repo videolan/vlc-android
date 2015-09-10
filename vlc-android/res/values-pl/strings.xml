@@ -314,4 +314,5 @@
     <string name="file_deleted">Plik został usunięty</string>
     <string name="no_subs_found">Brak napisów w tym katalogu</string>
     <string name="music_now_playing">Teraz odtwarzane</string>
+    <!--Widget-->
 </resources>
