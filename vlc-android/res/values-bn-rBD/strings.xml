@@ -192,4 +192,5 @@
     <string name="more_actions">আরও কার্য</string>
     <string name="move">স্থানান্তর</string>
     <string name="file_deleted">ফাইল অপসারিত</string>
+    <!--Widget-->
 </resources>
