@@ -335,4 +335,5 @@
     <string name="file_deleted">حـُذِفَ الملف</string>
     <string name="no_subs_found">لا يوجد ملفات الترجمة في هذا المجلد</string>
     <string name="music_now_playing">يشتغل الآن</string>
+    <!--Widget-->
 </resources>
