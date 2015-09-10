@@ -208,4 +208,5 @@
     <!--Accessibility-->
     <string name="playlist_deleted">ಪ್ಲೇಪಟ್ಟಿ ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="music_now_playing">ಇವಾಗ ಆಡುತ್ತಿರುವುದು</string>
+    <!--Widget-->
 </resources>
