@@ -224,4 +224,5 @@
     <string name="send_log">Envia el fitxer de registre</string>
     <string name="sending_log">Enviat el fitxer de registre...</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
