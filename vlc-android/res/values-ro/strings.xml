@@ -228,4 +228,5 @@
     <string name="send_log">Trimite jurnalul</string>
     <string name="sending_log">Se trimite jurnalul...</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
