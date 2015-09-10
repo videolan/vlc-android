@@ -255,6 +255,7 @@
     <string name="network_caching">பிணைய பற்றுதல்(Caching) மதிப்பு</string>
     <string name="network_caching_summary">பிணைய ஊடகத்தை பப்பர்(buffer) செய்ய ஆகும் நேரம்(மில்லிவிநாடியில்).வன்பொருள் குறிவிலக்கத்தில் வேலைச் செய்யாது. மீட்டமைக்க வெற்றாக விடு.</string>
     <string name="developer_prefs_category">உருவாக்குநர்</string>
+    <string name="auto_rescan">தானாக மறுசோதனை</string>
     <string name="enable_verbose_mode">வெளித்தள்ளுதல்</string>
     <string name="enable_verbose_mode_summary">வெளித்தள்ளுதலை அதிகரி(logcat)</string>
     <string name="debug_logs">வழு பதிவுகள்</string>
@@ -291,6 +292,7 @@
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
     <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல...</string>
+    <string name="chapter">அத்தியாயம்</string>
     <string name="resume_from_position">கடைசி நிலையில் இருந்து தொடரவும்</string>
     <string name="confirm_resume">கடைசி நிலையில் இருந்து தொடரவா?</string>
     <string name="confirm_resume_title">மீண்டும் தொடர்வதற்கு உறுதி கேட்க</string>
@@ -304,4 +306,5 @@
     <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை </string>
     <string name="music_now_playing">இப்போ ஒடுவது </string>
+    <!--Widget-->
 </resources>
