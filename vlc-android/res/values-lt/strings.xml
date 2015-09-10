@@ -289,4 +289,5 @@
     <string name="more_actions">Daugiau veiksmų</string>
     <string name="move">Perkelti</string>
     <string name="back_quit_lock">Norėdami užverti vaizdo kūrinį, dar kartą spustelėkite užvėrimą</string>
+    <!--Widget-->
 </resources>
