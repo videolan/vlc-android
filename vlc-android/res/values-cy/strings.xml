@@ -321,4 +321,5 @@
     <string name="file_deleted">Dileuwyd y ffeil</string>
     <string name="no_subs_found">Nid oes isdeitlau yn y cyfeiriadur hwn</string>
     <string name="music_now_playing">Yn Chwarae Nawr</string>
+    <!--Widget-->
 </resources>
