@@ -314,4 +314,5 @@
     <string name="file_deleted">Datoteka izbrisana</string>
     <string name="no_subs_found">Nema titlova u ovom direktoriju</string>
     <string name="music_now_playing">Trenutno Producira</string>
+    <!--Widget-->
 </resources>
