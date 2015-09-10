@@ -300,4 +300,5 @@
     <string name="file_deleted">Fail dipadam</string>
     <string name="no_subs_found">Tiada sarikata dalam direktori ini</string>
     <string name="music_now_playing">Kini Dimainkan</string>
+    <!--Widget-->
 </resources>
