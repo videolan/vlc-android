@@ -303,4 +303,5 @@
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
+    <!--Widget-->
 </resources>
