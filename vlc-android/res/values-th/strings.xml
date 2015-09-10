@@ -232,4 +232,5 @@
     <string name="spu_delay">หน่วงเวลาบทบรรยาย</string>
     <string name="search_hint">ค้นหาสื่อ</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
