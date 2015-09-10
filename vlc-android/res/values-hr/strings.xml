@@ -310,4 +310,5 @@
     <string name="playlist_deleted">Popis izvođenja obrisan</string>
     <string name="file_deleted">Datoteka obrisana</string>
     <string name="no_subs_found">Nema podnaslova u ovom direktoriju</string>
+    <!--Widget-->
 </resources>
