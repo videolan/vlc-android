@@ -307,4 +307,5 @@
     <string name="file_deleted">Filen raderades</string>
     <string name="no_subs_found">Inga undertexter i denna katalog</string>
     <string name="music_now_playing">Spelas upp nu</string>
+    <!--Widget-->
 </resources>
