@@ -255,6 +255,8 @@
     <string name="network_caching">Verkkovälimuistin arvo</string>
     <string name="network_caching_summary">Aika millisekunneissa (ms) jota käytetään verkon puskurointiin. Ei toimi rautapurkamisen kanssa. Jätä tyhjäksi nollataksesi.</string>
     <string name="developer_prefs_category">Kehittäjä</string>
+    <string name="auto_rescan">Uudelleenskannaa automaattisesti</string>
+    <string name="auto_rescan_summary">Skannaa uutta tai poistettua mediaa laitteesta automaattisesti ohjelman käynnistyksen yhteydessä</string>
     <string name="enable_verbose_mode">Monisanainen</string>
     <string name="enable_verbose_mode_summary">Lisää monisanaisuutta (logcat)</string>
     <string name="debug_logs">Virheenjäljitysloki</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">soittolistan nimi</string>
     <string name="go_to_chapter">Mene kappaleeseen...</string>
+    <string name="chapter">Luku</string>
     <string name="resume_from_position">Jatka viimeisimmästä kohdasta</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
     <string name="confirm_resume_title">Kysy vahvistusta jatkamiselle</string>
@@ -304,4 +307,5 @@
     <string name="file_deleted">Tiedosto poistettu</string>
     <string name="no_subs_found">Tässä hakemistossa ei ole tekstityksiä</string>
     <string name="music_now_playing">Nyt toistetaan</string>
+    <!--Widget-->
 </resources>
