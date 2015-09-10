@@ -57,7 +57,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;

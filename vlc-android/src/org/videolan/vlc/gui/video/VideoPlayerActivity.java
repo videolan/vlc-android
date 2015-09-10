@@ -105,7 +105,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/advanced_prefs_category" >
+    <ListPreference
+        android:key="aout"
+        android:summary="@string/aout_summary"
+        android:title="@string/aout" />
+    <!--<ListPreference-->
+    <!--android:key="vout"-->
+    <!--android:summary="@string/vout_summary"-->
+    <!--android:title="@string/vout" />-->
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="auto_rescan"
+        android:title="@string/auto_rescan"
+        android:summary="@string/auto_rescan_summary"
+        android:widgetLayout="@layout/custom_chexbox" />
+    <Preference
+        android:enabled="true"
+        android:key="clear_media_db"
+        android:title="@string/clear_media_db" />
+
+    <PreferenceScreen
+        android:key="clear_history"
+        android:title="@string/clear_history" />
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="set_locale"
+        android:summary="@string/set_locale_detail"
+        android:title="@string/set_locale" />
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="network_caching"
+        android:maxLength="5"
+        android:summary="@string/network_caching_summary"
+        android:title="@string/network_caching" />
+
+    <Preference
+        android:enabled="true"
+        android:key="quit_app"
+        android:title="@string/quit" />
+</PreferenceScreen>

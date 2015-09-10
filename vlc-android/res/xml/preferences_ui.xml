@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/interface_prefs_screen"
+    android:key="ui_category" >
+    <PreferenceCategory android:title="@string/interface_secondary_display_category" >
+        <Preference android:summary="@string/interface_secondary_display_category_summary" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_clone_mode"
+            android:summary="@string/enable_clone_mode_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/enable_clone_mode" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/interface_other_category" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dialog_confirm_resume"
+            android:summary="@string/confirm_resume_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/confirm_resume_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="force_list_portrait"
+            android:summary="@string/force_list_portrait_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/force_list_portrait" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_brightness_gesture"
+            android:summary="@string/enable_brightness_gesture_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/enable_brightness_gesture" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_headset_detection"
+            android:summary="@string/enable_headset_detection_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/enable_headset_detection" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_steal_remote_control"
+            android:summary="@string/enable_steal_remote_control_summary"
+            android:widgetLayout="@layout/custom_chexbox"
+            android:title="@string/enable_steal_remote_control" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/audio_title_alignment_list"
+            android:entryValues="@array/audio_title_alignment_values"
+            android:key="audio_title_alignment"
+            android:persistent="true"
+            android:title="@string/audio_title_alignment" />
+    </PreferenceCategory>
+</PreferenceScreen>

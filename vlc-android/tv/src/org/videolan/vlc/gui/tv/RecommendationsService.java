@@ -38,7 +38,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.WeakHandler;

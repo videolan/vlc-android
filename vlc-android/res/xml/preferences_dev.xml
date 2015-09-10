@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/developer_prefs_category" >
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/dev_hardware_decoder_list"
+        android:entryValues="@array/dev_hardware_decoder_values"
+        android:key="dev_hardware_decoder"
+        android:summary="@string/dev_hardware_decoder_summary"
+        android:title="@string/dev_hardware_decoder" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="enable_verbose_mode"
+        android:summary="@string/enable_verbose_mode_summary"
+        android:widgetLayout="@layout/custom_chexbox"
+        android:title="@string/enable_verbose_mode" />
+
+    <PreferenceScreen
+        android:key="debug_logs"
+        android:title="@string/debug_logs" />
+</PreferenceScreen>

@@ -53,7 +53,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
