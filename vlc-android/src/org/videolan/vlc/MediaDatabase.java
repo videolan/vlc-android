@@ -305,59 +305,63 @@ public class MediaDatabase {
                     + DIR_ROW_PATH + " TEXT PRIMARY KEY NOT NULL"
                     + ");";
 
-            // Create the directories table
-            db.execSQL(createDirTabelQuery);
+            synchronized (this) {
+                // Create the directories table
+                db.execSQL(createDirTabelQuery);
 
-            // Create the media table
-            createMediaTableQuery(db);
+                // Create the media table
+                createMediaTableQuery(db);
 
-            // Create playlist tables
-            createPlaylistTablesQuery(db);
+                // Create playlist tables
+                createPlaylistTablesQuery(db);
 
-            String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS "
-                    + SEARCHHISTORY_TABLE_NAME + " ("
-                    + SEARCHHISTORY_KEY + " VARCHAR(200) PRIMARY KEY NOT NULL, "
-                    + SEARCHHISTORY_DATE + " DATETIME NOT NULL"
-                    + ");";
+                String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS "
+                        + SEARCHHISTORY_TABLE_NAME + " ("
+                        + SEARCHHISTORY_KEY + " VARCHAR(200) PRIMARY KEY NOT NULL, "
+                        + SEARCHHISTORY_DATE + " DATETIME NOT NULL"
+                        + ");";
 
-            // Create the searchhistory table
-            db.execSQL(createSearchhistoryTabelQuery);
+                // Create the searchhistory table
+                db.execSQL(createSearchhistoryTabelQuery);
 
-            createMRLTableQuery(db);
+                createMRLTableQuery(db);
 
-            createNetworkFavTableQuery(db);
+                createNetworkFavTableQuery(db);
+            }
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            dropMediaTableQuery(db);
-            createMediaTableQuery(db);
+            synchronized (this) {
+                dropMediaTableQuery(db);
+                createMediaTableQuery(db);
 
-            // Upgrade incrementally from oldVersion to newVersion
-            for(int i = oldVersion+1; i <= newVersion; i++) {
-                switch(i) {
-                case 9:
-                    // Remodelled playlist tables: re-create them
-                    db.execSQL("DROP TABLE " + PLAYLIST_MEDIA_TABLE_NAME + ";");
-                    db.execSQL("DROP TABLE " + PLAYLIST_TABLE_NAME + ";");
-                    createPlaylistTablesQuery(db);
-                    break;
-                case 11:
-                    createMRLTableQuery(db);
-                    break;
-                case 13:
-                    createNetworkFavTableQuery(db);
-                    break;
-                case 17:
-                    dropMRLTableQuery(db);
-                    createMRLTableQuery(db);
-                    break;
-                case 18:
-                    dropNetworkFavTableQuery(db);
-                    createNetworkFavTableQuery(db);
-                    break;
-                default:
-                    break;
+                // Upgrade incrementally from oldVersion to newVersion
+                for(int i = oldVersion+1; i <= newVersion; i++) {
+                    switch(i) {
+                    case 9:
+                        // Remodelled playlist tables: re-create them
+                        db.execSQL("DROP TABLE " + PLAYLIST_MEDIA_TABLE_NAME + ";");
+                        db.execSQL("DROP TABLE " + PLAYLIST_TABLE_NAME + ";");
+                        createPlaylistTablesQuery(db);
+                        break;
+                    case 11:
+                        createMRLTableQuery(db);
+                        break;
+                    case 13:
+                        createNetworkFavTableQuery(db);
+                        break;
+                    case 17:
+                        dropMRLTableQuery(db);
+                        createMRLTableQuery(db);
+                        break;
+                    case 18:
+                        dropNetworkFavTableQuery(db);
+                        createNetworkFavTableQuery(db);
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
         }
@@ -368,7 +372,7 @@ public class MediaDatabase {
      *
      * @return An array of all the playlist names
      */
-    public String[] getPlaylists() {
+    public synchronized String[] getPlaylists() {
         ArrayList<String> playlists = new ArrayList<String>();
         Cursor c = mDb.query(
                 PLAYLIST_TABLE_NAME,
@@ -389,7 +393,7 @@ public class MediaDatabase {
      * @param name Unique name of the playlist
      * @return False if invalid name or already exists, true otherwise
      */
-    public boolean playlistAdd(String name) {
+    public synchronized boolean playlistAdd(String name) {
         // Check length
         if(name.length() >= 200)
             return false;
@@ -410,7 +414,7 @@ public class MediaDatabase {
      *
      * @param name Unique name of the playlist
      */
-    public void playlistDelete(String name) {
+    public synchronized void playlistDelete(String name) {
         mDb.delete(PLAYLIST_TABLE_NAME, PLAYLIST_NAME + "=?",
                 new String[]{ name });
         mDb.delete(PLAYLIST_MEDIA_TABLE_NAME, PLAYLIST_MEDIA_PLAYLISTNAME
@@ -423,7 +427,7 @@ public class MediaDatabase {
      * @param name Unique name of the playlist
      * @return true if playlist exists, false otherwise
      */
-    public boolean playlistExists(String name) {
+    public synchronized boolean playlistExists(String name) {
         // Check duplicates
         Cursor c = mDb.query(PLAYLIST_TABLE_NAME,
                 new String[] { PLAYLIST_NAME }, PLAYLIST_NAME + "= ?",
@@ -443,7 +447,7 @@ public class MediaDatabase {
      * @return Array containing MRLs of the playlist in order, or null on error
      */
    @Nullable
-    public String[] playlistGetItems(String playlistName) {
+    public synchronized String[] playlistGetItems(String playlistName) {
         if(!playlistExists(playlistName))
             return null;
 
@@ -475,7 +479,7 @@ public class MediaDatabase {
      * @param position Position to insert into
      * @param mrl MRL of the media
      */
-    public void playlistInsertItem(String playlistName, int position, String mrl) {
+    public synchronized void playlistInsertItem(String playlistName, int position, String mrl) {
         playlistShiftItems(playlistName, position, 1);
 
         ContentValues values = new ContentValues();
@@ -505,7 +509,7 @@ public class MediaDatabase {
      * @param position Position to start shifting at
      * @param factor Factor to shift the order by
      */
-    private void playlistShiftItems(String playlistName, int position, int factor) {
+    private synchronized void playlistShiftItems(String playlistName, int position, int factor) {
         // Increment all media orders by 1 after the insert position
         Cursor c = mDb.query(
                 PLAYLIST_MEDIA_TABLE_NAME,
@@ -533,7 +537,7 @@ public class MediaDatabase {
      * @param playlistName Unique name of the playlist
      * @param position Position to remove
      */
-    public void playlistRemoveItem(String playlistName, int position) {
+    public synchronized void playlistRemoveItem(String playlistName, int position) {
         mDb.delete(PLAYLIST_MEDIA_TABLE_NAME,
                 PLAYLIST_MEDIA_PLAYLISTNAME + "=? AND " +
                 PLAYLIST_MEDIA_ORDER + "=?",
@@ -550,7 +554,7 @@ public class MediaDatabase {
      * @return false on error, if playlist doesn't exist or if the new name
      * already exists, true otherwise
      */
-    public boolean playlistRename(String playlistName, String newPlaylistName) {
+    public synchronized boolean playlistRename(String playlistName, String newPlaylistName) {
         if(!playlistExists(playlistName) || playlistExists(newPlaylistName))
             return false;
 
@@ -881,7 +885,7 @@ public class MediaDatabase {
         mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[]{uri.toString()});
     }
 
-    public void removeMedias(Collection<Uri> uris) {
+    public synchronized void removeMedias(Collection<Uri> uris) {
         mDb.beginTransaction();
         try {
             for (Uri uri : uris)
@@ -892,7 +896,7 @@ public class MediaDatabase {
         }
     }
 
-    public void removeMediaWrappers(Collection<MediaWrapper> mws) {
+    public synchronized void removeMediaWrappers(Collection<MediaWrapper> mws) {
         mDb.beginTransaction();
         try {
             for (MediaWrapper mw : mws)
