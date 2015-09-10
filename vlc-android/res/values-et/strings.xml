@@ -180,4 +180,5 @@
     <string name="quit">Sulge ning taaskäivita rakendus</string>
     <string name="restart_vlc">Taaskäivita VLC</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
