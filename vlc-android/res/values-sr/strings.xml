@@ -242,4 +242,5 @@
     <string name="send_log">Пошаљи извештај</string>
     <string name="sending_log">Шаљем извештај…</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
