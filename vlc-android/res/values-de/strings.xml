@@ -307,4 +307,5 @@
     <string name="file_deleted">Datei gelöscht</string>
     <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
     <string name="music_now_playing">Läuft gerade</string>
+    <!--Widget-->
 </resources>
