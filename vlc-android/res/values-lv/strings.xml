@@ -218,4 +218,5 @@
     <string name="dump_logcat_failure">Neizdevās izgāzt logcat.</string>
     <string name="restart_vlc">Pārstartēt VLC</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
