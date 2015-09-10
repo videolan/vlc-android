@@ -34,6 +34,8 @@
     <string name="set_song">Nastavi za zvonjenje</string>
     <string name="info">Podatki</string>
     <string name="confirm_delete">Želite izbrisati datoteko \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Želite izbrisati mapo \'%1$s\' in vso njeno vsebino?</string>
+    <string name="confirm_delete_playlist">Želite izbrisati seznam predvajanja \'%1$s\'?</string>
     <string name="ringtone_set">Datoteka \'%1$s\' je nastavljena za zvonjenje.</string>
     <string name="ringtone_error">Pri nastavljanju zvonjenja je prišlo do napake.</string>
     <string name="pause">Prekini</string>
@@ -142,6 +144,7 @@
     <string name="tools">Orodja</string>
     <string name="playback_speed">Hitrost predvajanja</string>
     <string name="sleep_title">Časovnik mirovanja</string>
+    <string name="sleep_in">Preidi v stanje mirovanja po</string>
     <string name="sleep_cancel">Prekliči časovnik mirovanja</string>
     <string name="jump_to_time">Skoči na čas</string>
     <string name="subtitle_label">Dodaj datoteko s podnapisi</string>
@@ -234,8 +237,10 @@
     <string name="audio_title_alignment_left">Levo</string>
     <string name="audio_title_alignment_centre">Sredinsko</string>
     <string name="audio_title_alignment_right">Desno</string>
+    <string name="audio_title_alignment_marquee">Oznaka</string>
     <string name="performance_prefs_category">Zmogljivost</string>
     <string name="chroma_format">Vsili kromo videa</string>
+    <string name="chroma_format_summary">32-bitni RGB: privzeta barva\n16-bitni RGB: boljša zmogljivost, vendar nižja kakovost\nYUV: najboljša zmogljivost, vendar ne deluje na vseh napravah. Samo za Android 2.3 in kasnejše.</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
     <string name="deblocking_summary">Spremenite nastavitve filtra za odstranjevanje kock. Lahko poveča kvaliteto videa. Samo za napredne uporabnike.</string>
     <string name="deblocking_always">Polno odstranjevanje kock (najpočasnejše)</string>
@@ -272,6 +277,9 @@
     <string name="copy_to_clipboard">Kopiraj na odložišče</string>
     <string name="copied_to_clipboard">Zapisnik kopiran na odložišče.</string>
     <string name="quit">Izhod in ponovni zagon programa</string>
+    <string name="dump_logcat">Odloži dnevnik logcat</string>
+    <string name="dump_logcat_success">Logcat je bil uspešno odložen v %1$s!</string>
+    <string name="dump_logcat_failure">Odlaganje dnevnika logcat je spodletelo.</string>
     <string name="serious_crash">Žal je prišlo do resne napake in VLC se je moral zapreti.</string>
     <string name="help_us_send_log">Pomagajte nam izboljšati VLC tako, da pošljete ta zapisnik od sesutju:</string>
     <string name="restart_vlc">Ponovno zaženi VLC</string>
@@ -284,16 +292,27 @@
     <string name="file_other">Zapri predalnik krmarjenja</string>
     <string name="audio_delay">Zvokovni zamik</string>
     <string name="spu_delay">Zamik podnapisov</string>
+    <string name="sleep_time_not_set">noben nastavljen</string>
+    <string name="network_shares_discovery">Iskanje omrežnih souporab ...</string>
     <string name="network_empty">Mapa je prazna.</string>
     <string name="network_connection_needed">Ni povezave s krajevnim omrežjem.</string>
     <string name="search_hint">Išči medij</string>
+    <string name="directory_show_medialib">Prikaži v knjižnici MediaLib</string>
+    <string name="directory_hide_medialib">Skrij pred knjižnico MediaLib</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
     <string name="go_to_chapter">Pojdi na poglavje ...</string>
     <string name="resume_from_position">Nadaljuj z zadnjega položaja</string>
     <string name="confirm_resume">Želite nadaljevati z zadnjega položaja?</string>
     <string name="confirm_resume_title">Zahtevaj potrditev za nadaljevanje</string>
+    <string name="directory_empty">Mapa je prazna</string>
     <!--Accessibility-->
     <string name="more_actions">Več dejanj</string>
     <string name="move">Premakni</string>
+    <string name="back_quit_lock">Ponovno pritisnite Nazaj, da končate video</string>
+    <string name="playlist_deleted">Seznam predvajanja izbrisan</string>
+    <string name="file_deleted">Datoteka izbrisana</string>
+    <string name="no_subs_found">V tej mapi ni podnapisov</string>
+    <string name="music_now_playing">Trenutno se predvaja</string>
+    <!--Widget-->
 </resources>
