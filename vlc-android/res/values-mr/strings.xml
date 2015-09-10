@@ -280,9 +280,17 @@
     <string name="playlist_save">प्लेलिस्ट जतन करा</string>
     <string name="playlist_name_hint">प्लेलिस्टचे नाव</string>
     <string name="go_to_chapter">या पाठावर जा…</string>
+    <string name="chapter">पाठानूसार</string>
     <string name="resume_from_position">मागील स्थानापासून सुरू करा</string>
     <string name="confirm_resume">मागील स्थानापासून सुरू करावे?</string>
     <string name="confirm_resume_title">सुरू करण्यासाठी पुष्टीकरण मागा</string>
     <string name="confirm_resume_summary">सक्षम केल्यास जर चित्रफीत मागील स्थानापासून सुरू केली जाऊ शकत असल्यास आपणास पुष्टीकरण विचारले जाईल</string>
+    <string name="directory_empty">ही डिरेक्टरी मोकळी आहे.</string>
     <!--Accessibility-->
+    <string name="more_actions">उप्लब्ध कृत्या</string>
+    <string name="move">स्थलांतरित करा</string>
+    <string name="file_deleted">फाइल हटविली</string>
+    <string name="no_subs_found">उपशीर्षक उप्लब्ध नाही</string>
+    <string name="music_now_playing">आता प्ले होत आहे</string>
+    <!--Widget-->
 </resources>
