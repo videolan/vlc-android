@@ -283,4 +283,6 @@
     <string name="playlist_deleted">Spilunarlista eytt</string>
     <string name="file_deleted">Skrá eytt</string>
     <string name="no_subs_found">Engir skjátextar í þessari möppu</string>
+    <string name="music_now_playing">Í afspilun</string>
+    <!--Widget-->
 </resources>
