@@ -307,4 +307,5 @@
     <string name="file_deleted">Bestand verwijderd</string>
     <string name="no_subs_found">Geen ondertitels in deze map</string>
     <string name="music_now_playing">Nu afspelend</string>
+    <!--Widget-->
 </resources>
