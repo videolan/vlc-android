@@ -198,4 +198,5 @@
     <string name="dump_logcat_success">Logcat ondo erauzi da %1$s(e)ra!</string>
     <string name="dump_logcat_failure">Huts egin du logcat-a erauztean.</string>
     <!--Accessibility-->
+    <!--Widget-->
 </resources>
