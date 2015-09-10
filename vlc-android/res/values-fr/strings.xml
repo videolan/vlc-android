@@ -307,4 +307,5 @@
     <string name="file_deleted">Fichier supprimé</string>
     <string name="no_subs_found">Pas de sous-titre dans ce répertoire</string>
     <string name="music_now_playing">Lecture en cours</string>
+    <!--Widget-->
 </resources>
