@@ -6,7 +6,11 @@
     <string name="other">Otro</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nombre</string>
+    <string name="sortby_name_desc">Nombre (desc)</string>
     <string name="sortby_length">Longitud</string>
+    <string name="sortby_length_desc">Duración (desc)</string>
+    <string name="sortby_date">Fecha</string>
+    <string name="sortby_date_desc">Fecha (desc)</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +21,8 @@
     <string name="play_from_start">Reproducir desde el inicio</string>
     <string name="play_as_audio">Reproducir como audio</string>
     <string name="play_as_video">Reproducir como vídeo</string>
+    <string name="play_as_audio_background">Reproducir videos en segundo plano</string>
+    <string name="play_as_audio_background_summary">Continuar reproducción de video en segundo plano cuando la pantalla del dispositivo se apague o haciendo clic en la tecla HOME</string>
     <string name="append">Añadir</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
@@ -26,6 +32,8 @@
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">Borrar el archivo \'%1$s\'?</string>
+    <string name="confirm_delete_folder">¿Borrar la carpeta \'%1$s\' y todo su contenido?</string>
+    <string name="confirm_delete_playlist">¿Borrar lista de reproducción \'%1$s\'?</string>
     <string name="ringtone_set">El archivo \'%1$s\' se ajustó como tono de timbre.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
@@ -74,6 +82,7 @@
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
     <string name="nomedia">No se encontraron archivos multimedia, por favor transfiere algunos archivos a tu dispositivo o ajusta tus preferencias.</string>
+    <string name="noplaylist">No se encontró lista de reproducción</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">No disponible</string>
     <string name="nosubdirectory">No hay subcarpetas</string>
@@ -81,6 +90,11 @@
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
     <string name="cover_art">Portada</string>
+    <string name="shuffle">Aleatorio apagado</string>
+    <string name="shuffle_on">Aleatorio encendido</string>
+    <string name="repeat">No repetir ninguna</string>
+    <string name="repeat_single">Repetir uno solo</string>
+    <string name="repeat_all">Repetir todas</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
@@ -104,6 +118,8 @@
     <string name="sound_on">Sonido encendido</string>
     <string name="sound_off">Sonido apagado</string>
     <string name="brightness">Brillo</string>
+    <string name="navmenu">Menú de navegación</string>
+    <string name="advanced">Opciones avanzadas</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canales\n</item>
@@ -169,6 +185,8 @@
     <string name="hardware_acceleration_disabled">Deshabilitado</string>
     <string name="hardware_acceleration_decoding">Aceleración de decodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
+    <string name="dev_hardware_decoder">Codificador avanzado de hardware</string>
+    <string name="dev_hardware_decoder_summary">Forzar codificador de hardware, para usuarioa avanzados solamente</string>
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
@@ -191,6 +209,8 @@
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_jump_buttons">Habilitar botones de salto</string>
     <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
+    <string name="force_list_portrait">No hay cuadro en modo retrato</string>
+    <string name="force_list_portrait_summary">Mostrar videos en lista en lugar de cuadro en modo retrato</string>
     <string name="audio_title_alignment">Alineacion del titulo de audio</string>
     <string name="enable_headset_detection">Detectar audífonos</string>
     <string name="enable_headset_detection_summary">Pausar al quitar los audífonos, continuar al insertar los audífonos</string>
@@ -235,6 +255,8 @@
     <string name="start_logging">Iniciar registro</string>
     <string name="stop_logging">Detener registro</string>
     <string name="clear_log">Limpiar registro</string>
+    <string name="log_service_title">VLC grabación de registros</string>
+    <string name="log_service_text">Abrir la consola de registro</string>
     <string name="copy_to_clipboard">Copiar al portapapeles</string>
     <string name="copied_to_clipboard">Registro copiado al portapapeles.</string>
     <string name="quit">Sal y reinicia la aplicación</string>
@@ -248,5 +270,33 @@
     <string name="sending_log">Enviando el registro...</string>
     <string name="drawer_open">Abrir caja de navegacion</string>
     <string name="drawer_close">Cerrar caja de navegacion</string>
+    <string name="network_browsing">Red local</string>
+    <string name="file_size">Tamaño del archivo</string>
+    <string name="file_other">Cerrar caja de navegacion</string>
+    <string name="audio_delay">Retraso de audio</string>
+    <string name="spu_delay">Retraso de subtítulo</string>
+    <string name="sleep_time_not_set">Ninguno seleccionado</string>
+    <string name="network_shares_discovery">Buscando recursos compartidos...</string>
+    <string name="network_empty">Esta carpeta está vacía</string>
+    <string name="network_connection_needed">No hay conección a red local</string>
+    <string name="search_hint">Buscar medios</string>
+    <string name="directory_show_medialib">Abrir en biblioteca multimedia</string>
+    <string name="directory_hide_medialib">Ocultar desde biblioteca multimedia</string>
+    <string name="playlist_save">Guardar lista de reproducción</string>
+    <string name="playlist_name_hint">Nombre de lista de reproducción</string>
+    <string name="go_to_chapter">Ir a capítulo...</string>
+    <string name="resume_from_position">Continuar desde la ultima posición</string>
+    <string name="confirm_resume">¿Continuar desde la ultima posición?</string>
+    <string name="confirm_resume_title">Pedir confirmación para continuar</string>
+    <string name="confirm_resume_summary">si está activado se pedirá confirmación cuando un video pueda ser continuado desde la ultima posición</string>
+    <string name="directory_empty">La carpeta está vacía</string>
     <!--Accessibility-->
+    <string name="more_actions">Más acciones</string>
+    <string name="move">Mover</string>
+    <string name="back_quit_lock">Presione nuevamente para salir del video</string>
+    <string name="playlist_deleted">Lista de reproducción borrada</string>
+    <string name="file_deleted">Archivo borrado</string>
+    <string name="no_subs_found">No hay subtitulos en esta carpeta</string>
+    <string name="music_now_playing">Reproduciendo ahora</string>
+    <!--Widget-->
 </resources>
