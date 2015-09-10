@@ -300,4 +300,5 @@
     <string name="file_deleted">파일을 삭제했습니다</string>
     <string name="no_subs_found">이 폴더에 자막이 없습니다</string>
     <string name="music_now_playing">지금 재생중</string>
+    <!--Widget-->
 </resources>
