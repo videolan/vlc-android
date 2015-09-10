@@ -84,7 +84,7 @@ public class BitmapCache {
             protected void entryRemoved(boolean evicted, String key, CacheableBitmap oldValue, CacheableBitmap newValue) {
                 if (evicted) {
                     mCachedBitmaps.remove(oldValue.getReference());
-                    if (oldValue.get() != null && !TextUtils.equals(key, CONE_KEY) && !TextUtils.equals(key, CONE_O_KEY))
+                    if (mReusableBitmaps != null && oldValue.get() != null && !TextUtils.equals(key, CONE_KEY) && !TextUtils.equals(key, CONE_O_KEY))
                         addReusableBitmapRef(oldValue.getReference());
                 }
             }
@@ -152,7 +152,7 @@ public class BitmapCache {
         return bitmap;
     }
 
-    public synchronized void addReusableBitmapRef(SoftReference<Bitmap> ref){
+    private synchronized void addReusableBitmapRef(SoftReference<Bitmap> ref){
         mReusableBitmaps.add(ref);
     }
 
