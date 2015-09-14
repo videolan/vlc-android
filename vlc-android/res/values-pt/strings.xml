@@ -308,4 +308,6 @@
     <string name="no_subs_found">Não existem legendas neste diretório</string>
     <string name="music_now_playing">A reproduzir</string>
     <!--Widget-->
+    <string name="widget_name_w">Tema branco</string>
+    <string name="widget_name_b">Tema preto</string>
 </resources>
