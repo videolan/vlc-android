@@ -305,7 +305,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void onMoreClick(View v){
-            final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+            final MediaViewHolder holder = (MediaViewHolder) ((ViewGroup)v.getParent()).getTag(R.id.layout_item);
             fragment.onPopupMenu(holder.more, holder.getAdapterPosition());
         }
     }
