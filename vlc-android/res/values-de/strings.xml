@@ -308,4 +308,6 @@
     <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
     <string name="music_now_playing">Läuft gerade</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC weißes Widget</string>
+    <string name="widget_name_b">VLC dunkles Widget</string>
 </resources>
