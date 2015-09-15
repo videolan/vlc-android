@@ -306,15 +306,18 @@ public class Media extends VLCObject<Media.Event> {
         for (int i = 0; i < array.length; ++i) {
             final char c = array[i];
             if (c == '%') {
-                if (array.length - i < 3)
-                    throw new IllegalArgumentException("bad mrl format");
-
-                final int hex = Integer.parseInt(new String(array, i + 1, 2), 16);
-                if (URI_AUTHORIZED_CHARS.indexOf(hex) != -1) {
-                    sb.append((char)hex);
-                    i += 2;
-                    continue;
+                if (array.length - i >= 3) {
+                    try {
+                        final int hex = Integer.parseInt(new String(array, i + 1, 2), 16);
+                        if (URI_AUTHORIZED_CHARS.indexOf(hex) != -1) {
+                            sb.append((char) hex);
+                            i += 2;
+                            continue;
+                        }
+                    } catch (NumberFormatException ignored) {
+                    }
                 }
+
             }
             sb.append(c);
         }
