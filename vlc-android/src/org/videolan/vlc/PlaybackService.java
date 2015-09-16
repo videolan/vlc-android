@@ -965,6 +965,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void pause() {
+        savePosition();
         mHandler.removeMessages(SHOW_PROGRESS);
         // hideNotification(); <-- see event handler
         mMediaPlayer.pause();
@@ -1296,6 +1297,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private synchronized void savePosition(){
+        if (getCurrentMedia() == null || getCurrentMedia().getType() == MediaWrapper.TYPE_VIDEO)
+            return;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putInt("position_in_list", mCurrentIndex);
         editor.putLong("position_in_song", mMediaPlayer.getTime());
@@ -1504,6 +1507,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void load(List<MediaWrapper> mediaList, int position) {
         Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
+
+        if (hasCurrentMedia())
+            savePosition();
 
         mMediaList.removeEventListener(mListEventListener);
         mMediaList.clear();
