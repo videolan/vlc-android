@@ -1175,14 +1175,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mShuffling)
             mPrevious.clear();
         mShuffling = !mShuffling;
-        saveCurrentMedia();
+        savePosition();
         determinePrevAndNextIndices();
     }
 
     @MainThread
     public void setRepeatType(int repeatType) {
         mRepeating = repeatType;
-        saveCurrentMedia();
+        savePosition();
         determinePrevAndNextIndices();
     }
 
@@ -1279,8 +1279,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private synchronized void saveCurrentMedia() {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putString("current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
-        editor.putBoolean("shuffling", mShuffling);
-        editor.putInt("repeating", mRepeating);
         Util.commitPreferences(editor);
     }
 
@@ -1300,6 +1298,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (getCurrentMedia() == null || getCurrentMedia().getType() == MediaWrapper.TYPE_VIDEO)
             return;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putBoolean("shuffling", mShuffling);
+        editor.putInt("repeating", mRepeating);
         editor.putInt("position_in_list", mCurrentIndex);
         editor.putLong("position_in_song", mMediaPlayer.getTime());
         Util.commitPreferences(editor);
