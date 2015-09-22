@@ -460,7 +460,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mSongsListAdapter.notifyDataSetChanged();
 
         final int selectionIndex = currentIndex;
-        if (previousAudioList != audioList)
+        if (!previousAudioList.equals(audioList))
             mSongsList.post(new Runnable() {
                 @Override
                 public void run() {
