@@ -441,6 +441,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService == null)
             return;
 
+        final List<MediaWrapper> previousAudioList = mSongsListAdapter.getMedias();
         mSongsListAdapter.clear();
 
         final List<MediaWrapper> audioList = mService.getMedias();
@@ -455,9 +456,17 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             }
         }
         mSongsListAdapter.setCurrentIndex(currentIndex);
-        mSongsList.setSelection(currentIndex);
 
         mSongsListAdapter.notifyDataSetChanged();
+
+        final int selectionIndex = currentIndex;
+        if (previousAudioList != audioList)
+            mSongsList.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSongsList.setSelection(selectionIndex);
+                }
+            });
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
