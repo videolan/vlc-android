@@ -153,6 +153,13 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
         return locations;
     }
 
+    public List<MediaWrapper> getMedias() {
+        List<MediaWrapper> medias = new ArrayList<MediaWrapper>();
+        for (int i = 0 ; i < getCount() ; ++i)
+            medias.add(getItem(i));
+        return medias;
+    }
+
     static class ViewHolder {
         int position;
         TextView title;
