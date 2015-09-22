@@ -146,13 +146,6 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
         return location;
     }
 
-    public List<String> getLocations() {
-        List<String> locations = new ArrayList<String>();
-        for (int i = 0 ; i < getCount() ; ++i)
-            locations.add(getItem(i).getLocation());
-        return locations;
-    }
-
     public List<MediaWrapper> getMedias() {
         List<MediaWrapper> medias = new ArrayList<MediaWrapper>();
         for (int i = 0 ; i < getCount() ; ++i)
