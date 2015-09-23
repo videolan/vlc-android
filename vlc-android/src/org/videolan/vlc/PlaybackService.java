@@ -1127,8 +1127,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private void onMediaListChanged() {
         saveMediaList();
-        executeUpdate();
         determinePrevAndNextIndices();
+        executeUpdate();
     }
 
     @MainThread
