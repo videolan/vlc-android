@@ -623,8 +623,6 @@ VER_FILE="vlc/$VLC_BUILD_DIR/lib/.libs/libvlc.ver"
 echo "{ global:" > $VER_FILE
 cat vlc/lib/libvlc.sym | sed -e "s/\(.*\)/\1;/" >> $VER_FILE
 echo "local: *; };" >> $VER_FILE
-pwd
-echo $VER_FILE
 
 ###############################
 # NDK-Build for libvlcjni.so  #
