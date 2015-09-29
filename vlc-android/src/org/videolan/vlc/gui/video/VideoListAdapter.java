@@ -219,27 +219,32 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     }
 
     private void fillVideoView(ViewHolder holder, MediaWrapper media) {
+        String text = "";
+        String resolution = "";
+        int max = 0;
+        int progress = 0;
+
         /* Time / Duration */
         if (media.getLength() > 0) {
             long lastTime = media.getTime();
-            String text;
             if (lastTime > 0) {
                 text = String.format("%s / %s",
                         Strings.millisToText(lastTime),
                         Strings.millisToText(media.getLength()));
-                holder.binding.setVariable(BR.max, (int) (media.getLength() / 1000));
-                holder.binding.setVariable(BR.progress, (int) (lastTime / 1000));
+                max = (int) (media.getLength() / 1000);
+                progress = (int) (lastTime / 1000);
             } else {
                 text = Strings.millisToText(media.getLength());
             }
-
-            holder.binding.setVariable(BR.time, text);
         }
         if (media.getWidth() > 0 && media.getHeight() > 0)
-            holder.binding.setVariable(BR.resolution, String.format("%dx%d", media.getWidth(), media.getHeight()));
-        else
-            holder.binding.setVariable(BR.resolution, "");
+            resolution = String.format("%dx%d", media.getWidth(), media.getHeight());
+
         holder.binding.setVariable(BR.group, false);
+        holder.binding.setVariable(BR.resolution, resolution);
+        holder.binding.setVariable(BR.time, text);
+        holder.binding.setVariable(BR.max, max);
+        holder.binding.setVariable(BR.progress, progress);
     }
 
     static class ViewHolder {

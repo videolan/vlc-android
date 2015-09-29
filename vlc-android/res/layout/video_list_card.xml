@@ -122,13 +122,13 @@
                 android:layout_marginRight="10dip"
                 android:layout_marginLeft="10dip"
                 android:paddingBottom="3dip"
-                android:visibility="@{time != null ? View.VISIBLE : View.INVISIBLE}"
                 android:focusable="false"
                 android:indeterminate="false"
                 android:maxHeight="2dip"
                 android:minHeight="2dip"
                 android:max="@{max}"
                 android:progress="@{progress}"
+                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}"
                 android:progressDrawable="?attr/gridview_progressbar" />
         </RelativeLayout>
 
