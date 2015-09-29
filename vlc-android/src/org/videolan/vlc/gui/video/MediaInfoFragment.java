@@ -228,7 +228,9 @@ public class MediaInfoFragment extends ListFragment {
             int videoHeight = mItem.getHeight();
             int videoWidth = mItem.getWidth();
             if (videoWidth == 0 || videoHeight == 0) {
-                return;
+                //FIXME : find a better way to display media info without video size
+                videoWidth = 16;
+                videoHeight = 9;
             }
 
             mHandler.sendEmptyMessage(NEW_TEXT);
