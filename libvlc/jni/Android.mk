@@ -70,7 +70,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-ldl -lz -lm -llog \
 	-ldvbpsi -lmatroska -lebml -ltag \
 	-logg -lFLAC -ltheora -lvorbis \
-	-lmpeg2 -la52 \
+	-la52 \
 	-lavformat -lavcodec -lswscale -lavutil -lpostproc -lgsm -lopenjpeg \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
 	-lspeex -lspeexdsp \

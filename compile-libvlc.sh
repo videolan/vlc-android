@@ -94,6 +94,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-mpg123 \
     --enable-libdsm \
     --enable-libarchive \
+    --disable-libmpeg2 \
 "
 
 ###########################
