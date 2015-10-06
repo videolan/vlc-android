@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.util.SparseArray;
@@ -40,6 +42,7 @@ import android.widget.TextView;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AsyncImageLoader;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
 import org.videolan.vlc.util.Util;
@@ -328,11 +331,18 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.item, item);
 
         if (mItemType == ITEM_WITH_COVER) {
-            AudioUtil.AudioCoverFetcher fetcher = new AudioUtil.AudioCoverFetcher(mContext, mItems.get(position).mMediaList);
-            AsyncImageLoader.LoadAudioCover(fetcher, holder.binding, mContext);
-        }
+            final ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
+            Bitmap bitmap = AudioUtil.getCoverFromMemCache(mContext, mediaList, 64);
+            if (bitmap != null)
+                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            else {
+                holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
+                AudioUtil.AudioCoverFetcher fetcher = new AudioUtil.AudioCoverFetcher(mContext, mediaList);
+                AsyncImageLoader.LoadAudioCover(fetcher, holder.binding, mContext);
+            }
+        } else
+            holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
 
-        holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
         holder.binding.setVariable(BR.footer, !isMediaItemAboveASeparator(position));
         holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
         holder.binding.setVariable(BR.handler, this);
