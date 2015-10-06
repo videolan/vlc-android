@@ -2269,16 +2269,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
-            setActionBarVisibility(true);
             if (!mIsLocked) {
+                setActionBarVisibility(true);
                 mPlayPause.setVisibility(View.VISIBLE);
                 if (mTracks != null)
                     mTracks.setVisibility(View.VISIBLE);
                 if (mAdvOptions !=null)
                     mAdvOptions.setVisibility(View.VISIBLE);
                 mSize.setVisibility(View.VISIBLE);
+                dimStatusBar(false);
             }
-            dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
             if (mPresentation != null) mOverlayBackground.setVisibility(View.VISIBLE);
         }
