@@ -255,6 +255,8 @@
     <string name="network_caching">Network caching value</string>
     <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
     <string name="developer_prefs_category">Developer</string>
+    <string name="auto_rescan">Auto rescan</string>
+    <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Increase the verbosity (logcat)</string>
     <string name="debug_logs">Debug logs</string>
@@ -291,6 +293,7 @@
     <string name="playlist_save">Save Playlist</string>
     <string name="playlist_name_hint">playlist name</string>
     <string name="go_to_chapter">Go to chapter…</string>
+    <string name="chapter">Chapter</string>
     <string name="resume_from_position">Resume from last position</string>
     <string name="confirm_resume">Resume from last position?</string>
     <string name="confirm_resume_title">Ask confirmation to resume</string>
@@ -303,5 +306,8 @@
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
+    <string name="music_now_playing">Now Playing</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC White Widget</string>
+    <string name="widget_name_b">VLC Dark Widget</string>
 </resources>
