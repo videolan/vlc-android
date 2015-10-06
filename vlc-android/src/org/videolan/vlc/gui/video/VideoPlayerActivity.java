@@ -2277,8 +2277,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (mAdvOptions !=null)
                     mAdvOptions.setVisibility(View.VISIBLE);
                 mSize.setVisibility(View.VISIBLE);
-                dimStatusBar(false);
             }
+            dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
             if (mPresentation != null) mOverlayBackground.setVisibility(View.VISIBLE);
         }
@@ -2346,7 +2346,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         }
         visibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        if (dim) {
+        if (dim || mIsLocked) {
             navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
             if (!AndroidDevices.hasCombBar()) {
                 navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -2354,7 +2354,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
                 visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             }
-        } else {
+        }
+        if (!dim) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
         }
