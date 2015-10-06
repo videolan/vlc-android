@@ -50,18 +50,15 @@ public class AsyncImageLoader {
 
     public final static String TAG = "VLC/AsyncImageLoader";
 
-    static ExecutorService executor = Executors.newSingleThreadExecutor();
-
     /* Maximum one thread that is killed after 2 seconds of inactivity */
     static ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
                                                                    new LinkedBlockingQueue<Runnable>());
 
-    public static void LoadImage(Callable<Bitmap> loader, final ImageUpdater updater, final View target){
-        final Future<Bitmap> future = executor.submit(loader);
+    public static void LoadImage(final Callable<Bitmap> loader, final ImageUpdater updater, final View target){
         sThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                handleImage(updater, future, target);
+                handleImage(updater, loader, target);
             }
         });
     }
@@ -106,13 +103,11 @@ public class AsyncImageLoader {
         LoadImage(loader, updater, null);
     }
 
-    private static void handleImage(final ImageUpdater updater, final Future<Bitmap> future, View target){
+    private static void handleImage(final ImageUpdater updater, Callable<Bitmap> loader, View target){
         try {
-            final Bitmap bitmap = future.get();
+            final Bitmap bitmap = loader.call();
             updater.updateImage(bitmap, target);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
