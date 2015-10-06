@@ -395,6 +395,30 @@ public class AudioUtil {
         return cover;
     }
 
+    public static Bitmap getCover(Context context, ArrayList<MediaWrapper> list, int width, boolean fromMemCache) {
+        Bitmap cover = null;
+        LinkedList<String> testedAlbums = new LinkedList<String>();
+        for (MediaWrapper media : list) {
+            if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
+                continue;
+
+            cover = fromMemCache ? AudioUtil.getCoverFromMemCache(context, media, width) : AudioUtil.getCover(context, media, width);
+            if (cover != null)
+                break;
+            else if (media.getAlbum() != null)
+                testedAlbums.add(media.getAlbum());
+        }
+        return cover;
+    }
+
+    public static Bitmap getCoverFromMemCache(Context context, ArrayList<MediaWrapper> list, int width) {
+        return getCover(context, list, width, true);
+    }
+
+    public static Bitmap getCover(Context context, ArrayList<MediaWrapper> list, int width) {
+        return getCover(context, list, width, false);
+    }
+
     public static class AudioCoverFetcher implements Callable<Bitmap> {
 
         ArrayList<MediaWrapper> list;
@@ -407,19 +431,7 @@ public class AudioUtil {
 
         @Override
         public Bitmap call() throws Exception {
-            Bitmap cover = null;
-            LinkedList<String> testedAlbums = new LinkedList<String>();
-            for (MediaWrapper media : list) {
-                if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
-                    continue;
-
-                cover = AudioUtil.getCover(context, media, 64);
-                if (cover != null)
-                    break;
-                else if (media.getAlbum() != null)
-                    testedAlbums.add(media.getAlbum());
-            }
-            return cover;
+            return getCover(context, list, 64);
         }
     }
 }
