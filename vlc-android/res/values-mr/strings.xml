@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">ठीक</string>
+    <string name="ok">ओके</string>
     <string name="cancel">रद्द</string>
     <string name="other">इतर</string>
     <string name="sortby">क्रमित करा…</string>
@@ -21,6 +21,8 @@
     <string name="play_from_start">सुरुवातीपासून प्ले करा</string>
     <string name="play_as_audio">ध्वनी स्वरुपात प्ले करा</string>
     <string name="play_as_video">चित्रफीत स्वरुपात प्ले करा</string>
+    <string name="play_as_audio_background">चित्रफीत पार्श्वभूमीवर चालू ठेवा</string>
+    <string name="play_as_audio_background_summary">डिव्हाइसची स्क्रीन बंद कॆली किंवा हॊम वर गॆलात तरी चित्रफीत पार्श्वभूमीवर चालू ठेवा.</string>
     <string name="append">जोडा</string>
     <string name="play_all">सर्व प्ले करा</string>
     <string name="append_all">सर्व जोडा</string>
@@ -29,7 +31,9 @@
     <string name="remove">काढून टाका</string>
     <string name="set_song">रिंगटोन म्हणून सेट करा</string>
     <string name="info">माहिती</string>
-    <string name="confirm_delete">\'%1$s\' फाइल नष्ट करावी?</string>
+    <string name="confirm_delete">\'%1$s\' फाइल  काढून टाकावी?</string>
+    <string name="confirm_delete_folder">\'%1$s\' हा फोल्डर आणि त्यातलॆ सर्व घटक काढून टाकावा ?</string>
+    <string name="confirm_delete_playlist">\'%1$s\' ही  प्लेलिस्ट काढून टाकावी ?</string>
     <string name="ringtone_set">\'%1$s\' ही फाइल रिंगटोन म्हणून सेट केली.</string>
     <string name="ringtone_error">रिंगटोन सेट करताना एक त्रुटी आली.</string>
     <string name="pause">विराम</string>
@@ -78,14 +82,19 @@
     <string name="loading">लोड होत आहे</string>
     <string name="please_wait">कृपया प्रतीक्षा करा…</string>
     <string name="nomedia"> मीडिया फायली नाही आढळल्या, आपल्या उपकरणावर काही फायली स्थानांतरीत करा किंवा आपली प्राधान्ये समायोजित करा.</string>
-    <string name="noplaylist">प्लेलिस्ट नाही सापडली.</string>
+    <string name="noplaylist">प्लेलिस्ट सापडली नाही.</string>
     <string name="mediafiles">मीडिया फाईल</string>
     <string name="notavailable">उपलब्ध नाही</string>
-    <string name="nosubdirectory">उपडिरेक्टरी नाहीत.</string>
+    <string name="nosubdirectory">सबडिरेक्टरी नाहीत.</string>
     <string name="directorynotfound"> \'%1$s\' डिरेक्टरीचा मार्ग नाही सापडला.</string>
     <string name="nohistory">आपल्याकडे आतापर्यंत प्लेबॅक इतिहास नाही.</string>
-    <string name="validation">आपली खात्री आहे?</string>
+    <string name="validation">आपली खात्री आहे का?</string>
     <string name="cover_art">कव्हर आर्ट</string>
+    <string name="shuffle">शफल  बंद</string>
+    <string name="shuffle_on">शफल चालू</string>
+    <string name="repeat">पुनरावृत्ती नाही</string>
+    <string name="repeat_single">एकाचिच पुनरावृत्ती करा</string>
+    <string name="repeat_all">सर्वांची पुनरावृत्ती करा</string>
     <string name="previous">मागील</string>
     <string name="stop">थांबा</string>
     <string name="next">पुढील</string>
@@ -121,6 +130,7 @@
     <string name="tools">साधने</string>
     <string name="playback_speed">प्लेबॅक वेग</string>
     <string name="sleep_title">स्लीप टाइमर</string>
+    <string name="sleep_in">स्लीप मध्ये</string>
     <string name="sleep_cancel">स्लीप टाइमर रद्द करा</string>
     <string name="jump_to_time">वेळेवर उडी घ्या</string>
     <string name="subtitle_label">उपशीर्षक फाईल जोडा</string>
@@ -245,6 +255,8 @@
     <string name="network_caching">नेटवर्क कॅशिंग मूल्य</string>
     <string name="network_caching_summary">नेटवर्क मीडिया बफर करण्यासाठी लागणारा वेळ (ms मध्ये). हार्डवेअर डिकोडिंग सोबत काम करत नाही. पूर्ववत करण्यासाठी रिक्त सोडा.</string>
     <string name="developer_prefs_category">डेव्हलपर</string>
+    <string name="auto_rescan">स्वयं पुनश्च-छानणी</string>
+    <string name="auto_rescan_summary">  application सुरु झाल्यावर नविन किंवा नष्ट कॆलॆल्या मीडियाचा स्वयंचलीत शॊध घ्या </string>
     <string name="enable_verbose_mode">वर्बोस</string>
     <string name="enable_verbose_mode_summary">वर्बोसिटी वाढवा (लोगकॅट)</string>
     <string name="debug_logs">डीबग लॉग</string>
@@ -271,6 +283,7 @@
     <string name="file_other">नेव्हिगेशन ड्रॉवर बंद करा</string>
     <string name="audio_delay">ध्वनी विलंब</string>
     <string name="spu_delay">उपशीर्षक विलंब</string>
+    <string name="sleep_time_not_set">काहिहि सॆट नाही</string>
     <string name="network_shares_discovery">नेटवर्क शेअर्स शोधत आहे...</string>
     <string name="network_empty">ही डिरेक्टरी मोकळी आहे.</string>
     <string name="network_connection_needed">लोकल नेटवर्कशी जोडणी नाही.</string>
@@ -289,8 +302,12 @@
     <!--Accessibility-->
     <string name="more_actions">उप्लब्ध कृत्या</string>
     <string name="move">स्थलांतरित करा</string>
+    <string name="back_quit_lock">चित्रफित बंद करण्यासाठी पुन्हा \"back\" दाबा</string>
+    <string name="playlist_deleted">प्लेलिस्ट हटविली</string>
     <string name="file_deleted">फाइल हटविली</string>
     <string name="no_subs_found">उपशीर्षक उप्लब्ध नाही</string>
     <string name="music_now_playing">आता प्ले होत आहे</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC चॆ पांढरॆ विजेट/widget</string>
+    <string name="widget_name_b">VLC चॆ गडद विजेट/widget</string>
 </resources>
