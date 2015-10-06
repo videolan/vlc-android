@@ -274,6 +274,19 @@ public class AudioUtil {
         return null;
     }
 
+    private static String getCoverCachePath(Context context, MediaWrapper media, int width) {
+        final int hash = MurmurHash.hash32(Util.getMediaArtist(context, media) + Util.getMediaAlbum(context, media));
+        return COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+    }
+
+    public static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
+        if (media != null && media.getArtist() != null && media.getAlbum() != null) {
+            final BitmapCache cache = BitmapCache.getInstance();
+            return cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
+        } else
+            return null;
+    }
+
     @SuppressLint("NewApi")
     public synchronized static Bitmap getCover(Context context, MediaWrapper media, int width) {
         BitmapCache cache = BitmapCache.getInstance();
@@ -294,8 +307,7 @@ public class AudioUtil {
         try {
             // try to load from cache
             if (media.getArtist() != null && media.getAlbum() != null) {
-                int hash = MurmurHash.hash32(Util.getMediaArtist(context, media) + Util.getMediaAlbum(context, media));
-                cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+                cachePath = getCoverCachePath(context, media, width);
 
                 // try to get the cover from the LRUCache first
                 cover = cache.getBitmapFromMemCache(cachePath);
@@ -304,7 +316,7 @@ public class AudioUtil {
 
                 // try to get the cover from the storage cache
                 cacheFile = new File(cachePath);
-                if (cacheFile != null && cacheFile.exists()) {
+                if (cacheFile.exists()) {
                     if (cacheFile.length() > 0)
                         coverPath = cachePath;
                     else
