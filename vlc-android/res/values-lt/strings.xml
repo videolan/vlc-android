@@ -33,6 +33,8 @@
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="info">Informacija</string>
     <string name="confirm_delete">Pašalinti failą \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Pašalinti aplanką „%1$s“ su visu turiniu jame?</string>
+    <string name="confirm_delete_playlist">Ištrinti grojaraštį „%1$s“?</string>
     <string name="ringtone_set">„%1$s“ naudojamas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
@@ -135,6 +137,7 @@
     <string name="tools">Įrankiai</string>
     <string name="playback_speed">Grojimo greitis</string>
     <string name="sleep_title">Išsijungimo laikmatis</string>
+    <string name="sleep_in">Užmigti po</string>
     <string name="sleep_cancel">Atšaukti išsijungimo laikmatį</string>
     <string name="jump_to_time">Šokti į laiką</string>
     <string name="subtitle_label">Pridėti subtitrų failą</string>
@@ -156,13 +159,17 @@
     <string name="hardware_acceleration_error_message">Kilo aparatinio spartinimo nesklandumų. Ar norėtumėte atsisakyti aparatinio spartinimo ir naudotis programa toliau?</string>
     <!--Tips-->
     <string name="video_player_tips">Vaizdo leistuvės aaiškinimai:</string>
+    <string name="seek">Persukimas</string>
     <string name="subtitles">Subtitrai</string>
+    <string name="audio_sub">Garso takeliai\nir subtitrai</string>
     <string name="resize">Keisti dydį</string>
     <string name="options">Parinktys</string>
     <string name="lock">Užrakinti</string>
+    <string name="ok_got_it">Supratau</string>
     <string name="playlist_tips">Grojaraščio paaiškinimai</string>
     <string name="remove_song">Pašalinti dainą</string>
     <string name="rearrange_order">Pertvarkymo būdas</string>
+    <string name="hold_to_seek">Persukimui laikyti nuspaudus</string>
     <string name="audio_player_tips">Garso leistuvės paaiškinimai</string>
     <string name="previous_next_song">Ankstesnė/tolesnė daina</string>
     <string name="show_playlist">Rodyti grojaraštį</string>
@@ -183,12 +190,16 @@
     <string name="add_custom_path_description">Įtraukite papildomą žvalgytiną katalogą:</string>
     <string name="remove_custom_path">Šalinti papildomą kelią</string>
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
+    <string name="hardware_acceleration_summary">Uždrausta: didesnis stabilumas.\nIškodavimui: gali veikti greičiau.\nVisiškas: gali veikti dar greičiau.</string>
     <string name="hardware_acceleration_disabled">Uždrausta</string>
     <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
     <string name="hardware_acceleration_full">Visiškas spartinimas</string>
     <string name="dev_hardware_decoder">Sudėtingesnis aparatūrinis iškodavimas</string>
+    <string name="dev_hardware_decoder_summary">Priverstinai iškoduoti aparatūros lygiu, tik patyrusiems naudotojams</string>
     <string name="dev_hardware_decoder_omx">iomx</string>
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatiškai</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinis (jutiklis)</string>
@@ -211,6 +222,8 @@
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_jump_buttons">Įgalinti peršokimo mygtukus</string>
     <string name="enable_jump_buttons_summary">Vaizdo klipų leisti rodyti prasukimo atgal ir priekin mygtukus</string>
+    <string name="force_list_portrait">Stačioje veiksenoje nerodyti tinkleliu</string>
+    <string name="force_list_portrait_summary">Įrenginį laikant vertikaliai, vaizdo kūrinius išdėstyti sąrašu, o ne tinkleliu</string>
     <string name="audio_title_alignment">Muzikos kūrinio pavadinimo padėtis</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
     <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
@@ -223,6 +236,7 @@
     <string name="audio_title_alignment_marquee">ištempta</string>
     <string name="performance_prefs_category">Našumas</string>
     <string name="chroma_format">Priverstinai naudoti konkretų spalvingumą</string>
+    <string name="chroma_format_summary">RGB, 32-bit: nusmatytasis spalvingumas\nRGB, 16-bit: greitesnis apdorojimas, bet prastesnė kokybė\nYUV: didžiausias našumas. Tik Android 2.3 ir vėlesnėse.</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
     <string name="deblocking_summary">Pakeisti išblokavimo filtrui taikomas nuostatas. Gali pagerinti vaizdo kokybę. Tik patyrusiems naudotojams.</string>
     <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>
@@ -248,6 +262,8 @@
     <string name="network_caching">Tinklo podėlio reikšmė</string>
     <string name="network_caching_summary">Laiko buferio dydis (milisekundėmis) grojant kūrinius per tinklą. Neturi įtakos, kai naudojamas aparatinis spartinimas. Norėdami naudoti numatytąjį, ištrinkite reikšmę.</string>
     <string name="developer_prefs_category">Programuotojas</string>
+    <string name="auto_rescan">Paleidžiant aptikti pasikeitimus fonotekoje</string>
+    <string name="auto_rescan_summary">Paleidžiant programą automatiškai peržvelgti įrenginio kūrinius, ieškant naujų ar pašalintų</string>
     <string name="enable_verbose_mode">Detaliai</string>
     <string name="enable_verbose_mode_summary">Didinti pranešimų detalumą (logcat)</string>
     <string name="debug_logs">Derinimo žurnalai</string>
@@ -274,20 +290,31 @@
     <string name="file_other">Užverti navigacijos stalčių</string>
     <string name="audio_delay">Garso vėlinimas</string>
     <string name="spu_delay">Subtitrų vėlinimas</string>
+    <string name="sleep_time_not_set">nenustatytas</string>
     <string name="network_shares_discovery">Peržvelgiami tinkle viešinami ištekliai...</string>
     <string name="network_empty">Katalogas tuščias.</string>
     <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
     <string name="search_hint">Ieškoti kūrinio</string>
+    <string name="directory_show_medialib">Rodyti fonotekoje</string>
+    <string name="directory_hide_medialib">Neįtraukti į fonoteką</string>
     <string name="playlist_save">Įrašyti grojaraštį</string>
     <string name="playlist_name_hint">grojaraščio pavadinimas</string>
     <string name="go_to_chapter">Pereiti prie ... skyriaus...</string>
+    <string name="chapter">Skyrius</string>
     <string name="resume_from_position">Tęsti nuo vėliausios padėties</string>
     <string name="confirm_resume">Tęsti nuo vėliausios padėties?</string>
     <string name="confirm_resume_title">Patvirtinti tęsimą</string>
     <string name="confirm_resume_summary">jei pažymėta, prašysime patvirtinti tęsimą nuo vėliausios padėties, jei tai įmanoma</string>
+    <string name="directory_empty">Katalogas tuščias</string>
     <!--Accessibility-->
     <string name="more_actions">Daugiau veiksmų</string>
     <string name="move">Perkelti</string>
     <string name="back_quit_lock">Norėdami užverti vaizdo kūrinį, dar kartą spustelėkite užvėrimą</string>
+    <string name="playlist_deleted">Grojaštis ištrintas</string>
+    <string name="file_deleted">Failas ištrintas</string>
+    <string name="no_subs_found">Šiame kataloge subtitrų nėra</string>
+    <string name="music_now_playing">Grojame</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC valdiklis, šviesus</string>
+    <string name="widget_name_b">VLC valdiklis, tamsus</string>
 </resources>
