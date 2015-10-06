@@ -53,7 +53,7 @@ public class BitmapCache {
     Set<SoftReference<Bitmap>> mCachedBitmaps;
     Set<SoftReference<Bitmap>> mReusableBitmaps;
 
-    public static BitmapCache getInstance() {
+    public synchronized static BitmapCache getInstance() {
         if (mInstance == null)
             mInstance = new BitmapCache();
         return mInstance;
@@ -95,7 +95,7 @@ public class BitmapCache {
             mCachedBitmaps = Collections.synchronizedSet(new HashSet<SoftReference<Bitmap>>());
     }
 
-    public Bitmap getBitmapFromMemCache(String key) {
+    public synchronized Bitmap getBitmapFromMemCache(String key) {
         final CacheableBitmap cacheableBitmap = mMemCache.get(key);
         if (cacheableBitmap == null)
             return null;
@@ -117,7 +117,7 @@ public class BitmapCache {
         return b;
     }
 
-    public void addBitmapToMemCache(String key, Bitmap bitmap) {
+    public synchronized void addBitmapToMemCache(String key, Bitmap bitmap) {
         if (key != null && bitmap != null && getBitmapFromMemCache(key) == null) {
             final CacheableBitmap cacheableBitmap = new CacheableBitmap(bitmap);
             mMemCache.put(key, cacheableBitmap);
@@ -133,7 +133,7 @@ public class BitmapCache {
         addBitmapToMemCache("res:" + resId, bitmap);
     }
 
-    public void clear() {
+    public synchronized void clear() {
         mMemCache.evictAll();
         mCachedBitmaps.clear();
     }
