@@ -117,12 +117,17 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
-    public void addAll(List<ListItem> items) {
-        for (ListItem item : items) {
-            mMediaItemMap.put(item.mTitle, item);
-            mItems.add(item);
-        }
-        Collections.sort(mItems, mItemsComparator);
+    public void addAll(final List<ListItem> items) {
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (ListItem item : items) {
+                    mMediaItemMap.put(item.mTitle, item);
+                    mItems.add(item);
+                }
+                Collections.sort(mItems, mItemsComparator);
+            }
+        });
     }
 
     public void add(String title, String subTitle, MediaWrapper media) {
