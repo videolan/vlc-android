@@ -412,17 +412,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         else
             Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
 
-        mVideoAdapter.setNotifyOnChange(true);
-        mVideoAdapter.clear();
-
         if (itemList.size() > 0) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    mVideoAdapter.setNotifyOnChange(false);
+                    mVideoAdapter.clear();
+
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup)) {
-                                mVideoAdapter.setNotifyOnChange(false);
                                 mVideoAdapter.add(item);
                                 if (mThumbnailer != null)
                                     mThumbnailer.addJob(item);
