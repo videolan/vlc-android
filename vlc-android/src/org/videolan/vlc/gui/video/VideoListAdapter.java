@@ -188,10 +188,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
         holder.binding.setVariable(BR.cover, DEFAULT_COVER);
 
-        if (media instanceof MediaGroup)
-            fillGroupView(holder, media);
-        else
-            fillVideoView(holder, media);
+        fillView(holder, media);
 
         holder.binding.setVariable(BR.media, media);
         holder.binding.setVariable(BR.handler, mClickHandler);
@@ -207,40 +204,38 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         }
     }
 
-    private void fillGroupView(ViewHolder holder, MediaWrapper media) {
-        holder.binding.setVariable(BR.group, true);
-        MediaGroup mediaGroup = (MediaGroup) media;
-        int size = mediaGroup.size();
-        String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
-        holder.binding.setVariable(BR.resolution, text);
-        holder.binding.setVariable(BR.time, "");
-        holder.binding.setVariable(BR.max, 0);
-        holder.binding.setVariable(BR.progress, 0);
-    }
-
-    private void fillVideoView(ViewHolder holder, MediaWrapper media) {
+    private void fillView(ViewHolder holder, MediaWrapper media) {
+        boolean group;
         String text = "";
         String resolution = "";
         int max = 0;
         int progress = 0;
 
-        /* Time / Duration */
-        if (media.getLength() > 0) {
-            long lastTime = media.getTime();
-            if (lastTime > 0) {
-                text = String.format("%s / %s",
-                        Strings.millisToText(lastTime),
-                        Strings.millisToText(media.getLength()));
-                max = (int) (media.getLength() / 1000);
-                progress = (int) (lastTime / 1000);
-            } else {
-                text = Strings.millisToText(media.getLength());
+        if (media.getType() == MediaWrapper.TYPE_GROUP) {
+            group = true;
+            MediaGroup mediaGroup = (MediaGroup) media;
+            int size = mediaGroup.size();
+            resolution = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
+        } else {
+            group = false;
+            /* Time / Duration */
+            if (media.getLength() > 0) {
+                long lastTime = media.getTime();
+                if (lastTime > 0) {
+                    text = String.format("%s / %s",
+                            Strings.millisToText(lastTime),
+                            Strings.millisToText(media.getLength()));
+                    max = (int) (media.getLength() / 1000);
+                    progress = (int) (lastTime / 1000);
+                } else {
+                    text = Strings.millisToText(media.getLength());
+                }
             }
+            if (media.getWidth() > 0 && media.getHeight() > 0)
+                resolution = String.format("%dx%d", media.getWidth(), media.getHeight());
         }
-        if (media.getWidth() > 0 && media.getHeight() > 0)
-            resolution = String.format("%dx%d", media.getWidth(), media.getHeight());
 
-        holder.binding.setVariable(BR.group, false);
+        holder.binding.setVariable(BR.group, group);
         holder.binding.setVariable(BR.resolution, resolution);
         holder.binding.setVariable(BR.time, text);
         holder.binding.setVariable(BR.max, max);
