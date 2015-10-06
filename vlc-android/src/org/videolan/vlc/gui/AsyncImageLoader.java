@@ -38,6 +38,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class AsyncImageLoader {
 
@@ -49,14 +52,18 @@ public class AsyncImageLoader {
 
     static ExecutorService executor = Executors.newSingleThreadExecutor();
 
+    /* Maximum one thread that is killed after 2 seconds of inactivity */
+    static ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
+                                                                   new LinkedBlockingQueue<Runnable>());
+
     public static void LoadImage(Callable<Bitmap> loader, final ImageUpdater updater, final View target){
         final Future<Bitmap> future = executor.submit(loader);
-        new Thread(new Runnable() {
+        sThreadPool.execute(new Runnable() {
             @Override
             public void run() {
                 handleImage(updater, future, target);
             }
-        }).start();
+        });
     }
 
     public static void LoadAudioCover(Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
