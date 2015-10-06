@@ -96,7 +96,7 @@ public class RecommendationsService extends IntentService {
                         .setOngoing(true)
                         .setColor(mContext.getResources().getColor(R.color.orange800))
                         .setCategory("recommendation")
-                        .setLargeIcon(BitmapUtil.getPictureFromCache(movie))
+                        .setLargeIcon(BitmapUtil.getPicture(movie))
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(buildPendingIntent(movie, id))
         ).build();

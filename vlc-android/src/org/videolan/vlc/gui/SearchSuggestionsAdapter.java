@@ -91,7 +91,7 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
         if (mw.getType() == MediaWrapper.TYPE_AUDIO)
             artwork = AudioUtil.getCover(context, mw, context.getResources().getDimensionPixelSize(R.dimen.audio_browser_item_size));
         else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
-            artwork = BitmapUtil.getPictureFromCache(mw);
+            artwork = BitmapUtil.getPicture(mw);
         else
             artwork = null;
         if (artwork != null) {

@@ -108,7 +108,7 @@ public class Thumbnailer implements Runnable {
      * @param item media wrapper of the file browser item.
      */
     public void addJob(MediaWrapper item) {
-        if(BitmapUtil.getPictureFromCache(item) != null || item.isPictureParsed())
+        if(BitmapUtil.getPicture(item) != null || item.isPictureParsed())
             return;
         lock.lock();
         try {

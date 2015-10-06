@@ -183,7 +183,7 @@ public class CardPresenter extends Presenter {
                 if (picture == null)
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
-                picture = BitmapUtil.getPictureFromCache(mediaWrapper);
+                picture = BitmapUtil.getPicture(mediaWrapper);
                 if (picture == null)
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)

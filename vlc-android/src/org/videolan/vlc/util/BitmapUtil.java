@@ -90,23 +90,31 @@ public class BitmapUtil {
         // mPicture is not null only if passed through
         // the ctor which is deprecated by now.
         Bitmap b = media.getPicture();
-        if(b == null) {
-            BitmapCache cache = BitmapCache.getInstance();
-            Bitmap picture = cache.getBitmapFromMemCache(media.getLocation());
-            if(picture == null) {
-                /* Not in memcache:
-                 * serving the file from the database and
-                 * adding it to the memcache for later use.
-                 */
-                picture = readCoverBitmap(media.getArtworkURL());
-                if (picture == null)
-                    picture = MediaDatabase.getInstance().getPicture(media.getUri());
-                cache.addBitmapToMemCache(media.getLocation(), picture);
-            }
-            return picture;
+        if (b == null) {
+            final BitmapCache cache = BitmapCache.getInstance();
+            return cache.getBitmapFromMemCache(media.getLocation());
         } else {
             return b;
         }
+    }
+
+    public static Bitmap fetchPicture(MediaWrapper media) {
+        final BitmapCache cache = BitmapCache.getInstance();
+
+        Bitmap picture = readCoverBitmap(media.getArtworkURL());
+        if (picture == null) {
+            picture = MediaDatabase.getInstance().getPicture(media.getUri());
+        }
+        cache.addBitmapToMemCache(media.getLocation(), picture);
+        return picture;
+    }
+
+    public static Bitmap getPicture(MediaWrapper media) {
+        final Bitmap picture = getPictureFromCache(media);
+        if (picture != null)
+            return picture;
+        else
+            return fetchPicture(media);
     }
 
     private static Bitmap readCoverBitmap(String path) {

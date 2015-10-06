@@ -39,7 +39,7 @@ public class MediaGroup extends MediaWrapper {
                 media.getTime(),
                 media.getLength(),
                 MediaWrapper.TYPE_GROUP,
-                BitmapUtil.getPictureFromCache(media),
+                BitmapUtil.getPicture(media),
                 media.getTitle(),
                 media.getArtist(),
                 media.getGenre(),
