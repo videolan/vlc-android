@@ -37,7 +37,6 @@ import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 
 import java.util.ArrayList;
-import java.util.concurrent.BrokenBarrierException;
 
 public class VideoGridFragment extends MediaLibBrowserFragment implements IVideoBrowser {
 
@@ -111,18 +110,13 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
     @Override
     public void setItemToUpdate(MediaWrapper item) {
-        mItemToUpdate = item;
-        mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
+        mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
     }
 
-    public void updateItem() {
-        if (mAdapter != null && mMediaIndex != null && mItemToUpdate != null
-                && mMediaIndex.containsKey(mItemToUpdate.getLocation()))
-            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(mItemToUpdate.getLocation()).intValue(), 1);
-        try {
-            mBarrier.await();
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {}
+    public void updateItem(MediaWrapper item) {
+        if (mAdapter != null && mMediaIndex != null && item != null
+                && mMediaIndex.containsKey(item.getLocation()))
+            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(item.getLocation()).intValue(), 1);
     }
 
     @Override
@@ -143,12 +137,4 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
     @Override
     public void clearTextInfo() {}
-
-    public void await() throws InterruptedException, BrokenBarrierException {
-        mBarrier.await();
-    }
-
-    public void resetBarrier() {
-        mBarrier.reset();
-    }
 }

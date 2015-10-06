@@ -77,8 +77,6 @@ import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 
 public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
@@ -93,9 +91,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     protected GridView mGridView;
     protected TextView mTextViewNomedia;
     protected View mViewNomedia;
-    protected MediaWrapper mItemToUpdate;
     protected String mGroup;
-    protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 
     private VideoListAdapter mVideoAdapter;
     private Thumbnailer mThumbnailer;
@@ -226,7 +222,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         super.onDestroy();
         if (mThumbnailer != null)
             mThumbnailer.clearJobs();
-        mBarrier.reset();
         mVideoAdapter.clear();
     }
 
@@ -394,13 +389,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
      */
     private Handler mHandler = new VideoListHandler(this);
 
-    public void updateItem() {
-        mVideoAdapter.update(mItemToUpdate);
-        try {
-            mBarrier.await();
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {
-        }
+    public void updateItem(MediaWrapper item) {
+        mVideoAdapter.update(item);
     }
     private void focusHelper(boolean idIsEmpty) {
         View parent = getView();
@@ -492,20 +482,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void setItemToUpdate(MediaWrapper item) {
-        mItemToUpdate = item;
-        mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
+        mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
     }
 
     public void setGroup(String prefix) {
         mGroup = prefix;
-    }
-
-    public void await() throws InterruptedException, BrokenBarrierException {
-        mBarrier.await();
-    }
-
-    public void resetBarrier() {
-        mBarrier.reset();
     }
 
     private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {

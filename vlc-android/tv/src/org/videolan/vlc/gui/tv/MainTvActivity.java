@@ -63,8 +63,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 
 public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
         OnItemViewClickedListener, OnClickListener {
@@ -84,9 +82,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     protected BrowseFragment mBrowseFragment;
     private ProgressBar mProgressBar;
-    protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private static Thumbnailer sThumbnailer;
-    private MediaWrapper mItemToUpdate;
     ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     ArrayObjectAdapter mVideoAdapter;
     ArrayObjectAdapter mCategoriesAdapter;
@@ -175,7 +171,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         /* Stop the thumbnailer */
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(null);
-        mBarrier.reset();
     }
 
     @Override
@@ -224,14 +219,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
     }
 
-    public void await() throws InterruptedException, BrokenBarrierException {
-        mBarrier.await();
-    }
-
-    public void resetBarrier() {
-        mBarrier.reset();
-    }
-
     public void updateList() {
         if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
             mUpdateTask = new AsyncUpdate();
@@ -273,22 +260,15 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     @Override
     public void setItemToUpdate(MediaWrapper item) {
-        mItemToUpdate = item;
-        mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
+        mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
     }
 
-    public void updateItem() {
-        if (mVideoAdapter != null && mVideoIndex != null && mItemToUpdate != null) {
-            if (mVideoIndex.containsKey(mItemToUpdate.getLocation())) {
-                mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()).intValue(), 1);
+    public void updateItem(MediaWrapper item) {
+        if (mVideoAdapter != null && mVideoIndex != null && item != null) {
+            if (mVideoIndex.containsKey(item.getLocation())) {
+                mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(item.getLocation()).intValue(), 1);
             }
         }
-        try {
-            mBarrier.await();
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {
-        }
-
     }
 
     private Handler mHandler = new VideoListHandler(this);

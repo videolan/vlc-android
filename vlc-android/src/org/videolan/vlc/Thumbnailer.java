@@ -132,8 +132,6 @@ public class Thumbnailer implements Runnable {
         Log.d(TAG, "Thumbnailer started");
 mainloop:
         while (!isStopping) {
-            if (mVideoBrowser != null && mVideoBrowser.get() != null)
-                mVideoBrowser.get().resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             while (mItems.size() == 0) {
@@ -184,18 +182,6 @@ mainloop:
             // Post to the file browser the new item.
             if (mVideoBrowser != null && mVideoBrowser.get() != null) {
                 mVideoBrowser.get().setItemToUpdate(item);
-
-                // Wait for the file browser to process the change.
-                try {
-                    mVideoBrowser.get().await();
-                } catch (InterruptedException e) {
-                    Log.i(TAG, "interruption probably requested by stop()");
-                    break;
-                } catch (BrokenBarrierException e) {
-                    Log.e(TAG, "Unexpected BrokenBarrierException");
-                    e.printStackTrace();
-                    break;
-                }
             }
         }
         /* cleanup */

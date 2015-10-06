@@ -4,6 +4,7 @@ import android.os.Message;
 import android.util.Log;
 
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -22,7 +23,7 @@ public class VideoListHandler extends WeakHandler<IVideoBrowser> {
 
         switch (msg.what) {
             case UPDATE_ITEM:
-                owner.updateItem();
+                owner.updateItem((MediaWrapper)msg.obj);
                 break;
             case MediaLibrary.MEDIA_ITEMS_UPDATED:
                 Log.d("load", "MEDIA_ITEMS_UPDATED");
