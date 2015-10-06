@@ -716,7 +716,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     }
 
     private void updateLists() {
-        clear();
         mAudioList = MediaLibrary.getInstance().getAudioItems();
         if (mAudioList.isEmpty()){
             updateEmptyView(mViewPager.getCurrentItem());

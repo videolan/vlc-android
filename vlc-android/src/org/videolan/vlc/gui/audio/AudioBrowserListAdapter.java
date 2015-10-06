@@ -157,6 +157,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                clear();
                 String title, subTitle, key;
                 for (MediaWrapper media : list) {
                     switch (type){
