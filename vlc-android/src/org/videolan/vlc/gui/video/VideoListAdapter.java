@@ -183,10 +183,19 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
         MediaWrapper media = getItem(position);
 
-        AsyncImageLoader.LoadVideoCover(new VideoCoverFetcher(media), holder.binding, mFragment.getActivity());
 
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-        holder.binding.setVariable(BR.cover, DEFAULT_COVER);
+        final Bitmap bitmap = BitmapUtil.getPictureFromCache(media);
+        if (bitmap != null) {
+            if (bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
+                holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            } else
+                holder.binding.setVariable(BR.cover, DEFAULT_COVER);
+        } else {
+            holder.binding.setVariable(BR.cover, DEFAULT_COVER);
+            AsyncImageLoader.LoadVideoCover(new VideoCoverFetcher(media), holder.binding, mFragment.getActivity());
+        }
 
         fillView(holder, media);
 
@@ -266,7 +275,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
         @Override
         public Bitmap call() throws Exception {
-            return BitmapUtil.getPictureFromCache(media);
+            return BitmapUtil.fetchPicture(media);
         }
     }
 }
