@@ -445,7 +445,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                             mVideoAdapter.setNotifyOnChange(false);
                             mVideoAdapter.add(item.getMedia());
                             if (mThumbnailer != null)
-                                mThumbnailer.addJob(item);
+                                mThumbnailer.addJob(item.getMedia());
                         }
                     }
                     if (mReadyToDisplay)
