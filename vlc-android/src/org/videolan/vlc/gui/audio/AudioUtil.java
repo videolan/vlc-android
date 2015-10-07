@@ -399,7 +399,10 @@ public class AudioUtil {
         Bitmap cover = null;
         LinkedList<String> testedAlbums = new LinkedList<String>();
         for (MediaWrapper media : list) {
-            if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
+            /* No list cover is artist or album are null */
+            if (media.getAlbum() == null || media.getArtist() == null)
+                continue;
+            if (testedAlbums.contains(media.getAlbum()))
                 continue;
 
             cover = fromMemCache ? AudioUtil.getCoverFromMemCache(context, media, width) : AudioUtil.getCover(context, media, width);
