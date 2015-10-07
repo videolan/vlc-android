@@ -45,7 +45,6 @@ import org.videolan.vlc.util.Strings;
 
 import java.util.Comparator;
 import java.util.Locale;
-import java.util.concurrent.Callable;
 
 public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                                  implements Comparator<MediaWrapper> {
@@ -182,19 +181,19 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         holder.position = position;
 
         MediaWrapper media = getItem(position);
-
+        boolean asyncLoad = true;
 
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
         final Bitmap bitmap = BitmapUtil.getPictureFromCache(media);
         if (bitmap != null) {
             if (bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
+                asyncLoad = false;
                 holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                 holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
             } else
                 holder.binding.setVariable(BR.cover, DEFAULT_COVER);
         } else {
             holder.binding.setVariable(BR.cover, DEFAULT_COVER);
-            AsyncImageLoader.LoadVideoCover(new VideoCoverFetcher(media), holder.binding, mFragment.getActivity());
         }
 
         fillView(holder, media);
@@ -202,6 +201,8 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         holder.binding.setVariable(BR.media, media);
         holder.binding.setVariable(BR.handler, mClickHandler);
         holder.binding.executePendingBindings();
+        if (asyncLoad)
+            AsyncImageLoader.LoadImage(new VideoCoverFetcher(holder.binding, media), null);
         return v;
     }
 
@@ -265,17 +266,25 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         return mListMode;
     }
 
-    public static class VideoCoverFetcher implements Callable<Bitmap> {
+    private static class VideoCoverFetcher extends AsyncImageLoader.CoverFetcher {
+        final MediaWrapper media;
 
-        MediaWrapper media;
-
-        VideoCoverFetcher(MediaWrapper media){
+        VideoCoverFetcher(ViewDataBinding binding, MediaWrapper media) {
+            super(binding);
             this.media = media;
         }
 
         @Override
-        public Bitmap call() throws Exception {
+        public Bitmap getImage() {
             return BitmapUtil.fetchPicture(media);
+        }
+
+        @Override
+        public void updateBindImage(Bitmap bitmap, View target) {
+            if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
+                binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+                binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            }
         }
     }
 }

@@ -59,7 +59,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.Callable;
 
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
@@ -420,21 +419,5 @@ public class AudioUtil {
 
     public static Bitmap getCover(Context context, ArrayList<MediaWrapper> list, int width) {
         return getCover(context, list, width, false);
-    }
-
-    public static class AudioCoverFetcher implements Callable<Bitmap> {
-
-        ArrayList<MediaWrapper> list;
-        Context context;
-
-        AudioCoverFetcher(Context context, ArrayList<MediaWrapper> list){
-            this.list = list;
-            this.context = context;
-        }
-
-        @Override
-        public Bitmap call() throws Exception {
-            return getCover(context, list, 64);
-        }
     }
 }

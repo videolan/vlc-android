@@ -24,11 +24,11 @@
 package org.videolan.vlc.gui;
 
 import android.app.Activity;
+import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
-import android.widget.ImageView;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
@@ -90,34 +90,39 @@ public class AsyncImageLoader {
         LoadImage(updater, null);
     }
 
-    public static void LoadVideoCover(final Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
-        final Callbacks updater = new Callbacks() {
-
+    public abstract static class CoverFetcher implements AsyncImageLoader.Callbacks {
+        final protected ViewDataBinding binding;
+        private boolean bindChanged = false;
+        final OnRebindCallback<ViewDataBinding> rebindCallbacks = new OnRebindCallback<ViewDataBinding>() {
             @Override
-            public Bitmap getImage() {
-                try {
-                    return loader.call();
-                } catch (Exception ignored) {
-                    return null;
-                }
+            public boolean onPreBind(ViewDataBinding binding) {
+                bindChanged = true;
+                return super.onPreBind(binding);
             }
 
             @Override
-            public void updateImage(final Bitmap bitmap, View target) {
-                if (bitmap != null && activity != null &&
-                        (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                            binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                            binding.executePendingBindings();
-                        }
-                    });
-                }
+            public void onCanceled(ViewDataBinding binding) {
+                super.onCanceled(binding);
+            }
 
+            @Override
+            public void onBound(ViewDataBinding binding) {
+                super.onBound(binding);
             }
         };
-        LoadImage(updater, null);
+
+        protected CoverFetcher(ViewDataBinding binding){
+            this.binding = binding;
+            this.binding.addOnRebindCallback(rebindCallbacks);
+        }
+
+        public abstract void updateBindImage(final Bitmap bitmap, View target);
+
+        @Override
+        public final void updateImage(final Bitmap bitmap, View target) {
+            this.binding.removeOnRebindCallback(rebindCallbacks);
+            if (!bindChanged)
+                updateBindImage(bitmap, target);
+        }
     }
 }
