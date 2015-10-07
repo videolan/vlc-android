@@ -34,17 +34,14 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class AsyncImageLoader {
 
-    public interface ImageUpdater {
+    public interface Callbacks {
+        Bitmap getImage();
         void updateImage(Bitmap bitmap, View target);
     }
 
@@ -54,17 +51,28 @@ public class AsyncImageLoader {
     static ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
                                                                    new LinkedBlockingQueue<Runnable>());
 
-    public static void LoadImage(final Callable<Bitmap> loader, final ImageUpdater updater, final View target){
+    public static void LoadImage(final Callbacks cbs, final View target){
         sThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                handleImage(updater, loader, target);
+                final Bitmap bitmap = cbs.getImage();
+                cbs.updateImage(bitmap, target);
             }
         });
     }
 
-    public static void LoadAudioCover(Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
-        ImageUpdater updater = new ImageUpdater() {
+    public static void LoadAudioCover(final Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
+        final Callbacks updater = new Callbacks() {
+
+            @Override
+            public Bitmap getImage() {
+                try {
+                    return loader.call();
+                } catch (Exception ignored) {
+                    return null;
+                }
+            }
+
             @Override
             public void updateImage(final Bitmap bitmap, View target) {
                 if (bitmap != null && activity != null) {
@@ -79,11 +87,21 @@ public class AsyncImageLoader {
 
             }
         };
-        LoadImage(loader, updater, null);
+        LoadImage(updater, null);
     }
 
-    public static void LoadVideoCover(Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
-        ImageUpdater updater = new ImageUpdater() {
+    public static void LoadVideoCover(final Callable<Bitmap> loader, final ViewDataBinding binding, final Activity activity){
+        final Callbacks updater = new Callbacks() {
+
+            @Override
+            public Bitmap getImage() {
+                try {
+                    return loader.call();
+                } catch (Exception ignored) {
+                    return null;
+                }
+            }
+
             @Override
             public void updateImage(final Bitmap bitmap, View target) {
                 if (bitmap != null && activity != null &&
@@ -100,15 +118,6 @@ public class AsyncImageLoader {
 
             }
         };
-        LoadImage(loader, updater, null);
-    }
-
-    private static void handleImage(final ImageUpdater updater, Callable<Bitmap> loader, View target){
-        try {
-            final Bitmap bitmap = loader.call();
-            updater.updateImage(bitmap, target);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LoadImage(updater, null);
     }
 }

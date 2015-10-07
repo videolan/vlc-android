@@ -75,7 +75,7 @@ public class CardPresenter extends Presenter {
 
         protected void updateCardViewImage(MediaWrapper mediaWrapper) {
             mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
-            AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), sImageUpdater, mCardView);
+            AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), mCardView);
         }
 
         protected void updateCardViewImage(Drawable image) {
@@ -168,7 +168,7 @@ public class CardPresenter extends Presenter {
         }
     }
 
-    public static class CoverFetcher implements Callable<Bitmap>{
+    public static class CoverFetcher implements AsyncImageLoader.Callbacks{
         MediaWrapper mediaWrapper;
 
         CoverFetcher(MediaWrapper mediaWrapper){
@@ -176,7 +176,7 @@ public class CardPresenter extends Presenter {
         }
 
         @Override
-        public Bitmap call() throws Exception {
+        public Bitmap getImage() {
             Bitmap picture = null;
             if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
                 picture = AudioUtil.getCover(sContext, mediaWrapper, 320);
@@ -192,9 +192,7 @@ public class CardPresenter extends Presenter {
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_unknown_big_normal);
             return picture;
         }
-    }
 
-    public static AsyncImageLoader.ImageUpdater sImageUpdater = new AsyncImageLoader.ImageUpdater() {
         @Override
         public void updateImage(final Bitmap picture, final View target) {
             target.post(new Runnable() {
@@ -208,5 +206,5 @@ public class CardPresenter extends Presenter {
                 }
             });
         }
-    };
+    }
 }
