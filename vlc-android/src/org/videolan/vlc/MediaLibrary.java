@@ -116,7 +116,7 @@ public class MediaLibrary {
     }
 
     public void loadMedaItems(){
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 mItemListLock.writeLock().lock();
@@ -125,7 +125,7 @@ public class MediaLibrary {
                 mItemListLock.writeLock().unlock();
                 notifyMediaUpdated();
             }
-        }).start();
+        });
     }
 
     public void stop() {

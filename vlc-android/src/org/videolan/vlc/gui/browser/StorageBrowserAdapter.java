@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
@@ -89,14 +90,14 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     private void removeDir(final String path) {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 //if media dir list was empty, we add all others
                 if (mMediaDirsLocation.isEmpty()) {
                     Storage storage;
                     String pathString;
-                    for (Object item : mMediaList){
+                    for (Object item : mMediaList) {
                         storage = (Storage) item;
                         if (!TextUtils.equals(path, storage.getUri().getPath())) {
                             pathString = storage.getUri().getPath();
@@ -110,11 +111,11 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 if (isRoot && mMediaDirsLocation.isEmpty() && getItemCount() > 1)
                     refreshFragment();
             }
-        }).start();
+        });
     }
 
     private void addDir(final String path) {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 mDbManager.addDir(path);
@@ -131,7 +132,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 }
                 updateMediaDirs();
             }
-        }).start();
+        });
     }
 
     void refreshFragment(){

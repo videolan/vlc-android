@@ -52,6 +52,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
@@ -398,7 +399,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     private void checkThumbs() {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 sThumbnailer = new Thumbnailer(mContext, getWindowManager().getDefaultDisplay());
@@ -415,7 +416,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                         sThumbnailer.start((IVideoBrowser) mContext);
                 }
             }
-        }).start();
+        });
     }
 
     public static Thumbnailer getThumbnailer() {

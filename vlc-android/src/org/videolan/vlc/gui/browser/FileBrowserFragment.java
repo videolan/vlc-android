@@ -39,6 +39,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
@@ -98,7 +99,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     protected void browseRoot() {
         final Activity context = getActivity();
         mAdapter.updateMediaDirs();
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 String storages[] = AndroidDevices.getMediaDirectories();
@@ -124,7 +125,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 }
                 mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
             }
-        }).start();
+        });
     }
 
     public void onStart(){

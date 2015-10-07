@@ -44,6 +44,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.CardPresenter;
@@ -140,7 +141,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
     }
 
     private void sort(){
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
@@ -149,7 +150,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
                 }
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
             }
-        }).start();
+        });
     }
 
     @Override

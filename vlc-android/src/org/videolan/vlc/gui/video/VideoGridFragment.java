@@ -413,7 +413,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
 
         if (itemList.size() > 0) {
-            new Thread(new Runnable() {
+            VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     mVideoAdapter.setNotifyOnChange(false);
@@ -440,7 +440,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     if (mReadyToDisplay)
                         display();
                 }
-            }).start();
+            });
         } else
             focusHelper(true);
         stopRefresh();
@@ -538,11 +538,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void deleteMedia(int position){
         final MediaWrapper media = mVideoAdapter.getItem(position);
         final String path = media.getUri().getPath();
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             public void run() {
                 Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
             }
-        }).start();
+        });
         mMediaLibrary.getMediaItems().remove(media);
         mVideoAdapter.remove(media);
         if (mService != null) {

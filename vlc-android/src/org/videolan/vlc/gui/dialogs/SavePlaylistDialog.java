@@ -45,6 +45,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     }
 
     private void savePlaylist() {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             public void run() {
                 final MediaDatabase db = MediaDatabase.getInstance();
                 final String name = mEditText.getText().toString().trim();
@@ -130,7 +131,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
                     db.playlistInsertItem(name, i, mw.getLocation());
                 }
             }
-        }).start();
+        });
         dismiss();
     }
 }

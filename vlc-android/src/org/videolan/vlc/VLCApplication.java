@@ -21,6 +21,9 @@ package org.videolan.vlc;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.BitmapCache;
@@ -42,7 +45,9 @@ public class VLCApplication extends Application {
     public final static String CALL_ENDED_INTENT = "org.videolan.vlc.CallEndedIntent";
 
     public static Calendar sPlayerSleepTime = null;
-
+    /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
+    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
+                                                                    new LinkedBlockingQueue<Runnable>());
     @Override
     public void onCreate() {
         super.onCreate();
@@ -111,5 +116,9 @@ public class VLCApplication extends Application {
     public static Resources getAppResources()
     {
         return instance.getResources();
+    }
+
+    public static void runBackground(Runnable runnable) {
+        instance.mThreadPool.execute(runnable);
     }
 }

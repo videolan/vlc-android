@@ -681,11 +681,11 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     MediaWrapper mw = fragment.mSongsAdapter.getItem(msg.arg1).mMediaList.get(0);
                     final String path = mw.getUri().getPath();
                     //Let's keep this toast while duration is not set correctly
-                    new Thread(new Runnable() {
+                    VLCApplication.runBackground(new Runnable() {
                         public void run() {
                             Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
                         }
-                    }).start();
+                    });
                     fragment.mMediaLibrary.getMediaItems().remove(mw);
                     refresh(fragment, path);
                     break;

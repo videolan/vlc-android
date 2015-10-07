@@ -270,7 +270,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
 
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 Collections.sort(mMediaList, MediaComparators.byAlbum);
@@ -290,7 +290,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                     }
                 });
             }
-        }).start();
+        });
     }
 
     OnItemClickListener albumsListener = new OnItemClickListener() {
@@ -394,11 +394,11 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                     if (fragment.mService != null)
                         fragment.mService.removeLocation(media.getLocation());
                     fragment.mMediaLibrary.getMediaItems().remove(media);
-                    new Thread(new Runnable() {
+                    VLCApplication.runBackground(new Runnable() {
                         public void run() {
                             Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
                         }
-                    }).start();
+                    });
                     break;
             }
         }

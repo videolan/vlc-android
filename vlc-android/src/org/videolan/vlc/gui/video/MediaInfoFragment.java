@@ -46,6 +46,7 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -116,7 +117,7 @@ public class MediaInfoFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 if (mItem != null) {
-                    new Thread(new Runnable() {
+                    VLCApplication.runBackground(new Runnable() {
                         @Override
                         public void run() {
                             boolean deleted = Util.deleteFile(mItem.getLocation());
@@ -124,7 +125,7 @@ public class MediaInfoFragment extends ListFragment {
                                 mHandler.obtainMessage(EXIT).sendToTarget();
                             }
                         }
-                    }).start();
+                    });
                 }
             }
         });
