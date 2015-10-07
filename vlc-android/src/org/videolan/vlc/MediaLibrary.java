@@ -80,7 +80,9 @@ public class MediaLibrary {
                 "/media/audio/alarms",
                 "/media/audio/notifications",
                 "/media/audio/ringtones",
-                "/Android/data/" };
+                "/android/data",
+                "/android/media",
+        };
 
         FOLDER_BLACKLIST = new HashSet<String>();
         for (String item : folder_blacklist)
