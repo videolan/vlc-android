@@ -74,8 +74,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
@@ -726,8 +724,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             mTabLayout.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
-            ExecutorService tpe = Executors.newSingleThreadExecutor();
-            ArrayList<Runnable> tasks = new ArrayList<Runnable>(Arrays.asList(updateArtists,
+            final ArrayList<Runnable> tasks = new ArrayList<Runnable>(Arrays.asList(updateArtists,
                     updateAlbums, updateSongs, updateGenres, updatePlaylists));
 
             //process the visible list first
@@ -739,8 +736,13 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                         display();
                 }
             });
-            for (Runnable task : tasks)
-                tpe.submit(task);
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    for (Runnable task : tasks)
+                        task.run();
+                }
+            });
         }
     }
 
