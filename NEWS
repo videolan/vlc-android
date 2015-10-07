@@ -1,5 +1,22 @@
-Changes between 1.5.2 and 1.5.90:
---------------------------------
+Changes between 1.5.90 and 1.6.0:
+---------------------------------
+
+Core:
+ * Streamline libVLCjni.so symbols
+ * Port to Android-M
+ * Fix HTTP seek regression from 1.5.90
+
+Application:
+ * Speed up the video/audio lists interface
+ * Speed up the thumbnailing process and remove glitches
+ * Correctly blacklist the system notifications and ringtones
+ * Fix last playlist and random restoration
+ * Fix grouping of videos
+ * Translations update
+
+
+Changes between 1.5.2 and 1.5.90 (1.6.0-beta):
+----------------------------------------------
 
 Core:
  * Hardware decoding performance improvements
