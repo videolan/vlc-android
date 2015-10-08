@@ -215,9 +215,16 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
         mSurfaces[ID_SUBTITLES] = null;
     }
 
-    private void setView(int id, SurfaceView view) {
+    private void ensureInitState() throws IllegalStateException {
         if (mSurfacesState.get() != SURFACE_STATE_INIT)
-            throw new IllegalStateException("Can't set view when already attached");
+            throw new IllegalStateException("Can't set view when already attached. " +
+                    "Current state: " + mSurfacesState.get() + ", " +
+                    "mSurfaces[ID_VIDEO]: " + mSurfaceHelpers[ID_VIDEO] + " / " + mSurfaces[ID_VIDEO] + ", " +
+                    "mSurfaces[ID_SUBTITLES]: " + mSurfaceHelpers[ID_SUBTITLES] + " / " + mSurfaces[ID_SUBTITLES]);
+    }
+
+    private void setView(int id, SurfaceView view) {
+        ensureInitState();
         if (view == null)
             throw new NullPointerException("view is null");
         final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
@@ -230,8 +237,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     private void setView(int id, TextureView view) {
         if (!AndroidUtil.isICSOrLater())
             throw new IllegalArgumentException("TextureView not implemented in this android version");
-        if (mSurfacesState.get() != SURFACE_STATE_INIT)
-            throw new IllegalStateException("Can't set view when already attached");
+        ensureInitState();
         if (view == null)
             throw new NullPointerException("view is null");
         final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
@@ -242,8 +248,7 @@ class AWindow implements IAWindowNativeHandler, IVLCVout {
     }
 
     private void setSurface(int id, Surface surface, SurfaceHolder surfaceHolder) {
-        if (mSurfacesState.get() != SURFACE_STATE_INIT)
-            throw new IllegalStateException("Can't set surface when already attached");
+        ensureInitState();
         if (!surface.isValid() || surfaceHolder == null)
             throw new IllegalStateException("surface is not attached and holder is null");
         final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
