@@ -180,6 +180,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 mp.setAudioOutputDevice("hdmi");
         } else
             mIsAudioTrack = false;
+        mp.getVLCVout().addCallback(this);
+
         return mp;
     }
 
@@ -192,7 +194,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         super.onCreate();
 
         mMediaPlayer = newMediaPlayer();
-        mMediaPlayer.getVLCVout().addCallback(this);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             stopSelf();
