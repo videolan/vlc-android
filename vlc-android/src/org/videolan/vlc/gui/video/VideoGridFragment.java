@@ -431,12 +431,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
                         for (MediaGroup item : groups) {
-                            mVideoAdapter.setNotifyOnChange(false);
                             mVideoAdapter.add(item.getMedia());
                             if (mThumbnailer != null)
                                 mThumbnailer.addJob(item.getMedia());
                         }
                     }
+                    mVideoAdapter.setNotifyOnChange(true);
                     if (mReadyToDisplay)
                         display();
                 }
@@ -521,7 +521,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 public void run() {
                     mViewNomedia.setVisibility(mVideoAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
                     mReadyToDisplay = true;
-                    mVideoAdapter.setNotifyOnChange(true);
                     mVideoAdapter.sort();
                     mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
                     mGridView.setSelection(mGVFirstVisiblePos);
