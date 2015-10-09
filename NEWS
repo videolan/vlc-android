@@ -1,3 +1,12 @@
+Changes between 1.6.0 and 1.6.1:
+--------------------------------
+
+Application:
+ * Fix crashes on wiko and QMobile phone
+ * Fix preferences crashes
+ * Fix crashes in Videos List and Main Activity
+
+
 Changes between 1.5.90 and 1.6.0:
 ---------------------------------
 
