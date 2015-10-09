@@ -298,7 +298,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
     @Override
     public void onBackPressed() {
-            /* Close the menu first */
+        /* Close the menu first */
         if(mDrawerLayout.isDrawerOpen(mListView)) {
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
@@ -306,7 +306,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             return;
         }
 
-        // Slide down the audio player if it is shown entirely.
+        /* Slide down the audio player if it is shown entirely. */
         if (slideDownAudioPlayer())
             return;
 
