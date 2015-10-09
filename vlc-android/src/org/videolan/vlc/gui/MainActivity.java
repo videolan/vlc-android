@@ -536,7 +536,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
                 mMediaLibrary.scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                Intent intent = getIntent();
+                Intent intent = new Intent(getIntent());
                 finish();
                 startActivity(intent);
             }
