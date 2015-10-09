@@ -374,10 +374,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         super.onPreferenceTreeClick(preferenceScreen, preference);
-        if (preference instanceof PreferenceScreen)
-            setUpNestedScreen((PreferenceScreen) preference);
         try {
             if (preference!=null && preference instanceof PreferenceScreen) {
+                setUpNestedScreen((PreferenceScreen) preference);
                 Dialog dialog = ((PreferenceScreen)preference).getDialog();
                 if (dialog!=null) {
                     Window window = dialog.getWindow();
