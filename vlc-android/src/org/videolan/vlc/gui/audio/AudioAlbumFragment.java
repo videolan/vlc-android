@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -183,6 +184,10 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     private boolean handleContextItemSelected(MenuItem item, int position) {
         int id = item.getItemId();
 
+        if (mMediaList.size() <= position) {
+            Log.e(TAG, "handleContextItemSelected: wrong index. Shouldn't happen !");
+            return true;
+        }
 
         if (id == R.id.audio_list_browser_set_song) {
             AudioUtil.setRingtone(mMediaList.get(position), getActivity());
