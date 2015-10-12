@@ -287,6 +287,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPlaybackStarted = false;
+    private boolean mSurfacesAttached = false;
 
     // Tips
     private View mOverlayTips;
@@ -699,6 +700,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         LibVLC().setOnHardwareAccelerationError(this);
         final IVLCVout vlcVout = mService.getVLCVout();
+        vlcVout.detachViews();
         if (mPresentation == null) {
             vlcVout.setVideoView(mSurfaceView);
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
@@ -708,6 +710,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
                 vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
+        mSurfacesAttached = true;
         vlcVout.addCallback(this);
         vlcVout.attachViews();
         mSurfaceView.setKeepScreenOn(true);
@@ -741,7 +744,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.removeCallback(this);
-        vlcVout.detachViews();
+        if (mSurfacesAttached)
+            vlcVout.detachViews();
         mSurfaceView.setKeepScreenOn(false);
 
         mHandler.removeCallbacksAndMessages(null);
@@ -3055,5 +3059,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
+        mSurfacesAttached = false;
     }
 }
