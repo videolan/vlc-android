@@ -282,9 +282,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
 
-    // Whether fallback from HW acceleration to SW decoding was done.
-    private boolean mDisabledHardwareAcceleration = false;
-
     /**
      * Flag to indicate whether the media should be paused once loaded
      * (e.g. lock screen, or to restore the pause state)
@@ -1515,7 +1512,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                mDisabledHardwareAcceleration = true;
                 loadMedia();
             }
         })
