@@ -1,8 +1,16 @@
+Changes between 1.6.1 and 1.6.2:
+--------------------------------
+
+Application:
+ * Fix crashes on wiko and QMobile phones (bis repetita)
+ * Fix IllegalStateException in AWindow when relaunching VideoPlayer
+ * Fix crash in Video Fragment on old Android versions
+
 Changes between 1.6.0 and 1.6.1:
 --------------------------------
 
 Application:
- * Fix crashes on wiko and QMobile phone
+ * Fix crashes on wiko and QMobile phones
  * Fix preferences crashes
  * Fix crashes in Videos List and Main Activity
 
