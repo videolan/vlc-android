@@ -76,6 +76,7 @@ import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
@@ -416,13 +417,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    mVideoAdapter.setNotifyOnChange(false);
-                    mVideoAdapter.clear();
+                    final ArrayList<MediaWrapper> displayList = new ArrayList<MediaWrapper>();
 
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup)) {
-                                mVideoAdapter.add(item);
+                                displayList.add(item);
                                 if (mThumbnailer != null)
                                     mThumbnailer.addJob(item);
                             }
@@ -431,12 +431,21 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
                         for (MediaGroup item : groups) {
-                            mVideoAdapter.add(item.getMedia());
+                            displayList.add(item.getMedia());
                             if (mThumbnailer != null)
                                 mThumbnailer.addJob(item.getMedia());
                         }
                     }
-                    mVideoAdapter.setNotifyOnChange(true);
+
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mVideoAdapter.clear();
+                                mVideoAdapter.addAll(displayList);
+                            }
+                        });
+                    }
                     if (mReadyToDisplay)
                         display();
                 }
