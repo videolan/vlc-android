@@ -22,7 +22,7 @@ package org.videolan.libvlc;
 
 import android.view.Surface;
 
-interface IAWindowNativeHandler {
+public interface IAWindowNativeHandler {
     /**
      * Callback called from {@link IVLCVout#sendMouseEvent}.
      *

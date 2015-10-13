@@ -37,14 +37,14 @@ import org.videolan.libvlc.util.AndroidUtil;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class AWindow implements IAWindowNativeHandler, IVLCVout {
+public class AWindow implements IAWindowNativeHandler, IVLCVout {
     private static final String TAG = "AWindow";
 
     private static final int ID_VIDEO = 0;
     private static final int ID_SUBTITLES = 1;
     private static final int ID_MAX = 2;
 
-    protected interface SurfaceCallback {
+    public interface SurfaceCallback {
         @MainThread
         void onSurfacesCreated(AWindow vout);
         @MainThread
