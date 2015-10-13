@@ -439,10 +439,22 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
+                            private void addAllV7() {
+                                for (MediaWrapper item : displayList)
+                                    mVideoAdapter.add(item);
+                            }
+
+                            @TargetApi(android.os.Build.VERSION_CODES.HONEYCOMB)
+                            private void addAllV11() {
+                                mVideoAdapter.addAll(displayList);
+                            }
                             @Override
                             public void run() {
                                 mVideoAdapter.clear();
-                                mVideoAdapter.addAll(displayList);
+                                if (AndroidUtil.isHoneycombOrLater())
+                                    addAllV11();
+                                else
+                                    addAllV7();
                             }
                         });
                     }
