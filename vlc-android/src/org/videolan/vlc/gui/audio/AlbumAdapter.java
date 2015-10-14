@@ -39,6 +39,7 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioClickHandler{
 
@@ -48,6 +49,7 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
 
     public AlbumAdapter(Context context, ArrayList<MediaWrapper> tracks) {
         super(context, 0);
+        Collections.sort(tracks, MediaComparators.byTrackNumber);
         mMediaList = tracks;
     }
 
