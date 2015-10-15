@@ -1,3 +1,13 @@
+Changes between 1.6.3 and 1.6.4:
+--------------------------------
+
+Core:
+ * Fix playback and seeking of some ASF/WMV/WMA files
+
+Application:
+ * Fix staying-alive screen
+ * Correctly sort by track number in the album view
+
 Changes between 1.6.2 and 1.6.3:
 --------------------------------
 
