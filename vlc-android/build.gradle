@@ -185,12 +185,12 @@ android {
 
 dependencies {
     compile project(':libvlc')
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:cardview-v7:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:support-annotations:23.0.1'
-    tvCompile 'com.android.support:leanback-v17:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:support-annotations:23.1.0'
+    tvCompile 'com.android.support:leanback-v17:23.1.0'
     testCompile 'junit:junit:4.12'
 }
 
