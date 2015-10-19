@@ -49,7 +49,8 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
 
     public AlbumAdapter(Context context, ArrayList<MediaWrapper> tracks) {
         super(context, 0);
-        Collections.sort(tracks, MediaComparators.byTrackNumber);
+        if (tracks != null)
+            Collections.sort(tracks, MediaComparators.byTrackNumber);
         mMediaList = tracks;
     }
 
