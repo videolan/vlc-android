@@ -15,9 +15,9 @@
         <item quantity="other">%d rezultāti atrasti</item>
     </plurals>
     <string name="play">Atskaņot</string>
-    <string name="play_from_start">Spēlēt no sākuma</string>
-    <string name="play_as_audio">Spēlēt kā audio</string>
-    <string name="play_as_video">Spēlēt kā video</string>
+    <string name="play_from_start">Atskaņot no sākuma</string>
+    <string name="play_as_audio">Atskaņot kā audio</string>
+    <string name="play_as_video">Atskaņot kā video</string>
     <string name="append">Pievienot</string>
     <string name="play_all">Atskaņot visu</string>
     <string name="append_all">Pievienot visu</string>
