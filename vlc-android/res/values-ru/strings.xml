@@ -322,4 +322,6 @@
     <string name="no_subs_found">В этом каталоге нет субтитров</string>
     <string name="music_now_playing">Сейчас играет</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC в светлом оформлении</string>
+    <string name="widget_name_b">VLC в тёмном оформлении</string>
 </resources>
