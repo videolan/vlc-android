@@ -262,6 +262,8 @@
     <string name="network_caching">Vrijednost mrežne predmemorije</string>
     <string name="network_caching_summary">Vremensko trajanje predmemorije mrežnog medija (u ms). Ne radi s omogućenim hardverskim dekôdiranjem. Ostavite prazno za zadano sustavom.</string>
     <string name="developer_prefs_category">Razvoj</string>
+    <string name="auto_rescan">Automatsko ponovno pretraživanje</string>
+    <string name="auto_rescan_summary">Automatski pretražuje uređaj za nove obrisane medije pri pokretanju aplikacije.</string>
     <string name="enable_verbose_mode">Opširnije</string>
     <string name="enable_verbose_mode_summary">Povećaj opširnost zapisa (LogCat)</string>
     <string name="debug_logs">Zapisi grešaka</string>
@@ -298,6 +300,7 @@
     <string name="playlist_save">Spremi popis izvođenja</string>
     <string name="playlist_name_hint">naziv popisa izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje...</string>
+    <string name="chapter">Poglavlje</string>
     <string name="resume_from_position">Nastavi s posljednjeg položaja</string>
     <string name="confirm_resume">Nastavi s posljednjeg položaja?</string>
     <string name="confirm_resume_title">Zatraži potvrdu za nastavak</string>
@@ -310,5 +313,8 @@
     <string name="playlist_deleted">Popis izvođenja obrisan</string>
     <string name="file_deleted">Datoteka obrisana</string>
     <string name="no_subs_found">Nema podnaslova u ovom direktoriju</string>
+    <string name="music_now_playing">Trenutno se reporducira</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC bijeli widget</string>
+    <string name="widget_name_b">VLC tamni widget</string>
 </resources>
