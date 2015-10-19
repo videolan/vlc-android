@@ -1,3 +1,10 @@
+Changes between 1.6.4 and 1.6.5:
+--------------------------------
+
+Application:
+ * Fix crash on Audio Album sorting
+ * Update support library to 23.1
+
 Changes between 1.6.3 and 1.6.4:
 --------------------------------
 
