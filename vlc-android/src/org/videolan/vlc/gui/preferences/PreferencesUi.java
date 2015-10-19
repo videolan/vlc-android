@@ -42,6 +42,8 @@ public class PreferencesUi extends BasePreferenceFragment {
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+        if (preference.getKey() == null)
+            return false;
         switch (preference.getKey()){
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
