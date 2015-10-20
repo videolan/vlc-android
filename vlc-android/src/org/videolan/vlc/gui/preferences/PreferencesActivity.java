@@ -24,8 +24,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -59,21 +61,31 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
 
         setContentView(R.layout.preferences_activity);
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mClient.connect();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_placeholder, new PreferencesFragment())
                 .commit();
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mClient.connect();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         mClient.disconnect();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (!getSupportFragmentManager().popBackStackImmediate())
+                finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void applyTheme() {
