@@ -40,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:button="@drawable/custom_checkbox_button"
             android:layout_marginLeft="15dp"
             android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
             android:enabled="@{chechEnabled}"
