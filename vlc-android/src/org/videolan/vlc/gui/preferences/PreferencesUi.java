@@ -23,11 +23,13 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.AndroidDevices;
 
 public class PreferencesUi extends BasePreferenceFragment {
     @Override
@@ -38,6 +40,19 @@ public class PreferencesUi extends BasePreferenceFragment {
     @Override
     protected int getTitleId() {
         return R.string.interface_prefs_screen;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (!AndroidDevices.hasTsp()){
+            findPreference("enable_clone_mode").setEnabled(false);
+            findPreference("force_list_portrait").setEnabled(false);
+            findPreference("enable_brightness_gesture").setEnabled(false);
+            findPreference("enable_headset_detection").setEnabled(false);
+            findPreference("enable_steal_remote_control").setEnabled(false);
+        }
     }
 
     @Override

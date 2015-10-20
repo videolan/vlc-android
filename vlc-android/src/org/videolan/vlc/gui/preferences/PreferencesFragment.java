@@ -56,12 +56,10 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "on create");
 
         if (!AndroidDevices.hasTsp()){
             findPreference("screen_orientation").setEnabled(false);
             findPreference("enable_black_theme").setEnabled(false);
-            findPreference("ui_category").setEnabled(false);
         }
 
         // Screen orientation
