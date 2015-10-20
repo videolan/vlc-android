@@ -23,11 +23,13 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v17.preference.LeanbackPreferenceFragment;
 
-public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
+import org.videolan.vlc.R;
+
+public abstract class BasePreferenceFragment extends LeanbackPreferenceFragment {
 
     protected abstract int getXml();
     protected abstract int getTitleId();
@@ -37,12 +39,9 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
         addPreferencesFromResource(getXml());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        final AppCompatActivity activity = (AppCompatActivity)getActivity();
-        if (activity != null && activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setTitle(getString(getTitleId()));
-        }
+    protected void loadFragment(Fragment fragment) {
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, fragment)
+                .addToBackStack("main")
+                .commit();
     }
 }

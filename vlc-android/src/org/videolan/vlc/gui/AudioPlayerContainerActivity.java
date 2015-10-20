@@ -139,7 +139,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     private void applyTheme() {
         boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
-        if (enableBlackTheme) {
+        if (BuildConfig.tv || enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
         }
     }

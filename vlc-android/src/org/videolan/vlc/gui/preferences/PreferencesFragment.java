@@ -23,10 +23,10 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
@@ -93,7 +93,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        Fragment fragment = null;
         switch (preference.getKey()){
             case "directories":
                 Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
@@ -105,23 +104,20 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 ((PreferencesActivity) getActivity()).exitAndRescan();
                 return true;
             case "ui_category":
-                fragment = new PreferencesUi();
+                loadFragment(new PreferencesUi());
                 break;
             case "perf_category":
-                fragment = new PreferencesPerformances();
+                loadFragment(new PreferencesPerformances());
                 break;
             case "adv_category":
-                fragment = new Advanced();
+                loadFragment(new Advanced());
                 break;
             case "dev_category":
-                fragment = new Developer();
+                loadFragment(new Developer());
                 break;
             default:
                 return super.onPreferenceTreeClick(preference);
         }
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, fragment)
-                .addToBackStack("main")
-                .commit();
         return true;
     }
 }

@@ -169,6 +169,10 @@ android {
     sourceSets.test {
         java.srcDirs = ['test']
     }
+    sourceSets.vanilla {
+        java.srcDirs = ['vanilla/src']
+        res.srcDirs = ['vanilla/res']
+    }
     sourceSets.tv {
         manifest.srcFile 'tv/AndroidManifest.xml'
         java.srcDirs = ['tv/src']
@@ -192,6 +196,7 @@ dependencies {
     compile 'com.android.support:support-annotations:23.1.0'
     compile 'com.android.support:preference-v7:23.1.0'
     tvCompile 'com.android.support:leanback-v17:23.1.0'
+    tvCompile 'com.android.support:preference-leanback-v17:23.1.0'
     testCompile 'junit:junit:4.12'
 }
 
