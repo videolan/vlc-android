@@ -211,6 +211,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
     private ImageView mTracks;
+    private ImageView mRewind;
+    private ImageView mForward;
     private ImageView mAdvOptions;
     private ImageView mDelayPlus;
     private ImageView mDelayMinus;
@@ -390,6 +392,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLock = (ImageView) findViewById(R.id.lock_overlay_button);
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
+
+        if (mSettings.getBoolean("enable_seek_buttons", false))
+            initSeekButton();
 
         mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
         mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
@@ -2157,6 +2162,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         seek(position);
         showOverlay();
     }
+
+    private void initSeekButton() {
+        mRewind = (ImageView) findViewById(R.id.player_overlay_rewind);
+        mForward = (ImageView) findViewById(R.id.player_overlay_forward);
+        mRewind.setVisibility(View.VISIBLE);
+        mForward.setVisibility(View.VISIBLE);
+        mRewind.setOnClickListener(mRewindListener);
+        mForward.setOnClickListener(mForwardListener);
+        mRewind.setOnTouchListener(new OnRepeatListener(mRewindListener));
+        mForward.setOnTouchListener(new OnRepeatListener(mForwardListener));
+    }
+
+
+    private final OnClickListener mRewindListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            seekDelta(-30000);
+        }
+    };
+
+    private final OnClickListener mForwardListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            seekDelta(30000);
+        }
+    };
 
     /**
      *
