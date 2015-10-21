@@ -33,12 +33,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
-import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
-import android.media.RemoteControlClient.MetadataEditor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -50,12 +47,13 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import org.videolan.libvlc.IVLCVout;
@@ -146,6 +144,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private int mNextIndex; // Set to -1 if no next media
 
     // Playback management
+
+    MediaSessionCompat mMediaSession;
+    protected MediaSessionCallback mSessionCallback;
+    private static final long PLAYBACK_ACTIONS = PlaybackStateCompat.ACTION_PAUSE
+            | PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP
+            | PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
 
     public static final int REPEAT_NONE = 0;
     public static final int REPEAT_ONE = 1;
@@ -583,8 +587,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     if (mw != null)
                         mw.updateMeta(mMediaPlayer);
                     executeUpdate();
-                    showNotification();
-                    updateRemoteControlClientMetadata();
                     break;
                 case Media.Event.MetaChanged:
                     break;
@@ -599,8 +601,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
+
+                    if (mMediaSession == null)
+                        initMediaSession(PlaybackService.this);
+
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
+                    publishState(event.type);
                     executeUpdateProgress();
 
                     final MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
@@ -630,6 +637,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 case MediaPlayer.Event.Paused:
                     Log.i(TAG, "MediaPlayer.Event.Paused");
                     executeUpdate();
+                    publishState(event.type);
                     executeUpdateProgress();
                     showNotification();
                     setRemoteControlClientPlaybackState(event.type);
@@ -639,6 +647,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 case MediaPlayer.Event.Stopped:
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
                     executeUpdate();
+                    publishState(event.type);
                     executeUpdateProgress();
                     setRemoteControlClientPlaybackState(event.type);
                     if (mWakeLock.isHeld())
@@ -783,6 +792,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
         if (updateWidget)
             updateWidget();
+        updateMetadata();
+
     }
 
     private void executeUpdateProgress() {
@@ -845,27 +856,24 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mMediaPlayer.getVLCVout().areViewsAttached())
             return;
         try {
-            MediaWrapper media = getCurrentMedia();
-            if (media == null)
-                return;
-            Bitmap cover = AudioUtil.getCover(this, media, 64);
-            String title = media.getTitle();
-            String artist = Util.getMediaArtist(this, media);
-            String album = Util.getMediaAlbum(this, media);
+            MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
+            String title = metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
+            String artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
+            String album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
+            Bitmap cover = metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART);
             Notification notification;
-
-            if (media.isArtistUnknown() && media.isAlbumUnknown() && media.getNowPlaying() != null) {
-                artist = media.getNowPlaying();
-                album = "";
-            }
 
             //Watch notification dismissed
             PendingIntent piStop = PendingIntent.getBroadcast(this, 0,
                     new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
 
             // add notification to status bar
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_vlc)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            builder.setSmallIcon(R.drawable.ic_stat_vlc)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(title)
+                .setContentText(artist + " - " + album)
+                .setLargeIcon(cover)
                 .setTicker(title + " - " + artist)
                 .setAutoCancel(!mMediaPlayer.isPlaying())
                 .setOngoing(mMediaPlayer.isPlaying())
@@ -886,60 +894,48 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            if (AndroidUtil.isJellyBeanOrLater()) {
-                Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
-                Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
-                Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-                PendingIntent piBackward = PendingIntent.getBroadcast(this, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
-                PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
-                PendingIntent piForward = PendingIntent.getBroadcast(this, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
 
-                RemoteViews view = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.notification);
-                view.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
-                view.setTextViewText(R.id.songName, title);
-                view.setTextViewText(R.id.artist, artist);
-                view.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-                view.setOnClickPendingIntent(R.id.play_pause, piPlay);
-                view.setOnClickPendingIntent(R.id.forward, piForward);
-                view.setViewVisibility(R.id.forward, hasNext() ? View.VISIBLE : View.INVISIBLE);
-                view.setOnClickPendingIntent(R.id.stop, piStop);
-                view.setOnClickPendingIntent(R.id.content, pendingIntent);
+            PendingIntent piBackward = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piForward = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
 
-                RemoteViews view_expanded = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.notification_expanded);
-                view_expanded.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
-                view_expanded.setTextViewText(R.id.songName, title);
-                view_expanded.setTextViewText(R.id.artist, artist);
-                view_expanded.setTextViewText(R.id.album, album);
-                view_expanded.setImageViewResource(R.id.play_pause, mMediaPlayer.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-                view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
-                view_expanded.setViewVisibility(R.id.backward, hasPrevious() ? View.VISIBLE : View.INVISIBLE);
-                view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
-                view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
-                view_expanded.setViewVisibility(R.id.forward, hasNext() ? View.VISIBLE : View.INVISIBLE);
-                view_expanded.setOnClickPendingIntent(R.id.stop, piStop);
-                view_expanded.setOnClickPendingIntent(R.id.content, pendingIntent);
-
-                if (AndroidUtil.isLolliPopOrLater()){
-                    //Hide stop button on pause, we swipe notification to stop
-                    view.setViewVisibility(R.id.stop, mMediaPlayer.isPlaying() ? View.VISIBLE : View.INVISIBLE);
-                    view_expanded.setViewVisibility(R.id.stop, mMediaPlayer.isPlaying() ? View.VISIBLE : View.INVISIBLE);
-                    //Make notification appear on lockscreen
-                    builder.setVisibility(Notification.VISIBILITY_PUBLIC);
-                }
-
-                notification = builder.build();
-                notification.contentView = view;
-                notification.bigContentView = view_expanded;
+            int actionsCount = 0;
+            if (hasPrevious()) {
+                builder.addAction(R.drawable.ic_previous_w, getString(R.string.previous), piBackward);
+                actionsCount++;
             }
-            else {
-                builder.setLargeIcon(cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover)
-                       .setContentTitle(title)
-                        .setContentText(AndroidUtil.isJellyBeanOrLater() ? artist
-                                        : Util.getMediaSubtitle(this, media))
-                       .setContentInfo(album)
-                       .setContentIntent(pendingIntent);
-                notification = builder.build();
+            if (mMediaPlayer.isPlaying()) {
+                builder.addAction(R.drawable.ic_pause_w, getString(R.string.pause), piPlay);
+            } else {
+                builder.addAction(R.drawable.ic_play_w, getString(R.string.play), piPlay);
             }
+                actionsCount++;
+            if (hasNext()) {
+                builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
+                actionsCount++;
+            }
+
+            int[] actions;
+            switch (actionsCount){
+                case 3:
+                    actions = new int[] {0,1,2};
+                    break;
+                case 2:
+                    actions = new int[] {0,1};
+                    break;
+                default:
+                    actions = new int[] {0};
+
+            }
+            builder.setStyle(new NotificationCompat.MediaStyle()
+                            .setMediaSession(mMediaSession.getSessionToken())
+                            .setShowActionsInCompactView(actions)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(piStop)
+            );
+
+            notification = builder.build();
 
             startService(new Intent(this, PlaybackService.class));
             if (!AndroidUtil.isLolliPopOrLater() || mMediaPlayer.isPlaying())
@@ -987,7 +983,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if(hasCurrentMedia()) {
             mMediaPlayer.play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
-            showNotification();
+            updateMetadata();
             updateWidget();
             broadcastMetadata();
         }
@@ -995,6 +991,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void stop() {
+        if (mMediaSession != null) {
+            mMediaSession.setActive(false);
+            mMediaSession.release();
+            mMediaSession = null;
+        }
         if (mMediaPlayer == null)
             return;
         savePosition();
@@ -1081,37 +1082,61 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void updateRemoteControlClientMetadata() {
-        if (!AndroidUtil.isICSOrLater()) // NOP check
-            return;
-
-        MediaWrapper media = getCurrentMedia();
-        if (mRemoteControlClient != null && media != null) {
-            MetadataEditor editor = mRemoteControlClient.editMetadata(true);
-            if (media.getNowPlaying() != null) {
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "");
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, media.getNowPlaying());
-            } else {
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, Util.getMediaAlbum(this, media));
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, Util.getMediaArtist(this, media));
-            }
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, Util.getMediaGenre(this, media));
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
-            editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
-
-            // Copy the cover bitmap because the RemonteControlClient can recycle its artwork bitmap.
-            Bitmap cover = AudioUtil.getCover(this, media, 512);
-            if (cover != null && cover.getConfig() != null) //In case of format not supported
-                editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, (cover.copy(cover.getConfig(), false)));
-
-            editor.apply();
+    private void initMediaSession(Context context) {
+        mSessionCallback = new MediaSessionCallback();
+        mMediaSession = new MediaSessionCompat(context, "VLC");
+        mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
+                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mMediaSession.setCallback(mSessionCallback);
+        updateMetadata();
+    }
+    private final class MediaSessionCallback extends MediaSessionCompat.Callback {
+        @Override
+        public void onPlay() {
+            play();
+        }
+        @Override
+        public void onPause() {
+            pause();
         }
 
+        @Override
+        public void onStop() {
+            stop();
+        }
+
+        @Override
+        public void onSkipToNext() {
+            next();
+        }
+
+        @Override
+        public void onSkipToPrevious() {
+            previous();
+        }
+    }
+
+    protected void updateMetadata() {
+        MediaWrapper media = getCurrentMedia();
+        if (media == null || mMediaSession == null)
+            return;
+        String title = media.getNowPlaying();
+        if (title == null)
+            title = media.getTitle();
+        Bitmap cover = AudioUtil.getCover(this, media, 512);
+        MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
+        bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+            .putString(MediaMetadataCompat.METADATA_KEY_GENRE, Util.getMediaGenre(this, media))
+                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.getTrackNumber())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, Util.getMediaReferenceArtist(this, media))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, Util.getMediaAlbum(this, media))
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
+        if (cover != null && cover.getConfig() != null) //In case of format not supported
+                bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
+        mMediaSession.setMetadata(bob.build());
+
         //Send metadata to Pebble watch
-        if (media != null && mPebbleEnabled) {
+        if (mPebbleEnabled) {
             final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
             i.putExtra("artist", Util.getMediaArtist(this, media));
             i.putExtra("album", Util.getMediaAlbum(this, media));
@@ -1120,12 +1145,31 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
     }
 
+    protected void publishState(int state) {
+        if (mMediaSession == null)
+            return;
+        PlaybackStateCompat.Builder bob = new PlaybackStateCompat.Builder();
+        bob.setActions(PLAYBACK_ACTIONS);
+        switch (state) {
+            case MediaPlayer.Event.Playing:
+                bob.setState(PlaybackStateCompat.STATE_PLAYING, -1, 1);
+                break;
+            case MediaPlayer.Event.Stopped:
+                bob.setState(PlaybackStateCompat.STATE_STOPPED, -1, 0);
+                break;
+            default:
+            bob.setState(PlaybackStateCompat.STATE_PAUSED, -1, 0);
+        }
+        PlaybackStateCompat pbState = bob.build();
+        mMediaSession.setPlaybackState(pbState);
+        mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
+    }
+
     private void notifyTrackChanged() {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
+        updateMetadata();
         updateWidget();
         broadcastMetadata();
-        updateRemoteControlClientMetadata();
     }
 
     private void onMediaChanged() {
@@ -1133,6 +1177,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         saveCurrentMedia();
         determinePrevAndNextIndices();
+        updateMetadata();
     }
 
     private void onMediaListChanged() {
