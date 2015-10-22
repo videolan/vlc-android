@@ -20,18 +20,32 @@
 
 package org.videolan.vlc.util;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -47,6 +61,8 @@ import java.util.StringTokenizer;
 public class AndroidDevices {
     public final static String TAG = "VLC/Util/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
+
+    public static final int PERMISSION_STORAGE_TAG = 255;
 
     final static boolean hasNavBar;
     final static boolean hasTsp;
@@ -75,7 +91,7 @@ public class AndroidDevices {
     public static boolean hasCombBar() {
         return (!AndroidDevices.isPhone()
                 && ((VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) &&
-                    (VERSION.SDK_INT <= VERSION_CODES.JELLY_BEAN)));
+                (VERSION.SDK_INT <= VERSION_CODES.JELLY_BEAN)));
     }
 
     public static boolean isPhone(){
@@ -148,7 +164,7 @@ public class AndroidDevices {
 
     @TargetApi(VERSION_CODES.HONEYCOMB_MR1)
     public static float getCenteredAxis(MotionEvent event,
-            InputDevice device, int axis) {
+                                        InputDevice device, int axis) {
         final InputDevice.MotionRange range =
                 device.getMotionRange(axis, event.getSource());
 
@@ -179,6 +195,122 @@ public class AndroidDevices {
             }
         }
         return networkEnabled;
+    }
 
+    /*
+     * Marshmallow permission system management
+     */
+
+    public static boolean canReadStorage() {
+        return ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void checkReadStoragePermission(Activity activity, boolean exit) {
+        if (!canReadStorage()) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                showStoragePermissionDialog(activity, exit);
+
+            } else {
+                requestStoragePermission(activity);
+            }
+        }
+    }
+
+    private static Dialog sAlertDialog;
+    private static boolean firstAttempt = true;
+
+    public static void showStoragePermissionDialog(final Activity activity, boolean exit) {
+        if (sAlertDialog != null && sAlertDialog.isShowing())
+            return;
+        if (activity instanceof AppCompatActivity)
+            sAlertDialog = createDialogCompat(activity, exit);
+        else
+            sAlertDialog = createDialog(activity, exit);
+    }
+
+    private static Dialog createDialog(final Activity activity, boolean exit) {
+        android.app.AlertDialog.Builder dialogBuilder = new  android.app.AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.allow_storage_access_title))
+                .setMessage(activity.getString(R.string.allow_storage_access_description))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        if (!settings.getBoolean("user_declined_storage_access", false))
+                            requestStoragePermission(activity);
+                        else {
+                            Intent i = new Intent();
+                            i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                            i.addCategory(Intent.CATEGORY_DEFAULT);
+                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            try {
+                                activity.startActivity(i);
+                            } catch (Exception ex) {}
+                        }
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("user_declined_storage_access", true);
+                        Util.commitPreferences(editor);
+                    }
+                });
+        if (exit) {
+            dialogBuilder.setNegativeButton(activity.getString(R.string.exit_app), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.finish();
+                }
+            })
+            .setCancelable(false);
+        }
+        return dialogBuilder.show();
+    }
+
+    private static Dialog createDialogCompat(final Activity activity, boolean exit) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.allow_storage_access_title))
+                .setMessage(activity.getString(R.string.allow_storage_access_description))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        if (!settings.getBoolean("user_declined_storage_access", false))
+                            requestStoragePermission(activity);
+                        else {
+                            Intent i = new Intent();
+                            i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                            i.addCategory(Intent.CATEGORY_DEFAULT);
+                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            try {
+                                activity.startActivity(i);
+                            } catch (Exception ex) {}
+                        }
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("user_declined_storage_access", true);
+                        Util.commitPreferences(editor);
+                    }
+                });
+        if (exit) {
+            dialogBuilder.setNegativeButton(activity.getString(R.string.exit_app), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.finish();
+                }
+            })
+            .setCancelable(false);
+        }
+        return dialogBuilder.show();
+    }
+
+    private static void requestStoragePermission(Activity activity){
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                PERMISSION_STORAGE_TAG);
     }
 }

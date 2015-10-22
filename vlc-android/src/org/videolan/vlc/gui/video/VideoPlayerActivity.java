@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Presentation;
@@ -31,6 +32,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -49,7 +51,9 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -507,6 +511,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadMedia();
+                } else {
+                    AndroidDevices.showStoragePermissionDialog(this, true);
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -1492,6 +1515,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void encounteredError() {
         if (isFinishing())
             return;
+        //We may not have the permission to access files
+        if (TextUtils.equals(mUri.getScheme(), "file") &&
+                !AndroidDevices.canReadStorage()) {
+            AndroidDevices.checkReadStoragePermission(this, true);
+            return;
+        }
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setOnCancelListener(new DialogInterface.OnCancelListener() {

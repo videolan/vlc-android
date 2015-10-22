@@ -20,25 +20,32 @@
 
 package org.videolan.vlc.gui;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -75,6 +82,7 @@ import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -90,6 +98,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     private static final int ACTIVITY_SHOW_PROGRESSBAR = 3;
     private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
     private static final int ACTIVITY_SHOW_TEXTINFO = 5;
+
 
     MediaLibrary mMediaLibrary;
 
@@ -135,6 +144,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             editor.putInt(PREF_FIRST_RUN, mVersionNumber);
             Util.commitPreferences(editor);
         }
+
+        AndroidDevices.checkReadStoragePermission(this, false);
 
         mMediaLibrary = MediaLibrary.getInstance();
         if (mMediaLibrary.getMediaItems().isEmpty()) {
@@ -205,6 +216,25 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
         /* Reload the latest preferences */
         reloadPreferences();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
+                } else {
+                    AndroidDevices.showStoragePermissionDialog(this, false);
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -488,12 +518,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                if (!mMediaLibrary.isWorking()) {
-                    if(current != null && current instanceof IRefreshable)
-                        ((IRefreshable) current).refresh();
-                    else
-                        mMediaLibrary.scanMediaItems(true);
-                }
+                forceRefresh(current);
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
@@ -528,6 +553,15 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         }
         mDrawerLayout.closeDrawer(mListView);
         return super.onOptionsItemSelected(item);
+    }
+
+    private void forceRefresh(Fragment current) {
+        if (!mMediaLibrary.isWorking()) {
+            if(current != null && current instanceof IRefreshable)
+                ((IRefreshable) current).refresh();
+            else
+                mMediaLibrary.scanMediaItems(true);
+        }
     }
 
     @Override
@@ -571,7 +605,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     } else if (pane == mSlidingPane.STATE_OPENED) {
                         v.setNextFocusDownId(R.id.header_play_pause);
                     } else if (pane ==
-                        mSlidingPane.STATE_OPENED_ENTIRELY) {
+                            mSlidingPane.STATE_OPENED_ENTIRELY) {
                         v.setNextFocusDownId(r);
                     }
                 }
@@ -600,7 +634,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                 }
             }
         } else {
-           playPause.setNextFocusUpId(R.id.ml_menu_search);
+            playPause.setNextFocusUpId(R.id.ml_menu_search);
         }
     }
 
@@ -635,11 +669,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         if (v == null)
             return super.onKeyUp(keyCode, event);
         if ((mActionBarIconId == -1) &&
-            (v.getId() == -1)  &&
-            (v.getNextFocusDownId() == -1) &&
-            (v.getNextFocusUpId() == -1) &&
-            (v.getNextFocusLeftId() == -1) &&
-            (v.getNextFocusRightId() == -1)) {
+                (v.getId() == -1)  &&
+                (v.getNextFocusDownId() == -1) &&
+                (v.getNextFocusUpId() == -1) &&
+                (v.getNextFocusLeftId() == -1) &&
+                (v.getNextFocusRightId() == -1)) {
             mActionBarIconId = Util.generateViewId();
             v.setId(mActionBarIconId);
             v.setNextFocusUpId(mActionBarIconId);
