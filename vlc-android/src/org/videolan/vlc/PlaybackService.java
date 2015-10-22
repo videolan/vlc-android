@@ -65,7 +65,6 @@ import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Util;
@@ -124,6 +123,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
     private MediaPlayer mMediaPlayer;
+    private boolean mSeekable = false;
+    private boolean mPausable = false;
     private boolean mIsAudioTrack = false;
     private boolean mHasHdmiAudio = false;
 
@@ -681,6 +682,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     break;
                 case MediaPlayer.Event.ESDeleted:
                     break;
+                case MediaPlayer.Event.PausableChanged:
+                    mPausable = event.getPausable();
+                    break;
+                case MediaPlayer.Event.SeekableChanged:
+                    mSeekable = event.getSeekable();
+                    break;
             }
             for (Callback callback : mCallbacks)
                 callback.onMediaPlayerEvent(event);
@@ -966,11 +973,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void pause() {
-        savePosition();
-        mHandler.removeMessages(SHOW_PROGRESS);
-        // hideNotification(); <-- see event handler
-        mMediaPlayer.pause();
-        broadcastMetadata();
+        if (mPausable) {
+            savePosition();
+            mHandler.removeMessages(SHOW_PROGRESS);
+            // hideNotification(); <-- see event handler
+            mMediaPlayer.pause();
+            broadcastMetadata();
+        }
     }
 
     @MainThread
@@ -1138,7 +1147,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         mPrevious.push(mCurrentIndex);
         mCurrentIndex = mNextIndex;
-        Log.d(TAG, "setting current to "+mCurrentIndex);
+        Log.d(TAG, "setting current to " + mCurrentIndex);
         if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
             if (mCurrentIndex < 0)
                 saveCurrentMedia();
@@ -1339,6 +1348,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public boolean isPlaying() {
         return mMediaPlayer.isPlaying();
+    }
+
+    @MainThread
+    public boolean isSeekable() {
+        return mSeekable;
+    }
+
+    @MainThread
+    public boolean isPausable() {
+        return mPausable;
     }
 
     @MainThread
@@ -1697,7 +1716,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void setTime(long time) {
-        mMediaPlayer.setTime(time);
+        if (mSeekable)
+            mMediaPlayer.setTime(time);
     }
 
     @MainThread
@@ -1772,7 +1792,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void setPosition(float pos) {
-        mMediaPlayer.setPosition(pos);
+        if (mSeekable)
+            mMediaPlayer.setPosition(pos);
     }
 
     @MainThread
