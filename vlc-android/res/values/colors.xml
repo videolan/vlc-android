@@ -40,4 +40,5 @@
 
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#dcffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>
