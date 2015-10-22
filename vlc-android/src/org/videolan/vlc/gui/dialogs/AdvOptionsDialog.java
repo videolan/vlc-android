@@ -358,7 +358,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         initSleep();
         initPlaybackSpeed();
         mPlaybackSpeed.setEnabled(mService.isSeekable());
+        mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
+                mService.isSeekable()
+                        ? Util.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style)
+                        : R.drawable.ic_speed_disable,
+                0, 0);
         mJumpTitle.setEnabled(mService.isSeekable());
+        mJumpTitle.setCompoundDrawablesWithIntrinsicBounds(0,
+                mService.isSeekable()
+                        ? Util.getResourceFromAttribute(mActivity, R.attr.ic_jumpto_normal_style)
+                        : R.drawable.ic_jumpto_disable,
+                0, 0);
 
         if (mMode == MODE_VIDEO) {
             // Init Chapter

@@ -2110,15 +2110,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     private void updateSeekable(boolean seekable) {
-        if (mRewind != null)
+        if (mRewind != null) {
             mRewind.setEnabled(seekable);
-        if (mForward != null)
+            mRewind.setImageResource(seekable
+                    ? R.drawable.ic_rewind_circle
+                    : R.drawable.ic_rewind_circle_disable_o);
+        }
+        if (mForward != null){
             mForward.setEnabled(seekable);
+            mForward.setImageResource(seekable
+                    ? R.drawable.ic_forward_circle
+                    : R.drawable.ic_forward_circle_disable_o);
+        }
         mSeekbar.setEnabled(seekable);
     }
 
     private void updatePausable(boolean pausable) {
         mPlayPause.setEnabled(pausable);
+        if (!pausable)
+            mPlayPause.setImageResource(R.drawable.ic_play_circle_disable_o);
         mDetector.setOnDoubleTapListener(pausable ? this : null);
     }
 
@@ -2426,8 +2436,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void updateOverlayPausePlay() {
         if (mService == null)
             return;
-        mPlayPause.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_circle
-                : R.drawable.ic_play_circle);
+        if (mService.isPausable())
+            mPlayPause.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_circle
+                    : R.drawable.ic_play_circle);
     }
 
     /**
