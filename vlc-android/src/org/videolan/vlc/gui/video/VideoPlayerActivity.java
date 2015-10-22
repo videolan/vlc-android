@@ -2323,6 +2323,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (mAdvOptions !=null)
                     mAdvOptions.setVisibility(View.VISIBLE);
                 mSize.setVisibility(View.VISIBLE);
+                if (mRewind != null)
+                    mRewind.setVisibility(View.VISIBLE);
+                if (mForward != null)
+                    mForward.setVisibility(View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2351,6 +2355,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mTracks.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mAdvOptions !=null)
                     mAdvOptions.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mRewind != null)
+                    mRewind.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mForward != null)
+                    mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             } else
                 mSize.setVisibility(View.INVISIBLE);
             if (mPresentation != null) {
@@ -2364,6 +2372,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mTracks.setVisibility(View.INVISIBLE);
             if (mAdvOptions !=null)
                 mAdvOptions.setVisibility(View.INVISIBLE);
+            if (mRewind != null)
+                mRewind.setVisibility(View.INVISIBLE);
+            if (mForward != null)
+                mForward.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
