@@ -1523,30 +1523,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         mService.removeCallback(this);
         mService.stop();
-        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                loadMedia();
-            }
-        })
-        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                exit(RESULT_HARDWARE_ACCELERATION_ERROR);
-            }
-        })
-        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                exit(RESULT_HARDWARE_ACCELERATION_ERROR);
-            }
-        })
-        .setTitle(R.string.hardware_acceleration_error_title)
-        .setMessage(R.string.hardware_acceleration_error_message)
-        .create();
         if(!isFinishing())
-            mAlertDialog.show();
+            loadMedia();
     }
 
     private void handleVout(int voutCount) {

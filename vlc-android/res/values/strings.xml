@@ -175,9 +175,6 @@
     <string name="search">Search</string>
     <string name="search_history">Search history</string>
 
-    <string name="hardware_acceleration_error_title">HW acceleration error</string>
-    <string name="hardware_acceleration_error_message">An error occurred with hardware acceleration. Would you like to disable it and try again?</string>
-
     <!-- Tips -->
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
