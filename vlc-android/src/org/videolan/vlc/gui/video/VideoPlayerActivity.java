@@ -236,7 +236,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mSwitchingView;
     private boolean mHardwareAccelerationError;
     private boolean mEndReached;
-    private boolean mCanSeek;
     private boolean mHasSubItems = false;
 
     // Playlist
@@ -701,8 +700,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mMediaRouter != null)
             mediaRouterAddCallback(true);
 
-        mDetector.setOnDoubleTapListener(this);
-
         LibVLC().setOnHardwareAccelerationError(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.detachViews();
@@ -787,7 +784,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
-        if (time >= 0 && mCanSeek) {
+        if (time >= 0 && mService.isSeekable()) {
             if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
                 MediaDatabase.getInstance().updateMedia(
                         mUri,
@@ -1224,7 +1221,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showInfo(R.string.unlocked, 1000);
         mLock.setImageResource(R.drawable.ic_lock_circle);
         mTime.setEnabled(true);
-        mSeekbar.setEnabled(true);
+        mSeekbar.setEnabled(mService == null || mService.isSeekable());
         mLength.setEnabled(true);
         mSize.setEnabled(true);
         mShowing = false;
@@ -1383,10 +1380,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.TimeChanged:
                 break;
-            case MediaPlayer.Event.PositionChanged:
-                if (!mCanSeek)
-                    mCanSeek = true;
-                break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
                 if (mMenuIdx == -1)
@@ -1399,6 +1392,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
                 }
                 invalidateESTracks(event.getEsChangedType());
+                break;
+            case MediaPlayer.Event.SeekableChanged:
+                updateSeekable(event.getSeekable());
+                break;
+            case MediaPlayer.Event.PausableChanged:
+                updatePausable(event.getPausable());
                 break;
         }
     }
@@ -1821,7 +1820,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (coef == 0)
             coef = 1;
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (Math.abs(gesturesize) < 1 || !mCanSeek)
+        if (Math.abs(gesturesize) < 1 || !mService.isSeekable())
             return;
 
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK)
@@ -1957,7 +1956,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (fromUser && mCanSeek) {
+            if (fromUser && mService.isSeekable()) {
                 seek(progress);
                 setOverlayProgress();
                 mTime.setText(Strings.millisToString(progress));
@@ -2110,7 +2109,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    private final void doPlayPause() {
+    private void updateSeekable(boolean seekable) {
+        if (mRewind != null)
+            mRewind.setEnabled(seekable);
+        if (mForward != null)
+            mForward.setEnabled(seekable);
+        mSeekbar.setEnabled(seekable);
+    }
+
+    private void updatePausable(boolean pausable) {
+        mPlayPause.setEnabled(pausable);
+        mDetector.setOnDoubleTapListener(pausable ? this : null);
+    }
+
+    private void doPlayPause() {
+        if (!mService.isPausable())
+            return;
+
         if (mService.isPlaying()) {
             pause();
             showOverlayTimeout(OVERLAY_INFINITE);
@@ -2155,7 +2170,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void seekDelta(int delta) {
         // unseekable stream
-        if(mService.getLength() <= 0 || !mCanSeek) return;
+        if(mService.getLength() <= 0 || !mService.isSeekable()) return;
 
         long position = getTime() + delta;
         if (position < 0) position = 0;
@@ -2659,7 +2674,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             itemTitle = openedMedia.getTitle();
             savedIndexPosition = openedPosition;
         }
-        mCanSeek = false;
 
         if (mUri != null) {
             // restore last position
