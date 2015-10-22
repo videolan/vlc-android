@@ -27,6 +27,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -381,14 +382,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         final List<String> mediaLocations = mService.getMediaLocations();
         mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
-        if (mService.hasNext())
-            mNext.setVisibility(ImageButton.VISIBLE);
-        else
-            mNext.setVisibility(ImageButton.INVISIBLE);
-        if (mService.hasPrevious())
-            mPrevious.setVisibility(ImageButton.VISIBLE);
-        else
-            mPrevious.setVisibility(ImageButton.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
         updateList();
@@ -514,13 +507,21 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void onNextClick(View view) {
-        if (mService != null)
+        if (mService == null)
+            return;
+        if (mService.hasNext())
             mService.next();
+        else
+            Snackbar.make(getView(), R.string.lastsong, Snackbar.LENGTH_SHORT).show();
     }
 
     public void onPreviousClick(View view) {
-        if (mService != null)
+        if (mService == null)
+            return;
+        if (mService.hasPrevious())
             mService.previous();
+        else
+            Snackbar.make(getView(), R.string.firstsong, Snackbar.LENGTH_SHORT).show();
     }
 
     public void onRepeatClick(View view) {

@@ -106,6 +106,8 @@
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
     <string name="next">Next</string>
+    <string name="firstsong">First song of the playlist</string>
+    <string name="lastsong">Last song of the playlist</string>
 
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
