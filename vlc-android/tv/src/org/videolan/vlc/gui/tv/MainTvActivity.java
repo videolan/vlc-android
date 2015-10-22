@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.tv;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -111,6 +112,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             return;
         }
 
+        AndroidDevices.checkReadStoragePermission(this, false);
+
         mContext = this;
         setContentView(R.layout.tv_main_fragment);
 
@@ -179,6 +182,25 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         super.onDestroy();
         if (sThumbnailer != null)
             sThumbnailer.clearJobs();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    refresh();
+                } else {
+                    AndroidDevices.showStoragePermissionDialog(this, false);
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
