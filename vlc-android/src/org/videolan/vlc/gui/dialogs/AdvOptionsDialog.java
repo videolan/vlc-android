@@ -357,6 +357,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         initSleep();
         initPlaybackSpeed();
+        mPlaybackSpeed.setEnabled(mService.isSeekable());
+        mJumpTitle.setEnabled(mService.isSeekable());
 
         if (mMode == MODE_VIDEO) {
             // Init Chapter
