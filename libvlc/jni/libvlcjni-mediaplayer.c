@@ -40,6 +40,8 @@ static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerVout,
     libvlc_MediaPlayerESAdded,
     libvlc_MediaPlayerESDeleted,
+    libvlc_MediaPlayerSeekableChanged,
+    libvlc_MediaPlayerPausableChanged,
     -1,
 };
 
@@ -85,6 +87,12 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
         case libvlc_MediaPlayerESAdded:
         case libvlc_MediaPlayerESDeleted:
             p_java_event->arg1 = p_ev->u.media_player_es_changed.i_type;
+            break;
+        case libvlc_MediaPlayerSeekableChanged:
+            p_java_event->arg1 = p_ev->u.media_player_seekable_changed.new_seekable;
+            break;
+        case libvlc_MediaPlayerPausableChanged:
+            p_java_event->arg1 = p_ev->u.media_player_pausable_changed.new_pausable;
             break;
     }
     p_java_event->type = p_ev->type;

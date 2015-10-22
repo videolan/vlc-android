@@ -39,8 +39,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         public static final int EncounteredError   = 0x10a;
         public static final int TimeChanged         = 0x10b;
         public static final int PositionChanged     = 0x10c;
-        //public static final int SeekableChanged     = 0x10d;
-        //public static final int PausableChanged     = 0x10e;
+        public static final int SeekableChanged     = 0x10d;
+        public static final int PausableChanged     = 0x10e;
         //public static final int TitleChanged        = 0x10f;
         //public static final int SnapshotTaken       = 0x110;
         //public static final int LengthChanged       = 0x111;
@@ -78,6 +78,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
         public int getEsChangedType() {
             return (int) arg1;
+        }
+        public boolean getPausable() {
+            return arg1 != 0;
+        }
+        public boolean getSeekable() {
+            return arg1 != 0;
         }
     }
 
@@ -814,6 +820,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 return new Event(eventType, arg1);
             case Event.ESAdded:
             case Event.ESDeleted:
+            case Event.SeekableChanged:
+            case Event.PausableChanged:
                 return new Event(eventType, arg1);
         }
         return null;
