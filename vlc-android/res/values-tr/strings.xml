@@ -98,6 +98,8 @@
     <string name="previous">Önceki</string>
     <string name="stop">Durdur</string>
     <string name="next">Sonraki</string>
+    <string name="firstsong">Oynatma listesinin ilk parçası</string>
+    <string name="lastsong">Oynatma listesinin son parçası</string>
     <string name="locked">Kilitli</string>
     <string name="unlocked">Kilitsiz</string>
     <string name="surface_best_fit">En uygun</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Arayüz - Diğer</string>
     <string name="enable_brightness_gesture">El hareketi ile parlaklık ayarı</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
-    <string name="enable_jump_buttons">Atlama düğmeleri görüntülensin</string>
-    <string name="enable_jump_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri düğmeleri görüntülenir</string>
+    <string name="enable_seek_buttons">Arama düğmelerini etkinleştir</string>
+    <string name="enable_seek_buttons_summary">Görüntü arayüzünde geri ve ileri sarma düğmelerini görüntüle</string>
     <string name="force_list_portrait">Dikey doğrultuda ızgara olmasın</string>
     <string name="force_list_portrait_summary">Dikey konumda görüntüler ızgara yerine liste şeklinde görüntülenir</string>
     <string name="audio_title_alignment">Ses başlığının hizası</string>
