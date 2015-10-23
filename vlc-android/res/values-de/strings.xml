@@ -98,6 +98,8 @@
     <string name="previous">Vorherige</string>
     <string name="stop">Stopp</string>
     <string name="next">Nächste</string>
+    <string name="firstsong">Erstes Lied der Wiedergabeliste</string>
+    <string name="lastsong">Letztes Lied der Wiedergabeliste</string>
     <string name="locked">Gesperrt</string>
     <string name="unlocked">Entsperrt</string>
     <string name="surface_best_fit">Beste Größe</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Schnittstelle - Andere</string>
     <string name="enable_brightness_gesture">Helligkeitsgesten aktivieren</string>
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
-    <string name="enable_jump_buttons">Sprungknöpfe aktivieren</string>
-    <string name="enable_jump_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Video anzeigen</string>
+    <string name="enable_seek_buttons">Suchen-Knöpfe aktivieren</string>
+    <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
     <string name="force_list_portrait">Kein Gitter im Portraitmodus</string>
     <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portraitmodus anzeigen</string>
     <string name="audio_title_alignment">Audiotitelausrichtung</string>
