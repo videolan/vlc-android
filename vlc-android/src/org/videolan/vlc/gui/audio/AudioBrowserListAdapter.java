@@ -334,9 +334,9 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             v.setTag(holder);
         }
 
-        holder.position = position;
         ListItem item = getItem(position);
         holder.binding.setVariable(BR.item, item);
+        holder.binding.setVariable(BR.position, position);
 
         final ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
         boolean asyncLoad = true;
@@ -392,7 +392,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     }
 
     static class ViewHolder {
-        int position;
         int viewType;
         ViewDataBinding binding;
     }
@@ -573,7 +572,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     @Override
     public void onMoreClick(View v) {
         if (mContextPopupMenuListener != null)
-            mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag()).position);
+            mContextPopupMenuListener.onPopupMenu(v, ((Integer)v.getTag()).intValue());
     }
 
     private static class AudioCoverFetcher extends AsyncImageLoader.CoverFetcher {

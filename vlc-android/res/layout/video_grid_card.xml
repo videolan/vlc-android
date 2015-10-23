@@ -15,6 +15,10 @@
             type="String" />
 
         <variable
+            name="position"
+            type="int" />
+
+        <variable
             name="max"
             type="int" />
 
@@ -107,6 +111,7 @@
                     android:onClick="@{handler.onMoreClick}"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_more"
+                    android:tag="@{position}"
                     android:visibility="@{group ? View.INVISIBLE : View.VISIBLE}" />
 
             </LinearLayout>

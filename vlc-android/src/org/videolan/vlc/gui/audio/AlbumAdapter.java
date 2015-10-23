@@ -69,7 +69,7 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
         } else
             holder = (ViewHolder) v.getTag(R.layout.audio_browser_item);
 
-        holder.position = position;
+        holder.binding.setPosition(position);
         holder.binding.setMedia(mw);
         holder.binding.setFooter(position != mMediaList.size() - 1);
         holder.binding.setClickable(mContextPopupMenuListener != null);
@@ -105,12 +105,11 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
     @Override
     public void onMoreClick(View v) {
         if (mContextPopupMenuListener != null)
-                mContextPopupMenuListener.onPopupMenu(v, ((ViewHolder) ((LinearLayout)v.getParent().getParent()).getTag(R.layout.audio_browser_item)).position);
+                mContextPopupMenuListener.onPopupMenu(v, ((Integer)v.getTag()).intValue());
     }
 
     static class ViewHolder {
         AudioBrowserItemBinding binding;
-        int position;
     }
 
     public interface ContextPopupMenuListener {

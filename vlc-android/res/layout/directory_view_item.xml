@@ -12,6 +12,9 @@
             name="storage"
             type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.Storage"/>
         <variable
+            name="position"
+            type="int"/>
+        <variable
             name="type"
             type="int"/>
         <variable
@@ -44,6 +47,7 @@
             android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
             android:enabled="@{chechEnabled}"
             android:checked="@{checked}"
+            android:tag="@{position}"
             android:onClick="@{handler.onCheckBoxClick}"/>
 
         <ImageView
@@ -99,6 +103,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:background="@drawable/ic_more"
+            android:tag="@{position}"
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE}"
             android:onClick="@{@{handler.onMoreClick}}"
             android:clickable="@{hasContextMenu}" />

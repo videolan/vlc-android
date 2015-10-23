@@ -62,6 +62,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         String storagePath = storage.getUri().getPath();
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
         vh.binding.setHandler(mClickHandler);
+        vh.binding.setPosition(position);
         vh.binding.setStorage(storage);
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_STORAGE);
@@ -153,9 +154,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     protected void checkBoxAction(View v){
-        MediaViewHolder holder = (MediaViewHolder) ((LinearLayout)v.getParent()).getTag(R.id.layout_item);
             boolean isChecked = ((CheckBox) v).isChecked();
-            String path = ((Storage) getItem(holder.getAdapterPosition())).getUri().getPath();
+            String path = ((Storage) getItem(((Integer)v.getTag()).intValue())).getUri().getPath();
             if (isChecked)
                 addDir(path);
             else

@@ -103,6 +103,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
                 media.getType() == MediaWrapper.TYPE_VIDEO ||
                 media.getType() == MediaWrapper.TYPE_DIR );
+        vh.binding.setPosition(position);
         vh.binding.setHandler(mClickHandler);
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(hasContextMenu);
@@ -305,8 +306,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void onMoreClick(View v){
-            final MediaViewHolder holder = (MediaViewHolder) ((ViewGroup)v.getParent()).getTag(R.id.layout_item);
-            fragment.onPopupMenu(holder.more, holder.getAdapterPosition());
+            fragment.onPopupMenu(v,((Integer)v.getTag()).intValue());
         }
     }
 

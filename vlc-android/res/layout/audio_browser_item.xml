@@ -4,6 +4,9 @@
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
         <variable
+            name="position"
+            type="int" />
+        <variable
             name="item"
             type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
         <variable
@@ -84,6 +87,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ic_more"
                 android:contentDescription="@string/more_actions"
+                android:tag="@{position}"
                 android:visibility="@{clickable ? View.VISIBLE : View.GONE}"
                 android:onClick="@{handler.onMoreClick}"
                 android:clickable="@{clickable}" />

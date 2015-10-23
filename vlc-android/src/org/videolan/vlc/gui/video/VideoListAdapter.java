@@ -178,8 +178,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         if (position >= getCount() || position < 0)
             return v;
 
-        holder.position = position;
-
         MediaWrapper media = getItem(position);
         boolean asyncLoad = true;
 
@@ -198,6 +196,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
         fillView(holder, media);
 
+        holder.binding.setVariable(BR.position, position);
         holder.binding.setVariable(BR.media, media);
         holder.binding.setVariable(BR.handler, mClickHandler);
         holder.binding.executePendingBindings();
@@ -210,7 +209,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     public class ClickHandler {
         public void onMoreClick(View v){
             if (mFragment != null)
-                    mFragment.onContextPopupMenu(v, ((ViewHolder) ((CardView)v.getParent().getParent()).getTag(R.layout.video_grid)).position);
+                    mFragment.onContextPopupMenu(v, ((Integer)v.getTag()).intValue());
         }
     }
 
@@ -254,7 +253,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     static class ViewHolder {
         boolean listmode;
-        int position;
         ViewDataBinding binding;
     }
 
