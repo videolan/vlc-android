@@ -98,6 +98,8 @@
     <string name="previous">Vorige</string>
     <string name="stop">Stop</string>
     <string name="next">Volgende</string>
+    <string name="firstsong">Eerste nummer van de afspeellijst</string>
+    <string name="lastsong">Laatste nummer van de afspeellijst</string>
     <string name="locked">Geblokkeerd</string>
     <string name="unlocked">Gedeblokkeerd</string>
     <string name="surface_best_fit">Best passend</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Interface - andere</string>
     <string name="enable_brightness_gesture">Helderheidsgebaren inschakelen</string>
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
-    <string name="enable_jump_buttons">Sprong-knoppen inschakelen</string>
-    <string name="enable_jump_buttons_summary">Achterwaarts- en voorwaarts-knoppen weergeven op de video-interface</string>
+    <string name="enable_seek_buttons">Zoekknoppen inschakelen</string>
+    <string name="enable_seek_buttons_summary">Terugspoelen- en vooruitspoelen-knoppen weergeven op de video-interface</string>
     <string name="force_list_portrait">Geen raster in staande modus</string>
     <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
     <string name="audio_title_alignment">Audiotitel-oriëntatie</string>
