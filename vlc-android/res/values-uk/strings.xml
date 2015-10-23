@@ -104,6 +104,8 @@
     <string name="previous">Попередній</string>
     <string name="stop">Зупинити</string>
     <string name="next">Наступний</string>
+    <string name="firstsong">Перша пісня зі списку</string>
+    <string name="lastsong">Остання пісня зі списку</string>
     <string name="locked">Заблоковано</string>
     <string name="unlocked">Розблоковано</string>
     <string name="surface_best_fit">Найкраще</string>
@@ -220,8 +222,8 @@
     <string name="interface_other_category">Інтерфейс - Інше</string>
     <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
-    <string name="enable_jump_buttons">Увімкнути кнопки переходів</string>
-    <string name="enable_jump_buttons_summary">Показувати кнопки переходу вперед і назад на відеоінтерфейсі</string>
+    <string name="enable_seek_buttons">Увімкнути кнопки пошуку</string>
+    <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та переходу вперед на відеоінтерфейсі</string>
     <string name="force_list_portrait">Немає сітки у портретному режимі</string>
     <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
     <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
