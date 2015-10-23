@@ -1,3 +1,19 @@
+Changes between 1.6.5 and 1.6.6:
+--------------------------------
+
+TV:
+ * Remove AUDIO_RECORD permission
+
+Application:
+ * Correctly save position in video
+ * Correctly unmute when using volume keys
+ * Fix regression
+
+Translations:
+ * Update of Turkish, Swedish, Portuguese, Japanese, German,
+   Chinese, Ukrainian. Swedish, Dutch, Spanish
+
+
 Changes between 1.6.4 and 1.6.5:
 --------------------------------
 
