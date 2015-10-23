@@ -92,6 +92,8 @@
     <string name="previous">上一曲</string>
     <string name="stop">停止</string>
     <string name="next">下一曲</string>
+    <string name="firstsong">播放列表第一首</string>
+    <string name="lastsong">播放列表最后一首</string>
     <string name="locked">已锁定</string>
     <string name="unlocked">已解锁</string>
     <string name="surface_best_fit">最为合适</string>
@@ -206,8 +208,8 @@
     <string name="interface_other_category">界面 - 其他</string>
     <string name="enable_brightness_gesture">启用亮度手势</string>
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
-    <string name="enable_jump_buttons">启用跳转按钮</string>
-    <string name="enable_jump_buttons_summary">在视频界面显示快退与快进按钮</string>
+    <string name="enable_seek_buttons">启用定位按钮</string>
+    <string name="enable_seek_buttons_summary">在视频界面显示倒退与前进按钮</string>
     <string name="force_list_portrait">竖屏模式不显示网格</string>
     <string name="force_list_portrait_summary">竖屏模式下，以列表形式而不是网格形式显示视频</string>
     <string name="audio_title_alignment">音频标题对齐</string>
