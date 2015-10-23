@@ -1591,6 +1591,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mw == null)
             return;
 
+        /* Pausable and seekable are true by default */
+        mPausable = mSeekable = true;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
         media.setEventListener(mMediaListener);
