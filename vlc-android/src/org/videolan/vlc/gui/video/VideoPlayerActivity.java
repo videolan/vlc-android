@@ -784,7 +784,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
-        if (time >= 0 && mService.isSeekable()) {
+        if (mService.isSeekable()) {
             if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
                 MediaDatabase.getInstance().updateMedia(
                         mUri,
