@@ -98,6 +98,8 @@
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
+    <string name="firstsong">Primera canción en la lista de reproducción</string>
+    <string name="lastsong">Última canción en la lista de reproducción</string>
     <string name="locked">Bloqueda</string>
     <string name="unlocked">Desbloqueada</string>
     <string name="surface_best_fit">Mejor ajuste</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Interfaz - Otro</string>
     <string name="enable_brightness_gesture">Habilitar gesto de brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
-    <string name="enable_jump_buttons">Habilitar botones de salto</string>
-    <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
+    <string name="enable_seek_buttons">Habilitar botones de búsqueda</string>
+    <string name="enable_seek_buttons_summary">Mostrar los botones rebobinar y avanzar en la interfaz de vídeo</string>
     <string name="force_list_portrait">Sin rejilla en modo retrato</string>
     <string name="force_list_portrait_summary">Mostar vídeos en una lista en vez de rejilla en modo retrato</string>
     <string name="audio_title_alignment">Alineación del audio</string>
