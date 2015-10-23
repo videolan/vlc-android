@@ -1056,16 +1056,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return super.onKeyDown(keyCode, event);
         case KeyEvent.KEYCODE_J:
             delayAudio(-50000l);
-            break;
+            return true;
         case KeyEvent.KEYCODE_K:
             delayAudio(50000l);
-            break;
+            return true;
         case KeyEvent.KEYCODE_G:
             delaySubs(-50000l);
-            break;
+            return true;
         case KeyEvent.KEYCODE_H:
             delaySubs(50000l);
-            break;
+            return true;
+        case KeyEvent.KEYCODE_VOLUME_DOWN:
+        case KeyEvent.KEYCODE_VOLUME_UP:
+            if (mMute) {
+                updateMute();
+                return true;
+            } else
+                return false;
         }
         return super.onKeyDown(keyCode, event);
     }
