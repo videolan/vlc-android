@@ -24,12 +24,38 @@ import org.videolan.vlc.R;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v17.leanback.widget.SpeechRecognitionCallback;
+import android.view.KeyEvent;
 
 public class SearchActivity extends Activity {
+
+    SearchFragment mFragment;
+    private static final int REQUEST_SPEECH = 1;
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_search);
+
+        mFragment = (SearchFragment) getFragmentManager()
+                .findFragmentById(R.id.search_fragment);
+
+        SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
+
+            @Override
+            public void recognizeSpeech() {
+                startActivityForResult(mFragment.getRecognizerIntent(), REQUEST_SPEECH);
+            }
+        };
+        mFragment.setSpeechRecognitionCallback(speechRecognitionCallback);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            mFragment.startRecognition();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
