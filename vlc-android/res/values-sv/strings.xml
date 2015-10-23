@@ -22,7 +22,7 @@
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
     <string name="play_as_audio_background">Spela upp videor i bakgrunden</string>
-    <string name="play_as_audio_background_summary">Fortsätt att spela upp videor i bakgrunden när enhetens skärm stängs av eller knappen HEM trycks ned.</string>
+    <string name="play_as_audio_background_summary">Fortsätt att spela upp videor i bakgrunden när enhetens skärm stängs av eller HEM-knappen trycks ned.</string>
     <string name="append">Kölägg</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
@@ -223,7 +223,7 @@
     <string name="enable_headset_detection">Identifiera hörlurar</string>
     <string name="enable_headset_detection_summary">Pausa när hörlurar tas bort; fortsätt när hörlurar ansluts</string>
     <string name="enable_steal_remote_control">Exklusiv fjärrstyrning med hörlurar</string>
-    <string name="enable_steal_remote_control_summary">Undvik konflikt genom att stjäla fjärrkontroll från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
+    <string name="enable_steal_remote_control_summary">Undvik konflikter genom att stjäla fjärrstyrningen från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Vänster</string>
     <string name="audio_title_alignment_centre">Center</string>
