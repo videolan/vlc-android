@@ -92,6 +92,8 @@
     <string name="previous">前</string>
     <string name="stop">停止</string>
     <string name="next">次</string>
+    <string name="firstsong">プレイリストの最初の曲</string>
+    <string name="lastsong">プレイリストの最後の曲</string>
     <string name="locked">ロック中</string>
     <string name="unlocked">ロック解除</string>
     <string name="surface_best_fit">スクリーンに最適化</string>
@@ -206,8 +208,8 @@
     <string name="interface_other_category">インターフェース - その他</string>
     <string name="enable_brightness_gesture">ジェスチャーで輝度を調整</string>
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
-    <string name="enable_jump_buttons">ジャンプボタンを有効にする</string>
-    <string name="enable_jump_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
+    <string name="enable_seek_buttons">シークボタンを有効にする</string>
+    <string name="enable_seek_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
     <string name="force_list_portrait">ポートレートモードではグリッド表示はありません</string>
     <string name="force_list_portrait_summary">ポートレートモードではビデオをグリッド表示ではなく、リスト形式で表示します</string>
     <string name="audio_title_alignment">オーディオタイトルの位置合わせ</string>
