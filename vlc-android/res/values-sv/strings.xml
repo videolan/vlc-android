@@ -42,10 +42,10 @@
     <string name="unknown_artist">Okänd artist</string>
     <string name="unknown_album">Okänt album</string>
     <string name="unknown_genre">Okänd genre</string>
-    <string name="songs">Sånger</string>
+    <string name="songs">Låtar</string>
     <plurals name="songs_quantity">
-        <item quantity="one">1 sång</item>
-        <item quantity="other">%d sånger</item>
+        <item quantity="one">1 låt</item>
+        <item quantity="other">%d låtar</item>
     </plurals>
     <string name="artists">Artister</string>
     <string name="albums">Album</string>
@@ -98,6 +98,8 @@
     <string name="previous">Föregående</string>
     <string name="stop">Stoppa</string>
     <string name="next">Nästa</string>
+    <string name="firstsong">Första låten i spellistan</string>
+    <string name="lastsong">Sista låten i spellistan</string>
     <string name="locked">Låst</string>
     <string name="unlocked">Upplåst</string>
     <string name="surface_best_fit">Bästa passform</string>
@@ -160,11 +162,11 @@
     <string name="lock">Lås</string>
     <string name="ok_got_it">Uppfattat, stäng detta</string>
     <string name="playlist_tips">Tips för spellistor</string>
-    <string name="remove_song">Ta bort sång</string>
+    <string name="remove_song">Ta bort låt</string>
     <string name="rearrange_order">Ändra ordning</string>
     <string name="hold_to_seek">Håll för att söka</string>
     <string name="audio_player_tips">Tips för ljudspelaren</string>
-    <string name="previous_next_song">Föregående/nästa sång</string>
+    <string name="previous_next_song">Föregående/nästa låt</string>
     <string name="show_playlist">Visa spellista</string>
     <string name="hold_to_stop">Håll ned för att stoppa</string>
     <!-- About -->
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Gränssnitt - Övrigt</string>
     <string name="enable_brightness_gesture">Aktivera gest för ljusstyrka</string>
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
-    <string name="enable_jump_buttons">Aktivera knapp för att hoppa </string>
-    <string name="enable_jump_buttons_summary">Visa knapparna Bakåt och Framåt på videogränssnittet</string>
+    <string name="enable_seek_buttons">Aktivera spolningsknappar</string>
+    <string name="enable_seek_buttons_summary">Visa knappar för fram- och bakåtspolning i videogränssnittet</string>
     <string name="force_list_portrait">Inget rutnät i porträttläge</string>
     <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
