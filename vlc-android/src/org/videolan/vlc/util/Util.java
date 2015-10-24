@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
@@ -35,16 +36,15 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -321,7 +321,7 @@ public class Util {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static boolean deleteFile (String path){
+    public static boolean deleteFile (Context context, String path){
         boolean deleted = false;
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
@@ -332,9 +332,37 @@ public class Util {
                     MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
         }
         File file = new File(path);
+        if (AndroidUtil.isLolliPopOrLater()){
+            List<UriPermission> persistedUriPermissions = context.getContentResolver().getPersistedUriPermissions();
+            for (UriPermission uriPermission : persistedUriPermissions) {
+                final DocumentFile root = DocumentFile.fromTreeUri(context, uriPermission.getUri());
+                DocumentFile docfile = recursiveFindFile(root, file.getName());
+                if (docfile != null && docfile.exists()) {
+                    deleted |= docfile.delete();
+                    Log.w(TAG, "media deleted : " + docfile.getUri());
+                    break;
+                }
+            }
+        }
         if (file.exists())
             deleted |= file.delete();
         return deleted;
+    }
+
+    // FIXME: DocumentFile.fromFile is cleaner, but it just doesn't work, so use this dirty way for now
+    // see https://code.google.com/p/android/issues/detail?id=185871
+    public static DocumentFile recursiveFindFile(DocumentFile root, String name) {
+        for (DocumentFile doc : root.listFiles()) {
+            if (doc.isDirectory()) {
+                DocumentFile file = recursiveFindFile(doc, name);
+                if (file != null)
+                    return file;
+            }
+            if (doc.isFile() && name.equals(doc.getName())) {
+                return doc;
+            }
+        }
+        return null;
     }
 
     public static boolean recursiveDelete(Context context, File fileOrDirectory) {
@@ -343,7 +371,7 @@ public class Util {
                 recursiveDelete(context, child);
             return fileOrDirectory.delete();
         } else {
-            return deleteFile (fileOrDirectory.getPath());
+            return deleteFile (context, fileOrDirectory.getPath());
         }
     }
 

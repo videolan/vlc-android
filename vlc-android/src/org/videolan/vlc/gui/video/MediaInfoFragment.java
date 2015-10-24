@@ -120,7 +120,7 @@ public class MediaInfoFragment extends ListFragment {
                     VLCApplication.runBackground(new Runnable() {
                         @Override
                         public void run() {
-                            boolean deleted = Util.deleteFile(mItem.getLocation());
+                            boolean deleted = Util.deleteFile(MediaInfoFragment.this.getContext(), mItem.getLocation());
                             if (deleted) {
                                 mHandler.obtainMessage(EXIT).sendToTarget();
                             }
