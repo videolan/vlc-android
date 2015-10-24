@@ -7,6 +7,10 @@
         android:summary="@string/directories_summary"
         android:title="@string/directories" />
 
+    <PreferenceScreen
+        android:key="ext_sdcard_write"
+        android:title="@string/ext_sdcard_write" />
+
     <ListPreference
         android:defaultValue="-1"
         android:entries="@array/hardware_acceleration_list"

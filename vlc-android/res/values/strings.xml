@@ -215,6 +215,7 @@
     <string name="add_custom_path">Add a custom path</string>
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
+    <string name="ext_sdcard_write">Enable writing to external SD card</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_summary">Disabled: better stability.\nDecoding: may improve performance.\nFull: may improve performance further.</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
