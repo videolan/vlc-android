@@ -104,6 +104,8 @@
     <string name="previous">Poprzedni</string>
     <string name="stop">Zatrzymaj</string>
     <string name="next">Następny</string>
+    <string name="firstsong">Pierwszy utwór z listy odtwarzania</string>
+    <string name="lastsong">Ostatni utwór z listy odtwarzania</string>
     <string name="locked">zablokowane</string>
     <string name="unlocked">odblokowane</string>
     <string name="surface_best_fit">Najlepsze dopasowanie</string>
@@ -220,8 +222,8 @@
     <string name="interface_other_category">Interfejs - inne</string>
     <string name="enable_brightness_gesture">Włącz gesty jasności</string>
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
-    <string name="enable_jump_buttons">Włącz przyciski przeskoku</string>
-    <string name="enable_jump_buttons_summary">Pokaż przyciski do przodu i do tyłu w interfejsie wideo</string>
+    <string name="enable_seek_buttons">Włącz przyciski przeszukiwania</string>
+    <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
     <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
     <string name="force_list_portrait_summary">Pokaż filmy w liście zamiast w kratkę w trybie portretowym</string>
     <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
