@@ -1,3 +1,31 @@
+Changes between 1.6.6 and 1.7.0:
+--------------------------------
+
+Core:
+ * New fonts rendering engine, with fonts fallback
+
+Application:
+ * Use MediaSessionCompat to remplace MediaSession and RemoteControlClient
+   This should fix a few weird bugs on some specific Android versions
+ * New notification look
+
+
+Changes between 1.6.5 and 1.6.6:
+--------------------------------
+
+TV:
+ * Remove AUDIO_RECORD permission
+
+Application:
+ * Correctly save position in video
+ * Correctly unmute when using volume keys
+ * Fix regressions
+
+Translations:
+ * Update of Turkish, Swedish, Portuguese, Japanese, German,
+   Chinese, Ukrainian. Swedish, Dutch, Spanish
+
+
 Changes between 1.6.4 and 1.6.5:
 --------------------------------
 
