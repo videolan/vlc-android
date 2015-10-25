@@ -98,6 +98,8 @@
     <string name="previous">Προηγούμενο</string>
     <string name="stop">Διακοπή</string>
     <string name="next">Επόμενο</string>
+    <string name="firstsong">Πρώτο τραγούδι στην λίστα αναπαραγωγής</string>
+    <string name="lastsong">Τελευταίο τραγούδι στην λίστα αναπαραγωγής</string>
     <string name="locked">Κλειδωμένο</string>
     <string name="unlocked">Ξεκλείδωτο</string>
     <string name="surface_best_fit">Καλύτερο ταίριασμα</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Διεπαφή - \'Αλλο</string>
     <string name="enable_brightness_gesture">Ενεργοποίηση χειρονομιών φωτεινότητας </string>
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
-    <string name="enable_jump_buttons">Ενεργοποίηση πλήκτρων άλματος</string>
-    <string name="enable_jump_buttons_summary">Εμφάνιση των πλήκτρων άλματος πίσω και μπροστά για την διασύνδεση βίντεο</string>
+    <string name="enable_seek_buttons">Ενεργοποίηση πλήκτρων εύρεσης</string>
+    <string name="enable_seek_buttons_summary">Εμφάνιση των πλήκτρων εύρεσης πίσω και μπροστά για την διασύνδεση βίντεο</string>
     <string name="force_list_portrait">Κανένα πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="force_list_portrait_summary">Δείξε τα βίντεο σε λίστα αντί για πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="audio_title_alignment">Ευθυγράμμιση ηχητικού τίτλου</string>
