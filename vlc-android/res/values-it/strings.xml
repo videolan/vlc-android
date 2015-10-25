@@ -98,6 +98,8 @@
     <string name="previous">Precedente</string>
     <string name="stop">Ferma</string>
     <string name="next">Successiva</string>
+    <string name="firstsong">Primo brano della scaletta</string>
+    <string name="lastsong">Ultimo brano della scaletta</string>
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Interfaccia - Altro</string>
     <string name="enable_brightness_gesture">Abilita i gesti di luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
-    <string name="enable_jump_buttons">Abilita i pulsanti di avanzamento</string>
-    <string name="enable_jump_buttons_summary">Mostra i pulsanti di avanzamento nell\'interfaccia video</string>
+    <string name="enable_seek_buttons">Abilita i pulsanti di posizionamento</string>
+    <string name="enable_seek_buttons_summary">Mostra i pulsanti di riavvolgimento e avanzamento nell\'interfaccia video</string>
     <string name="force_list_portrait">Nessuna griglia in modalità verticale</string>
     <string name="force_list_portrait_summary">Mostra un elenco di video invece della griglia in modalità verticale</string>
     <string name="audio_title_alignment">Allineamento titolo audio</string>
