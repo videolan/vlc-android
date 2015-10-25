@@ -110,6 +110,8 @@
     <string name="previous">Предыдущий</string>
     <string name="stop">Стоп</string>
     <string name="next">Следующий</string>
+    <string name="firstsong">Первая позиция плейлиста</string>
+    <string name="lastsong">Последняя позиция плейлиста</string>
     <string name="locked">Заблокировано</string>
     <string name="unlocked">Разблокировано</string>
     <string name="surface_best_fit">Оптимально</string>
@@ -227,8 +229,8 @@
     <string name="interface_other_category">Интерфейс — Другое</string>
     <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
-    <string name="enable_jump_buttons">Включить кнопки перехода</string>
-    <string name="enable_jump_buttons_summary">Показывать в интерфейсе видео кнопки перехода назад и вперёд</string>
+    <string name="enable_seek_buttons">Включить кнопки перемотки</string>
+    <string name="enable_seek_buttons_summary">Показывать кнопки перемотки назад и вперёд поверх видео</string>
     <string name="force_list_portrait">Не показывать сетку вертикально</string>
     <string name="force_list_portrait_summary">В вертикальном режиме показывать видео в списке, а не в сетке.</string>
     <string name="audio_title_alignment">Расположение заголовка аудио</string>
