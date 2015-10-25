@@ -92,6 +92,8 @@
     <string name="previous">이전</string>
     <string name="stop">정지</string>
     <string name="next">다음</string>
+    <string name="firstsong">재생목록의 첫번째 곡</string>
+    <string name="lastsong">재생목록의 마지막 곡</string>
     <string name="locked">잠김</string>
     <string name="unlocked">잠김 풀림</string>
     <string name="surface_best_fit">최적 맞춤</string>
@@ -206,8 +208,8 @@
     <string name="interface_other_category">인터페이스 - 기타</string>
     <string name="enable_brightness_gesture">밝기 제스처 사용</string>
     <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스쳐로 밝기 조절하기</string>
-    <string name="enable_jump_buttons">이동 버튼 활성화하기</string>
-    <string name="enable_jump_buttons_summary">비디오 인터페이스에 앞으로/뒤로 감기 버튼 보이기</string>
+    <string name="enable_seek_buttons">탐색 버튼 활성화하기</string>
+    <string name="enable_seek_buttons_summary">비디오 인터페이스에 뒤로/앞으로 감기 버튼 보이기</string>
     <string name="force_list_portrait">세로화면에 격자선 없음</string>
     <string name="force_list_portrait_summary">세로화면에 격자선 대신 목록에 비디오를 보여줍니다</string>
     <string name="audio_title_alignment">오디오 제목 정렬</string>
