@@ -76,7 +76,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lspeex -lspeexdsp \
 	-lxml2 -lpng -lgnutls -lgcrypt -lgpg-error \
 	-lnettle -lhogweed -lgmp \
-	-lfreetype -liconv -lass -lfribidi -lopus \
+	-lharfbuzz -lfreetype -liconv -lass -lfribidi -lopus \
 	-lEGL -lGLESv2 -ljpeg \
 	-ldvdnav -ldvdread -ldvdcss \
 	-ldsm -ltasn1 \

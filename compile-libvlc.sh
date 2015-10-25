@@ -87,7 +87,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-sidplay2 \
     --disable-samplerate \
     --disable-faad2 \
-    --disable-harfbuzz \
+    --enable-harfbuzz \
     --enable-iconv \
     --disable-aribb24 \
     --disable-aribb25 \
