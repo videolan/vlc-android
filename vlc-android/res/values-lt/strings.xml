@@ -104,6 +104,8 @@
     <string name="previous">Ankstesnis</string>
     <string name="stop">Stabdyti</string>
     <string name="next">Tolesnis</string>
+    <string name="firstsong">Pirmoji grojaraščio daina</string>
+    <string name="lastsong">Paskutinioji grojaraščio daina</string>
     <string name="locked">Užrakinta</string>
     <string name="unlocked">Atrakinta</string>
     <string name="surface_best_fit">Pritaikyti automatiškai</string>
@@ -220,8 +222,8 @@
     <string name="interface_other_category">Sąsaja - kita</string>
     <string name="enable_brightness_gesture">Įgalinti ryškumo gestus</string>
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
-    <string name="enable_jump_buttons">Įgalinti peršokimo mygtukus</string>
-    <string name="enable_jump_buttons_summary">Vaizdo klipų leisti rodyti prasukimo atgal ir priekin mygtukus</string>
+    <string name="enable_seek_buttons">Įgalinti prasukimo mygtukus</string>
+    <string name="enable_seek_buttons_summary">Prodyti prasukimo atgal ir pirmyn mygtukus vaizdo sąsajoje</string>
     <string name="force_list_portrait">Stačioje veiksenoje nerodyti tinkleliu</string>
     <string name="force_list_portrait_summary">Įrenginį laikant vertikaliai, vaizdo kūrinius išdėstyti sąrašu, o ne tinkleliu</string>
     <string name="audio_title_alignment">Muzikos kūrinio pavadinimo padėtis</string>
