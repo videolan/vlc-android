@@ -104,6 +104,8 @@
     <string name="previous">Predchádzajúce</string>
     <string name="stop">Stop</string>
     <string name="next">Ďalej</string>
+    <string name="firstsong">Prvá skladba playlistu</string>
+    <string name="lastsong">Posledná skladba playlistu</string>
     <string name="locked">Uzamknuté</string>
     <string name="unlocked">Odomknuté</string>
     <string name="surface_best_fit">Najlepšie prispôsobenie</string>
@@ -220,8 +222,8 @@
     <string name="interface_other_category">Rozhranie – Iné</string>
     <string name="enable_brightness_gesture">Zapnúť gesto pre jas</string>
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
-    <string name="enable_jump_buttons">Zapnúť tlačidlá pre preskakovanie</string>
-    <string name="enable_jump_buttons_summary">Zobraziť tlačidlá na posúvanie dopredu/dozadu v rozhraní s videom</string>
+    <string name="enable_seek_buttons">Zapnúť tlačidlá pre vyhľadávanie</string>
+    <string name="enable_seek_buttons_summary">Zobraziť prevíjanie dozadu a dopredu v rozhraní videa</string>
     <string name="force_list_portrait">Bez mriežky v režime portrétov</string>
     <string name="force_list_portrait_summary">Zobraziť videá v režime portrétov, bez mriežky</string>
     <string name="audio_title_alignment">Zarovnanie názvu zvukového súboru</string>
