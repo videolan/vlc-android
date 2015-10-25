@@ -110,6 +110,8 @@
     <string name="previous">Blaenorol</string>
     <string name="stop">Stopio</string>
     <string name="next">Nesaf</string>
+    <string name="firstsong">Trac cyntaf y rhestr chwarae</string>
+    <string name="lastsong">Trac olaf y rhestr chwarae</string>
     <string name="locked">Ar glo</string>
     <string name="unlocked">Ddim ar glo</string>
     <string name="surface_best_fit">Ffit orau</string>
@@ -227,8 +229,8 @@
     <string name="interface_other_category">Rhyngwyneb - Arall</string>
     <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
-    <string name="enable_jump_buttons">Galluogi botymau neidio</string>
-    <string name="enable_jump_buttons_summary">Dangos botymau neidio nôl ac ymlaen yn y rhyngwyneb fideo</string>
+    <string name="enable_seek_buttons">Galluogi botymau canfod</string>
+    <string name="enable_seek_buttons_summary">Dangos botymau nôl ac ymlaen ar y rhyngwyneb fideo</string>
     <string name="force_list_portrait">Dim grid ym modd darlun</string>
     <string name="force_list_portrait_summary">Dangos fideos mewn rhestr yn lle grid ym modd darlun</string>
     <string name="audio_title_alignment">Aliniad teitl sain</string>
