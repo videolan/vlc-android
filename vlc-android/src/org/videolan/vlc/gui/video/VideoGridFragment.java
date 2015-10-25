@@ -57,6 +57,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
@@ -173,6 +174,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
         mMediaLibrary.setBrowser(null);
         mMediaLibrary.removeUpdateHandler(mHandler);
+
+        /* Clear current deletion */
+        mDeleteHandler.removeMessages(DELETE_MEDIA);
 
         /* Stop the thumbnailer */
         if (mThumbnailer != null)
@@ -319,7 +323,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 Snackbar.make(getView(), getString(R.string.file_deleted), DELETE_DURATION)
                     .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
                     .show();
-                Message msg = mDeleteHandler.obtainMessage(DELETE_MEDIA, position, 0);
+                Message msg = mDeleteHandler.obtainMessage(DELETE_MEDIA, media.getLocation());
                 mDeleteHandler.sendMessageDelayed(msg, DELETE_DURATION);
                 return true;
         }
@@ -350,8 +354,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             hasInfo = true;
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
-        menu.findItem(R.id.video_list_delete).setVisible(!AndroidUtil.isLolliPopOrLater() ||
-                mediaWrapper.getLocation().startsWith("file://" + AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+        menu.findItem(R.id.video_list_delete).setVisible(BuildConfig.DEBUG);
     }
 
     @Override
@@ -555,8 +558,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         mVideoAdapter.clear();
     }
 
-    public void deleteMedia(int position){
-        final MediaWrapper media = mVideoAdapter.getItem(position);
+    public void deleteMedia(String location){
+        final MediaWrapper media = mVideoAdapter.getItem(location);
         final String path = media.getUri().getPath();
         VLCApplication.runBackground(new Runnable() {
             public void run() {
@@ -572,7 +575,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             }
         }
     }
-
 
     View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
         @Override
@@ -594,7 +596,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             super.handleMessage(msg);
             switch (msg.what){
                 case DELETE_MEDIA:
-                    getOwner().deleteMedia(msg.arg1);
+                    getOwner().deleteMedia(msg.obj.toString());
             }
         }
     }

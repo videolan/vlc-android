@@ -89,6 +89,15 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
             notifyDataSetChanged();
     }
 
+    public MediaWrapper getItem(String location) {
+        for (int i = 0; i < getCount(); ++i) {
+            MediaWrapper media = getItem(i);
+            if (media.getLocation().equals(location))
+                return media;
+        }
+        return null;
+    }
+
     public int sortDirection(int sortby) {
         if (sortby == mSortBy)
             return  mSortDirection;
