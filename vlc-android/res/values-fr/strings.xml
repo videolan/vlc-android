@@ -98,6 +98,8 @@
     <string name="previous">Précédent</string>
     <string name="stop">Arrêter</string>
     <string name="next">Suivant</string>
+    <string name="firstsong">Première chanson de la liste de lecture</string>
+    <string name="lastsong">Dernière chanson de la liste de lecture</string>
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
@@ -213,8 +215,8 @@
     <string name="interface_other_category">Interface - Autres</string>
     <string name="enable_brightness_gesture">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
-    <string name="enable_jump_buttons">Activer les boutons de saut</string>
-    <string name="enable_jump_buttons_summary">Afficher les boutons précédent et suivant sur l\'interface vidéo</string>
+    <string name="enable_seek_buttons">Activer les boutons de déplacement</string>
+    <string name="enable_seek_buttons_summary">Afficher les boutons d\'avance et retour rapides sur l\'interface vidéo</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
@@ -308,4 +310,6 @@
     <string name="no_subs_found">Pas de sous-titre dans ce répertoire</string>
     <string name="music_now_playing">Lecture en cours</string>
     <!--Widget-->
+    <string name="widget_name_w">Widget VLC blanc</string>
+    <string name="widget_name_b">Widget VLC noir</string>
 </resources>
