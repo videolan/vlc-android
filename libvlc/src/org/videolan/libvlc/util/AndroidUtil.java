@@ -67,6 +67,10 @@ public class AndroidUtil {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
+    public static boolean isMarshMallowOrLater() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
     public static File UriToFile(Uri uri) {
         return new File(uri.getPath().replaceFirst("file://", ""));
     }
