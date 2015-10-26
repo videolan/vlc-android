@@ -5,7 +5,8 @@
 
     <uses-sdk
         android:minSdkVersion="17" />
-
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
     <!-- Launch recommendations service once device is booted -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 

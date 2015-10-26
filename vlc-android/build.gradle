@@ -166,6 +166,9 @@ android {
         res.srcDirs = ['res']
         assets.srcDirs = ['assets']
     }
+    sourceSets.release {
+        manifest.srcFile 'release/AndroidManifest.xml'
+    }
     sourceSets.test {
         java.srcDirs = ['test']
     }
