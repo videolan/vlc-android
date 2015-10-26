@@ -104,6 +104,8 @@
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
+    <string name="firstsong">Prva pjesma iz liste izvođenja</string>
+    <string name="lastsong">Posljednja pjesma iz liste izvođenja</string>
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolje uklapanje</string>
@@ -220,8 +222,8 @@
     <string name="interface_other_category">Interfejs - Drugo</string>
     <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
-    <string name="enable_jump_buttons">Omogući skok dugmad</string>
-    <string name="enable_jump_buttons_summary">Pokaži nazad i naprijed dugmad na video okruženju</string>
+    <string name="enable_seek_buttons">Omogući dugmad za traženje</string>
+    <string name="enable_seek_buttons_summary">Prikaži dugmad za nazad i naprijed na video okruženju</string>
     <string name="force_list_portrait">Nema rešetki u modu portreta</string>
     <string name="force_list_portrait_summary">Prikaži videe u listi umjesto rešetki u modu portreta</string>
     <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
