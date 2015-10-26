@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.videolan.vlc">
+
+    <uses-sdk
+        android:minSdkVersion="7" />
+    <!-- DEVELOPMENT_TOOLS signature -->
+
+    <!-- /!\ PHONE_CALLS
+         See org.videolan.vlc.PhoneStateReceiver.java
+         -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"
+        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="10" -->
+
+    <uses-permission android:name="android.permission.READ_LOGS"
+        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->
+
+    <application
+        android:name="org.videolan.vlc.VLCApplication">
+        <receiver android:name=".PhoneStateReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

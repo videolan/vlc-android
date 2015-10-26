@@ -22,22 +22,12 @@
          8 is x86_64
          9 is MIPS64
     -->
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="22" />
 
-    <!-- /!\ PHONE_CALLS
-         See org.videolan.vlc.PhoneStateReceiver.java
-         -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"
-        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="10" -->
+    <uses-sdk
+        android:targetSdkVersion="22" />
 
     <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- DEVELOPMENT_TOOLS signature -->
-    <uses-permission android:name="android.permission.READ_LOGS"
-        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->
 
     <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -426,12 +416,6 @@
         </activity>
 
         <service android:name=".PlaybackService" />
-
-        <receiver android:name=".PhoneStateReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
             android:exported="false"

@@ -170,6 +170,7 @@ android {
         java.srcDirs = ['test']
     }
     sourceSets.vanilla {
+        manifest.srcFile 'vanilla/AndroidManifest.xml'
         java.srcDirs = ['vanilla/src']
         res.srcDirs = ['vanilla/res']
     }

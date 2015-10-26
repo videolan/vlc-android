@@ -4,8 +4,7 @@
     package="org.videolan.vlc">
 
     <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="17" />
 
     <!-- Launch recommendations service once device is booted -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -454,7 +453,6 @@
                 <data android:pathPattern=".*\\.WMV" />
                 <data android:pathPattern=".*\\.WTV" />
                 <data android:pathPattern=".*\\.XESC" />
-
             </intent-filter>
         </activity>
     </application>
