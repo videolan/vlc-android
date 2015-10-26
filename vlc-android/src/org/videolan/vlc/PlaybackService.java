@@ -52,6 +52,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
+import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -234,10 +235,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
-        if (readPhoneState()) {
-            filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
-            filter.addAction(VLCApplication.CALL_ENDED_INTENT);
-        }
         registerReceiver(mReceiver, filter);
         registerV21();
 
@@ -258,6 +255,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mPebbleEnabled = true;
         } catch (PackageManager.NameNotFoundException e) {
             mPebbleEnabled = false;
+        }
+
+        if (readPhoneState()) {
+            initPhoneListener();
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(mPhoneStateListener, mPhoneEvents);
         }
     }
 
@@ -318,6 +321,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mRemoteControlClientReceiver = null;
         }
         mMediaPlayer.release();
+
+        if (readPhoneState()) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 
 
@@ -476,25 +484,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if( mMediaPlayer == null ) {
                 Log.w(TAG, "Intent received, but VLC is not loaded, skipping.");
                 return;
-            }
-
-            if (readPhoneState()) {
-                /*
-                 * Incoming Call : Pause if VLC is playing audio or video.
-                 */
-                if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
-                    mWasPlayingAudio = mMediaPlayer.isPlaying() && hasCurrentMedia();
-                    if (mWasPlayingAudio)
-                        pause();
-                }
-
-                /*
-                 * Call ended : Play only if VLC was playing audio.
-                 */
-                if (action.equalsIgnoreCase(VLCApplication.CALL_ENDED_INTENT)
-                        && mWasPlayingAudio) {
-                    play();
-                }
             }
 
             // skip all headsets events if there is a call
@@ -2025,5 +2014,22 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             stopService(context);
             startService(context);
         }
+    }
+
+    int mPhoneEvents = PhoneStateListener.LISTEN_CALL_STATE;
+    PhoneStateListener mPhoneStateListener;
+
+    private void initPhoneListener() {
+        mPhoneStateListener = new PhoneStateListener(){
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (!mMediaPlayer.isPlaying() || !hasCurrentMedia())
+                    return;
+                if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK)
+                    pause();
+                else if (state == TelephonyManager.CALL_STATE_IDLE)
+                    play();
+            }
+        };
     }
 }
