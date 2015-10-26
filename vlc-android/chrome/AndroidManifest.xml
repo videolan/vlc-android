@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.videolan.vlc" >
+
+    <uses-sdk
+        android:minSdkVersion="19" />
+
     <application
         android:name="org.videolan.vlc.VLCApplication" >
         <activity
