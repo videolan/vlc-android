@@ -5,7 +5,7 @@ Core:
  * New fonts rendering engine, with fonts fallback
 
 Application:
- * Use MediaSessionCompat to remplace MediaSession and RemoteControlClient
+ * Use MediaSessionCompat to replace MediaSession and RemoteControlClient
    This should fix a few weird bugs on some specific Android versions
  * New notification look
 
