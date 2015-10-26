@@ -23,10 +23,16 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v7.preference.Preference;
 
+import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
@@ -41,6 +47,13 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
     @Override
     protected int getTitleId() {
         return R.string.developer_prefs_category;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        findPreference("debug_logs").setVisible(BuildConfig.DEBUG && (AndroidUtil.isJellyBeanMR1OrLater() ||
+                getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
     }
 
     @Override
