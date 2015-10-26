@@ -207,7 +207,7 @@ public class AndroidDevices {
     }
 
     public static void checkReadStoragePermission(Activity activity, boolean exit) {
-        if (!canReadStorage()) {
+        if (AndroidUtil.isMarshMallowOrLater() && !canReadStorage()) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
