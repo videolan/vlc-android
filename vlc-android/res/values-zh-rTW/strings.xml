@@ -92,6 +92,8 @@
     <string name="previous">上一個</string>
     <string name="stop">停止</string>
     <string name="next">下一個</string>
+    <string name="firstsong">播放清單中的第一首歌曲</string>
+    <string name="lastsong">播放清單中的最後一首歌曲</string>
     <string name="locked">已鎖定</string>
     <string name="unlocked">已解鎖</string>
     <string name="surface_best_fit">最佳符合</string>
@@ -206,8 +208,8 @@
     <string name="interface_other_category">介面  - 其他</string>
     <string name="enable_brightness_gesture">啟用亮度手勢</string>
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
-    <string name="enable_jump_buttons">啟用跳轉按鈕</string>
-    <string name="enable_jump_buttons_summary">在影片介面上顯示向前和向後按鈕</string>
+    <string name="enable_seek_buttons">啟用搜尋按鈕</string>
+    <string name="enable_seek_buttons_summary">在播放介面上顯示快轉和倒帶按鈕</string>
     <string name="force_list_portrait">直向模式時不使用格狀排列</string>
     <string name="force_list_portrait_summary">在直向模式時以清單顯示影片而非格狀排列</string>
     <string name="audio_title_alignment">音訊標題對齊</string>
