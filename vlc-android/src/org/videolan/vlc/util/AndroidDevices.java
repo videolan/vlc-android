@@ -353,10 +353,4 @@ public class AndroidDevices {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSION_STORAGE_TAG);
     }
-
-    private static void requestSettingsPermission(Activity activity){
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.WRITE_SETTINGS},
-                PERMISSION_SETTINGS_TAG);
-    }
 }
