@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -61,9 +60,11 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
 
         setContentView(R.layout.preferences_activity);
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_placeholder, new PreferencesFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_placeholder, new PreferencesFragment())
+                    .commit();
+        }
     }
 
     @Override
