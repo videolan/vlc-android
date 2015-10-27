@@ -52,8 +52,8 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findPreference("debug_logs").setVisible(BuildConfig.DEBUG && (AndroidUtil.isJellyBeanMR1OrLater() ||
-                getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
+        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
+                (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
     }
 
     @Override
