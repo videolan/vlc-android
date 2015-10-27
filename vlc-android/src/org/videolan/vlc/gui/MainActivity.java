@@ -20,11 +20,9 @@
 
 package org.videolan.vlc.gui;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -35,17 +33,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -222,7 +216,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+            case AndroidDevices.PERMISSION_STORAGE_TAG:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -231,7 +225,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                     AndroidDevices.showStoragePermissionDialog(this, false);
                 }
                 return;
-            }
             // other 'case' lines to check for other
             // permissions this app might request
         }

@@ -360,6 +360,8 @@
     <string name="widget_name_b">VLC Dark Widget</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio media</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to work correctly</string>
+    <string name="allow_settings_access_title">Allow VLC to change your ringtone</string>
+    <string name="allow_settings_access_description">VLC needs you to grant \"modify system settings\" permission to set this song as your ringtone</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
 

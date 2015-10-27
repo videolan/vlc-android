@@ -20,6 +20,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -83,7 +84,11 @@ public class AudioUtil {
     public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
 
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
-    public static void setRingtone(MediaWrapper song, Context context){
+    public static void setRingtone(MediaWrapper song, Activity context){
+        if (!AndroidDevices.canWriteSettings(context)) {
+            AndroidDevices.checkWriteSettingsPermission(context);
+            return;
+        }
         File newringtone = AndroidUtil.UriToFile(song.getUri());
         if(newringtone == null || !newringtone.exists()) {
             Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
@@ -111,6 +116,7 @@ public class AudioUtil {
                     newUri
             );
         } catch(Exception e) {
+            Log.e(TAG, "error setting ringtone", e);
             Toast.makeText(context.getApplicationContext(),
                     context.getString(R.string.ringtone_error),
                     Toast.LENGTH_SHORT).show();
