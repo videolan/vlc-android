@@ -20,15 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.AsyncImageLoader;
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.vlc.util.BitmapUtil;
-
-import android.content.Context;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,20 +32,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.concurrent.Callable;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AsyncImageLoader;
+import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.tv.browser.MusicFragment;
+import org.videolan.vlc.util.BitmapUtil;
 
 public class CardPresenter extends Presenter {
 
     private static final String TAG = "CardPresenter";
 
-    private static Context sContext;
+    private static Activity sContext;
     private static Resources mRes;
     private static int CARD_WIDTH;
     private static int CARD_HEIGHT = 0;
     private static MediaDatabase sMediaDatabase = MediaDatabase.getInstance();
     private static Drawable sDefaultCardImage;
 
-    public CardPresenter(Context context){
+    public CardPresenter(Activity context){
         sContext = context;
         mRes = sContext.getResources();
         sDefaultCardImage = mRes.getDrawable(R.drawable.background_cone);
@@ -99,14 +97,14 @@ public class CardPresenter extends Presenter {
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
-            MediaWrapper MediaWrapper = (MediaWrapper) item;
-            holder.mCardView.setTitleText(MediaWrapper.getTitle());
-            holder.mCardView.setContentText(MediaWrapper.getDescription());
-            if (MediaWrapper.getType() == MediaWrapper.TYPE_GROUP)
+            MediaWrapper mediaWrapper = (MediaWrapper) item;
+            holder.mCardView.setTitleText(mediaWrapper.getTitle());
+            holder.mCardView.setContentText(mediaWrapper.getDescription());
+            if (mediaWrapper.getType() == mediaWrapper.TYPE_GROUP)
                 holder.updateCardViewImage(mRes.getDrawable(
                         R.drawable.ic_video_collection_big));
             else
-                holder.updateCardViewImage(MediaWrapper);
+                holder.updateCardViewImage(mediaWrapper);
         } else if (item instanceof MusicFragment.ListItem) {
             MusicFragment.ListItem listItem = (MusicFragment.ListItem) item;
             MediaWrapper MediaWrapper = listItem.mediaList.get(0);
@@ -195,16 +193,18 @@ public class CardPresenter extends Presenter {
 
         @Override
         public void updateImage(final Bitmap picture, final View target) {
-            target.post(new Runnable() {
-                @Override
-                public void run() {
-                    ImageCardView cardView = (ImageCardView) target;
-                    if (picture != null && picture.getByteCount() > 4)
-                        cardView.setMainImage(new BitmapDrawable(mRes, picture));
-                    else
-                        cardView.setMainImage(sDefaultCardImage);
-                }
-            });
+            sContext.runOnUiThread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            ImageCardView cardView = (ImageCardView) target;
+                            if (picture != null && picture.getByteCount() > 4)
+                                cardView.setMainImage(new BitmapDrawable(mRes, picture));
+                            else
+                                cardView.setMainImage(sDefaultCardImage);
+                        }
+                    }
+            );
         }
     }
 }
