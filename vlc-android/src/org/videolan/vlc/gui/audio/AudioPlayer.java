@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -707,6 +709,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         int possibleSeek;
         boolean vibrated;
+
+        @RequiresPermission(Manifest.permission.VIBRATE)
         Runnable seekRunnable = new Runnable() {
             @Override
             public void run() {
