@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         vlc:overhangSize="60dp" >
 
-        <org.videolan.vlc.widget.ContentLinearLayout
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
@@ -30,7 +30,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:visibility="gone" />
-        </org.videolan.vlc.widget.ContentLinearLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/audio_player"
