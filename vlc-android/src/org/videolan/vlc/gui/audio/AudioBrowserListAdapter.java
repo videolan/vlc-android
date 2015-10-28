@@ -139,9 +139,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public void add(String title, String subTitle, MediaWrapper media, String key) {
         if(title == null) return;
         title = title.trim();
+        if(subTitle != null) subTitle = subTitle.trim();
         String mediaKey;
         if (key == null)
-            mediaKey = title.toLowerCase(Locale.getDefault());
+            mediaKey = (title + subTitle).toLowerCase(Locale.getDefault());
         else
             mediaKey = key.trim().toLowerCase(Locale.getDefault());
         if(subTitle != null) subTitle = subTitle.trim();
