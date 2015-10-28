@@ -167,29 +167,29 @@ android {
         assets.srcDirs = ['assets']
     }
     sourceSets.release {
-        manifest.srcFile 'release/AndroidManifest.xml'
+        manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
     sourceSets.test {
         java.srcDirs = ['test']
     }
     sourceSets.vanilla {
-        manifest.srcFile 'vanilla/AndroidManifest.xml'
-        java.srcDirs = ['vanilla/src']
-        res.srcDirs = ['vanilla/res']
+        manifest.srcFile 'flavors/vanilla/AndroidManifest.xml'
+        java.srcDirs = ['flavors/vanilla/src']
+        res.srcDirs = ['flavors/vanilla/res']
     }
     sourceSets.tv {
-        manifest.srcFile 'tv/AndroidManifest.xml'
-        java.srcDirs = ['tv/src']
-        resources.srcDirs = ['tv/src']
-        aidl.srcDirs = ['tv/src']
-        renderscript.srcDirs = ['tv/src']
-        res.srcDirs = ['tv/res']
-        assets.srcDirs = ['tv/assets']
+        manifest.srcFile 'flavors/tv/AndroidManifest.xml'
+        java.srcDirs = ['flavors/tv/src']
+        resources.srcDirs = ['flavors/tv/src']
+        aidl.srcDirs = ['flavors/tv/src']
+        renderscript.srcDirs = ['flavors/tv/src']
+        res.srcDirs = ['flavors/tv/res']
+        assets.srcDirs = ['flavors/tv/assets']
     }
     sourceSets.chrome {
-        manifest.srcFile 'chrome/AndroidManifest.xml'
-        java.srcDirs = ['vanilla/src']
-        res.srcDirs = ['vanilla/res']
+        manifest.srcFile 'flavors/chrome/AndroidManifest.xml'
+        java.srcDirs = ['flavors/vanilla/src']
+        res.srcDirs = ['flavors/vanilla/res']
     }
 }
 
