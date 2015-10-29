@@ -591,9 +591,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
 
-                    if (mMediaSession == null)
-                        initMediaSession(PlaybackService.this);
-
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
                     publishState(event.type);
@@ -674,6 +671,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     if (event.getEsChangedType() == Media.Track.Type.Video) {
                         if (!handleVout()) {
                             /* Update notification content intent: resume video or resume audio activity */
+                            updateMetadata();
                             showNotification();
                         }
                     }
@@ -1071,14 +1069,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
     }
 
-    private void initMediaSession(Context context) {
+    private void initMediaSession() {
         mSessionCallback = new MediaSessionCallback();
-        mMediaSession = new MediaSessionCompat(context, "VLC");
+        mMediaSession = new MediaSessionCompat(this, "VLC");
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setCallback(mSessionCallback);
-        updateMetadata();
     }
+
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {
@@ -1107,8 +1105,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     protected void updateMetadata() {
         MediaWrapper media = getCurrentMedia();
-        if (media == null || mMediaSession == null)
+        if (media == null)
             return;
+        if (mMediaSession == null)
+            initMediaSession();
         String title = media.getNowPlaying();
         if (title == null)
             title = media.getTitle();
