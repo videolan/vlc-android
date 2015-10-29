@@ -30,8 +30,7 @@ import com.android.widget.SlidingPaneLayout;
 /**
  * This class extends the linear layout class and override its onInterceptTouchEvent
  * method to intercept the touch events that should not be handled by its children.
- * This is necessary since else the layout children receive events even if the
- * audio player is displayed just under the touch event position.
+ * This is necessary for the audioplayer to get the swipe events for next/previous skip.
  */
 public class ContentLinearLayout extends LinearLayout {
 
