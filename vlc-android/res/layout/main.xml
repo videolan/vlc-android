@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <org.videolan.vlc.widget.HackyDrawerLayout
         android:id="@+id/root_container"
@@ -76,22 +77,13 @@
         </com.android.widget.SlidingPaneLayout>
 
         <!-- The navigation drawer -->
-        <ListView
-            android:id="@+id/sidelist"
-            android:layout_width="240dp"
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:focusable="true"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
             android:paddingTop="?attr/actionBarSize"
-            android:nextFocusForward="@id/sidelist"
-            android:nextFocusUp="@id/sidelist"
-            android:nextFocusDown="@+id/settings"
-            android:nextFocusLeft="@id/sidelist"
-            android:nextFocusRight="@id/sidelist"
-            android:background="?attr/background_menu" >
-        </ListView>
+            android:layout_gravity="start"
+            app:menu="@menu/navigation" />
 
     </org.videolan.vlc.widget.HackyDrawerLayout>
 

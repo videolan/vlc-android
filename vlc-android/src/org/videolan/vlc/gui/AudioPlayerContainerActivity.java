@@ -32,15 +32,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.widget.SlidingPaneLayout;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaLibrary;
@@ -52,12 +54,20 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.HackyDrawerLayout;
-import com.android.widget.SlidingPaneLayout;
 
 public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
     public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
+
+    protected static final String ID_VIDEO = "video";
+    protected static final String ID_AUDIO = "audio";
+    protected static final String ID_NETWORK = "network";
+    protected static final String ID_DIRECTORIES = "directories";
+    protected static final String ID_HISTORY = "history";
+    protected static final String ID_MRL = "mrl";
+    protected static final String ID_PREFERENCES = "preferences";
+    protected static final String ID_ABOUT = "about";
 
     protected ActionBar mActionBar;
     protected Toolbar mToolbar;
@@ -155,11 +165,11 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             ((IRefreshable) current).refresh();
         else
             MediaLibrary.getInstance().scanMediaItems();
-        Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
+        Fragment fragment = fm.findFragmentByTag(ID_AUDIO);
         if (fragment != null && !fragment.equals(current)) {
             ((MediaBrowserFragment)fragment).clear();
         }
-        fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_VIDEO);
+        fragment = fm.findFragmentByTag(ID_VIDEO);
         if (fragment != null && !fragment.equals(current)) {
             ((MediaBrowserFragment)fragment).clear();
         }

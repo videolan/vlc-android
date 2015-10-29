@@ -33,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -50,10 +51,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FilterQueryProvider;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -64,9 +62,9 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
@@ -82,7 +80,7 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.HackyDrawerLayout;
 
-public class MainActivity extends AudioPlayerContainerActivity implements OnItemClickListener, SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider {
+public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -96,15 +94,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
     MediaLibrary mMediaLibrary;
 
-    private SidebarAdapter mSidebarAdapter;
     private HackyDrawerLayout mDrawerLayout;
-    private ListView mListView;
+    private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
-    private String mCurrentFragment;
+    private int mCurrentFragment;
 
 
     private int mVersionNumber = -1;
@@ -154,17 +151,15 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         setContentView(R.layout.main);
 
         mDrawerLayout = (HackyDrawerLayout) findViewById(R.id.root_container);
-        mListView = (ListView)findViewById(R.id.sidelist);
-        mListView.setFooterDividersEnabled(true);
-        mSidebarAdapter = new SidebarAdapter(this);
-        mListView.setAdapter(mSidebarAdapter);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null){
-            mCurrentFragment = savedInstanceState.getString("current");
-            if (mCurrentFragment != null)
-                mSidebarAdapter.setCurrentFragment(mCurrentFragment);
+            mCurrentFragment = savedInstanceState.getInt("current");
+            if (mCurrentFragment <= 0)
+                mNavigationView.setCheckedItem(mCurrentFragment);
         }
 
 
@@ -192,8 +187,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mListView.setOnItemClickListener(this);
-
         if (mFirstRun) {
             /*
              * The sliding menu is automatically opened when the user closes
@@ -203,7 +196,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mDrawerLayout.openDrawer(mListView);
+                    mDrawerLayout.openDrawer(mNavigationView);
                 }
             }, 500);
         }
@@ -252,6 +245,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
             mMediaLibrary.scanMediaItems();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
+        mNavigationView.setCheckedItem(mCurrentFragment);
     }
 
     @Override
@@ -261,7 +255,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         // Figure out if currently-loaded fragment is a top-level fragment.
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
-        boolean found = (current == null) || SidebarAdapter.sidebarFragments.contains(current.getTag());
 
         /**
          * Restore the last view.
@@ -275,17 +268,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
          * It will try to remove() the currently displayed fragment
          * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
          */
-        if (current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
-            Log.d(TAG, "Reloading displayed fragment");
-            if (mCurrentFragment == null)
-                mCurrentFragment = "video";
-            if (!SidebarAdapter.sidebarFragments.contains(mCurrentFragment)) {
-                Log.d(TAG, "Unknown fragment \"" + mCurrentFragment + "\", resetting to video");
-                mCurrentFragment = "video";
-            }
+        if (current == null) {
+            mCurrentFragment = R.id.nav_video;
+            mNavigationView.setCheckedItem(mCurrentFragment);
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, ff, mCurrentFragment);
+            ft.replace(R.id.fragment_placeholder, ff, ID_VIDEO);
             ft.commit();
         }
     }
@@ -302,7 +290,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         mMediaLibrary.stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString("fragment", mCurrentFragment);
+        editor.putInt("fragment", mCurrentFragment);
         Util.commitPreferences(editor);
 
         mFocusedPrior = 0;
@@ -310,7 +298,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("current", mCurrentFragment);
+        outState.putInt("current", mCurrentFragment);
     }
 
     @Override
@@ -323,10 +311,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     @Override
     public void onBackPressed() {
         /* Close the menu first */
-        if(mDrawerLayout.isDrawerOpen(mListView)) {
+        if(mDrawerLayout.isDrawerOpen(mNavigationView)) {
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
-            mDrawerLayout.closeDrawer(mListView);
+            mDrawerLayout.closeDrawer(mNavigationView);
             return;
         }
 
@@ -334,9 +322,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         if (slideDownAudioPlayer())
             return;
 
-        if (mCurrentFragment!= null) {
+        if (mCurrentFragment <= 0) {
             // If it's the directory view, a "backpressed" action shows a parent.
-            if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK) || mCurrentFragment.equals(SidebarEntry.ID_DIRECTORIES)){
+            if (mCurrentFragment == R.id.nav_network || mCurrentFragment == R.id.nav_directories){
                 BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragment_placeholder);
                 if (browserFragment != null) {
@@ -348,12 +336,25 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         finish();
     }
 
-    private Fragment getFragment(String id)
+    private Fragment getFragment(int id)
     {
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(id);
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(getTag(id));
         if (frag != null)
             return frag;
-        return mSidebarAdapter.fetchFragment(id);
+        switch (id) {
+            case R.id.nav_audio:
+                return new AudioBrowserFragment();
+            case R.id.nav_directories:
+                return new FileBrowserFragment();
+            case R.id.nav_history:
+                return new HistoryFragment();
+            case R.id.nav_mrl:
+                return new MRLPanelFragment();
+            case R.id.nav_network:
+                return new NetworkBrowserFragment();
+            default:
+                return new VideoGridFragment();
+        }
     }
 
     private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment, String previous) {
@@ -534,8 +535,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                 }
                 break;
             case R.id.ml_menu_clean:
-                if (getFragment(mCurrentFragment) instanceof MRLPanelFragment)
-                    ((MRLPanelFragment)getFragment(mCurrentFragment)).clearHistory();
+                if (current instanceof MRLPanelFragment)
+                    ((MRLPanelFragment)current).clearHistory();
                 break;
             case R.id.ml_menu_save:
                 if (current == null)
@@ -544,7 +545,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
                 item.setIcon(R.drawable.ic_menu_bookmark_w);
                 break;
         }
-        mDrawerLayout.closeDrawer(mListView);
+        mDrawerLayout.closeDrawer(mNavigationView);
         return super.onOptionsItemSelected(item);
     }
 
@@ -682,7 +683,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
     }
 
     private void reloadPreferences() {
-        mCurrentFragment = mSettings.getString("fragment", "video");
+        mCurrentFragment = mSettings.getInt("fragment", R.id.nav_video);
     }
 
     @Override
@@ -772,45 +773,72 @@ public class MainActivity extends AudioPlayerContainerActivity implements OnItem
         removeTipViewIfDisplayed();
     }
 
+
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SidebarAdapter.SidebarEntry entry = (SidebarEntry) mListView.getItemAtPosition(position);
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
-        if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
+        if(current == null || (item != null && current.getId() == id)) { /* Already selected */
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
-            mDrawerLayout.closeDrawer(mListView);
-            return;
+            mDrawerLayout.closeDrawer(mNavigationView);
+            return false;
         }
 
         // This should not happen
-        if(entry == null || entry.id == null)
-            return;
+        if(item == null)
+            return false;
 
-        if (entry.type == SidebarEntry.TYPE_FRAGMENT) {
-
+        String tag = getTag(id);
+        switch (id){
+            case R.id.nav_about:
+                showSecondaryFragment(SecondaryActivity.ABOUT);
+                break;
+            case R.id.nav_settings:
+                startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                break;
+            default:
                 /* Slide down the audio player */
-            slideDownAudioPlayer();
+                slideDownAudioPlayer();
 
                 /* Switch the fragment */
-            Fragment fragment = getFragment(entry.id);
-            if (fragment instanceof MediaBrowserFragment)
-                ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, fragment, entry.id);
-            ft.addToBackStack(mCurrentFragment);
-            ft.commit();
-            mCurrentFragment = entry.id;
-            mSidebarAdapter.setCurrentFragment(mCurrentFragment);
+                Fragment fragment = getFragment(id);
+                if (fragment instanceof MediaBrowserFragment)
+                    ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_placeholder, fragment, tag);
+                ft.addToBackStack(getTag(mCurrentFragment));
+                ft.commit();
+                mCurrentFragment = id;
 
-            if (mFocusedPrior != 0)
-                requestFocusOnSearch();
-        } else if (entry.type == SidebarEntry.TYPE_SECONDARY_FRAGMENT)
-            showSecondaryFragment(SecondaryActivity.ABOUT);
-        else if (entry.attributeID == R.attr.ic_menu_preferences)
-            startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        mDrawerLayout.closeDrawer(mListView);
+                if (mFocusedPrior != 0)
+                    requestFocusOnSearch();
+        }
+        mDrawerLayout.closeDrawer(mNavigationView);
+        mNavigationView.setCheckedItem(mCurrentFragment);
+        return true;
+    }
+
+    private String getTag(int id){
+        switch (id){
+            case R.id.nav_about:
+                return ID_ABOUT;
+            case R.id.nav_settings:
+                return ID_PREFERENCES;
+            case R.id.nav_audio:
+                return ID_AUDIO;
+            case R.id.nav_directories:
+                return ID_DIRECTORIES;
+            case R.id.nav_history:
+                return ID_HISTORY;
+            case R.id.nav_mrl:
+                return ID_MRL;
+            case R.id.nav_network:
+                return ID_NETWORK;
+            default:
+                return ID_VIDEO;
+        }
     }
 
     private void requestFocusOnSearch() {
