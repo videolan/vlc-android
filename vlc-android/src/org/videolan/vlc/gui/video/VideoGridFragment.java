@@ -350,8 +350,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             hasInfo = true;
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
-        menu.findItem(R.id.video_list_delete).setVisible(!AndroidUtil.isLolliPopOrLater() ||
-                mediaWrapper.getLocation().startsWith("file://" + AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+        menu.findItem(R.id.video_list_delete).setVisible(
+                Util.canWrite(mediaWrapper.getLocation()));
     }
 
     @Override

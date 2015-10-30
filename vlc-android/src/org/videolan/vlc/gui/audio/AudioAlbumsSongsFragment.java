@@ -197,6 +197,12 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         if (!AndroidDevices.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
         menu.findItem(R.id.audio_list_browser_play).setVisible(true);
+        //Hide delete if we cannot
+            AudioBrowserListAdapter adapter = mViewPager.getCurrentItem() == MODE_SONG ?
+                    mSongsAdapter : mAlbumsAdapter;
+            String location = adapter.getItem(position).mMediaList.get(0).getLocation();
+        menu.findItem(R.id.audio_list_browser_delete).setVisible(
+                Util.canWrite(location));
     }
 
     @Override
@@ -386,19 +392,20 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
             switch (msg.what){
                 case DELETE_MEDIA:
                     AudioBrowserListAdapter.ListItem listItem = fragment.mSongsAdapter.getItem(msg.arg1);
-                    MediaWrapper media = listItem.mMediaList.get(0);
-                    final String path = media.getUri().getPath();
-                    fragment.mMediaLibrary.getMediaItems().remove(media);
-                    fragment.mSongsAdapter.removeMedia(media);
-                    fragment.mAlbumsAdapter.removeMedia(media);
-                    if (fragment.mService != null)
-                        fragment.mService.removeLocation(media.getLocation());
-                    fragment.mMediaLibrary.getMediaItems().remove(media);
-                    VLCApplication.runBackground(new Runnable() {
-                        public void run() {
-                            Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
-                        }
-                    });
+                    for (MediaWrapper media : listItem.mMediaList) {
+                        final String path = media.getUri().getPath();
+                        fragment.mMediaLibrary.getMediaItems().remove(media);
+                        fragment.mSongsAdapter.removeMedia(media);
+                        fragment.mAlbumsAdapter.removeMedia(media);
+                        if (fragment.mService != null)
+                            fragment.mService.removeLocation(media.getLocation());
+                        fragment.mMediaLibrary.getMediaItems().remove(media);
+                        VLCApplication.runBackground(new Runnable() {
+                            public void run() {
+                                Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
+                            }
+                        });
+                    }
                     break;
             }
         }

@@ -359,7 +359,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        boolean canWrite = Util.canWrite(mw.getLocation());
+        boolean canWrite = this instanceof FileBrowserFragment && Util.canWrite(mw.getLocation());
         boolean isAudio = mw.getType() == MediaWrapper.TYPE_AUDIO;
         boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
         if (isAudio || isVideo) {

@@ -388,6 +388,18 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             menu.findItem(R.id.audio_list_browser_play).setVisible(true);
         if (pos != MODE_SONG && pos != MODE_PLAYLIST)
             menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
+        else {
+            MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
+            int position = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
+            AudioBrowserListAdapter adapter = pos == MODE_SONG ? mSongsAdapter : mPlaylistAdapter;
+            AudioBrowserListAdapter.ListItem mediaItem = adapter.getItem(position);
+            if (pos == MODE_PLAYLIST && MediaDatabase.getInstance().playlistExists(mediaItem.mTitle))
+                item.setVisible(true);
+            else {
+                String location = mediaItem.mMediaList.get(0).getLocation();
+                item.setVisible(Util.canWrite(location));
+            }
+        }
         if (!AndroidDevices.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
     }

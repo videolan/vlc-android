@@ -47,6 +47,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
@@ -168,6 +169,9 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
         menu.setGroupVisible(R.id.songs_view_only, false);
         menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
         menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
+        //Hide delete if we cannot
+        String location = mMediaList.get(position).getLocation();
+        menu.findItem(R.id.audio_list_browser_delete).setVisible(Util.canWrite(location));
     }
 
     @Override

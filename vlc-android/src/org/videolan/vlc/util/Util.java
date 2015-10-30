@@ -369,7 +369,7 @@ public class Util {
             return false;
         if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
             return true;
-        if (AndroidUtil.isLolliPopOrLater())
+        if (AndroidUtil.isKitKatOrLater())
             return false;
         File file = new File(path);
         return (file.exists() && file.canWrite());
