@@ -145,7 +145,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             mediaKey = (title + subTitle).toLowerCase(Locale.getDefault());
         else
             mediaKey = key.trim().toLowerCase(Locale.getDefault());
-        if(subTitle != null) subTitle = subTitle.trim();
         if (mMediaItemMap.containsKey(mediaKey))
             mMediaItemMap.get(mediaKey).mMediaList.add(media);
         else {
@@ -185,6 +184,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                             key = null;
                             break;
                         case TYPE_SONGS:
+                            title = media.getTitle();
+                            subTitle = Util.getMediaArtist(mContext, media);
+                            key = media.getAlbum() + media.getArtist() + media.getLocation();
+                            break;
                         default:
                             title = media.getTitle();
                             subTitle = Util.getMediaArtist(mContext, media);
