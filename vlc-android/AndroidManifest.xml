@@ -48,7 +48,7 @@
         android:largeHeap="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:logo="@drawable/ic_logo_w"
+        android:logo="@drawable/icon"
         android:theme="@style/Theme.VLC.NoTitleBar" >
         <activity
             android:name=".gui.MainActivity"

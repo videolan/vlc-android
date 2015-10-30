@@ -33,6 +33,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.RemoteControlClient;
@@ -848,6 +849,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             String artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
             String album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
             Bitmap cover = metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART);
+            if (cover == null)
+                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.icon);
             Notification notification;
 
             //Watch notification dismissed
