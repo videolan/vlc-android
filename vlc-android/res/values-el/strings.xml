@@ -150,8 +150,6 @@
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να παιχτεί.</string>
     <string name="search">Εύρεση</string>
     <string name="search_history">Ιστορικό εύρεσης</string>
-    <string name="hardware_acceleration_error_title">Σφάλμα επιτάχυνσης υλικού</string>
-    <string name="hardware_acceleration_error_message">Η επιτάχυνση υλικού αντιμετώπισε ένα σφάλμα. Θα θέλατε να την απενεργοποιήσετε και να ξαναδοκιμάσετε; </string>
     <!--Tips-->
     <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
     <string name="seek">Εύρεση</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">Λευκό γραφικό στοιχείο VLC </string>
     <string name="widget_name_b">Σκοτεινό γραφικό στοιχείο VLC </string>
+    <string name="allow_storage_access_title">Δώστε πρόσβαση στο VLC στα αρχεία βίντεο και ήχου</string>
+    <string name="allow_storage_access_description">Το VLC  σας ζητάει να του δώσετε πρόσβαση στα αρχεία μέσων σε αυτή τη συσκευή.</string>
+    <string name="allow_settings_access_title">Επιτρέψτε στο VLC να ορίσει τον ήχο κλήσης</string>
+    <string name="allow_settings_access_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
+    <string name="permission_ask_again">Δώστε άδεια</string>
+    <string name="exit_app">Κλείσιμο του VLC</string>
 </resources>
