@@ -92,6 +92,8 @@
     <string name="previous">Terdahulu</string>
     <string name="stop">Henti</string>
     <string name="next">Berikut</string>
+    <string name="firstsong">Lagu pertama senarai main</string>
+    <string name="lastsong">Lagu akhir senarai main</string>
     <string name="locked">Dikunci</string>
     <string name="unlocked">Tidak dikunci</string>
     <string name="surface_best_fit">Suai muat</string>
@@ -141,8 +143,6 @@
     <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
     <string name="search">Gelintar</string>
     <string name="search_history">Gelintar sejarah</string>
-    <string name="hardware_acceleration_error_title">Ralat pemecutan HW</string>
-    <string name="hardware_acceleration_error_message">Pemecutan HW menghadapi ralat. Anda mahu lumpuhkannya dan cuba lagi?</string>
     <!--Tips-->
     <string name="video_player_tips">Petua pemain video:</string>
     <string name="seek">Jangkau</string>
@@ -206,8 +206,8 @@
     <string name="interface_other_category">Antaramuka - Lain</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
-    <string name="enable_jump_buttons">Benarkan butang lompat</string>
-    <string name="enable_jump_buttons_summary">Tunjuk butang undur dan maju pada antaramuka video</string>
+    <string name="enable_seek_buttons">Benarkan butang jangkau</string>
+    <string name="enable_seek_buttons_summary">Tunjuk butang mandir dan maju pada antaramuka video</string>
     <string name="force_list_portrait">Tiada grid dalam mod potret</string>
     <string name="force_list_portrait_summary">Tunjuk video di dalam senarai bukannya grid dalam mod potret</string>
     <string name="audio_title_alignment">Jajaran tajuk audio</string>
@@ -303,4 +303,10 @@
     <!--Widget-->
     <string name="widget_name_w">Widjet Putih VLC</string>
     <string name="widget_name_b">Widjet Gelap VLC</string>
+    <string name="allow_storage_access_title">Benarkan VLC mencapai fail video dan audio</string>
+    <string name="allow_storage_access_description">VLC perlu kebenaran anda untuk mencapai fail media dalam peranti ini.</string>
+    <string name="allow_settings_access_title">Benarkan VLC tetapkan nada dering</string>
+    <string name="allow_settings_access_description">VLC perlu kebenaran anda untuk memasang lagu ini sebagai nada dering anda.</string>
+    <string name="permission_ask_again">Beri keizinan</string>
+    <string name="exit_app">Tutup VLC</string>
 </resources>
