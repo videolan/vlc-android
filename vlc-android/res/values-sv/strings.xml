@@ -143,15 +143,13 @@
     <string name="open_mrl_dialog_title">Öppna nätverksström</string>
     <string name="open_mrl_dialog_msg">Ange nätverksadress: t.ex. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Tyvärr, din enhet stödjer för tillfället inte denna version av VLC för Android™.</string>
-    <string name="error_problem">Tyvärr, VLC för Android stötte på ett inläsningsproblem och blev tvungen att stängas ned.</string>
+    <string name="error_problem">Tyvärr stötte VLC för Android på ett inläsningsproblem och blev tvungen att stängas ned.</string>
     <string name="error_message_is">Felmeddelandet är (nämn detta när du felsöker):\n</string>
     <string name="encountered_error_title">Uppspelningsfel</string>
     <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nFörsök att uppdatera mediabiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="search">Sök</string>
     <string name="search_history">Sökhistorik</string>
-    <string name="hardware_acceleration_error_title">HV-accelereringsfel</string>
-    <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelereringen. Vill du inaktivera den och försöka igen?</string>
     <!--Tips-->
     <string name="video_player_tips">Tips för videospelaren:</string>
     <string name="seek">Sök</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC - vit widget</string>
     <string name="widget_name_b">VLC - mörk widget</string>
+    <string name="allow_storage_access_title">Tillåt VLC att få åtkomst till video- och ljudfiler.</string>
+    <string name="allow_storage_access_description">Du måste bevilja detta tillstånd för att VLC ska kunna komma åt mediafilerna på denna enhet.</string>
+    <string name="allow_settings_access_title">Tillåt VLC att ändra ringsignalen</string>
+    <string name="allow_settings_access_description">Du måste bevilja detta tillstånd för att VLC ska kunna ändra din ringsignal till denna låt.</string>
+    <string name="permission_ask_again">Bevilja tillstånd</string>
+    <string name="exit_app">Avsluta VLC</string>
 </resources>
