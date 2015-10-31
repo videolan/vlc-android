@@ -23,7 +23,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:logo="@drawable/ic_logo_w"
-        tools:replace="android:theme"
+        tools:replace="android:logo, android:theme"
         android:banner="@drawable/banner"
         android:theme="@style/Theme.Leanback" >
         <activity
