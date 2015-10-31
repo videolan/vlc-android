@@ -150,8 +150,6 @@
     <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
     <string name="search">Suchen</string>
     <string name="search_history">Suchverlauf</string>
-    <string name="hardware_acceleration_error_title">Fehler in der Hardwarebeschleunigung</string>
-    <string name="hardware_acceleration_error_message">Bei der Hardwarebeschleunigung ist ein Fehler aufgetreten. Wollen Sie es deaktivieren und nochmals versuchen?</string>
     <!--Tips-->
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC weißes Widget</string>
     <string name="widget_name_b">VLC dunkles Widget</string>
+    <string name="allow_storage_access_title">VLC Zugriff auf Video- und Audio-Dateien erlauben</string>
+    <string name="allow_storage_access_description">VLC benötigt von Ihnen die Genehmigung zum Zugriff auf die Mediendateien auf diesem Gerät.</string>
+    <string name="allow_settings_access_title">VLC das Einstellen des Klingeltons erlauben</string>
+    <string name="allow_settings_access_description">VLC benötigt von Ihnen die Genehmigung zum Einstellen dieses Liedes als Klingelton.</string>
+    <string name="permission_ask_again">Genehmigung erteilen</string>
+    <string name="exit_app">VLC schließen</string>
 </resources>
