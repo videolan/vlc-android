@@ -143,8 +143,6 @@
     <string name="invalid_location">位置 %1$s 無法被播放。</string>
     <string name="search">搜尋</string>
     <string name="search_history">清除歷史</string>
-    <string name="hardware_acceleration_error_title">硬體加速失敗</string>
-    <string name="hardware_acceleration_error_message">使用硬體加速時發生錯誤。您是否取消並重試？</string>
     <!--Tips-->
     <string name="video_player_tips">影片播放器說明：</string>
     <string name="seek">尋找</string>
@@ -305,4 +303,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC 白色小工具</string>
     <string name="widget_name_b">VLC 暗色小工具</string>
+    <string name="allow_storage_access_title">允許 VLC 存取視訊與音訊檔案</string>
+    <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
+    <string name="allow_settings_access_title">允許 VLC 設定鈴聲</string>
+    <string name="allow_settings_access_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
+    <string name="permission_ask_again">授予權限</string>
+    <string name="exit_app">關閉 VLC</string>
 </resources>
