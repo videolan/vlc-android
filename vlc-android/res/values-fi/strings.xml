@@ -98,6 +98,8 @@
     <string name="previous">Edellinen</string>
     <string name="stop">Pysäytä</string>
     <string name="next">Seuraava</string>
+    <string name="firstsong">Soittolistan ensimmäinen kappale</string>
+    <string name="lastsong">Soittolistan viimeinen kappale</string>
     <string name="locked">Lukittu</string>
     <string name="unlocked">Lukitsematon</string>
     <string name="surface_best_fit">Parhaiten sopiva</string>
@@ -148,8 +150,6 @@
     <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
     <string name="search">Etsi</string>
     <string name="search_history">Hakuhistoria</string>
-    <string name="hardware_acceleration_error_title">Virhe laitteistokiihdytyksessä</string>
-    <string name="hardware_acceleration_error_message">Virhe kohdattiin laitteistokiihdytyksessä. Haluatko ottaa sen pois käytöstä ja kokeilla uudelleen?</string>
     <!--Tips-->
     <string name="video_player_tips">Videosoittimen vinkit:</string>
     <string name="seek">Hae kohta</string>
@@ -213,8 +213,8 @@
     <string name="interface_other_category">Käyttöliittymä - Muut</string>
     <string name="enable_brightness_gesture">Ota käyttöön ele kirkkaudensäätöön</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
-    <string name="enable_jump_buttons">Ota käyttöön liikkumispainikkeet</string>
-    <string name="enable_jump_buttons_summary">Näytä taakse- ja eteepäin-painikkeet videorajapinnassa</string>
+    <string name="enable_seek_buttons">Ota käyttöön kelauspainikkeet</string>
+    <string name="enable_seek_buttons_summary">Näytä taakse- ja eteepäinkelauspainikkeet videorajapinnassa</string>
     <string name="force_list_portrait">Ei ruudutusta muotokuvatilassa</string>
     <string name="force_list_portrait_summary">Näytä videot listassa ruudukon sijaan muotokuvatilassa</string>
     <string name="audio_title_alignment">Äänen otsikon tasaus</string>
@@ -308,4 +308,12 @@
     <string name="no_subs_found">Tässä hakemistossa ei ole tekstityksiä</string>
     <string name="music_now_playing">Nyt toistetaan</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC vaalea pienoisohjelma</string>
+    <string name="widget_name_b">VLC tumma pienoisohjelma</string>
+    <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja äänitiedostoihin</string>
+    <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
+    <string name="allow_settings_access_title">Salli VLC:n asettaa soittoääni</string>
+    <string name="allow_settings_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle asettaa tämä kappale soittoääneksi.</string>
+    <string name="permission_ask_again">Myönnä oikeudet</string>
+    <string name="exit_app">Sulje VLC</string>
 </resources>
