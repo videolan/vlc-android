@@ -150,8 +150,6 @@
     <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden.</string>
     <string name="search">Zoeken</string>
     <string name="search_history">Zoekgeschiedenis</string>
-    <string name="hardware_acceleration_error_title">Hardwareversnellingsfout</string>
-    <string name="hardware_acceleration_error_message">Er trad een fout op bij hardwareversnelling. Wilt u ze uitschakelen en opnieuw proberen?</string>
     <!--Tips-->
     <string name="video_player_tips">Videospeler-tips:</string>
     <string name="seek">Zoeken</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC Widget licht</string>
     <string name="widget_name_b">VLC Widget donker</string>
+    <string name="allow_storage_access_title">VLC toegang geven tot video- en audiobestanden</string>
+    <string name="allow_storage_access_description">VLC moet uw toestemming hebben om toegang te krijgen tot de mediabestanden op dit apparaat.</string>
+    <string name="allow_settings_access_title">VLC toelaten om de ringtone in te stellen</string>
+    <string name="allow_settings_access_description">VLC moet uw toestemming hebben om dit nummer in te stellen als uw ringtone.</string>
+    <string name="permission_ask_again">Toegang toestaan</string>
+    <string name="exit_app">VLC sluiten</string>
 </resources>
