@@ -150,8 +150,6 @@
     <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
     <string name="search">Cerca</string>
     <string name="search_history">Cerca nella cronologia</string>
-    <string name="hardware_acceleration_error_title">Errore accelerazione hardware</string>
-    <string name="hardware_acceleration_error_message">Si è verificato un errore con l\'accelerazione hardware Vuoi disabilitarla e prova ancora?</string>
     <!--Tips-->
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">Widget VLC bianco</string>
     <string name="widget_name_b">Widget VLC scuro</string>
+    <string name="allow_storage_access_title">Consenti a VLC di accedere ai file video e audio</string>
+    <string name="allow_storage_access_description">VLC ha bisogno di questo permesso per accedere ai file multimediali su questo dispositivo.</string>
+    <string name="allow_settings_access_title">Consenti a VLC di impostare la suoneria</string>
+    <string name="allow_settings_access_description">VLC ha bisogno di questo permesso per configurare questo brano come suoneria.</string>
+    <string name="permission_ask_again">Accorda permesso</string>
+    <string name="exit_app">Chiudi VLC</string>
 </resources>
