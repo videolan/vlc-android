@@ -164,8 +164,6 @@
     <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
     <string name="search">Chwilio</string>
     <string name="search_history">Hanes chwilio</string>
-    <string name="hardware_acceleration_error_title">Gwall cyflymydd HW</string>
-    <string name="hardware_acceleration_error_message">Bu gwall gyda\'r cyflymydd caledwedd. Hoffech ei analluogi a cheisio eto?</string>
     <!--Tips-->
     <string name="video_player_tips">Awgrymiadau chwaraeydd fideo:</string>
     <string name="seek">Canfod</string>
@@ -326,4 +324,10 @@
     <!--Widget-->
     <string name="widget_name_w">Teclyn Gwyn VLC</string>
     <string name="widget_name_b">Teclyn Tywyll VLC</string>
+    <string name="allow_storage_access_title">Caniatáu VLC i gael at ffeiliau fideo a sain</string>
+    <string name="allow_storage_access_description">Mae eich caniatâd ar VLC i gael at ffeiliau cyfryngau ar y ddyfais hon.</string>
+    <string name="allow_settings_access_title">Caniatáu VLC i osod y sain canu</string>
+    <string name="allow_settings_access_description">Mae angen eich caniatâd ar VLC i osod y trac hwn fel sain canu eich ffôn.</string>
+    <string name="permission_ask_again">Caniatáu</string>
+    <string name="exit_app">Cau VLC</string>
 </resources>
