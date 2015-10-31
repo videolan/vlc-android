@@ -157,8 +157,6 @@
     <string name="invalid_location">Negalime pagroti %1$s.</string>
     <string name="search">Paieška</string>
     <string name="search_history">Paieškos žurnalas</string>
-    <string name="hardware_acceleration_error_title">Aparatinio spartinimo klaida</string>
-    <string name="hardware_acceleration_error_message">Kilo aparatinio spartinimo nesklandumų. Ar norėtumėte atsisakyti aparatinio spartinimo ir naudotis programa toliau?</string>
     <!--Tips-->
     <string name="video_player_tips">Vaizdo leistuvės aaiškinimai:</string>
     <string name="seek">Persukimas</string>
@@ -319,4 +317,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC valdiklis, šviesus</string>
     <string name="widget_name_b">VLC valdiklis, tamsus</string>
+    <string name="allow_storage_access_title">Leisti prieiti prie garso ir vaizdo kūrinių</string>
+    <string name="allow_storage_access_description">VLC prašo leisti prieiti prie šiame įrenginyje esančių įvairialypės terpės rinkmenų.</string>
+    <string name="allow_settings_access_title">Leisti priskirti skambučio melodiją</string>
+    <string name="allow_settings_access_description">VLC prašo leisti pakeisti skambučio melodiją.</string>
+    <string name="permission_ask_again">Leisti</string>
+    <string name="exit_app">Užverti VLC</string>
 </resources>
