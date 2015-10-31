@@ -150,8 +150,6 @@
     <string name="invalid_location">La localización %1$s no puede reproducirse.</string>
     <string name="search">Buscar</string>
     <string name="search_history">Buscar en el historial</string>
-    <string name="hardware_acceleration_error_title">Error en la aceleración por hardware</string>
-    <string name="hardware_acceleration_error_message">Ha ocurrido un error con la aceleración por hardware. ¿Desea deshabilitarla y probar de nuevo? </string>
     <!--Tips-->
     <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
@@ -312,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">Control blanco VLC</string>
     <string name="widget_name_b">Control oscuro VLC</string>
+    <string name="allow_storage_access_title">Permitir a VLC acceder a los archivos de vídeo y audio.</string>
+    <string name="allow_storage_access_description">VLC necesita que conceda este permiso para acceder a los archivos multimedia en este dispositivo.</string>
+    <string name="allow_settings_access_title">Permitir a VLC establecer el tono de llamada</string>
+    <string name="allow_settings_access_description">VLC necesita que conceda este permiso para establecer esta canción cono su tono de llamada.</string>
+    <string name="permission_ask_again">Conceder permiso</string>
+    <string name="exit_app">Cerrar VLC</string>
 </resources>
