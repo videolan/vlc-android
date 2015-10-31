@@ -143,8 +143,6 @@
     <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
     <string name="search">검색</string>
     <string name="search_history">검색 기록</string>
-    <string name="hardware_acceleration_error_title">HW 가속 오류</string>
-    <string name="hardware_acceleration_error_message">하드웨어 가속에 문제가 발생했습니다. 하드웨어 가속을 끄고 재시도할까요?</string>
     <!--Tips-->
     <string name="video_player_tips">동영상 재생기 팁:</string>
     <string name="seek">탐색</string>
@@ -305,4 +303,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC 흰색 위젯</string>
     <string name="widget_name_b">VLC 검은색 위젯</string>
+    <string name="allow_storage_access_title">VLC에서 비디오와 오디오 파일에 접근합니다</string>
+    <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 이 허락이 필요합니다.</string>
+    <string name="allow_settings_access_title">VLC에서 전화벨 소리를 설정합니다</string>
+    <string name="allow_settings_access_description">VLC에서 이 곡을 전화벨 소리로 등록하려면 이 허락이 필요합니다.</string>
+    <string name="permission_ask_again">사용 허락</string>
+    <string name="exit_app">VLC 닫기</string>
 </resources>
