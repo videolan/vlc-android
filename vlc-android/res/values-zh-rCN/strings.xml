@@ -143,8 +143,6 @@
     <string name="invalid_location">无法播放位置 %1$s。</string>
     <string name="search">搜索</string>
     <string name="search_history">搜索历史</string>
-    <string name="hardware_acceleration_error_title">硬件加速错误</string>
-    <string name="hardware_acceleration_error_message">硬件加速发生错误。是否希望禁用它并尝试再次播放?</string>
     <!--Tips-->
     <string name="video_player_tips">视频播放器小提示:</string>
     <string name="seek">定位</string>
@@ -305,4 +303,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC 白色小挂件</string>
     <string name="widget_name_b">VLC 深色小挂件</string>
+    <string name="allow_storage_access_title">允许 VLC 访问视频与音频文件</string>
+    <string name="allow_storage_access_description">VLC 需要您授权方可访问该设备上的媒体文件。</string>
+    <string name="allow_settings_access_title">允许 VLC 设置铃声</string>
+    <string name="allow_settings_access_description">VLC 需要您授权方可将本歌曲设为您的铃声。</string>
+    <string name="permission_ask_again">授予权限</string>
+    <string name="exit_app">关闭 VLC</string>
 </resources>
