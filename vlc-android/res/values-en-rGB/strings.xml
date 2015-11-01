@@ -98,6 +98,8 @@
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
     <string name="next">Next</string>
+    <string name="firstsong">First song of the playlist</string>
+    <string name="lastsong">Last song of the playlist</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
     <string name="surface_best_fit">Best fit</string>
@@ -148,8 +150,6 @@
     <string name="invalid_location">The location %1$s cannot be played.</string>
     <string name="search">Search</string>
     <string name="search_history">Search history</string>
-    <string name="hardware_acceleration_error_title">HW acceleration error</string>
-    <string name="hardware_acceleration_error_message">An error occurred with hardware acceleration. Would you like to disable it and try again?</string>
     <!--Tips-->
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
@@ -213,8 +213,8 @@
     <string name="interface_other_category">Interface - Other</string>
     <string name="enable_brightness_gesture">Enable brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
-    <string name="enable_jump_buttons">Enable jump buttons</string>
-    <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
+    <string name="enable_seek_buttons">Enable seek buttons</string>
+    <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
     <string name="force_list_portrait">No grid in portrait mode</string>
     <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
@@ -310,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
+    <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
+    <string name="allow_settings_access_title">Allow VLC to set the ringtone</string>
+    <string name="allow_settings_access_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
+    <string name="permission_ask_again">Grant permission</string>
+    <string name="exit_app">Close VLC</string>
 </resources>
