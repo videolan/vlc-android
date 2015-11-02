@@ -273,7 +273,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             mNavigationView.setCheckedItem(mCurrentFragment);
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, ff, ID_VIDEO);
+            ft.replace(R.id.fragment_placeholder, ff, getTag(mCurrentFragment));
             ft.commit();
         }
     }
