@@ -50,23 +50,16 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         public static final int ESDeleted           = 0x115;
         //public static final int ESSelected          = 0x116;
 
-        private final long arg1;
-        private final float arg2;
         protected Event(int type) {
             super(type);
-            this.arg1 = 0;
-            this.arg2 = 0;
         }
         protected Event(int type, long arg1) {
-            super(type);
-            this.arg1 = arg1;
-            this.arg2 = 0;
+            super(type, arg1);
         }
         protected Event(int type, float arg2) {
-            super(type);
-            this.arg1 = 0;
-            this.arg2 = arg2;
+            super(type, arg2);
         }
+
         public long getTimeChanged() {
             return arg1;
         }
