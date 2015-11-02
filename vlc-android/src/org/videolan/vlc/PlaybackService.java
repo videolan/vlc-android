@@ -123,6 +123,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
     private MediaPlayer mMediaPlayer;
+    private boolean mParsed = false;
     private boolean mSeekable = false;
     private boolean mPausable = false;
     private boolean mIsAudioTrack = false;
@@ -571,15 +572,21 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         @Override
         public void onEvent(Media.Event event) {
             switch (event.type) {
+                case Media.Event.MetaChanged:
+                    /* Update Meta if file is already parsed */
+                    if (!mParsed)
+                        break;
+                    Log.i(TAG, "Media.Event.MetaChanged: " + event.getMetaId());
+
                 case Media.Event.ParsedChanged:
                     Log.i(TAG, "Media.Event.ParsedChanged");
                     final MediaWrapper mw = getCurrentMedia();
                     if (mw != null)
                         mw.updateMeta(mMediaPlayer);
                     executeUpdate();
+                    mParsed = true;
                     break;
-                case Media.Event.MetaChanged:
-                    break;
+
             }
             for (Callback callback : mCallbacks)
                 callback.onMediaEvent(event);
@@ -1628,6 +1635,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
 
         /* Pausable and seekable are true by default */
+        mParsed = false;
         mPausable = mSeekable = true;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
