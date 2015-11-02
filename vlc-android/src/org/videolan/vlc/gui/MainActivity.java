@@ -246,6 +246,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
         mNavigationView.setCheckedItem(mCurrentFragment);
+        mCurrentFragment = mSettings.getInt("fragment_id", R.id.nav_video);
     }
 
     @Override
@@ -269,7 +270,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
          * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
          */
         if (current == null) {
-            mCurrentFragment = R.id.nav_video;
             mNavigationView.setCheckedItem(mCurrentFragment);
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -290,7 +290,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         mMediaLibrary.stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt("fragment", mCurrentFragment);
+        editor.putInt("fragment_id", mCurrentFragment);
         Util.commitPreferences(editor);
 
         mFocusedPrior = 0;
@@ -322,15 +322,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         if (slideDownAudioPlayer())
             return;
 
-        if (mCurrentFragment <= 0) {
-            // If it's the directory view, a "backpressed" action shows a parent.
-            if (mCurrentFragment == R.id.nav_network || mCurrentFragment == R.id.nav_directories){
-                BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.fragment_placeholder);
-                if (browserFragment != null) {
-                    browserFragment.goBack();
-                    return;
-                }
+        // If it's the directory view, a "backpressed" action shows a parent.
+        if (mCurrentFragment == R.id.nav_network || mCurrentFragment == R.id.nav_directories){
+            BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_placeholder);
+            if (browserFragment != null) {
+                browserFragment.goBack();
+                return;
             }
         }
         finish();
@@ -683,7 +681,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     private void reloadPreferences() {
-        mCurrentFragment = mSettings.getInt("fragment", R.id.nav_video);
+        mCurrentFragment = mSettings.getInt("fragment_id", R.id.nav_video);
     }
 
     @Override
@@ -779,7 +777,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         int id = item.getItemId();
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
-        if(current == null || (item != null && current.getId() == id)) { /* Already selected */
+        if(current == null || (item != null && mCurrentFragment == id)) { /* Already selected */
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
             mDrawerLayout.closeDrawer(mNavigationView);
