@@ -249,7 +249,7 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
 
     private void setSurface(int id, Surface surface, SurfaceHolder surfaceHolder) {
         ensureInitState();
-        if (!surface.isValid() || surfaceHolder == null)
+        if (!surface.isValid() && surfaceHolder == null)
             throw new IllegalStateException("surface is not attached and holder is null");
         final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
         if (surfaceHelper != null)
