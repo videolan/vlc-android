@@ -43,6 +43,13 @@ public class Media extends VLCObject<Media.Event> {
         protected Event(int type) {
             super(type);
         }
+        protected Event(int type, long arg1) {
+            super(type, arg1);
+        }
+
+        public int getMetaId() {
+            return (int) arg1;
+        }
     }
 
     public interface EventListener extends VLCEvent.Listener<Media.Event> {}
@@ -355,7 +362,7 @@ public class Media extends VLCObject<Media.Event> {
             int id = (int) arg1;
             if (id >= 0 && id < Meta.MAX)
                 mNativeMetas[id] = null;
-            break;
+            return new Event(eventType, arg1);
         case Event.DurationChanged:
             mDuration = -1;
             break;
