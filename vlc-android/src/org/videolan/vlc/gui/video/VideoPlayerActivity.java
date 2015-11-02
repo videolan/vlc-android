@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Presentation;
@@ -51,9 +50,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -106,11 +103,11 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.browser.FilePickerActivity;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
+import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
@@ -1550,11 +1547,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHardwareAccelerationError = true;
         if (mSwitchingView)
             return;
+        Toast.makeText(this, R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
         mService.removeCallback(this);
         mService.stop();
         if(!isFinishing())
             loadMedia();
-    }
+        }
 
     private void handleVout(int voutCount) {
         final IVLCVout vlcVout = mService.getVLCVout();

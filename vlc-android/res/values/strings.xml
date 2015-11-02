@@ -364,6 +364,7 @@
     <string name="allow_settings_access_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
+    <string name="hardware_acceleration_error">hardware acceleration error, switching to software decoding</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

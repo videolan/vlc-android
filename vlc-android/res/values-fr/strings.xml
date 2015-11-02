@@ -312,4 +312,5 @@
     <!--Widget-->
     <string name="widget_name_w">Widget VLC blanc</string>
     <string name="widget_name_b">Widget VLC noir</string>
+    <string name="hardware_acceleration_error">Erreur d\'accélération matérielle, basculement en décodage logiciel</string>
 </resources>
