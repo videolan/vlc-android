@@ -309,4 +309,5 @@
     <string name="allow_settings_access_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
     <string name="permission_ask_again">授予權限</string>
     <string name="exit_app">關閉 VLC</string>
+    <string name="hardware_acceleration_error">硬體加速發生錯誤，已切換到軟體解碼</string>
 </resources>
