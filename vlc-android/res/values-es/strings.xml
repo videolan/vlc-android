@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">VLC necesita que conceda este permiso para establecer esta canción cono su tono de llamada.</string>
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Cerrar VLC</string>
+    <string name="hardware_acceleration_error">error en la aceleración por hardware, cambiando a decodificación por software</string>
 </resources>
