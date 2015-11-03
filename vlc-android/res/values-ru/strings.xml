@@ -164,8 +164,6 @@
     <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
-    <string name="hardware_acceleration_error_title">Ошибка апп. ускорения</string>
-    <string name="hardware_acceleration_error_message">При использовании аппаратного ускорения произошла ошибка. Хотите отключить его и попробовать снова?</string>
     <!--Tips-->
     <string name="video_player_tips">Подсказки для видеоплеера:</string>
     <string name="seek">Переход</string>
@@ -326,4 +324,11 @@
     <!--Widget-->
     <string name="widget_name_w">VLC в светлом оформлении</string>
     <string name="widget_name_b">VLC в тёмном оформлении</string>
+    <string name="allow_storage_access_title">Разрешить VLC обращаться к аудио- и видеофайлам</string>
+    <string name="allow_storage_access_description">VLC требуется это разрешение, чтобы обращаться к медиафайлам на вашем устройстве.</string>
+    <string name="allow_settings_access_title">Разрешить VLC устанавливать мелодию звонка</string>
+    <string name="allow_settings_access_description">VLC требуется это разрешение, чтобы устанавливать текущий звуковой файл в качестве мелодии звонка.</string>
+    <string name="permission_ask_again">Дать разрешение</string>
+    <string name="exit_app">Закрыть VLC</string>
+    <string name="hardware_acceleration_error">ошибка аппаратного ускорение, переключение на программное декодирование</string>
 </resources>
