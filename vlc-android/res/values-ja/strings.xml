@@ -309,4 +309,5 @@
     <string name="allow_settings_access_description">この音楽を着信音に設定するためにVLCに権限を与える必要があります。</string>
     <string name="permission_ask_again">権限を付与</string>
     <string name="exit_app">VLCを閉じる</string>
+    <string name="hardware_acceleration_error">ハードウェアアクセラレーションでエラーが発生しました。ソフトウェアデコーディングに切り替えます。</string>
 </resources>
