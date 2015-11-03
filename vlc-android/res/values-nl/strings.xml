@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">VLC moet uw toestemming hebben om dit nummer in te stellen als uw ringtone.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
     <string name="exit_app">VLC sluiten</string>
+    <string name="hardware_acceleration_error">hardwareversnelling-fout, overschakelen naar software-decoderen</string>
 </resources>
