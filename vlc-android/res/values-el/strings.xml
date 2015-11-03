@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
     <string name="permission_ask_again">Δώστε άδεια</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
+    <string name="hardware_acceleration_error">σφάλμα με την επιτάχυνση υλικού, αλλαγή σε αποκωδικοποίηση με λογισμικό</string>
 </resources>
