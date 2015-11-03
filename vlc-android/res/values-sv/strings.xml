@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">Du måste bevilja detta tillstånd för att VLC ska kunna ändra din ringsignal till denna låt.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
     <string name="exit_app">Avsluta VLC</string>
+    <string name="hardware_acceleration_error">Problem med hårdvaruaccelereringen; byter till mjukvaruavkodning</string>
 </resources>
