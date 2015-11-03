@@ -309,4 +309,5 @@
     <string name="allow_settings_access_description">VLC에서 이 곡을 전화벨 소리로 등록하려면 이 허락이 필요합니다.</string>
     <string name="permission_ask_again">사용 허락</string>
     <string name="exit_app">VLC 닫기</string>
+    <string name="hardware_acceleration_error">하드웨어 가속 오류, 소프트웨어 디코딩으로 전환</string>
 </resources>
