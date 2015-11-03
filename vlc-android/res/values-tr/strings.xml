@@ -310,11 +310,11 @@
     <!--Widget-->
     <string name="widget_name_w">Beyaz VLC Gereci</string>
     <string name="widget_name_b">Koyu VLC Gereci</string>
-    <string name="allow_storage_access_title">VLC\'ye görüntü ve ses dosyalarına erişmesi için izin ver</string>
+    <string name="allow_storage_access_title">VLC görüntü ve ses dosyalarına erişebilsin</string>
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gereksinim duyar.</string>
-    <string name="allow_settings_access_title">VLC\'ye zil sesi ayarlaması için izin ver</string>
+    <string name="allow_settings_access_title">VLC zil sesini ayarlayabilsin</string>
     <string name="allow_settings_access_description">VLC geçerli şarkıyı zil sesiniz olarak ayarlamak için bu izne gereksinim duyar.</string>
     <string name="permission_ask_again">İzin ver</string>
     <string name="exit_app">VLC\'yi kapat</string>
-    <string name="hardware_acceleration_error">donanım hızlandırma hatası, yazılım kodlamasına geçiliyor</string>
+    <string name="hardware_acceleration_error">donanım hızlandırma hatası, yazılımsal kod çözücüsüne geçiliyor</string>
 </resources>
