@@ -172,7 +172,7 @@
     <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Informações</string>
-    <string name="about_text">O VLC para Android™ é uma versão especial do reprodutor de multimédia VLC, o reprodutor de multimédia de código aberto. A versão para Android™ pode reproduzir a maioria dos ficheiros e trabsmissões de rede.</string>
+    <string name="about_text">O VLC para Android™ é uma versão especial do reprodutor de multimédia VLC, o reprodutor de multimédia de código aberto. A versão para Android™ pode reproduzir a maioria dos ficheiros e transmissões de rede.</string>
     <string name="compiled_by">Esta versão do VLC foi compilada por:</string>
     <string name="vlc_authors">Autores do VLC.</string>
     <!-- Preferences -->
@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">O VLC necessita desta permissão para definir uma faixa como toque de chamada.</string>
     <string name="permission_ask_again">Permitir</string>
     <string name="exit_app">Fechar o VLC</string>
+    <string name="hardware_acceleration_error">Erro de aceleração de hardware. A trocar para descodificação de software.</string>
 </resources>
