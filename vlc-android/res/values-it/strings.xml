@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">VLC ha bisogno di questo permesso per configurare questo brano come suoneria.</string>
     <string name="permission_ask_again">Accorda permesso</string>
     <string name="exit_app">Chiudi VLC</string>
+    <string name="hardware_acceleration_error">errore di accelerazione hardware, passaggio alla decodifica software</string>
 </resources>
