@@ -323,4 +323,5 @@
     <string name="allow_settings_access_description">VLC потрібно, що ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
     <string name="permission_ask_again">Надати дозвіл</string>
     <string name="exit_app">Закрити VLC</string>
+    <string name="hardware_acceleration_error">помилка апаратного прискорення, перемикання на програмне декодування</string>
 </resources>
