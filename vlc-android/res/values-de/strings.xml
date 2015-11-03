@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">VLC benötigt von Ihnen die Genehmigung zum Einstellen dieses Liedes als Klingelton.</string>
     <string name="permission_ask_again">Genehmigung erteilen</string>
     <string name="exit_app">VLC schließen</string>
+    <string name="hardware_acceleration_error">Fehler bei der Hardwarebeschleunigung, Wechsel auf die Softwaredekodierung</string>
 </resources>
