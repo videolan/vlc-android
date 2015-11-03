@@ -95,6 +95,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-libdsm \
     --enable-libarchive \
     --disable-libmpeg2 \
+    --enable-soxr \
 "
 
 ###########################
