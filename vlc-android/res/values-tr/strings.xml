@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">VLC geçerli şarkıyı zil sesiniz olarak ayarlamak için bu izne gereksinim duyar.</string>
     <string name="permission_ask_again">İzin ver</string>
     <string name="exit_app">VLC\'yi kapat</string>
+    <string name="hardware_acceleration_error">donanım hızlandırma hatası, yazılım kodlamasına geçiliyor</string>
 </resources>
