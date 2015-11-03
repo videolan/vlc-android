@@ -91,6 +91,8 @@ public class VLCOptions {
             options.add("--network-caching=" + networkCaching);
         options.add("--androidwindow-chroma");
         options.add(chroma != null ? chroma : "RV32");
+        options.add("--audio-resampler");
+        options.add(getResampler());
 
         options.add(verboseMode ? "-vvv" : "-vv");
         return options;
@@ -134,6 +136,11 @@ public class VLCOptions {
             ret = 3;
         }
         return ret;
+    }
+
+    private static String getResampler() {
+        final VLCUtil.MachineSpecs m = VLCUtil.getMachineSpecs();
+        return m.processors > 2 ? "soxr" : "ugly";
     }
 
     public static void setMediaOptions(Media media, Context context, int flags) {
