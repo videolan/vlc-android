@@ -323,4 +323,5 @@
     <string name="allow_settings_access_description">VLC prašo leisti pakeisti skambučio melodiją.</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="exit_app">Užverti VLC</string>
+    <string name="hardware_acceleration_error">aparatinio iškodavimo nepavyksta naudoti, naudosime programinį iškodavimą</string>
 </resources>
