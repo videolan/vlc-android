@@ -316,4 +316,5 @@
     <string name="allow_settings_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle asettaa tämä kappale soittoääneksi.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="exit_app">Sulje VLC</string>
+    <string name="hardware_acceleration_error">Laitteistokiihdytys virhe, vaihdetaan ohjelmistopurkuun</string>
 </resources>
