@@ -15,6 +15,7 @@
     <attr name="font_light" format="reference|color" />
     <attr name="font_actionbar" format="reference|color" />
     <attr name="font_actionbar_selected" format="reference|color" />
+    <attr name="navigationview_color" format="reference|color" />
     <attr name="video_player_overlay" format="reference|color" />
     <attr name="status_bar_overlay" format="reference|color" />
     <attr name="advanced_options_divider" format="reference|color" />
