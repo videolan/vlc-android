@@ -25,12 +25,12 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.MainThread;
 import android.support.v4.util.ArrayMap;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import org.videolan.vlc.BR;
@@ -43,10 +43,13 @@ import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
+public class VideoListAdapter extends BaseAdapter
                                  implements Comparator<MediaWrapper> {
 
     public final static int SORT_BY_TITLE = 0;
@@ -56,29 +59,23 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
     private VideoGridFragment mFragment;
+    private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
 
     public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_cone_o));
 
     public VideoListAdapter(VideoGridFragment fragment) {
-        super(fragment.getActivity(), 0);
+        super();
         mFragment = fragment;
     }
 
     public final static String TAG = "VLC/MediaLibraryAdapter";
 
-    public synchronized void update(MediaWrapper item) {
-        int position = getPosition(item);
-        if (position != -1) {
-            remove(item);
-            insert(item, position);
-        }
-    }
-
+    @MainThread
     public void setTimes(ArrayMap<String, Long> times) {
         boolean notify = false;
         // update times
         for (int i = 0; i < getCount(); ++i) {
-            MediaWrapper media = getItem(i);
+            MediaWrapper media = mVideos.get(i);
             Long time = times.get(media.getLocation());
             if (time != null) {
                 media.setTime(time);
@@ -133,7 +130,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     public void sort() {
         if (!isEmpty())
             try {
-                super.sort(this);
+                Collections.sort(mVideos, this);
             } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
     }
 
@@ -155,6 +152,49 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         return mSortDirection * compare;
     }
 
+    @Override
+    public int getCount() {
+        return mVideos.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mVideos.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0l;
+    }
+
+    public void add(MediaWrapper item) {
+        mVideos.add(item);
+    }
+
+    @MainThread
+    public void remove(MediaWrapper item) {
+        mVideos.remove(item);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(Collection<MediaWrapper> items) {
+        mVideos.clear();
+        mVideos.addAll(items);
+
+    }
+
+    @MainThread
+    public void update(MediaWrapper item) {
+        int position = mVideos.indexOf(item);
+        if (position != -1) {
+            mVideos.set(position, item);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        mVideos.clear();
+    }
     /**
      * Display the view of a file browser item.
      */
@@ -164,7 +204,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         View v = convertView;
 
         if (v == null || (((ViewHolder)v.getTag(R.layout.video_grid)).listmode != mListMode)) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             holder = new ViewHolder();
             holder.binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
@@ -178,7 +218,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
         if (position >= getCount() || position < 0)
             return v;
 
-        MediaWrapper media = getItem(position);
+        MediaWrapper media = mVideos.get(position);
         boolean asyncLoad = true;
 
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
@@ -224,7 +264,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
             group = true;
             MediaGroup mediaGroup = (MediaGroup) media;
             int size = mediaGroup.size();
-            resolution = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
+            resolution = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
         } else {
             group = false;
             /* Time / Duration */

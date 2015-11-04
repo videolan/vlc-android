@@ -69,7 +69,6 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -268,7 +267,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MediaWrapper media = mVideoAdapter.getItem(position);
+        MediaWrapper media = (MediaWrapper) mVideoAdapter.getItem(position);
         if (media == null)
             return;
         if (media instanceof MediaGroup) {
@@ -294,7 +293,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     private boolean handleContextItemSelected(MenuItem menu, int position) {
         if (position >= mVideoAdapter.getCount())
             return false;
-        MediaWrapper media = mVideoAdapter.getItem(position);
+        MediaWrapper media = (MediaWrapper) mVideoAdapter.getItem(position);
         if (media == null)
             return false;
         switch (menu.getItemId()){
@@ -330,7 +329,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         // Do not show the menu of media group.
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
-        MediaWrapper media = mVideoAdapter.getItem(info.position);
+        MediaWrapper media = (MediaWrapper) mVideoAdapter.getItem(info.position);
         if (media == null || media instanceof MediaGroup)
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
@@ -372,7 +371,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
         popupMenu.getMenuInflater().inflate(R.menu.video_list, popupMenu.getMenu());
-        MediaWrapper media = mVideoAdapter.getItem(position);
+        MediaWrapper media = (MediaWrapper) mVideoAdapter.getItem(position);
         if (media == null)
             return;
         setContextMenuItems(popupMenu.getMenu(), media);
@@ -393,6 +392,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void updateItem(MediaWrapper item) {
         mVideoAdapter.update(item);
     }
+
     private void focusHelper(boolean idIsEmpty) {
         View parent = getView();
         if (getActivity() == null || !(getActivity() instanceof MainActivity))
@@ -437,27 +437,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         }
                     }
 
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            private void addAllV7() {
-                                for (MediaWrapper item : displayList)
-                                    mVideoAdapter.add(item);
-                            }
-
-                            @TargetApi(android.os.Build.VERSION_CODES.HONEYCOMB)
-                            private void addAllV11() {
-                                mVideoAdapter.addAll(displayList);
-                            }
-                            @Override
-                            public void run() {
-                                mVideoAdapter.clear();
-                                if (AndroidUtil.isHoneycombOrLater())
-                                    addAllV11();
-                                else
-                                    addAllV7();
-                            }
-                        });
-                    }
+                    mVideoAdapter.addAll(displayList);
+                    mVideoAdapter.sort();
                     if (mReadyToDisplay)
                         display();
                 }
@@ -540,9 +521,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mVideoAdapter.notifyDataSetChanged();
                     mViewNomedia.setVisibility(mVideoAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
                     mReadyToDisplay = true;
-                    mVideoAdapter.sort();
                     mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
                     mGridView.setSelection(mGVFirstVisiblePos);
                     mGridView.requestFocus();
@@ -556,7 +537,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void deleteMedia(int position){
-        final MediaWrapper media = mVideoAdapter.getItem(position);
+        final MediaWrapper media = (MediaWrapper) mVideoAdapter.getItem(position);
         final String path = media.getUri().getPath();
         VLCApplication.runBackground(new Runnable() {
             public void run() {
