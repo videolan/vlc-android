@@ -323,4 +323,5 @@
     <string name="allow_settings_access_description">VLC potrebuje toto oprávnenie na nastavenie tejto skladby ako tónu zvonenia.</string>
     <string name="permission_ask_again">Udeliť oprávnenie</string>
     <string name="exit_app">Zavrieť VLC</string>
+    <string name="hardware_acceleration_error">chyba HW akcelerovania, prepínam na softvérové dekódovanie</string>
 </resources>
