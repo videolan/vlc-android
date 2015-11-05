@@ -25,7 +25,9 @@
     -->
 
     <uses-sdk
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="android.support.percent"/>
 
     <!-- FIXME Because manifest merger will add it otherwise... -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
