@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -41,10 +42,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -251,6 +249,15 @@ public class Util {
         });
     }
 
+    public static void openUri(final Context context, final Uri uri){
+        new DialogCallback(context, new DialogCallback.Runnable() {
+            @Override
+            public void run(PlaybackService service) {
+                service.loadUri(uri);
+            }
+        });
+    }
+
     public static void openStream(final Context context, final String uri){
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
@@ -274,6 +281,19 @@ public class Util {
             default:
                 return "";
             }
+        }
+    }
+
+    public static String getPathFromURI(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            close(cursor);
         }
     }
 
