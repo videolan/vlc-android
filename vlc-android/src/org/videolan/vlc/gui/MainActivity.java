@@ -42,6 +42,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -86,6 +87,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     private static final String PREF_FIRST_RUN = "first_run";
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
+    private static final int ACTIVITY_RESULT_OPEN = 2;
     private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
     private static final int ACTIVITY_SHOW_PROGRESSBAR = 3;
     private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
@@ -151,8 +153,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         setContentView(R.layout.main);
 
         mDrawerLayout = (HackyDrawerLayout) findViewById(R.id.root_container);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        mNavigationView.setNavigationItemSelectedListener(this);
+        setupNavigationView();
 
         initAudioPlayerContainerActivity();
 
@@ -203,6 +204,15 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         /* Reload the latest preferences */
         reloadPreferences();
+    }
+
+    private void setupNavigationView() {
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+            MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
+            item.setTitle(R.string.open);
+        }
     }
 
     @Override
@@ -569,6 +579,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                     startActivity(intent);
                 }
             }
+        } else if (requestCode == ACTIVITY_RESULT_OPEN){
+            Util.openUri(this, data.getData());
         }
     }
 
@@ -796,6 +808,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             case R.id.nav_settings:
                 startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 break;
+            case R.id.nav_directories:
+                if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("audio/* video/*");
+                    startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
+                    mDrawerLayout.closeDrawer(mNavigationView);
+                    return true;
+                }
             default:
                 /* Slide down the audio player */
                 slideDownAudioPlayer();
