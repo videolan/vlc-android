@@ -26,8 +26,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
@@ -375,10 +375,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
-        setContextMenuItems(menu, v);
+
+        int position = ((AdapterContextMenuInfo) menuInfo).position;
+        setContextMenuItems(menu, position);
     }
 
-    private void setContextMenuItems(Menu menu, View v) {
+    private void setContextMenuItems(Menu menu, int position) {
         final int pos = mViewPager.getCurrentItem();
         if (pos != MODE_SONG) {
             menu.setGroupVisible(R.id.songs_view_only, false);
@@ -390,7 +392,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
         else {
             MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
-            int position = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
             AudioBrowserListAdapter adapter = pos == MODE_SONG ? mSongsAdapter : mPlaylistAdapter;
             AudioBrowserListAdapter.ListItem mediaItem = adapter.getItem(position);
             if (pos == MODE_PLAYLIST && MediaDatabase.getInstance().playlistExists(mediaItem.mTitle))
@@ -832,7 +833,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
                 PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
                 popupMenu.getMenuInflater().inflate(R.menu.audio_list_browser, popupMenu.getMenu());
-                setContextMenuItems(popupMenu.getMenu(), anchor);
+                setContextMenuItems(popupMenu.getMenu(), position);
 
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
