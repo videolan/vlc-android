@@ -105,7 +105,7 @@
             android:background="@drawable/ic_more"
             android:tag="@{position}"
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE}"
-            android:onClick="@{@{handler.onMoreClick}}"
+            android:onClick="@{handler.onMoreClick}"
             android:clickable="@{hasContextMenu}" />
 
     </LinearLayout>
