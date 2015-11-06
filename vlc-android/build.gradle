@@ -154,10 +154,8 @@ android {
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += vlcVersion + "-" + variant.productFlavors.get(1).name + ".apk"
             output.outputFile = new File(output.outputFile.parentFile, outputName);
-        }
 
-        //set intents with correct package name
-        variant.outputs.each { output ->
+            //set intents with correct package name
             output.processManifest.doLast{
                 def manifestOutFile = output.processManifest.manifestOutputFile
                 def newFileContents = manifestOutFile.getText('UTF-8').replace("_PACKAGENAME_", variant.applicationId)
