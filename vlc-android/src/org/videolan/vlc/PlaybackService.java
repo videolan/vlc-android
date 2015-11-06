@@ -72,6 +72,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
 import java.io.File;
 import java.net.URI;
@@ -100,10 +101,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
     public static final String ACTION_REMOTE_RESUME_VIDEO = "org.videolan.vlc.remote.ResumeVideo";
-    public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
-    public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
-    public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
-    public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public interface Callback {
         void update();
@@ -235,7 +232,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         filter.addAction(ACTION_REMOTE_FORWARD);
         filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
         filter.addAction(ACTION_REMOTE_RESUME_VIDEO);
-        filter.addAction(ACTION_WIDGET_INIT);
+        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
@@ -526,7 +523,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 loadLastPlaylist();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_RESUME_VIDEO)) {
                 switchToVideo();
-            } else if (action.equalsIgnoreCase(ACTION_WIDGET_INIT)) {
+            } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_INIT)) {
                 updateWidget();
             }
 
@@ -1246,7 +1243,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private void updateWidgetState() {
-        Intent i = new Intent(ACTION_WIDGET_UPDATE);
+        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE);
 
         if (hasCurrentMedia()) {
             final MediaWrapper media = getCurrentMedia();
@@ -1265,7 +1262,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private void updateWidgetCover() {
-        Intent i = new Intent(ACTION_WIDGET_UPDATE_COVER);
+        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER);
 
         Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
         i.putExtra("cover", cover);
@@ -1283,7 +1280,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         updateWidgetState();
 
         mWidgetPositionTimestamp = timestamp;
-        Intent i = new Intent(ACTION_WIDGET_UPDATE_POSITION);
+        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION);
         i.putExtra("position", pos);
         sendBroadcast(i);
     }
