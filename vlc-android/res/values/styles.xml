@@ -15,7 +15,7 @@
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/VLCPreferenceTheme.Light</item>
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/orange700</item>
@@ -110,7 +110,7 @@
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/VLCPreferenceTheme.Dark</item>
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
@@ -236,6 +236,17 @@
     </style>
 
     <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <!--Preferences-->
+    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay">
+        <item name="android:textColorPrimary">@color/grey900</item>
+        <item name="android:textColorSecondary">@color/grey700</item>
+    </style>
+
+    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay">
+        <item name="android:textColorPrimary">@color/grey50</item>
+        <item name="android:textColorSecondary">@color/grey600</item>
+    </style>
 
     <!-- Tips Apearance-->
 
