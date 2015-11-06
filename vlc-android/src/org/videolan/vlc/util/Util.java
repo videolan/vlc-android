@@ -36,6 +36,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -179,13 +180,13 @@ public class Util {
     public static void actionScanStart() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_START);
-        VLCApplication.getAppContext().sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
     }
 
     public static void actionScanStop() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
-        VLCApplication.getAppContext().sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
     }
 
     private static class DialogCallback implements PlaybackService.Client.Callback {

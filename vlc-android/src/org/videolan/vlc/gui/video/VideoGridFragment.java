@@ -35,6 +35,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -158,7 +159,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         IntentFilter filter = new IntentFilter();
         filter.addAction(Util.ACTION_SCAN_START);
         filter.addAction(Util.ACTION_SCAN_STOP);
-        getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverVideoListFragment, filter);
         if (mMediaLibrary.isWorking()) {
             Util.actionScanStart();
         }
@@ -213,7 +214,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     @Override
     public void onDestroyView() {
-        getActivity().unregisterReceiver(messageReceiverVideoListFragment);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverVideoListFragment);
         super.onDestroyView();
     }
 
