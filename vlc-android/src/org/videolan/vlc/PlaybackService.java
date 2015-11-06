@@ -165,7 +165,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     /**
      * RemoteControlClient is for lock screen playback control.
      */
-    private RemoteControlClient mRemoteControlClient = null;
     private RemoteControlClientReceiver mRemoteControlClientReceiver = null;
     /**
      * Last widget position update timestamp
@@ -262,30 +261,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             initPhoneListener();
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             tm.listen(mPhoneStateListener, mPhoneEvents);
-        }
-    }
-
-    /**
-     * A function to control the Remote Control Client. It is needed for
-     * compatibility with devices below Ice Cream Sandwich (4.0).
-     *
-     * @param state Playback state
-     */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void setRemoteControlClientPlaybackState(int state) {
-        if (!AndroidUtil.isICSOrLater() || mRemoteControlClient == null)
-            return;
-
-        switch (state) {
-            case MediaPlayer.Event.Playing:
-                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-                break;
-            case MediaPlayer.Event.Paused:
-                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-                break;
-            case MediaPlayer.Event.Stopped:
-                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
-                break;
         }
     }
 
@@ -393,32 +368,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         };
     }
 
-    /**
-     * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
-     */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    public void changeRemoteControlClient(AudioManager am, boolean acquire) {
-        if (acquire) {
-            Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-            mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
-            PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
-
-            // create and register the remote control client
-            mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
-            am.registerRemoteControlClient(mRemoteControlClient);
-
-            mRemoteControlClient.setTransportControlFlags(
-                    RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
-                            RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
-                            RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
-                            RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
-                            RemoteControlClient.FLAG_KEY_MEDIA_STOP);
-        } else {
-            am.unregisterRemoteControlClient(mRemoteControlClient);
-            mRemoteControlClient = null;
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.FROYO)
     private void changeAudioFocusFroyoOrLater(boolean acquire) {
         final AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
@@ -431,9 +380,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     am.setParameters("bgm_state=true");
-                    am.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
-                    if (AndroidUtil.isICSOrLater())
-                        changeRemoteControlClient(am, acquire);
                     mHasAudioFocus = true;
                 }
             }
@@ -441,9 +387,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (mHasAudioFocus) {
                 final int result = am.abandonAudioFocus(mAudioFocusListener);
                 am.setParameters("bgm_state=false");
-                am.unregisterMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
-                if (AndroidUtil.isICSOrLater())
-                    changeRemoteControlClient(am, acquire);
                 mHasAudioFocus = false;
             }
         }
@@ -622,7 +565,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     }
 
                     changeAudioFocus(true);
-                    setRemoteControlClientPlaybackState(event.type);
                     showNotification();
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
@@ -633,7 +575,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     publishState(event.type);
                     executeUpdateProgress();
                     showNotification();
-                    setRemoteControlClientPlaybackState(event.type);
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
                     break;
@@ -642,7 +583,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     executeUpdate();
                     publishState(event.type);
                     executeUpdateProgress();
-                    setRemoteControlClientPlaybackState(event.type);
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
                     changeAudioFocus(false);
@@ -1004,7 +944,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             media.release();
         }
         mMediaList.removeEventListener(mListEventListener);
-        setRemoteControlClientPlaybackState(MediaPlayer.Event.Stopped);
         mCurrentIndex = -1;
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
