@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
 
 import android.app.Application;
 import android.content.Context;
@@ -40,7 +41,7 @@ public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
     private static VLCApplication instance;
 
-    public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
+    public final static String SLEEP_INTENT = Util.buildPkgString("SleepIntent");
 
     public static Calendar sPlayerSleepTime = null;
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */

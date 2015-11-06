@@ -43,6 +43,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -61,8 +62,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Util {
     public final static String TAG = "VLC/Util";
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    public static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
-    public static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
+    public static final String ACTION_SCAN_START = buildPkgString("gui.ScanStart");
+    public static final String ACTION_SCAN_STOP = buildPkgString("gui.ScanStop");
 
     /** Print an on-screen message to alert the user */
     public static void snacker(View view, int stringId) {
@@ -404,5 +405,9 @@ public class Util {
     public static boolean isBlackThemeEnabled() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return pref.getBoolean("enable_black_theme", false);
+    }
+
+    public static String buildPkgString(String string) {
+        return BuildConfig.APPLICATION_ID + "." + string;
     }
 }

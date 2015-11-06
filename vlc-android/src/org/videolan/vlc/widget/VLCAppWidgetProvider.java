@@ -36,20 +36,21 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.util.Util;
 
 abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
-    public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
-    public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
-    public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
-    public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
-    public static final String ACTION_WIDGET_PREFIX = "org.videolan.vlc.widget.";
-    public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
-    public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
-    public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
-    public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
+    public static final String ACTION_REMOTE_BACKWARD = Util.buildPkgString("remote.Backward");
+    public static final String ACTION_REMOTE_PLAYPAUSE = Util.buildPkgString("remote.PlayPause");
+    public static final String ACTION_REMOTE_STOP = Util.buildPkgString("remote.Stop");
+    public static final String ACTION_REMOTE_FORWARD = Util.buildPkgString("remote.Forward");
+    public static final String ACTION_WIDGET_PREFIX = Util.buildPkgString("widget.");
+    public static final String ACTION_WIDGET_INIT = ACTION_WIDGET_PREFIX+"INIT";
+    public static final String ACTION_WIDGET_UPDATE = ACTION_WIDGET_PREFIX+"UPDATE";
+    public static final String ACTION_WIDGET_UPDATE_COVER = ACTION_WIDGET_PREFIX+"UPDATE_COVER";
+    public static final String ACTION_WIDGET_UPDATE_POSITION = ACTION_WIDGET_PREFIX+"UPDATE_POSITION";
 
-    public static final String VLC_PACKAGE = "org.videolan.vlc";
+    public static final String VLC_PACKAGE = BuildConfig.APPLICATION_ID;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

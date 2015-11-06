@@ -58,7 +58,7 @@ import org.videolan.vlc.widget.HackyDrawerLayout;
 public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
-    public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
+    public static final String ACTION_SHOW_PLAYER = Util.buildPkgString("gui.ShowPlayer");
 
     protected static final String ID_VIDEO = "video";
     protected static final String ID_AUDIO = "audio";

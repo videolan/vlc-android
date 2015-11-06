@@ -92,15 +92,15 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
-    public static final String ACTION_REMOTE_GENERIC = "org.videolan.vlc.remote.";
-    public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
-    public static final String ACTION_REMOTE_PLAY = "org.videolan.vlc.remote.Play";
-    public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
-    public static final String ACTION_REMOTE_PAUSE = "org.videolan.vlc.remote.Pause";
-    public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
-    public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
-    public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
-    public static final String ACTION_REMOTE_RESUME_VIDEO = "org.videolan.vlc.remote.ResumeVideo";
+    public static final String ACTION_REMOTE_GENERIC =  Util.buildPkgString("remote.");
+    public static final String ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC+"Backward";
+    public static final String ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC+"Play";
+    public static final String ACTION_REMOTE_PLAYPAUSE = ACTION_REMOTE_GENERIC+"PlayPause";
+    public static final String ACTION_REMOTE_PAUSE = ACTION_REMOTE_GENERIC+"Pause";
+    public static final String ACTION_REMOTE_STOP = ACTION_REMOTE_GENERIC+"Stop";
+    public static final String ACTION_REMOTE_FORWARD = ACTION_REMOTE_GENERIC+"Forward";
+    public static final String ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC+"LastPlaylist";
+    public static final String ACTION_REMOTE_RESUME_VIDEO = ACTION_REMOTE_GENERIC+"ResumeVideo";
 
     public interface Callback {
         void update();

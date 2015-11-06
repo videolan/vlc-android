@@ -137,7 +137,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     // Internal intent identifier to distinguish between internal launch and
     // external intent.
-    public final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
+    public final static String PLAY_FROM_VIDEOGRID = Util.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID");
 
     public final static String PLAY_EXTRA_ITEM_LOCATION = "item_location";
     public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
@@ -145,7 +145,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static String PLAY_EXTRA_FROM_START = "from_start";
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
 
-    public final static String ACTION_RESULT = "org.videolan.vlc.player.result";
+    public final static String ACTION_RESULT = Util.buildPkgString("player.result");
     public final static String EXTRA_POSITION = "extra_position";
     public final static String EXTRA_DURATION = "extra_duration";
     public final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
