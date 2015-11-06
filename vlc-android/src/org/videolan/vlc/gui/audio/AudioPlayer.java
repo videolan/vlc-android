@@ -33,18 +33,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -117,7 +113,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPlaylistAdapter = new PlaylistAdapter();
+        mPlaylistAdapter = new PlaylistAdapter(this);
     }
 
     @Override
@@ -264,29 +260,23 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         getView().cancelLongPress();
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.audio_player, menu);
-    }
+    public void onPopupMenu(View anchor, final int position) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.audio_player, popupMenu.getMenu());
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if (getUserVisibleHint() && item.getMenuInfo() instanceof AdapterContextMenuInfo) {
-            AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-            if(info == null) // info can be null
-                return super.onContextItemSelected(item);
-            int id = item.getItemId();
-
-            if(id == R.id.audio_player_mini_remove) {
-                Log.d(TAG, "Context menu removing " + info.position);
-                if (mService != null)
-                    mService.remove(info.position);
-                return true;
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.audio_player_mini_remove) {
+                    if (mService != null) {
+                        mService.remove(position);
+                        return true;
+                    }
+                }
+                return false;
             }
-            return super.onContextItemSelected(item);
-        } else
-            return false;
+        });
+        popupMenu.show();
     }
 
     /**
@@ -386,8 +376,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     @Override
-    public void onMediaEvent(Media.Event event) {
-    }
+    public void onMediaEvent(Media.Event event) {}
 
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
@@ -408,8 +397,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         }
     }
 
-    private void updateList() {
-        int currentIndex = -1;
+    public void updateList() {
+        int currentIndex = -1, oldCount = mPlaylistAdapter.getItemCount();
         if (mService == null)
             return;
 
@@ -425,19 +414,20 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 if (currentItem != null && currentItem.equals(media.getLocation()))
                     currentIndex = i;
                 mPlaylistAdapter.add(media);
-                mPlaylistAdapter.notifyItemChanged(i);
             }
         }
         mPlaylistAdapter.setCurrentIndex(currentIndex);
-
-        mPlaylistAdapter.notifyItemChanged(currentIndex);
+        int count = mPlaylistAdapter.getItemCount();
+        if (oldCount != count)
+            mPlaylistAdapter.notifyDataSetChanged();
+        else
+            mPlaylistAdapter.notifyItemRangeChanged(0, count);
 
         final int selectionIndex = currentIndex;
         if (!previousAudioList.equals(audioList))
             mSongsList.post(new Runnable() {
                 @Override
                 public void run() {
-                    //TODO // FIXME: 30/10/15
                     mPlaylistAdapter.setCurrentIndex(selectionIndex);
                 }
             });

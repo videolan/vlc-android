@@ -20,7 +20,7 @@
             type="int"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/background_default">
@@ -31,6 +31,9 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/item_more"
             android:singleLine="true"
             android:ellipsize="middle"
             android:text="@{media.title}"
@@ -47,6 +50,10 @@
             android:layout_marginBottom="5dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/audio_item_title"
+            android:layout_toLeftOf="@+id/item_more"
             android:singleLine="true"
             android:ellipsize="middle"
             android:textColor="?attr/list_subtitle"
@@ -54,5 +61,19 @@
             android:textSize="12sp"
             android:tag="@{position}"
             android:onClick="@{handler.onClick}" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_more"
+            android:tag="@{position}"
+            android:onClick="@{handler.onMoreClick}"
+            android:clickable="true" />
+    </RelativeLayout>
 </layout>

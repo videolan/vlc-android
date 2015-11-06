@@ -25,7 +25,9 @@ package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,9 +48,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     private static final String TAG = "VLC/PlaylistAdapter";
     PlaybackService mService = null;
+    AudioPlayer mAudioPlayer;
 
     private ArrayList<MediaWrapper> mDataSet = new ArrayList<MediaWrapper>();
     private int mCurrentIndex = 0;
+
+    public PlaylistAdapter(AudioPlayer audioPlayer) {
+        mAudioPlayer = audioPlayer;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -107,11 +115,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (mService == null)
-            return;
-        mService.moveItem(fromPosition, toPosition);
         Collections.swap(mDataSet, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+        mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
 
     @Override
@@ -119,15 +125,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (mService == null)
             return;
         mService.remove(position);
-        mDataSet.remove(position);
-        notifyDataSetChanged();
     }
 
     public void setService(PlaybackService service) {
         mService = service;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         PlaylistItemBinding binding;
 
         public ViewHolder(View v) {
@@ -142,6 +146,46 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public void onClick(View v){
             if (mService != null)
                 mService.playIndex(((Integer)v.getTag()).intValue());
+        }
+        public void onMoreClick(View v){
+            mAudioPlayer.onPopupMenu(v, ((Integer)v.getTag()).intValue());
+        }
+    }
+
+    private PlaylistHandler mHandler = new PlaylistHandler(this);
+
+    private static class PlaylistHandler extends WeakHandler<PlaylistAdapter>{
+
+        public static final int ACTION_MOVE = 0;
+        public static final int ACTION_MOVED = 1;
+
+        int from = -1, to = -1;
+
+        public PlaylistHandler(PlaylistAdapter owner) {
+            super(owner);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case ACTION_MOVE:
+                    removeMessages(ACTION_MOVED);
+                    if (from == -1)
+                        from = msg.arg1;
+                    to = msg.arg2;
+                    sendEmptyMessageDelayed(ACTION_MOVED, 1000);
+                    break;
+                case ACTION_MOVED:
+                    PlaybackService service = getOwner().mService;
+                    if (from != -1 && to != -1 && service == null)
+                        return;
+                    if (to > from)
+                        ++to;
+                    service.moveItem(from, to);
+                    from = to = -1;
+                    getOwner().mAudioPlayer.updateList();
+                    break;
+            }
         }
     }
 }
