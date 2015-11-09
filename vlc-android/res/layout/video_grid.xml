@@ -7,7 +7,7 @@
                 android:id="@+id/swipeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-        <GridView
+        <org.videolan.vlc.view.AutoFitRecyclerView
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

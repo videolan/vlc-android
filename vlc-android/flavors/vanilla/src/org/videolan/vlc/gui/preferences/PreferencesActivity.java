@@ -113,10 +113,14 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     }
 
     public void exitAndRescan(){
-        setResult(RESULT_RESTART);
+        setRestart();
         Intent intent = getIntent();
         finish();
         startActivity(intent);
+    }
+
+    public void setRestart(){
+        setResult(RESULT_RESTART);
     }
 
     public void detectHeadset(boolean detect){

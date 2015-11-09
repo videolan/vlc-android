@@ -66,6 +66,9 @@ public class PreferencesUi extends BasePreferenceFragment {
             case "enable_steal_remote_control":
                 PlaybackService.Client.restartService(getActivity());
                 return true;
+            case "force_list_portrait":
+                ((PreferencesActivity) getActivity()).setRestart();
+                return true;
         }
         return super.onPreferenceTreeClick(preference);
     }

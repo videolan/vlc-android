@@ -27,20 +27,21 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import org.videolan.vlc.BR;
-import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
@@ -49,11 +50,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-public class VideoListAdapter extends BaseAdapter
-                                 implements Comparator<MediaWrapper> {
+public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder>
+        implements Comparator<MediaWrapper>, View.OnLongClickListener {
+
+    public final static String TAG = "VLC/VideoListAdapter";
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
+
+    public final static int TYPE_LIST = 0;
+    public final static int TYPE_GRID = 1;
+
     public final static int SORT_BY_DATE = 2;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
@@ -68,13 +75,48 @@ public class VideoListAdapter extends BaseAdapter
         mFragment = fragment;
     }
 
-    public final static String TAG = "VLC/MediaLibraryAdapter";
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        boolean listMode = viewType == TYPE_LIST;
+        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+        return new ViewHolder(v, listMode);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        MediaWrapper media = mVideos.get(position);
+        boolean asyncLoad = true;
+
+        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
+        final Bitmap bitmap = BitmapUtil.getPictureFromCache(media);
+        if (bitmap != null) {
+            if (bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
+                asyncLoad = false;
+                holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            } else
+                holder.binding.setVariable(BR.cover, DEFAULT_COVER);
+        } else {
+            holder.binding.setVariable(BR.cover, DEFAULT_COVER);
+        }
+
+        fillView(holder, media);
+
+        holder.binding.setVariable(BR.position, position);
+        holder.binding.setVariable(BR.media, media);
+        holder.binding.setVariable(BR.handler, mClickHandler);
+        holder.binding.executePendingBindings();
+        holder.itemView.setOnLongClickListener(this);
+        if (asyncLoad)
+            AsyncImageLoader.LoadImage(new VideoCoverFetcher(holder.binding, media), null);
+    }
 
     @MainThread
     public void setTimes(ArrayMap<String, Long> times) {
         boolean notify = false;
         // update times
-        for (int i = 0; i < getCount(); ++i) {
+        for (int i = 0; i < getItemCount(); ++i) {
             MediaWrapper media = mVideos.get(i);
             Long time = times.get(media.getLocation());
             if (time != null) {
@@ -134,6 +176,11 @@ public class VideoListAdapter extends BaseAdapter
             } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
     }
 
+    public boolean isEmpty()
+    {
+        return mVideos.isEmpty();
+    }
+
     @Override
     public int compare(MediaWrapper item1, MediaWrapper item2) {
         int compare = 0;
@@ -152,19 +199,8 @@ public class VideoListAdapter extends BaseAdapter
         return mSortDirection * compare;
     }
 
-    @Override
-    public int getCount() {
-        return mVideos.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
+    public MediaWrapper getItem(int position) {
         return mVideos.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0l;
     }
 
     public void add(MediaWrapper item) {
@@ -189,68 +225,11 @@ public class VideoListAdapter extends BaseAdapter
         if (position != -1) {
             mVideos.set(position, item);
         }
-        notifyDataSetChanged();
+        notifyItemChanged(position);
     }
 
     public void clear() {
         mVideos.clear();
-    }
-    /**
-     * Display the view of a file browser item.
-     */
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        View v = convertView;
-
-        if (v == null || (((ViewHolder)v.getTag(R.layout.video_grid)).listmode != mListMode)) {
-            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            holder = new ViewHolder();
-            holder.binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
-            v = holder.binding.getRoot();
-            holder.listmode = mListMode;
-            v.setTag(R.layout.video_grid, holder);
-        } else {
-            holder = (ViewHolder) v.getTag(R.layout.video_grid);
-        }
-
-        if (position >= getCount() || position < 0)
-            return v;
-
-        MediaWrapper media = mVideos.get(position);
-        boolean asyncLoad = true;
-
-        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-        final Bitmap bitmap = BitmapUtil.getPictureFromCache(media);
-        if (bitmap != null) {
-            if (bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
-                asyncLoad = false;
-                holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            } else
-                holder.binding.setVariable(BR.cover, DEFAULT_COVER);
-        } else {
-            holder.binding.setVariable(BR.cover, DEFAULT_COVER);
-        }
-
-        fillView(holder, media);
-
-        holder.binding.setVariable(BR.position, position);
-        holder.binding.setVariable(BR.media, media);
-        holder.binding.setVariable(BR.handler, mClickHandler);
-        holder.binding.executePendingBindings();
-        if (asyncLoad)
-            AsyncImageLoader.LoadImage(new VideoCoverFetcher(holder.binding, media), null);
-        return v;
-    }
-
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
-        public void onMoreClick(View v){
-            if (mFragment != null)
-                    mFragment.onContextPopupMenu(v, ((Integer)v.getTag()).intValue());
-        }
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
@@ -291,11 +270,6 @@ public class VideoListAdapter extends BaseAdapter
         holder.binding.setVariable(BR.progress, progress);
     }
 
-    static class ViewHolder {
-        boolean listmode;
-        ViewDataBinding binding;
-    }
-
     public void setListMode(boolean value) {
         mListMode = value;
     }
@@ -324,5 +298,53 @@ public class VideoListAdapter extends BaseAdapter
                 binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
             }
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0l;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mVideos.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        boolean listmode;
+        ViewDataBinding binding;
+
+        public ViewHolder(View itemView, boolean listMode) {
+            super(itemView);
+            binding = DataBindingUtil.bind(itemView);
+            this.listmode = listMode;
+        }
+    }
+
+    public ClickHandler mClickHandler = new ClickHandler();
+    public class ClickHandler {
+        public void onClick(View v){
+            MediaWrapper media = mVideos.get(((Integer) v.findViewById(R.id.item_more).getTag()).intValue());
+            MediaUtils.openMedia(v.getContext(), media);
+        }
+        public void onMoreClick(View v){
+            if (mFragment == null)
+                return;
+            mFragment.mGridView.openContextMenu(((Integer) v.getTag()).intValue());
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (mFragment == null)
+            return false;
+        int position = ((Integer) v.findViewById(R.id.item_more).getTag()).intValue();
+        mFragment.mGridView.openContextMenu(position);
+        return true;
     }
 }

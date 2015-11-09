@@ -56,7 +56,7 @@ public class ContextMenuRecyclerView extends RecyclerView {
         showContextMenu();
     }
 
-    private void createContextMenuInfo(int position) {
+    protected void createContextMenuInfo(int position) {
         if (mContextMenuInfo == null)
             mContextMenuInfo = new RecyclerContextMenuInfo(position);
         else

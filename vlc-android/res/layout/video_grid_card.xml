@@ -47,125 +47,133 @@
             type="org.videolan.vlc.gui.video.VideoListAdapter.ClickHandler" />
     </data>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        card_view:cardElevation="1sp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true">
-
-        <LinearLayout
-            android:id="@+id/layout_item"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dip"
+        android:longClickable="true"
+        android:clickable="true"
+        android:onClick="@{handler.onClick}">
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="@dimen/grid_card_width"
             android:layout_height="wrap_content"
-            android:background="?attr/background_default"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/ml_item_thumbnail"
-                android:layout_width="@dimen/grid_card_thumb_width"
-                android:layout_height="@dimen/grid_card_thumb_height"
-                android:background="?attr/background_default_darker"
-                android:scaleType="@{scaleType}"
-                android:src="@{cover}" />
+            android:layout_gravity="center"
+            card_view:cardElevation="1sp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="true">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layout_item"
+                android:layout_width="@dimen/grid_card_width"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/half_default_margin"
-                android:layout_marginTop="4dp"
+                android:background="?attr/background_default"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-light"
-                    android:lines="2"
-                    android:text=""
-                    android:textSize="@dimen/grid_card_title_text_size" />
-
-                <TextView
-                    android:id="@+id/ml_item_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="top"
-                    android:maxLines="2"
-                    android:text="@{media.displayTitle}"
-                    android:textColor="?attr/list_title"
-                    android:textSize="@dimen/grid_card_title_text_size" />
+                android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/item_more"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ml_item_thumbnail"
+                    android:layout_width="@dimen/grid_card_thumb_width"
+                    android:layout_height="@dimen/grid_card_thumb_height"
+                    android:background="?attr/background_default_darker"
+                    android:scaleType="@{scaleType}"
+                    android:src="@{cover}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:contentDescription="@string/more_actions"
-                    android:onClick="@{handler.onMoreClick}"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_more"
-                    android:tag="@{position}"
-                    android:visibility="@{group ? View.INVISIBLE : View.VISIBLE}" />
+                    android:layout_marginLeft="@dimen/half_default_margin"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-light"
+                        android:lines="2"
+                        android:text=""
+                        android:textSize="@dimen/grid_card_title_text_size" />
+
+                    <TextView
+                        android:id="@+id/ml_item_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="top"
+                        android:maxLines="2"
+                        android:text="@{media.displayTitle}"
+                        android:textColor="?attr/list_title"
+                        android:textSize="@dimen/grid_card_title_text_size" />
+
+                    <ImageView
+                        android:id="@+id/item_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:contentDescription="@string/more_actions"
+                        android:onClick="@{handler.onMoreClick}"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_more"
+                        android:tag="@{position}"
+                        android:visibility="@{group ? View.INVISIBLE : View.VISIBLE}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/half_default_margin"
+                    android:layout_marginRight="@dimen/half_default_margin"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ml_item_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:text="@{time}"
+                        android:textColor="?attr/list_subtitle"
+                        android:textSize="@dimen/grid_card_subtitle_text_size" />
+
+                    <TextView
+                        android:id="@+id/ml_item_resolution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:text="@{resolution}"
+                        android:textColor="?attr/list_subtitle"
+                        android:textSize="@dimen/grid_card_subtitle_text_size" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/ml_item_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:focusable="false"
+                    android:indeterminate="false"
+                    android:max="@{max}"
+                    android:maxHeight="2dip"
+                    android:minHeight="2dip"
+                    android:progress="@{progress}"
+                    android:progressDrawable="?attr/gridview_progressbar"
+                    android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/half_default_margin"
-                android:layout_marginRight="@dimen/half_default_margin"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ml_item_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:singleLine="true"
-                    android:text="@{time}"
-                    android:textColor="?attr/list_subtitle"
-                    android:textSize="@dimen/grid_card_subtitle_text_size" />
-
-                <TextView
-                    android:id="@+id/ml_item_resolution"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:text="@{resolution}"
-                    android:textColor="?attr/list_subtitle"
-                    android:textSize="@dimen/grid_card_subtitle_text_size" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/ml_item_progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:focusable="false"
-                android:indeterminate="false"
-                android:max="@{max}"
-                android:maxHeight="2dip"
-                android:minHeight="2dip"
-                android:progress="@{progress}"
-                android:progressDrawable="?attr/gridview_progressbar"
-                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
 </layout>

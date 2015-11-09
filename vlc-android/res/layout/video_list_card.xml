@@ -54,7 +54,10 @@
         android:orientation="horizontal"
         card_view:cardElevation="1sp"
         card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        android:clickable="true"
+        android:onClick="@{handler.onClick}"
+        android:longClickable="true">
 
         <LinearLayout
             android:layout_width="match_parent"

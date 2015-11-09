@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,12 +39,12 @@ public class VideoGridAnimator {
 
     public final static String TAG = "VLC/VideoGridAnimator";
 
-    private final GridView mGridView;
+    private final RecyclerView mGridView;
     private boolean isAnimating = false;
     private int mLastNItems;
     private int mAnimationsRunning = 0;
 
-    public VideoGridAnimator(GridView gridview) {
+    public VideoGridAnimator(RecyclerView gridview) {
         mGridView = gridview;
         mGridView.setOnHierarchyChangeListener(mHCL);
     }
