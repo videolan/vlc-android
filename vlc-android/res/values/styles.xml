@@ -37,7 +37,7 @@
         <item name="font_light">@color/grey600</item>
         <item name="font_actionbar">@color/orange200</item>
         <item name="font_actionbar_selected">@color/grey50</item>
-        <item name="navigationview_color">@color/navigationview_color</item>
+        <item name="navigationview_item_color">@color/navigationview_color</item>
         <item name="list_menu">@color/grey600</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
@@ -58,14 +58,6 @@
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_close">@drawable/ic_close</item>
         <item name="ic_save">@drawable/ic_save</item>
-        <item name="ic_menu_video">@drawable/ic_menu_video</item>
-        <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
-        <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
-        <item name="ic_menu_history">@drawable/ic_menu_history</item>
-        <item name="ic_menu_openmrl">@drawable/ic_menu_goto</item>
-        <item name="ic_menu_network">@drawable/ic_menu_network</item>
-        <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
-        <item name="ic_menu_cone">@drawable/ic_menu_cone</item>
         <item name="ic_move_media">@drawable/ic_move_media</item>
         <item name="ic_trash_small_normal">@drawable/ic_trash_small_normal</item>
         <item name="shadow_top_9patch">@drawable/shadow_top</item>
@@ -132,7 +124,7 @@
         <item name="font_light">@color/grey600</item>
         <item name="font_actionbar">@color/grey600</item>
         <item name="font_actionbar_selected">@color/grey200</item>
-        <item name="navigationview_color">@color/navigationview_color_dark</item>
+        <item name="navigationview_item_color">@color/navigationview_color_dark</item>
         <item name="list_menu">@color/grey50</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
@@ -153,14 +145,6 @@
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_close">@drawable/ic_close_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
-        <item name="ic_menu_video">@drawable/ic_menu_video_w</item>
-        <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
-        <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
-        <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
-        <item name="ic_menu_openmrl">@drawable/ic_menu_goto_w</item>
-        <item name="ic_menu_network">@drawable/ic_menu_network_w</item>
-        <item name="ic_menu_preferences">@drawable/ic_menu_preferences_w</item>
-        <item name="ic_menu_cone">@drawable/ic_menu_cone_w</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>
         <item name="ic_trash_small_normal">@drawable/ic_trash_small_normal_w</item>
         <item name="shadow_top_9patch">@drawable/shadow_top_dark</item>

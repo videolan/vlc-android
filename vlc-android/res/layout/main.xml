@@ -84,8 +84,8 @@
             android:paddingTop="?attr/actionBarSize"
             android:layout_gravity="start"
             app:menu="@menu/navigation"
-            app:itemTextColor="?attr/navigationview_color"
-            app:itemIconTint="?attr/navigationview_color" />
+            app:itemTextColor="?attr/navigationview_item_color"
+            app:itemIconTint="?attr/navigationview_item_color" />
 
     </org.videolan.vlc.widget.HackyDrawerLayout>
 
