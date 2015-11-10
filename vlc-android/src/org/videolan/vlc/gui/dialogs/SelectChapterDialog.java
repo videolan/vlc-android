@@ -36,8 +36,8 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         Window window = getDialog().getWindow();
-        window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+        window.setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
     }

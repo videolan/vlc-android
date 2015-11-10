@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Strings {
-    public final static String TAG = "VLC/Util/Strings";
+    public final static String TAG = "VLC/UiTools/Strings";
 
     public static String stripTrailingSlash(String s) {
         if( s.endsWith("/") && s.length() > 1 )

@@ -35,7 +35,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 public class BitmapUtil {
-    public final static String TAG = "VLC/Util/BitmapUtil";
+    public final static String TAG = "VLC/UiTools/BitmapUtil";
 
     public static Bitmap cropBorders(Bitmap bitmap, int width, int height)
     {

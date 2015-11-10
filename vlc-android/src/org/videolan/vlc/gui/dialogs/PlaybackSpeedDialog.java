@@ -35,8 +35,8 @@ import android.widget.TextView;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {
 
@@ -86,7 +86,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         Window window = getDialog().getWindow();
-        window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+        window.setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
     }
@@ -139,7 +139,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
             mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));
         } else {
-            mPlaybackSpeedIcon.setImageResource(Util.getResourceFromAttribute(getActivity(), R.attr.ic_speed_normal_style));
+            mPlaybackSpeedIcon.setImageResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_speed_normal_style));
             mSpeedValue.setTextColor(mTextColor);
         }
 

@@ -36,6 +36,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -119,7 +120,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
         setLocalePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Util.snacker(getView().findViewById(android.R.id.content), R.string.set_locale_popup);
+                UiTools.snacker(getView().findViewById(android.R.id.content), R.string.set_locale_popup);
                 return true;
             }
         });
@@ -162,7 +163,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
                 getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
-                Util.snacker(getView(), R.string.media_db_cleared);
+                UiTools.snacker(getView(), R.string.media_db_cleared);
                 return true;
             case "quit_app":
                 android.os.Process.killProcess(android.os.Process.myPid());

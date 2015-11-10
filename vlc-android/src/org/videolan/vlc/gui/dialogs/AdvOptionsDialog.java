@@ -43,10 +43,10 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.util.Calendar;
 
@@ -94,7 +94,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         else
             mMode = MODE_VIDEO;
 
-        mTheme = (mMode == MODE_VIDEO || Util.isBlackThemeEnabled()) ?
+        mTheme = (mMode == MODE_VIDEO || UiTools.isBlackThemeEnabled()) ?
                 R.style.Theme_VLC_Black :
                 R.style.Theme_VLC;
         setStyle(DialogFragment.STYLE_NO_FRAME, mTheme);
@@ -172,7 +172,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     R.dimen.adv_options_music_width);
             int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
             getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
-            getDialog().getWindow().setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+            getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         }
         return root;
     }
@@ -255,7 +255,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (mService.getRate() == 1.0f) {
             mPlaybackSpeed.setText(null);
             mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
-                    Util.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style),
+                    UiTools.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style),
                     0, 0);
         } else {
             mPlaybackSpeed.setText(Strings.formatRateString(mService.getRate()));
@@ -267,7 +267,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         String text = null;
         if (VLCApplication.sPlayerSleepTime == null) {
             mSleep.setCompoundDrawablesWithIntrinsicBounds(0,
-                    Util.getResourceFromAttribute(mActivity, R.attr.ic_sleep_normal_style),
+                    UiTools.getResourceFromAttribute(mActivity, R.attr.ic_sleep_normal_style),
                     0, 0);
         } else {
             mSleep.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_sleep_on, 0, 0);
@@ -360,13 +360,13 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mPlaybackSpeed.setEnabled(mService.isSeekable());
         mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
                 mService.isSeekable()
-                        ? Util.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style)
+                        ? UiTools.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style)
                         : R.drawable.ic_speed_disable,
                 0, 0);
         mJumpTitle.setEnabled(mService.isSeekable());
         mJumpTitle.setCompoundDrawablesWithIntrinsicBounds(0,
                 mService.isSeekable()
-                        ? Util.getResourceFromAttribute(mActivity, R.attr.ic_jumpto_normal_style)
+                        ? UiTools.getResourceFromAttribute(mActivity, R.attr.ic_jumpto_normal_style)
                         : R.drawable.ic_jumpto_disable,
                 0, 0);
 
@@ -389,7 +389,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             if (audiodelay == 0l) {
                 mAudioDelay.setText(null);
                 mAudioDelay.setCompoundDrawablesWithIntrinsicBounds(0,
-                        Util.getResourceFromAttribute(mActivity, R.attr.ic_audiodelay),
+                        UiTools.getResourceFromAttribute(mActivity, R.attr.ic_audiodelay),
                         0, 0);
             } else {
                 mAudioDelay.setText(Long.toString(audiodelay) + " ms");
@@ -403,7 +403,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             if (spudelay == 0l) {
                 mSpuDelay.setText(null);
                 mSpuDelay.setCompoundDrawablesWithIntrinsicBounds(0,
-                        Util.getResourceFromAttribute(mActivity, R.attr.ic_subtitledelay),
+                        UiTools.getResourceFromAttribute(mActivity, R.attr.ic_subtitledelay),
                         0, 0);
             } else {
                 mSpuDelay.setText(Long.toString(spudelay) + " ms");

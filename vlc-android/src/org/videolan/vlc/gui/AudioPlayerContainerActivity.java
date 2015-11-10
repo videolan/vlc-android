@@ -45,6 +45,7 @@ import android.widget.TextView;
 import com.android.widget.SlidingPaneLayout;
 
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -292,7 +293,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
         @Override
         public void onPanelOpened() {
-            int resId = Util.getResourceFromAttribute(AudioPlayerContainerActivity.this, R.attr.shadow_bottom_9patch);
+            int resId = UiTools.getResourceFromAttribute(AudioPlayerContainerActivity.this, R.attr.shadow_bottom_9patch);
             if (resId != 0)
                 mSlidingPane.setShadowResource(resId);
             mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);

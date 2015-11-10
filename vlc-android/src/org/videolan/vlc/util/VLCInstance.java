@@ -32,7 +32,7 @@ import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
 public class VLCInstance {
-    public final static String TAG = "VLC/Util/VLCInstance";
+    public final static String TAG = "VLC/UiTools/VLCInstance";
 
     private static LibVLC sLibVLC = null;
 

@@ -27,15 +27,13 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.gui.helpers.UiTools;
 
 public abstract class PickTimeFragment extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener,
         PlaybackService.Client.Callback {
@@ -67,7 +65,7 @@ public abstract class PickTimeFragment extends DialogFragment implements View.On
         View view = inflater.inflate(R.layout.dialog_time_picker, container);
         mTVTimeToJump = (TextView) view.findViewById(R.id.tim_pic_timetojump);
         ((TextView)view.findViewById(R.id.tim_pic_title)).setText(getTitle());
-        ((ImageView) view.findViewById(R.id.tim_pic_icon)).setImageResource(Util.getResourceFromAttribute(getActivity(), getIcon()));
+        ((ImageView) view.findViewById(R.id.tim_pic_icon)).setImageResource(UiTools.getResourceFromAttribute(getActivity(), getIcon()));
 
         view.findViewById(R.id.tim_pic_1).setOnClickListener(this);
         view.findViewById(R.id.tim_pic_1).setOnFocusChangeListener(this);
@@ -108,7 +106,7 @@ public abstract class PickTimeFragment extends DialogFragment implements View.On
             int dialogWidth = getResources().getDimensionPixelSize(R.dimen.dialog_time_picker_width);
             int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
             getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
-            getDialog().getWindow().setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+            getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         }
         return view;
     }

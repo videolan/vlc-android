@@ -50,6 +50,7 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -206,10 +207,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             }
         });
         mNext.setOnTouchListener(new LongSeekListener(true,
-                Util.getResourceFromAttribute(getActivity(), R.attr.ic_next),
+                UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_next),
                 R.drawable.ic_next_pressed));
         mPrevious.setOnTouchListener(new LongSeekListener(false,
-                Util.getResourceFromAttribute(getActivity(), R.attr.ic_previous),
+                UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_previous),
                 R.drawable.ic_previous_pressed));
         mShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,11 +236,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             public void onClick(View v) {
                 mSwitcher.showNext();
                 if (mSwitcher.getDisplayedChild() == 0)
-                    mPlaylistSwitch.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                                     R.attr.ic_playlist_on));
+                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(getActivity(),
+                            R.attr.ic_playlist_on));
                 else
-                    mPlaylistSwitch.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                                     R.attr.ic_playlist));
+                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(getActivity(),
+                            R.attr.ic_playlist));
             }
         });
         registerForContextMenu(mSongsList);
@@ -316,35 +317,35 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mResumeToVideo.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
 
         if (mService.isPlaying()) {
-            mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
+            mPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
             mPlayPause.setContentDescription(getString(R.string.pause));
-            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
+            mHeaderPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
             mHeaderPlayPause.setContentDescription(getString(R.string.pause));
         } else {
-            mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
+            mPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
             mPlayPause.setContentDescription(getString(R.string.play));
-            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
+            mHeaderPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mService.isShuffling()) {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
+            mShuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle_on));
         } else {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle));
+            mShuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle));
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle));
         }
         switch(mService.getRepeatType()) {
         case PlaybackService.REPEAT_NONE:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat));
+            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat));
             break;
         case PlaybackService.REPEAT_ONE:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_one));
+            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat_single));
             break;
         default:
         case PlaybackService.REPEAT_ALL:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_on));
+            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_on));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
             break;
         }

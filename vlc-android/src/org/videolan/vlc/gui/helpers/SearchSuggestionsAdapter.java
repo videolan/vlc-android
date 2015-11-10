@@ -54,7 +54,7 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
     public SearchSuggestionsAdapter(Context context, Cursor cursor){
         super(context, cursor, false);
         activity = (SuggestionDisplay) context;
-        backgroundColor = Util.getColorFromAttribute(context, R.attr.background_menu);
+        backgroundColor = UiTools.getColorFromAttribute(context, R.attr.background_menu);
     }
 
     @Override

@@ -27,7 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class Preferences {
-    public final static String TAG = "VLC/Util/Preferences";
+    public final static String TAG = "VLC/UiTools/Preferences";
 
     public static float[] getFloatArray(SharedPreferences pref, String key) {
         float[] array = null;

@@ -58,6 +58,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
@@ -679,7 +680,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 (v.getNextFocusUpId() == -1) &&
                 (v.getNextFocusLeftId() == -1) &&
                 (v.getNextFocusRightId() == -1)) {
-            mActionBarIconId = Util.generateViewId();
+            mActionBarIconId = UiTools.generateViewId();
             v.setId(mActionBarIconId);
             v.setNextFocusUpId(mActionBarIconId);
             v.setNextFocusDownId(mActionBarIconId);

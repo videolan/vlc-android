@@ -40,6 +40,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import org.videolan.vlc.BR;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -333,7 +334,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             holder = new ViewHolder();
             holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
             v = holder.binding.getRoot();
-            Util.setAlignModeByPref(mAlignMode, (TextView) v.findViewById(R.id.title));
+            UiTools.setAlignModeByPref(mAlignMode, (TextView) v.findViewById(R.id.title));
             holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
         }

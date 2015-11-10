@@ -29,7 +29,7 @@ import android.widget.ListView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.gui.helpers.UiTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +132,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
             android.text.ClipboardManager clipboard = (android.text.ClipboardManager)VLCApplication.getAppContext().getSystemService(CLIPBOARD_SERVICE);
             clipboard.setText(buffer);
 
-            Util.snacker(v.getRootView(), R.string.copied_to_clipboard);
+            UiTools.snacker(v.getRootView(), R.string.copied_to_clipboard);
         }
     };
 
@@ -168,11 +168,11 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
     @Override
     public void onSaved(boolean success, String path) {
         if (success) {
-            Util.snacker(getWindow().getDecorView().findViewById(android.R.id.content), String.format(
+            UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), String.format(
                     VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
                     path));
         } else {
-            Util.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.dump_logcat_failure);
+            UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.dump_logcat_failure);
         }
     }
 }

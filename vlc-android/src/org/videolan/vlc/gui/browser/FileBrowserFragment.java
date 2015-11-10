@@ -36,15 +36,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.io.File;
 
@@ -176,7 +176,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 String path = input.getText().toString().trim();
                 File f = new File(path);
                 if (!f.exists() || !f.isDirectory()) {
-                    Util.snacker(getView(), getString(R.string.directorynotfound, path));
+                    UiTools.snacker(getView(), getString(R.string.directorynotfound, path));
                     return;
                 }
 

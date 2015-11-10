@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class AndroidDevices {
-    public final static String TAG = "VLC/Util/AndroidDevices";
+    public final static String TAG = "VLC/UiTools/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
 
     public static final int PERMISSION_STORAGE_TAG = 255;

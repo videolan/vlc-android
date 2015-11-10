@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -72,8 +73,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.binding.setMedia(media);
         holder.binding.setSubTitle(Util.getMediaSubtitle(ctx, media));
         holder.binding.setTitleColor(mCurrentIndex == position
-                ? Util.getColorFromAttribute(ctx, R.attr.list_title_last)
-                : Util.getColorFromAttribute(ctx, R.attr.list_title));
+                ? UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
+                : UiTools.getColorFromAttribute(ctx, R.attr.list_title));
     }
 
     @Override

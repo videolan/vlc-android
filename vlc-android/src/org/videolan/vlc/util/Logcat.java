@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class Logcat implements Runnable {
-    public final static String TAG = "VLC/Util/Logcat";
+    public final static String TAG = "VLC/UiTools/Logcat";
     private Callback mCallback = null;
     private Thread mThread = null;
     private Process mProcess = null;
