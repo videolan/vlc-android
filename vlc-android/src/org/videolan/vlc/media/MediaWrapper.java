@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.vlc.media;
 
 import java.util.Locale;
 
@@ -310,7 +310,7 @@ public class MediaWrapper implements Parcelable {
     /**
      * Sets the raw picture object.
      *
-     * In VLC for Android, use {@link org.videolan.vlc.MediaDatabase#setPicture(MediaWrapper, Bitmap)} instead.
+     * In VLC for Android, use {@link MediaDatabase#setPicture(MediaWrapper, Bitmap)} instead.
      *
      * @param p
      */

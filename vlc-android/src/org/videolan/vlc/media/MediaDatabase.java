@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.vlc.media;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -45,6 +45,7 @@ import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.VLCApplication;
 
 public class MediaDatabase {
     public final static String TAG = "VLC/MediaDatabase";

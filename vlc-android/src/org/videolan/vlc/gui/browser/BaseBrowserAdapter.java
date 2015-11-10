@@ -32,8 +32,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;

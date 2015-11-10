@@ -36,7 +36,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
-import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;

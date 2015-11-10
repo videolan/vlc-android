@@ -45,7 +45,7 @@ import android.widget.TextView;
 import com.android.widget.SlidingPaneLayout;
 
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;

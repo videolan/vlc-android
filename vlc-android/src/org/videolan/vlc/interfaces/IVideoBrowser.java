@@ -20,9 +20,7 @@
 
 package org.videolan.vlc.interfaces;
 
-import java.util.concurrent.BrokenBarrierException;
-
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 
 public interface IVideoBrowser extends IBrowser {
     public void setItemToUpdate(MediaWrapper item);

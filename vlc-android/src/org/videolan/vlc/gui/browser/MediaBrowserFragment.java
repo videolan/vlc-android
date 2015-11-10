@@ -25,7 +25,7 @@ package org.videolan.vlc.gui.browser;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 

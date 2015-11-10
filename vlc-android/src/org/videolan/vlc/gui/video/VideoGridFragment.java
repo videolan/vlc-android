@@ -58,12 +58,12 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaGroup;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;

@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
 

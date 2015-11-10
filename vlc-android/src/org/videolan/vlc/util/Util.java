@@ -45,7 +45,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;

@@ -36,7 +36,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;

@@ -31,7 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.PlaylistItemBinding;

@@ -31,7 +31,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 

@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.vlc.media;
 
 import android.net.Uri;
 import android.os.Environment;
@@ -32,6 +32,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;

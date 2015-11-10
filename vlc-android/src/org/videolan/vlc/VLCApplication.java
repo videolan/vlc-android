@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.Util;
 
 import android.app.Application;

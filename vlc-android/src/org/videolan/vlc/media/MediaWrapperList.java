@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc;
+package org.videolan.vlc.media;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;

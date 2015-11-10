@@ -42,7 +42,7 @@ import android.support.v4.util.ArrayMap;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;

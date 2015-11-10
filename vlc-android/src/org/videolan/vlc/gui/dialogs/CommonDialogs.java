@@ -25,7 +25,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;

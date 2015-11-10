@@ -47,12 +47,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;

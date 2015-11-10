@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.vlc.media;
 
 import java.lang.Thread.State;
 import java.lang.ref.WeakReference;
@@ -30,6 +30,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;

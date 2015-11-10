@@ -34,8 +34,8 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.helpers.MediaComparators;

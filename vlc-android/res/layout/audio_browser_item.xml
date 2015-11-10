@@ -11,7 +11,7 @@
             type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
         <variable
             name="media"
-            type="org.videolan.vlc.MediaWrapper"/>
+            type="org.videolan.vlc.media.MediaWrapper"/>
         <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>

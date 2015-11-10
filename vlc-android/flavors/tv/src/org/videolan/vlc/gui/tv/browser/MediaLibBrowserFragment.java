@@ -25,8 +25,8 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.os.Bundle;
 
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Util;
 
 import java.util.concurrent.CyclicBarrier;

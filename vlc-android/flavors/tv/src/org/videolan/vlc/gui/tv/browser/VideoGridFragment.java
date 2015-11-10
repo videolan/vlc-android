@@ -28,9 +28,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.SimpleArrayMap;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.video.VideoListHandler;

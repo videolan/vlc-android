@@ -7,7 +7,7 @@
             type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ClickHandler"/>
         <variable
             name="media"
-            type="org.videolan.vlc.MediaWrapper"/>
+            type="org.videolan.vlc.media.MediaWrapper"/>
         <variable
             name="storage"
             type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.Storage"/>

@@ -22,7 +22,7 @@ package org.videolan.vlc.util;
 
 import android.text.TextUtils;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

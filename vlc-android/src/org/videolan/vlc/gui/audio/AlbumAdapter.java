@@ -32,7 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;

@@ -31,7 +31,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
 

@@ -34,7 +34,7 @@ import android.support.v17.leanback.widget.RowPresenter;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.DetailsActivity;

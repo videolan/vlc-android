@@ -32,13 +32,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.network.MRLAdapter;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;

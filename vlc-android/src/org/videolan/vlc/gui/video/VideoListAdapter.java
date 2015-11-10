@@ -34,8 +34,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import org.videolan.vlc.BR;
-import org.videolan.vlc.MediaGroup;
-import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
