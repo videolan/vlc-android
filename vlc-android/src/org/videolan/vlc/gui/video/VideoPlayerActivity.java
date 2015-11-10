@@ -110,6 +110,7 @@ import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -514,13 +515,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+            case Permissions.PERMISSION_STORAGE_TAG: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     loadMedia();
                 } else {
-                    AndroidDevices.showStoragePermissionDialog(this, true);
+                    Permissions.showStoragePermissionDialog(this, true);
                 }
                 return;
             }
@@ -1514,8 +1515,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         //We may not have the permission to access files
         if (TextUtils.equals(mUri.getScheme(), "file") &&
-                !AndroidDevices.canReadStorage()) {
-            AndroidDevices.checkReadStoragePermission(this, true);
+                !Permissions.canReadStorage()) {
+            Permissions.checkReadStoragePermission(this, true);
             return;
         }
         /* Encountered Error, exit player with a message */

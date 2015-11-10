@@ -58,9 +58,6 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -70,19 +67,22 @@ import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.helpers.SearchSuggestionsAdapter;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.HackyDrawerLayout;
 
 public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener {
     public final static String TAG = "VLC/MainActivity";
@@ -141,7 +141,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             Util.commitPreferences(editor);
         }
 
-        AndroidDevices.checkReadStoragePermission(this, false);
+        Permissions.checkReadStoragePermission(this, false);
 
         mMediaLibrary = MediaLibrary.getInstance();
         if (mMediaLibrary.getMediaItems().isEmpty()) {
@@ -222,13 +222,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case AndroidDevices.PERMISSION_STORAGE_TAG:
+            case Permissions.PERMISSION_STORAGE_TAG:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
                 } else {
-                    AndroidDevices.showStoragePermissionDialog(this, false);
+                    Permissions.showStoragePermissionDialog(this, false);
                 }
                 return;
             // other 'case' lines to check for other

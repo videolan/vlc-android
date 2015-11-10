@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             return;
         }
 
-        AndroidDevices.checkReadStoragePermission(this, false);
+        Permissions.checkReadStoragePermission(this, false);
 
         mContext = this;
         setContentView(R.layout.tv_main_fragment);
@@ -188,13 +189,13 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case AndroidDevices.PERMISSION_STORAGE_TAG: {
+            case Permissions.PERMISSION_STORAGE_TAG: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     refresh();
                 } else {
-                    AndroidDevices.showStoragePermissionDialog(this, false);
+                    Permissions.showStoragePermissionDialog(this, false);
                 }
                 return;
             }

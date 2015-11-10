@@ -44,6 +44,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.MurmurHash;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
 import java.io.BufferedOutputStream;
@@ -84,8 +85,8 @@ public class AudioUtil {
 
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Activity context){
-        if (!AndroidDevices.canWriteSettings(context)) {
-            AndroidDevices.checkWriteSettingsPermission(context);
+        if (!Permissions.canWriteSettings(context)) {
+            Permissions.checkWriteSettingsPermission(context);
             return;
         }
         File newringtone = AndroidUtil.UriToFile(song.getUri());
