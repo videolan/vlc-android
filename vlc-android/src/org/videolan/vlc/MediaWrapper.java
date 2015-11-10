@@ -20,15 +20,14 @@
 
 package org.videolan.vlc;
 
-import java.io.File;
 import java.util.Locale;
 
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.Media.Meta;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -300,7 +299,7 @@ public class MediaWrapper implements Parcelable {
      * Returns the raw picture object. Likely to be NULL in VLC for Android
      * due to lazy-loading.
      *
-     * Use {@link org.videolan.vlc.util.BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
+     * Use {@link BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
      *
      * @return The raw picture or NULL
      */

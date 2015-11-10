@@ -31,7 +31,6 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 
@@ -39,14 +38,13 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
-import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
 public class MusicFragment extends MediaLibBrowserFragment {
 

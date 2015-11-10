@@ -33,7 +33,7 @@ import android.widget.TextView;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;

@@ -45,7 +45,7 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;

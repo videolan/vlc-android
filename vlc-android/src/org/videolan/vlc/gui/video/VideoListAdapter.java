@@ -38,9 +38,9 @@ import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.AsyncImageLoader;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.BitmapUtil;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;

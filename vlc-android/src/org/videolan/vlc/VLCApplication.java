@@ -25,8 +25,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.util.Util;
 
 import android.app.Application;

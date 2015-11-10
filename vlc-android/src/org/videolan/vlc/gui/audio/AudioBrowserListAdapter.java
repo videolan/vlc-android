@@ -36,7 +36,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -44,9 +43,10 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
-import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;

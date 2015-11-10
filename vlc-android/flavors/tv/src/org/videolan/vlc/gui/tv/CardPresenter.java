@@ -35,10 +35,10 @@ import android.widget.ImageView;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.AsyncImageLoader;
-import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.vlc.util.BitmapUtil;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 public class CardPresenter extends Presenter {
 

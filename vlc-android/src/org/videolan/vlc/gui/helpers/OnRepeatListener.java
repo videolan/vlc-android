@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.widget;
+package org.videolan.vlc.gui.helpers;
 
 import android.os.Handler;
 import android.os.Message;

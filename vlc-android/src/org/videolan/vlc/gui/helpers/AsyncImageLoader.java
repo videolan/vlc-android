@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.helpers;
 
 import android.app.Activity;
 import android.databinding.OnRebindCallback;

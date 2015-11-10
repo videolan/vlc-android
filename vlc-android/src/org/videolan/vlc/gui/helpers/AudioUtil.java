@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.gui.audio;
+package org.videolan.vlc.gui.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -42,8 +42,6 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.MurmurHash;
 import org.videolan.vlc.util.Util;
 

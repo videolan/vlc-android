@@ -25,14 +25,13 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.interfaces.IVideoBrowser;
-import org.videolan.vlc.util.BitmapUtil;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
 
 import android.content.Context;

@@ -38,7 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
-import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Util;
 

@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.helpers;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
