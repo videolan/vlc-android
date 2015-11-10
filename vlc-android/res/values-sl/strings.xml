@@ -110,6 +110,8 @@
     <string name="previous">Prejšnji</string>
     <string name="stop">Ustavi</string>
     <string name="next">Naslednji</string>
+    <string name="firstsong">Prva skladba seznama predvajanja</string>
+    <string name="lastsong">Prva skladba seznama predvajanja</string>
     <string name="locked">Zaklenjeno</string>
     <string name="unlocked">Odklenjeno</string>
     <string name="surface_best_fit">Najboljše prileganje</string>
@@ -156,12 +158,12 @@
     <string name="open_mrl_dialog_msg">Vnesite MRL omrežja: npr. http://, mms:// ali rtsp://</string>
     <string name="error_not_compatible">Oprostite, ta različica VLC za Android™ trenutno ne podpira vaše naprave.</string>
     <string name="error_problem">Oprostite, pri nalaganju je prišlo do napake, zato se je moral VLC za Android zapreti.</string>
+    <string name="error_message_is">Sporočilo napake je (prosimo omenite pri razhroščevanju):\n</string>
     <string name="encountered_error_title">Napaka pri predvajanju</string>
+    <string name="encountered_error_message">VLC je odkril napako na tej predstavni vsebini.\nPoskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="invalid_location">Lokacije %1$s ni mogoče predvajati.</string>
     <string name="search">Poišči</string>
     <string name="search_history">Zgodovina iskanja</string>
-    <string name="hardware_acceleration_error_title">Napaka strojnega pospeševanja</string>
-    <string name="hardware_acceleration_error_message">Pri pospeševanju strojne opreme je prišlo do napake. Jo želite onemogočiti in poskusiti znova?</string>
     <!--Tips-->
     <string name="video_player_tips">Namigi predvajalnika:</string>
     <string name="seek">Išči</string>
@@ -195,6 +197,7 @@
     <string name="add_custom_path_description">Vnesite dodatno mapo za skeniranje:</string>
     <string name="remove_custom_path">Odstrani pot po meri</string>
     <string name="hardware_acceleration">Strojno pospeševanje</string>
+    <string name="hardware_acceleration_summary">Onemogočeno: večja stabilnost.\nOdkodiranje: lahko izboljša delovanje.\nPolno: lahko še bolj izboljša delovanje.</string>
     <string name="hardware_acceleration_disabled">Onemogočeno</string>
     <string name="hardware_acceleration_decoding">Pospeševanje dekodiranja</string>
     <string name="hardware_acceleration_full">Polno pospeševanje</string>
@@ -224,8 +227,8 @@
     <string name="interface_other_category">Vmesnik - drugo</string>
     <string name="enable_brightness_gesture">Omogoči gesto za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
-    <string name="enable_jump_buttons">Omogoči gumbe za skok</string>
-    <string name="enable_jump_buttons_summary">Pokaži gumba naprej in nazaj v vmesniku za video</string>
+    <string name="enable_seek_buttons">Omogoči gumbe za skok</string>
+    <string name="enable_seek_buttons_summary">Pokaži gumba naprej in nazaj v vmesniku za video</string>
     <string name="force_list_portrait">Brez mreže v pokončnem načinu</string>
     <string name="force_list_portrait_summary">Filme v pokončnem načinu pokaži v seznamu namesto mreži</string>
     <string name="audio_title_alignment">Poravnava naslova zvoka</string>
@@ -266,6 +269,8 @@
     <string name="network_caching">Vrednost omrežnega predpomnjenja</string>
     <string name="network_caching_summary">Dolžina časa za medpomnjenje omrežnega medija (v ms). Ne deluje s strojnim dekodiranjem. Za ponastavitev pustite prazno.</string>
     <string name="developer_prefs_category">Razvijalec</string>
+    <string name="auto_rescan">Samodejno ponovno preišči</string>
+    <string name="auto_rescan_summary">Samodejno preišči napravo za novo ali izbrisano predstavno vsebino ob zagonu programa</string>
     <string name="enable_verbose_mode">Podrobno</string>
     <string name="enable_verbose_mode_summary">Povečaj podrobnost (logcat)</string>
     <string name="debug_logs">Razhroščevanje beleženj</string>
@@ -302,9 +307,11 @@
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
     <string name="go_to_chapter">Pojdi na poglavje ...</string>
+    <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj z zadnjega položaja</string>
     <string name="confirm_resume">Želite nadaljevati z zadnjega položaja?</string>
     <string name="confirm_resume_title">Zahtevaj potrditev za nadaljevanje</string>
+    <string name="confirm_resume_summary">Če je omogočeno, boste pozvani za potrditev, ko je video mogoče nadaljevati od zadnjega mesta</string>
     <string name="directory_empty">Mapa je prazna</string>
     <!--Accessibility-->
     <string name="more_actions">Več dejanj</string>
@@ -315,4 +322,13 @@
     <string name="no_subs_found">V tej mapi ni podnapisov</string>
     <string name="music_now_playing">Trenutno se predvaja</string>
     <!--Widget-->
+    <string name="widget_name_w">Bel pripomoček VLC</string>
+    <string name="widget_name_b">Temni pripomoček VLC</string>
+    <string name="allow_storage_access_title">Dovolite VLC-ju dostop do datotek videa in zvoka</string>
+    <string name="allow_storage_access_description">VLC-ju morate odobriti to dovoljenje za dostop do datotek predstavnih vsebin na tej napravi.</string>
+    <string name="allow_settings_access_title">Dovoli VLC-ju, da nastavi melodijo zvonjenja</string>
+    <string name="allow_settings_access_description">VLC-ju morate odobriti to dovoljenje za nastavitev te skladbe kot melodije zvonjenja.</string>
+    <string name="permission_ask_again">Odobri dovoljenje</string>
+    <string name="exit_app">Zapri VLC</string>
+    <string name="hardware_acceleration_error">napaka strojnega pospeševanja, preklapljanje na programsko odkodiranje</string>
 </resources>
