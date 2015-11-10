@@ -91,7 +91,6 @@
             android:clickable="true"
             android:focusable="true"
             android:longClickable="true"
-            android:onClick="onRewindClick"
             android:scaleType="center"
             android:src="@drawable/ic_rewind_circle"
             android:visibility="gone" />
@@ -112,7 +111,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="onForwardClick"
             android:longClickable="true"
             android:src="@drawable/ic_forward_circle"
             android:scaleType="center"
