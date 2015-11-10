@@ -116,7 +116,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         Permissions.checkReadStoragePermission(this, false);
 
         mContext = this;
-        setContentView(R.layout.tv_main_fragment);
+        setContentView(R.layout.tv_main);
 
         mDefaultBackground = getResources().getDrawable(R.drawable.background);
         final FragmentManager fragmentManager = getFragmentManager();
