@@ -12,13 +12,12 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.util.List;
 
 public class MediaUtils {
-    public static final String ACTION_SCAN_START = Util.buildPkgString("gui.ScanStart");
-    public static final String ACTION_SCAN_STOP = Util.buildPkgString("gui.ScanStop");
+    public static final String ACTION_SCAN_START = Strings.buildPkgString("gui.ScanStart");
+    public static final String ACTION_SCAN_STOP = Strings.buildPkgString("gui.ScanStop");
 
     public static void actionScanStart() {
         Intent intent = new Intent();

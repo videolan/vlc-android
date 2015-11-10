@@ -36,15 +36,15 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.Strings;
 
 abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
-    public static final String ACTION_REMOTE_BACKWARD = Util.buildPkgString("remote.Backward");
-    public static final String ACTION_REMOTE_PLAYPAUSE = Util.buildPkgString("remote.PlayPause");
-    public static final String ACTION_REMOTE_STOP = Util.buildPkgString("remote.Stop");
-    public static final String ACTION_REMOTE_FORWARD = Util.buildPkgString("remote.Forward");
-    public static final String ACTION_WIDGET_PREFIX = Util.buildPkgString("widget.");
+    public static final String ACTION_REMOTE_BACKWARD = Strings.buildPkgString("remote.Backward");
+    public static final String ACTION_REMOTE_PLAYPAUSE = Strings.buildPkgString("remote.PlayPause");
+    public static final String ACTION_REMOTE_STOP = Strings.buildPkgString("remote.Stop");
+    public static final String ACTION_REMOTE_FORWARD = Strings.buildPkgString("remote.Forward");
+    public static final String ACTION_WIDGET_PREFIX = Strings.buildPkgString("widget.");
     public static final String ACTION_WIDGET_INIT = ACTION_WIDGET_PREFIX+"INIT";
     public static final String ACTION_WIDGET_UPDATE = ACTION_WIDGET_PREFIX+"UPDATE";
     public static final String ACTION_WIDGET_UPDATE_COVER = ACTION_WIDGET_PREFIX+"UPDATE_COVER";

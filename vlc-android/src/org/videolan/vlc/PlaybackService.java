@@ -71,6 +71,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
@@ -95,7 +96,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
-    public static final String ACTION_REMOTE_GENERIC =  Util.buildPkgString("remote.");
+    public static final String ACTION_REMOTE_GENERIC =  Strings.buildPkgString("remote.");
     public static final String ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC+"Backward";
     public static final String ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC+"Play";
     public static final String ACTION_REMOTE_PLAYPAUSE = ACTION_REMOTE_GENERIC+"PlayPause";

@@ -22,7 +22,7 @@ package org.videolan.vlc.util;
 
 import android.text.TextUtils;
 
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.BuildConfig;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -155,5 +155,9 @@ public class Strings {
             return path.substring(7);
         else
             return path;
+    }
+
+    public static String buildPkgString(String string) {
+        return BuildConfig.APPLICATION_ID + "." + string;
     }
 }

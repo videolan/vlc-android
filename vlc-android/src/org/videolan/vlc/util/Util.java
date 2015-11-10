@@ -33,7 +33,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -153,9 +152,5 @@ public class Util {
         List<ResolveInfo> list = VLCApplication.getAppContext().getPackageManager().queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
-    }
-
-    public static String buildPkgString(String string) {
-        return BuildConfig.APPLICATION_ID + "." + string;
     }
 }

@@ -52,6 +52,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
@@ -59,7 +60,7 @@ import org.videolan.vlc.gui.view.HackyDrawerLayout;
 public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
-    public static final String ACTION_SHOW_PLAYER = Util.buildPkgString("gui.ShowPlayer");
+    public static final String ACTION_SHOW_PLAYER = Strings.buildPkgString("gui.ShowPlayer");
 
     protected static final String ID_VIDEO = "video";
     protected static final String ID_AUDIO = "audio";
