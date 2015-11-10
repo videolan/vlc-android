@@ -1,5 +1,5 @@
 /*****************************************************************************
- * IDebugLogService.aidl
+ * IDebugLogServiceCallback.aidl
  *****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -18,16 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.gui;
-import org.videolan.vlc.gui.IDebugLogServiceCallback;
+package org.videolan.vlc;
 
-interface IDebugLogService
+interface IDebugLogServiceCallback
 {
-    void start();
-    void stop();
-    void clear();
-    void save();
-    void registerCallback(IDebugLogServiceCallback cb);
-    void unregisterCallback(IDebugLogServiceCallback cb);
+    void onStarted(in List<String> logList);
+    void onStopped();
+    void onLog(String msg);
+    void onSaved(boolean success, String path);
 }
-

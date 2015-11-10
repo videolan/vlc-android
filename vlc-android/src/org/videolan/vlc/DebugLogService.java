@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.gui;
+package org.videolan.vlc;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -35,7 +35,7 @@ import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateFormat;
 
-import org.videolan.vlc.R;
+import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;

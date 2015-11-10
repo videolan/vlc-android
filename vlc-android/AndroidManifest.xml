@@ -80,7 +80,7 @@
 
         <activity android:name=".gui.DebugLogActivity"
                   android:launchMode="singleTop" />
-        <service android:name=".gui.DebugLogService"
+        <service android:name=".DebugLogService"
                  android:process=":logger" />
 
         <activity
