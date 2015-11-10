@@ -330,4 +330,5 @@
     <string name="allow_settings_access_description">Mae angen eich caniatâd ar VLC i osod y trac hwn fel sain canu eich ffôn.</string>
     <string name="permission_ask_again">Caniatáu</string>
     <string name="exit_app">Cau VLC</string>
+    <string name="hardware_acceleration_error">Gwall cyflymiad caledwedd; yn newid i datgodiad meddalwedd</string>
 </resources>
