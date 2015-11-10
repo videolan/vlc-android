@@ -51,7 +51,7 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.DividerItemDecoration;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
@@ -61,8 +61,8 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.ContextMenuRecyclerView;
-import org.videolan.vlc.widget.SwipeRefreshLayout;
+import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 

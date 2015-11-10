@@ -27,7 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.widget.SwipeRefreshLayout;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
 

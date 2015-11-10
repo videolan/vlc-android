@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <org.videolan.vlc.widget.HackyDrawerLayout
+    <org.videolan.vlc.gui.view.HackyDrawerLayout
         android:id="@+id/root_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             vlc:overhangSize="60dp" >
 
-            <org.videolan.vlc.widget.ContentLinearLayout
+            <org.videolan.vlc.gui.view.ContentLinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical" >
@@ -68,7 +68,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="60dp"
                     android:visibility="gone" />
-            </org.videolan.vlc.widget.ContentLinearLayout>
+            </org.videolan.vlc.gui.view.ContentLinearLayout>
 
             <FrameLayout
                 android:id="@+id/audio_player"
@@ -87,7 +87,7 @@
             app:itemTextColor="?attr/navigationview_item_color"
             app:itemIconTint="?attr/navigationview_item_color" />
 
-    </org.videolan.vlc.widget.HackyDrawerLayout>
+    </org.videolan.vlc.gui.view.HackyDrawerLayout>
 
     <include layout="@layout/toolbar"/>
 </merge>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<org.videolan.vlc.widget.SwipeRefreshLayout
+<org.videolan.vlc.gui.view.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipeLayout"
     android:layout_width="@dimen/file_picker_width"
@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <org.videolan.vlc.widget.ContextMenuRecyclerView
+        <org.videolan.vlc.gui.view.ContextMenuRecyclerView
             android:id="@+id/network_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,4 +20,4 @@
             android:layout_gravity="center"
             android:text="@string/network_connection_needed"/>
     </FrameLayout>
-</org.videolan.vlc.widget.SwipeRefreshLayout>
+</org.videolan.vlc.gui.view.SwipeRefreshLayout>

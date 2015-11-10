@@ -18,14 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.widget;
-
-import org.videolan.vlc.PlaybackService;
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+
+import org.videolan.vlc.PlaybackService;
 
 
 public abstract class AudioMediaSwitcher extends FlingViewGroup {

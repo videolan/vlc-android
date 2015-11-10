@@ -41,7 +41,7 @@
             android:contentDescription="@string/play_as_audio"
             android:src="?attr/ic_playasaudio_off" />
 
-        <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
+        <org.videolan.vlc.gui.view.HeaderMediaSwitcher
             android:id="@+id/audio_media_switcher"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -132,7 +132,7 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
-        <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
+        <org.videolan.vlc.gui.view.CoverMediaSwitcher
             android:id="@+id/cover_media_switcher"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>

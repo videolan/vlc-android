@@ -20,7 +20,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.widget;
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

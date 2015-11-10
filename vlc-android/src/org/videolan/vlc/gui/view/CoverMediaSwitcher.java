@@ -1,5 +1,5 @@
 /*****************************************************************************
- * AudioPlaylistItemViewGroup.java
+ * CoverMediaSwitcher.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -18,53 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.widget;
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
 
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.view.AudioMediaSwitcher;
 
-public class AudioPlaylistItemViewGroup extends FlingViewGroup {
+public class CoverMediaSwitcher extends AudioMediaSwitcher {
 
-    private OnItemSlidedListener mOnItemSlidedListener;
-
-    public AudioPlaylistItemViewGroup(Context context, AttributeSet attrs) {
+    public CoverMediaSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        setOnViewSwitchedListener(mViewSwitchListener);
     }
 
-    private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
+    protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
 
-        @Override
-        public void onSwitching(float progress) { }
+        if (cover == null)
+            cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 
-        @Override
-        public void onSwitched(int position) {
-            if (mOnItemSlidedListener != null
-                && position != 1)
-                mOnItemSlidedListener.onItemSlided();
-        }
-
-        @Override
-        public void onTouchDown() { }
-
-        @Override
-        public void onTouchUp() { }
-
-        @Override
-        public void onTouchClick() { }
-
-        @Override
-        public void onBackSwitched() {}
-
-    };
-
-    public void setOnItemSlidedListener(OnItemSlidedListener l) {
-        mOnItemSlidedListener = l;
-    }
-
-    public interface OnItemSlidedListener {
-        void onItemSlided();
+        ImageView imageView = new ImageView(getContext());
+        imageView.setImageBitmap(cover);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        addView(imageView);
     }
 }

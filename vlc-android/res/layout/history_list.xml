@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.videolan.vlc.widget.SwipeRefreshLayout
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,7 +25,7 @@
             android:paddingTop="30dip"
             android:text="@string/nohistory"
             android:textSize="20sp" />
-    </org.videolan.vlc.widget.SwipeRefreshLayout>
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
     <include layout="@layout/shadow_top"/>
 </FrameLayout>

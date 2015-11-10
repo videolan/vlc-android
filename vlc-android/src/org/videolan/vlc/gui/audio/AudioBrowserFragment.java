@@ -65,7 +65,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.SwipeRefreshLayout;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;

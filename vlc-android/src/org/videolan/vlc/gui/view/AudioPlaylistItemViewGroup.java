@@ -1,5 +1,5 @@
 /*****************************************************************************
- * ContentLinearLayout.java
+ * AudioPlaylistItemViewGroup.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -17,33 +17,54 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.widget;
+
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.widget.LinearLayout;
-
-import com.android.widget.SlidingPaneLayout;
 
 
-/**
- * This class extends the linear layout class and override its onInterceptTouchEvent
- * method to intercept the touch events that should not be handled by its children.
- * This is necessary for the audioplayer to get the swipe events for next/previous skip.
- */
-public class ContentLinearLayout extends LinearLayout {
+public class AudioPlaylistItemViewGroup extends FlingViewGroup {
 
-    public ContentLinearLayout(Context context, AttributeSet attrs) {
+    private OnItemSlidedListener mOnItemSlidedListener;
+
+    public AudioPlaylistItemViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        setOnViewSwitchedListener(mViewSwitchListener);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        SlidingPaneLayout slidingPaneLayout = (SlidingPaneLayout)getParent();
-        if (slidingPaneLayout.isSecondChildUnder((int)ev.getX(), (int)ev.getY()))
-            return true;
-        else
-            return super.onInterceptTouchEvent(ev);
+    private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
+
+        @Override
+        public void onSwitching(float progress) { }
+
+        @Override
+        public void onSwitched(int position) {
+            if (mOnItemSlidedListener != null
+                && position != 1)
+                mOnItemSlidedListener.onItemSlided();
+        }
+
+        @Override
+        public void onTouchDown() { }
+
+        @Override
+        public void onTouchUp() { }
+
+        @Override
+        public void onTouchClick() { }
+
+        @Override
+        public void onBackSwitched() {}
+
+    };
+
+    public void setOnItemSlidedListener(OnItemSlidedListener l) {
+        mOnItemSlidedListener = l;
+    }
+
+    public interface OnItemSlidedListener {
+        void onItemSlided();
     }
 }

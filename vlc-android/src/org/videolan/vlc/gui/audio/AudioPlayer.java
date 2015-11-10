@@ -57,14 +57,14 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SwipeDragItemTouchHelperCallback;
-import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
-import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
+import org.videolan.vlc.gui.view.CoverMediaSwitcher;
+import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
+import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import java.util.ArrayList;
 import java.util.List;

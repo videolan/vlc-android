@@ -1,5 +1,5 @@
 /*****************************************************************************
- * CoverMediaSwitcher.java
+ * HeaderMediaSwitcher.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -18,32 +18,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.gui.audio.widget;
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.widget.AudioMediaSwitcher;
+import org.videolan.vlc.gui.view.AudioMediaSwitcher;
 
-public class CoverMediaSwitcher extends AudioMediaSwitcher {
+public class HeaderMediaSwitcher extends AudioMediaSwitcher {
 
-    public CoverMediaSwitcher(Context context, AttributeSet attrs) {
+    public HeaderMediaSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
+        View v = inflater.inflate(R.layout.audio_media_switcher_item, this, false);
 
-        if (cover == null)
-            cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+        ImageView coverView = (ImageView) v.findViewById(R.id.cover);
+        TextView titleView = (TextView) v.findViewById(R.id.title);
+        TextView artistView = (TextView) v.findViewById(R.id.artist);
 
-        ImageView imageView = new ImageView(getContext());
-        imageView.setImageBitmap(cover);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        addView(imageView);
+        if (cover != null) {
+            coverView.setVisibility(VISIBLE);
+            coverView.setImageBitmap(cover);
+        }
+
+        titleView.setText(title);
+        artistView.setText(artist);
+
+        addView(v);
     }
 }

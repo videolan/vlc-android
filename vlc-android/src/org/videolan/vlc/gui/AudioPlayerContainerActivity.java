@@ -53,7 +53,7 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.HackyDrawerLayout;
+import org.videolan.vlc.gui.view.HackyDrawerLayout;
 
 public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 

@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <org.videolan.vlc.widget.SwipeRefreshLayout
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <org.videolan.vlc.widget.ContextMenuRecyclerView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/network_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 android:gravity="center"
                 android:text="@string/network_connection_needed"/>
         </FrameLayout>
-    </org.videolan.vlc.widget.SwipeRefreshLayout>
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
     <include layout="@layout/shadow_top"/>
 

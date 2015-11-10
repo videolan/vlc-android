@@ -7,7 +7,7 @@
 
     <include layout="@layout/tab_layout" />
 
-    <org.videolan.vlc.widget.SwipeRefreshLayout
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,7 +47,7 @@
                 android:nextFocusRight="@id/songs"
                 style="@style/Theme.VLC.List" />
         </android.support.v4.view.ViewPager>
-    </org.videolan.vlc.widget.SwipeRefreshLayout>
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"
