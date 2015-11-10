@@ -157,8 +157,6 @@
     <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
     <string name="search">Szukaj</string>
     <string name="search_history">Historia wyszukiwania</string>
-    <string name="hardware_acceleration_error_title">Błąd akceleracji sprzętowej</string>
-    <string name="hardware_acceleration_error_message">Wystąpił błąd z akceleracją sprzętową. Czy chcesz ją wyłączyć i spróbować ponownie?</string>
     <!--Tips-->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
@@ -319,4 +317,11 @@
     <!--Widget-->
     <string name="widget_name_w">Biały widżet VLC</string>
     <string name="widget_name_b">Ciemny widżet VLC</string>
+    <string name="allow_storage_access_title">Zezwól VLC na dostęp do plików audio i wideo</string>
+    <string name="allow_storage_access_description">VLC potrzebuje udzielenia pozwolenia na dostęp do plików multimedialnych na tym urządzeniu.</string>
+    <string name="allow_settings_access_title">Zezwól VLC na ustawienie dzwonka</string>
+    <string name="allow_settings_access_description">VLC potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonek.</string>
+    <string name="permission_ask_again">Udzielenie pozwolenia</string>
+    <string name="exit_app">Zamknij VLC</string>
+    <string name="hardware_acceleration_error">błąd akceleracji sprzętowej, przejście do dekodowania programowego</string>
 </resources>
