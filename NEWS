@@ -1,6 +1,8 @@
 Changes between 1.6.6 and 1.7.0:
 --------------------------------
 
+Nota Bene: The application is now only supporting 2.2.
+
 Core:
  * New fonts rendering engine, with fonts fallback
 
