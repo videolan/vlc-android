@@ -104,6 +104,8 @@
     <string name="previous">Prijašnje</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
+    <string name="firstsong">Prva pjesma na popisu izvođenja</string>
+    <string name="lastsong">Posljednja pjesma na popisu izvođenja</string>
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolji prikaz</string>
@@ -155,8 +157,6 @@
     <string name="invalid_location">Lokacija %1$s se ne može reproducirati.</string>
     <string name="search">Pretraživanje</string>
     <string name="search_history">Povijest pretraživanja</string>
-    <string name="hardware_acceleration_error_title">Greška hardverskog ubrzanja</string>
-    <string name="hardware_acceleration_error_message">Dogodila se greška pri hardverskom ubrzanju. Želite li ga onemogućiti i pokušati ponovno?</string>
     <!--Tips-->
     <string name="video_player_tips">Savjeti video reproduktora:</string>
     <string name="seek">Premotavanje</string>
@@ -220,8 +220,8 @@
     <string name="interface_other_category">Sučelje - Ostalo</string>
     <string name="enable_brightness_gesture">Omogući pokret svjetline</string>
     <string name="enable_brightness_gesture_summary">Upravljanje svjetlinom s pokretom tijekom reprodukcije video snimki</string>
-    <string name="enable_jump_buttons">Omogući tipke premotavanja</string>
-    <string name="enable_jump_buttons_summary">Omogućavanje tipka premotavanja na video sučelju</string>
+    <string name="enable_seek_buttons">Omogući tipke premotavanja</string>
+    <string name="enable_seek_buttons_summary">Prikaži tipke premotavanja na video sučelju</string>
     <string name="force_list_portrait">Bez mreže u uspravnom načinu</string>
     <string name="force_list_portrait_summary">Prikaži video snimke u popisu umjesto u mreži kada je u uspravnom načinu</string>
     <string name="audio_title_alignment">Poravnjanje zapisa zvuka</string>
@@ -317,4 +317,11 @@
     <!--Widget-->
     <string name="widget_name_w">VLC bijeli widget</string>
     <string name="widget_name_b">VLC tamni widget</string>
+    <string name="allow_storage_access_title">Dopusti VLC-u pristup glazbenim i video datotekama</string>
+    <string name="allow_storage_access_description">Vlc treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
+    <string name="allow_settings_access_title">Dopusti VLC-u postavljanje melodije zvona</string>
+    <string name="allow_settings_access_description">Vlc treba dozvolu za postavljanje ove pjesme kao melodije zvona.</string>
+    <string name="permission_ask_again">Odobri dozvolu </string>
+    <string name="exit_app">Zatvori VLC</string>
+    <string name="hardware_acceleration_error">greška hardverskog ubrzanja, prebacivanje na softversko dekôdiranje</string>
 </resources>
