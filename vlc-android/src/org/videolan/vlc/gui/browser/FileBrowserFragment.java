@@ -85,7 +85,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 else
                     title = mCurrentMedia.getTitle();
             } else
-                title = Strings.getName(mMrl);
+                title = Strings.getFileNameFromPath(mMrl);
             return title;
         }
     }

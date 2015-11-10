@@ -124,7 +124,7 @@ public class Strings {
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
-    public static String getName(String path){
+    public static String getFileNameFromPath(String path){
         if (path == null)
             return "";
         int index = path.lastIndexOf('/');
@@ -132,13 +132,6 @@ public class Strings {
             return path.substring(index+1);
         else
         return path;
-    }
-
-    public static String getMediaTitle(MediaWrapper mediaWrapper){
-        String title = mediaWrapper.getTitle();
-        if (title == null)
-            title = getName(mediaWrapper.getLocation());
-        return title;
     }
 
     public static String getParent(String path){

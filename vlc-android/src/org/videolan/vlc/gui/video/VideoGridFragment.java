@@ -58,22 +58,23 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -157,11 +158,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Util.ACTION_SCAN_START);
-        filter.addAction(Util.ACTION_SCAN_STOP);
+        filter.addAction(MediaUtils.ACTION_SCAN_START);
+        filter.addAction(MediaUtils.ACTION_SCAN_STOP);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverVideoListFragment, filter);
         if (mMediaLibrary.isWorking()) {
-            Util.actionScanStart();
+            MediaUtils.actionScanStart();
         }
 
         mAnimator = new VideoGridAnimator(mGridView);
@@ -496,10 +497,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equalsIgnoreCase(Util.ACTION_SCAN_START)) {
+            if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_START)) {
                 mLayoutFlipperLoading.setVisibility(View.VISIBLE);
                 mTextViewNomedia.setVisibility(View.INVISIBLE);
-            } else if (action.equalsIgnoreCase(Util.ACTION_SCAN_STOP)) {
+            } else if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_STOP)) {
                 mLayoutFlipperLoading.setVisibility(View.INVISIBLE);
                 mTextViewNomedia.setVisibility(View.VISIBLE);
             }

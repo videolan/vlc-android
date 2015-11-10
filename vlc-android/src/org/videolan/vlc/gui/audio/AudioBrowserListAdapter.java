@@ -40,15 +40,15 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import org.videolan.vlc.BR;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -165,17 +165,17 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 for (MediaWrapper media : list) {
                     switch (type){
                         case TYPE_ALBUMS:
-                            title = Util.getMediaAlbum(mContext, media);
-                            subTitle = Util.getMediaReferenceArtist(mContext, media);
+                            title = MediaUtils.getMediaAlbum(mContext, media);
+                            subTitle = MediaUtils.getMediaReferenceArtist(mContext, media);
                             key = null;
                             break;
                         case TYPE_ARTISTS:
-                            title = Util.getMediaReferenceArtist(mContext, media);
+                            title = MediaUtils.getMediaReferenceArtist(mContext, media);
                             subTitle = null;
                             key = null;
                             break;
                         case TYPE_GENRES:
-                            title = Util.getMediaGenre(mContext, media);
+                            title = MediaUtils.getMediaGenre(mContext, media);
                             subTitle = null;
                             key = null;
                             break;
@@ -186,12 +186,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                             break;
                         case TYPE_SONGS:
                             title = media.getTitle();
-                            subTitle = Util.getMediaArtist(mContext, media);
+                            subTitle = MediaUtils.getMediaArtist(mContext, media);
                             key = media.getAlbum() + media.getArtist() + media.getLocation();
                             break;
                         default:
                             title = media.getTitle();
-                            subTitle = Util.getMediaArtist(mContext, media);
+                            subTitle = MediaUtils.getMediaArtist(mContext, media);
                             key = media.getLocation();
                     }
                     add(title, subTitle, media, key);

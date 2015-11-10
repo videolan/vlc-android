@@ -48,8 +48,6 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -57,10 +55,13 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -287,13 +288,12 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                     public void run() {
                         for (int i = 0; i < mMediaList.size(); ++i) {
                             MediaWrapper media = mMediaList.get(i);
-                            mAlbumsAdapter.addSeparator(Util.getMediaReferenceArtist(activity, media), media);
-                            mAlbumsAdapter.add(Util.getMediaAlbum(activity, media), null, media);
-                            mSongsAdapter.addSeparator(Util.getMediaAlbum(activity, media), media);
+                            mAlbumsAdapter.addSeparator(MediaUtils.getMediaReferenceArtist(activity, media), media);
+                            mAlbumsAdapter.add(MediaUtils.getMediaAlbum(activity, media), null, media);
+                            mSongsAdapter.addSeparator(MediaUtils.getMediaAlbum(activity, media), media);
                         }
                         mSongsAdapter.sortByAlbum();
                         mAlbumsAdapter.notifyDataSetChanged();
-                        mSongsAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });

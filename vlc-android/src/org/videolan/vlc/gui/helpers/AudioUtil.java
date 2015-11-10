@@ -38,9 +38,10 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.MurmurHash;
 import org.videolan.vlc.util.Util;
@@ -202,8 +203,8 @@ public class AudioUtil {
             return Uri.decode(artworkURL).replace("file://", "");
         } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
             // Decode if the album art is embedded in the file
-            String mArtist = Util.getMediaArtist(context, media);
-            String mAlbum = Util.getMediaAlbum(context, media);
+            String mArtist = MediaUtils.getMediaArtist(context, media);
+            String mAlbum = MediaUtils.getMediaAlbum(context, media);
 
             /* Parse decoded attachment */
             if( mArtist.length() == 0 || mAlbum.length() == 0 ||
@@ -278,7 +279,7 @@ public class AudioUtil {
     }
 
     private static String getCoverCachePath(Context context, MediaWrapper media, int width) {
-        final int hash = MurmurHash.hash32(Util.getMediaArtist(context, media) + Util.getMediaAlbum(context, media));
+        final int hash = MurmurHash.hash32(MediaUtils.getMediaArtist(context, media) + MediaUtils.getMediaAlbum(context, media));
         return COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
     }
 

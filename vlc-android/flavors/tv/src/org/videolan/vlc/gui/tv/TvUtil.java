@@ -20,16 +20,16 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.gui.browser.BaseBrowserFragment;
-import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.util.Strings;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.Row;
+
+import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 
 public class TvUtil {
 
@@ -38,7 +38,7 @@ public class TvUtil {
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
             if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
-                VideoPlayerActivity.start(activity, mediaWrapper.getUri(), Strings.getMediaTitle(mediaWrapper));
+                VideoPlayerActivity.start(activity, mediaWrapper.getUri(), MediaUtils.getMediaTitle(mediaWrapper));
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 Intent intent = new Intent(activity,
                         DetailsActivity.class);

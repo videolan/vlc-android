@@ -33,11 +33,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.vlc.R;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
 
 public class SearchSuggestionsAdapter extends CursorAdapter {
 
@@ -102,7 +102,7 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Util.openMedia(context, mw);
+                MediaUtils.openMedia(context, mw);
             }
         });
         view.setOnTouchListener(new View.OnTouchListener() {

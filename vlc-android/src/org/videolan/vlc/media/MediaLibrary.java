@@ -110,7 +110,7 @@ public class MediaLibrary {
     public void scanMediaItems() {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
-            Util.actionScanStart();
+            MediaUtils.actionScanStart();
             mLoadingThread = new Thread(new GetMediaItemsRunnable());
             mLoadingThread.start();
         }
@@ -436,7 +436,7 @@ public class MediaLibrary {
                     mBrowser.get().hideProgressBar();
                 }
 
-                Util.actionScanStop();
+                MediaUtils.actionScanStop();
 
                 if (mRestart) {
                     Log.d(TAG, "Restarting scan");

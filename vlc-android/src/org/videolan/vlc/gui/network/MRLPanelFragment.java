@@ -21,11 +21,11 @@
 package org.videolan.vlc.gui.network;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,10 +34,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaUtils;
 
 import java.util.ArrayList;
 
@@ -98,7 +98,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
 
     private boolean processUri() {
         if (!TextUtils.isEmpty(mEditText.getEditText().getText().toString())){
-            Util.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
+            MediaUtils.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
             MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getEditText().getText().toString().trim());
             updateHistory();
             getActivity().supportInvalidateOptionsMenu();

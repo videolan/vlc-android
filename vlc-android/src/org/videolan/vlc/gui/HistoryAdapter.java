@@ -30,11 +30,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class HistoryAdapter extends BaseAdapter  {
 
         Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
         holder.title.setText(m.getTitle());
-        holderText = Util.getMediaSubtitle(VLCApplication.getAppContext(), m);
+        holderText = MediaUtils.getMediaSubtitle(VLCApplication.getAppContext(), m);
 
         holder.text.setText(holderText);
         Bitmap b = AudioUtil.getCover(VLCApplication.getAppContext(), m, 64);

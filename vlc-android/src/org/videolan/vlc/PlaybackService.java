@@ -68,6 +68,7 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
 import org.videolan.vlc.util.Util;
@@ -1065,10 +1066,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         Bitmap cover = AudioUtil.getCover(this, media, 512);
         MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
         bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-            .putString(MediaMetadataCompat.METADATA_KEY_GENRE, Util.getMediaGenre(this, media))
+            .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(this, media))
                 .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.getTrackNumber())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, Util.getMediaReferenceArtist(this, media))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, Util.getMediaAlbum(this, media))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(this, media))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(this, media))
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
         if (cover != null && cover.getConfig() != null) //In case of format not supported
                 bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
@@ -1077,8 +1078,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         //Send metadata to Pebble watch
         if (mPebbleEnabled) {
             final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
-            i.putExtra("artist", Util.getMediaArtist(this, media));
-            i.putExtra("album", Util.getMediaAlbum(this, media));
+            i.putExtra("artist", MediaUtils.getMediaArtist(this, media));
+            i.putExtra("album", MediaUtils.getMediaAlbum(this, media));
             i.putExtra("track", media.getTitle());
             sendBroadcast(i);
         }
@@ -1191,7 +1192,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             i.putExtra("title", media.getTitle());
             i.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
                     media.getNowPlaying()
-                    : Util.getMediaArtist(this, media));
+                    : MediaUtils.getMediaArtist(this, media));
         }
         else {
             i.putExtra("title", getString(R.string.widget_default_text));
@@ -1366,7 +1367,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public String getAlbum() {
         if (hasCurrentMedia())
-            return Util.getMediaAlbum(PlaybackService.this, getCurrentMedia());
+            return MediaUtils.getMediaAlbum(PlaybackService.this, getCurrentMedia());
         else
             return null;
     }
@@ -1377,7 +1378,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             final MediaWrapper media = getCurrentMedia();
             return media.isArtistUnknown() && media.getNowPlaying() != null ?
                     media.getNowPlaying()
-                    : Util.getMediaArtist(PlaybackService.this, media);
+                    : MediaUtils.getMediaArtist(PlaybackService.this, media);
         } else
             return null;
     }
@@ -1385,7 +1386,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public String getArtistPrev() {
         if (mPrevIndex != -1)
-            return Util.getMediaArtist(PlaybackService.this, mMediaList.getMedia(mPrevIndex));
+            return MediaUtils.getMediaArtist(PlaybackService.this, mMediaList.getMedia(mPrevIndex));
         else
             return null;
     }
@@ -1393,7 +1394,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public String getArtistNext() {
         if (mNextIndex != -1)
-            return Util.getMediaArtist(PlaybackService.this, mMediaList.getMedia(mNextIndex));
+            return MediaUtils.getMediaArtist(PlaybackService.this, mMediaList.getMedia(mNextIndex));
         else
             return null;
     }

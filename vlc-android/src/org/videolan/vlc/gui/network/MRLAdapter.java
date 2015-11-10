@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaUtils;
 
 import java.util.ArrayList;
 
@@ -65,7 +65,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Util.openStream(v.getContext(), uri);
+                MediaUtils.openStream(v.getContext(), uri);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {

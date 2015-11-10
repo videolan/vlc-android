@@ -77,6 +77,7 @@ import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -582,7 +583,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 }
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN){
-            Util.openUri(this, data.getData());
+            MediaUtils.openUri(this, data.getData());
         }
     }
 

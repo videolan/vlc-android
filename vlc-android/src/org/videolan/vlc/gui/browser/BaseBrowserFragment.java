@@ -48,6 +48,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -420,7 +421,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         switch (id){
             case R.id.directory_view_play:
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                Util.openMedia(getActivity(), mw);
+                MediaUtils.openMedia(getActivity(), mw);
                 return true;
             case R.id.directory_view_append: {
                 if (mService != null)
@@ -460,7 +461,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || mediaItem.getType() == MediaWrapper.TYPE_VIDEO)
                         mediaList.add(mediaItem);
                 }
-                Util.openList(getActivity(), mediaList, 0);
+                MediaUtils.openList(getActivity(), mediaList, 0);
                 return true;
 //            case R.id.directory_view_hide_media:
 //                try {

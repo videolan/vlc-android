@@ -49,7 +49,7 @@ public class CommonDialogs {
                                           final Context context,
                                           final String addressMedia,
                                           final VLCRunnable runnable) {
-        final String name = Strings.getName(Uri.decode(addressMedia));
+        final String name = Strings.getFileNameFromPath(Uri.decode(addressMedia));
         return  deleteMedia(type, context, addressMedia, name, runnable);
     }
 

@@ -32,15 +32,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -318,7 +318,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         if (mw.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(mw, holder.getAdapterPosition(), true);
         else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
-            Util.openMedia(v.getContext(), mw);
+            MediaUtils.openMedia(v.getContext(), mw);
         else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
             int position = 0;
             LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
@@ -332,9 +332,9 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                             position = mediaLocations.size() - 1;
                     }
                 }
-            Util.openList(v.getContext(), mediaLocations, position);
+            MediaUtils.openList(v.getContext(), mediaLocations, position);
         } else {
-            Util.openStream(v.getContext(), mw.getLocation());
+            MediaUtils.openStream(v.getContext(), mw.getLocation());
         }
     }
 

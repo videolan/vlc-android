@@ -52,9 +52,6 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
@@ -62,12 +59,16 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IBrowser;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -326,7 +327,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", "albumsSongs");
             i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", Util.getMediaArtist(activity, mediaList.get(0)));
+            i.putExtra("filter", MediaUtils.getMediaArtist(activity, mediaList.get(0)));
             startActivity(i);
         }
     };
@@ -338,7 +339,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUM);
             i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", Util.getMediaAlbum(getActivity(), mediaList.get(0)));
+            i.putExtra("filter", MediaUtils.getMediaAlbum(getActivity(), mediaList.get(0)));
             startActivity(i);
         }
     };
@@ -350,7 +351,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUMS_SONGS);
             i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", Util.getMediaGenre(getActivity(), mediaList.get(0)));
+            i.putExtra("filter", MediaUtils.getMediaGenre(getActivity(), mediaList.get(0)));
             startActivity(i);
         }
     };

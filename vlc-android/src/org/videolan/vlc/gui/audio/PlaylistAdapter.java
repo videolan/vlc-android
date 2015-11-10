@@ -31,13 +31,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.binding.setPosition(position);
         holder.binding.setHandler(mClickHandler);
         holder.binding.setMedia(media);
-        holder.binding.setSubTitle(Util.getMediaSubtitle(ctx, media));
+        holder.binding.setSubTitle(MediaUtils.getMediaSubtitle(ctx, media));
         holder.binding.setTitleColor(mCurrentIndex == position
                 ? UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
                 : UiTools.getColorFromAttribute(ctx, R.attr.list_title));
