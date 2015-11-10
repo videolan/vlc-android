@@ -72,6 +72,7 @@ import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.Thumbnailer;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -352,7 +353,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(
-                Util.canWrite(mediaWrapper.getLocation()));
+                FileUtils.canWrite(mediaWrapper.getLocation()));
     }
 
     @Override
@@ -543,7 +544,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         final String path = media.getUri().getPath();
         VLCApplication.runBackground(new Runnable() {
             public void run() {
-                Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
+                FileUtils.recursiveDelete(VLCApplication.getAppContext(), new File(path));
             }
         });
         mMediaLibrary.getMediaItems().remove(media);

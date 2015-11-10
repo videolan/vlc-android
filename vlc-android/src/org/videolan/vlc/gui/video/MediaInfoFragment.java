@@ -43,13 +43,13 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -120,7 +120,7 @@ public class MediaInfoFragment extends ListFragment {
                     VLCApplication.runBackground(new Runnable() {
                         @Override
                         public void run() {
-                            boolean deleted = Util.deleteFile(mItem.getLocation());
+                            boolean deleted = FileUtils.deleteFile(mItem.getLocation());
                             if (deleted) {
                                 mHandler.obtainMessage(EXIT).sendToTarget();
                             }

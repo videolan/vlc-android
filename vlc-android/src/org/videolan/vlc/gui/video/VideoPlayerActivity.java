@@ -98,8 +98,6 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -107,14 +105,17 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
+import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.interfaces.IDelayController;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.gui.helpers.OnRepeatListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1998,7 +1999,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         return false;
                     Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
                     if (TextUtils.equals(mUri.getScheme(), "file"))
-                        filePickerIntent.setData(Uri.parse(Strings.getParent(mUri.toString())));
+                        filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 }

@@ -11,6 +11,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 import java.util.List;
@@ -111,7 +112,7 @@ public class MediaUtils {
     public static String getMediaTitle(MediaWrapper mediaWrapper){
         String title = mediaWrapper.getTitle();
         if (title == null)
-            title = Strings.getFileNameFromPath(mediaWrapper.getLocation());
+            title = FileUtils.getFileNameFromPath(mediaWrapper.getLocation());
         return title;
     }
 

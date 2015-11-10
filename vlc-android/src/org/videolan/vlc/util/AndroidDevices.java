@@ -125,7 +125,7 @@ public class AndroidDevices {
 
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
                 if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
-                    int position = Strings.containsName(list, Strings.getFileNameFromPath(mountpoint));
+                    int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
                     if (position > -1)
                         list.remove(position);
                     list.add(mountpoint);

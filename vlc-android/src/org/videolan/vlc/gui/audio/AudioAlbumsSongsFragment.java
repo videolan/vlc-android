@@ -60,7 +60,7 @@ import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
@@ -205,7 +205,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                     mSongsAdapter : mAlbumsAdapter;
             String location = adapter.getItem(position).mMediaList.get(0).getLocation();
         menu.findItem(R.id.audio_list_browser_delete).setVisible(
-                Util.canWrite(location));
+                FileUtils.canWrite(location));
     }
 
     @Override
@@ -404,7 +404,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                         fragment.mMediaLibrary.getMediaItems().remove(media);
                         VLCApplication.runBackground(new Runnable() {
                             public void run() {
-                                Util.recursiveDelete(VLCApplication.getAppContext(), new File(path));
+                                FileUtils.recursiveDelete(VLCApplication.getAppContext(), new File(path));
                             }
                         });
                     }

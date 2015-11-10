@@ -25,10 +25,10 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class CommonDialogs {
                                           final Context context,
                                           final String addressMedia,
                                           final VLCRunnable runnable) {
-        final String name = Strings.getFileNameFromPath(Uri.decode(addressMedia));
+        final String name = FileUtils.getFileNameFromPath(Uri.decode(addressMedia));
         return  deleteMedia(type, context, addressMedia, name, runnable);
     }
 
@@ -71,7 +71,7 @@ public class CommonDialogs {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Util.recursiveDelete(context, new File(Uri.decode(Strings.removeFileProtocole(addressMedia))));
+                        FileUtils.recursiveDelete(context, new File(Uri.decode(Strings.removeFileProtocole(addressMedia))));
                         if (runnable != null)
                             runnable.run();
                     }

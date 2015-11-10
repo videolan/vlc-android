@@ -9,9 +9,9 @@ public class StringsTest {
     @Test
     public void testGetName(){
         String path = "/home/folder/file.txt";
-        assertEquals("", Strings.getFileNameFromPath(null));
-        assertEquals("", Strings.getFileNameFromPath("/"));
-        assertEquals("file.txt", Strings.getFileNameFromPath(path));
+        assertEquals("", FileUtils.getFileNameFromPath(null));
+        assertEquals("", FileUtils.getFileNameFromPath("/"));
+        assertEquals("file.txt", FileUtils.getFileNameFromPath(path));
     }
 
     //TextUtils mock is not ready :/

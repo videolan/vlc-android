@@ -21,16 +21,10 @@
 package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
@@ -72,52 +66,12 @@ public class Util {
         }
     }
 
-    public static String getPathFromURI(Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            close(cursor);
-        }
-    }
-
     @TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     public static void commitPreferences(SharedPreferences.Editor editor){
         if (AndroidUtil.isGingerbreadOrLater())
             editor.apply();
         else
             editor.commit();
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static boolean deleteFile (String path){
-        boolean deleted = false;
-        path = Uri.decode(Strings.removeFileProtocole(path));
-        //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
-        if (AndroidUtil.isHoneycombOrLater()){
-            ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
-            String[] selectionArgs = { path };
-            deleted = cr.delete(MediaStore.Files.getContentUri("external"),
-                    MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
-        }
-        File file = new File(path);
-        if (file.exists())
-            deleted |= file.delete();
-        return deleted;
-    }
-
-    public static boolean recursiveDelete(Context context, File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory()) {
-            for (File child : fileOrDirectory.listFiles())
-                recursiveDelete(context, child);
-            return fileOrDirectory.delete();
-        } else {
-            return deleteFile (fileOrDirectory.getPath());
-        }
     }
 
     public static boolean close(Closeable closeable) {
@@ -131,21 +85,6 @@ public class Util {
         } else {
             return false;
         }
-    }
-
-    public static boolean canWrite(String path){
-        if (path == null)
-            return false;
-        if (path.startsWith("file://"))
-            path = path.substring(7);
-        if (!path.startsWith("/"))
-            return false;
-        if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-            return true;
-        if (AndroidUtil.isKitKatOrLater())
-            return false;
-        File file = new File(path);
-        return (file.exists() && file.canWrite());
     }
 
     public static boolean isCallable(Intent intent) {

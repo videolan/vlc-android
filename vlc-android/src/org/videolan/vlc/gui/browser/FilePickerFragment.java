@@ -31,8 +31,9 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 public class FilePickerFragment extends FileBrowserFragment {
@@ -77,7 +78,7 @@ public class FilePickerFragment extends FileBrowserFragment {
             mAdapter.clear();
             browseRoot();
         } else {
-            MediaWrapper mw = new MediaWrapper(Uri.parse(Strings.getParent(mMrl)));
+            MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
             browse(mw, 0, false);
         }
     }

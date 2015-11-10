@@ -71,6 +71,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -1505,7 +1506,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void loadUri(Uri uri) {
         String path = uri.getPath();
         if (TextUtils.equals(uri.getScheme(), "content")) {
-            path = "file://"+Util.getPathFromURI(uri);
+            path = "file://"+ FileUtils.getPathFromURI(uri);
         }
         loadLocation(path);
     }

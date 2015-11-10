@@ -44,6 +44,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 import java.io.File;
@@ -85,7 +86,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 else
                     title = mCurrentMedia.getTitle();
             } else
-                title = Strings.getFileNameFromPath(mMrl);
+                title = FileUtils.getFileNameFromPath(mMrl);
             return title;
         }
     }

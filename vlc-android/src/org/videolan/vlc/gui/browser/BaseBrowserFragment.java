@@ -48,22 +48,22 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.CommonDialogs;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
+import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
-import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -360,7 +360,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        boolean canWrite = this instanceof FileBrowserFragment && Util.canWrite(mw.getLocation());
+        boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getLocation());
         boolean isAudio = mw.getType() == MediaWrapper.TYPE_AUDIO;
         boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
         if (isAudio || isVideo) {
