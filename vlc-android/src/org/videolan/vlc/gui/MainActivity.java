@@ -216,6 +216,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
         }
+
+        if (AndroidUtil.isLolliPopOrLater())
+            mNavigationView.setPadding(0, mNavigationView.getPaddingTop()/2, 0, 0);
     }
 
     @Override
