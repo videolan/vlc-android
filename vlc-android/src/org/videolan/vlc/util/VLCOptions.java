@@ -50,8 +50,8 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
-    public static ArrayList<String> getLibOptions(Context context) {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+    public static ArrayList<String> getLibOptions() {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
 
         ArrayList<String> options = new ArrayList<String>(50);
 

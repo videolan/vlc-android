@@ -47,7 +47,7 @@ public class VLCInstance {
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
 
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions(context));
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions());
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -61,10 +61,10 @@ public class VLCInstance {
         return sLibVLC;
     }
 
-    public static synchronized void restart(Context context) throws IllegalStateException {
+    public static synchronized void restart() throws IllegalStateException {
         if (sLibVLC != null) {
             sLibVLC.release();
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions(context));
+            sLibVLC = new LibVLC(VLCOptions.getLibOptions());
         }
     }
 

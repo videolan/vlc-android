@@ -59,8 +59,9 @@ public class PreferencesPerformances extends BasePreferenceFragment implements S
             case "deblocking":
             case "enable_frame_skip":
             case "enable_time_stretching_audio":
-                VLCInstance.restart(getActivity());
-                ((PreferencesActivity)getActivity()).restartMediaPlayer();
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
     }
 }

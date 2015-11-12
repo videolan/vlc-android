@@ -178,8 +178,9 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
             case "aout":
             case "network_caching":
             case "vout":
-                VLCInstance.restart(getActivity());
-                ((PreferencesActivity)getActivity()).restartMediaPlayer();
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
     }
 }

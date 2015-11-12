@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui.preferences;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -85,8 +84,9 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
         switch (key){
             case "dev_hardware_decoder":
             case "enable_verbose_mode":
-                VLCInstance.restart(getActivity());
-                ((PreferencesActivity)getActivity()).restartMediaPlayer();
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
     }
 }

@@ -23,14 +23,12 @@
 
 package org.videolan.vlc.gui.preferences;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -84,8 +82,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equalsIgnoreCase("hardware_acceleration")
                 || key.equalsIgnoreCase("subtitle_text_encoding")) {
-            VLCInstance.restart(getActivity());
-            ((PreferencesActivity)getActivity()).restartMediaPlayer();
+            VLCInstance.restart();
+            if (getActivity() != null )
+                ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
     }
 
