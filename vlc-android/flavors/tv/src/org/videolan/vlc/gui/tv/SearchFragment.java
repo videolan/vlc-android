@@ -20,13 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import java.util.ArrayList;
-
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +33,13 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
         implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider {

@@ -20,12 +20,11 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.vlc.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.SpeechRecognitionCallback;
-import android.view.KeyEvent;
+
+import org.videolan.vlc.R;
 
 public class SearchActivity extends Activity {
 
@@ -51,11 +50,8 @@ public class SearchActivity extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            mFragment.startRecognition();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public boolean onSearchRequested() {
+        mFragment.startRecognition();
+        return true;
     }
 }
