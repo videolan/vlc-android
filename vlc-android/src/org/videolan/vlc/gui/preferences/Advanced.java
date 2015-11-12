@@ -120,7 +120,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
         setLocalePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                UiTools.snacker(getView().findViewById(android.R.id.content), R.string.set_locale_popup);
+                UiTools.snacker(getView(), R.string.set_locale_popup);
                 return true;
             }
         });

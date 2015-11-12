@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -43,12 +44,12 @@ public class UiTools {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
     /** Print an on-screen message to alert the user */
-    public static void snacker(View view, int stringId) {
+    public static void snacker(@NonNull View view, @NonNull int stringId) {
         Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT).show();
     }
 
     /** Print an on-screen message to alert the user */
-    public static void snacker(View view, String message) {
+    public static void snacker(@NonNull View view, @NonNull String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
