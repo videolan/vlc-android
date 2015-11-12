@@ -841,37 +841,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piForward = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
 
-            int actionsCount = 0;
-            if (hasPrevious()) {
-                builder.addAction(R.drawable.ic_previous_w, getString(R.string.previous), piBackward);
-                actionsCount++;
-            }
-            if (mMediaPlayer.isPlaying()) {
+            builder.addAction(R.drawable.ic_previous_w, getString(R.string.previous), piBackward);
+            if (mMediaPlayer.isPlaying())
                 builder.addAction(R.drawable.ic_pause_w, getString(R.string.pause), piPlay);
-            } else {
+            else
                 builder.addAction(R.drawable.ic_play_w, getString(R.string.play), piPlay);
-            }
-                actionsCount++;
-            if (hasNext()) {
-                builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
-                actionsCount++;
-            }
+            builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
 
-            int[] actions;
-            switch (actionsCount){
-                case 3:
-                    actions = new int[] {0,1,2};
-                    break;
-                case 2:
-                    actions = new int[] {0,1};
-                    break;
-                default:
-                    actions = new int[] {0};
-
-            }
             builder.setStyle(new NotificationCompat.MediaStyle()
                             .setMediaSession(mMediaSession.getSessionToken())
-                            .setShowActionsInCompactView(actions)
+                            .setShowActionsInCompactView(new int[] {0,1,2})
                             .setShowCancelButton(true)
                             .setCancelButtonIntent(piStop)
             );
