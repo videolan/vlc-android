@@ -1007,6 +1007,18 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setCallback(mSessionCallback);
+        try {
+            mMediaSession.setActive(true);
+        } catch (NullPointerException e) {
+            // Some versions of KitKat do not support AudioManager.registerMediaButtonIntent
+            // with a PendingIntent. They will throw a NullPointerException, in which case
+            // they should be able to activate a MediaSessionCompat with only transport
+            // controls.
+            mMediaSession.setActive(false);
+            mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+            mMediaSession.setActive(true);
+
+        }
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
