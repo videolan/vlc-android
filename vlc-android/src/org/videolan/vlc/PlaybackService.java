@@ -1128,7 +1128,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void previous() {
         int size = mMediaList.size();
-        if (size > 1) {
+        if (hasPrevious() && mCurrentIndex > 0 && mMediaPlayer.getTime() < 2000l) {
             mCurrentIndex = mPrevIndex;
             if (mPrevious.size() > 0)
                 mPrevious.pop();
