@@ -111,8 +111,12 @@ public class PreferencesActivity extends Activity implements PlaybackService.Cli
             mService.restartMediaPlayer();
     }
 
-    public void exitAndRescan(){
+    public void setRestart(){
         setResult(RESULT_RESTART);
+    }
+
+    public void exitAndRescan(){
+        setRestart();
         Intent intent = getIntent();
         finish();
         startActivity(intent);
