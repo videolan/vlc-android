@@ -596,6 +596,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onStart() {
         super.onStart();
         mHelper.onStart();
+        if (mSettings.getBoolean("save_brightness", false)) {
+            float brightness = mSettings.getFloat("brightness_value", -1f);
+            if (brightness != -1f)
+                setWindowBrightness(brightness);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -628,6 +633,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             Settings.System.putInt(getContentResolver(),
                     Settings.System.SCREEN_BRIGHTNESS_MODE,
                     Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+        }
+        // Save brightness if user wants to
+        if (mSettings.getBoolean("save_brightness", false)) {
+            float brightness = getWindow().getAttributes().screenBrightness;
+            if (brightness != -1f) {
+                SharedPreferences.Editor editor = mSettings.edit();
+                editor.putFloat("brightness_value", brightness);
+                Util.commitPreferences(editor);
+            }
         }
     }
 
@@ -1904,13 +1918,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showInfo(mMute ? R.string.sound_off : R.string.sound_on,1000);
     }
 
-    @TargetApi(android.os.Build.VERSION_CODES.FROYO)
     private void initBrightnessTouch() {
-        float brightnesstemp = 0.6f;
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        float brightnesstemp = lp.screenBrightness != -1f ? lp.screenBrightness : 0.6f;
         // Initialize the layoutParams screen brightness
         try {
-            if (AndroidUtil.isFroyoOrLater() &&
-                    Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+            if (Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
                 Settings.System.putInt(getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS_MODE,
                         Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -1923,7 +1936,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } catch (SettingNotFoundException e) {
             e.printStackTrace();
         }
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness = brightnesstemp;
         getWindow().setAttributes(lp);
         mIsFirstBrightnessGesture = false;
@@ -1944,11 +1956,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void changeBrightness(float delta) {
         // Estimate and adjust Brightness
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
+        float brightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1f);
+        setWindowBrightness(brightness);
+        brightness = Math.round(brightness * 100);
+        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + brightness + '%', 1000, (int) brightness);
+    }
+
+    private void setWindowBrightness(float brightness) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness =  brightness;
         // Set Brightness
         getWindow().setAttributes(lp);
-        int brightness = Math.round(lp.screenBrightness * 100);
-        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + brightness + '%', 1000, brightness);
     }
 
     /**

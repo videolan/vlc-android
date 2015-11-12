@@ -344,6 +344,8 @@
     <string name="confirm_resume_title">Ask confirmation to resume</string>
     <string name="confirm_resume_summary">if activated you will be asked to confirm when a video can be resumed from last position</string>
     <string name="directory_empty">Directory is empty</string>
+    <string name="save_brightness_summary">Remember brightness level in video player</string>
+    <string name="save_brightness_title">Save brightness level for video</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>

@@ -15,6 +15,11 @@
     <PreferenceCategory android:title="@string/interface_other_category" >
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="save_brightness"
+            android:summary="@string/save_brightness_summary"
+            android:title="@string/save_brightness_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="dialog_confirm_resume"
             android:summary="@string/confirm_resume_summary"
             android:title="@string/confirm_resume_title" />
