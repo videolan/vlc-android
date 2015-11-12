@@ -69,8 +69,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
         if (aout == HWDecoderUtil.AudioOutput.AUDIOTRACK || aout == HWDecoderUtil.AudioOutput.OPENSLES) {
             /* no AudioOutput choice */
-            PreferenceGroup group = (PreferenceGroup) findPreference("advanced_prefs_group");
-            group.removePreference(aoutPref);
+            findPreference("aout").setVisible(false);
         } else {
             int aoutEntriesId = R.array.aouts;
             int aoutEntriesIdValues = R.array.aouts_values;
