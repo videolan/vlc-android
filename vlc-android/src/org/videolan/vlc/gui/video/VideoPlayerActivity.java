@@ -1931,7 +1931,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
                 mRestoreAutoBrightness = android.provider.Settings.System.getInt(getContentResolver(),
                         android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
-            } else {
+            } else if (brightnesstemp == 0.6f) {
                 brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
             }
