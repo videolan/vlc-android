@@ -1,7 +1,7 @@
 Changes between 1.6.6 and 1.7.0:
 --------------------------------
 
-Nota Bene: The application is now only supporting 2.2.
+Nota Bene: The application is now only supporting Android 2.2+
 
 Core:
  * New fonts rendering engine, with fonts fallback
@@ -10,7 +10,15 @@ Application:
  * Use MediaSessionCompat to replace MediaSession and RemoteControlClient
    This should fix a few weird bugs on some specific Android versions
  * New notification look
+ * Option to remember brightness level in video player
+ * Restart current song on 'previous' click
+ * We now display songs length in playlist
+ * Refactored playlist & video views
+ * Misc. fixes
 
+Chrome:
+ * 'Open' option replaces the directory browser
+ * YUV chroma format preset by default on Chrome
 
 Changes between 1.6.5 and 1.6.6:
 --------------------------------
