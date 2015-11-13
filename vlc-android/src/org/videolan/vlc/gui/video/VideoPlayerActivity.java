@@ -166,7 +166,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mPresentationDisplayId = -1;
     private Uri mUri;
     private boolean mAskResume = true;
-    private GestureDetectorCompat mDetector;
+    private GestureDetectorCompat mDetector = null;
 
     private static final int SURFACE_BEST_FIT = 0;
     private static final int SURFACE_FIT_HORIZONTAL = 1;
@@ -465,7 +465,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             setRequestedOrientation(getScreenOrientation());
 
         resetHudLayout();
-        mDetector = new GestureDetectorCompat(this, mGestureListener);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -788,7 +787,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mHandler.removeCallbacksAndMessages(null);
 
-        mDetector.setOnDoubleTapListener(null);
+        if (mDetector != null) {
+            mDetector.setOnDoubleTapListener(null);
+            mDetector = null;
+        }
 
         /* Stop listening for changes to media routes. */
         if (mMediaRouter != null)
@@ -1742,7 +1744,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             endDelaySetting();
             return true;
         }
-        if (mDetector.onTouchEvent(event))
+        if (mDetector != null && mDetector.onTouchEvent(event))
             return true;
         if (mIsLocked) {
             // locked, only handle show/hide & ignore all actions
@@ -2161,7 +2163,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlayPause.setEnabled(pausable);
         if (!pausable)
             mPlayPause.setImageResource(R.drawable.ic_play_circle_disable_o);
-        mDetector.setOnDoubleTapListener(pausable ? this : null);
+        else {
+            mDetector = new GestureDetectorCompat(this, mGestureListener);
+            mDetector.setOnDoubleTapListener(this);
+        }
     }
 
     private void doPlayPause() {
