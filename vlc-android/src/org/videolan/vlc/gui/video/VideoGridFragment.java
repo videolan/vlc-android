@@ -74,7 +74,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -254,19 +254,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         sidePadding = Math.max(0, Math.min(100, sidePadding));
         mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
                 sidePadding, mGridView.getPaddingBottom());
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MediaWrapper media = mVideoAdapter.getItem(position);
-        if (media == null)
-            return;
-        if (media instanceof MediaGroup) {
-            MainActivity activity = (MainActivity)getActivity();
-            activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
-        }
-        else
-            playVideo(media, false);
     }
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {

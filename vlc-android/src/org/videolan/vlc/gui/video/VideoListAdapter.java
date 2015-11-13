@@ -36,11 +36,12 @@ import android.widget.ImageView;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
@@ -330,7 +331,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public class ClickHandler {
         public void onClick(View v){
             MediaWrapper media = mVideos.get(((Integer) v.findViewById(R.id.item_more).getTag()).intValue());
-            MediaUtils.openMedia(v.getContext(), media);
+            if (media instanceof MediaGroup) {
+                MainActivity activity = (MainActivity) mFragment.getActivity();
+                activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
+            } else {
+                media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                VideoPlayerActivity.start(v.getContext(), media.getUri(), media.getTitle());
+            }
         }
         public void onMoreClick(View v){
             if (mFragment == null)
