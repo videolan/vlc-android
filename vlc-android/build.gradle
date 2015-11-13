@@ -196,7 +196,7 @@ android {
     sourceSets.chrome {
         manifest.srcFile 'flavors/chrome/AndroidManifest.xml'
         java.srcDirs = ['flavors/vanilla/src']
-        res.srcDirs = ['flavors/vanilla/res']
+        res.srcDirs = ['flavors/vanilla/res', 'flavors/chrome/res']
     }
 }
 
