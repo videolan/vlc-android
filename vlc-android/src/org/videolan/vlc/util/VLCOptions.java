@@ -59,7 +59,7 @@ public class VLCOptions {
         final boolean timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault);
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
-        String chroma = pref.getString("chroma_format", null);
+        String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
         if (chroma != null)
             chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);

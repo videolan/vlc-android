@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/performance_prefs_category" >
     <ListPreference
-        android:defaultValue=""
+        android:defaultValue="@string/chroma_format_default"
         android:entries="@array/chroma_formats"
         android:entryValues="@array/chroma_formats_values"
         android:key="chroma_format"
