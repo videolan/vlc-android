@@ -130,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:background="?attr/background_default"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
