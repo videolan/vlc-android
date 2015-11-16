@@ -1312,19 +1312,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     /**
-     * Show text in the info view
-     * @param text
-     */
-    private void showInfo(String text) {
-        if (mPresentation == null)
-            mVerticalBar.setVisibility(View.GONE);
-        mHandler.removeMessages(FADE_OUT_INFO);
-        mInfo.setVisibility(View.VISIBLE);
-        mInfo.setText(text);
-        hideInfo();
-    }
-
-    /**
      * hide the info view with "delay" milliseconds delay
      * @param delay
      */
@@ -1990,11 +1977,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (fromUser && mService.isSeekable()) {
+            if (!isFinishing() && fromUser && mService.isSeekable()) {
                 seek(progress);
                 setOverlayProgress();
                 mTime.setText(Strings.millisToString(progress));
-                showInfo(Strings.millisToString(progress));
+                showInfo(Strings.millisToString(progress), 1000);
             }
         }
     };
@@ -2133,11 +2120,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService == null)
                 return false;
             if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
-                showInfo(getString(R.string.repeat));
+                showInfo(getString(R.string.repeat), 1000);
                 mService.setRepeatType(PlaybackService.REPEAT_NONE);
             } else {
                 mService.setRepeatType(PlaybackService.REPEAT_ONE);
-                showInfo(getString(R.string.repeat_single));
+                showInfo(getString(R.string.repeat_single), 1000);
             }
             return true;
         }
