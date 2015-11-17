@@ -2039,27 +2039,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             i++;
         }
 
-        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-                .setTitle(titleId)
-                .setSingleChoiceItems(nameList, listPosition, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int listPosition) {
-                        int trackID = -1;
-                        // Reverse map search...
-                        for (MediaPlayer.TrackDescription track : tracks) {
-                            if (idList[listPosition] == track.id) {
-                                trackID = track.id;
-                                break;
+        if (!isFinishing()) {
+            mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+                    .setTitle(titleId)
+                    .setSingleChoiceItems(nameList, listPosition, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int listPosition) {
+                            int trackID = -1;
+                            // Reverse map search...
+                            for (MediaPlayer.TrackDescription track : tracks) {
+                                if (idList[listPosition] == track.id) {
+                                    trackID = track.id;
+                                    break;
+                                }
                             }
+                            listener.onTrackSelected(trackID);
+                            dialog.dismiss();
                         }
-                        listener.onTrackSelected(trackID);
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        mAlertDialog.setCanceledOnTouchOutside(true);
-        mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
-        mAlertDialog.show();
+                    })
+                    .create();
+            mAlertDialog.setCanceledOnTouchOutside(true);
+            mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
+            mAlertDialog.show();
+        }
     }
 
     private void selectAudioTrack() {

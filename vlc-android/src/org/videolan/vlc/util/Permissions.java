@@ -87,13 +87,13 @@ public class Permissions {
     private static Dialog sAlertDialog;
 
     public static void showSettingsPermissionDialog(final Activity activity) {
-        if (sAlertDialog != null && sAlertDialog.isShowing())
+        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing()))
             return;
         sAlertDialog = createSettingsDialogCompat(activity);
     }
 
     public static void showStoragePermissionDialog(final Activity activity, boolean exit) {
-        if (sAlertDialog != null && sAlertDialog.isShowing())
+        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing()))
             return;
         if (activity instanceof AppCompatActivity)
             sAlertDialog = createDialogCompat(activity, exit);
