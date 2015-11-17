@@ -63,7 +63,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -402,11 +401,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                         if (fragment.mService != null)
                             fragment.mService.removeLocation(media.getLocation());
                         fragment.mMediaLibrary.getMediaItems().remove(media);
-                        VLCApplication.runBackground(new Runnable() {
-                            public void run() {
-                                FileUtils.recursiveDelete(VLCApplication.getAppContext(), new File(path));
-                            }
-                        });
+                        FileUtils.asyncRecursiveDelete(path);
                     }
                     break;
             }

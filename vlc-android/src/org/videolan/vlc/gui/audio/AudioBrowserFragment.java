@@ -67,11 +67,9 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -696,11 +694,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     MediaWrapper mw = fragment.mSongsAdapter.getItem(msg.arg1).mMediaList.get(0);
                     final String path = mw.getUri().getPath();
                     //Let's keep this toast while duration is not set correctly
-                    VLCApplication.runBackground(new Runnable() {
-                        public void run() {
-                            FileUtils.recursiveDelete(VLCApplication.getAppContext(), new File(path));
-                        }
-                    });
+                    FileUtils.asyncRecursiveDelete(path);
                     fragment.mMediaLibrary.getMediaItems().remove(mw);
                     refresh(fragment, path);
                     break;

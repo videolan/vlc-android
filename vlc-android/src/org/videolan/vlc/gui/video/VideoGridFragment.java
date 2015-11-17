@@ -45,7 +45,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -70,7 +69,6 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.view.AutoFitRecyclerView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -492,11 +490,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     public void deleteMedia(int position){
         final MediaWrapper media = mVideoAdapter.getItem(position);
         final String path = media.getUri().getPath();
-        VLCApplication.runBackground(new Runnable() {
-            public void run() {
-                FileUtils.recursiveDelete(VLCApplication.getAppContext(), new File(path));
-            }
-        });
+        FileUtils.asyncRecursiveDelete(path);
         mMediaLibrary.getMediaItems().remove(media);
         mVideoAdapter.remove(media);
         if (mService != null) {

@@ -25,7 +25,6 @@ package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +37,10 @@ import org.videolan.vlc.VLCApplication;
 import java.io.File;
 
 public class FileUtils {
+
+    public interface Callback {
+        void onResult(boolean success);
+    }
 
     public static String getFileNameFromPath(String path){
         if (path == null)
@@ -93,14 +96,31 @@ public class FileUtils {
         return deleted;
     }
 
-    public static boolean recursiveDelete(Context context, File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory()) {
-            for (File child : fileOrDirectory.listFiles())
-                recursiveDelete(context, child);
-            return fileOrDirectory.delete();
-        } else {
-            return deleteFile (fileOrDirectory.getPath());
-        }
+    public static void asyncRecursiveDelete(String path, Callback callback) {
+        asyncRecursiveDelete(new File(path), callback);
+    }
+
+    public static void asyncRecursiveDelete(String path) {
+        asyncRecursiveDelete(path, null);
+    }
+
+    private static void asyncRecursiveDelete(final File fileOrDirectory, final Callback callback) {
+        VLCApplication.runBackground(new Runnable() {
+            public void run() {
+                if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
+                    return;
+                boolean success = true;
+                if (fileOrDirectory.isDirectory()) {
+                    for (File child : fileOrDirectory.listFiles())
+                        asyncRecursiveDelete(child, null);
+                    success = fileOrDirectory.delete();
+                } else {
+                    success = deleteFile(fileOrDirectory.getPath());
+                }
+                if (callback != null)
+                    callback.onResult(success);
+            }
+        });
     }
 
     public static boolean canWrite(String path){
