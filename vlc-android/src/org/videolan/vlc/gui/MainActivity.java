@@ -22,8 +22,10 @@ package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
@@ -32,6 +34,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -79,6 +82,7 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.plugin.PluginService;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -255,6 +259,36 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        Log.d("VLC/PluginService", "binding service");
+//        startService(new Intent(this, PluginService.class));
+        boolean connected = bindService(new Intent(MainActivity.this,
+                PluginService.class), mConnection, Context.BIND_AUTO_CREATE);
+        Log.d("VLC/PluginService", "binding service "+connected);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(mConnection);
+    }
+
+    private PluginService mBoundService;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d("VLC/PluginService", "onServiceConnected");
+            mBoundService = ((PluginService.LocalBinder)service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {}
+    };
 
     @Override
     protected void onResume() {
