@@ -1628,6 +1628,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         mCurrentIndex = index;
 
         notifyTrackChanged();
+        showNotification();
     }
 
     /**
