@@ -309,10 +309,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        if (!isPlaying())
+            stopSelf();
+        return true;
     }
 
     public IVLCVout getVLCVout()  {
