@@ -42,6 +42,17 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <permission
+        android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA"
+        android:protectionLevel="normal" />
+
+    <permission
+        android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA" />
+    <uses-permission android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER" />
+
     <application
         android:name="org.videolan.vlc.VLCApplication"
         android:hardwareAccelerated="true"
@@ -418,6 +429,7 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".plugin.PluginService" />
         <service android:name=".PlaybackService" />
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
