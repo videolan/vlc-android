@@ -942,6 +942,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         executeUpdate();
         executeUpdateProgress();
         changeAudioFocus(false);
+
+        stopSelf();
     }
 
     private void determinePrevAndNextIndices() {
