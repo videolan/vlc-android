@@ -299,6 +299,8 @@
     <string name="confirm_resume_title">Pedir confirmação para retomar</string>
     <string name="confirm_resume_summary">se ativar, será necessária uma confirmação para retomar a reprodução a partir da última posição</string>
     <string name="directory_empty">O diretório está vazio</string>
+    <string name="save_brightness_summary">Memoriza o nível de brilho no reprodutor de vídeo</string>
+    <string name="save_brightness_title">Guardar nível de brilho do vídeo</string>
     <!--Accessibility-->
     <string name="more_actions">Mais ações</string>
     <string name="move">Mover</string>
