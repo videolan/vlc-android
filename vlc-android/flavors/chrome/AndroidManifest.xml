@@ -67,9 +67,9 @@
                 <data android:scheme="https" />
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
-                <data android:mimeType="*/rmvb" />
-                <data android:mimeType="*/avi" />
-                <data android:mimeType="*/mkv" />
+                <data android:mimeType="video/rmvb" />
+                <data android:mimeType="video/avi" />
+                <data android:mimeType="video/mkv" />
                 <data android:mimeType="application/3gpp*" />
                 <data android:mimeType="application/mp4" />
                 <data android:mimeType="application/mpeg*" />
