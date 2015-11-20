@@ -292,6 +292,8 @@
     <string name="confirm_resume_title">確認是否繼續播放</string>
     <string name="confirm_resume_summary">啟用時詢問是否回復到上次播放的進度</string>
     <string name="directory_empty">資料夾為空</string>
+    <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
+    <string name="save_brightness_title">儲存視訊的亮度值</string>
     <!--Accessibility-->
     <string name="more_actions">更多動作</string>
     <string name="move">移動</string>
