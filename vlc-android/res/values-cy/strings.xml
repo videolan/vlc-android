@@ -313,6 +313,8 @@
     <string name="confirm_resume_title">Gofyn am gadarnhad cyn parhau</string>
     <string name="confirm_resume_summary">Os ar waith, cewch eich gofyn i gadarnhau cyn parhau i chwarae fideo o\'r man diwethaf.</string>
     <string name="directory_empty">Mae\'r cyfeiriadur yn wag.</string>
+    <string name="save_brightness_summary">Cofio\'r lefel disgleirdeb yn y chwaraeydd fideo</string>
+    <string name="save_brightness_title">Cadw\'r lefel disgleirdeb ar gyfer fideo</string>
     <!--Accessibility-->
     <string name="more_actions">Mwy o Weithredoedd</string>
     <string name="move">Symud</string>
