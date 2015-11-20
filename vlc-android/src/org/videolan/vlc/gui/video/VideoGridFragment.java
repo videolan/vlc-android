@@ -489,6 +489,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     public void deleteMedia(int position){
         final MediaWrapper media = mVideoAdapter.getItem(position);
+        if (media == null)
+            return;
         final String path = media.getUri().getPath();
         FileUtils.asyncRecursiveDelete(path);
         mMediaLibrary.getMediaItems().remove(media);

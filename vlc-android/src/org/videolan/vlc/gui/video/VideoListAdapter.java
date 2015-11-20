@@ -26,6 +26,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -200,8 +201,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return mSortDirection * compare;
     }
 
+    @Nullable
     public MediaWrapper getItem(int position) {
-        return mVideos.get(position);
+        if (position < 0 || position > mVideos.size())
+            return null;
+        else
+            return mVideos.get(position);
     }
 
     public void add(MediaWrapper item) {
@@ -210,8 +215,21 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void remove(MediaWrapper item) {
-        mVideos.remove(item);
-        notifyDataSetChanged();
+        int position = getItemPosition(item);
+        if (position == -1)
+            return;
+        mVideos.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    private int getItemPosition(MediaWrapper mw) {
+        if (mw == null || mVideos.isEmpty())
+            return -1;
+        for (int i = 0 ; i < mVideos.size(); ++i){
+            if (mw.equals(mVideos.get(i)))
+                return i;
+        }
+        return -1;
     }
 
     public void addAll(Collection<MediaWrapper> items) {
