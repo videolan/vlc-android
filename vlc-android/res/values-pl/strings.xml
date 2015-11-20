@@ -306,6 +306,8 @@
     <string name="confirm_resume_title">Wyświetl potwierdzenie, aby wznowić</string>
     <string name="confirm_resume_summary">jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
     <string name="directory_empty">Katalog jest pusty</string>
+    <string name="save_brightness_summary">Zapamiętaj poziom jasności w odtwarzaczu</string>
+    <string name="save_brightness_title">Zapisz poziomu jasności widea</string>
     <!--Accessibility-->
     <string name="more_actions">Więcej operacji</string>
     <string name="move">Przenieś</string>
