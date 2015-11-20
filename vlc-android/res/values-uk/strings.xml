@@ -306,6 +306,8 @@
     <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
     <string name="confirm_resume_summary">якщо задіяно, то вас запитуватимуть про підтвердження, коли відтворення відео можна відновити із останньої позиції</string>
     <string name="directory_empty">Каталог - порожній</string>
+    <string name="save_brightness_summary">Запам\'ятати рівень яскравості у відеопрогравачі</string>
+    <string name="save_brightness_title">Зберегти рівень яскравості для відео</string>
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
