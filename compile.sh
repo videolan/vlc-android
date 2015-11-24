@@ -222,7 +222,7 @@ fi
 # Chrome OS repackaging #
 #########################
 # You need to run the armv7 version first, then relaunch this script for x86
-if [ "$CHROME_OS" = 1 ]; then
+if [ "$CHROME_OS" = 1 -a "$ANDROID_ABI" = "x86" ]; then
     unzip -o vlc-android/build/outputs/apk/VLC-Android-CHROME-*-ARMv7.apk lib/armeabi-v7a/libvlcjni.so
     zip -rv vlc-android/build/outputs/apk/VLC-Android-CHROME-*-x86.apk lib/armeabi-v7a/libvlcjni.so
     rm -rf lib/
