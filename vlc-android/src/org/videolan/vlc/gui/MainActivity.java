@@ -585,7 +585,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                     startActivity(intent);
                 }
             }
-        } else if (requestCode == ACTIVITY_RESULT_OPEN){
+        } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());
         }
     }
