@@ -95,7 +95,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     private boolean mShowRemainingTime = false;
     private boolean mPreviewingSeek = false;
-    private boolean mSwitchedToVideo = false;
 
     private PlaylistAdapter mPlaylistAdapter;
 
@@ -176,7 +175,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             public void onClick(View v) {
                 if (mService != null) {
                     mService.switchToVideo();
-                    mSwitchedToVideo = true;
                 }
             }
         });
@@ -301,7 +299,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
                 mService.switchToVideo();
-                mSwitchedToVideo = true;
                 return;
             } else
                 show();
@@ -383,14 +380,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Opening:
-                mSwitchedToVideo = false;
-                break;
-            case MediaPlayer.Event.ESAdded:
-                final boolean forceAudio = (mService.getCurrentMediaWrapper().getFlags() & MediaWrapper.MEDIA_FORCE_AUDIO) != 0;
-                if (!forceAudio && !mSwitchedToVideo && event.getEsChangedType() == Media.Track.Type.Video) {
-                    mService.switchToVideo();
-                    mSwitchedToVideo = true;
-                }
                 break;
             case MediaPlayer.Event.Stopped:
                 hide();

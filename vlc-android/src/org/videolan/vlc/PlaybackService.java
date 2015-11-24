@@ -48,6 +48,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -547,6 +548,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     };
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
+
         @Override
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
@@ -576,9 +578,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     }
 
                     changeAudioFocus(true);
-                    showNotification();
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
+                    if (switchToVideo())
+                        hideNotification();
+                    else
+                        showNotification();
                     break;
                 case MediaPlayer.Event.Paused:
                     Log.i(TAG, "MediaPlayer.Event.Paused");
@@ -711,7 +716,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private boolean handleVout() {
         if (!canSwitchToVideo() || !mMediaPlayer.isPlaying())
             return false;
-        if (mMediaPlayer.getVLCVout().areViewsAttached()) {
+        if (isVideoPlaying()) {
             hideNotification(false);
             return true;
         } else
@@ -722,8 +727,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public boolean switchToVideo() {
         if (!canSwitchToVideo())
             return false;
-        if (!mMediaPlayer.getVLCVout().areViewsAttached())
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), mCurrentIndex);
+        if (isVideoPlaying()) {//Player is already running, just send it an intent
+            LocalBroadcastManager.getInstance(this).sendBroadcast(
+                    VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
+                            getCurrentMediaWrapper(), false, mCurrentIndex));
+        } else {//Start the video player
+            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+                    getCurrentMediaWrapper().getUri(), mCurrentIndex);
+        }
         return true;
     }
 
@@ -1137,12 +1148,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (mCurrentIndex < 0)
                 saveCurrentMedia();
             Log.w(TAG, "Warning: invalid next index, aborted !");
+            //Close video player if started
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(VideoPlayerActivity.EXIT_PLAYER));
             stop();
             return;
         }
-
         playIndex(mCurrentIndex, 0);
-        onMediaChanged();
+        saveCurrentMedia();
     }
 
     @MainThread
@@ -1161,7 +1173,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             setPosition(0f);
 
         playIndex(mCurrentIndex, 0);
-        onMediaChanged();
+        saveCurrentMedia();
     }
 
     @MainThread
