@@ -383,7 +383,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mVerticalBar = findViewById(R.id.verticalbar);
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
-        mEnableBrightnessGesture = mSettings.getBoolean("enable_brightness_gesture", true);
+        mEnableBrightnessGesture = !TextUtils.equals(BuildConfig.FLAVOR_target, "chrome") &&
+                mSettings.getBoolean("enable_brightness_gesture", true);
+
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
