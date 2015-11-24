@@ -279,6 +279,17 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             case R.id.video_list_play_audio:
                 playAudio(media);
                 return true;
+            case R.id.video_list_play_all:
+                ArrayList<MediaWrapper> playList = new ArrayList<>();
+                for (MediaWrapper mw : mVideoAdapter.getAll()) {
+                    if (mw instanceof MediaGroup) {
+                        for (MediaWrapper item : ((MediaGroup) mw).getAll())
+                            playList.add(item);
+                    } else
+                        playList.add(mw);
+                }
+                MediaUtils.openList(getActivity(), playList, position);
+                return true;
             case R.id.video_list_info:
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity)
@@ -297,6 +308,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 Message msg = mDeleteHandler.obtainMessage(DELETE_MEDIA, position, 0);
                 mDeleteHandler.sendMessageDelayed(msg, DELETE_DURATION);
                 return true;
+            case R.id.video_group_play:
+                MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+
         }
         return false;
     }
@@ -306,11 +320,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         // Do not show the menu of media group.
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
         MediaWrapper media = mVideoAdapter.getItem(info.position);
-        if (media == null || media instanceof MediaGroup)
+        if (media == null)
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.video_list, menu);
-        setContextMenuItems(menu, media);
+        inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
+        if (!(media instanceof MediaGroup))
+            setContextMenuItems(menu, media);
     }
 
     private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {

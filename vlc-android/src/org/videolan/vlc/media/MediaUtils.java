@@ -10,7 +10,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
@@ -35,16 +34,12 @@ public class MediaUtils {
     public static void openMedia(final Context context, final MediaWrapper media){
         if (media == null)
             return;
-        if (media.getType() == MediaWrapper.TYPE_VIDEO)
-            VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
-        else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
-            new DialogCallback(context, new DialogCallback.Runnable() {
+        new DialogCallback(context, new DialogCallback.Runnable() {
                 @Override
                 public void run(PlaybackService service) {
                     service.load(media);
                 }
-            });
-        }
+        });
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){

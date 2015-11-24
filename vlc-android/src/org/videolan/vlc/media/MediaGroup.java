@@ -20,10 +20,10 @@
 
 package org.videolan.vlc.media;
 
+import org.videolan.vlc.gui.helpers.BitmapUtil;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 public class MediaGroup extends MediaWrapper {
 
@@ -70,6 +70,10 @@ public class MediaGroup extends MediaWrapper {
 
     public MediaWrapper getFirstMedia() {
         return mMedias.get(0);
+    }
+
+    public ArrayList<MediaWrapper> getAll() {
+        return mMedias;
     }
 
     public int size() {

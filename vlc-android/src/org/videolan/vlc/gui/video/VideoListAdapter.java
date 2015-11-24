@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
@@ -238,6 +239,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     }
 
+    public ArrayList<MediaWrapper> getAll() {
+        return mVideos;
+    }
+
     @MainThread
     public void update(MediaWrapper item) {
         int position = mVideos.indexOf(item);
@@ -252,19 +257,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
-        boolean group;
         String text = "";
         String resolution = "";
         int max = 0;
         int progress = 0;
 
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
-            group = true;
             MediaGroup mediaGroup = (MediaGroup) media;
             int size = mediaGroup.size();
             resolution = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
         } else {
-            group = false;
             /* Time / Duration */
             if (media.getLength() > 0) {
                 long lastTime = media.getTime();
@@ -282,7 +284,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 resolution = String.format("%dx%d", media.getWidth(), media.getHeight());
         }
 
-        holder.binding.setVariable(BR.group, group);
         holder.binding.setVariable(BR.resolution, resolution);
         holder.binding.setVariable(BR.time, text);
         holder.binding.setVariable(BR.max, max);
@@ -348,7 +349,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public ClickHandler mClickHandler = new ClickHandler();
     public class ClickHandler {
         public void onClick(View v){
-            MediaWrapper media = mVideos.get(((Integer) v.findViewById(R.id.item_more).getTag()).intValue());
+            int position = ((Integer) v.findViewById(R.id.item_more).getTag()).intValue();
+            MediaWrapper media = mVideos.get(position);
             if (media instanceof MediaGroup) {
                 MainActivity activity = (MainActivity) mFragment.getActivity();
                 activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());

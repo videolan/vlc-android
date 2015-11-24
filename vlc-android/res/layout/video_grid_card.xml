@@ -31,10 +31,6 @@
             type="String" />
 
         <variable
-            name="group"
-            type="boolean" />
-
-        <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable" />
 
@@ -118,8 +114,7 @@
                         android:onClick="@{handler.onMoreClick}"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_more"
-                        android:tag="@{position}"
-                        android:visibility="@{group ? View.INVISIBLE : View.VISIBLE}" />
+                        android:tag="@{position}" />
 
                 </LinearLayout>
 
