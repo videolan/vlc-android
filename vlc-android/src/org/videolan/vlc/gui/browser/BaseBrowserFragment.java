@@ -32,7 +32,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -46,7 +45,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -414,22 +412,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onPopupMenu(View anchor, final int position) {
-        if (!AndroidUtil.isHoneycombOrLater()) {
-            // Call the "classic" context menu
-            anchor.performLongClick();
-            return;
-        }
-        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
-        setContextMenu(popupMenu.getMenuInflater(), popupMenu.getMenu(), position);
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return handleContextItemSelected(item, position);
-            }
-        });
-        popupMenu.show();
+    public void openContextMenu(final int position) {
+        mRecyclerView.openContextMenu(position);
     }
 
     protected boolean handleContextItemSelected(MenuItem item, int position) {

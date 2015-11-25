@@ -306,7 +306,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void onMoreClick(View v){
-            fragment.onPopupMenu(v,((Integer)v.getTag()).intValue());
+            fragment.openContextMenu(((Integer) v.getTag()).intValue());
         }
     }
 
