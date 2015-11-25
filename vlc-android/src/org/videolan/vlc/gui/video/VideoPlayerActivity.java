@@ -214,6 +214,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
     private ImageView mTracks;
+    private ImageView mNavMenu;
     private ImageView mRewind;
     private ImageView mForward;
     private ImageView mAdvOptions;
@@ -397,6 +398,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
 
+        mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
+
         if (mSettings.getBoolean("enable_seek_buttons", false))
             initSeekButton();
 
@@ -469,30 +472,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         resetHudLayout();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.video_player, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onPrepareOptionsMenu(Menu menu){
-        MenuItem item = menu.findItem(R.id.pl_menu_nav);
-        if (item != null) {
-            item.setVisible(mMenuIdx >= 0 && !mIsNavMenu);
-            MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
-            case R.id.pl_menu_nav:
-                showNavMenu();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -508,6 +487,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLength.setOnClickListener(mRemainingTimeListener);
         mTime.setOnClickListener(mRemainingTimeListener);
         mSize.setOnClickListener(mSizeListener);
+        mNavMenu.setOnClickListener(mNavMenuListener);
 
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
@@ -2270,6 +2250,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
+    private final OnClickListener mNavMenuListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            showNavMenu();
+        }
+    };
+
     private void resizeVideo() {
         if (mCurrentSize < SURFACE_ORIGINAL) {
             mCurrentSize++;
@@ -2365,6 +2353,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.setVisibility(View.VISIBLE);
                 if (mForward != null)
                     mForward.setVisibility(View.VISIBLE);
+                if (mMenuIdx >= 0 && mNavMenu != null)
+                    mNavMenu.setVisibility(View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2397,6 +2387,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mForward != null)
                     mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mMenuIdx >= 0 && mNavMenu != null)
+                    mNavMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             } else
                 mSize.setVisibility(View.INVISIBLE);
             if (mPresentation != null) {
@@ -2414,6 +2406,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mRewind.setVisibility(View.INVISIBLE);
             if (mForward != null)
                 mForward.setVisibility(View.INVISIBLE);
+            if (mMenuIdx >= 0 && mNavMenu != null)
+                mNavMenu.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
