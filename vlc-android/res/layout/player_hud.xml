@@ -102,7 +102,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:src="@drawable/ic_pause_circle"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
             android:focusable="true"/>
 
         <ImageView
