@@ -162,7 +162,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         if (savedInstanceState != null){
             mCurrentFragment = savedInstanceState.getInt("current");
-            if (mCurrentFragment <= 0)
+            if (mCurrentFragment > 0)
                 mNavigationView.setCheckedItem(mCurrentFragment);
         }
 
