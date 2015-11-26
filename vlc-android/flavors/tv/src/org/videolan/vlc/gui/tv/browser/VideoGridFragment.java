@@ -26,15 +26,20 @@ package org.videolan.vlc.gui.tv.browser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.util.SimpleArrayMap;
 
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.media.Thumbnailer;
 
 import java.util.ArrayList;
 
@@ -43,6 +48,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
     private Handler mHandler = new VideoListHandler(this);
     protected static Thumbnailer sThumbnailer;
     SimpleArrayMap<String, Integer> mMediaIndex;
+    ArrayList<MediaWrapper> mVideoList;
 
     private volatile AsyncVideoUpdate mUpdater = null;
 
@@ -85,12 +91,12 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
             int size;
             MediaWrapper MediaWrapper;
 
-            ArrayList<MediaWrapper> mediaList = mMediaLibrary.getVideoItems();
-            size = mediaList == null ? 0 : mediaList.size();
+            mVideoList = mMediaLibrary.getVideoItems();
+            size = mVideoList == null ? 0 : mVideoList.size();
             mMediaIndex = new SimpleArrayMap<String, Integer>(size);
 
             for (int i = 0 ; i < size ; ++i){
-                MediaWrapper = mediaList.get(i);
+                MediaWrapper = mVideoList.get(i);
                 mMediaIndex.put(MediaWrapper.getLocation(), Integer.valueOf(i));
                 publishProgress(MediaWrapper);
             }
@@ -108,6 +114,14 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
         }
     }
 
+
+    OnItemViewClickedListener mClickListener = new OnItemViewClickedListener() {
+        @Override
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
+            MediaUtils.openList(mContext, mVideoList, mMediaIndex.get(((MediaWrapper)item).getLocation()).intValue());
+        }
+    };
     @Override
     public void setItemToUpdate(MediaWrapper item) {
         mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
