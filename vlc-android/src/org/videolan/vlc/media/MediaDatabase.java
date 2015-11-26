@@ -883,7 +883,11 @@ public class MediaDatabase {
     }
 
     public synchronized void removeMedia(Uri uri) {
-        mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[]{uri.toString()});
+        try {
+            mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[]{uri.toString()});
+        } catch (SQLiteException e) {
+            // Some devices have weird issues with FTS table
+        }
     }
 
     public synchronized void removeMedias(Collection<Uri> uris) {
