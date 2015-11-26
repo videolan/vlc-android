@@ -551,10 +551,15 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return nativeSetVideoTrack(index);
     }
 
-    private void setVideoTrackEnabled(boolean enabled) {
+    /**
+     * Set the enabled state of the video track
+     *
+     * @param enabled
+     */
+    public void setVideoTrackEnabled(boolean enabled) {
         if (!enabled) {
             setVideoTrack(-1);
-        } else {
+        } else if (getVideoTrack() == -1) {
             final MediaPlayer.TrackDescription tracks[] = getVideoTracks();
 
             if (tracks != null) {
