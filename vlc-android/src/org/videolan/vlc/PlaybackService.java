@@ -728,6 +728,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (!canSwitchToVideo())
             return false;
         if (isVideoPlaying()) {//Player is already running, just send it an intent
+            mMediaPlayer.setVideoTrackEnabled(true);
             LocalBroadcastManager.getInstance(this).sendBroadcast(
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
                             getCurrentMediaWrapper(), false, mCurrentIndex));
