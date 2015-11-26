@@ -1058,12 +1058,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
-//        case KeyEvent.KEYCODE_MEDIA_NEXT:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
             seekDelta(10000);
             return true;
         case KeyEvent.KEYCODE_R:
-            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
         case KeyEvent.KEYCODE_MEDIA_REWIND:
             seekDelta(-10000);
             return true;
