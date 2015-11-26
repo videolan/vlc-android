@@ -146,6 +146,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static String PLAY_EXTRA_ITEM_TITLE = "title";
     public final static String PLAY_EXTRA_FROM_START = "from_start";
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
+    public final static String PLAY_DISABLE_HARDWARE = "disable_hardware";
 
     public final static String ACTION_RESULT = Strings.buildPkgString("player.result");
     public final static String EXTRA_POSITION = "extra_position";
@@ -2771,7 +2772,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 final MediaWrapper mw = new MediaWrapper(mUri);
                 if (wasPaused)
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
-                if (mHardwareAccelerationError)
+                if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
                     mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 mw.addFlags(MediaWrapper.MEDIA_VIDEO);
