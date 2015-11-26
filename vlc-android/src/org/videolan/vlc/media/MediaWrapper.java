@@ -20,21 +20,21 @@
 
 package org.videolan.vlc.media;
 
-import java.util.Locale;
-
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.Extensions;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.Media.VideoTrack;
-import org.videolan.libvlc.Media.Meta;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
+
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.Media.Meta;
+import org.videolan.libvlc.Media.VideoTrack;
+import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.Extensions;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
+
+import java.util.Locale;
 
 public class MediaWrapper implements Parcelable {
     public final static String TAG = "VLC/MediaWrapper";
@@ -449,6 +449,9 @@ public class MediaWrapper implements Parcelable {
     }
     public int getFlags() {
         return mFlags;
+    }
+    public boolean hasFlag(int flag) {
+        return (mFlags & flag) != 0;
     }
     public void removeFlags(int flags) {
         mFlags &= ~flags;
