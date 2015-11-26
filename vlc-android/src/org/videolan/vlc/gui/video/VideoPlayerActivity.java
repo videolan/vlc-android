@@ -527,6 +527,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (uri == null || uri.equals(mUri))
                 return;
             initUI();
+            setOverlayProgress();
+            updateSeekable(mService.isSeekable());
+            updatePausable(mService.isPausable());
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
         }
     }
@@ -678,7 +681,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackStarted = true;
 
         final IVLCVout vlcVout = mService.getVLCVout();
-//        vlcVout.detachViews();
         if (mPresentation == null) {
             vlcVout.setVideoView(mSurfaceView);
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
@@ -915,7 +917,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @NonNull
     public static Intent getIntent(String action, Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
-        intent.setAction(PLAY_FROM_VIDEOGRID);
+        intent.setAction(action);
         intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, uri);
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
         intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
@@ -2821,6 +2823,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (intentPosition > 0 && mediaLength >= 0l)
                     seek(intentPosition, mediaLength);
             } else {
+                mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
                 mService.addCallback(this);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mService.isPlaying())
