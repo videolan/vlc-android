@@ -1595,6 +1595,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         final MediaWrapper mw = mMediaList.getMedia(index);
         if (mw == null)
             return;
+        if (mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying())
+            mw.addFlags(MediaWrapper.MEDIA_VIDEO);
 
         /* Pausable and seekable are true by default */
         mParsed = false;
