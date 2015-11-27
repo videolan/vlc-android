@@ -98,6 +98,8 @@
     <string name="previous">Forrige</string>
     <string name="stop">Stop</string>
     <string name="next">Næste</string>
+    <string name="firstsong">Første nummer i spillelisten</string>
+    <string name="lastsong">Sidste nummer i spillelisten</string>
     <string name="locked">Låst</string>
     <string name="unlocked">Ulåst</string>
     <string name="surface_best_fit">Bedste tilpasning</string>
@@ -148,8 +150,6 @@
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
     <string name="search">Søg</string>
     <string name="search_history">Søg historik</string>
-    <string name="hardware_acceleration_error_title">HW-accelerationsfejl</string>
-    <string name="hardware_acceleration_error_message">Der opstod en fejl ved hardwareacceleration. Vil du slå den fra og forsøge igen?</string>
     <!--Tips-->
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>
@@ -213,8 +213,8 @@
     <string name="interface_other_category">Brugerflade - andet</string>
     <string name="enable_brightness_gesture">Slå lysstyrke-gestus til</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
-    <string name="enable_jump_buttons">Slå skip-knapper til</string>
-    <string name="enable_jump_buttons_summary">Vis bagud- og forlæns-knapper på videobrugerfladen</string>
+    <string name="enable_seek_buttons">Slå søgeknapper til</string>
+    <string name="enable_seek_buttons_summary">Vis spoleknapper på brugerflade for video</string>
     <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
     <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
@@ -299,6 +299,8 @@
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
     <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
     <string name="directory_empty">Mappen er tom</string>
+    <string name="save_brightness_summary">Husk niveau for lysstyrke i videoafspilleren </string>
+    <string name="save_brightness_title">Gem niveau for lysstyrke for video</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
@@ -310,4 +312,11 @@
     <!--Widget-->
     <string name="widget_name_w">VLC hvid widget</string>
     <string name="widget_name_b">VLC sort widget</string>
+    <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
+    <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
+    <string name="allow_settings_access_title">Tillad at VLC angiver ringetonen</string>
+    <string name="allow_settings_access_description">VLC kræver at du giver rettigheder til at angive denne sang som din ringetone.</string>
+    <string name="permission_ask_again">Tildel rettighed</string>
+    <string name="exit_app">Luk VLC</string>
+    <string name="hardware_acceleration_error">fejl i hardwareacceleration, skifter til software-afkodning</string>
 </resources>
