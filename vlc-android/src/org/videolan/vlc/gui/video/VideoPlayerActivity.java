@@ -223,6 +223,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mAdvOptions;
     private ImageView mDelayPlus;
     private ImageView mDelayMinus;
+    private View mObjectFocused;
     private boolean mEnableBrightnessGesture;
     private boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime = false;
@@ -2385,6 +2386,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mOverlayTimeout != OVERLAY_INFINITE)
             mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), mOverlayTimeout);
         updateOverlayPausePlay();
+        if (!(mObjectFocused == null)) {
+            if (mObjectFocused.isFocusable())
+                mObjectFocused.requestFocus();
+            mObjectFocused =  null;
+        }
     }
 
 
@@ -2396,6 +2402,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHandler.removeMessages(FADE_OUT);
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
+            mObjectFocused = getCurrentFocus();
             if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
