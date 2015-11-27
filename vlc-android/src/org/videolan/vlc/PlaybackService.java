@@ -1258,7 +1258,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         sendBroadcast(broadcast);
     }
 
-    private synchronized void loadLastPlaylist() {
+    public synchronized void loadLastPlaylist() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String currentMedia = prefs.getString("current_media", "");
         if (currentMedia.equals(""))
@@ -1290,7 +1290,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private synchronized void saveMediaList() {
-        if (getCurrentMedia() == null || getCurrentMedia().getType() == MediaWrapper.TYPE_VIDEO)
+        if (getCurrentMedia() == null)
             return;
         StringBuilder locations = new StringBuilder();
         for (int i = 0; i < mMediaList.size(); i++)
@@ -1302,7 +1302,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private synchronized void savePosition(){
-        if (getCurrentMedia() == null || getCurrentMedia().getType() == MediaWrapper.TYPE_VIDEO)
+        if (getCurrentMedia() == null)
             return;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putBoolean("shuffling", mShuffling);

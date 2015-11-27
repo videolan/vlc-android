@@ -54,7 +54,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -67,7 +66,6 @@ import android.view.Display;
 import android.view.GestureDetector;
 import android.view.InputDevice;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -244,9 +242,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private boolean mSwitchingView;
     private boolean mHardwareAccelerationError;
-    private boolean mEndReached;
     private boolean mHasSubItems = false;
-    private boolean mForceStop = false;
 
     // Playlist
     private int savedIndexPosition = -1;
@@ -434,7 +430,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSwitchingView = false;
         mHardwareAccelerationError = false;
-        mEndReached = false;
 
         mAskResume = mSettings.getBoolean("dialog_confirm_resume", false);
         // Clear the resume time, since it is only used for resumes in external
@@ -807,8 +802,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             time = 0;
         else
             time -= 2000; // go back 2 seconds, to compensate loading time
-        if (mForceStop)
-            mService.stop();
+        mService.stop();
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -1038,7 +1032,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else if (BuildConfig.tv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else {
-            mForceStop = true;
             exitOK();
             super.onBackPressed();
         }
@@ -1585,7 +1578,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void handleVout(int voutCount) {
         final IVLCVout vlcVout = mService.getVLCVout();
-        if (vlcVout.areViewsAttached() && voutCount == 0 && !mEndReached) {
+        if (vlcVout.areViewsAttached() && voutCount == 0) {
             /* Video track lost, open in audio mode */
             Log.i(TAG, "Video track lost, switching to audio");
             mSwitchingView = true;
@@ -2852,7 +2845,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Get the title
             if (itemTitle == null)
                 title = mUri.getLastPathSegment();
-        }
+        } else
+            mService.loadLastPlaylist();
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);
