@@ -122,6 +122,7 @@ public class VideoGridAnimator {
                 isAnimating = false;
                 View v = mGridView.getChildAt(i);
                 setAlpha(1, v);
+                mGridView.setVisibility(View.VISIBLE);
                 v.startAnimation(animSet);
             }
         }

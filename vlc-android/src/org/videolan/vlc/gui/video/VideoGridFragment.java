@@ -180,6 +180,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         mMediaLibrary.setBrowser(this);
         mMediaLibrary.addUpdateHandler(mHandler);
         final boolean refresh = mVideoAdapter.isEmpty();
+        // We don't animate while medialib is scanning. Because gridview is being populated.
+        // That would lead to graphical glitches
+        final boolean animate = mGroup == null && refresh && !mMediaLibrary.isWorking();
+        if (animate)
+            mGridView.setVisibility(View.INVISIBLE);
         if (refresh)
             updateList();
         else {
@@ -190,7 +195,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         ArrayMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
         mVideoAdapter.setTimes(times);
         updateViewMode();
-        if (mGroup == null && refresh)
+        if (animate)
             mAnimator.animate();
 
         /* Start the thumbnailer */
