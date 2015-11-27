@@ -702,9 +702,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.addSubtitleTrack(file);
             }
         }
-
-        // Set user playback speed
-        mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, 1));
     }
 
     private void initUI() {
@@ -794,7 +791,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         cleanUI();
 
-        final boolean isPaused = !mService.isPlaying();
         long time = getTime();
         long length = mService.getLength();
         //remove saved position if in the last 5 seconds
@@ -817,10 +813,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
             }
         }
-        if(isPaused)
-            Log.d(TAG, "Video paused - saving flag");
-        editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, isPaused);
-
         // Save selected subtitles
         String subtitleList_serialized = null;
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -833,12 +825,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             } catch(IOException e) {}
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
-
-        if (mUri != null)
-            editor.putString(PreferencesActivity.VIDEO_LAST, mUri.toString());
-
-        // Save user playback speed and restore normal speed
-        editor.putFloat(PreferencesActivity.VIDEO_SPEED, mService.getRate());
         mService.setRate(1.0f);
 
         Util.commitPreferences(editor);
@@ -2598,12 +2584,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         Uri data;
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
-        long mediaLength = 0l;
         Intent intent = getIntent();
         String action = intent.getAction();
         Bundle extras = getIntent().getExtras();
 
-        boolean wasPaused;
+        boolean wasPaused = false;
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -2614,8 +2599,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final KeyguardManager km = (KeyguardManager) VLCApplication.getAppContext().getSystemService(KEYGUARD_SERVICE);
         if (km.inKeyguardRestrictedInputMode())
             wasPaused = true;
-        else
-            wasPaused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
         if (wasPaused)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
@@ -2766,9 +2749,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     if (mAskResume) {
                         showConfirmResumeDialog();
                         return;
-                    } else {
-                        intentPosition = media.getTime();
-                        mediaLength = media.getLength();
                     }
                 }
                 // Consume fromStart option after first use to prevent
@@ -2813,8 +2793,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.addCallback(this);
                 mService.load(mw);
                 savedIndexPosition = mService.getCurrentMediaPosition();
-                if (intentPosition > 0 && mediaLength >= 0l)
-                    seek(intentPosition, mediaLength);
             } else {
                 mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
                 mService.addCallback(this);
@@ -2824,6 +2802,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     onPlaying();
             }
+            if (media.getTime() > 0l)
+                seek(media.getTime());
 
             // Get possible subtitles
             String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
@@ -2846,7 +2826,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (itemTitle == null)
                 title = mUri.getLastPathSegment();
         } else
-            mService.loadLastPlaylist();
+            mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);

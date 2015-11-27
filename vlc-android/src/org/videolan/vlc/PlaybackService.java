@@ -67,6 +67,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -106,7 +107,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public static final String ACTION_REMOTE_STOP = ACTION_REMOTE_GENERIC+"Stop";
     public static final String ACTION_REMOTE_FORWARD = ACTION_REMOTE_GENERIC+"Forward";
     public static final String ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC+"LastPlaylist";
-    public static final String ACTION_REMOTE_RESUME_VIDEO = ACTION_REMOTE_GENERIC+"ResumeVideo";
+    public static final String ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC+"LastVideoPlaylist";
+    public static final String ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC+"SwitchToVideo";
 
     public interface Callback {
         void update();
@@ -159,13 +161,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             | PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP
             | PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
 
+    public static final int TYPE_AUDIO = 0;
+    public static final int TYPE_VIDEO = 1;
+
     public static final int REPEAT_NONE = 0;
     public static final int REPEAT_ONE = 1;
     public static final int REPEAT_ALL = 2;
     private boolean mShuffling = false;
     private int mRepeating = REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
-
+    private long mSavedTime = 0l;
     private boolean mHasAudioFocus = false;
     // RemoteControlClient-related
     /**
@@ -236,7 +241,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         filter.addAction(ACTION_REMOTE_STOP);
         filter.addAction(ACTION_REMOTE_FORWARD);
         filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
-        filter.addAction(ACTION_REMOTE_RESUME_VIDEO);
+        filter.addAction(ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
+        filter.addAction(ACTION_REMOTE_SWITCH_VIDEO);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -278,12 +284,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (hasCurrentMedia())
                 return START_STICKY;
             else
-                loadLastPlaylist();
+                loadLastPlaylist(TYPE_AUDIO);
         } else if (ACTION_REMOTE_PLAY.equals(intent.getAction())) {
             if (hasCurrentMedia())
                 play();
             else
-                loadLastPlaylist();
+                loadLastPlaylist(TYPE_AUDIO);
         }
         updateWidget();
         return super.onStartCommand(intent, flags, startId);
@@ -475,8 +481,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
                 next();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
-                loadLastPlaylist();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_RESUME_VIDEO)) {
+                loadLastPlaylist(TYPE_AUDIO);
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
+                loadLastPlaylist(TYPE_VIDEO);
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_SWITCH_VIDEO)) {
                 switchToVideo();
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_INIT)) {
                 updateWidget();
@@ -841,8 +849,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             PendingIntent pendingIntent;
             if (canSwitchToVideo()) {
-                /* Resume VideoPlayerActivity from from ACTION_REMOTE_RESUME_VIDEO intent */
-                final Intent notificationIntent = new Intent(ACTION_REMOTE_RESUME_VIDEO);
+                /* Resume VideoPlayerActivity from from ACTION_REMOTE_SWITCH_VIDEO intent */
+                final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
                 pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             } else {
                 /* Resume AudioPlayerActivity */
@@ -1258,34 +1266,50 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         sendBroadcast(broadcast);
     }
 
-    public synchronized void loadLastPlaylist() {
+    public synchronized void loadLastPlaylist(int type) {
+        boolean audio = type == TYPE_AUDIO;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentMedia = prefs.getString("current_media", "");
+        String currentMedia = prefs.getString(audio ? "current_song" : "current_media", "");
         if (currentMedia.equals(""))
             return;
-        String[] locations = prefs.getString("media_list", "").split(" ");
+        String[] locations = prefs.getString(audio ? "audio_list" : "media_list", "").split(" ");
 
         List<String> mediaPathList = new ArrayList<String>(locations.length);
         for (int i = 0 ; i < locations.length ; ++i)
             mediaPathList.add(Uri.decode(locations[i]));
 
-        mShuffling = prefs.getBoolean("shuffling", false);
-        mRepeating = prefs.getInt("repeating", REPEAT_NONE);
-        int position = prefs.getInt("position_in_list", Math.max(0, mediaPathList.indexOf(currentMedia)));
-        long time = prefs.getLong("position_in_song", -1);
+        mShuffling = prefs.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
+        mRepeating = prefs.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
+        int position = prefs.getInt(audio ? "position_in_audio_list" : "position_in_media_list",
+                Math.max(0, mediaPathList.indexOf(currentMedia)));
+        long time = prefs.getLong(audio ? "position_in_song" : "position_in_media", -1);
+        mSavedTime = time;
         // load playlist
         loadLocations(mediaPathList, position);
         if (time > 0)
             setTime(time);
+        if(!audio) {
+            boolean paused = prefs.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
+            float rate = prefs.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
+            if (paused)
+                pause();
+            if (rate != 1.0f)
+                setRate(rate);
+        }
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("position_in_list", 0);
-        editor.putLong("position_in_song", 0);
+        editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
+        editor.putLong(audio ? "position_in_song" : "position_in_media", 0);
         Util.commitPreferences(editor);
     }
 
     private synchronized void saveCurrentMedia() {
+        boolean audio = true;
+        for (int i = 0; i < mMediaList.size(); i++) {
+            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
+                audio = false;
+        }
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
+        editor.putString(audio ? "current_song" : "current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
         Util.commitPreferences(editor);
     }
 
@@ -1293,11 +1317,15 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (getCurrentMedia() == null)
             return;
         StringBuilder locations = new StringBuilder();
-        for (int i = 0; i < mMediaList.size(); i++)
+        boolean audio = true;
+        for (int i = 0; i < mMediaList.size(); i++) {
+            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
+                audio = false;
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
+        }
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("media_list", locations.toString().trim());
+        editor.putString(audio ? "audio_list" : "media_list", locations.toString().trim());
         Util.commitPreferences(editor);
     }
 
@@ -1305,10 +1333,19 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (getCurrentMedia() == null)
             return;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putBoolean("shuffling", mShuffling);
-        editor.putInt("repeating", mRepeating);
-        editor.putInt("position_in_list", mCurrentIndex);
-        editor.putLong("position_in_song", mMediaPlayer.getTime());
+        boolean audio = true;
+        for (int i = 0; i < mMediaList.size(); i++) {
+            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
+                audio = false;
+        }
+        editor.putBoolean(audio ? "audio_shuffling" : "media_shuffling", mShuffling);
+        editor.putInt(audio ? "audio_repeating" : "media_repeating", mRepeating);
+        editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", mCurrentIndex);
+        editor.putLong(audio ? "position_in_song" : "position_in_media", mMediaPlayer.getTime());
+        if(!audio) {
+            editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
+            editor.putFloat(PreferencesActivity.VIDEO_SPEED, getRate());
+        }
         Util.commitPreferences(editor);
     }
 
@@ -1617,6 +1654,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         changeAudioFocus(true);
         mMediaPlayer.setEventListener(mMediaPlayerListener);
         mMediaPlayer.play();
+        if(mSavedTime != 0l)
+            mMediaPlayer.setTime(mSavedTime);
+        mSavedTime = 0l;
 
         notifyTrackChanged();
         determinePrevAndNextIndices();

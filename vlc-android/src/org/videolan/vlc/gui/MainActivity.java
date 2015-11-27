@@ -72,7 +72,6 @@ import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
@@ -530,14 +529,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
-                if (current instanceof AudioBrowserFragment) {
-                    Intent i = new Intent(PlaybackService.ACTION_REMOTE_LAST_PLAYLIST);
+                boolean audio = current instanceof AudioBrowserFragment;
+                    Intent i = new Intent(audio ? PlaybackService.ACTION_REMOTE_LAST_PLAYLIST :
+                           PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
                     sendBroadcast(i);
-                } else if (current instanceof VideoGridFragment) {
-                    final Uri uri = Uri.parse(mSettings.getString(PreferencesActivity.VIDEO_LAST, null));
-                    if (uri != null)
-                        VideoPlayerActivity.start(this, uri);
-                }
                 break;
             case android.R.id.home:
                 // Slide down the audio player.
