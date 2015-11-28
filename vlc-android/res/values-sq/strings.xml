@@ -145,8 +145,6 @@
     <string name="invalid_location">Lokacion jo i drejt</string>
     <string name="search">Kërko</string>
     <string name="search_history">Kërko historinë</string>
-    <string name="hardware_acceleration_error_title">HW acceleration error</string>
-    <string name="hardware_acceleration_error_message">Një error ndodhi me hardware acceleration. A dëshironi ta çaktivizoni dhe të provoni përsëri?</string>
     <!--Tips-->
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Dua</string>
@@ -210,8 +208,6 @@
     <string name="interface_other_category">Ndërfaqja - Tjera</string>
     <string name="enable_brightness_gesture">Aktivizo gjestet e bardhësisë</string>
     <string name="enable_brightness_gesture_summary">Kontrollo me gjeste bardhësine gjatë luajtjes së videos</string>
-    <string name="enable_jump_buttons">Aktivizo butonat e shkurtër</string>
-    <string name="enable_jump_buttons_summary">Shfaq butonat para dhe pas ne ndërfaqjen e videos</string>
     <string name="force_list_portrait">Pa rrjetë ne formen portret</string>
     <string name="force_list_portrait_summary">Shfaq videot në listë ne vend të rrjetës ne formën portret</string>
     <string name="audio_title_alignment">Radhitja e titullit të audios</string>
