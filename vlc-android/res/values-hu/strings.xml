@@ -127,8 +127,6 @@
     <string name="invalid_location">%1$s helyet nem lehet lejátszani.</string>
     <string name="search">Keresés</string>
     <string name="search_history">Keresési napló</string>
-    <string name="hardware_acceleration_error_title">Hardveres gyorsítás hiba</string>
-    <string name="hardware_acceleration_error_message">Hiba történt a hardveres gyorsítás közben. Szeretnéd kikapcsolni és újra megpróbálni?</string>
     <!--Tips-->
     <string name="video_player_tips">Lejátszó tippek:</string>
     <string name="subtitles">Feliratok</string>
@@ -180,8 +178,6 @@
     <string name="interface_other_category">Kezelőfelület - Egyéb</string>
     <string name="enable_brightness_gesture">Fényerősség gesztus engedélyezése</string>
     <string name="enable_brightness_gesture_summary">Fényerő szabályozása gesztussal videólejátszás közben</string>
-    <string name="enable_jump_buttons">Ugrás gombok engedélyezése</string>
-    <string name="enable_jump_buttons_summary">Előre és hátra gombok megjelenítése videólejátszáskor</string>
     <string name="enable_headset_detection">Fejhallgató észlelése</string>
     <string name="enable_headset_detection_summary">Fejhallgató eltávolításakor szünet; visszahelyezésekor folytatás</string>
     <string name="enable_steal_remote_control">Kizárólagosan vezérelje a fejhallgatót</string>
