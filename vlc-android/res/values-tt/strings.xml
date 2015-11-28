@@ -110,8 +110,6 @@
     <string name="invalid_location">%1$s уйнатып булмый.</string>
     <string name="search">Эзләргә</string>
     <string name="search_history">Тарихта эзләргә</string>
-    <string name="hardware_acceleration_error_title">Апп. тизләнештә хата</string>
-    <string name="hardware_acceleration_error_message">Аппаратлы тизләнеш белән хата килеп чыкты. Аны сүндерергәме яки кабатлап караргамы?</string>
     <!--Tips-->
     <string name="video_player_tips">Видео уйнаткыч киңәше:</string>
     <string name="seek">Эзләргә</string>
@@ -167,8 +165,6 @@
     <string name="interface_other_category">Интерфейс - Башкалар</string>
     <string name="enable_brightness_gesture">Ишарә белән яктылыкны үзгәртергә</string>
     <string name="enable_brightness_gesture_summary">Видео уйнатканда яктылык белән ишарә ярдәмендә идарә итү</string>
-    <string name="enable_jump_buttons">Күчү төймәләрен кабызырга</string>
-    <string name="enable_jump_buttons_summary">Видео интерфейсында артка һәм алга күчү төймәләрен күрсәтергә</string>
     <string name="enable_headset_detection">Гарнитураны күзәтү</string>
     <string name="enable_headset_detection_summary">Гарнитураны сүндергәндә тыналыш; тоташтырганда дәвам итү</string>
     <string name="enable_steal_remote_control">Гарнитурадан идарәне эләктерү</string>
