@@ -141,8 +141,6 @@
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
     <string name="search">Buscar</string>
     <string name="search_history">Historial de busca</string>
-    <string name="hardware_acceleration_error_title">Houbo un erro coa aceleración de hardware</string>
-    <string name="hardware_acceleration_error_message">Houbo un erro coa aceleración de hardware. Quere desactivala e tentalo de novo?</string>
     <!--Tips-->
     <string name="video_player_tips">Suxestións para o reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>
@@ -200,8 +198,6 @@
     <string name="interface_other_category">Interface - Outras</string>
     <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
-    <string name="enable_jump_buttons">Activar os botóns de salto</string>
-    <string name="enable_jump_buttons_summary">Mostrar os botóns de avance e retroceso na interface de vídeo</string>
     <string name="audio_title_alignment">Aliñamento do título de audio</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
     <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares</string>
