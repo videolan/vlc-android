@@ -147,8 +147,6 @@
     <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
     <string name="search">Søk</string>
     <string name="search_history">Søk i historien</string>
-    <string name="hardware_acceleration_error_title">Maskinvareaksellerasjons-feil</string>
-    <string name="hardware_acceleration_error_message">Det oppstod en feil med maskinvareakselerasjon. Har du lyst til å deaktivere det og prøve igjen?</string>
     <!--Tips-->
     <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>
@@ -188,6 +186,8 @@
     <string name="hardware_acceleration_full">Full akselerasjon</string>
     <string name="dev_hardware_decoder">Avansert maskinvarebasert dekoder</string>
     <string name="dev_hardware_decoder_summary">Påtving maskinvarebasert dekoding, for avansert bruk å regne</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="dev_hardware_decoder_mediacodec">mediakodek</string>
     <string name="dev_hardware_decoder_mediacodec_dr">mediakodek-dr</string>
     <string name="automatic">Automatisk</string>
@@ -210,8 +210,6 @@
     <string name="interface_other_category">Grensesnitt - Annet</string>
     <string name="enable_brightness_gesture">Aktiver bevegelse for lysstyrke.</string>
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
-    <string name="enable_jump_buttons">Aktivér hoppeknapper</string>
-    <string name="enable_jump_buttons_summary">Vis bakover- og fremoverknapper ved videoavspilling</string>
     <string name="force_list_portrait">Inget rutenett i portrettmodus</string>
     <string name="force_list_portrait_summary">Vis videoer i liste i steden for rutenett i portrettmodus</string>
     <string name="audio_title_alignment">Lydtittel justering</string>
@@ -287,6 +285,7 @@
     <string name="playlist_save">Lagre spilleliste</string>
     <string name="playlist_name_hint">spillelistenavn</string>
     <string name="go_to_chapter">Gå til kapittel...</string>
+    <string name="chapter">Kapittel</string>
     <string name="resume_from_position">Fortsett fra siste posisjon</string>
     <string name="confirm_resume">Fortsett fra siste posisjon?</string>
     <string name="confirm_resume_title">Spør om bekreftelse for å fortsette</string>
@@ -301,4 +300,6 @@
     <string name="no_subs_found">Ingen undertekster i denne mappen</string>
     <string name="music_now_playing">Spilles nå</string>
     <!--Widget-->
+    <string name="permission_ask_again">Gi tillatelse</string>
+    <string name="exit_app">Lukk VLC</string>
 </resources>
