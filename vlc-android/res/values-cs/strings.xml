@@ -155,8 +155,6 @@
     <string name="invalid_location">Nelze přehrát umístění %1$s</string>
     <string name="search">Hledat</string>
     <string name="search_history">Historie hledání</string>
-    <string name="hardware_acceleration_error_title">Chyba hardwarové akcelerace</string>
-    <string name="hardware_acceleration_error_message">Při běhu se zapnutou hardwarovou akcelerací nastala chyba. Přejete si ji zakázat a zkusit operaci znovu?</string>
     <!--Tips-->
     <string name="video_player_tips">Tipy přehrávače videa:</string>
     <string name="seek">Hledat</string>
@@ -220,8 +218,6 @@
     <string name="interface_other_category">Rozhraní - Další</string>
     <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
-    <string name="enable_jump_buttons">Povolit tlačítka skoku</string>
-    <string name="enable_jump_buttons_summary">V rozhraní videa zobrazit tlačítka vpřed a zpět</string>
     <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
     <string name="force_list_portrait_summary">Zobrazit videa jako seznam místo mřížky při zobrazení na výšku</string>
     <string name="audio_title_alignment">Zarovnání titulku hudby</string>
