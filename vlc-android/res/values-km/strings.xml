@@ -110,8 +110,6 @@
     <string name="invalid_location">មិន​អាច​បង្ហាញ​ទីតាំង​ %1$s បាន​ទេ។</string>
     <string name="search">ស្វែងរក</string>
     <string name="search_history">ប្រវត្តិ​ស្វែងរក</string>
-    <string name="hardware_acceleration_error_title">កំហុស​ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង</string>
-    <string name="hardware_acceleration_error_message">មាន​កំហុស​ក្នុង​ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង។ តើ​អ្នក​ចង់​បិទ​វា រួច​សាកល្បង​ម្ដងទៀត​ដែរ​ឬទេ?</string>
     <!--Tips-->
     <string name="video_player_tips">គន្លឹះកម្មវិធីចាក់វីដេអូ:</string>
     <string name="seek">ស្វែងរក</string>
@@ -158,8 +156,6 @@
     <string name="interface_other_category">ចំណុចប្រទាក់ - ផ្សេង</string>
     <string name="enable_brightness_gesture">បើក​កាយវិការ​ពន្លឺ</string>
     <string name="enable_brightness_gesture_summary">ពិនិត្យ​ពន្លឺ​ដោយ​កាយវិការ​អំឡុង​ពេល​ចាក់​វីដេអូ​ឡើងវិញ</string>
-    <string name="enable_jump_buttons">បើក​ប៊ូតុង​លោត</string>
-    <string name="enable_jump_buttons_summary">បង្ហាញ​ប៊ូតុង​ទៅមុខ និង​ថយក្រោយ​នៅ​លើ​ចំណុចប្រទាក់​វីដេអូ</string>
     <string name="enable_headset_detection">រក​កាស</string>
     <string name="enable_headset_detection_summary">ផ្អាក​ពេល​ដក​កាស​ចេញ បន្ត​ពេល​ដោត​កាស​</string>
     <string name="enable_steal_remote_control">មិន​បញ្ចូល​ការ​បញ្ហា​កាស​ពី​ចម្ងាយ</string>
