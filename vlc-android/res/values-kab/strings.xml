@@ -25,7 +25,7 @@
     <string name="play_as_audio_background_summary">Kemmel taɣuri n uvidyu mi ara yens ugdil neɣ mi ara tekliki tanast Axxam.</string>
     <string name="append">Lire à la suite</string>
     <string name="play_all">Ɣer kulec</string>
-    <string name="append_all">Lire tout à la suite</string>
+    <string name="append_all">Ɣer kulec</string>
     <string name="last_playlist">Tbdart tangarrut n tɣuri </string>
     <string name="delete">Kkes</string>
     <string name="remove">Kkes</string>
@@ -98,6 +98,7 @@
     <string name="previous">Win yezrin</string>
     <string name="stop">Ḥbes</string>
     <string name="next">Win ɣer-s</string>
+    <string name="firstsong">Tizlit tamezwarut n tebdart n wurar</string>
     <string name="locked">Isekkeṛ</string>
     <string name="unlocked">Yekkes usekkeṛ</string>
     <string name="surface_best_fit">Sgaddi</string>
@@ -148,8 +149,6 @@
     <string name="invalid_location">D awezɣi taɣuri n usun  %1$s .</string>
     <string name="search">Nadi</string>
     <string name="search_history">Amazray n unadi</string>
-    <string name="hardware_acceleration_error_title">Tucḍa deg usɣiwel n wallal</string>
-    <string name="hardware_acceleration_error_message">Tella-d tucḍa deg usɣiwel n wallal. Tebɣiḍ ad tt-tekkseḍ sakin ad tɛerḍeḍ tikkelt-nniḍen ?</string>
     <!--Tips-->
     <string name="video_player_tips">Tixidas n umeɣri n uvidyu :</string>
     <string name="seek">Inig</string>
@@ -213,8 +212,6 @@
     <string name="interface_other_category">Agrudem - wiyaḍ</string>
     <string name="enable_brightness_gesture">Senqed tafat s tnalit</string>
     <string name="enable_brightness_gesture_summary">Senqed tafat s tnalit mi ara tetteddu tɣuri n uvidyu</string>
-    <string name="enable_jump_buttons">Sermed tanasin n ungaz</string>
-    <string name="enable_jump_buttons_summary">Beqqeḍ tanasin win yezrin aed win ɣers ɣef ugrudem n uvidyu</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Deg uskar ubdid beqqeḍ ividyuten s tebdart</string>
     <string name="audio_title_alignment">Tarigla n izewlen n imesli</string>
@@ -255,6 +252,8 @@
     <string name="network_caching">Taille du cache réseau</string>
     <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
     <string name="developer_prefs_category">Aneflay</string>
+    <string name="auto_rescan">Auto rescan</string>
+    <string name="auto_rescan_summary">Aḍumu awurman deg wesekker n wesnas n imidyaten yettwarennan neɣ yettwakksen</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_summary">Augmenter la verbosité (logcat)</string>
     <string name="debug_logs">Aɣmis n useɣti</string>
@@ -291,6 +290,7 @@
     <string name="playlist_save">Sekles tabdart n tɣuri</string>
     <string name="playlist_name_hint">Isem n tebdart n tɣuri</string>
     <string name="go_to_chapter">Aller au chapitre...</string>
+    <string name="chapter">Ixef</string>
     <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position?</string>
     <string name="confirm_resume_title">Demander la confirmation pour reprendre</string>
@@ -305,4 +305,7 @@
     <string name="no_subs_found">Ulac iduzwelen deg wekaram-agi</string>
     <string name="music_now_playing">Ulac urar</string>
     <!--Widget-->
+    <string name="widget_name_w">VLC White Widget</string>
+    <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="exit_app">Mdel VLC</string>
 </resources>
