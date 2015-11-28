@@ -120,8 +120,6 @@
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1$s ได้</string>
     <string name="search">ค้นหา</string>
     <string name="search_history">ประวัติการค้นหา</string>
-    <string name="hardware_acceleration_error_title">การเร่งความเร็วฮาร์ดแวร์ขัดข้อง</string>
-    <string name="hardware_acceleration_error_message">เกิดข้อขัดข้องขณะเร่งความเร็วฮาร์ดแวร์ คุณต้องการปิดใช้มันแล้วทำการนี้อีกครั้งหรือไม่?</string>
     <!--Tips-->
     <string name="video_player_tips">ข้อแนะนำตัวเล่นวีดิทัศน์</string>
     <string name="subtitles">บทบรรยาย</string>
@@ -174,8 +172,6 @@
     <string name="interface_other_category">ส่วนติดต่อ - อื่นๆ</string>
     <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมแสงสว่างโดยการเลื่อน ในขณะที่กำลังเล่นวีดิทัศน์อยู่</string>
-    <string name="enable_jump_buttons">เปิดใช้งานปุ่มข้ามช่วงการเล่น</string>
-    <string name="enable_jump_buttons_summary">แสดง ปุ่มย้อนการเล่น และ ปุ่มเร่งการเล่น ในส่วนติดต่อวีดิทัศน์</string>
     <string name="force_list_portrait">ไม่มีตารางกริดในการแสดงผลแนวนอน</string>
     <string name="force_list_portrait_summary">แสดงวิดิทัศน์ในรูปแบบรายการแทนรูปแบบตารางกริดเมื่ออยู่ในการแสดงผลแนวนอน</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
