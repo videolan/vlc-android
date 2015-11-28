@@ -167,7 +167,6 @@
     <string name="interface_secondary_display_category">ਇੰਟਰਫੇਸ - ਸੈਕੰਡਰੀ ਡਿਸਪਲੇਅ</string>
     <string name="interface_other_category">ਇੰਟਰਫੇਸ - ਹੋਰ</string>
     <string name="enable_brightness_gesture">ਚਮਕ ਜੈਸਚਰ ਸਮਰੱਥ ਕਰੋ</string>
-    <string name="enable_jump_buttons_summary">ਵਿਡੀਓ ਇੰਟਰਫੇਸ ਉੱਤੇ ਪਿੱਛੇ ਤੇ ਅੱਗੇ ਬਟਨ ਦਿਖਾਓ</string>
     <string name="audio_title_alignment_default">ਡਿਫਾਲਟ</string>
     <string name="audio_title_alignment_left">ਖੱਬੇ</string>
     <string name="audio_title_alignment_centre">ਸੈਂਟਰ</string>
