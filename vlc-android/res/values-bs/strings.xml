@@ -157,8 +157,6 @@
     <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
     <string name="search">Pretraga</string>
     <string name="search_history">Historija pretraživanja</string>
-    <string name="hardware_acceleration_error_title">HV greška ubrzanja</string>
-    <string name="hardware_acceleration_error_message">Pojavila se greška sa hardverskim ubrzanjem. Želite li ga isključiti i pokušati ponovo?</string>
     <!--Tips-->
     <string name="video_player_tips">Savjeti video izvođača:</string>
     <string name="seek">Traži</string>
