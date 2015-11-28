@@ -147,8 +147,6 @@
     <string name="invalid_location">La ubicación %1$s no se puede reproducir.</string>
     <string name="search">Busqueda</string>
     <string name="search_history">Historial de búsqueda</string>
-    <string name="hardware_acceleration_error_title">Error en aceleración de HW</string>
-    <string name="hardware_acceleration_error_message">Ocurrió un error con la aceleración de hardware. ¿Gustas deshabilitarla e intentar de nuevo?</string>
     <!--Tips-->
     <string name="video_player_tips">Consejos acerca del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
@@ -207,8 +205,6 @@
     <string name="interface_other_category">Interfase - Otros</string>
     <string name="enable_brightness_gesture">Habilitar gestos de brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
-    <string name="enable_jump_buttons">Habilitar botones de salto</string>
-    <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
     <string name="force_list_portrait">No hay cuadro en modo retrato</string>
     <string name="force_list_portrait_summary">Mostrar videos en lista en lugar de cuadro en modo retrato</string>
     <string name="audio_title_alignment">Alineacion del titulo de audio</string>
