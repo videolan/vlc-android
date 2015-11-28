@@ -150,8 +150,6 @@
     <string name="invalid_location">L\'emplacement « %1$s » ne peut être lu.</string>
     <string name="search">Rechercher</string>
     <string name="search_history">Historique de recherche</string>
-    <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
-    <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
     <!--Tips-->
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>
@@ -312,5 +310,4 @@
     <!--Widget-->
     <string name="widget_name_w">Widget VLC blanc</string>
     <string name="widget_name_b">Widget VLC noir</string>
-    <string name="hardware_acceleration_error">Erreur d\'accélération matérielle, basculement en décodage logiciel</string>
 </resources>
