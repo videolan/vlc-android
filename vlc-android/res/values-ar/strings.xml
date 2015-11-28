@@ -176,8 +176,6 @@
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="search">ابحث</string>
     <string name="search_history">تأريخ البحث</string>
-    <string name="hardware_acceleration_error_title">خطأ في تسريع العتاد</string>
-    <string name="hardware_acceleration_error_message">حدث خطأ في تسريع العتاد. هل تريد تعطيله والمحاولة مرة أخرى؟</string>
     <!--Tips-->
     <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>
@@ -241,8 +239,6 @@
     <string name="interface_other_category">الواجهة - أخرى</string>
     <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
-    <string name="enable_jump_buttons">فعّل أزرار القفز</string>
-    <string name="enable_jump_buttons_summary">أظهِر أزرار التّقدّم و العودة في واجهة المرئيات</string>
     <string name="force_list_portrait">لا توجد شبكة في الوضع العمودي</string>
     <string name="force_list_portrait_summary">عرض الفيديو في القائمة بدلا من الشبكة في وضع عمودي</string>
     <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
