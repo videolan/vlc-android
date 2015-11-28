@@ -128,8 +128,6 @@
     <string name="invalid_location">Cha ghabh an t-ionad %1$s a chluich.</string>
     <string name="search">Lorg</string>
     <string name="search_history">Lorg san eachdraidh</string>
-    <string name="hardware_acceleration_error_title">Mearachd le luathachadh HW</string>
-    <string name="hardware_acceleration_error_message">Thachair mearachd le luathachadh a\' bhathair-chruaidh. A bheil thu airson a chur à comas is feuchainn ris a-rithist?</string>
     <!--Tips-->
     <string name="video_player_tips">Gliocasan air cluicheadair a\' video:</string>
     <string name="seek">Sir</string>
@@ -184,8 +182,6 @@
     <string name="interface_other_category">Eadar-aghaidh - Eile</string>
     <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
     <string name="enable_brightness_gesture_summary">Atharraich an t-soilleireachd tro ghluasad rè a chluich</string>
-    <string name="enable_jump_buttons">Cuir an comas na putanan leumaidh</string>
-    <string name="enable_jump_buttons_summary">Seall putanan airson a dhol air adhart is air ais air eadar-aghaidh a\' video</string>
     <string name="enable_headset_detection">Mothaich dha headset</string>
     <string name="enable_headset_detection_summary">Cuir \'na stad ma bheirear air falbh an headset; lean air nuair a thèid a chur a-steach a-rithist</string>
     <string name="enable_steal_remote_control">Smachd aig an headset a-mhàin</string>
