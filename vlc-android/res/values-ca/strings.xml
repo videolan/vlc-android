@@ -123,8 +123,6 @@
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
     <string name="search">Cerca</string>
     <string name="search_history">Historial de cerca</string>
-    <string name="hardware_acceleration_error_title">Error d\'acceleració de maquinari</string>
-    <string name="hardware_acceleration_error_message">S\'ha produït un error en l\'acceleració de maquinari. Voleu inhabilitar-la i provar de nou?</string>
     <!--Tips-->
     <string name="subtitles">Subtítols</string>
     <string name="options">Opcions</string>
@@ -170,8 +168,6 @@
     <string name="interface_other_category">Interfície - Altres</string>
     <string name="enable_brightness_gesture">Habilita els gestos de brillantor</string>
     <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
-    <string name="enable_jump_buttons">Habilita els botons de desplaçament</string>
-    <string name="enable_jump_buttons_summary">Mostra els botons d\'anar endavant i enrere a la interfície de vídeo</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
     <string name="enable_headset_detection_summary">Pausa quan es treguin els auriculars; torna a reproduir quan es tornin a connectar.</string>
     <string name="enable_steal_remote_control">Control remot exclusiu dels auriculars</string>
