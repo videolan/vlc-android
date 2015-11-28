@@ -130,8 +130,6 @@
     <string name="invalid_location">Locaţia %1$s nu poate fi redată.</string>
     <string name="search">Căutare</string>
     <string name="search_history">Istoric căutare</string>
-    <string name="hardware_acceleration_error_title">Eroare de accelerare HW</string>
-    <string name="hardware_acceleration_error_message">A intervenit o eroare în accelerarea hardware. Dorești să o dezactivezi și să încerci din nou?</string>
     <!--Tips-->
     <string name="subtitles">Subtitrare</string>
     <string name="options">Opțiuni</string>
@@ -174,8 +172,6 @@
     <string name="interface_other_category">Interfață - Altele</string>
     <string name="enable_brightness_gesture">Activează gesturile pentru luminozitate</string>
     <string name="enable_brightness_gesture_summary">Controlează luminozitatea prin gesturi în timpul redării video</string>
-    <string name="enable_jump_buttons">Activează butoanele pentru sărit</string>
-    <string name="enable_jump_buttons_summary">Arată butoanele pentru înainte și înapoi în interfața video</string>
     <string name="enable_headset_detection">Detectează căștile</string>
     <string name="enable_headset_detection_summary">Pauză la înlăturarea căștilor; continuă când căștile sunt conectate</string>
     <string name="enable_steal_remote_control">Control exclusiv asupra căștilor la distanță</string>
