@@ -129,8 +129,6 @@
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
     <string name="search">Претражи</string>
     <string name="search_history">Историја претраге</string>
-    <string name="hardware_acceleration_error_title">Грешка у хардверском убрзању</string>
-    <string name="hardware_acceleration_error_message">Дошло је до грешке при хардверском убрзавању. Желите ли да га онемогућите и покушате поново?</string>
     <!--Tips-->
     <string name="video_player_tips">Савети за видео-плејер:</string>
     <string name="seek">Премотај</string>
@@ -186,8 +184,6 @@
     <string name="interface_other_category">Интерфејс – друго</string>
     <string name="enable_brightness_gesture">Покрет за осветљење</string>
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
-    <string name="enable_jump_buttons">Омогући дугмад за прескакање</string>
-    <string name="enable_jump_buttons_summary">Прикажи типке за премотавање назад и напред на видео снимку</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="enable_headset_detection_summary">Паузирај по уклањању слушалица; настави по убацивању</string>
     <string name="enable_steal_remote_control">Искључиво даљинско управљање слушалицама</string>
