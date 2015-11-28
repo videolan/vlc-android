@@ -97,6 +97,8 @@
     <string name="previous">Fyrra</string>
     <string name="stop">Stöðva</string>
     <string name="next">Næsta</string>
+    <string name="firstsong">Fyrsta lag í spilunarlista</string>
+    <string name="lastsong">Síðasta lag í lagalista</string>
     <string name="locked">Læst</string>
     <string name="unlocked">Ólæst</string>
     <string name="surface_best_fit">Passi best</string>
@@ -146,8 +148,6 @@
     <string name="invalid_location">Ekki er hægt að spila staðsetninguna %1$s</string>
     <string name="search">Leita</string>
     <string name="search_history">Leita í ferilskrá</string>
-    <string name="hardware_acceleration_error_title">Villa í vélbúnaðarhröðun</string>
-    <string name="hardware_acceleration_error_message">Villa kom upp í vélbúnaðarhröðun. Viltu gera hana óvirka og reyna aftur?</string>
     <!--Tips-->
     <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>
@@ -206,8 +206,6 @@
     <string name="interface_other_category">Viðmót - Annað</string>
     <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
-    <string name="enable_jump_buttons">Virkja hopp-hnappa</string>
-    <string name="enable_jump_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
     <string name="audio_title_alignment">Jöfnun titils fyrir hljóð</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
@@ -276,6 +274,7 @@
     <string name="playlist_save">Vista spilunarlista</string>
     <string name="playlist_name_hint">heiti spilunarlista</string>
     <string name="go_to_chapter">Fara á kafla…</string>
+    <string name="chapter">Kafli</string>
     <string name="directory_empty">Mappa er tóm</string>
     <!--Accessibility-->
     <string name="more_actions">Fleiri aðgerðir</string>
@@ -285,4 +284,6 @@
     <string name="no_subs_found">Engir skjátextar í þessari möppu</string>
     <string name="music_now_playing">Í afspilun</string>
     <!--Widget-->
+    <string name="permission_ask_again">Gefa leyfi</string>
+    <string name="exit_app">Loka VLC</string>
 </resources>
