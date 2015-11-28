@@ -141,8 +141,6 @@
     <string name="invalid_location">Lokasi %1$s tidak bisa diputar.</string>
     <string name="search">Cari</string>
     <string name="search_history">Cari riwayat</string>
-    <string name="hardware_acceleration_error_title">Galat akselerasi HW</string>
-    <string name="hardware_acceleration_error_message">Terjadi galat dengan akselerasi perangkat keras. Apakah anda ingin menonaktifkannya dan mencoba lagi?</string>
     <!--Tips-->
     <string name="video_player_tips">Tip pemutar video:</string>
     <string name="seek">Cari</string>
@@ -206,8 +204,6 @@
     <string name="interface_other_category">Antarmuka - Lainnya</string>
     <string name="enable_brightness_gesture">Aktifkan gestur kecerahan</string>
     <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gestur selama pemutaran video</string>
-    <string name="enable_jump_buttons">Aktifkan tombol lompat</string>
-    <string name="enable_jump_buttons_summary">Tampilkan tombol mundur dan maju pada antarmuka video</string>
     <string name="force_list_portrait">Tidak ada grid dalam mode potret</string>
     <string name="force_list_portrait_summary">Tampilkan video dalam senarai bukannya grid dalam mode potret</string>
     <string name="audio_title_alignment">Perataan judul video</string>
