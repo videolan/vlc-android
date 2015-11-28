@@ -148,8 +148,6 @@
     <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
     <string name="search">Pesquisar</string>
     <string name="search_history">Histórico de pesquisas</string>
-    <string name="hardware_acceleration_error_title">Erro na aceleração por hardware</string>
-    <string name="hardware_acceleration_error_message">Ocorreu um erro com o hardware de aceleração. Gostaria de desabilitá-lo e tentar novamente</string>
     <!--Tips-->
     <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>
@@ -213,8 +211,6 @@
     <string name="interface_other_category">Interface - Outros</string>
     <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
-    <string name="enable_jump_buttons">Habilitar os botões de navegação</string>
-    <string name="enable_jump_buttons_summary">Exibir os botões de avanço e retrocesso na interface de vídeo</string>
     <string name="force_list_portrait">Desativar a grade no modo retrato</string>
     <string name="force_list_portrait_summary">Exibir vídeos em lista em vez de grade, no modo retrato</string>
     <string name="audio_title_alignment">Alinhamento do título do áudio</string>
