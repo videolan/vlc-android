@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">OK</string>
+    <string name="ok">Labi</string>
     <string name="cancel">Atcelt</string>
     <string name="other">Cits</string>
     <string name="sortby">Kārtot pēc...</string>
-    <string name="sortby_name">Nosaukums</string>
-    <string name="sortby_length">Garums</string>
+    <string name="sortby_name">Nosaukuma</string>
+    <string name="sortby_name_desc">Nosaukuma(dilstoši)</string>
+    <string name="sortby_length">Garuma</string>
+    <string name="sortby_length_desc">Garuma(dilstoši)</string>
+    <string name="sortby_date">Datuma</string>
+    <string name="sortby_date_desc">Datuma(dilstoši)</string>
     <string name="searchable_hint">Meklēt...</string>
     <string name="history">Vēsture</string>
     <plurals name="search_found_results_quantity">
@@ -18,6 +22,7 @@
     <string name="play_from_start">Atskaņot no sākuma</string>
     <string name="play_as_audio">Atskaņot kā audio</string>
     <string name="play_as_video">Atskaņot kā video</string>
+    <string name="play_as_audio_background">Atskaņot video fonā</string>
     <string name="append">Pievienot</string>
     <string name="play_all">Atskaņot visu</string>
     <string name="append_all">Pievienot visu</string>
@@ -132,7 +137,6 @@
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
     <string name="search">Meklēt</string>
     <string name="search_history">Meklēšanas vēsture</string>
-    <string name="hardware_acceleration_error_title">HW paātrinājuma kļūda</string>
     <!--Tips-->
     <string name="subtitles">Subtitri</string>
     <string name="options">Opcijas</string>
@@ -148,6 +152,7 @@
     <string name="vlc_authors">VLC Autori</string>
     <!-- Preferences -->
     <string name="preferences">Iestatījumi</string>
+    <string name="general_prefs_category">Vispārīgi</string>
     <string name="directories_summary">Izvēlaties direktorijas, lai iekļautu multivides bibliotēku</string>
     <string name="add_custom_path">Pievienot pielāgotu ceļu</string>
     <string name="add_custom_path_description">Ievadīt papildu pielāgoto direktoriju, lai skenētu:</string>
@@ -168,8 +173,6 @@
     <string name="interface_other_category">Interfeiss - Cits</string>
     <string name="enable_brightness_gesture">Aktivizēt spilgtuma žestu</string>
     <string name="enable_brightness_gesture_summary">Kontrolējiet spilgtumu ar žestu video atskaņošanas laikā</string>
-    <string name="enable_jump_buttons">Aktivizēt lēkšanas pogas</string>
-    <string name="enable_jump_buttons_summary">Parādīt uz priekšu un atpakaļ pogas uz video interfeisa</string>
     <string name="enable_headset_detection">Atklāt austiņas</string>
     <string name="enable_headset_detection_summary">Apturēt uz austiņu noņemšanu; atsākt uz austiņu ievietošanu</string>
     <string name="enable_steal_remote_control">Ekskluzīvs austiņu tālvadības pults</string>
