@@ -124,8 +124,6 @@
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
     <string name="search">Izlash</string>
     <string name="search_history">Tarixdan izlash</string>
-    <string name="hardware_acceleration_error_title">HW tezlatishda xato</string>
-    <string name="hardware_acceleration_error_message">Apparat orqali tezlashtirishda xatolik yuz berdi. Uni o‘chirib, qaytadan urinib ko‘rmoqchimisiz?</string>
     <!--Tips-->
     <string name="video_player_tips">Video pleyerga oid maslahatlar:</string>
     <string name="seek">Qidirish</string>
@@ -182,8 +180,6 @@
     <string name="interface_other_category">Interfeys – Boshqa</string>
     <string name="enable_brightness_gesture">Harakatlar yorqinligini yoqib qo‘yish</string>
     <string name="enable_brightness_gesture_summary">Video ijrosi davomidagi harakatlarga tegishli yoqrinlikni boshqarish</string>
-    <string name="enable_jump_buttons">Oʻtish tugmalarini yoqish</string>
-    <string name="enable_jump_buttons_summary">Orqaroqqa va oldinroqqa oʻtkazish tugmalarini video interfeysda koʻrsatish</string>
     <string name="audio_title_alignment">Audio sarlavhani to\'g\'irlash</string>
     <string name="enable_headset_detection">Quloqlikni aniqlash</string>
     <string name="enable_headset_detection_summary">Quloqlik olinganda pauza qilinadi; quloqlik ulanganda davom etadi</string>
