@@ -131,8 +131,6 @@
     <string name="invalid_location">Keldan %1$s kann ikki spælast.</string>
     <string name="search">Leita</string>
     <string name="search_history">Undanfarnar leitingar</string>
-    <string name="hardware_acceleration_error_title">Villa í tólbúnaðakselleratorinum</string>
-    <string name="hardware_acceleration_error_message">Villa stóðst av tólbúnaðakselleratorinum. Vilt tú sláa hann frá og royna umaftur?</string>
     <!--Tips-->
     <string name="video_player_tips">Prei til videospælara:</string>
     <string name="seek">Søk</string>
@@ -189,8 +187,6 @@
     <string name="interface_other_category">Takførisflati - Annað</string>
     <string name="enable_brightness_gesture">Gilda ljósstyrkikeipur</string>
     <string name="enable_brightness_gesture_summary">Stýr ljósstyrki við keipum, tá ið sjónbond verða spæld.</string>
-    <string name="enable_jump_buttons">Gilda hoppiknappar</string>
-    <string name="enable_jump_buttons_summary">Vís knappar á takførislatanum, sum stýra frameftir og aftureftir</string>
     <string name="audio_title_alignment">Stilling fyri heiti á ljóði</string>
     <string name="enable_headset_detection">Finn høvuðsett</string>
     <string name="enable_headset_detection_summary">Steðga, tá ið høvuðsett verður tikið út; halt fram, tá ið høvuðsett verður sett til</string>
