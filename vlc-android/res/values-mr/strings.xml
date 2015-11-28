@@ -148,8 +148,6 @@
     <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
     <string name="search">शोधा</string>
     <string name="search_history">शोध इतिहास</string>
-    <string name="hardware_acceleration_error_title">HW अॅक्सलरेशन त्रुटी</string>
-    <string name="hardware_acceleration_error_message">हार्डवेअर अॅक्सलरेशनसोबत एक त्रुटी आली. आपण ते निष्क्रिय करून पुन्हा प्रयत्न करू इच्छिता?</string>
     <!--Tips-->
     <string name="video_player_tips">व्हिडिओ प्लेअर टिपा:</string>
     <string name="seek">पुढे/मागे जा</string>
@@ -213,8 +211,6 @@
     <string name="interface_other_category">इंटरफेस - इतर</string>
     <string name="enable_brightness_gesture">तेजस्वीपणा जेस्चर सक्रीय करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
-    <string name="enable_jump_buttons">जंप बटणे सक्रीय करा</string>
-    <string name="enable_jump_buttons_summary">व्हिडिओ इंटरफेसवर मागे व पुढे बटण दाखवा</string>
     <string name="force_list_portrait">उभ्या मोडमध्ये ग्रीड नाही</string>
     <string name="force_list_portrait_summary">उभ्या मोडमध्ये ग्रीड ऐवजी यादीमध्ये चित्रफीती दाखवा</string>
     <string name="audio_title_alignment">ऑडिओ शीर्षक संरेखन</string>
