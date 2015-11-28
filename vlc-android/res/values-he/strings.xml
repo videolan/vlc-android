@@ -130,8 +130,6 @@
     <string name="invalid_location">לא ניתן לנגן את המיקום %1$s.</string>
     <string name="search">חיפוש</string>
     <string name="search_history">היסטוריית החיפוש</string>
-    <string name="hardware_acceleration_error_title">שגיאה בהאצת החומרה</string>
-    <string name="hardware_acceleration_error_message">אירעה שגיאה עם האצת החומרה. האם ברצונך לנטרל אותה ולנסות שוב?</string>
     <!--Tips-->
     <string name="video_player_tips">עצות לנגן הווידאו:</string>
     <string name="seek">גלילה</string>
@@ -187,8 +185,6 @@
     <string name="interface_other_category">מנשק - אחר</string>
     <string name="enable_brightness_gesture">הפעלת מחוות בהירות</string>
     <string name="enable_brightness_gesture_summary">ניתן לשלוט בבהירות באמצעות מחוות במהלך נגינת הווידאו</string>
-    <string name="enable_jump_buttons">הפעלת לחצני קפיצה</string>
-    <string name="enable_jump_buttons_summary">הצגת לחצני קדימה ואחורה במנשק הווידאו</string>
     <string name="audio_title_alignment">יישור כותרת אוטומטי</string>
     <string name="enable_headset_detection">זיהוי ערכת שמע</string>
     <string name="enable_headset_detection_summary">יש להשהות עם הסרת האוזניות, להמשיך עם חיבורן מחדש</string>
