@@ -148,8 +148,6 @@
     <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
     <string name="search">தேடு</string>
     <string name="search_history">தேடல் வரலாறு</string>
-    <string name="hardware_acceleration_error_title">HW முடுக்கப் பிழை</string>
-    <string name="hardware_acceleration_error_message">வன்பொருள் முடுக்கத்தில் பிழை ஏற்பட்டுள்ளது. இதை முடக்க முயற்சிக்கவா?</string>
     <!--Tips-->
     <string name="video_player_tips">ஊடக இயக்கி உதவிக்குறிப்புகள்:</string>
     <string name="seek">நாடுங்கள்</string>
@@ -213,8 +211,6 @@
     <string name="interface_other_category">இடைமுகப்பு - பிற</string>
     <string name="enable_brightness_gesture">வெளிச்ச சைகையை செயல்படுத்து</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
-    <string name="enable_jump_buttons">தாவல் பொத்தான்களை செயல்படுத்து</string>
-    <string name="enable_jump_buttons_summary">காணொளி இடைமுகத்தில் பின்னால் முன்னால் பொத்தான்களை காண்பி</string>
     <string name="force_list_portrait">உருவப்படம் முறையில் கட்டம் தேவையில்லை</string>
     <string name="force_list_portrait_summary">உருவப்படம் முறையில் கட்டம் பதிலாக பட்டியலில் காண்பி வீடியோக்களை</string>
     <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
