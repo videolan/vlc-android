@@ -70,7 +70,7 @@ import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener {
+public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer {
     public static final String TAG = "VLC/AudioPlayer";
 
     private ProgressBar mProgressBar;

@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.audio;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Message;
+import android.support.annotation.MainThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,14 +47,18 @@ import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter{
 
+    public interface IPlayer {
+        void onPopupMenu(View view, int position);
+        void updateList();
+    }
     private static final String TAG = "VLC/PlaylistAdapter";
     PlaybackService mService = null;
-    AudioPlayer mAudioPlayer;
+    IPlayer mAudioPlayer;
 
     private ArrayList<MediaWrapper> mDataSet = new ArrayList<MediaWrapper>();
     private int mCurrentIndex = 0;
 
-    public PlaylistAdapter(AudioPlayer audioPlayer) {
+    public PlaylistAdapter(IPlayer audioPlayer) {
         mAudioPlayer = audioPlayer;
     }
 
@@ -102,6 +107,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mDataSet.add(mw);
     }
 
+    @MainThread
+    public void remove(int position) {
+        mDataSet.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void clear(){
         mDataSet.clear();
     }
@@ -124,6 +135,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onItemDismiss(int position) {
         if (mService == null)
             return;
+        remove(position);
         mService.remove(position);
     }
 

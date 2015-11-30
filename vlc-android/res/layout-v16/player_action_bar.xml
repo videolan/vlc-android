@@ -7,6 +7,7 @@
         android:id="@+id/player_overlay_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/playlist_toggle"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/tv_overscan_vertical"
         android:layout_gravity="top"
@@ -20,4 +21,12 @@
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="1.5" />
+
+    <ImageView
+        android:id="@+id/playlist_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_playlist"
+        android:visibility="gone"/>
 </RelativeLayout>
