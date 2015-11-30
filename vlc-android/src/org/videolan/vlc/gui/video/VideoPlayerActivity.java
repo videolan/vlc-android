@@ -2809,7 +2809,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     onPlaying();
             }
-            if (media.getTime() > 0l)
+            if (media != null && media.getTime() > 0l)
                 seek(media.getTime());
 
             // Get possible subtitles
