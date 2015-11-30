@@ -357,7 +357,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio));
             if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo())
-                mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, getString(R.string.music_now_playing), R.drawable.ic_play_circle_big_o));
+                mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, getString(R.string.music_now_playing), R.drawable.ic_nowplaying_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
