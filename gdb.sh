@@ -60,18 +60,11 @@ if [ ! -z "$APK_PATH" ]; then
         exit 1
     fi
 
-    lib_name=$(basename "$dbgfile_path")
-    lib_name=${lib_name%.dbg}
-    lib_path=$($aapt l -a "$APK_PATH"|grep "$lib_name")
-
-    unzip -p "$APK_PATH" $lib_path > "$TMP_PATH"/$lib_name
-    cp $dbgfile_path "$TMP_PATH"
-
     echo ""
     echo "\"list *0x<pc_address>\" to know where the specified apk crashed"
     echo ""
 
-    ./compile-libvlc.sh -a $arch --gdb "$TMP_PATH"/$lib_name
+    ./compile-libvlc.sh -a $arch --gdb "$dbgfile_path"
     exit 0
 fi
 
