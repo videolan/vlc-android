@@ -121,14 +121,14 @@
 
         <include layout="@layout/player_hud"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/video_playlist"
-            android:layout_width="480dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/rounded_corners"
-            android:visibility="gone"/>
-
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/video_playlist"
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_corners"
+        android:visibility="gone"/>
 
 </RelativeLayout>
