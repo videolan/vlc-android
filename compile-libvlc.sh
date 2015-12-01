@@ -652,10 +652,6 @@ fi
 
 echo "Building NDK"
 
-if [ "$RELEASE" = 1 ]; then
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -Wl,-soname -Wl,libvlc.so.5 -Wl,-version-script -Wl,$SRC_DIR/$VER_FILE"
-fi
-
 $ANDROID_NDK/ndk-build -C libvlc \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
@@ -663,7 +659,7 @@ $ANDROID_NDK/ndk-build -C libvlc \
     VLC_CONTRIB="$VLC_CONTRIB" \
     VLC_MODULES="$VLC_MODULES" \
     TARGET_CFLAGS="$EXTRA_CFLAGS" \
-    EXTRA_LDFLAGS="$EXTRA_LDFLAGS" \
+    EXTRA_LDFLAGS="$EXTRA_LDFLAGS -Wl,-soname -Wl,libvlc.so.5 -Wl,-version-script -Wl,$SRC_DIR/$VER_FILE" \
     LIBVLC_LIBS="$LIBVLC_LIBS" \
     LIBIOMX_LIBS="$LIBIOMX_LIBS" \
     LIBANW_LIBS="$LIBANW_LIBS" \
