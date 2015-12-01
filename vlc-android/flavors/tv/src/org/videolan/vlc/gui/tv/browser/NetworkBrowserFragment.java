@@ -97,6 +97,12 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
         setBrandColor(getResources().getColor(R.color.orange800));
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHeadersState(HEADERS_HIDDEN);
+    }
+
     public void onResume() {
         super.onResume();
         if (mAdapter.size() == 0) {
