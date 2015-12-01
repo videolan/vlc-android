@@ -47,20 +47,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
-import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
@@ -356,8 +358,15 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio));
-            if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo())
-                mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, getString(R.string.music_now_playing), R.drawable.ic_nowplaying_big));
+            if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo()) {
+                MediaWrapper mw = mService.getCurrentMediaWrapper();
+                String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
+                Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+                if (cover != null)
+                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover));
+                else
+                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_nowplaying_big));
+            }
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));

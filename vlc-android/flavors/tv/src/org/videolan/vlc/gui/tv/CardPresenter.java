@@ -32,13 +32,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.tv.browser.MusicFragment;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 
 public class CardPresenter extends Presenter {
 
@@ -113,8 +113,9 @@ public class CardPresenter extends Presenter {
             holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof SimpleCard){
             SimpleCard card = (SimpleCard) item;
+            Bitmap image = card.getImage();
             holder.mCardView.setTitleText(card.getName());
-            holder.updateCardViewImage(mRes.getDrawable(card.getImageId()));
+            holder.updateCardViewImage(image != null ? new BitmapDrawable(image) : mRes.getDrawable(card.getImageId()));
         }else if (item instanceof String){
             holder.mCardView.setTitleText((String) item);
             holder.updateCardViewImage(sDefaultCardImage);
@@ -134,6 +135,13 @@ public class CardPresenter extends Presenter {
         int id;
         int imageId;
         String name;
+        Bitmap image;
+
+        SimpleCard(int id, String name, Bitmap image){
+            this.id = id;
+            this.name = name;
+            this.image = image;
+        }
 
         SimpleCard(int id, String name, int imageId){
             this.id = id;
@@ -155,6 +163,10 @@ public class CardPresenter extends Presenter {
 
         public void setImageId(int imageId) {
             this.imageId = imageId;
+        }
+
+        public Bitmap getImage() {
+            return image;
         }
 
         public String getName() {
