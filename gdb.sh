@@ -20,7 +20,7 @@ while [ $# -gt 0 ]; do
         -s)
             NDK_GDB_ARGS="$NDK_GDB_ARGS --nowait --start"
             ;;
-        --apk)
+        --apk-file)
             APK_PATH=$2
             shift
             ;;
