@@ -675,18 +675,17 @@ $ANDROID_NDK/ndk-build -C libvlc \
 
 checkfail "ndk-build failed"
 
-if [ "$RELEASE" = 1 ]; then
-    DBG_LIB_DIR=libvlc/jni/obj/local/${ANDROID_ABI}
-    OUT_LIB_DIR=libvlc/jni/libs/${ANDROID_ABI}
-    VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
-    OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
+DBG_LIB_DIR=libvlc/jni/obj/local/${ANDROID_ABI}
+OUT_LIB_DIR=libvlc/jni/libs/${ANDROID_ABI}
+VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
+OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
 
-    mkdir -p $OUT_DBG_DIR
+echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
-    for lib in ${DBG_LIB_DIR}/*.so; do
-        ${CROSS_COMPILE}objcopy --only-keep-debug "$lib" "$OUT_DBG_DIR/`basename $lib.dbg`"; \
-    done
-    for lib in ${OUT_LIB_DIR}/*.so; do
-        ${CROSS_COMPILE}objcopy --add-gnu-debuglink="$OUT_DBG_DIR/`basename $lib.dbg`" "$lib" ; \
-    done
-fi
+mkdir -p $OUT_DBG_DIR
+for lib in ${DBG_LIB_DIR}/*.so; do
+    ${CROSS_COMPILE}objcopy --only-keep-debug "$lib" "$OUT_DBG_DIR/`basename $lib.dbg`"; \
+done
+for lib in ${OUT_LIB_DIR}/*.so; do
+    ${CROSS_COMPILE}objcopy --add-gnu-debuglink="$OUT_DBG_DIR/`basename $lib.dbg`" "$lib" ; \
+done
