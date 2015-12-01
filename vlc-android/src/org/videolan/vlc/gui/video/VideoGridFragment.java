@@ -127,6 +127,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         mGridView.addOnScrollListener(mScrollListener);
         mGridView.setAdapter(mVideoAdapter);
+        mGridView.setItemAnimator(null);
         return v;
     }
 
@@ -183,8 +184,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         // We don't animate while medialib is scanning. Because gridview is being populated.
         // That would lead to graphical glitches
         final boolean animate = mGroup == null && refresh && !mMediaLibrary.isWorking();
-        if (animate)
-            mGridView.setVisibility(View.INVISIBLE);
         if (refresh)
             updateList();
         else {
