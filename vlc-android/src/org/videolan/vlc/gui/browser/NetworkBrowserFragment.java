@@ -32,6 +32,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -40,6 +42,13 @@ import org.videolan.vlc.util.AndroidDevices;
 import java.util.ArrayList;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment {
+
+    private static MediaBrowser.Discover DISCOVER_LIST[] = BuildConfig.DEBUG ? new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+            MediaBrowser.Discover.SMB,
+    } : new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+    };
 
     public NetworkBrowserFragment() {
         ROOT = "smb";
@@ -99,7 +108,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
             }
             mAdapter.addItem("Network favorites", false, true);
         }
-        mMediaBrowser.discoverNetworkShares();
+        mMediaBrowser.discoverNetworkShares(DISCOVER_LIST);
     }
 
     @Override
