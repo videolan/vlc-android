@@ -322,6 +322,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mArtistsAdapter.getMedias(p);
+            if (mediaList.isEmpty())
+                return;
             MainActivity activity = (MainActivity)getActivity();
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", "albumsSongs");
@@ -335,6 +337,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedias(p);
+            if (mediaList.isEmpty())
+                return;
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUM);
             i.putParcelableArrayListExtra("list", mediaList);
@@ -347,6 +351,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mGenresAdapter.getMedias(p);
+            if (mediaList.isEmpty())
+                return;
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra("fragment", SecondaryActivity.ALBUMS_SONGS);
             i.putParcelableArrayListExtra("list", mediaList);
