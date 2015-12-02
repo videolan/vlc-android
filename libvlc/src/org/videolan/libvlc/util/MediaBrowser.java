@@ -24,7 +24,6 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 
-import org.videolan.BuildConfig;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaDiscoverer;
@@ -33,12 +32,16 @@ import org.videolan.libvlc.MediaList;
 public class MediaBrowser {
     private static final String TAG = "LibVLC/util/MediaBrowser";
 
-    private static final String[] DISCOVERER_LIST = BuildConfig.DEBUG ? new String[]{
-        "dsm", // Netbios discovery via libdsm
-        "upnp",
-        // "bonjour",
-        //  "mdns"
-    } : new String[]{"upnp"} ; //Only UPnP for release
+    public static enum Discover {
+        UPNP("upnp"),
+        SMB("dsm")
+        ;
+
+        private final String str;
+        Discover(String str) {
+            this.str = str;
+        }
+    }
 
     private final LibVLC mLibVlc;
     private final ArrayList<MediaDiscoverer> mMediaDiscoverers = new ArrayList<MediaDiscoverer>();
@@ -128,21 +131,22 @@ public class MediaBrowser {
     }
 
     /**
-     * Discover networks shares using available MediaDiscoverers
+     * Discover networks shares using a list of Discoverers
      */
-    public synchronized void discoverNetworkShares() {
+    public synchronized void discoverNetworkShares(Discover discovers[]) {
         reset();
-        for (String discovererName : DISCOVERER_LIST)
-            startMediaDiscoverer(discovererName);
+        for (Discover discover : discovers)
+            startMediaDiscoverer(discover.str);
     }
 
     /**
-     * Discover networks shares using specified MediaDiscoverer
+     * Discover networks shares using a specified Discoverer
      * @param discovererName
      */
-    public synchronized void discoverNetworkShares(String discovererName) {
-        reset();
-        startMediaDiscoverer(discovererName);
+    public synchronized void discoverNetworkShares(Discover discover) {
+        Discover discovers[] = new Discover[1];
+        discovers[0] = discover;
+        discoverNetworkShares(discovers);
     }
 
     /**
