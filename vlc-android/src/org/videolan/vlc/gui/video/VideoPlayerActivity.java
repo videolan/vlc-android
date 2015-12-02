@@ -1277,7 +1277,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * @param duration
      */
     private void showInfo(String text, int duration) {
-        if (mPresentation == null)
+        if (mPresentation == null && mVerticalBar != null)
             mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
@@ -1286,7 +1286,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void showInfo(int textid, int duration) {
-        if (mPresentation == null)
+        if (mPresentation == null && mVerticalBar != null)
             mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
@@ -1315,7 +1315,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     VideoPlayerActivity.this, android.R.anim.fade_out));
         mInfo.setVisibility(View.INVISIBLE);
 
-        if (mPresentation == null) {
+        if (mPresentation == null && mVerticalBar != null) {
             if (mVerticalBar.getVisibility() == View.VISIBLE) {
                 mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
                         VideoPlayerActivity.this, android.R.anim.fade_out));
