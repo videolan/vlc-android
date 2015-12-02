@@ -140,7 +140,7 @@ public class VLCOptions {
 
     private static String getResampler() {
         final VLCUtil.MachineSpecs m = VLCUtil.getMachineSpecs();
-        return m.processors > 2 ? "soxr" : "ugly";
+        return (m == null || m.processors > 2) ? "soxr" : "ugly";
     }
 
     public static void setMediaOptions(Media media, Context context, int flags) {
