@@ -81,13 +81,13 @@ public class VideoGridAnimator {
                 /* List not not ready yet: reschedule */
                 mLastNItems = mGridView.getChildCount();
                 Log.e(TAG, "Rescheduling animation: list not ready");
-                mGridView.postDelayed(this, 10);
+                mGridView.postDelayed(this, 200);
                 return;
             }
 
             isAnimating = false;
 
-            for (int i = 0; i < mGridView.getChildCount(); i++) {
+            for (int i = 0; i < mLastNItems; i++) {
                 AnimationSet animSet = new AnimationSet(true);
                 Animation animation = new AlphaAnimation(0.0f, 1.0f);
                 animation.setDuration(300);
