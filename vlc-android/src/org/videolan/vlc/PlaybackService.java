@@ -1030,8 +1030,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private void initMediaSession() {
+         ComponentName mediaButtonEventReceiver = new ComponentName(this,
+                    RemoteControlClientReceiver.class);
         mSessionCallback = new MediaSessionCallback();
-        mMediaSession = new MediaSessionCompat(this, "VLC");
+        mMediaSession = new MediaSessionCompat(this, "VLC", mediaButtonEventReceiver, null);
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setCallback(mSessionCallback);
@@ -1045,7 +1047,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mMediaSession.setActive(false);
             mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
             mMediaSession.setActive(true);
-
         }
     }
 
