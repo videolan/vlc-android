@@ -1537,11 +1537,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mSwitchingView)
             return;
         Toast.makeText(this, R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
-        mService.removeCallback(this);
+        final boolean wasPaused = !mService.isPlaying();
+        final long oldTime = mService.getTime();
         mService.stop();
-        if(!isFinishing())
-            loadMedia();
+        if(!isFinishing()) {
+            final MediaWrapper mw = new MediaWrapper(mUri);
+            if (wasPaused)
+                mw.addFlags(MediaWrapper.MEDIA_PAUSED);
+            mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
+            mw.addFlags(MediaWrapper.MEDIA_VIDEO);
+            mService.load(mw);
+            if (oldTime > 0)
+                seek(oldTime);
         }
+    }
 
     private void handleVout(int voutCount) {
         final IVLCVout vlcVout = mService.getVLCVout();
