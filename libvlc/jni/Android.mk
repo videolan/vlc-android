@@ -86,6 +86,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lmodplug \
 	-lupnp -lthreadutil -lixml \
 	-larchive \
+	-lmpg123 \
 	$(EXTRA_LDFLAGS)
 
 $(TARGET_OUT)/$(LOCAL_MODULE).so: $(ANDROID_PRIVATE_LIBS)

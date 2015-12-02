@@ -91,7 +91,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-iconv \
     --disable-aribb24 \
     --disable-aribb25 \
-    --disable-mpg123 \
+    --enable-mpg123 \
     --enable-libdsm \
     --enable-libarchive \
     --disable-libmpeg2 \
