@@ -25,11 +25,12 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
@@ -108,9 +109,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_MEDIA);
+        vh.binding.setProtocole(getProtocole(media));
         vh.binding.executePendingBindings();
 
-        vh.icon.setImageResource(getIconResId(media));
+        vh.icon.setBackgroundResource(getIconResId(media));
         if (hasContextMenu) {
             vh.itemView.setOnLongClickListener(this);
         }
@@ -123,16 +125,14 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     public class MediaViewHolder extends RecyclerView.ViewHolder {
         public CheckBox checkBox;
-        public ImageView icon;
-        public ImageView more;
+        public TextView icon;
         DirectoryViewItemBinding binding;
 
         public MediaViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
             checkBox = (CheckBox) v.findViewById(R.id.browser_checkbox);
-            icon = (ImageView) v.findViewById(R.id.dvi_icon);
-            more = (ImageView) v.findViewById(R.id.item_more);
+            icon = (TextView) v.findViewById(R.id.dvi_icon);
             v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
         }
     }
@@ -293,6 +293,15 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             default:
                 return R.drawable.ic_browser_unknown_normal;
         }
+    }
+    protected String getProtocole(MediaWrapper media) {
+        if (media.getType() != MediaWrapper.TYPE_DIR)
+            return null;
+        String scheme = media.getUri().getScheme();
+        if (TextUtils.equals(scheme, "smb") || TextUtils.equals(scheme, "upnp"))
+            return scheme;
+        else
+            return null;
     }
 
     public ClickHandler mClickHandler = new ClickHandler();

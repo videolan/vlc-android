@@ -53,7 +53,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public NetworkBrowserFragment() {
         ROOT = "smb";
         mHandler = new BrowserFragmentHandler(this);
-        mAdapter = new NetworkBrowserAdapter(this);
+        mAdapter = new BaseBrowserAdapter(this);
     }
 
     @Override

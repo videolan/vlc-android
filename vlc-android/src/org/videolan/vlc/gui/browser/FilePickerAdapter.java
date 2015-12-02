@@ -49,7 +49,9 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(false);
         vh.binding.setType(TYPE_MEDIA);
-        vh.icon.setImageResource(getIconResId(media));
+        vh.binding.setProtocole(null);
+
+        vh.icon.setBackgroundResource(getIconResId(media));
     }
 
     //TODO update with different filter types in other cases than subtitles selection

@@ -26,6 +26,9 @@
         <variable
             name="checked"
             type="boolean"/>
+        <variable
+            name="protocole"
+            type="String"/>
     </data>
     <LinearLayout
         android:id="@+id/layout_item"
@@ -50,15 +53,19 @@
             android:tag="@{position}"
             android:onClick="@{handler.onCheckBoxClick}"/>
 
-        <ImageView
+        <TextView
             android:id="@+id/dvi_icon"
             android:layout_width="@dimen/directory_browser_item_size"
             android:layout_height="@dimen/directory_browser_item_size"
             android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginLeft="15dp"
             android:contentDescription="@string/cover_art"
             android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
-            android:src="@drawable/icon" />
+            android:background="@drawable/icon"
+            android:text="@{protocole}"
+            android:textSize="11sp"
+            android:textColor="@color/whitetransparent"/>
 
         <LinearLayout
             android:layout_width="0dp"
