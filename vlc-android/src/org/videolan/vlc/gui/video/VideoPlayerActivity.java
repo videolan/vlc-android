@@ -1541,7 +1541,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (isFinishing())
             return;
         //We may not have the permission to access files
-        if (TextUtils.equals(mUri.getScheme(), "file") &&
+        if (AndroidUtil.isMarshMallowOrLater() && mUri != null &&
+                TextUtils.equals(mUri.getScheme(), "file") &&
                 !Permissions.canReadStorage()) {
             Permissions.checkReadStoragePermission(this, true);
             return;
