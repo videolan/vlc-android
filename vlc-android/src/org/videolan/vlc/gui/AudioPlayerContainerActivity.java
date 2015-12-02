@@ -45,17 +45,16 @@ import android.widget.TextView;
 import com.android.widget.SlidingPaneLayout;
 
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.gui.view.HackyDrawerLayout;
 
 public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
 
@@ -77,7 +76,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected SlidingPaneLayout mSlidingPane;
     protected View mAudioPlayerFilling;
     protected SharedPreferences mSettings;
-    protected ViewGroup mRootContainer;
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
 
@@ -98,8 +96,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     protected void initAudioPlayerContainerActivity(){
 
-        mRootContainer = (ViewGroup) ((ViewGroup) this
-                .findViewById(android.R.id.content)).getChildAt(0);
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
@@ -186,10 +182,9 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         if (!mSettings.getBoolean(settingKey, false) && !BuildConfig.tv) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
-            mRootContainer.addView(v,
-                    new HackyDrawerLayout.LayoutParams(HackyDrawerLayout.LayoutParams.MATCH_PARENT,
-                            HackyDrawerLayout.LayoutParams.MATCH_PARENT));
-
+            ViewGroup root = (ViewGroup) findViewById(R.id.pane).getParent();
+            root.addView(v, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -214,10 +209,11 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Remove the current tip view if there is one displayed.
      */
     public void removeTipViewIfDisplayed() {
-        if (mRootContainer.getChildCount() > 2){
-            for (int i = 0 ; i< mRootContainer.getChildCount() ; ++i){
-                if (mRootContainer.getChildAt(i).getId() == R.id.audio_tips)
-                    mRootContainer.removeViewAt(i);
+            ViewGroup root = (ViewGroup) findViewById(R.id.pane).getParent();
+        if (root.getChildCount() > 2){
+            for (int i = 0 ; i< root.getChildCount() ; ++i){
+                if (root.getChildAt(i).getId() == R.id.audio_tips)
+                    root.removeViewAt(i);
             }
         }
     }
