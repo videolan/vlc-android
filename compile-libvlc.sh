@@ -219,6 +219,7 @@ VLC_MODULE_BLACKLIST="
     fb
     aout_file
     yuv
+    mpg123
     .dummy
 "
 
