@@ -2860,6 +2860,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false);
+                if (fromStart)
+                    media.setTime(0l);
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
