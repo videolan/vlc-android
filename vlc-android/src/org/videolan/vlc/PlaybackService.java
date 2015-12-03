@@ -485,6 +485,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
                 loadLastPlaylist(TYPE_VIDEO);
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_SWITCH_VIDEO)) {
+                getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 switchToVideo();
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_INIT)) {
                 updateWidget();
@@ -733,7 +734,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public boolean switchToVideo() {
-        if (!canSwitchToVideo())
+        if (mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
             return false;
         if (isVideoPlaying()) {//Player is already running, just send it an intent
             mMediaPlayer.setVideoTrackEnabled(true);
