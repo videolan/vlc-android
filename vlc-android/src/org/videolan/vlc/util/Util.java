@@ -27,6 +27,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -91,4 +93,11 @@ public class Util {
                 PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
+
+    public static final MediaBrowser.Discover NETWORK_DISCOVER_LIST[] = BuildConfig.DEBUG ?new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+            MediaBrowser.Discover.SMB,
+    } : new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+    };
 }

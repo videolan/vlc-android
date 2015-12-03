@@ -53,6 +53,7 @@ import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -135,7 +136,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
             if (mUri != null)
                 mMediaBrowser.browse(mUri);
             else
-                mMediaBrowser.discoverNetworkShares();
+                mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
     }

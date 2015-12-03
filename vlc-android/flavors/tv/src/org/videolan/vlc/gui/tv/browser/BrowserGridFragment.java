@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                 if (mUri != null)
                     mMediaBrowser.browse(mUri);
                 else
-                    mMediaBrowser.discoverNetworkShares();
+                    mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
                 ((BrowserActivityInterface)getActivity()).showProgress(true);
             }
         }
