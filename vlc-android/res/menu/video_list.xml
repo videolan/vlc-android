@@ -8,6 +8,9 @@
         android:id="@+id/video_list_play_all"
         android:title="@string/play_all" />
     <item
+        android:id="@+id/video_list_append"
+        android:title="@string/append" />
+    <item
         android:id="@+id/video_list_play_audio"
         android:title="@string/play_as_audio" />
     <item

@@ -314,7 +314,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 return true;
             case R.id.video_group_play:
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
-
+            case R.id.video_list_append:
+                if (media instanceof MediaGroup)
+                    mService.append(((MediaGroup)media).getAll());
+                else
+                    mService.append(media);
         }
         return false;
     }

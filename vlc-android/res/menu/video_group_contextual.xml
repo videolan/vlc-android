@@ -4,4 +4,7 @@
     <item
         android:id="@+id/video_group_play"
         android:title="@string/play" />
+    <item
+        android:id="@+id/video_list_append"
+        android:title="@string/append_all" />
 </menu>
