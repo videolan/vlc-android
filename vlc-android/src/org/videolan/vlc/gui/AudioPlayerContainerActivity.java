@@ -179,6 +179,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * @param settingKey the setting key to check if the view must be displayed or not.
      */
     public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
+        if (BuildConfig.DEBUG)
+            return;
         if (!mSettings.getBoolean(settingKey, false) && !BuildConfig.tv) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
