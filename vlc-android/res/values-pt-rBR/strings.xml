@@ -98,6 +98,8 @@
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Próximo</string>
+    <string name="firstsong">Primeira música da lista de reprodução</string>
+    <string name="lastsong">Última música da lista de reprodução</string>
     <string name="locked">Bloqueado</string>
     <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Melhor ajuste</string>
@@ -211,6 +213,8 @@
     <string name="interface_other_category">Interface - Outros</string>
     <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
+    <string name="enable_seek_buttons">Habilitar os botões de deslocamento</string>
+    <string name="enable_seek_buttons_summary">Exibir os botões de avançar e retroceder na interface de vídeo</string>
     <string name="force_list_portrait">Desativar a grade no modo retrato</string>
     <string name="force_list_portrait_summary">Exibir vídeos em lista em vez de grade, no modo retrato</string>
     <string name="audio_title_alignment">Alinhamento do título do áudio</string>
@@ -295,6 +299,8 @@
     <string name="confirm_resume_title">Pedir confirmação para continuar a reprodução</string>
     <string name="confirm_resume_summary">se habilitado, será necessária uma confirmação para quando um vídeo puder ser continuado da última posição</string>
     <string name="directory_empty">A pasta está vazia</string>
+    <string name="save_brightness_summary">Salvar o nível de brilho no reprodutor de vídeos</string>
+    <string name="save_brightness_title">Salvar o nível de brilho para vídeo</string>
     <!--Accessibility-->
     <string name="more_actions">Mais Ações</string>
     <string name="move">Mover</string>
@@ -306,4 +312,11 @@
     <!--Widget-->
     <string name="widget_name_w">Dispositivo VLC Branco</string>
     <string name="widget_name_b">Dispositivo VLC Preto</string>
+    <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
+    <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
+    <string name="allow_settings_access_title">Permitir que o VLC defina o toque</string>
+    <string name="allow_settings_access_description">O VLC precisa que você conceda esta permissão para definir esta música como toque.</string>
+    <string name="permission_ask_again">Conceder permissão</string>
+    <string name="exit_app">Fechar o VLC</string>
+    <string name="hardware_acceleration_error">erro na aceleração por hardware, alternando para decodificação por software</string>
 </resources>
