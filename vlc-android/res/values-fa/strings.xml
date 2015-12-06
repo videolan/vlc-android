@@ -35,7 +35,7 @@
     <string name="confirm_delete_playlist">آیا میخواهید لیست پخش \'%1$s\' را حذف کنید؟</string>
     <string name="ringtone_set">فایل \'%1$s\' به عنوان آهنگ‌زنگ قرار داده شد.</string>
     <string name="ringtone_error">خطایی برای تنظیم آهنگ‌زنگ بوجود آمده است.</string>
-    <string name="pause">توقف</string>
+    <string name="pause">مکث</string>
     <string name="not_show_again">دیگر این پیام نشان داده نشود.</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">خواننده ناشناس</string>
@@ -147,7 +147,7 @@
     <string name="video_player_tips">راهنمایی‌های پخش کننده تصویری:</string>
     <string name="seek">گشتن</string>
     <string name="subtitles">زیرنویس‌ها</string>
-    <string name="audio_sub">ترک های صوتی\nو زیرنویس ها</string>
+    <string name="audio_sub">قطعه های صوتی\nو زیرنویس ها</string>
     <string name="resize">تغییر اندازه</string>
     <string name="options">تنظیمات</string>
     <string name="lock">قفل</string>
@@ -212,7 +212,7 @@
     <string name="force_list_portrait_summary">نمایش فیلم در لیست به جای شبکه در حالت عمودی</string>
     <string name="audio_title_alignment">موقعیت عنوان آهنگ</string>
     <string name="enable_headset_detection">یافتن گوشی</string>
-    <string name="enable_headset_detection_summary">ایست هنگام حذف گوشی; ادامه هنگام وصل گوشی</string>
+    <string name="enable_headset_detection_summary">مکث هنگام حذف گوشی; ادامه هنگام وصل گوشی</string>
     <string name="enable_steal_remote_control">کنترل از راه دور اختصاصی گوشی</string>
     <string name="enable_steal_remote_control_summary">از سرقت رفتن کنترل از راه دور توسط برنامه‌های دیگر جلوگیری شود. این مانع دوبار کلیک در گوشی‌های HTC میشود.</string>
     <string name="audio_title_alignment_default">پیشفرض</string>
