@@ -22,7 +22,8 @@
     <item
         android:id="@+id/nav_network"
         android:title="@string/network_browsing"
-        android:icon="@drawable/ic_menu_network" />
+        android:icon="@drawable/ic_menu_network"
+        android:visible="false" />
 
     <item
         android:id="@+id/nav_mrl"
@@ -32,7 +33,8 @@
     <item
         android:id="@+id/nav_history"
         android:title="@string/history"
-        android:icon="@drawable/ic_menu_history" />
+        android:icon="@drawable/ic_menu_history"
+        android:visible="false" />
     </group>
     <group android:id="@+id/fixed_group"
         android:checkableBehavior="single">
