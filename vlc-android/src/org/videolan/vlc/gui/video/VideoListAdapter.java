@@ -203,7 +203,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @Nullable
     public MediaWrapper getItem(int position) {
-        if (position < 0 || position > mVideos.size())
+        if (position < 0 || position >= mVideos.size())
             return null;
         else
             return mVideos.get(position);
