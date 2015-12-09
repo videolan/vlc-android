@@ -83,6 +83,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.setOnFocusChangeListener(this);
         if (mMediaList == null)
             mMediaList = new ArrayList<MediaWrapper>();
 //        if (getIntent().getData() != null)
@@ -98,7 +99,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mRepeat = (ImageView)findViewById(R.id.button_repeat);
         mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
         mCover = (ImageView)findViewById(R.id.album_cover);
-        findViewById(R.id.button_shuffle).setOnFocusChangeListener(this);
     }
 
 
@@ -134,6 +134,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mAdapter = new PlaylistAdapter(this, mMediaList);
             mRecyclerView.setAdapter(mAdapter);
         }
+
+        selectItem(mCurrentlyPlaying);
+
     }
 
     @Override
@@ -150,7 +153,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     public void update() {
         if (mService == null)
             return;
-        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
         if (mService.hasMedia()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
@@ -167,7 +170,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             if (cover == null)
                 cover = mService.getCover();
             if (cover == null)
-                mCover.setImageResource(R.drawable.background_cone);
+                mCover.setImageResource(R.drawable.ic_tv_icon_big);
             else
                 mCover.setImageBitmap(cover);
         }
@@ -207,6 +210,18 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             case KeyEvent.KEYCODE_BUTTON_R1:
                 goNext();
                 return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (mProgressBar.hasFocus()) {
+                    seek(10000);
+                    return true;
+                } else
+                    return false;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                if (mProgressBar.hasFocus()) {
+                    seek(-10000);
+                    return true;
+                } else
+                    return false;
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                 seek(10000);
                 return true;
@@ -221,19 +236,23 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
              * Playlist navigation
              */
             case KeyEvent.KEYCODE_DPAD_UP:
-                selectPrevious();
-                mRecyclerView.requestFocus();
-                return true;
+                if (mRecyclerView.hasFocus()) {
+                    selectPrevious();
+                    return true;
+                } else
+                    return false;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                selectNext();
-                mRecyclerView.requestFocus();
-                return true;
+                if (mRecyclerView.hasFocus()) {
+                    selectNext();
+                    return true;
+                } else
+                    return false;
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if (mRecyclerView.hasFocus()) {
                     playSelection();
                     return true;
                 } else
-                return false;
+                    return false;
             default:
                 return super.onKeyDown(keyCode, event);
         }
@@ -307,7 +326,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             return;
         mShuffling = shuffle;
         mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
-                R.drawable.ic_shuffle);
+                R.drawable.ic_shuffle_w);
         ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
         if (shuffle){
             Collections.shuffle(medias);
@@ -331,7 +350,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mRepeat.setImageResource(R.drawable.ic_repeat_one);
         } else if (type == PlaybackService.REPEAT_ONE) {
             mService.setRepeatType(PlaybackService.REPEAT_NONE);
-            mRepeat.setImageResource(R.drawable.ic_repeat);
+            mRepeat.setImageResource(R.drawable.ic_repeat_w);
         }
     }
 
@@ -364,14 +383,20 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void selectNext() {
-        if (mAdapter.getmSelectedItem() >= mAdapter.getItemCount()-1)
+        if (mAdapter.getmSelectedItem() >= mAdapter.getItemCount()-1) {
+            mProgressBar.requestFocus();
+            selectItem(-1);
             return;
+        }
         selectItem(mAdapter.getmSelectedItem()+1);
     }
 
     private void selectPrevious() {
-        if (mAdapter.getmSelectedItem() < 1)
+        if (mAdapter.getmSelectedItem() < 1){
+            mPlayPauseButton.requestFocus();
+            selectItem(-1);
             return;
+        }
         selectItem(mAdapter.getmSelectedItem()-1);
     }
 
@@ -393,11 +418,12 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
+        if (hasFocus)
+            selectItem(mPositionSaved);
+        else {
             if (mAdapter.getmSelectedItem() != -1)
                 mPositionSaved = mAdapter.getmSelectedItem();
             selectItem(-1);
-        } else if (!mNext.hasFocus())
-            selectItem(mPositionSaved);
+        }
     }
 }

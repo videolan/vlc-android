@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.videolan.vlc.R;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
@@ -46,9 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public ViewHolder(View v) {
             super(v);
             mTitleTv = (TextView) v.findViewById(android.R.id.text1);
-            mTitleTv.setTextAppearance(v.getContext(), android.R.style.TextAppearance_DeviceDefault_Small);
             mArtistTv = (TextView) v.findViewById(android.R.id.text2);
-            mArtistTv.setTextAppearance(v.getContext(), android.R.style.TextAppearance_DeviceDefault_Small_Inverse);
         }
     }
 
@@ -61,7 +60,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public PlaylistAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_activated_2, parent, false);
+                .inflate(R.layout.tv_simple_list_item, parent, false);
 
         v.setClickable(true);
         v.setFocusable(true);
