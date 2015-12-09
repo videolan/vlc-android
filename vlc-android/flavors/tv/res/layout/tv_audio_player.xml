@@ -1,147 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/tv_overscan_vertical"
     android:layout_marginBottom="@dimen/tv_overscan_vertical"
     android:layout_marginLeft="@dimen/tv_overscan_horizontal"
-    android:layout_marginRight="@dimen/tv_overscan_horizontal" >
+    android:layout_marginRight="@dimen/tv_overscan_horizontal"
+    android:layout_marginTop="@dimen/tv_overscan_vertical"
+    android:orientation="horizontal">
+
+    <!-- Cover -->
+    <ImageView
+        android:id="@+id/album_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="3" >
-
-        <!-- Cover -->
-        <ImageView
-            android:id="@+id/album_cover"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="10dp"
-            android:src="@drawable/background_cone"
-            android:scaleType="fitXY" >
-        </ImageView>
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <!-- Playlist -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/playlist"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scrollbars="vertical"
-            android:nextFocusLeft="@+id/button_shuffle" />
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusDown="@+id/media_progress"
+            android:nextFocusLeft="@+id/media_progress"
+            android:nextFocusRight="@+id/media_progress"
+            android:scrollbars="vertical" />
+
+        <!-- Media HUD -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="5dip"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip"
+            android:paddingTop="10dip">
+
+            <TextView
+                android:id="@+id/media_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
+
+            <TextView
+                android:id="@+id/media_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
+            <ProgressBar
+                android:id="@+id/media_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/half_default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:focusable="true"
+
+                android:focusableInTouchMode="true"
+                android:indeterminate="false"
+                android:nextFocusDown="@+id/button_play"
+                android:nextFocusUp="@+id/playlist"
+                android:background="@drawable/background_item"
+                android:progressDrawable="@drawable/tv_audioprogressbar" />
+
+            <!-- Media control buttons -->
+            <LinearLayout
+                android:id="@+id/media_controls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/button_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusLeft="@+id/button_shuffle"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_repeat_w" />
+
+                <ImageView
+                    android:id="@+id/button_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_previous_w" />
+
+                <ImageView
+                    android:id="@+id/button_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_play_w" />
+
+                <ImageView
+                    android:id="@+id/button_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_next_w" />
+
+                <ImageView
+                    android:id="@+id/button_shuffle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusRight="@id/button_repeat"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_shuffle_w" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Media HUD -->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:minWidth="500dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:paddingRight="30dip"
-        android:paddingLeft="30dip"
-        android:paddingTop="10dip"
-        android:paddingBottom="5dip"
-        android:alpha="0.5"
-        android:background="@android:color/black">
-        <TextView
-            android:id="@+id/media_title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:layout_alignParentTop="true"
-	        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"/>
-        <TextView
-            android:id="@+id/media_artist"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerHorizontal="true"
-	        android:layout_below="@id/media_title"
-	        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
-        <ProgressBar
-            android:id="@+id/media_progress"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        style="?android:attr/progressBarStyleHorizontal"
-	        android:layout_centerHorizontal="true"
-	        android:layout_below="@id/media_artist"
-	        android:layout_alignStart="@+id/media_controls"
-	        android:layout_alignEnd="@+id/media_controls"
-	        android:indeterminate="false"/>
-        <!-- Media control buttons -->
-         <LinearLayout
-            android:id="@+id/media_controls"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal"
-	        android:layout_centerHorizontal="true"
-	        android:layout_below="@id/media_progress">
-	        <ImageView
-	            android:id="@+id/button_repeat"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-	            android:layout_marginRight="10dp"
-	            android:src="@drawable/ic_repeat"
-	            android:clickable="true"
-	            android:onClick="onClick"
-                android:nextFocusRight="@+id/button_previous"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
-	        <ImageView
-	            android:id="@+id/button_previous"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/ic_previous"
-	            android:clickable="true"
-	            android:onClick="onClick"
-                android:nextFocusRight="@+id/button_play"
-                android:nextFocusLeft="@id/button_repeat"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
-	        <ImageView
-	            android:id="@+id/button_play"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="10dp"
-	            android:layout_marginRight="10dp"
-	            android:src="@drawable/ic_play"
-	            android:clickable="true"
-	            android:onClick="onClick"
-                android:nextFocusRight="@+id/button_next"
-                android:nextFocusLeft="@id/button_previous"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
-                <requestFocus/>
-            </ImageView>
-	        <ImageView
-	            android:id="@+id/button_next"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/ic_next"
-	            android:clickable="true"
-	            android:onClick="onClick"
-                android:nextFocusRight="@+id/button_shuffle"
-                android:nextFocusLeft="@id/button_play"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
-	        <ImageView
-	            android:id="@+id/button_shuffle"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-	            android:layout_marginLeft="10dp"
-	            android:src="@drawable/ic_shuffle"
-	            android:clickable="true"
-	            android:onClick="onClick"
-                android:nextFocusRight="@id/playlist"
-                android:nextFocusLeft="@id/button_next"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
-	        </LinearLayout>
-    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
