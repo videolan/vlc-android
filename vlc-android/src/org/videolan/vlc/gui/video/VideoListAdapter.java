@@ -43,7 +43,6 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
@@ -220,7 +219,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (position == -1)
             return;
         mVideos.remove(position);
-        notifyItemRemoved(position);
+        // Remove the whole end of list to update position tags stored in
+        // items views for databinder interactions, like contextual menu
+        notifyItemRangeChanged(position, getItemCount()-position);
     }
 
     private int getItemPosition(MediaWrapper mw) {
