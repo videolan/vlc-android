@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
@@ -40,6 +41,20 @@ public class MediaUtils {
                     service.load(media);
                 }
         });
+    }
+
+    public static void openMediaNoUi(final Context context, final MediaWrapper media){
+        if (media == null)
+            return;
+        if (media.getType() == MediaWrapper.TYPE_VIDEO)
+            VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
+        else
+            new BaseCallBack(context) {
+                @Override
+                public void onConnected(PlaybackService service) {
+                    service.load(media);
+                }
+            };
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){
@@ -128,9 +143,22 @@ public class MediaUtils {
         }
     }
 
-    private static class DialogCallback implements PlaybackService.Client.Callback {
+    private static abstract class BaseCallBack implements PlaybackService.Client.Callback {
+        protected PlaybackService.Client mClient;
+
+        private BaseCallBack(Context context) {
+            mClient = new PlaybackService.Client(context, this);
+            mClient.connect();
+        }
+
+        protected BaseCallBack() {}
+
+        @Override
+        public void onDisconnected() {}
+    }
+
+    private static class DialogCallback extends BaseCallBack {
         private final ProgressDialog dialog;
-        final private PlaybackService.Client mClient;
         final private Runnable mRunnable;
 
         private interface Runnable {
