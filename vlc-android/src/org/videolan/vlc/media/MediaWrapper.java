@@ -141,26 +141,39 @@ public class MediaWrapper implements Parcelable {
             if (mType == TYPE_ALL && media.getType() == Media.Type.Directory)
                 mType = TYPE_DIR;
         }
+        defineType();
+    }
 
-        if (mType == TYPE_ALL) {
+    public void defineType() {
+        if (mType != TYPE_ALL)
+            return;
+
+        String fileExt = null;
+        int dotIndex = mTitle != null ? mTitle.lastIndexOf(".") : -1;
+
+        if (dotIndex != -1) {
+            fileExt = mTitle.substring(dotIndex).toLowerCase(Locale.ENGLISH);
+        } else {
             final int index = mUri.toString().indexOf('?');
             String location;
             if (index == -1)
                 location = mUri.toString();
             else
                 location = mUri.toString().substring(0, index);
-            int dotIndex = location.lastIndexOf(".");
-            if (dotIndex != -1) {
-                String fileExt = location.substring(dotIndex).toLowerCase(Locale.ENGLISH);
-                if( Extensions.VIDEO.contains(fileExt) ) {
-                    mType = TYPE_VIDEO;
-                } else if (Extensions.AUDIO.contains(fileExt)) {
-                    mType = TYPE_AUDIO;
-                } else if (Extensions.SUBTITLES.contains(fileExt)) {
-                    mType = TYPE_SUBTITLE;
-                } else if (Extensions.PLAYLIST.contains(fileExt)) {
-                    mType = TYPE_PLAYLIST;
-                }
+            dotIndex = location.lastIndexOf(".");
+            if (dotIndex != -1)
+                fileExt = location.substring(dotIndex).toLowerCase(Locale.ENGLISH);
+        }
+
+        if (!TextUtils.isEmpty(fileExt)) {
+            if (Extensions.VIDEO.contains(fileExt)) {
+                mType = TYPE_VIDEO;
+            } else if (Extensions.AUDIO.contains(fileExt)) {
+                mType = TYPE_AUDIO;
+            } else if (Extensions.SUBTITLES.contains(fileExt)) {
+                mType = TYPE_SUBTITLE;
+            } else if (Extensions.PLAYLIST.contains(fileExt)) {
+                mType = TYPE_PLAYLIST;
             }
         }
     }
@@ -328,6 +341,7 @@ public class MediaWrapper implements Parcelable {
 
     public void setTitle(String title){
         mTitle = title;
+        defineType();
     }
 
     public void setArtist(String artist){
