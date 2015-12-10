@@ -219,7 +219,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (position == -1)
             return;
         mVideos.remove(position);
-        notifyItemRemoved(position);
+        // Remove the whole end of list to update position tags stored in
+        // items views for databinder interactions, like contextual menu
+        notifyItemRangeChanged(position, getItemCount()-position);
     }
 
     private int getItemPosition(MediaWrapper mw) {
