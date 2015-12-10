@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.Presentation;
 import android.content.BroadcastReceiver;
@@ -925,8 +926,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
         intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
 
-        if (openedPosition != -1) {
-            intent.putExtra(PLAY_EXTRA_OPENED_POSITION, openedPosition);
+        if (openedPosition != -1 || !(context instanceof Activity)) {
+            if (openedPosition != -1)
+                intent.putExtra(PLAY_EXTRA_OPENED_POSITION, openedPosition);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         return intent;
