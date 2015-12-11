@@ -1,6 +1,39 @@
 Changes between 1.7.0 and 1.8.0:
 --------------------------------
 
+Core:
+ * Preparation for Asynchronous debugging
+ * Use mpg123 as MP3 decoder
+ * Improve UPnP support
+
+Application:
+ * Support Video Playlists
+ * Simplify and fix animations
+ * Improve networking browser
+
+TV:
+ * Improve Now Playing button
+ * Improve Audio player
+
+
+Changes between 1.7.1 and 1.7.2:
+--------------------------------
+
+Application:
+ * Fix small crashes
+ * New work-around for broken SamSung/Wiko/QMobile phones
+
+
+Changes between 1.7.0 and 1.7.1:
+--------------------------------
+
+Core:
+ * Fix seeking deadlocks and no-sound after seek issues
+
+Application
+ * Numerous crashes and glitches for the application
+
+
 Changes between 1.6.6 and 1.7.0:
 --------------------------------
 
