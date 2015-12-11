@@ -40,6 +40,8 @@ public class ExtensionListing implements Parcelable {
     private int mIcon;
     private ComponentName mSettingsActivity;
 
+    private PluginService.Connection connection;
+
     public ExtensionListing(){}
 
     @Override
@@ -175,6 +177,14 @@ public class ExtensionListing implements Parcelable {
     public ExtensionListing settingsActivity(ComponentName settingsActivity) {
         this.mSettingsActivity = settingsActivity;
         return this;
+    }
+
+    public PluginService.Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(PluginService.Connection connection) {
+        this.connection = connection;
     }
 
     /**

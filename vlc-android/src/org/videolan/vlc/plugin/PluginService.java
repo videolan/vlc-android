@@ -49,6 +49,7 @@ import org.videolan.vlc.plugin.api.IExtensionHost;
 import org.videolan.vlc.plugin.api.IExtensionService;
 import org.videolan.vlc.plugin.api.VLCExtensionItem;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class PluginService extends Service {
@@ -88,7 +89,7 @@ public class PluginService extends Service {
         }
     }
 
-    public List<String> getAvailableExtensions() {
+    public List<ExtensionListing> getAvailableExtensions() {
         PackageManager pm = VLCApplication.getAppContext().getPackageManager();
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
@@ -108,21 +109,29 @@ public class PluginService extends Service {
                     info.settingsActivity(ComponentName.unflattenFromString(
                             resolveInfo.serviceInfo.packageName + "/" + settingsActivity));
                 }
+                mPlugins.add(info);
             }
-
             info.icon(resolveInfo.getIconResource());
             //availableExtensions.add(info); TODO
             Log.d(TAG, "componentName "+info.componentName().toString());
             Log.d(TAG, " - title "+info.title());
             Log.d(TAG, " - protocolVersion "+info.protocolVersion());
-            Log.d(TAG, " - settingsActivity "+info.settingsActivity());
+            Log.d(TAG, " - settingsActivity " + info.settingsActivity());
 
-            connectService(info);
+//            connectService(info);
         }
-        return null;
+        return plugins;
     }
 
-    private void connectService(ExtensionListing info) {
+    private List<ExtensionListing> mPlugins = new LinkedList<>();
+    int mCurrentIndex = -1;
+    public void connectService(int index) {
+        ExtensionListing info = mPlugins.get(index);
+
+        if (mCurrentIndex != -1) {
+            disconnect();
+        }
+
         final Connection conn = new Connection();
         ComponentName cn = info.componentName();
         conn.componentName = cn;
@@ -142,22 +151,32 @@ public class PluginService extends Service {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                unbindService(conn.serviceConnection);
             }
         };
+
+        info.setConnection(conn);
 
         try {
             if (!bindService(new Intent().setComponent(cn), conn.serviceConnection,
                     Context.BIND_AUTO_CREATE)) {
                 Log.e(TAG, "Error binding to extension " + cn.flattenToShortString());
+                info.setConnection(null);
 //                return null;
             }
         } catch (SecurityException e) {
             Log.e(TAG, "Error binding to extension " + cn.flattenToShortString(), e);
+                info.setConnection(null);
 //            return null;
         }
     }
 
+    private void disconnect() {
+        ExtensionListing plugin = mPlugins.get(mCurrentIndex);
+        Connection conn = plugin.getConnection();
+        if (conn != null)
+            unbindService(conn.serviceConnection);
+        plugin.setConnection(null);
+    }
     private IExtensionHost makeHostInterface(Connection conn) {
         return new IExtensionHost.Stub(){
 
@@ -177,7 +196,7 @@ public class PluginService extends Service {
         };
     }
 
-    private static class Connection {
+    public static class Connection {
         boolean ready = false;
         ComponentName componentName;
         ServiceConnection serviceConnection;

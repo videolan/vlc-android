@@ -51,6 +51,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -82,11 +83,14 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.plugin.ExtensionListing;
 import org.videolan.vlc.plugin.PluginService;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
+
+import java.util.List;
 
 public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener {
     public final static String TAG = "VLC/MainActivity";
@@ -122,6 +126,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     private int mActionBarIconId = -1;
     Menu mMenu;
     private SearchView mSearchView;
+
+    // Plugins management
+    private PluginService mPluginService;
+    private static final int PLUGIN_NAVIGATION_GROUP = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +219,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         /* Reload the latest preferences */
         reloadPreferences();
+
+        // Bind service which discoverves au connects toplugins
+        bindService(new Intent(MainActivity.this,
+                PluginService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void setupNavigationView() {
@@ -261,29 +273,39 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        Log.d("VLC/PluginService", "binding service");
-//        startService(new Intent(this, PluginService.class));
-        boolean connected = bindService(new Intent(MainActivity.this,
-                PluginService.class), mConnection, Context.BIND_AUTO_CREATE);
-        Log.d("VLC/PluginService", "binding service "+connected);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
-        unbindService(mConnection);
+        unbindService(mPluginServiceConnection);
     }
 
-    private PluginService mBoundService;
+    private void loadPlugins() {
+        List<ExtensionListing> plugins = mPluginService.getAvailableExtensions();
+        if (plugins.isEmpty()) {
+            unbindService(mPluginServiceConnection);
+            mPluginService.stopSelf();
+            return;
+        }
+        PackageManager pm = getPackageManager();
+        Menu navMenu = mNavigationView.getMenu();
+        SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
+               PLUGIN_NAVIGATION_GROUP, R.string.plugins);
+        for (int i = 0 ; i < plugins.size() ; ++i) {
+            MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, plugins.get(i).title());
+            try {
+                item.setIcon(pm.getApplicationIcon(plugins.get(i).componentName().getPackageName()));
+            } catch (PackageManager.NameNotFoundException e) {
+                item.setIcon(R.drawable.icon);
+            }
+        }
+    }
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+
+    private ServiceConnection mPluginServiceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d("VLC/PluginService", "onServiceConnected");
-            mBoundService = ((PluginService.LocalBinder)service).getService();
+            mPluginService = ((PluginService.LocalBinder)service).getService();
+            loadPlugins();
         }
 
         @Override
@@ -840,38 +862,42 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         if(item == null)
             return false;
 
-        String tag = getTag(id);
-        switch (id){
-            case R.id.nav_about:
-                showSecondaryFragment(SecondaryActivity.ABOUT);
-                break;
-            case R.id.nav_settings:
-                startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-                break;
-            case R.id.nav_directories:
-                if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("audio/* video/*");
-                    startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
-                    mDrawerLayout.closeDrawer(mNavigationView);
-                    return true;
-                }
-            default:
+        if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
+            mPluginService.connectService(id);
+        } else {
+            String tag = getTag(id);
+            switch (id){
+                case R.id.nav_about:
+                    showSecondaryFragment(SecondaryActivity.ABOUT);
+                    break;
+                case R.id.nav_settings:
+                    startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                    break;
+                case R.id.nav_directories:
+                    if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("audio/* video/*");
+                        startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
+                        mDrawerLayout.closeDrawer(mNavigationView);
+                        return true;
+                    }
+                default:
                 /* Slide down the audio player */
-                slideDownAudioPlayer();
+                    slideDownAudioPlayer();
 
                 /* Switch the fragment */
-                Fragment fragment = getFragment(id);
-                if (fragment instanceof MediaBrowserFragment)
-                    ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_placeholder, fragment, tag);
-                ft.addToBackStack(getTag(mCurrentFragment));
-                ft.commit();
-                mCurrentFragment = id;
+                    Fragment fragment = getFragment(id);
+                    if (fragment instanceof MediaBrowserFragment)
+                        ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, fragment, tag);
+                    ft.addToBackStack(getTag(mCurrentFragment));
+                    ft.commit();
+                    mCurrentFragment = id;
 
-                if (mFocusedPrior != 0)
-                    requestFocusOnSearch();
+                    if (mFocusedPrior != 0)
+                        requestFocusOnSearch();
+            }
         }
         mDrawerLayout.closeDrawer(mNavigationView);
         mNavigationView.setCheckedItem(mCurrentFragment);

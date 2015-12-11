@@ -3,7 +3,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:id="@+id/scrollable_group"
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        android:orderInCategory="1">
     <item
         android:id="@+id/nav_video"
         android:title="@string/video"
@@ -36,7 +37,8 @@
         android:icon="@drawable/ic_menu_history" />
     </group>
     <group android:id="@+id/fixed_group"
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        android:orderInCategory="3">
         <item
             android:id="@+id/nav_settings"
             android:title="@string/preferences"
