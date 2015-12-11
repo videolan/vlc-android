@@ -295,6 +295,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
     protected String getProtocole(MediaWrapper media) {
+        if (!fragment.isRootDirectory() || !(fragment instanceof NetworkBrowserFragment))
+            return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)
             return null;
         String scheme = media.getUri().getScheme();
