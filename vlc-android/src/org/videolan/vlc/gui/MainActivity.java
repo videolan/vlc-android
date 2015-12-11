@@ -221,8 +221,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         reloadPreferences();
 
         // Bind service which discoverves au connects toplugins
-        bindService(new Intent(MainActivity.this,
-                PluginService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE);
+        if (!bindService(new Intent(MainActivity.this,
+                PluginService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE))
+            mPluginServiceConnection = null;
     }
 
     private void setupNavigationView() {
@@ -275,13 +276,17 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(mPluginServiceConnection);
+        if (mPluginServiceConnection != null) {
+            unbindService(mPluginServiceConnection);
+            mPluginServiceConnection = null;
+        }
     }
 
     private void loadPlugins() {
         List<ExtensionListing> plugins = mPluginService.getAvailableExtensions();
         if (plugins.isEmpty()) {
             unbindService(mPluginServiceConnection);
+            mPluginServiceConnection = null;
             mPluginService.stopSelf();
             return;
         }

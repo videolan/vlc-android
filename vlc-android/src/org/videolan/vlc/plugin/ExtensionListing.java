@@ -34,10 +34,8 @@ public class ExtensionListing implements Parcelable {
     private ComponentName mComponentName;
     private int mProtocolVersion;
     private boolean mCompatible;
-    private boolean mWorldReadable;
     private String mTitle;
     private String mDescription;
-    private int mIcon;
     private ComponentName mSettingsActivity;
 
     private PluginService.Connection connection;
@@ -65,7 +63,7 @@ public class ExtensionListing implements Parcelable {
     }
 
     /**
-     * Returns the version of the {@link com.google.android.apps.dashclock.api.DashClockExtension}
+     * Returns the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
      * protocol used by the extension.
      */
     public int protocolVersion() {
@@ -73,7 +71,7 @@ public class ExtensionListing implements Parcelable {
     }
 
     /**
-     * Sets the version of the {@link com.google.android.apps.dashclock.api.DashClockExtension}
+     * Sets the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
      * protocol used by the extension.
      */
     public ExtensionListing protocolVersion(int protocolVersion) {
@@ -83,7 +81,7 @@ public class ExtensionListing implements Parcelable {
 
     /**
      * Returns whether this extension is compatible to the host application; that is whether
-     * the version of the {@link com.google.android.apps.dashclock.api.DashClockExtension}
+     * the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
      * protocol used by the extension matches what is used by the host application.
      */
     public boolean compatible() {
@@ -95,23 +93,6 @@ public class ExtensionListing implements Parcelable {
      */
     public ExtensionListing compatible(boolean compatible) {
         mCompatible = compatible;
-        return this;
-    }
-
-    /**
-     * Returns if the data of the ExtensionInfo is available to all hosts or only for the
-     * DashClock app.
-     */
-    public boolean worldReadable() {
-        return mWorldReadable;
-    }
-
-    /**
-     * Sets if the data of the ExtensionInfo is available to all hosts or only for the
-     * DashClock app.
-     */
-    public ExtensionListing worldReadable(boolean worldReadable) {
-        mWorldReadable = worldReadable;
         return this;
     }
 
@@ -142,23 +123,6 @@ public class ExtensionListing implements Parcelable {
      */
     public ExtensionListing description(String description) {
         mDescription = description;
-        return this;
-    }
-
-    /**
-     * Returns the ID of the drawable resource within the extension's package that represents this
-     * data. Default 0.
-     */
-    public int icon() {
-        return mIcon;
-    }
-
-    /**
-     * Sets the ID of the drawable resource within the extension's package that represents this
-     * data. Default 0.
-     */
-    public ExtensionListing icon(int icon) {
-        mIcon = icon;
         return this;
     }
 
@@ -209,10 +173,8 @@ public class ExtensionListing implements Parcelable {
             mComponentName = ComponentName.readFromParcel(in);
             mProtocolVersion = in.readInt();
             mCompatible = in.readInt() == 1;
-            mWorldReadable = in.readInt() == 1;
             mTitle = in.readString();
             mDescription = in.readString();
-            mIcon = in.readInt();
             boolean hasSettings = in.readInt() == 1;
             if (hasSettings) {
                 mSettingsActivity = ComponentName.readFromParcel(in);
@@ -232,10 +194,8 @@ public class ExtensionListing implements Parcelable {
         mComponentName.writeToParcel(parcel, 0);
         parcel.writeInt(mProtocolVersion);
         parcel.writeInt(mCompatible ? 1 : 0);
-        parcel.writeInt(mWorldReadable ? 1 : 0);
         parcel.writeString(mTitle);
         parcel.writeString(mDescription);
-        parcel.writeInt(mIcon);
         parcel.writeInt(mSettingsActivity != null ? 1 : 0);
         if (mSettingsActivity != null) {
             mSettingsActivity.writeToParcel(parcel, 0);

@@ -94,6 +94,7 @@ public class PluginService extends Service {
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
 
+        mPlugins.clear();
         for (ResolveInfo resolveInfo : resolveInfos) {
             ExtensionListing info = new ExtensionListing();
             info.componentName(new ComponentName(resolveInfo.serviceInfo.packageName,
@@ -102,7 +103,8 @@ public class PluginService extends Service {
             Bundle metaData = resolveInfo.serviceInfo.metaData;
             if (metaData != null) {
                 info.compatible(metaData.getInt("protocolVersion") == PROTOCOLE_VERSION);
-                info.worldReadable(metaData.getBoolean("worldReadable", false));
+                if (!info.compatible())
+                    continue;
                 info.description(metaData.getString("description"));
                 String settingsActivity = metaData.getString("settingsActivity");
                 if (!TextUtils.isEmpty(settingsActivity)) {
@@ -111,16 +113,8 @@ public class PluginService extends Service {
                 }
                 mPlugins.add(info);
             }
-            info.icon(resolveInfo.getIconResource());
-            //availableExtensions.add(info); TODO
-            Log.d(TAG, "componentName "+info.componentName().toString());
-            Log.d(TAG, " - title "+info.title());
-            Log.d(TAG, " - protocolVersion "+info.protocolVersion());
-            Log.d(TAG, " - settingsActivity " + info.settingsActivity());
-
-//            connectService(info);
         }
-        return plugins;
+        return mPlugins;
     }
 
     private List<ExtensionListing> mPlugins = new LinkedList<>();
