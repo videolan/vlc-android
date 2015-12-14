@@ -299,6 +299,8 @@
     <string name="confirm_resume_title">Demander la confirmation pour reprendre</string>
     <string name="confirm_resume_summary">Si activé, il vous sera demandé si vous souhaitez reprendre la lecture de la vidéo depuis la dernière position</string>
     <string name="directory_empty">Le répertoire est vide</string>
+    <string name="save_brightness_summary">Mémoriser le niveau de rétroéclairage du lecteur video</string>
+    <string name="save_brightness_title">Enregistrer le niveau de rétroéclairage pour les videos</string>
     <!--Accessibility-->
     <string name="more_actions">Plus d\'actions</string>
     <string name="move">Déplacer</string>
@@ -310,4 +312,11 @@
     <!--Widget-->
     <string name="widget_name_w">Widget VLC blanc</string>
     <string name="widget_name_b">Widget VLC noir</string>
+    <string name="allow_storage_access_title">Permettre l\'accès aux fichiers vidéos et audios à VLC</string>
+    <string name="allow_storage_access_description">VLC a besoin de votre permission pour accéder aux fichiers multimédias de cet appareil.</string>
+    <string name="allow_settings_access_title">Autoriser VLC à modifier la sonnerie</string>
+    <string name="allow_settings_access_description">VLC a besoin de votre permission pour définir ce morceau comme votre sonnerie</string>
+    <string name="permission_ask_again">Donner l\'autorisation</string>
+    <string name="exit_app">Fermer VLC</string>
+    <string name="hardware_acceleration_error">erreur d\'accélération matériel, passage au décodage logiciel</string>
 </resources>
