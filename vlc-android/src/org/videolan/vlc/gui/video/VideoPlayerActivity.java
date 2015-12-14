@@ -531,6 +531,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onPause() {
         super.onPause();
+        hideOverlay(true);
         mSeekbar.setOnSeekBarChangeListener(null);
         mLock.setOnClickListener(null);
         mPlayPause.setOnClickListener(null);
