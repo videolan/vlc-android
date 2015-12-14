@@ -168,6 +168,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private PlaybackService mService;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
+    private View mRootView;
     private FrameLayout mSurfaceFrame;
     private MediaRouter mMediaRouter;
     private MediaRouter.SimpleCallback mMediaRouterCallback;
@@ -371,6 +372,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBar.setDisplayShowCustomEnabled(true);
         mActionBar.setCustomView(R.layout.player_action_bar);
 
+        mRootView = findViewById(R.id.player_root);
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
 
         mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
@@ -778,7 +780,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mMediaRouter != null)
             mediaRouterAddCallback(true);
 
-        mSurfaceView.setKeepScreenOn(true);
+        mRootView.setKeepScreenOn(true);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -850,7 +852,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void cleanUI() {
 
-        mSurfaceView.setKeepScreenOn(false);
+        mRootView.setKeepScreenOn(false);
 
         if (mDetector != null) {
             mDetector.setOnDoubleTapListener(null);
@@ -2653,7 +2655,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void play() {
         mService.play();
-        mSurfaceView.setKeepScreenOn(true);
+        mRootView.setKeepScreenOn(true);
     }
 
     /**
@@ -2661,7 +2663,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void pause() {
         mService.pause();
-        mSurfaceView.setKeepScreenOn(false);
+        mRootView.setKeepScreenOn(false);
     }
 
     /*
