@@ -109,7 +109,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_MEDIA);
-        vh.binding.setProtocole(getProtocole(media));
+        vh.binding.setProtocole(getProtocol(media));
         vh.binding.executePendingBindings();
 
         vh.icon.setBackgroundResource(getIconResId(media));
@@ -294,7 +294,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
                 return R.drawable.ic_browser_unknown_normal;
         }
     }
-    protected String getProtocole(MediaWrapper media) {
+    protected String getProtocol(MediaWrapper media) {
         if (!fragment.isRootDirectory() || !(fragment instanceof NetworkBrowserFragment))
             return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)
