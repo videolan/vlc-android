@@ -158,6 +158,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     private PlaybackService mService;
+    private View mRootView;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
     private FrameLayout mSurfaceFrame;
@@ -360,6 +361,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBar.setCustomView(R.layout.player_action_bar);
 
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
+        mRootView = findViewById(R.id.player_root);
 
         mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
@@ -733,7 +735,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSurfacesAttached = true;
         vlcVout.addCallback(this);
         vlcVout.attachViews();
-        mSurfaceView.setKeepScreenOn(true);
+        mRootView.setKeepScreenOn(true);
 
         loadMedia();
 
@@ -766,7 +768,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         vlcVout.removeCallback(this);
         if (mSurfacesAttached)
             vlcVout.detachViews();
-        mSurfaceView.setKeepScreenOn(false);
+        mRootView.setKeepScreenOn(false);
 
         mHandler.removeCallbacksAndMessages(null);
 
@@ -2537,7 +2539,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void play() {
         mService.play();
-        mSurfaceView.setKeepScreenOn(true);
+        mRootView.setKeepScreenOn(true);
     }
 
     /**
@@ -2545,7 +2547,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void pause() {
         mService.pause();
-        mSurfaceView.setKeepScreenOn(false);
+        mRootView.setKeepScreenOn(false);
     }
 
     /*
