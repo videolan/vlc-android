@@ -67,6 +67,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
@@ -85,14 +86,16 @@ import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.plugin.ExtensionListing;
 import org.videolan.vlc.plugin.PluginService;
+import org.videolan.vlc.plugin.api.VLCExtensionItem;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, PluginService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -114,7 +117,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
-    private int mCurrentFragment;
+    private int mCurrentFragmentId;
 
 
     private int mVersionNumber = -1;
@@ -173,9 +176,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null){
-            mCurrentFragment = savedInstanceState.getInt("current");
-            if (mCurrentFragment > 0)
-                mNavigationView.setCheckedItem(mCurrentFragment);
+            mCurrentFragmentId = savedInstanceState.getInt("current");
+            if (mCurrentFragmentId > 0)
+                mNavigationView.setCheckedItem(mCurrentFragmentId);
         }
 
 
@@ -310,6 +313,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mPluginService = ((PluginService.LocalBinder)service).getService();
+            mPluginService.setExtensionManagerActivity(MainActivity.this);
             loadPlugins();
         }
 
@@ -326,8 +330,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             mMediaLibrary.scanMediaItems();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
-        mNavigationView.setCheckedItem(mCurrentFragment);
-        mCurrentFragment = mSettings.getInt("fragment_id", R.id.nav_video);
+        mNavigationView.setCheckedItem(mCurrentFragmentId);
+        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
 
     @Override
@@ -351,10 +355,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
          * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
          */
         if (current == null) {
-            mNavigationView.setCheckedItem(mCurrentFragment);
-            Fragment ff = getFragment(mCurrentFragment);
+            mNavigationView.setCheckedItem(mCurrentFragmentId);
+            Fragment ff = getFragment(mCurrentFragmentId);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, ff, getTag(mCurrentFragment));
+            ft.replace(R.id.fragment_placeholder, ff, getTag(mCurrentFragmentId));
             ft.commit();
         }
     }
@@ -371,7 +375,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         mMediaLibrary.stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt("fragment_id", mCurrentFragment);
+        editor.putInt("fragment_id", mCurrentFragmentId);
         Util.commitPreferences(editor);
 
         mFocusedPrior = 0;
@@ -379,7 +383,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("current", mCurrentFragment);
+        outState.putInt("current", mCurrentFragmentId);
     }
 
     @Override
@@ -404,7 +408,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.
-        if (mCurrentFragment == R.id.nav_network || mCurrentFragment == R.id.nav_directories){
+        if (mCurrentFragmentId == R.id.nav_network || mCurrentFragmentId == R.id.nav_directories){
             BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_placeholder);
             if (browserFragment != null) {
@@ -435,6 +439,29 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 return new VideoGridFragment();
         }
     }
+
+    @Override
+    public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams) {
+        Log.d(TAG, "displayExtensionItems "+title);
+        ExtensionBrowser fragment = new ExtensionBrowser();
+        ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, list);
+        args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
+        args.putString(ExtensionBrowser.KEY_TITLE, title);
+        fragment.setArguments(args);
+        fragment.setPluginService(mPluginService);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
+        ft.replace(R.id.fragment_placeholder, fragment, title);
+        if (!(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
+            ft.addToBackStack(getTag(mCurrentFragmentId));
+        else
+            ft.addToBackStack(title);
+        ft.commit();
+    }
+
 
     private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment, String previous) {
         if (fragment == null) {
@@ -760,7 +787,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     private void reloadPreferences() {
-        mCurrentFragment = mSettings.getInt("fragment_id", R.id.nav_video);
+        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
 
     @Override
@@ -856,11 +883,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         int id = item.getItemId();
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
-        if(current == null || (item != null && mCurrentFragment == id)) { /* Already selected */
-            if (mFocusedPrior != 0)
-                requestFocusOnSearch();
-            mDrawerLayout.closeDrawer(mNavigationView);
-            return false;
+        if (current instanceof ExtensionBrowser) {
+            getSupportFragmentManager().popBackStack();
         }
 
         // This should not happen
@@ -868,8 +892,19 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             return false;
 
         if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
-            mPluginService.connectService(id);
+            mPluginService.openExtension(id);
+            mCurrentFragmentId = id;
         } else {
+            if (mPluginServiceConnection != null)
+                mPluginService.disconnect();
+
+            if(current == null || (item != null && mCurrentFragmentId == id)) { /* Already selected */
+                if (mFocusedPrior != 0)
+                    requestFocusOnSearch();
+                mDrawerLayout.closeDrawer(mNavigationView);
+                return false;
+            }
+
             String tag = getTag(id);
             switch (id){
                 case R.id.nav_about:
@@ -896,16 +931,16 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                         ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_placeholder, fragment, tag);
-                    ft.addToBackStack(getTag(mCurrentFragment));
+                    ft.addToBackStack(getTag(mCurrentFragmentId));
                     ft.commit();
-                    mCurrentFragment = id;
+                    mCurrentFragmentId = id;
 
                     if (mFocusedPrior != 0)
                         requestFocusOnSearch();
             }
         }
+        mNavigationView.setCheckedItem(mCurrentFragmentId);
         mDrawerLayout.closeDrawer(mNavigationView);
-        mNavigationView.setCheckedItem(mCurrentFragment);
         return true;
     }
 

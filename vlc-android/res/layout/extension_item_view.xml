@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.browser.ExtensionAdapter.ClickHandler"/>
+        <variable
+            name="item"
+            type="org.videolan.vlc.plugin.api.VLCExtensionItem"/>
+        <variable
+            name="position"
+            type="int"/>
+        <variable
+            name="image"
+            type="android.graphics.drawable.BitmapDrawable"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="5dp">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:src="@{image}"
+            android:clickable="true"
+            android:tag="@{position}"
+            android:onClick="@{handler.onClick}" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/image"
+            android:layout_above="@+id/author"
+            android:layout_marginBottom="1dp"
+            android:gravity="bottom"
+            android:text="@{item.title}"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/list_title"
+            android:textSize="16sp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:clickable="true"
+            android:tag="@{position}"
+            android:onClick="@{handler.onClick}" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/image"
+            android:layout_marginTop="1dp"
+            android:gravity="top"
+            android:text="@{item.subTitle}"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/list_subtitle"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:clickable="true"
+            android:tag="@{position}"
+            android:onClick="@{handler.onClick}"  />
+    </RelativeLayout>
+
+</layout>
