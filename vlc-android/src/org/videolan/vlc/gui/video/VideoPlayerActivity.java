@@ -2800,17 +2800,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     }
                 }
             } /* External application */
-            else if (intent.getDataString() != null) {
-                // Plain URI
-                final String location = intent.getDataString();
+            else if (intent.getData() != null) {
+                mUri = intent.getData();
+
                 // Remove VLC prefix if needed
-                if (location.startsWith("vlc://")) {
-                    mUri = AndroidUtil.LocationToUri(location.substring(6));
-                } else {
-                    mUri = intent.getData();
-                    if (mUri.getScheme() == null)
-                        mUri = AndroidUtil.PathToUri(mUri.getPath());
+                if (TextUtils.equals(mUri.getScheme(), "vlc") && mUri.toString().length() > 6) {
+                    mUri = Uri.parse(mUri.toString().substring(6));
                 }
+                if (mUri.getScheme() == null)
+                    mUri = AndroidUtil.PathToUri(mUri.getPath());
             } else {
                 Log.e(TAG, "Couldn't understand the intent");
                 encounteredError();
