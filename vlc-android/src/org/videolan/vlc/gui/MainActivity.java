@@ -38,15 +38,12 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -442,7 +439,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
     @Override
     public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams) {
-        Log.d(TAG, "displayExtensionItems "+title);
         ExtensionBrowser fragment = new ExtensionBrowser();
         ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
         Bundle args = new Bundle();
@@ -459,32 +455,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             ft.addToBackStack(getTag(mCurrentFragmentId));
         else
             ft.addToBackStack(title);
-        ft.commit();
-    }
-
-
-    private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment, String previous) {
-        if (fragment == null) {
-            Log.e(TAG, "Cannot show a null fragment, ShowFragment("+tag+") aborted.");
-            return;
-        }
-
-        FragmentManager fm = activity.getSupportFragmentManager();
-
-        //abort if fragment is already the current one
-        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
-        if(current != null && current.getTag().equals(tag))
-            return;
-
-        //try to pop back if the fragment is already on the backstack
-        if (fm.popBackStackImmediate(tag, 0))
-            return;
-
-        //fragment is not there yet, spawn a new one
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
-        ft.replace(R.id.fragment_placeholder, fragment, tag);
-        ft.addToBackStack(previous);
         ft.commit();
     }
 
