@@ -35,20 +35,24 @@ public class VLCExtensionItem implements Parcelable {
     public static final int TYPE_SUBTITLE = 4;
     public static final int TYPE_OTHER_FILE = 5;
 
-    String id;
-    String path;
-    String title;
-    String subTitle;
+    public String stringId;
+    public int intId;
+
+    public String link;
+    public String title;
+    public String subTitle;
 
     //TODO choose how to deal with icons
-    String iconUri; // for content provider
-    int iconType; // Using VLC icons. maybe with iconRes?
+    public String imageLink; // for content provider
+    public int iconType; // Using VLC icons. maybe with iconRes?
 
-    public VLCExtensionItem(String id, String path, String title, String subTitle, String mimeType, int iconType) {
-        this.id = id;
-        this.path = path;
+    public VLCExtensionItem(String stringId, int intId, String link, String title, String subTitle, String imageLink, int iconType) {
+        this.stringId = stringId;
+        this.intId = intId;
+        this.link = link;
         this.title = title;
         this.subTitle = subTitle;
+        this.imageLink = imageLink;
         this.iconType = iconType;
     }
 
@@ -76,20 +80,22 @@ public class VLCExtensionItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(path);
+        dest.writeString(stringId);
+        dest.writeInt(intId);
+        dest.writeString(link);
         dest.writeString(title);
         dest.writeString(subTitle);
-        dest.writeString(iconUri);
+        dest.writeString(imageLink);
         dest.writeInt(iconType);
     }
 
     public void readFromParcel(Parcel in) {
-        id = in.readString();
-        path = in.readString();
+        stringId = in.readString();
+        intId = in.readInt();
+        link = in.readString();
         title = in.readString();
         subTitle = in.readString();
-        iconUri = in.readString();
+        imageLink = in.readString();
         iconType = in.readInt();
     }
 }

@@ -30,13 +30,11 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -59,28 +57,38 @@ public class PluginService extends Service {
     public static final String ACTION_EXTENSION = "org.videolan.vlc.Extension";
     public static final int PROTOCOLE_VERSION = 1;
 
-    private static final int PLAY_MEDIA = 42;
-
     private final IBinder mBinder = new LocalBinder();
+    private ExtensionManagerActivity mExtensionManagerActivity;
+
+    public interface ExtensionManagerActivity {
+        void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams);
+    }
+
+    public void setExtensionManagerActivity(ExtensionManagerActivity activity) {
+        mExtensionManagerActivity = activity;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "service onCreate");
         getAvailableExtensions();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
         return START_NOT_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG, "service onBind");
         return mBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        setExtensionManagerActivity(null);
+        return false;
     }
 
     public class LocalBinder extends Binder {
@@ -119,7 +127,15 @@ public class PluginService extends Service {
 
     private List<ExtensionListing> mPlugins = new LinkedList<>();
     int mCurrentIndex = -1;
-    public void connectService(int index) {
+
+    public void openExtension(int index) {
+        if (index == mCurrentIndex)
+            browse(0, null);
+        else
+            connectService(index);
+
+    }
+    public void connectService(final int index) {
         ExtensionListing info = mPlugins.get(index);
 
         if (mCurrentIndex != -1) {
@@ -129,7 +145,7 @@ public class PluginService extends Service {
         final Connection conn = new Connection();
         ComponentName cn = info.componentName();
         conn.componentName = cn;
-        conn.hostInterface = makeHostInterface(conn);
+        conn.hostInterface = makeHostInterface();
         conn.serviceConnection = new ServiceConnection() {
 
             @Override
@@ -137,7 +153,7 @@ public class PluginService extends Service {
                 conn.ready = true;
                 conn.binder = IExtensionService.Stub.asInterface(service);
                 try {
-                    conn.binder.onInitialize(conn.hostInterface);
+                    conn.binder.onInitialize(index, conn.hostInterface);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -145,6 +161,7 @@ public class PluginService extends Service {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                mCurrentIndex = -1;
             }
         };
 
@@ -155,37 +172,81 @@ public class PluginService extends Service {
                     Context.BIND_AUTO_CREATE)) {
                 Log.e(TAG, "Error binding to extension " + cn.flattenToShortString());
                 info.setConnection(null);
-//                return null;
-            }
+            } else
+                mCurrentIndex = index;
         } catch (SecurityException e) {
             Log.e(TAG, "Error binding to extension " + cn.flattenToShortString(), e);
-                info.setConnection(null);
-//            return null;
+            info.setConnection(null);
         }
     }
 
-    private void disconnect() {
+    public void refresh() {
+        try {
+            ExtensionListing plugin = mPlugins.get(mCurrentIndex);
+            if (plugin == null)
+                return;
+            IExtensionService service = plugin.getConnection().binder;
+            if (service == null)
+                return;
+            service.refresh();
+        } catch (RemoteException e) {}
+    }
+
+    public void browse(int intId, String stringId) {
+        try {
+            ExtensionListing plugin = mPlugins.get(mCurrentIndex);
+            if (plugin == null)
+                return;
+            IExtensionService service = plugin.getConnection().binder;
+            if (service == null)
+                return;
+            service.browse(intId, stringId);
+        } catch (RemoteException e) {}
+    }
+
+    public void disconnect() {
+        if (mCurrentIndex == -1)
+            return;
         ExtensionListing plugin = mPlugins.get(mCurrentIndex);
         Connection conn = plugin.getConnection();
-        if (conn != null)
-            unbindService(conn.serviceConnection);
+        if (conn != null) {
+            try {
+                unbindService(conn.serviceConnection);
+            } catch (Exception e) {} // In case of extension service crashed
+        }
         plugin.setConnection(null);
     }
-    private IExtensionHost makeHostInterface(Connection conn) {
+
+    private IExtensionHost makeHostInterface() {
         return new IExtensionHost.Stub(){
 
             @Override
-            public void updateList(List<VLCExtensionItem> items) throws RemoteException {
-                //TODO
+            public void updateList(final String title, final List<VLCExtensionItem> items, final boolean showParams) throws RemoteException {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mExtensionManagerActivity != null)
+                            mExtensionManagerActivity.displayExtensionItems(title, items, showParams);
+                    }
+                });
             }
 
             @Override
             public void playUri(Uri uri, String title) throws RemoteException {
-                Log.d(TAG, "play media "+title);
-                Log.d(TAG, " - uri is: "+uri);
-                MediaWrapper media = new MediaWrapper(uri);
+                final MediaWrapper media = new MediaWrapper(uri);
                 media.setTitle(title);
-                mHandler.obtainMessage(PLAY_MEDIA, media).sendToTarget();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaUtils.openMediaNoUi(PluginService.this, media);
+                    }
+                });
+            }
+
+            @Override
+            public void unBind(int index) throws RemoteException {
+                if (mCurrentIndex == index)
+                    mCurrentIndex = -1;
             }
         };
     }
@@ -196,7 +257,6 @@ public class PluginService extends Service {
         ServiceConnection serviceConnection;
         IExtensionService binder;
         IExtensionHost hostInterface;
-        ContentObserver contentObserver;
 
         /**
          * Only access on the async thread. The pair is (collapse token, operation)
@@ -205,15 +265,5 @@ public class PluginService extends Service {
 //                = new LinkedList<Pair<Object, Operation>>();
     }
 
-    private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case PLAY_MEDIA:
-                    MediaWrapper media = (MediaWrapper) msg.obj;
-                    MediaUtils.openMediaNoUi(PluginService.this, media);
-                    break;
-            }
-        }
-    };
+    private final Handler mHandler = new Handler();
 }

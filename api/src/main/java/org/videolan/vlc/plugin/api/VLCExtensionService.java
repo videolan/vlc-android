@@ -17,6 +17,7 @@ import java.util.List;
 public abstract class VLCExtensionService extends Service{
 
     private static final String TAG = "VLC/ExtensionService";
+    private int mIndex = -1;
 
     private static final ComponentName VLC_HOST_SERVICE =
             new ComponentName("org.videolan.vlc",
@@ -26,10 +27,10 @@ public abstract class VLCExtensionService extends Service{
     Context mContext = this;
 
     private volatile Looper mServiceLooper;
-    private volatile Handler mServiceHandler;
+    protected volatile Handler mServiceHandler;
 
     protected abstract void browse(int intId, String stringId);
-    protected abstract void updateList(List<VLCExtensionItem> items);
+    protected abstract void refresh();
 
     @Override
     public void onCreate() {
@@ -51,6 +52,9 @@ public abstract class VLCExtensionService extends Service{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        try {
+            mHost.unBind(mIndex);
+        } catch (RemoteException e) {}
         mServiceHandler.removeCallbacksAndMessages(null); // remove all callbacks
         mServiceLooper.quit();
     }
@@ -62,11 +66,27 @@ public abstract class VLCExtensionService extends Service{
             e.printStackTrace();
         }
     }
+    protected void updateList(String title, List<VLCExtensionItem> items, boolean showParams){
+        try {
+            mHost.updateList(title, items, showParams);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void onInitialize() {};
 
     private final IExtensionService.Stub mBinder = new IExtensionService.Stub() {
         @Override
-        public void onInitialize(IExtensionHost host) throws RemoteException {
+        public void onInitialize(int index, IExtensionHost host) throws RemoteException {
+            mIndex = index;
             mHost = host;
+            mServiceHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    VLCExtensionService.this.onInitialize();
+                }
+            });
         }
 
         @Override
@@ -75,6 +95,16 @@ public abstract class VLCExtensionService extends Service{
                 @Override
                 public void run() {
                     VLCExtensionService.this.browse(id, text);
+                }
+            });
+        }
+
+        @Override
+        public void refresh() {
+            mServiceHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    VLCExtensionService.this.refresh();
                 }
             });
         }
