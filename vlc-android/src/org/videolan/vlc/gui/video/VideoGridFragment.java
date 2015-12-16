@@ -307,6 +307,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (menuInfo == null)
+            return;
         // Do not show the menu of media group.
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
         MediaWrapper media = mVideoAdapter.getItem(info.position);
