@@ -330,6 +330,10 @@ public class MediaWrapper implements Parcelable {
         mTitle = title;
     }
 
+    public void setArtist(String artist){
+        mArtist = artist;
+    }
+
     public String getTitle() {
         if (!TextUtils.isEmpty(mTitle))
             return mTitle;
