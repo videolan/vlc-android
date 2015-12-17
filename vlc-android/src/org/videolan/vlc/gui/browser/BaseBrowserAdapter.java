@@ -50,7 +50,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnLongClickListener {
+public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     protected static final int TYPE_MEDIA = 0;
@@ -104,8 +104,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
                 media.getType() == MediaWrapper.TYPE_VIDEO ||
                 media.getType() == MediaWrapper.TYPE_DIR );
-        vh.binding.setPosition(position);
-        vh.binding.setHandler(mClickHandler);
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_MEDIA);
@@ -114,7 +112,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         vh.icon.setBackgroundResource(getIconResId(media));
         if (hasContextMenu) {
-            vh.itemView.setOnLongClickListener(this);
+            vh.setContextMenuListener();
         }
     }
 
@@ -123,7 +121,19 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         return mMediaList.size();
     }
 
-    public class MediaViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
+        public void onClick(View v){}
+
+        public void onCheckBoxClick(View v){}
+
+        public void onMoreClick(View v){}
+    }
+
+    public class MediaViewHolder extends ViewHolder implements View.OnLongClickListener {
         public CheckBox checkBox;
         public TextView icon;
         DirectoryViewItemBinding binding;
@@ -131,13 +141,58 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         public MediaViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
+            binding.setHolder(this);
             checkBox = (CheckBox) v.findViewById(R.id.browser_checkbox);
             icon = (TextView) v.findViewById(R.id.dvi_icon);
             v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
         }
+
+        public void onClick(View v){
+            final MediaWrapper mw = (MediaWrapper) getItem(getAdapterPosition());
+            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+
+            if (mw.getType() == MediaWrapper.TYPE_DIR)
+                fragment.browse(mw, getAdapterPosition(), true);
+            else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
+                MediaUtils.openMedia(v.getContext(), mw);
+            else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
+                int position = 0;
+                LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
+                MediaWrapper mediaItem;
+                for (Object item : mMediaList)
+                    if (item instanceof MediaWrapper) {
+                        mediaItem = (MediaWrapper) item;
+                        if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
+                            mediaLocations.add(mediaItem);
+                            if (mediaItem.equals(mw))
+                                position = mediaLocations.size() - 1;
+                        }
+                    }
+                MediaUtils.openList(itemView.getContext(), mediaLocations, position);
+            } else {
+                MediaUtils.openStream(itemView.getContext(), mw.getLocation());
+            }
+        }
+
+        public void onCheckBoxClick(View v){
+            checkBoxAction(v);
+        }
+
+        public void onMoreClick(View v){
+            fragment.openContextMenu(getLayoutPosition());
+        }
+
+        public void setContextMenuListener() {
+            itemView.setOnLongClickListener(this);
+        }
+        @Override
+        public boolean onLongClick(View v) {
+            fragment.mRecyclerView.openContextMenu(getLayoutPosition());
+            return true;
+        }
     }
 
-    public static class SeparatorViewHolder extends RecyclerView.ViewHolder {
+    public class SeparatorViewHolder extends ViewHolder {
         BrowserItemSeparatorBinding binding;
 
         public SeparatorViewHolder(View v) {
@@ -306,53 +361,5 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             return null;
     }
 
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
-        public void onClick(View v){
-            openMediaFromView(v);
-        }
-
-        public void onCheckBoxClick(View v){
-            checkBoxAction(v);
-        }
-
-        public void onMoreClick(View v){
-            fragment.openContextMenu(((Integer) v.getTag()).intValue());
-        }
-    }
-
-    protected void openMediaFromView(View v) {
-        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
-        final MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
-        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-
-        if (mw.getType() == MediaWrapper.TYPE_DIR)
-            fragment.browse(mw, holder.getAdapterPosition(), true);
-        else if (mw.getType() == MediaWrapper.TYPE_VIDEO || mw.getType() == MediaWrapper.TYPE_AUDIO) {
-            int position = 0;
-            LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
-            MediaWrapper mediaItem;
-            for (Object item : mMediaList)
-                if (item instanceof MediaWrapper) {
-                    mediaItem = (MediaWrapper) item;
-                    if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                        mediaLocations.add(mediaItem);
-                        if (mediaItem.equals(mw))
-                            position = mediaLocations.size() - 1;
-                    }
-                }
-            MediaUtils.openList(v.getContext(), mediaLocations, position);
-        } else {
-            MediaUtils.openStream(v.getContext(), mw.getLocation());
-        }
-    }
-
     protected void checkBoxAction(View v){}
-
-    @Override
-    public boolean onLongClick(View v) {
-        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
-        fragment.mRecyclerView.openContextMenu(holder.getAdapterPosition());
-        return true;
-    }
 }

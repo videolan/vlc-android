@@ -3,8 +3,8 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="handler"
-            type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ClickHandler"/>
+            name="holder"
+            type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ViewHolder"/>
         <variable
             name="media"
             type="org.videolan.vlc.media.MediaWrapper"/>
@@ -12,16 +12,13 @@
             name="storage"
             type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.Storage"/>
         <variable
-            name="position"
-            type="int"/>
-        <variable
             name="type"
             type="int"/>
         <variable
             name="hasContextMenu"
             type="boolean"/>
         <variable
-            name="chechEnabled"
+            name="checkEnabled"
             type="boolean"/>
         <variable
             name="checked"
@@ -36,9 +33,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:focusable="true"
-        android:clickable="true"
+        android:clickable="@{holder != null}"
         android:longClickable="@{hasContextMenu}"
-        android:onClick="@{handler.onClick}"
+        android:onClick="@{holder.onClick}"
         android:background="@drawable/background_item">
 
         <CheckBox
@@ -48,10 +45,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
-            android:enabled="@{chechEnabled}"
+            android:enabled="@{checkEnabled}"
             android:checked="@{checked}"
-            android:tag="@{position}"
-            android:onClick="@{handler.onCheckBoxClick}"/>
+            android:onClick="@{holder.onCheckBoxClick}"/>
 
         <TextView
             android:id="@+id/dvi_icon"
@@ -110,9 +106,8 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:background="@drawable/ic_more"
-            android:tag="@{position}"
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE}"
-            android:onClick="@{handler.onMoreClick}"
+            android:onClick="@{holder.onMoreClick}"
             android:clickable="@{hasContextMenu}" />
 
     </LinearLayout>

@@ -45,7 +45,6 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        vh.binding.setHandler(mClickHandler);
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(false);
         vh.binding.setType(TYPE_MEDIA);

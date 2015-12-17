@@ -60,15 +60,13 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         final Storage storage = (Storage) getItem(position);
         String storagePath = storage.getUri().getPath();
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
-        vh.binding.setHandler(mClickHandler);
-        vh.binding.setPosition(position);
         vh.binding.setStorage(storage);
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_STORAGE);
         vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
                 (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
                 mMediaDirsLocation.contains(storagePath));
-        vh.binding.setChechEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
+        vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         vh.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +79,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             }
         });
         if (hasContextMenu)
-            vh.itemView.setOnLongClickListener(this);
+            vh.setContextMenuListener();
     }
 
     public void addItem(Media media, boolean notify, boolean top){
