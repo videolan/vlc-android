@@ -135,8 +135,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mRecyclerView.setAdapter(mAdapter);
         }
 
-        selectItem(mCurrentlyPlaying);
-
     }
 
     @Override
@@ -173,6 +171,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 mCover.setImageResource(R.drawable.ic_tv_icon_big);
             else
                 mCover.setImageBitmap(cover);
+
+            mCurrentlyPlaying=mService.getCurrentMediaPosition();
+            selectItem(mCurrentlyPlaying);
         }
     }
 
@@ -357,14 +358,12 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private void goPrevious() {
         if (mService != null && mService.hasPrevious()) {
             mService.previous();
-            selectItem(--mCurrentlyPlaying);
         }
     }
 
     private void goNext() {
         if (mService != null && mService.hasNext()){
             mService.next();
-            selectItem(++mCurrentlyPlaying);
         }
     }
 
@@ -375,11 +374,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mService.pause();
         else if (mService.hasMedia())
             mService.play();
-    }
-
-    private void pause() {
-        if (mService != null && mService.isPlaying())
-            mService.pause();
     }
 
     private void selectNext() {
