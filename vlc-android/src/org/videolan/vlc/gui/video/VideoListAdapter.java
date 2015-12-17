@@ -105,9 +105,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         fillView(holder, media);
 
-        holder.binding.setVariable(BR.position, position);
         holder.binding.setVariable(BR.media, media);
-        holder.binding.setVariable(BR.handler, mClickHandler);
         holder.binding.executePendingBindings();
         holder.itemView.setOnLongClickListener(this);
         if (asyncLoad)
@@ -336,7 +334,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         boolean listmode;
         ViewDataBinding binding;
 
@@ -344,14 +342,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
             this.listmode = listMode;
+            binding.setVariable(BR.holder, this);
         }
-    }
 
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
         public void onClick(View v){
-            int position = ((Integer) v.findViewById(R.id.item_more).getTag()).intValue();
-            MediaWrapper media = mVideos.get(position);
+            MediaWrapper media = mVideos.get(getAdapterPosition());
             if (media instanceof MediaGroup) {
                 MainActivity activity = (MainActivity) mFragment.getActivity();
                 activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
@@ -360,10 +355,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 VideoPlayerActivity.start(v.getContext(), media.getUri(), media.getTitle());
             }
         }
+
         public void onMoreClick(View v){
             if (mFragment == null)
                 return;
-            mFragment.mGridView.openContextMenu(((Integer) v.getTag()).intValue());
+            mFragment.mGridView.openContextMenu(getAdapterPosition());
         }
     }
 

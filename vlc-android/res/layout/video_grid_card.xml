@@ -15,10 +15,6 @@
             type="String" />
 
         <variable
-            name="position"
-            type="int" />
-
-        <variable
             name="max"
             type="int" />
 
@@ -39,8 +35,8 @@
             type="android.widget.ImageView.ScaleType" />
 
         <variable
-            name="handler"
-            type="org.videolan.vlc.gui.video.VideoListAdapter.ClickHandler" />
+            name="holder"
+            type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
     </data>
 
     <FrameLayout
@@ -49,7 +45,7 @@
         android:layout_marginBottom="10dip"
         android:longClickable="true"
         android:clickable="true"
-        android:onClick="@{handler.onClick}">
+        android:onClick="@{holder.onClick}">
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="@dimen/grid_card_width"
@@ -111,10 +107,9 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:contentDescription="@string/more_actions"
-                        android:onClick="@{handler.onMoreClick}"
+                        android:onClick="@{holder.onMoreClick}"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_more"
-                        android:tag="@{position}" />
+                        android:src="@drawable/ic_more" />
 
                 </LinearLayout>
 
