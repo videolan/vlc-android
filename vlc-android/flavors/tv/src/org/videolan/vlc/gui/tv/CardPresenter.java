@@ -191,11 +191,11 @@ public class CardPresenter extends Presenter {
             if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
                 picture = AudioUtil.getCover(sContext, mediaWrapper, 320);
                 if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_tv_icon_small);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
                 picture = BitmapUtil.getPicture(mediaWrapper);
                 if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_tv_icon_small);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
             else
