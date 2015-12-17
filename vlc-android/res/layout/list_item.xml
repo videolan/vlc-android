@@ -1,45 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-
-    <ImageView
-        android:id="@+id/cover"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center" />
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="org.videolan.vlc.media.MediaWrapper"/>
+        <import type="android.view.View"/>
+        <variable
+            name="holder"
+            type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder"/>
+        <variable
+            name="media"
+            type="MediaWrapper"/>
+        <variable
+            name="position"
+            type="int"/>
+    </data>
     <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:onClick="@{holder.onClick}">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
-            android:text="@string/title"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?attr/list_title"
-            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
 
-        <TextView
-            android:id="@+id/artist"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:text="@string/artist"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?attr/list_subtitle"
-            android:textSize="14sp" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_marginTop="5dip"
+                android:text="@{media.title}"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?attr/list_title"
+                android:textSize="20sp"
+                android:singleLine="true"
+                android:scrollHorizontally="true"/>
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:text="@{media.artist}"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?attr/list_subtitle"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:ellipsize="start"
+                android:visibility="@{media.artist == null ? View.GONE : View.VISIBLE}"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</layout>

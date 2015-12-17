@@ -1,8 +1,7 @@
 /*****************************************************************************
  * HistoryFragment.java
  *****************************************************************************
- * Copyright © 2012-2013 VLC authors and VideoLAN
- * Copyright © 2012-2013 Edward Wang
+ * Copyright © 2012-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,144 +22,114 @@ package org.videolan.vlc.gui;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
-import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 
-public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+import java.util.ArrayList;
+
+public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener {
+
     public final static String TAG = "VLC/HistoryFragment";
 
+    private static final int UPDATE_LIST = 0;
+
     private HistoryAdapter mHistoryAdapter;
-    private ListView mListView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private View mEmptyView;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() { }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mHistoryAdapter = new HistoryAdapter(getActivity());
-    }
-
     private void focusHelper(boolean idIsEmpty) {
-        View parent = View.inflate(getActivity(), R.layout.history_list,
-            null);
         MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
-        main.setSearchAsFocusDown(idIsEmpty, parent,
+        main.setSearchAsFocusDown(idIsEmpty, getView(),
                 android.R.id.list);
     }
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        mHistoryAdapter = new HistoryAdapter();
 
         View v = inflater.inflate(R.layout.history_list, container, false);
-        mListView = (ListView)v.findViewById(android.R.id.list);
-        mListView.setOnItemClickListener(this);
-        mListView.setAdapter(mHistoryAdapter);
-        mListView.setNextFocusUpId(R.id.ml_menu_search);
-        mListView.setNextFocusLeftId(android.R.id.list);
-        mListView.setNextFocusRightId(android.R.id.list);
+        mRecyclerView = (RecyclerView)v.findViewById(android.R.id.list);
+        mEmptyView = v.findViewById(android.R.id.empty);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mHistoryAdapter);
+        mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
+        mRecyclerView.setNextFocusLeftId(android.R.id.list);
+        mRecyclerView.setNextFocusRightId(android.R.id.list);
         if (AndroidUtil.isHoneycombOrLater())
-            mListView.setNextFocusForwardId(android.R.id.list);
-        focusHelper(mHistoryAdapter.getCount() == 0);
-        mListView.requestFocus();
-        registerForContextMenu(mListView);
+            mRecyclerView.setNextFocusForwardId(android.R.id.list);
+        focusHelper(mHistoryAdapter.getItemCount() == 0);
+        mRecyclerView.requestFocus();
+        registerForContextMenu(mRecyclerView);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
         mSwipeRefreshLayout.setColorSchemeColors(R.color.orange700/*, R.attr.colorPrimary, R.attr.colorPrimaryDark*/);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
-            }
-        });
+        mRecyclerView.addOnScrollListener(mScrollListener);
         return v;
     }
+
+    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            int topRowVerticalPosition =
+                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+        }
+    };
 
     @Override
     public void onResume() {
         super.onResume();
-        focusHelper(mHistoryAdapter.isEmpty());
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.history_view, menu);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        playListIndex(position);
-    }
-
-    private void playListIndex(int position) {
-        if (mService != null)
-            mService.playIndex(position);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if(!getUserVisibleHint()) return super.onContextItemSelected(item);
-
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        if(info == null) // info can be null
-            return super.onContextItemSelected(item);
-        int id = item.getItemId();
-
-        if(id == R.id.history_view_play) {
-            playListIndex(info.position);
-            return true;
-        } else if(id == R.id.history_view_delete) {
-            mHistoryAdapter.remove(info.position);
-            return true;
-        }
-        return super.onContextItemSelected(item);
+        display();
     }
 
     @Override
     public void refresh() {
-        if( mHistoryAdapter != null ) {
-            mHistoryAdapter.notifyDataSetChanged();
-            focusHelper(mHistoryAdapter.getCount() == 0);
-        } else
-            focusHelper(true);
-        mSwipeRefreshLayout.setRefreshing(false);
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<MediaWrapper> list = MediaDatabase.getInstance().getHistory();
+                mHandler.obtainMessage(UPDATE_LIST, list).sendToTarget();
+            }
+        });
     }
 
     @Override
     public void onRefresh() {
         refresh();
-    }
-
-    @Override
-    public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReadyToDisplay)
-            display();
-        else
-            mReadyToDisplay = ready;
     }
 
     @Override
@@ -175,4 +144,29 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     public void clear(){}
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case UPDATE_LIST:
+                    focusHelper(mHistoryAdapter.isEmpty());
+                    mHistoryAdapter.setList((ArrayList<MediaWrapper>) msg.obj);
+                    if (mHistoryAdapter.isEmpty()){
+                        mRecyclerView.setVisibility(View.GONE);
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        mEmptyView.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    if( mHistoryAdapter != null ) {
+                        mHistoryAdapter.notifyDataSetChanged();
+                        focusHelper(mHistoryAdapter.getItemCount() == 0);
+                    } else
+                        focusHelper(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+            }
+        }
+    };
 }

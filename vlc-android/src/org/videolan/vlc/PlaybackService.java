@@ -1662,6 +1662,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         notifyTrackChanged();
         determinePrevAndNextIndices();
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                MediaDatabase.getInstance().addHistoryItem(mw);
+            }
+        });
     }
 
     /**

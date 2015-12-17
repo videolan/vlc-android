@@ -1,8 +1,7 @@
 /*****************************************************************************
  * HistoryAdapter.java
  *****************************************************************************
- * Copyright © 2012-2013 VLC authors and VideoLAN
- * Copyright © 2012-2013 Edward Wang
+ * Copyright © 2012-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,95 +19,104 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
+import android.databinding.DataBindingUtil;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.databinding.ListItemBinding;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
-/* TODO */
-public class HistoryAdapter extends BaseAdapter  {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
+
     public final static String TAG = "VLC/HistoryAdapter";
 
-    private LayoutInflater mInflater;
-    private final ArrayList<MediaWrapper> mMediaList;
+    private ArrayList<MediaWrapper> mMediaList = new ArrayList<>();
 
-    public HistoryAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ListItemBinding binding;
 
-        mMediaList = new ArrayList<MediaWrapper>();
+        public ViewHolder(View itemView) {
+            super(itemView);
+            binding = DataBindingUtil.bind(itemView);
+        }
+
+        public void onClick(View v){
+            int position = getAdapterPosition();
+            MediaWrapper mw = mMediaList.get(position);
+
+            mMediaList.remove(position);
+            mMediaList.add(0, mw);
+            notifyItemMoved(position, 0);
+            MediaUtils.openMedia(v.getContext(), mw);
+        }
+    }
+
+    public void setList(ArrayList<MediaWrapper> list) {
+        mMediaList = list;
+        notifyDataSetChanged();
     }
 
     @Override
-    public int getCount() {
-        return mMediaList.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public Object getItem(int arg0) {
-        return mMediaList.get(arg0).getLocation();
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final MediaWrapper media = mMediaList.get(position);
+        holder.binding.setMedia(media);
+        holder.binding.setHolder(holder);
     }
 
     @Override
     public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        DirectoryViewHolder holder;
-        View v = convertView;
-
-        /* If view not created */
-        if (v == null) {
-            v = mInflater.inflate(R.layout.list_item, parent, false);
-            holder = new DirectoryViewHolder();
-            holder.title = (TextView) v.findViewById(R.id.title);
-            holder.text = (TextView) v.findViewById(R.id.artist);
-            holder.icon = (ImageView) v.findViewById(R.id.cover);
-            v.setTag(holder);
-        } else
-            holder = (DirectoryViewHolder) v.getTag();
-
-        String holderText = "";
-        MediaWrapper m = mMediaList.get(position);
-        if (m == null )
-            return v;
-
-        Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
-        holder.title.setText(m.getTitle());
-        holderText = MediaUtils.getMediaSubtitle(VLCApplication.getAppContext(), m);
-
-        holder.text.setText(holderText);
-        Bitmap b = AudioUtil.getCover(VLCApplication.getAppContext(), m, 64);
-        if(b != null)
-            holder.icon.setImageBitmap(b);
-        else
-            holder.icon.setImageResource(R.drawable.icon);
-
-        return v;
+    public int getItemCount() {
+        return mMediaList.size();
     }
 
-    public void remove(int position) {
+    public boolean isEmpty() {
+        return mMediaList.isEmpty();
     }
 
-    private static class DirectoryViewHolder {
-        TextView title;
-        TextView text;
-        ImageView icon;
+    public ClickHandler mClickHandler = new ClickHandler();
+    public class ClickHandler {
+        public void onClick(View v){
+            openMediaFromView(v);
+        }
+    }
 
+    private void openMediaFromView(View v) {
+        int position = ((ViewHolder)v.getTag()).getAdapterPosition();
+        MediaWrapper mw = mMediaList.get(position);
+
+        mMediaList.remove(position);
+        mMediaList.add(0, mw);
+        notifyItemMoved(position, 0);
+        MediaUtils.openMedia(v.getContext(), mw);
+    }
+
+    public void remove(final int position) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                MediaDatabase.getInstance().deleteHistoryUri(mMediaList.get(position).getUri().toString());
+            }
+        });
+        mMediaList.remove(position);
+        notifyItemRemoved(position);
     }
 }
