@@ -2,26 +2,42 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.ExtensionItemViewBinding;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.plugin.api.VLCExtensionItem;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.SoftReference;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
 
     ExtensionBrowser mFragment;
     ArrayList<VLCExtensionItem> mItemsList = new ArrayList<>();
+    static HashMap<String, SoftReference<Bitmap>> iconsMap = new HashMap<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
@@ -81,12 +97,55 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         Resources res = holder.itemView.getContext().getResources();
         vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
 
-        //setIcon(item.imageLink, vh.binding);
+        if (!TextUtils.isEmpty(item.imageLink) && item.imageLink.startsWith("http://"))
+            AsyncImageLoader.LoadImage(new HttpImageFetcher(holder.binding, item.imageLink), null);
     }
 
-    private void setIcon(String imageLink, ExtensionItemViewBinding binding) {
-        //// TODO: 15/12/15
+    private static class HttpImageFetcher extends AsyncImageLoader.CoverFetcher {
+        final String imageLink;
+
+        HttpImageFetcher(ViewDataBinding binding, String imageLink) {
+            super(binding);
+            this.imageLink = imageLink;
+        }
+
+        @Override
+        public Bitmap getImage() {
+            if (iconsMap.containsKey(imageLink)) {
+                Bitmap bd = iconsMap.get(imageLink).get();
+                if (bd != null) {
+                    return bd;
+                } else
+                    iconsMap.remove(imageLink);
+            }
+            HttpURLConnection urlConnection = null;
+            Bitmap icon = null;
+            try {
+                URL url = new URL(imageLink);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                icon = BitmapFactory.decodeStream(in);
+                iconsMap.put(imageLink, new SoftReference<>(icon));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return icon;
+        }
+
+        @Override
+        public void updateBindImage(Bitmap bitmap, View target) {
+            if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
+                binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+                binding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            }
+        }
     }
+
 
     private int getIconResId(VLCExtensionItem item) {
         switch (item.type){
