@@ -32,6 +32,17 @@ public class MediaUtils {
         LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
     }
 
+    public static void appendMedia(final Context context, final MediaWrapper media){
+        if (media == null)
+            return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.append(media);
+                }
+        });
+    }
+
     public static void openMedia(final Context context, final MediaWrapper media){
         if (media == null)
             return;
