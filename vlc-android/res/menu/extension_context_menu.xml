@@ -11,5 +11,6 @@
         android:title="@string/play_as_audio" />
     <item
         android:id="@+id/extension_item_download"
-        android:title="@string/download_on_device" />
+        android:title="@string/download_on_device"
+        android:visible="false"/>
 </menu>
