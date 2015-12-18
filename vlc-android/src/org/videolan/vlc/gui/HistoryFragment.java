@@ -26,10 +26,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -57,7 +54,9 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     private View mEmptyView;
 
     /* All subclasses of Fragment must include a public empty constructor. */
-    public HistoryFragment() { }
+    public HistoryFragment() {
+        mHistoryAdapter = new HistoryAdapter();
+    }
 
     private void focusHelper(boolean idIsEmpty) {
         MainActivity main = (MainActivity)getActivity();
@@ -69,7 +68,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        mHistoryAdapter = new HistoryAdapter();
 
         View v = inflater.inflate(R.layout.history_list, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(android.R.id.list);
@@ -113,7 +111,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     @Override
     public void onResume() {
         super.onResume();
-        display();
+        if (mReadyToDisplay && mHistoryAdapter.isEmpty())
+            display();
     }
 
     @Override
