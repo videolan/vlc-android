@@ -135,6 +135,11 @@ public class PluginService extends Service {
             connectService(index);
 
     }
+
+    public ExtensionListing getCurrentPlugin() {
+        return mPlugins.get(mCurrentIndex);
+    }
+
     public void connectService(final int index) {
         ExtensionListing info = mPlugins.get(index);
 
@@ -207,7 +212,7 @@ public class PluginService extends Service {
     public void disconnect() {
         if (mCurrentIndex == -1)
             return;
-        ExtensionListing plugin = mPlugins.get(mCurrentIndex);
+        ExtensionListing plugin = getCurrentPlugin();
         Connection conn = plugin.getConnection();
         if (conn != null) {
             try {

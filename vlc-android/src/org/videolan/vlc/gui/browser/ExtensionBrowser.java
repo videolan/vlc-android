@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.browser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.plugin.ExtensionListing;
 import org.videolan.vlc.plugin.PluginService;
 import org.videolan.vlc.plugin.Utils;
 import org.videolan.vlc.plugin.api.VLCExtensionItem;
@@ -114,7 +116,12 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == mAddDirectoryFAB.getId()){
-            //TODO start plugin activity
+            ExtensionListing plugin = mPluginService.getCurrentPlugin();
+            if (plugin == null)
+                return;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setComponent(plugin.settingsActivity());
+            startActivity(intent);
         }
     }
 
