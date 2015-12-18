@@ -1598,13 +1598,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         // Add handler after loading the list
         mMediaList.addEventListener(mListEventListener);
 
-        MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
-        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying())
-            playIndex(mCurrentIndex, 0);
-        else {//Start VideoPlayer for first video, it will trigger playIndex when ready.
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-                    getCurrentMediaWrapper().getUri(), mCurrentIndex);
-        }
+        playIndex(mCurrentIndex, 0);
         saveMediaList();
         onMediaChanged();
     }
@@ -1651,23 +1645,28 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         media.setEventListener(mMediaListener);
         mMediaPlayer.setMedia(media);
         media.release();
-        mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
-        mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
-        changeAudioFocus(true);
-        mMediaPlayer.setEventListener(mMediaPlayerListener);
-        mMediaPlayer.play();
-        if(mSavedTime != 0l)
-            mMediaPlayer.setTime(mSavedTime);
-        mSavedTime = 0l;
+        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying()) {
+            mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
+            mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
+            changeAudioFocus(true);
+            mMediaPlayer.setEventListener(mMediaPlayerListener);
+            mMediaPlayer.play();
+            if(mSavedTime != 0l)
+                mMediaPlayer.setTime(mSavedTime);
+            mSavedTime = 0l;
 
-        notifyTrackChanged();
-        determinePrevAndNextIndices();
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                MediaDatabase.getInstance().addHistoryItem(mw);
-            }
-        });
+            notifyTrackChanged();
+            determinePrevAndNextIndices();
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    MediaDatabase.getInstance().addHistoryItem(mw);
+                }
+            });
+        } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.
+            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+                    getCurrentMediaWrapper().getUri(), mCurrentIndex);
+        }
     }
 
     /**
