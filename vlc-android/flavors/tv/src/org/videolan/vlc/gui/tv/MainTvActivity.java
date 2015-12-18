@@ -47,6 +47,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -70,7 +72,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 
 public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
-        OnItemViewClickedListener, OnClickListener {
+        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -99,6 +101,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     Activity mContext;
     private Object mSelectedItem;
     private AsyncUpdate mUpdateTask;
+    private CardPresenter.SimpleCard mNowPlayingCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +149,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     @Override
     public void onConnected(PlaybackService service) {
         super.onConnected(service);
+        mService.addCallback(this);
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
@@ -156,6 +160,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     @Override
     protected void onStop() {
+        if (mService != null)
+            mService.removeCallback(this);
         super.onStop();
         Intent recommendationIntent = new Intent(this,
                 RecommendationsService.class);
@@ -363,9 +369,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
                 Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
                 if (cover != null)
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover));
+                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
                 else
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_nowplaying_big));
+                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_tv_icon_small);
+                mCategoriesAdapter.add(mNowPlayingCard);
             }
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
@@ -458,4 +465,54 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     protected void refresh() {
         mMediaLibrary.scanMediaItems(true);
     }
+
+    @Override
+    public void update(){}
+
+    @Override
+    public void updateProgress(){}
+
+    @Override
+    public
+    void onMediaEvent(Media.Event event) {
+    }
+
+    @Override
+    public
+    void onMediaPlayerEvent(MediaPlayer.Event event){
+        switch (event.type) {
+            case MediaPlayer.Event.Opening:
+                updateNowPlayingCard();
+                break;
+            case MediaPlayer.Event.Stopped:
+                if (mNowPlayingCard != null)
+                    mCategoriesAdapter.remove(mNowPlayingCard);
+                break;
+        }
+    }
+
+    public void updateNowPlayingCard () {
+        if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo()) {
+            MediaWrapper mw = mService.getCurrentMediaWrapper();
+            String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
+            Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+            if (mNowPlayingCard == null) {
+                if (cover != null)
+                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
+                else
+                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_tv_icon_small);
+                mCategoriesAdapter.add(0, mNowPlayingCard);
+            } else {
+                mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING);
+                mNowPlayingCard.setName(display);
+                if (cover != null)
+                    mNowPlayingCard.setImage(cover);
+                else
+                    mNowPlayingCard.setImageId(R.drawable.ic_tv_icon_small);
+            }
+            mCategoriesAdapter.notifyArrayItemRangeChanged(0,1);
+
+        }
+    }
+
 }
