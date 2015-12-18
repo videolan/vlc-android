@@ -69,6 +69,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         View v = inflater.inflate(R.layout.directory_browser, container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
+        mEmptyView.setText(R.string.extension_empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);

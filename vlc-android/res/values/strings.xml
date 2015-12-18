@@ -368,6 +368,11 @@
     <string name="exit_app">Close VLC</string>
     <string name="hardware_acceleration_error">hardware acceleration error, switching to software decoding</string>
 
+    <!-- PLugins -->
+    <string name="plugins">Plugins</string>
+    <string name="download_on_device">Download</string>
+    <string name="extension_empty">No item to display, go to your extension settings to get some.</string>
+
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>
@@ -545,8 +550,6 @@
         <item>YV12</item>
     </string-array>
     <string name="chroma_format_default" translatable="false">RV32</string>
-    <string name="plugins">Plugins</string>
-    <string name="download_on_device">Download</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
