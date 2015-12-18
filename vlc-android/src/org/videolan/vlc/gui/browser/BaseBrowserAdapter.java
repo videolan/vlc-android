@@ -148,34 +148,19 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void onClick(View v){
-            final MediaWrapper mw = (MediaWrapper) getItem(getAdapterPosition());
-            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            openMediaFromView(this, v);
+        }
 
-            if (mw.getType() == MediaWrapper.TYPE_DIR)
-                fragment.browse(mw, getAdapterPosition(), true);
-            else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
-                MediaUtils.openMedia(v.getContext(), mw);
-            else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
-                int position = 0;
-                LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
-                MediaWrapper mediaItem;
-                for (Object item : mMediaList)
-                    if (item instanceof MediaWrapper) {
-                        mediaItem = (MediaWrapper) item;
-                        if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                            mediaLocations.add(mediaItem);
-                            if (mediaItem.equals(mw))
-                                position = mediaLocations.size() - 1;
-                        }
-                    }
-                MediaUtils.openList(itemView.getContext(), mediaLocations, position);
-            } else {
-                MediaUtils.openStream(itemView.getContext(), mw.getLocation());
-            }
+        protected void openStorage() {
+            MediaWrapper mw = new MediaWrapper(((Storage) getItem(getAdapterPosition())).getUri());
+            mw.setType(MediaWrapper.TYPE_DIR);
+            fragment.browse(mw, getAdapterPosition(), checkBox.isChecked());
         }
 
         public void onCheckBoxClick(View v){
-            checkBoxAction(v);
+            if (getItem(getAdapterPosition()) instanceof Storage) {
+                checkBoxAction(v, ((Storage) getItem(getAdapterPosition())).getUri().getPath());
+            }
         }
 
         public void onMoreClick(View v){
@@ -361,5 +346,32 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             return null;
     }
 
-    protected void checkBoxAction(View v){}
+    protected void checkBoxAction(View v, String path){}
+
+    protected void openMediaFromView(MediaViewHolder holder, View v) {
+        final MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
+        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+
+        if (mw.getType() == MediaWrapper.TYPE_DIR)
+            fragment.browse(mw, holder.getAdapterPosition(), true);
+        else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
+            MediaUtils.openMedia(holder.itemView.getContext(), mw);
+        else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
+            int position = 0;
+            LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
+            MediaWrapper mediaItem;
+            for (Object item : mMediaList)
+                if (item instanceof MediaWrapper) {
+                    mediaItem = (MediaWrapper) item;
+                    if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
+                        mediaLocations.add(mediaItem);
+                        if (mediaItem.equals(mw))
+                            position = mediaLocations.size() - 1;
+                    }
+                }
+            MediaUtils.openList(holder.itemView.getContext(), mediaLocations, position);
+        } else {
+            MediaUtils.openStream(holder.itemView.getContext(), mw.getLocation());
+        }
+    }
 }

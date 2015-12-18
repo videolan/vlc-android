@@ -125,7 +125,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
 //                }
                 //Remove subfolders, it would be redundant
                 for (String customDirPath : mMediaDirsLocation) {
-                    if (customDirPath.startsWith(path+"/"))
+                    if (customDirPath.startsWith(path + "/"))
                         mDbManager.removeDir(customDirPath);
                 }
                 updateMediaDirs();
@@ -143,16 +143,14 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         });
     }
 
-    protected void openMediaFromView(View v) {
-        MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+    protected void openMediaFromView(MediaViewHolder holder, View v) {
         MediaWrapper mw = new MediaWrapper(((Storage) getItem(holder.getAdapterPosition())).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
         fragment.browse(mw, holder.getAdapterPosition(), holder.checkBox.isChecked());
     }
 
-    protected void checkBoxAction(View v){
+    protected void checkBoxAction(View v, String path){
             boolean isChecked = ((CheckBox) v).isChecked();
-            String path = ((Storage) getItem(((Integer)v.getTag()).intValue())).getUri().getPath();
             if (isChecked)
                 addDir(path);
             else

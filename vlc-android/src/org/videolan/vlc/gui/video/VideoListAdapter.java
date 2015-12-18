@@ -53,7 +53,7 @@ import java.util.Comparator;
 import java.util.Locale;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder>
-        implements Comparator<MediaWrapper>, View.OnLongClickListener {
+        implements Comparator<MediaWrapper> {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -107,7 +107,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         holder.binding.setVariable(BR.media, media);
         holder.binding.executePendingBindings();
-        holder.itemView.setOnLongClickListener(this);
         if (asyncLoad)
             AsyncImageLoader.LoadImage(new VideoCoverFetcher(holder.binding, media), null);
     }
@@ -334,7 +333,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         boolean listmode;
         ViewDataBinding binding;
 
@@ -343,6 +342,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             binding = DataBindingUtil.bind(itemView);
             this.listmode = listMode;
             binding.setVariable(BR.holder, this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void onClick(View v){
@@ -361,14 +361,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 return;
             mFragment.mGridView.openContextMenu(getAdapterPosition());
         }
-    }
 
-    @Override
-    public boolean onLongClick(View v) {
-        if (mFragment == null)
-            return false;
-        int position = ((Integer) v.findViewById(R.id.item_more).getTag()).intValue();
-        mFragment.mGridView.openContextMenu(position);
-        return true;
+        @Override
+        public boolean onLongClick(View v) {
+            if (mFragment == null)
+                return false;
+            mFragment.mGridView.openContextMenu(getLayoutPosition());
+            return true;
+        }
     }
 }

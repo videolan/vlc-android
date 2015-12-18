@@ -28,7 +28,6 @@ import android.view.View;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 
@@ -58,8 +57,7 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         return mediaWrapper.getType() == MediaWrapper.TYPE_DIR || mediaWrapper.getType() == MediaWrapper.TYPE_SUBTITLE;
     }
 
-    protected void openMediaFromView(View v) {
-        final MediaViewHolder holder = (MediaViewHolder) v.getTag(R.id.layout_item);
+    protected void openMediaFromView(MediaViewHolder holder, View v) {
         final MediaWrapper media = (MediaWrapper) getItem(holder.getAdapterPosition());
         if (media.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(media, holder.getAdapterPosition(), true);
