@@ -44,16 +44,16 @@ public class VLCExtensionItem implements Parcelable {
 
     //TODO choose how to deal with icons
     public String imageLink; // for content provider
-    public int iconType; // Using VLC icons. maybe with iconRes?
+    public int type; // Using VLC icons. maybe with iconRes?
 
-    public VLCExtensionItem(String stringId, int intId, String link, String title, String subTitle, String imageLink, int iconType) {
+    public VLCExtensionItem(String stringId, int intId, String link, String title, String subTitle, String imageLink, int type) {
         this.stringId = stringId;
         this.intId = intId;
         this.link = link;
         this.title = title;
         this.subTitle = subTitle;
         this.imageLink = imageLink;
-        this.iconType = iconType;
+        this.type = type;
     }
 
     public VLCExtensionItem() {
@@ -86,7 +86,7 @@ public class VLCExtensionItem implements Parcelable {
         dest.writeString(title);
         dest.writeString(subTitle);
         dest.writeString(imageLink);
-        dest.writeInt(iconType);
+        dest.writeInt(type);
     }
 
     public void readFromParcel(Parcel in) {
@@ -96,6 +96,6 @@ public class VLCExtensionItem implements Parcelable {
         title = in.readString();
         subTitle = in.readString();
         imageLink = in.readString();
-        iconType = in.readInt();
+        type = in.readInt();
     }
 }
