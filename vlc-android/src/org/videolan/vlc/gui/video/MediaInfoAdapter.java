@@ -46,7 +46,7 @@ public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
             v = inflater.inflate(R.layout.list_item, parent, false);
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
-            holder.text = (TextView) v.findViewById(R.id.artist);
+            holder.text = (TextView) v.findViewById(R.id.subtitle);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
