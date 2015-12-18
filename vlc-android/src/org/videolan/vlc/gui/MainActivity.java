@@ -73,6 +73,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
+import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
@@ -491,8 +492,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                     R.drawable.ic_menu_bookmark_outline_w);
         } else
             menu.findItem(R.id.ml_menu_save).setVisible(false);
-        if (current instanceof MRLPanelFragment)
-            menu.findItem(R.id.ml_menu_clean).setVisible(!((MRLPanelFragment) current).isEmpty());
+        if (current instanceof IHistory)
+            menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
         return true;
@@ -548,8 +549,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 }
                 break;
             case R.id.ml_menu_clean:
-                if (current instanceof MRLPanelFragment)
-                    ((MRLPanelFragment)current).clearHistory();
+                if (current instanceof IHistory)
+                    ((IHistory)current).clearHistory();
                 break;
             case R.id.ml_menu_save:
                 if (current == null)

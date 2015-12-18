@@ -36,12 +36,13 @@ import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 
 import java.util.ArrayList;
 
-public class MRLPanelFragment extends Fragment implements View.OnKeyListener, TextView.OnEditorActionListener {
+public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener {
     private static final String TAG = "VLC/MrlPanelFragment";
     private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;

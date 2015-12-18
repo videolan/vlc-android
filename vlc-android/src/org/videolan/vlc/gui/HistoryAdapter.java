@@ -94,6 +94,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return mMediaList.isEmpty();
     }
 
+    public void clear() {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                MediaDatabase.getInstance().clearHistory();
+            }
+        });
+        mMediaList.clear();
+        notifyDataSetChanged();
+    }
+
     public void remove(final int position) {
         VLCApplication.runBackground(new Runnable() {
             @Override

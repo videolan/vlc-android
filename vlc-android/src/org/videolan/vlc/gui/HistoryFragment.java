@@ -36,13 +36,14 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
-public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener {
+public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
 
     public final static String TAG = "VLC/HistoryFragment";
 
@@ -108,9 +109,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         }
     };
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart(){
+        super.onStart();
         if (mReadyToDisplay && mHistoryAdapter.isEmpty())
             display();
     }
@@ -151,21 +151,35 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
                 case UPDATE_LIST:
                     focusHelper(mHistoryAdapter.isEmpty());
                     mHistoryAdapter.setList((ArrayList<MediaWrapper>) msg.obj);
-                    if (mHistoryAdapter.isEmpty()){
-                        mRecyclerView.setVisibility(View.GONE);
-                        mEmptyView.setVisibility(View.VISIBLE);
-                    } else {
-                        mEmptyView.setVisibility(View.GONE);
-                        mRecyclerView.setVisibility(View.VISIBLE);
-                    }
+                    updateEmptyView();
                     if( mHistoryAdapter != null ) {
                         mHistoryAdapter.notifyDataSetChanged();
                         focusHelper(mHistoryAdapter.getItemCount() == 0);
                     } else
                         focusHelper(true);
                     mSwipeRefreshLayout.setRefreshing(false);
-
+                    getActivity().supportInvalidateOptionsMenu();
             }
         }
     };
+
+    private void updateEmptyView() {
+        if (mHistoryAdapter.isEmpty()){
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public boolean isEmpty() {
+        return mHistoryAdapter.isEmpty();
+    }
+
+    @Override
+    public void clearHistory() {
+        mHistoryAdapter.clear();
+        updateEmptyView();
+    }
 }
