@@ -162,11 +162,16 @@ public class CardPresenter extends Presenter {
         }
 
         public void setImageId(int imageId) {
+            this.image = null;
             this.imageId = imageId;
         }
 
         public Bitmap getImage() {
             return image;
+        }
+
+        public void setImage(Bitmap image) {
+            this.image = image;
         }
 
         public String getName() {
