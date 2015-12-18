@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,7 +18,10 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.plugin.PluginService;
+import org.videolan.vlc.plugin.Utils;
 import org.videolan.vlc.plugin.api.VLCExtensionItem;
 
 import java.util.ArrayList;
@@ -28,7 +33,6 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     public static final String KEY_TITLE = "key_title";
 
     private String mTitle;
-    private ArrayList<VLCExtensionItem> mediaList;
     FloatingActionButton mAddDirectoryFAB;
     ExtensionAdapter mAdapter;
     protected ContextMenuRecyclerView mRecyclerView;
@@ -55,8 +59,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         if (bundle != null){
             mTitle = bundle.getString(KEY_TITLE);
             showSettings = bundle.getBoolean(KEY_SHOW_FAB);
-            mediaList = bundle.getParcelableArrayList(KEY_ITEMS_LIST);
-            mAdapter.addAll(mediaList);
+            mAdapter.addAll(bundle.<VLCExtensionItem>getParcelableArrayList(KEY_ITEMS_LIST));
         }
     }
 
@@ -133,4 +136,56 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
             mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
         }
     };
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (menuInfo == null)
+            return;
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
+                .RecyclerContextMenuInfo) menuInfo;
+        VLCExtensionItem item = mAdapter.getItem(info.position);
+        if (item.type == VLCExtensionItem.TYPE_DIRECTORY)
+            return;
+        boolean isVideo = item.type == VLCExtensionItem.TYPE_VIDEO;
+        getActivity().getMenuInflater().inflate(R.menu.extension_context_menu, menu);
+        menu.findItem(R.id.extension_item_view_play_audio).setVisible(isVideo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
+                .RecyclerContextMenuInfo) item.getMenuInfo();
+        if (info != null && handleContextItemSelected(item, info.position))
+            return true;
+        return super.onContextItemSelected(item);
+    }
+
+    public void openContextMenu(final int position) {
+        mRecyclerView.openContextMenu(position);
+    }
+
+    protected boolean handleContextItemSelected(MenuItem item, final int position) {
+        switch (item.getItemId()) {
+            case R.id.extension_item_view_play_all:
+                ArrayList<VLCExtensionItem> items = mAdapter.getAll();
+                ArrayList<MediaWrapper> medias = new ArrayList<>(items.size());
+                for (VLCExtensionItem vlcItem : items) {
+                    medias.add(Utils.mediawrapperFromExtension(vlcItem));
+                }
+                MediaUtils.openList(getActivity(), medias, position);
+                return true;
+            case R.id.extension_item_view_append:
+                MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
+                return true;
+            case R.id.extension_item_view_play_audio:
+                MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
+                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                MediaUtils.openMedia(getActivity(), mw);
+                return true;
+            case R.id.extension_item_download:
+                //TODO
+            default:return false;
+
+        }
+    }
 }

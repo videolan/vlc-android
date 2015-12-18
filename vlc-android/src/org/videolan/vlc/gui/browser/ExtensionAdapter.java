@@ -23,12 +23,40 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
     ExtensionBrowser mFragment;
     ArrayList<VLCExtensionItem> mItemsList = new ArrayList<>();
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         ExtensionItemViewBinding binding;
+
         public ViewHolder(View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
+            itemView.setOnLongClickListener(this);
+            binding.setHolder(this);
+        }
+
+        public void onClick(View v){
+            final VLCExtensionItem item = getItem(getLayoutPosition());
+            if (item.type == VLCExtensionItem.TYPE_DIRECTORY) {
+                mFragment.browseItem(item);
+            } else if (item.type == VLCExtensionItem.TYPE_AUDIO || item.type == VLCExtensionItem.TYPE_VIDEO){
+                MediaUtils.openUri(v.getContext(), Uri.parse(item.link)); //TODO fix path in playbackservice !
+            }
+        }
+
+        public void onMoreClick(View v){
+            openContextMenu();
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return openContextMenu();
+        }
+
+        private boolean openContextMenu() {
+            if (mFragment == null)
+                return false;
+            mFragment.openContextMenu(getLayoutPosition());
+            return true;
         }
     }
 
@@ -48,9 +76,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ViewHolder vh = holder;
         final VLCExtensionItem item = getItem(position);
-        vh.binding.setHandler(mClickHandler);
         vh.binding.setItem(item);
-        vh.binding.setPosition(position);
         vh.binding.executePendingBindings();
         Resources res = holder.itemView.getContext().getResources();
         vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
@@ -63,7 +89,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
     }
 
     private int getIconResId(VLCExtensionItem item) {
-        switch (item.iconType){
+        switch (item.type){
             case VLCExtensionItem.TYPE_AUDIO:
                 return R.drawable.ic_browser_audio_normal;
             case VLCExtensionItem.TYPE_DIRECTORY:
@@ -77,8 +103,12 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         }
     }
 
-    private VLCExtensionItem getItem(int position) {
+    public VLCExtensionItem getItem(int position) {
         return mItemsList.get(position);
+    }
+
+    public ArrayList<VLCExtensionItem> getAll() {
+        return mItemsList;
     }
 
     @Override
@@ -96,18 +126,8 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         mItemsList.clear();
     }
 
-    protected void openMediaFromView(View v) {
-        final int position = ((Integer)v.getTag()).intValue();
-        final VLCExtensionItem item = getItem(position);
-        if (item.iconType == VLCExtensionItem.TYPE_DIRECTORY) {
-            mFragment.browseItem(item);
-        } else if (item.iconType == VLCExtensionItem.TYPE_AUDIO || item.iconType == VLCExtensionItem.TYPE_VIDEO){
-            MediaUtils.openUri(v.getContext(), Uri.parse(item.link)); //TODO fix path in playbackservice !
-        }
-    }
-
-    private int getTypeAccordingToItem(int iconType) {
-        switch (iconType) {
+    private int getTypeAccordingToItem(int type) {
+        switch (type) {
             case VLCExtensionItem.TYPE_DIRECTORY:
                 return MediaWrapper.TYPE_DIR;
             case VLCExtensionItem.TYPE_VIDEO:
@@ -121,16 +141,5 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
             default:
                 return MediaWrapper.TYPE_ALL;
         }
-    }
-
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
-        public void onClick(View v){
-            openMediaFromView(v);
-        }
-
-        public void onCheckBoxClick(View v){}
-
-        public void onMoreClick(View v){}
     }
 }

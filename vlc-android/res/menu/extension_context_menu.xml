@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/extension_item_view_play_all"
+        android:title="@string/play_all" />
+    <item
+        android:id="@+id/extension_item_view_append"
+        android:title="@string/append" />
+    <item
+        android:id="@+id/extension_item_view_play_audio"
+        android:title="@string/play_as_audio" />
+    <item
+        android:id="@+id/extension_item_download"
+        android:title="@string/download_on_device" />
+</menu>
