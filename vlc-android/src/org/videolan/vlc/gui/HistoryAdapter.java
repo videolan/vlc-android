@@ -52,9 +52,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             int position = getAdapterPosition();
             MediaWrapper mw = mMediaList.get(position);
 
-            mMediaList.remove(position);
-            mMediaList.add(0, mw);
-            notifyItemMoved(position, 0);
+            if (position != 0) {
+                mMediaList.remove(position);
+                mMediaList.add(0, mw);
+                notifyItemMoved(position, 0);
+            }
             MediaUtils.openMedia(v.getContext(), mw);
         }
     }
