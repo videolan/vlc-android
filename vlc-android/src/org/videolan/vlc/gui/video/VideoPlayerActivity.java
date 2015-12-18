@@ -543,8 +543,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
-            if (mPlaylist.getVisibility() == View.VISIBLE)
+            if (mPlaylist.getVisibility() == View.VISIBLE) {
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+                mPlaylist.setVisibility(View.GONE);
+            }
         }
     }
 
