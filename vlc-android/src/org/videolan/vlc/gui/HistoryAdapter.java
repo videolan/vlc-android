@@ -92,23 +92,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return mMediaList.isEmpty();
     }
 
-    public ClickHandler mClickHandler = new ClickHandler();
-    public class ClickHandler {
-        public void onClick(View v){
-            openMediaFromView(v);
-        }
-    }
-
-    private void openMediaFromView(View v) {
-        int position = ((ViewHolder)v.getTag()).getAdapterPosition();
-        MediaWrapper mw = mMediaList.get(position);
-
-        mMediaList.remove(position);
-        mMediaList.add(0, mw);
-        notifyItemMoved(position, 0);
-        MediaUtils.openMedia(v.getContext(), mw);
-    }
-
     public void remove(final int position) {
         VLCApplication.runBackground(new Runnable() {
             @Override
