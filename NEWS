@@ -1,3 +1,14 @@
+Changes between 1.7.2 and 1.7.3:
+--------------------------------
+
+Application:
+ * Fix crash when opening from 3rd party application
+ * Fix hiding overlay on video playback
+
+ChromeOS:
+ * Fix ChromeOS clipboard usage
+
+
 Changes between 1.7.1 and 1.7.2:
 --------------------------------
 
