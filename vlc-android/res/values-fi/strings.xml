@@ -299,6 +299,8 @@
     <string name="confirm_resume_title">Kysy vahvistusta jatkamiselle</string>
     <string name="confirm_resume_summary">Jos aktivoidaan, sinulta kysytään vahvistusta kun videon toistoa voidaan jatkaa viimeisimmästä kohdasta</string>
     <string name="directory_empty">Hakemisto on tyhjä</string>
+    <string name="save_brightness_summary">Muista kirkkauden taso videosoittimessa</string>
+    <string name="save_brightness_title">Tallenna kirkkauden taso videolle</string>
     <!--Accessibility-->
     <string name="more_actions">Lisää toimintoja</string>
     <string name="move">Siirrä</string>
