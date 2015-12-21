@@ -219,7 +219,7 @@
     <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
     <string name="enable_headset_detection">Identifiera hörlurar</string>
-    <string name="enable_headset_detection_summary">Pausa när hörlurar tas bort; fortsätt när hörlurar ansluts</string>
+    <string name="enable_headset_detection_summary">Pausa när hörlurar tas bort och återuppta när de ansluts igen</string>
     <string name="enable_steal_remote_control">Exklusiv fjärrstyrning med hörlurar</string>
     <string name="enable_steal_remote_control_summary">Undvik konflikter genom att stjäla fjärrstyrningen från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -262,7 +262,7 @@
     <string name="debug_logs">Felsökningsloggar</string>
     <string name="start_logging">Börja logga</string>
     <string name="stop_logging">Sluta logga</string>
-    <string name="clear_log">Rensa logg</string>
+    <string name="clear_log">Rensa loggen</string>
     <string name="log_service_title">Spela in VLC-loggar</string>
     <string name="log_service_text">Öppna loggkonsolen</string>
     <string name="copy_to_clipboard">Kopiera till urklipp</string>
@@ -294,10 +294,10 @@
     <string name="playlist_name_hint">Spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel...</string>
     <string name="chapter">Kapitel</string>
-    <string name="resume_from_position">Fortsätt från senaste position</string>
-    <string name="confirm_resume">Fortsätt från senaste position?</string>
+    <string name="resume_from_position">Återuppta från senaste position</string>
+    <string name="confirm_resume">Återuppta från senaste position?</string>
     <string name="confirm_resume_title">Bekräfta fortsatt uppspelning</string>
-    <string name="confirm_resume_summary">Om det aktiveras kommer du ombes att bekräfta om en video ska fortsätta från senaste position</string>
+    <string name="confirm_resume_summary">Du kommer ombes att bekräfta om en video ska återupptas från senaste position när detta aktiveras</string>
     <string name="directory_empty">Katalogen är tom</string>
     <string name="save_brightness_summary">Kom ihåg ljusstyrkans nivå i videospelaren</string>
     <string name="save_brightness_title">Spara ljusstyrkans nivå för videor</string>
