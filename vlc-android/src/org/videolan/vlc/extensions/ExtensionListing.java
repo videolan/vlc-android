@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.plugin;
+package org.videolan.vlc.extensions;
 
 import android.content.ComponentName;
 import android.os.Parcel;
@@ -38,7 +38,7 @@ public class ExtensionListing implements Parcelable {
     private String mDescription;
     private ComponentName mSettingsActivity;
 
-    private PluginService.Connection connection;
+    private ExtensionManagerService.Connection connection;
 
     public ExtensionListing(){}
 
@@ -63,7 +63,7 @@ public class ExtensionListing implements Parcelable {
     }
 
     /**
-     * Returns the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
+     * Returns the version of the {@link org.videolan.vlc.extensions.api.VLCExtensionService}
      * protocol used by the extension.
      */
     public int protocolVersion() {
@@ -71,7 +71,7 @@ public class ExtensionListing implements Parcelable {
     }
 
     /**
-     * Sets the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
+     * Sets the version of the {@link org.videolan.vlc.extensions.api.VLCExtensionService}
      * protocol used by the extension.
      */
     public ExtensionListing protocolVersion(int protocolVersion) {
@@ -81,7 +81,7 @@ public class ExtensionListing implements Parcelable {
 
     /**
      * Returns whether this extension is compatible to the host application; that is whether
-     * the version of the {@link org.videolan.vlc.plugin.api.VLCExtensionService}
+     * the version of the {@link org.videolan.vlc.extensions.api.VLCExtensionService}
      * protocol used by the extension matches what is used by the host application.
      */
     public boolean compatible() {
@@ -143,11 +143,11 @@ public class ExtensionListing implements Parcelable {
         return this;
     }
 
-    public PluginService.Connection getConnection() {
+    public ExtensionManagerService.Connection getConnection() {
         return connection;
     }
 
-    public void setConnection(PluginService.Connection connection) {
+    public void setConnection(ExtensionManagerService.Connection connection) {
         this.connection = connection;
     }
 

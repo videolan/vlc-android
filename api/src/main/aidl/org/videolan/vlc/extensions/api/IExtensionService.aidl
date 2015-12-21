@@ -1,7 +1,7 @@
-package org.videolan.vlc.plugin.api;
+package org.videolan.vlc.extensions.api;
 
-import org.videolan.vlc.plugin.api.IExtensionHost;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.api.IExtensionHost;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 
 interface IExtensionService {
     // Protocol version 1

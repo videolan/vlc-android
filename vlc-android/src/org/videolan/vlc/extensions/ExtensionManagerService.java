@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.plugin;
+package org.videolan.vlc.extensions;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -43,22 +43,30 @@ import android.util.Log;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.plugin.api.IExtensionHost;
-import org.videolan.vlc.plugin.api.IExtensionService;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.api.IExtensionHost;
+import org.videolan.vlc.extensions.api.IExtensionService;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-public class PluginService extends Service {
+public class ExtensionManagerService extends Service {
 
-    private static final String TAG = "VLC/PluginService";
+    private static final String TAG = "VLC/ExtensionManagerService";
+
+    private static final String KEY_PROTOCOL_VERSION = "protocolVersion";
+    private static final String KEY_LISTING_TITLE = "title";
+    private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_SETTINGS_ACTIVITY = "settingsActivity";
 
     public static final String ACTION_EXTENSION = "org.videolan.vlc.Extension";
     public static final int PROTOCOLE_VERSION = 1;
 
     private final IBinder mBinder = new LocalBinder();
     private ExtensionManagerActivity mExtensionManagerActivity;
+
+    private List<ExtensionListing> mExtensions = new ArrayList<>();
+    int mCurrentIndex = -1;
 
     public interface ExtensionManagerActivity {
         void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams);
@@ -71,7 +79,6 @@ public class PluginService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        getAvailableExtensions();
     }
 
     @Override
@@ -92,41 +99,44 @@ public class PluginService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public PluginService getService() {
-            return PluginService.this;
+        public ExtensionManagerService getService() {
+            return ExtensionManagerService.this;
         }
     }
 
-    public List<ExtensionListing> getAvailableExtensions() {
+    public List<ExtensionListing> updateAvailableExtensions() {
         PackageManager pm = VLCApplication.getAppContext().getPackageManager();
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
 
-        mPlugins.clear();
+        ArrayList<ExtensionListing> extensions = new ArrayList<>();
+
         for (ResolveInfo resolveInfo : resolveInfos) {
             ExtensionListing info = new ExtensionListing();
             info.componentName(new ComponentName(resolveInfo.serviceInfo.packageName,
                     resolveInfo.serviceInfo.name));
-            info.title(resolveInfo.loadLabel(pm).toString());
             Bundle metaData = resolveInfo.serviceInfo.metaData;
             if (metaData != null) {
-                info.compatible(metaData.getInt("protocolVersion") == PROTOCOLE_VERSION);
+                info.compatible(metaData.getInt(KEY_PROTOCOL_VERSION) == PROTOCOLE_VERSION);
                 if (!info.compatible())
                     continue;
-                info.description(metaData.getString("description"));
-                String settingsActivity = metaData.getString("settingsActivity");
+                String title = metaData.getString(KEY_LISTING_TITLE);
+                info.title(title != null ? title : resolveInfo.loadLabel(pm).toString());
+                info.description(metaData.getString(KEY_DESCRIPTION));
+                String settingsActivity = metaData.getString(KEY_SETTINGS_ACTIVITY);
                 if (!TextUtils.isEmpty(settingsActivity)) {
                     info.settingsActivity(ComponentName.unflattenFromString(
                             resolveInfo.serviceInfo.packageName + "/" + settingsActivity));
                 }
-                mPlugins.add(info);
+                extensions.add(info);
             }
         }
-        return mPlugins;
+        synchronized (mExtensions) {
+            mExtensions.clear();
+            mExtensions.addAll(extensions);
+        }
+        return extensions;
     }
-
-    private List<ExtensionListing> mPlugins = new LinkedList<>();
-    int mCurrentIndex = -1;
 
     public void openExtension(int index) {
         if (index == mCurrentIndex)
@@ -136,12 +146,12 @@ public class PluginService extends Service {
 
     }
 
-    public ExtensionListing getCurrentPlugin() {
-        return mPlugins.get(mCurrentIndex);
+    public ExtensionListing getCurrentExtension() {
+        return mExtensions.get(mCurrentIndex);
     }
 
     public void connectService(final int index) {
-        ExtensionListing info = mPlugins.get(index);
+        ExtensionListing info = mExtensions.get(index);
 
         if (mCurrentIndex != -1) {
             disconnect();
@@ -187,10 +197,10 @@ public class PluginService extends Service {
 
     public void refresh() {
         try {
-            ExtensionListing plugin = mPlugins.get(mCurrentIndex);
-            if (plugin == null)
+            ExtensionListing extension = mExtensions.get(mCurrentIndex);
+            if (extension == null)
                 return;
-            IExtensionService service = plugin.getConnection().binder;
+            IExtensionService service = extension.getConnection().binder;
             if (service == null)
                 return;
             service.refresh();
@@ -199,10 +209,10 @@ public class PluginService extends Service {
 
     public void browse(int intId, String stringId) {
         try {
-            ExtensionListing plugin = mPlugins.get(mCurrentIndex);
-            if (plugin == null)
+            ExtensionListing extension = mExtensions.get(mCurrentIndex);
+            if (extension == null)
                 return;
-            IExtensionService service = plugin.getConnection().binder;
+            IExtensionService service = extension.getConnection().binder;
             if (service == null)
                 return;
             service.browse(intId, stringId);
@@ -212,14 +222,14 @@ public class PluginService extends Service {
     public void disconnect() {
         if (mCurrentIndex == -1)
             return;
-        ExtensionListing plugin = getCurrentPlugin();
-        Connection conn = plugin.getConnection();
+        ExtensionListing extension = getCurrentExtension();
+        Connection conn = extension.getConnection();
         if (conn != null) {
             try {
                 unbindService(conn.serviceConnection);
             } catch (Exception e) {} // In case of extension service crashed
         }
-        plugin.setConnection(null);
+        extension.setConnection(null);
     }
 
     private IExtensionHost makeHostInterface() {
@@ -243,7 +253,7 @@ public class PluginService extends Service {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        MediaUtils.openMediaNoUi(PluginService.this, media);
+                        MediaUtils.openMediaNoUi(ExtensionManagerService.this, media);
                     }
                 });
             }

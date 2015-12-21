@@ -21,10 +21,10 @@ import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.plugin.ExtensionListing;
-import org.videolan.vlc.plugin.PluginService;
-import org.videolan.vlc.plugin.Utils;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.ExtensionListing;
+import org.videolan.vlc.extensions.ExtensionManagerService;
+import org.videolan.vlc.extensions.Utils;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 
 import java.util.ArrayList;
 
@@ -42,11 +42,11 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     protected TextView mEmptyView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-    PluginService mPluginService;
+    ExtensionManagerService mExtensionManagerService;
     private boolean showSettings = false;
 
-    public void setPluginService(PluginService service) {
-        mPluginService = service;
+    public void setExtensionService(ExtensionManagerService service) {
+        mExtensionManagerService = service;
     }
 
     public ExtensionBrowser() {
@@ -118,24 +118,24 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     }
 
     public void browseItem(VLCExtensionItem item) {
-        mPluginService.browse(item.intId, item.stringId);
+        mExtensionManagerService.browse(item.intId, item.stringId);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == mAddDirectoryFAB.getId()){
-            ExtensionListing plugin = mPluginService.getCurrentPlugin();
-            if (plugin == null)
+            ExtensionListing extension = mExtensionManagerService.getCurrentExtension();
+            if (extension == null)
                 return;
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setComponent(plugin.settingsActivity());
+            intent.setComponent(extension.settingsActivity());
             startActivity(intent);
         }
     }
 
     @Override
     public void onRefresh() {
-        mPluginService.refresh();
+        mExtensionManagerService.refresh();
     }
 
     RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {

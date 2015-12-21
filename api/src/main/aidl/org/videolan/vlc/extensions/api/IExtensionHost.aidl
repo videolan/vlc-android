@@ -1,6 +1,6 @@
-package org.videolan.vlc.plugin.api;
+package org.videolan.vlc.extensions.api;
 
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import android.net.Uri;
 
 interface IExtensionHost {

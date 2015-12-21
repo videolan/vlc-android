@@ -429,7 +429,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".plugin.PluginService" />
+        <service android:name=".extensions.ExtensionManagerService" />
         <service android:name=".PlaybackService" />
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"

@@ -18,10 +18,10 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.ExtensionItemViewBinding;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

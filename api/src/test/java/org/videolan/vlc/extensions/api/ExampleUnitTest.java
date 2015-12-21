@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.plugin.api;
+package org.videolan.vlc.extensions.api;
 
 import org.junit.Test;
 

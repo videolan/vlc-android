@@ -1,9 +1,9 @@
-package org.videolan.vlc.plugin;
+package org.videolan.vlc.extensions;
 
 import android.net.Uri;
 
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 
 public class Utils {
 

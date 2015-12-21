@@ -7,7 +7,7 @@
             type="org.videolan.vlc.gui.browser.ExtensionAdapter.ViewHolder"/>
         <variable
             name="item"
-            type="org.videolan.vlc.plugin.api.VLCExtensionItem"/>
+            type="org.videolan.vlc.extensions.api.VLCExtensionItem"/>
         <variable
             name="image"
             type="android.graphics.drawable.BitmapDrawable"/>

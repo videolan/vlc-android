@@ -82,9 +82,9 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.plugin.ExtensionListing;
-import org.videolan.vlc.plugin.PluginService;
-import org.videolan.vlc.plugin.api.VLCExtensionItem;
+import org.videolan.vlc.extensions.ExtensionListing;
+import org.videolan.vlc.extensions.ExtensionManagerService;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -93,7 +93,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, PluginService.ExtensionManagerActivity {
+public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -129,7 +129,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     private SearchView mSearchView;
 
     // Plugins management
-    private PluginService mPluginService;
+    private ExtensionManagerService mExtensionManagerService;
     private static final int PLUGIN_NAVIGATION_GROUP = 2;
 
     @Override
@@ -223,7 +223,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         // Bind service which discoverves au connects toplugins
         if (!bindService(new Intent(MainActivity.this,
-                PluginService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE))
+                ExtensionManagerService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE))
             mPluginServiceConnection = null;
     }
 
@@ -284,11 +284,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     private void loadPlugins() {
-        List<ExtensionListing> plugins = mPluginService.getAvailableExtensions();
+        List<ExtensionListing> plugins = mExtensionManagerService.updateAvailableExtensions();
         if (plugins.isEmpty()) {
             unbindService(mPluginServiceConnection);
             mPluginServiceConnection = null;
-            mPluginService.stopSelf();
+            mExtensionManagerService.stopSelf();
             return;
         }
         PackageManager pm = getPackageManager();
@@ -310,8 +310,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mPluginService = ((PluginService.LocalBinder)service).getService();
-            mPluginService.setExtensionManagerActivity(MainActivity.this);
+            mExtensionManagerService = ((ExtensionManagerService.LocalBinder)service).getService();
+            mExtensionManagerService.setExtensionManagerActivity(MainActivity.this);
             loadPlugins();
         }
 
@@ -448,7 +448,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
         args.putString(ExtensionBrowser.KEY_TITLE, title);
         fragment.setArguments(args);
-        fragment.setPluginService(mPluginService);
+        fragment.setExtensionService(mExtensionManagerService);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -862,11 +862,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             return false;
 
         if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
-            mPluginService.openExtension(id);
+            mExtensionManagerService.openExtension(id);
             mCurrentFragmentId = id;
         } else {
             if (mPluginServiceConnection != null)
-                mPluginService.disconnect();
+                mExtensionManagerService.disconnect();
 
             if(current == null || (item != null && mCurrentFragmentId == id)) { /* Already selected */
                 if (mFocusedPrior != 0)

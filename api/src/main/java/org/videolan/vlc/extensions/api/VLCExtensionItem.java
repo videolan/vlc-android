@@ -21,7 +21,7 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.plugin.api;
+package org.videolan.vlc.extensions.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
