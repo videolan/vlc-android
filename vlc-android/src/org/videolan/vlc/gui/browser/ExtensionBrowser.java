@@ -100,6 +100,13 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         updateDisplay();
     }
 
+    public void goBack(){
+        if (showSettings)
+            getActivity().finish();
+        else
+            getActivity().getSupportFragmentManager().popBackStack();
+    }
+
     private void updateDisplay() {
         if (mAdapter.getItemCount() > 0) {
             mEmptyView.setVisibility(View.GONE);

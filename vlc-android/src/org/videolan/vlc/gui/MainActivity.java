@@ -38,6 +38,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -405,13 +406,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.
-        if (mCurrentFragmentId == R.id.nav_network || mCurrentFragmentId == R.id.nav_directories){
-            BaseBrowserFragment browserFragment = (BaseBrowserFragment) getSupportFragmentManager()
+        Fragment fragment = getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_placeholder);
-            if (browserFragment != null) {
-                browserFragment.goBack();
-                return;
-            }
+        if (fragment instanceof BaseBrowserFragment){
+            ((BaseBrowserFragment)fragment).goBack();
+            return;
+        } else if (fragment instanceof ExtensionBrowser) {
+            ((ExtensionBrowser) fragment).goBack();
+            return;
         }
         finish();
     }
@@ -448,10 +450,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         fragment.setArguments(args);
         fragment.setPluginService(mPluginService);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
         ft.replace(R.id.fragment_placeholder, fragment, title);
-        if (!(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
+        if (!(fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
             ft.addToBackStack(getTag(mCurrentFragmentId));
         else
             ft.addToBackStack(title);
@@ -851,11 +854,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-
-        if (current instanceof ExtensionBrowser) {
-            getSupportFragmentManager().popBackStack();
-        }
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
 
         // This should not happen
         if(item == null)
@@ -899,7 +899,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                     Fragment fragment = getFragment(id);
                     if (fragment instanceof MediaBrowserFragment)
                         ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.fragment_placeholder, fragment, tag);
                     ft.addToBackStack(getTag(mCurrentFragmentId));
                     ft.commit();
