@@ -75,7 +75,7 @@ public class AboutFragment extends Fragment {
         TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
         TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
-        textview_rev.setText(getResources().getString(R.string.revision) + " " + revision + " (" + builddate + ")");
+        textview_rev.setText(getResources().getString(R.string.revision) + " " + revision + " (" + builddate + ") "+ BuildConfig.FLAVOR_abi);
 
         final ImageView logo = (ImageView) v.findViewById(R.id.logo);
         logo.setOnClickListener(new OnClickListener() {
