@@ -113,6 +113,7 @@ public class AsyncImageLoader {
 
         protected CoverFetcher(ViewDataBinding binding){
             this.binding = binding;
+            this.binding.executePendingBindings();
             this.binding.addOnRebindCallback(rebindCallbacks);
         }
 
