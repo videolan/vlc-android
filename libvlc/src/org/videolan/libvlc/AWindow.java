@@ -205,7 +205,7 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
     private int mMouseAction = -1, mMouseButton = -1, mMouseX = -1, mMouseY = -1;
     private int mWindowWidth = -1, mWindowHeight = -1;
 
-    protected AWindow(SurfaceCallback surfaceCallback) {
+    public AWindow(SurfaceCallback surfaceCallback) {
         mSurfaceCallback = surfaceCallback;
         mSurfaceHelpers = new SurfaceHelper[ID_MAX];
         mSurfaceHelpers[ID_VIDEO] = null;
