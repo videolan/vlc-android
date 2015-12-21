@@ -3207,7 +3207,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             final int currentIdx = mService.getTitleIdx();
             for (int i = 0; i < titles.length; ++i) {
                 final MediaPlayer.Title title = titles[i];
-                if (title.menu) {
+                if (title.isMenu()) {
                     mMenuIdx = i;
                     break;
                 }

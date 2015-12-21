@@ -249,7 +249,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.MediaPlayer.createTitleFromNativeID,
            fields.MediaPlayer.clazz,
            "createTitleFromNative",
-           "(JLjava/lang/String;Z)Lorg/videolan/libvlc/MediaPlayer$Title;");
+           "(JLjava/lang/String;I)Lorg/videolan/libvlc/MediaPlayer$Title;");
 
     GET_ID(GetStaticMethodID,
            fields.MediaPlayer.createChapterFromNativeID,

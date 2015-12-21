@@ -104,6 +104,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     public static class Title {
+        private static class Flags {
+            public static final int MENU = 0x01;
+            public static final int INTERACTIVE = 0x02;
+        };
         /**
          * duration in milliseconds
          */
@@ -117,18 +121,26 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         /**
          * true if the title is a menu
          */
-        public final boolean menu;
+        private final int flags;
 
-        public Title(long duration, String name, boolean menu) {
+        public Title(long duration, String name, int flags) {
             this.duration = duration;
             this.name = name;
-            this.menu = menu;
+            this.flags = flags;
+        }
+
+        public boolean isMenu() {
+            return (this.flags & Flags.MENU) != 0;
+        }
+
+        public boolean isInteractive() {
+            return (this.flags & Flags.INTERACTIVE) != 0;
         }
     }
 
     @SuppressWarnings("unused") /* Used from JNI */
-    private static Title createTitleFromNative(long duration, String name, boolean menu) {
-        return new Title(duration, name, menu);
+    private static Title createTitleFromNative(long duration, String name, int flags) {
+        return new Title(duration, name, flags);
     }
 
     public static class Chapter {

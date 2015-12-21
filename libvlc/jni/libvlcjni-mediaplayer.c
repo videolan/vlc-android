@@ -529,7 +529,7 @@ mediaplayer_title_to_object(JNIEnv *env, libvlc_title_description_t *p_title)
                         fields.MediaPlayer.createTitleFromNativeID,
                         p_title->i_duration,
                         jname,
-                        p_title->b_menu);
+                        p_title->i_flags);
 }
 
 jobject
