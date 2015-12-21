@@ -229,6 +229,7 @@
     <string name="audio_title_alignment_marquee">נגללת</string>
     <string name="performance_prefs_category">ביצועים</string>
     <string name="chroma_format">אילוץ כרומה בווידאו</string>
+    <string name="chroma_format_summary">RGB‏ 32-סיביות: כרומה כבררת מחדל\nRGB ‏16-סיביות: ביצועים טובים יותר עם איכות נמוכה יותר\nYUV: הביצועים הטובים ביותר אך לא פועל על כל ההתקנים. אנדרואיד 2.3 ומעלה בלבד.</string>
     <string name="deblocking">הגדרות מסנן טשטוש גבולות הריבועים</string>
     <string name="deblocking_summary">שינוי הגדרות מסנן טשטוש גבולות הריבועים. עשוי לשפר את איכות הווידאו. למשתמשים מתקדמים בלבד.</string>
     <string name="deblocking_always">טשטוש גבולות ריבועים מלא (הכי אטי)</string>
