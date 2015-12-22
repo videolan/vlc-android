@@ -34,12 +34,13 @@ import android.support.v17.leanback.widget.RowPresenter;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -51,6 +52,13 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     private Uri mUri;
     ArrayList<MediaWrapper> mMediaList = null;
     private MediaWrapper mItemSelected;
+
+    private static MediaBrowser.Discover DISCOVER_LIST[] = BuildConfig.DEBUG ? new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+            MediaBrowser.Discover.SMB,
+    } : new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +81,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                 if (mUri != null)
                     mMediaBrowser.browse(mUri);
                 else
-                    mMediaBrowser.discoverNetworkShares();
+                    mMediaBrowser.discoverNetworkShares(DISCOVER_LIST);
                 ((BrowserActivityInterface)getActivity()).showProgress(true);
             }
         }

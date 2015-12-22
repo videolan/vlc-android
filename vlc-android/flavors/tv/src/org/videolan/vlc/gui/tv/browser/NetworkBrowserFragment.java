@@ -42,17 +42,18 @@ import android.support.v4.util.ArrayMap;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -66,6 +67,13 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
     public static final String TAG = "VLC/NetworkBrowserFragment";
     public static final String SELECTED_ITEM = "selected";
     public static int UPDATE_DISPLAY = 1;
+
+    private static MediaBrowser.Discover DISCOVER_LIST[] = BuildConfig.DEBUG ? new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+            MediaBrowser.Discover.SMB,
+    } : new MediaBrowser.Discover[] {
+            MediaBrowser.Discover.UPNP,
+    };
 
     ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     private MediaBrowser mMediaBrowser;
@@ -135,7 +143,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
             if (mUri != null)
                 mMediaBrowser.browse(mUri);
             else
-                mMediaBrowser.discoverNetworkShares();
+                mMediaBrowser.discoverNetworkShares(DISCOVER_LIST);
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
     }
