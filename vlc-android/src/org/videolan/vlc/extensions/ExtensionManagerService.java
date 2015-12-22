@@ -95,6 +95,7 @@ public class ExtensionManagerService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         setExtensionManagerActivity(null);
+        disconnect();
         return false;
     }
 
