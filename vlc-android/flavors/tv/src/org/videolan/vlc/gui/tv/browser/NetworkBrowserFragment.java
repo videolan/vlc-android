@@ -153,7 +153,7 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
             public void run() {
                 mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
                 for (ListItem item : mMediaItemMap.values()) {
-                    Collections.sort(item.mediaList, MediaComparators.byName);
+                    Collections.sort(item.mediaList, MediaComparators.byFileType);
                 }
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
             }
