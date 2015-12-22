@@ -72,7 +72,8 @@ public class Dialogs {
     }
 
     /**
-     *
+     * Show an AlertDialog warning user the extension needs internet access,
+     * and offers him to activate wifi connection
      * @param context The context to use for Dialog display
      * @param cancelListener The listener wich will be triggered after dialog cancelation or positive action
      * @return the AlertDialog instance
