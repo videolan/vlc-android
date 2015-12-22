@@ -35,6 +35,18 @@ public class MediaComparators {
         return String.CASE_INSENSITIVE_ORDER.compare(s1, s2);
     }
 
+    public static final Comparator<MediaWrapper> byFileType = new Comparator<MediaWrapper>() {
+        @Override
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
+            int t1 = m1.getType(), t2= m2.getType();
+            if (t1 == MediaWrapper.TYPE_DIR && t2 != MediaWrapper.TYPE_DIR)
+                return -1;
+            if (t1 != MediaWrapper.TYPE_DIR && t2 == MediaWrapper.TYPE_DIR)
+                return 1;
+            return nullInsensitiveStringCompare(m1.getTitle(), m2.getTitle());
+        };
+    };
+
     public static final Comparator<MediaWrapper> byName = new Comparator<MediaWrapper>() {
         @Override
         public int compare(MediaWrapper m1, MediaWrapper m2) {
