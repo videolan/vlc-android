@@ -10,6 +10,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
@@ -29,7 +30,18 @@ public abstract class VLCExtensionService extends Service{
     private volatile Looper mServiceLooper;
     protected volatile Handler mServiceHandler;
 
-    protected abstract void browse(int intId, String stringId);
+    /**
+     * Called by VLC when users wants to browse one of your {#link VLCExtensionItem.TYPE_DIRECTORY}
+     * VLC provides {#intId} and {#stringId} from chosen item
+     *
+     * @param intId int id of the item to browse
+     * @param stringId String id of the item to browse
+     */
+    protected abstract void browse(int intId, @Nullable String stringId);
+
+    /**
+     * Called by VLC when user wants to refresh the current list displayed by the extension.
+     */
     protected abstract void refresh();
 
     @Override
@@ -59,13 +71,28 @@ public abstract class VLCExtensionService extends Service{
         mServiceLooper.quit();
     }
 
-    public void playUri(Uri uri, String title) {
+    /**
+     * Starts playback of the given uri by VLC
+     *
+     * @param uri The uri to play
+     * @param title Optional - Set the media title to be displayed.
+     *              Otherwise, it will be guessed from uri.
+     */
+    public void playUri(@NonNull Uri uri, @Nullable String title) {
         try {
             mHost.playUri(uri, title);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Displays given items in VLC browser.
+     *
+     * @param title The title shown in VLC action bar for this list display.
+     * @param items The items to show.
+     * @param showParams Wether you want to show the FAB to launch your extension settings activity.
+     */
     protected void updateList(String title, List<VLCExtensionItem> items, boolean showParams){
         try {
             mHost.updateList(title, items, showParams);
@@ -74,6 +101,11 @@ public abstract class VLCExtensionService extends Service{
         }
     }
 
+    /**
+     * Called once VLC is binded to your service.
+     * Use it to call {@link #updateList(String, List, boolean)} with root level elements
+     * if you want VLC to handle your extension browsing.
+     */
     protected void onInitialize() {};
 
     private final IExtensionService.Stub mBinder = new IExtensionService.Stub() {
