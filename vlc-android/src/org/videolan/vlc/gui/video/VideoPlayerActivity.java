@@ -737,7 +737,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSurfacesAttached = true;
         vlcVout.addCallback(this);
         vlcVout.attachViews();
-        mRootView.setKeepScreenOn(true);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(true);
 
         loadMedia();
 
@@ -770,7 +771,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         vlcVout.removeCallback(this);
         if (mSurfacesAttached)
             vlcVout.detachViews();
-        mRootView.setKeepScreenOn(false);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(false);
 
         mHandler.removeCallbacksAndMessages(null);
 
@@ -2547,7 +2549,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void play() {
         mService.play();
-        mRootView.setKeepScreenOn(true);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(true);
     }
 
     /**
@@ -2555,7 +2558,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void pause() {
         mService.pause();
-        mRootView.setKeepScreenOn(false);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(false);
     }
 
     /*
