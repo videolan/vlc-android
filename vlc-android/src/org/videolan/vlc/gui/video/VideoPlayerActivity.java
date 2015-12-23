@@ -784,7 +784,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mMediaRouter != null)
             mediaRouterAddCallback(true);
 
-        mRootView.setKeepScreenOn(true);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(true);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -856,7 +857,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void cleanUI() {
 
-        mRootView.setKeepScreenOn(false);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(false);
 
         if (mDetector != null) {
             mDetector.setOnDoubleTapListener(null);
@@ -2660,7 +2662,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void play() {
         mService.play();
-        mRootView.setKeepScreenOn(true);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(true);
     }
 
     /**
@@ -2668,7 +2671,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void pause() {
         mService.pause();
-        mRootView.setKeepScreenOn(false);
+        if (mRootView != null)
+            mRootView.setKeepScreenOn(false);
     }
 
     /*
