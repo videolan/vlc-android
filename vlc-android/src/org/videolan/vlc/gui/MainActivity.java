@@ -63,6 +63,9 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.extensions.ExtensionListing;
+import org.videolan.vlc.extensions.ExtensionManagerService;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
@@ -82,9 +85,6 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.extensions.ExtensionListing;
-import org.videolan.vlc.extensions.ExtensionManagerService;
-import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -128,7 +128,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     Menu mMenu;
     private SearchView mSearchView;
 
-    // Plugins management
+    // Extensions management
+    private ServiceConnection mExtensionServiceConnection;
     private ExtensionManagerService mExtensionManagerService;
     private static final int PLUGIN_NAVIGATION_GROUP = 2;
 
@@ -220,11 +221,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         /* Reload the latest preferences */
         reloadPreferences();
-
-        // Bind service which discoverves au connects toplugins
-        if (!bindService(new Intent(MainActivity.this,
-                ExtensionManagerService.class), mPluginServiceConnection, Context.BIND_AUTO_CREATE))
-            mPluginServiceConnection = null;
     }
 
     private void setupNavigationView() {
@@ -275,25 +271,35 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        createExtensionServiceConnection();
+
+        cleatBackstackFromExtension();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        if (mPluginServiceConnection != null) {
-            unbindService(mPluginServiceConnection);
-            mPluginServiceConnection = null;
+        if (mExtensionServiceConnection != null) {
+            unbindService(mExtensionServiceConnection);
+            mExtensionServiceConnection = null;
         }
     }
 
     private void loadPlugins() {
+        Menu navMenu = mNavigationView.getMenu();
+        navMenu.removeGroup(PLUGIN_NAVIGATION_GROUP);
         List<ExtensionListing> plugins = mExtensionManagerService.updateAvailableExtensions();
         if (plugins.isEmpty()) {
-            unbindService(mPluginServiceConnection);
-            mPluginServiceConnection = null;
+            unbindService(mExtensionServiceConnection);
+            mExtensionServiceConnection = null;
             mExtensionManagerService.stopSelf();
             return;
         }
         PackageManager pm = getPackageManager();
-        Menu navMenu = mNavigationView.getMenu();
-        SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
+            SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
                PLUGIN_NAVIGATION_GROUP, R.string.plugins);
         for (int i = 0 ; i < plugins.size() ; ++i) {
             MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, plugins.get(i).title());
@@ -303,21 +309,27 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 item.setIcon(R.drawable.icon);
             }
         }
+        mNavigationView.invalidate();
     }
 
+    private void createExtensionServiceConnection() {
+        mExtensionServiceConnection = new ServiceConnection() {
 
-    private ServiceConnection mPluginServiceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mExtensionManagerService = ((ExtensionManagerService.LocalBinder)service).getService();
+                mExtensionManagerService.setExtensionManagerActivity(MainActivity.this);
+                loadPlugins();
+            }
 
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mExtensionManagerService = ((ExtensionManagerService.LocalBinder)service).getService();
-            mExtensionManagerService.setExtensionManagerActivity(MainActivity.this);
-            loadPlugins();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {}
-    };
+            @Override
+            public void onServiceDisconnected(ComponentName name) {}
+        };
+        // Bind service which discoverves au connects toplugins
+        if (!bindService(new Intent(MainActivity.this,
+                ExtensionManagerService.class), mExtensionServiceConnection, Context.BIND_AUTO_CREATE))
+            mExtensionServiceConnection = null;
+    }
 
     @Override
     protected void onResume() {
@@ -850,22 +862,21 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         removeTipViewIfDisplayed();
     }
 
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
-
         // This should not happen
         if(item == null)
             return false;
+
+        int id = item.getItemId();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
 
         if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
             mExtensionManagerService.openExtension(id);
             mCurrentFragmentId = id;
         } else {
-            if (mPluginServiceConnection != null)
+            if (mExtensionServiceConnection != null)
                 mExtensionManagerService.disconnect();
 
             if(current == null || (item != null && mCurrentFragmentId == id)) { /* Already selected */
@@ -912,6 +923,17 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mDrawerLayout.closeDrawer(mNavigationView);
         return true;
+    }
+
+    private void cleatBackstackFromExtension() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_placeholder);
+        while (current instanceof ExtensionBrowser) {
+            fm.popBackStackImmediate();
+            current = getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_placeholder);
+        }
     }
 
     private String getTag(int id){
