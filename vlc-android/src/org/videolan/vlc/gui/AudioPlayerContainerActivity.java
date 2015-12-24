@@ -295,7 +295,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             int resId = UiTools.getResourceFromAttribute(AudioPlayerContainerActivity.this, R.attr.shadow_bottom_9patch);
             if (resId != 0)
                 mSlidingPane.setShadowResource(resId);
-            mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
+            mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false, false);
             mAudioPlayer.setUserVisibleHint(false);
             onPanelOpenedUiSet();
             mAudioPlayer.showAudioPlayerTips();
@@ -311,7 +311,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         @Override
         public void onPanelClosed() {
             mAudioPlayer.setUserVisibleHint(true);
-            mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
+            mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true, true);
             onPanelClosedUiSet();
             mAudioPlayer.showPlaylistTips();
         }

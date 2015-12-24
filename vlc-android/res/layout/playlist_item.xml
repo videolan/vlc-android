@@ -5,16 +5,14 @@
         <import type="android.view.View"/>
         <import type="org.videolan.vlc.util.Strings"/>
         <variable
-            name="handler"
-            type="org.videolan.vlc.gui.audio.PlaylistAdapter.ClickHandler"/>
+            name="holder"
+            type="org.videolan.vlc.gui.audio.PlaylistAdapter.ViewHolder"/>
         <variable
             name="media"
             type="org.videolan.vlc.media.MediaWrapper"/>
         <variable
             name="subTitle"
             type="String"/>
-        <variable
-            name="position"
             type="int"/>
         <variable
             name="titleColor"
@@ -26,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dip"
         android:layout_marginBottom="3dip"
-        android:layout_marginLeft="5dip">
+        android:layout_marginLeft="5dip"
+        android:clickable="true"
+        android:onClick="@{holder.onClick}" >
         <TextView
             android:id="@+id/audio_item_title"
             android:layout_width="match_parent"
@@ -41,9 +41,7 @@
             android:text="@{media.title}"
             android:textColor="@{titleColor}"
             android:fontFamily="sans-serif-light"
-            android:textSize="16sp"
-            android:tag="@{position}"
-            android:onClick="@{handler.onClick}"/>
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/audio_item_subtitle"
             android:layout_width="match_parent"
@@ -59,9 +57,7 @@
             android:ellipsize="middle"
             android:textColor="?attr/list_subtitle"
             android:fontFamily="sans-serif-light"
-            android:textSize="12sp"
-            android:tag="@{position}"
-            android:onClick="@{handler.onClick}" />
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/length"
             android:layout_width="wrap_content"
@@ -85,8 +81,7 @@
             android:layout_alignTop="@id/audio_item_title"
             android:scaleType="fitCenter"
             android:background="@drawable/ic_more"
-            android:tag="@{position}"
-            android:onClick="@{handler.onMoreClick}"
+            android:onClick="@{holder.onMoreClick}"
             android:clickable="true" />
     </RelativeLayout>
 </layout>

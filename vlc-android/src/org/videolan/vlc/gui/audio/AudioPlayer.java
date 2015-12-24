@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,17 +31,21 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -50,27 +55,27 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
-import org.videolan.vlc.gui.view.CoverMediaSwitcher;
-import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
+import org.videolan.vlc.gui.view.CoverMediaSwitcher;
+import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer {
+public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
 
     private ProgressBar mProgressBar;
@@ -89,6 +94,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private ImageButton mAdvFunc;
     private ImageButton mPlaylistSwitch, mPlaylistSave;
     private SeekBar mTimeline;
+    private ImageButton mPlaylistSearchButton;
+    private TextInputLayout mPlaylistSearchText;
     private RecyclerView mPlaylist;
 
     ViewSwitcher mSwitcher;
@@ -101,6 +108,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
     private boolean mPlaylistSaveVisible;
+    private boolean mSearchVisible;
     private boolean mHeaderPlayPauseVisible;
     private boolean mProgressBarVisible;
     private boolean mHeaderTimeVisible;
@@ -141,6 +149,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSwitch = (ImageButton) v.findViewById(R.id.playlist_switch);
         mPlaylistSave = (ImageButton) v.findViewById(R.id.playlist_save);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
+        mPlaylistSearchButton = (ImageButton) v.findViewById(R.id.playlist_search);
+        mPlaylistSearchText = (TextInputLayout) v.findViewById(R.id.playlist_search_text);
+        mPlaylistSearchButton.setOnClickListener(this);
+        mPlaylistSearchText.getEditText().addTextChangedListener(this);
 
         mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -159,6 +171,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
         mPlaylistSaveVisible = false;
+        mSearchVisible = false;
         mHeaderPlayPauseVisible = true;
         mProgressBarVisible = true;
         mHeaderTimeVisible = true;
@@ -389,6 +402,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void updateList() {
+        hideSearchField();
         int currentIndex = -1, oldCount = mPlaylistAdapter.getItemCount();
         if (mService == null)
             return;
@@ -397,15 +411,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistAdapter.clear();
 
         final List<MediaWrapper> audioList = mService.getMedias();
-        final String currentItem = mService.getCurrentMediaLocation();
 
         if (audioList != null) {
-            for (int i = 0; i < audioList.size(); i++) {
-                final MediaWrapper media = audioList.get(i);
-                if (currentItem != null && currentItem.equals(media.getLocation()))
-                    currentIndex = i;
-                mPlaylistAdapter.add(media);
-            }
+            mPlaylistAdapter.addAll(audioList);
+            currentIndex = mService.getCurrentMediaPosition();
         }
         mPlaylistAdapter.setCurrentIndex(currentIndex);
         int count = mPlaylistAdapter.getItemCount();
@@ -540,30 +549,34 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
      */
     public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                       boolean headerPlayPauseVisible, boolean progressBarVisible,
-                                      boolean headerTimeVisible, boolean playlistSaveVisible) {
+                                      boolean headerTimeVisible, boolean playlistSaveVisible,
+                                      boolean searchVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
         mHeaderPlayPauseVisible = headerPlayPauseVisible;
         mProgressBarVisible = progressBarVisible;
         mHeaderTimeVisible = headerTimeVisible;
         mPlaylistSaveVisible = playlistSaveVisible;
+        mSearchVisible = searchVisible;
         restoreHedaderButtonVisibilities();
     }
 
     private void restoreHedaderButtonVisibilities() {
-        mAdvFunc.setVisibility(mAdvFuncVisible ? ImageButton.VISIBLE : ImageButton.GONE);
-        mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? ImageButton.VISIBLE : ImageButton.GONE);
-        mPlaylistSave.setVisibility(mPlaylistSaveVisible ? ImageButton.VISIBLE : ImageButton.GONE);
-        mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? ImageButton.VISIBLE : ImageButton.GONE);
+        mAdvFunc.setVisibility(mAdvFuncVisible ? View.VISIBLE : View.GONE);
+        mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? View.VISIBLE : View.GONE);
+        mPlaylistSave.setVisibility(mPlaylistSaveVisible ? View.VISIBLE : View.GONE);
+        mPlaylistSearchButton.setVisibility(mSearchVisible ? View.VISIBLE : View.GONE);
+        mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? View.VISIBLE : View.GONE);
         mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
         mHeaderTime.setVisibility(mHeaderTimeVisible ? TextView.VISIBLE : TextView.GONE);
     }
 
     private void hideHedaderButtons() {
-        mAdvFunc.setVisibility(ImageButton.GONE);
-        mPlaylistSwitch.setVisibility(ImageButton.GONE);
-        mPlaylistSave.setVisibility(ImageButton.GONE);
-        mHeaderPlayPause.setVisibility(ImageButton.GONE);
+        mAdvFunc.setVisibility(View.GONE);
+        mPlaylistSwitch.setVisibility(View.GONE);
+        mPlaylistSave.setVisibility(View.GONE);
+        mPlaylistSearchButton.setVisibility(View.GONE);
+        mHeaderPlayPause.setVisibility(View.GONE);
         mHeaderTime.setVisibility(TextView.GONE);
     }
 
@@ -637,8 +650,43 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 savePlaylistDialog.setArguments(args);
                 savePlaylistDialog.show(fm, "fragment_save_playlist");
                 break;
+            case R.id.playlist_search:
+                mPlaylistSearchButton.setVisibility(View.GONE);
+                mPlaylistSearchText.setVisibility(View.VISIBLE);
+                mPlaylistSearchText.requestFocus();
+                break;
         }
     }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {}
+
+    public boolean hideSearchField() {
+        if (mPlaylistSearchText.getVisibility() != View.VISIBLE)
+            return false;
+        mPlaylistSearchText.getEditText().removeTextChangedListener(this);
+        mPlaylistSearchText.getEditText().setText("");
+        mPlaylistSearchText.getEditText().addTextChangedListener(this);
+        ((InputMethodManager) VLCApplication.getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+        mPlaylistSearchButton.setVisibility(View.VISIBLE);
+        mPlaylistSearchText.setVisibility(View.GONE);
+        return true;
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence,  int start, int before, int count) {
+        int length = charSequence.length();
+        if (length > 1) {
+            mPlaylistAdapter.getFilter().filter(charSequence);
+        } else if (length == 0) {
+            mPlaylistAdapter.restoreList();
+            hideSearchField();
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {}
 
     @Override
     public void onConnected(PlaybackService service) {
