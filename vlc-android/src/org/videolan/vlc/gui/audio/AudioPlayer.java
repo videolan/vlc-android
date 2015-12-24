@@ -89,7 +89,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private ImageButton mAdvFunc;
     private ImageButton mPlaylistSwitch, mPlaylistSave;
     private SeekBar mTimeline;
-    private RecyclerView mSongsList;
+    private RecyclerView mPlaylist;
 
     ViewSwitcher mSwitcher;
 
@@ -142,15 +142,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSave = (ImageButton) v.findViewById(R.id.playlist_save);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
 
-        mSongsList = (RecyclerView) v.findViewById(R.id.songs_list);
+        mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mSongsList.setLayoutManager(layoutManager);
-        mSongsList.setAdapter(mPlaylistAdapter);
+        mPlaylist.setLayoutManager(layoutManager);
+        mPlaylist.setAdapter(mPlaylistAdapter);
 
         ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(mSongsList);
+        touchHelper.attachToRecyclerView(mPlaylist);
 
         mSwitcher = (ViewSwitcher) v.findViewById(R.id.view_switcher);
         mSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in);
@@ -242,7 +242,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                             R.attr.ic_playlist));
             }
         });
-        registerForContextMenu(mSongsList);
+        registerForContextMenu(mPlaylist);
 
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -416,7 +416,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         final int selectionIndex = currentIndex;
         if (!previousAudioList.equals(audioList))
-            mSongsList.post(new Runnable() {
+            mPlaylist.post(new Runnable() {
                 @Override
                 public void run() {
                     mPlaylistAdapter.setCurrentIndex(selectionIndex);
