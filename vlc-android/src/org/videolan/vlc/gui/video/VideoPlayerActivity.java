@@ -2947,7 +2947,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);
-
     }
 
     @SuppressWarnings("deprecation")
@@ -3025,7 +3024,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void showConfirmResumeDialog() {
         if (isFinishing())
             return;
-        pause();
+        mService.pause();
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
                 .setMessage(R.string.confirm_resume)
