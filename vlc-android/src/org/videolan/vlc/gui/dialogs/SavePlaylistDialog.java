@@ -60,6 +60,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     ListView mListView;
     TextView mEmptyView;
     Button mSaveButton;
+    Button mCancelButton;
     AudioBrowserListAdapter mAdapter;
     ArrayList<MediaWrapper> mTracks;
 
@@ -76,7 +77,9 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AppCompatDialog(getActivity(), getTheme());
+        AppCompatDialog dialog = new AppCompatDialog(getActivity(), getTheme());
+        dialog.setTitle(R.string.playlist_save);
+        return dialog;
 
     }
 
@@ -86,12 +89,19 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
 
         mListView = (ListView) view.findViewById(android.R.id.list);
         mSaveButton = (Button) view.findViewById(R.id.dialog_playlist_save);
+        mCancelButton = (Button) view.findViewById(R.id.dialog_playlist_cancel);
         mEmptyView = (TextView) view.findViewById(android.R.id.empty);
         TextInputLayout mLayout = (TextInputLayout)view.findViewById(R.id.dialog_playlist_name);
         mLayout.setHint(getString(R.string.playlist_name_hint));
         mEditText = mLayout.getEditText();
         mListView.setOnItemClickListener(this);
         mSaveButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         mEditText.setOnEditorActionListener(this);
         mListView.setEmptyView(mEmptyView);
