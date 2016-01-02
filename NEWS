@@ -1,3 +1,12 @@
+Changes between 1.7.4 and 1.7.5:
+--------------------------------
+
+Application:
+ * Fix sleep issue using HDMI/Second screens
+ * Fix sleep issue after using the resume dialog
+ * Fix 'save playlist' dialog look
+
+
 Changes between 1.7.3 and 1.7.4:
 --------------------------------
 
