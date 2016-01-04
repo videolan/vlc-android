@@ -26,8 +26,11 @@ package org.videolan.vlc.gui.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -43,6 +46,9 @@ public class UiTools {
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
+    public static final int DELETE_DURATION = 3000;
+
     /** Print an on-screen message to alert the user */
     public static void snacker(@NonNull View view, @NonNull int stringId) {
         Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT).show();
@@ -51,6 +57,19 @@ public class UiTools {
     /** Print an on-screen message to alert the user */
     public static void snacker(@NonNull View view, @NonNull String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    /** Print an on-screen message to alert the user, with undo action */
+    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
+        Snackbar.make(view, message, DELETE_DURATION)
+                .setAction(android.R.string.cancel, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sHandler.removeCallbacks(action);
+                    }
+                })
+                .show();
+        sHandler.postDelayed(action, DELETE_DURATION);
     }
 
     public static int convertPxToDp(int px) {
