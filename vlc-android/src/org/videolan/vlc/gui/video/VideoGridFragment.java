@@ -297,7 +297,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     Intent i = new Intent(activity, SecondaryActivity.class);
                     i.putExtra("fragment", "mediaInfo");
                     i.putExtra("param", media.getLocation());
-                    startActivity(i);
+                    startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
                 }
                 return true;
             case R.id.video_list_delete:

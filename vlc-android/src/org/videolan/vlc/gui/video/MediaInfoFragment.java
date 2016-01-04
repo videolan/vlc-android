@@ -47,6 +47,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
@@ -350,8 +351,8 @@ public class MediaInfoFragment extends ListFragment {
                     fragment.mDelete.setVisibility(View.GONE);
                     break;
                 case EXIT:
+                    fragment.getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
                     fragment.getActivity().finish();
-                    MediaLibrary.getInstance().scanMediaItems(true);
                     break;
                 case SHOW_SUBTITLES:
                     fragment.mSubtitles.setVisibility(View.VISIBLE);

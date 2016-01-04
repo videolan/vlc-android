@@ -23,27 +23,31 @@
 
 package org.videolan.vlc.gui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
 public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/SecondaryActivity";
+
+    public static final int ACTIVITY_RESULT_SECONDARY = 3;
 
     public static final String ALBUMS_SONGS = "albumsSongs";
     public static final String ALBUM = "album";
@@ -87,6 +91,16 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         if (isFinishing())
             overridePendingTransition(0, 0);
         super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTIVITY_RESULT_SECONDARY) {
+            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
+                MediaLibrary.getInstance().scanMediaItems(true);
+            }
+        }
     }
 
     @Override
