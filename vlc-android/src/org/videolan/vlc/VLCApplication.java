@@ -121,4 +121,8 @@ public class VLCApplication extends Application {
     public static void runBackground(Runnable runnable) {
         instance.mThreadPool.execute(runnable);
     }
+
+    public static boolean removeTask(Runnable runnable) {
+        return instance.mThreadPool.remove(runnable);
+    }
 }
