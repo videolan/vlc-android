@@ -55,8 +55,6 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
 import java.nio.ByteBuffer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MediaInfoFragment extends ListFragment {
 
@@ -80,7 +78,6 @@ public class MediaInfoFragment extends ListFragment {
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
     private final static int SHOW_SUBTITLES = 5;
-    ExecutorService mThreadPoolExecutor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,9 +98,8 @@ public class MediaInfoFragment extends ListFragment {
         mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
 
-        mThreadPoolExecutor = Executors.newFixedThreadPool(2);
-        mThreadPoolExecutor.submit(mCheckFile);
-        mThreadPoolExecutor.submit(mLoadImage);
+        VLCApplication.runBackground(mCheckFile);
+        VLCApplication.runBackground(mLoadImage);
 
         mPathView.setText(mItem == null ? "" : Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
@@ -150,8 +146,8 @@ public class MediaInfoFragment extends ListFragment {
 
     public void onStop(){
         super.onStop();
-        if (mThreadPoolExecutor != null)
-            mThreadPoolExecutor.shutdownNow();
+        VLCApplication.removeTask(mCheckFile);
+        VLCApplication.removeTask(mLoadImage);
         if (mMedia != null)
             mMedia.release();
     }
@@ -160,6 +156,12 @@ public class MediaInfoFragment extends ListFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(ITEM_KEY, mItem);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler = null;
     }
 
     public void setMediaLocation(String MRL) {
@@ -211,6 +213,11 @@ public class MediaInfoFragment extends ListFragment {
             extension = filename.substring(index);
             if (!Extensions.SUBTITLES.contains(extension))
                 continue;
+
+            if (mHandler == null || Thread.interrupted()) {
+                return;
+            }
+
             if (filename.startsWith(videoName)) {
                 mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
                 return;
@@ -234,6 +241,10 @@ public class MediaInfoFragment extends ListFragment {
                 videoHeight = 9;
             }
 
+            if (mHandler == null || Thread.interrupted()) {
+                return;
+            }
+
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             DisplayMetrics screen = new DisplayMetrics();
@@ -254,7 +265,7 @@ public class MediaInfoFragment extends ListFragment {
             if (b == null) // We were not able to create a thumbnail for this item.
                 return;
 
-            if (Thread.interrupted()) {
+            if (mHandler == null || Thread.interrupted()) {
                 return;
             }
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
