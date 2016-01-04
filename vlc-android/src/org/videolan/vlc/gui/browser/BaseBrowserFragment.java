@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,11 +49,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
@@ -309,20 +310,21 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
-
-    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mHandler.removeMessages(BrowserFragmentHandler.MSG_DELETE_MEDIA);
-        }
-    };
-
+    private void deleteMedia(final MediaWrapper mw) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                FileUtils.deleteFile(mw.getUri().getPath());
+                MediaDatabase.getInstance().removeMedia(mw.getUri());
+                mHandler.obtainMessage(BrowserFragmentHandler.MSG_REFRESH).sendToTarget();
+            }
+        });
+    }
 
     protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
 
         public static final int MSG_SHOW_LOADING = 0;
         public static final int MSG_HIDE_LOADING = 1;
-        public static final int MSG_DELETE_MEDIA = 2;
         public static final int MSG_REFRESH = 3;
 
         public BrowserFragmentHandler(BaseBrowserFragment owner) {
@@ -338,14 +340,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 case MSG_HIDE_LOADING:
                     removeMessages(MSG_SHOW_LOADING);
                     fragment.mSwipeRefreshLayout.setRefreshing(false);
-                    break;
-                case MSG_DELETE_MEDIA:
-                    FileUtils.asyncRecursiveDelete((String) msg.obj, new FileUtils.Callback() {
-                        @Override
-                        public void onResult(boolean success) {
-                            obtainMessage(MSG_REFRESH).sendToTarget();
-                        }
-                    });
                     break;
                 case MSG_REFRESH:
                     if (getOwner() != null && !getOwner().isDetached())
@@ -420,7 +414,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         int id = item.getItemId();
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
-        MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         switch (id){
             case R.id.directory_view_play:
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -432,11 +426,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             }
             case R.id.directory_view_delete:
-                Snackbar.make(getView(), getString(R.string.file_deleted), Snackbar.LENGTH_LONG)
-                        .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
-                        .show();
-                Message msg = mHandler.obtainMessage(BrowserFragmentHandler.MSG_DELETE_MEDIA, mw.getUri().getPath());
-                mHandler.sendMessageDelayed(msg, 3000);
+                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteMedia(mw);
+                    }
+                });
                 return true;
             case  R.id.directory_view_info:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);

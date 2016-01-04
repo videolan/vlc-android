@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -47,6 +46,8 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
@@ -117,11 +118,7 @@ public class MediaInfoFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 if (mItem != null) {
-                Snackbar.make(getView(), getString(R.string.file_deleted), DELETE_DURATION)
-                    .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
-                    .show();
-                Message msg = mHandler.obtainMessage(DELETE_MEDIA);
-                mHandler.sendMessageDelayed(msg, DELETE_DURATION);
+                    UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), mDeleteAction);
                 }
             }
         });
@@ -312,10 +309,17 @@ public class MediaInfoFragment extends ListFragment {
         mSizeView.setText(Strings.readableFileSize(size.longValue()));
     }
 
-    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
+    private Runnable mDeleteAction = new Runnable() {
         @Override
-        public void onClick(View view) {
-            mHandler.removeMessages(DELETE_MEDIA);
+        public void run() {
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    FileUtils.deleteFile(mItem.getUri().getPath());
+                    MediaDatabase.getInstance().removeMedia(mItem.getUri());
+                    mHandler.sendEmptyMessage(EXIT);
+                }
+            });
         }
     };
 
@@ -351,15 +355,6 @@ public class MediaInfoFragment extends ListFragment {
                     break;
                 case SHOW_SUBTITLES:
                     fragment.mSubtitles.setVisibility(View.VISIBLE);
-                    break;
-                case DELETE_MEDIA:
-                    VLCApplication.runBackground(new Runnable() {
-                        @Override
-                        public void run() {
-                            FileUtils.deleteFile(fragment.mItem.getLocation());
-                            sendEmptyMessage(EXIT);
-                        }
-                    });
                     break;
             }
         };

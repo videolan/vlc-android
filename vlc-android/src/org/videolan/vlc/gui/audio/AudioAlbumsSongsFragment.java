@@ -25,9 +25,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
@@ -55,13 +52,14 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -200,9 +198,9 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
             menu.setGroupVisible(R.id.phone_only, false);
         menu.findItem(R.id.audio_list_browser_play).setVisible(true);
         //Hide delete if we cannot
-            AudioBrowserListAdapter adapter = mViewPager.getCurrentItem() == MODE_SONG ?
-                    mSongsAdapter : mAlbumsAdapter;
-            String location = adapter.getItem(position).mMediaList.get(0).getLocation();
+        AudioBrowserListAdapter adapter = mViewPager.getCurrentItem() == MODE_SONG ?
+                mSongsAdapter : mAlbumsAdapter;
+        String location = adapter.getItem(position).mMediaList.get(0).getLocation();
         menu.findItem(R.id.audio_list_browser_delete).setVisible(
                 FileUtils.canWrite(location));
     }
@@ -218,7 +216,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         return super.onContextItemSelected(menu);
     }
 
-    private boolean handleContextItemSelected(MenuItem item, int position) {
+    private boolean handleContextItemSelected(MenuItem item, final int position) {
 
         int startPosition;
         List<MediaWrapper> medias;
@@ -228,11 +226,12 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         boolean append = id == R.id.audio_list_browser_append;
 
         if (id == R.id.audio_list_browser_delete) {
-            Snackbar.make(getView(), getString(R.string.file_deleted), Snackbar.LENGTH_LONG)
-                .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
-                .show();
-                Message msg = mHandler.obtainMessage(DELETE_MEDIA, position, 0);
-            mHandler.sendMessageDelayed(msg, DELETE_DURATION);
+            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(position);
+                }
+            });
             return true;
         }
 
@@ -370,41 +369,22 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         mSongsAdapter.clear();
     }
 
-
-    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mHandler.removeMessages(DELETE_MEDIA);
-        }
-    };
-
-    Handler mHandler = new AudioAlbumsSongsFragmentHandler(this);
-
-    private static class AudioAlbumsSongsFragmentHandler extends WeakHandler<AudioAlbumsSongsFragment>{
-
-        public AudioAlbumsSongsFragmentHandler(AudioAlbumsSongsFragment owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            final AudioAlbumsSongsFragment fragment = getOwner();
-            switch (msg.what){
-                case DELETE_MEDIA:
-                    AudioBrowserListAdapter.ListItem listItem = fragment.mSongsAdapter.getItem(msg.arg1);
-                    for (MediaWrapper media : listItem.mMediaList) {
-                        final String path = media.getUri().getPath();
-                        fragment.mMediaLibrary.getMediaItems().remove(media);
-                        fragment.mSongsAdapter.removeMedia(media);
-                        fragment.mAlbumsAdapter.removeMedia(media);
-                        if (fragment.mService != null)
-                            fragment.mService.removeLocation(media.getLocation());
-                        fragment.mMediaLibrary.getMediaItems().remove(media);
-                        FileUtils.asyncRecursiveDelete(path);
-                    }
-                    break;
-            }
+    private void deleteMedia(int position) {
+        final AudioBrowserListAdapter.ListItem listItem = mSongsAdapter.getItem(position);
+        for (final MediaWrapper media : listItem.mMediaList) {
+            mMediaList.remove(media);
+            mMediaLibrary.getMediaItems().remove(media);
+            mSongsAdapter.removeMedia(media);
+            mAlbumsAdapter.removeMedia(media);
+            if (mService != null)
+                mService.removeLocation(media.getLocation());
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    MediaDatabase.getInstance().removeMedia(media.getUri());
+                    FileUtils.deleteFile(media.getUri().getPath());
+                }
+            });
         }
     }
 }
