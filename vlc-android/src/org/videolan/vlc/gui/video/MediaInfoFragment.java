@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -62,6 +63,8 @@ public class MediaInfoFragment extends ListFragment {
 
     public final static String ITEM_KEY = "key_item";
 
+    private static final int DELETE_DURATION = 3000;
+
     private MediaWrapper mItem;
     private Bitmap mImage;
     private TextView mLengthView;
@@ -78,6 +81,7 @@ public class MediaInfoFragment extends ListFragment {
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
     private final static int SHOW_SUBTITLES = 5;
+    private final static int DELETE_MEDIA = 6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,15 +117,11 @@ public class MediaInfoFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 if (mItem != null) {
-                    VLCApplication.runBackground(new Runnable() {
-                        @Override
-                        public void run() {
-                            boolean deleted = FileUtils.deleteFile(mItem.getLocation());
-                            if (deleted) {
-                                mHandler.obtainMessage(EXIT).sendToTarget();
-                            }
-                        }
-                    });
+                Snackbar.make(getView(), getString(R.string.file_deleted), DELETE_DURATION)
+                    .setAction(android.R.string.cancel, mCancelDeleteMediaListener)
+                    .show();
+                Message msg = mHandler.obtainMessage(DELETE_MEDIA);
+                mHandler.sendMessageDelayed(msg, DELETE_DURATION);
                 }
             }
         });
@@ -311,6 +311,14 @@ public class MediaInfoFragment extends ListFragment {
     private void updateSize(Long size){
         mSizeView.setText(Strings.readableFileSize(size.longValue()));
     }
+
+    View.OnClickListener mCancelDeleteMediaListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mHandler.removeMessages(DELETE_MEDIA);
+        }
+    };
+
     private Handler mHandler = new MediaInfoHandler(this);
 
     private static class MediaInfoHandler extends WeakHandler<MediaInfoFragment> {
@@ -320,7 +328,7 @@ public class MediaInfoFragment extends ListFragment {
 
         @Override
         public void handleMessage(Message msg) {
-            MediaInfoFragment fragment = getOwner();
+            final MediaInfoFragment fragment = getOwner();
             if(fragment == null) return;
 
             switch (msg.what) {
@@ -343,6 +351,15 @@ public class MediaInfoFragment extends ListFragment {
                     break;
                 case SHOW_SUBTITLES:
                     fragment.mSubtitles.setVisibility(View.VISIBLE);
+                    break;
+                case DELETE_MEDIA:
+                    VLCApplication.runBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            FileUtils.deleteFile(fragment.mItem.getLocation());
+                            sendEmptyMessage(EXIT);
+                        }
+                    });
                     break;
             }
         };
