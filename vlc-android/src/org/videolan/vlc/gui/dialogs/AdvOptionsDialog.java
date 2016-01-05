@@ -152,6 +152,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mTextColor = a.getColor(0, Color.LTGRAY);
         a.recycle();
 
+        getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+
         return mRecyclerView;
     }
 
