@@ -100,7 +100,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_RESULT_OPEN = 2;
-    private static final int ACTIVITY_RESULT_SECONDARY = 3;
+    public static final int ACTIVITY_RESULT_SECONDARY = 3;
     private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
     private static final int ACTIVITY_SHOW_PROGRESSBAR = 3;
     private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
@@ -663,7 +663,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             MediaUtils.openUri(this, data.getData());
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                mMediaLibrary.scanMediaItems(true);
+                forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
             }
         }
     }

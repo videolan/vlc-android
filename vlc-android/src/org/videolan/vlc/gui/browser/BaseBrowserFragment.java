@@ -437,7 +437,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
                 i.putExtra("fragment", "mediaInfo");
                 i.putExtra("param", mw.getUri().toString());
-                startActivity(i);
+                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
                 return true;
             case R.id.directory_view_play_audio: {
                 if (mService != null) {
