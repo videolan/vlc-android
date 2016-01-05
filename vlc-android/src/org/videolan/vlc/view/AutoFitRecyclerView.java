@@ -84,4 +84,8 @@ public class AutoFitRecyclerView extends ContextMenuRecyclerView {
         mSpanCount = spanCount;
     }
 
+    public void setSpanSizeLookup(GridLayoutManager.SpanSizeLookup spanSizeLookup) {
+        mGridLayoutManager.setSpanSizeLookup(spanSizeLookup);
+    }
+
 }
