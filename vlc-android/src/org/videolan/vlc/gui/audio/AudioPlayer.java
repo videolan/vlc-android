@@ -61,7 +61,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -72,7 +71,6 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer, TextWatcher {
@@ -92,7 +90,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private ImageButton mShuffle;
     private ImageButton mRepeat;
     private ImageButton mAdvFunc;
-    private ImageButton mPlaylistSwitch, mPlaylistSave;
+    private ImageButton mPlaylistSwitch;
     private SeekBar mTimeline;
     private ImageButton mPlaylistSearchButton;
     private TextInputLayout mPlaylistSearchText;
@@ -107,7 +105,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
-    private boolean mPlaylistSaveVisible;
     private boolean mSearchVisible;
     private boolean mHeaderPlayPauseVisible;
     private boolean mProgressBarVisible;
@@ -147,7 +144,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mRepeat = (ImageButton) v.findViewById(R.id.repeat);
         mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
         mPlaylistSwitch = (ImageButton) v.findViewById(R.id.playlist_switch);
-        mPlaylistSave = (ImageButton) v.findViewById(R.id.playlist_save);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
         mPlaylistSearchButton = (ImageButton) v.findViewById(R.id.playlist_search);
         mPlaylistSearchText = (TextInputLayout) v.findViewById(R.id.playlist_search_text);
@@ -170,7 +166,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
-        mPlaylistSaveVisible = false;
         mSearchVisible = false;
         mHeaderPlayPauseVisible = true;
         mProgressBarVisible = true;
@@ -242,7 +237,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 showAdvancedOptions(v);
             }
         });
-        mPlaylistSave.setOnClickListener(this);
         mPlaylistSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -549,14 +543,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
      */
     public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                       boolean headerPlayPauseVisible, boolean progressBarVisible,
-                                      boolean headerTimeVisible, boolean playlistSaveVisible,
-                                      boolean searchVisible) {
+                                      boolean headerTimeVisible, boolean searchVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
         mHeaderPlayPauseVisible = headerPlayPauseVisible;
         mProgressBarVisible = progressBarVisible;
         mHeaderTimeVisible = headerTimeVisible;
-        mPlaylistSaveVisible = playlistSaveVisible;
         mSearchVisible = searchVisible;
         restoreHedaderButtonVisibilities();
     }
@@ -564,7 +556,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private void restoreHedaderButtonVisibilities() {
         mAdvFunc.setVisibility(mAdvFuncVisible ? View.VISIBLE : View.GONE);
         mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? View.VISIBLE : View.GONE);
-        mPlaylistSave.setVisibility(mPlaylistSaveVisible ? View.VISIBLE : View.GONE);
         mPlaylistSearchButton.setVisibility(mSearchVisible ? View.VISIBLE : View.GONE);
         mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? View.VISIBLE : View.GONE);
         mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
@@ -574,7 +565,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private void hideHedaderButtons() {
         mAdvFunc.setVisibility(View.GONE);
         mPlaylistSwitch.setVisibility(View.GONE);
-        mPlaylistSave.setVisibility(View.GONE);
         mPlaylistSearchButton.setVisibility(View.GONE);
         mHeaderPlayPause.setVisibility(View.GONE);
         mHeaderTime.setVisibility(TextView.GONE);
@@ -640,16 +630,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.playlist_save:
-                if (mService == null)
-                    return;
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mService.getMedias());
-                savePlaylistDialog.setArguments(args);
-                savePlaylistDialog.show(fm, "fragment_save_playlist");
-                break;
             case R.id.playlist_search:
                 mPlaylistSearchButton.setVisibility(View.GONE);
                 mPlaylistSearchText.setVisibility(View.VISIBLE);

@@ -76,19 +76,6 @@
             android:src="@drawable/ic_search" />
 
         <ImageButton
-            android:id="@+id/playlist_save"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_weight="0"
-            android:layout_marginRight="8dp"
-            android:background="#00000000"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/playlist_save"
-            android:src="?attr/ic_save" />
-
-        <ImageButton
             android:id="@+id/playlist_switch"
             android:layout_width="32dp"
             android:layout_height="32dp"
