@@ -49,14 +49,12 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.view.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SLEEP_TIMER;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener {
 
@@ -78,6 +76,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_CHAPTER_TITLE = 5 ;
     private static final int ID_PLAYBACK_SPEED = 6 ;
     private static final int ID_EQUALIZER = 7 ;
+    private static final int ID_SAVE_PLAYLIST = 8 ;
 
     private Activity mActivity;
     private int mTheme;
@@ -171,35 +170,38 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
     }
 
-    private void showTimePickerFragment(int action) {
+    private void showFragment(int id) {
         DialogFragment newFragment;
-        switch (action){
-            case PickTimeFragment.ACTION_JUMP_TO_TIME:
-                newFragment = JumpToTimeDialog.newInstance(mTheme);
+        String tag;
+        switch (id) {
+            case ID_PLAYBACK_SPEED:
+                newFragment = PlaybackSpeedDialog.newInstance(mTheme);
+                tag = "playback_speed";
                 break;
-            case PickTimeFragment.ACTION_SLEEP_TIMER:
+            case ID_JUMP_TO:
+                newFragment = JumpToTimeDialog.newInstance(mTheme);
+                tag = "time";
+                break;
+            case ID_SLEEP:
                 newFragment = SleepTimerDialog.newInstance(mTheme);
+                tag = "time";
+                break;
+            case ID_CHAPTER_TITLE:
+                newFragment = SelectChapterDialog.newInstance(mTheme);
+                tag = "select_chapter";
+                break;
+            case ID_SAVE_PLAYLIST:
+                newFragment = new SavePlaylistDialog();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mService.getMedias());
+                newFragment.setArguments(args);
+                tag = "fragment_save_playlist";
                 break;
             default:
                 return;
         }
-        newFragment.show(getActivity().getSupportFragmentManager(), "time");
-        dismiss();
-    }
-
-    private void showPlayBackSpeedDialog() {
-        DialogFragment newFragment = null;
-        newFragment = PlaybackSpeedDialog.newInstance(mTheme);
         if (newFragment != null)
-            newFragment.show(getActivity().getSupportFragmentManager(), "playback_speed");
-        dismiss();
-    }
-
-    private void showSelectChapterDialog() {
-        DialogFragment newFragment = null;
-        newFragment = SelectChapterDialog.newInstance(mTheme);
-        if (newFragment != null)
-            newFragment.show(getActivity().getSupportFragmentManager(), "select_chapter");
+            newFragment.show(getActivity().getSupportFragmentManager(), tag);
         dismiss();
     }
 
@@ -349,17 +351,17 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         switch (v.getId()){
             case ID_SLEEP:
                 if (VLCApplication.sPlayerSleepTime == null)
-                    showTimePickerFragment(ACTION_SLEEP_TIMER);
+                    showFragment(ID_SLEEP);
                 else {
                     setSleep(null);
                     initSleep();
                 }
                 break;
             case ID_PLAYBACK_SPEED:
-                showPlayBackSpeedDialog();
+                showFragment(ID_PLAYBACK_SPEED);
                 break;
             case ID_CHAPTER_TITLE:
-                showSelectChapterDialog();
+                showFragment(ID_CHAPTER_TITLE);
                 break;
             case ID_AUDIO_DELAY:
                 showAudioSpuDelayControls(ACTION_AUDIO_DELAY);
@@ -368,7 +370,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 showAudioSpuDelayControls(ACTION_SPU_DELAY);
                 break;
             case ID_JUMP_TO:
-                showTimePickerFragment(ACTION_JUMP_TO_TIME);
+                showFragment(ID_JUMP_TO);
                 break;
             case ID_PLAY_AS_AUDIO:
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
@@ -378,6 +380,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 i.putExtra("fragment", SecondaryActivity.EQUALIZER);
                 startActivity(i);
                 dismiss();
+                break;
+            case ID_SAVE_PLAYLIST:
+                showFragment(ID_SAVE_PLAYLIST);
                 break;
         }
     }
@@ -456,6 +461,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             }
         } else {
             mAdapter.addOption(new Option(ID_EQUALIZER, R.attr.ic_equalizer_normal_style));
+            mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save));
         }
         setDialogDimensions(large_items);
     }
