@@ -476,7 +476,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public int getSpanSize(int position) {
             switch (mAdapter.getItemViewType(position)) {
                 case ID_CHAPTER_TITLE:
-                    return 3;
+                    return SPAN_COUNT;
                 default:
                     return 1;
             }
