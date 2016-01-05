@@ -50,7 +50,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -316,7 +315,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             public void run() {
                 FileUtils.deleteFile(mw.getUri().getPath());
                 MediaDatabase.getInstance().removeMedia(mw.getUri());
-                mHandler.obtainMessage(BrowserFragmentHandler.MSG_REFRESH).sendToTarget();
             }
         });
     }
@@ -372,13 +370,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
-        boolean isAudio = mw.getType() == MediaWrapper.TYPE_AUDIO;
         boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
-        if (isAudio || isVideo) {
-            inflater.inflate(R.menu.directory_view_file, menu);
-            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
-            menu.findItem(R.id.directory_view_info).setVisible(isVideo);
-        } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
+        if (mw.getType() == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
             if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
@@ -393,6 +386,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
                 menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
             }
+        } else {
+            inflater.inflate(R.menu.directory_view_file, menu);
+            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
+            menu.findItem(R.id.directory_view_info).setVisible(isVideo);
+            menu.findItem(R.id.directory_view_play_audio).setVisible(isVideo);
         }
     }
 
@@ -426,6 +424,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             }
             case R.id.directory_view_delete:
+                mAdapter.removeItem(position, true);
                 UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                     @Override
                     public void run() {
@@ -446,9 +445,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 }
                 return true;
             }
-            case  R.id.directory_view_play_video:
-                VideoPlayerActivity.start(getActivity(), mw.getUri());
-                return true;
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
                 for (MediaWrapper mediaItem : mMediaLists.get(position)){

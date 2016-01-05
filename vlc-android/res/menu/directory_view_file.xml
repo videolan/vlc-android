@@ -15,7 +15,4 @@
     <item
         android:id="@+id/directory_view_play_audio"
         android:title="@string/play_as_audio" />
-    <item
-        android:id="@+id/directory_view_play_video"
-        android:title="@string/play_as_video" />
 </menu>

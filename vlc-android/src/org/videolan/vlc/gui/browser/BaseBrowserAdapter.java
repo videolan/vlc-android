@@ -101,19 +101,15 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     private void onBindMediaViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        boolean hasContextMenu = (media.getType() == MediaWrapper.TYPE_AUDIO ||
-                media.getType() == MediaWrapper.TYPE_VIDEO ||
-                media.getType() == MediaWrapper.TYPE_DIR );
         vh.binding.setMedia(media);
-        vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_MEDIA);
+        vh.binding.setHasContextMenu(true);
         vh.binding.setProtocole(getProtocol(media));
         vh.binding.executePendingBindings();
 
         vh.icon.setBackgroundResource(getIconResId(media));
-        if (hasContextMenu) {
-            vh.setContextMenuListener();
-        }
+
+        vh.setContextMenuListener();
     }
 
     @Override
@@ -147,6 +143,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
         }
 
+        public void setContextMenuListener() {
+            itemView.setOnLongClickListener(this);
+        }
+
         public void onClick(View v){
             openMediaFromView(this, v);
         }
@@ -163,13 +163,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
 
-        public void onMoreClick(View v){
+        public void onMoreClick(View v) {
             fragment.openContextMenu(getLayoutPosition());
         }
 
-        public void setContextMenuListener() {
-            itemView.setOnLongClickListener(this);
-        }
         @Override
         public boolean onLongClick(View v) {
             fragment.mRecyclerView.openContextMenu(getLayoutPosition());
