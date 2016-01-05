@@ -415,7 +415,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         }
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (mAudioPlayer.hideSearchField() || slideDownAudioPlayer())
+        if (mAudioPlayer.clearSearch() || slideDownAudioPlayer())
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.

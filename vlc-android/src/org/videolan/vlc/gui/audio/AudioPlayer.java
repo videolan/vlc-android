@@ -641,6 +641,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {}
 
+    public boolean clearSearch() {
+        mPlaylistAdapter.restoreList();
+        return hideSearchField();
+    }
+
     public boolean hideSearchField() {
         if (mPlaylistSearchText.getVisibility() != View.VISIBLE)
             return false;
