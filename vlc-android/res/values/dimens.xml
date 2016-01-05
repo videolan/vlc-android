@@ -32,9 +32,7 @@
     <!-- Adv options -->
     <dimen name="option_width">64dp</dimen>
     <dimen name="option_height">72dp</dimen>
-    <dimen name="adv_options_width">224dp</dimen>
-    <dimen name="adv_options_height">300dp</dimen>
-    <dimen name="adv_options_margin">24dp</dimen>
+    <dimen name="adv_options_margin">16dp</dimen>
     <dimen name="dialog_time_picker_width">240dp</dimen>
 
 
