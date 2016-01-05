@@ -388,6 +388,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mService.setRate(1);
                 initPlaybackSpeed();
                 return true;
+            case ID_SPU_DELAY:
+                mService.setSpuDelay(0l);
+                initSpuDelay();
+                return true;
+            case ID_AUDIO_DELAY:
+                mService.setAudioDelay(0l);
+                initAudioDelay();
+                return true;
         }
         return false;
     }
