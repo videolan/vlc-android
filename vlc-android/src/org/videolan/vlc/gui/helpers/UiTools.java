@@ -65,12 +65,7 @@ public class UiTools {
     }
 
     /** Print an on-screen message to alert the user, with undo action */
-    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final View.OnClickListener cancelAction) {
-        snackerWithCancel(view, message, null, cancelAction);
-    }
-
-    /** Print an on-screen message to alert the user, with undo action */
-    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action, @Nullable final View.OnClickListener cancelAction) {
+    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action, @Nullable final Runnable cancelAction) {
         Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(android.R.string.cancel, new View.OnClickListener() {
                     @Override
@@ -78,7 +73,7 @@ public class UiTools {
                         if (action != null)
                             sHandler.removeCallbacks(action);
                         if (cancelAction != null)
-                            cancelAction.onClick(v);
+                            cancelAction.run();
                     }
                 })
                 .show();

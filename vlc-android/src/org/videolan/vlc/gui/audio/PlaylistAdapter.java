@@ -162,16 +162,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         String message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), media.getTitle());
         if (mAudioPlayer instanceof Fragment){
             View v = ((Fragment) mAudioPlayer).getView();
-            View.OnClickListener cancelAction = new View.OnClickListener() {
+            Runnable cancelAction = new Runnable() {
                 @Override
-                public void onClick(View v) {
+                public void run() {
                     mDataSet.add(position, media);
                     mOriginalDataSet.add(position, media);
                     notifyItemInserted(position);
                     mService.insertItem(position, media);
                 }
             };
-            UiTools.snackerWithCancel(v, message, cancelAction);
+            UiTools.snackerWithCancel(v, message, null, cancelAction);
         } else if (mAudioPlayer instanceof Context){
             Toast.makeText((Context) mAudioPlayer, message, Toast.LENGTH_SHORT).show();
         }
