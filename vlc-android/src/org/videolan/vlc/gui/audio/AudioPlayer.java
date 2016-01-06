@@ -274,7 +274,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.audio_player_mini_remove) {
+                if (item.getItemId() == R.id.audio_player_mini_remove) {
                     if (mService != null) {
                         mService.remove(position);
                         return true;
@@ -299,6 +299,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void update() {
+        update(false);
+    }
+
+    public void update(boolean refresh) {
         if (mService == null || getActivity() == null)
             return;
 
@@ -359,7 +363,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
-        updateList();
+        boolean needsRefresh = (mPlaylistAdapter.getItemCount() != 0) ^ mService.hasMedia();
+
+        if (refresh || needsRefresh)
+            updateList();
+        else
+            mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
     }
 
     @Override
@@ -678,7 +687,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         super.onConnected(service);
         mService.addCallback(this);
         mPlaylistAdapter.setService(service);
-        update();
+        update(true);
     }
 
     @Override
