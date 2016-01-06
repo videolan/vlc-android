@@ -653,11 +653,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
                 mMediaLibrary.scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                final Intent intent = getIntent();
-                if (intent != null && intent.getAction() != null) {
-                    finish();
-                    startActivity(intent);
-                }
+                Intent intent = getIntent();
+                if (intent == null)
+                    intent = new Intent(MainActivity.this, MainActivity.class);
+                if (intent.getAction() == null)
+                    intent.setAction(Intent.CATEGORY_LAUNCHER);
+                finish();
+                startActivity(intent);
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());
