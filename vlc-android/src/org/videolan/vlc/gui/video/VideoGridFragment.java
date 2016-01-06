@@ -122,7 +122,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         mGridView.addOnScrollListener(mScrollListener);
         mGridView.setAdapter(mVideoAdapter);
-        mGridView.setItemAnimator(null);
         return v;
     }
 
@@ -268,7 +267,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     private boolean handleContextItemSelected(MenuItem menu, final int position) {
         if (position >= mVideoAdapter.getItemCount())
             return false;
-        MediaWrapper media = mVideoAdapter.getItem(position);
+        final MediaWrapper media = mVideoAdapter.getItem(position);
         if (media == null)
             return false;
         switch (menu.getItemId()){
@@ -301,10 +300,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 }
                 return true;
             case R.id.video_list_delete:
+                mVideoAdapter.remove(position);
                 UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(position);
+                        deleteMedia(media);
+                    }
+                }, new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.add(position, media);
                     }
                 });
                 return true;
@@ -508,10 +513,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         mVideoAdapter.clear();
     }
 
-    public void deleteMedia(int position){
-        final MediaWrapper media = mVideoAdapter.getItem(position);
-        if (media == null)
-            return;
+    public void deleteMedia(final MediaWrapper media){
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -520,7 +522,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             }
         });
         mMediaLibrary.getMediaItems().remove(media);
-        mVideoAdapter.remove(media);
         if (mService != null) {
             final List<String> list = mService.getMediaLocations();
             if (list != null && list.contains(media.getLocation())) {

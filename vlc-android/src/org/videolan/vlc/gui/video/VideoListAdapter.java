@@ -210,15 +210,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         mVideos.add(item);
     }
 
+    public void add(int position, MediaWrapper item) {
+        mVideos.add(position, item);
+        notifyItemInserted(position);
+    }
+
     @MainThread
     public void remove(MediaWrapper item) {
-        int position = getItemPosition(item);
+        remove(getItemPosition(item));
+    }
+
+    @MainThread
+    public void remove(int position) {
         if (position == -1)
             return;
         mVideos.remove(position);
-        // Remove the whole end of list to update position tags stored in
-        // items views for databinder interactions, like contextual menu
-        notifyItemRangeChanged(position, getItemCount()-position);
+        notifyItemRemoved(position);
     }
 
     private int getItemPosition(MediaWrapper mw) {
