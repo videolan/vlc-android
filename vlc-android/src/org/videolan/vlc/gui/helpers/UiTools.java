@@ -61,15 +61,29 @@ public class UiTools {
 
     /** Print an on-screen message to alert the user, with undo action */
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
+        snackerWithCancel(view, message, action, null);
+    }
+
+    /** Print an on-screen message to alert the user, with undo action */
+    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final View.OnClickListener cancelAction) {
+        snackerWithCancel(view, message, null, cancelAction);
+    }
+
+    /** Print an on-screen message to alert the user, with undo action */
+    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action, @Nullable final View.OnClickListener cancelAction) {
         Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(android.R.string.cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sHandler.removeCallbacks(action);
+                        if (action != null)
+                            sHandler.removeCallbacks(action);
+                        if (cancelAction != null)
+                            cancelAction.onClick(v);
                     }
                 })
                 .show();
-        sHandler.postDelayed(action, DELETE_DURATION);
+        if (action != null)
+            sHandler.postDelayed(action, DELETE_DURATION);
     }
 
     public static int convertPxToDp(int px) {
