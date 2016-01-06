@@ -1730,20 +1730,23 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void moveItem(int positionStart, int positionEnd) {
         mMediaList.move(positionStart, positionEnd);
         PlaybackService.this.saveMediaList();
-        Log.d(TAG, "moveItem "+positionStart+" -> "+positionEnd);
+        Log.d(TAG, "moveItem " + positionStart + " -> " + positionEnd);
     }
+
 
     @MainThread
     public void remove(int position) {
         mMediaList.remove(position);
-        onMediaListChanged();
+        saveMediaList();
+        determinePrevAndNextIndices();
         Log.d(TAG, "remove "+position);
     }
 
     @MainThread
     public void removeLocation(String location) {
         mMediaList.remove(location);
-        onMediaListChanged();
+        saveMediaList();
+        determinePrevAndNextIndices();
     }
 
     @MainThread
