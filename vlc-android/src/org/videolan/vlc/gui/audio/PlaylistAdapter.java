@@ -27,15 +27,14 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Message;
 import android.support.annotation.MainThread;
-import android.support.v4.util.SparseArrayCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -127,6 +126,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @MainThread
     public void remove(int position) {
+        if (mService == null)
+            return;
+        mService.remove(position);
         mDataSet.remove(position);
         mOriginalDataSet.remove(position);
         notifyItemRemoved(position);
@@ -138,6 +140,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public void setCurrentIndex(int position) {
+        if (position == mCurrentIndex)
+            return;
         int former = mCurrentIndex;
         mCurrentIndex = position;
         notifyItemChanged(former);
@@ -153,11 +157,25 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     @Override
-    public void onItemDismiss(int position) {
-        if (mService == null)
-            return;
+    public void onItemDismiss(final int position) {
+        final MediaWrapper media = getItem(position);
+        String message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), media.getTitle());
+        if (mAudioPlayer instanceof Fragment){
+            View v = ((Fragment) mAudioPlayer).getView();
+            View.OnClickListener cancelAction = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDataSet.add(position, media);
+                    mOriginalDataSet.add(position, media);
+                    notifyItemInserted(position);
+                    mService.insertItem(position, media);
+                }
+            };
+            UiTools.snackerWithCancel(v, message, cancelAction);
+        } else if (mAudioPlayer instanceof Context){
+            Toast.makeText((Context) mAudioPlayer, message, Toast.LENGTH_SHORT).show();
+        }
         remove(position);
-        mService.remove(position);
     }
 
     public void setService(PlaybackService service) {

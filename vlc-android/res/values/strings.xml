@@ -191,6 +191,7 @@
 
     <string name="playlist_tips">Playlist tips</string>
     <string name="remove_song">Remove song</string>
+    <string name="remove_playlist_item">%1$s has been dismissed from playlist</string>
     <string name="rearrange_order">Rearrange order</string>
     <string name="hold_to_seek">Hold to seek</string>
 
