@@ -1588,14 +1588,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         Toast.makeText(this, R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
         final boolean wasPaused = !mService.isPlaying();
         final long oldTime = mService.getTime();
+        int position = mService.getCurrentMediaPosition();
+        List<MediaWrapper> list = new ArrayList<>(mService.getMedias());
+        final MediaWrapper mw = list.get(position);
         mService.stop();
         if(!isFinishing()) {
-            final MediaWrapper mw = new MediaWrapper(mUri);
             if (wasPaused)
                 mw.addFlags(MediaWrapper.MEDIA_PAUSED);
             mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
             mw.addFlags(MediaWrapper.MEDIA_VIDEO);
-            mService.load(mw);
+            mService.load(list, position);
             if (oldTime > 0)
                 seek(oldTime);
         }
