@@ -408,7 +408,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mRecyclerView.openContextMenu(position);
     }
 
-    protected boolean handleContextItemSelected(MenuItem item, int position) {
+    protected boolean handleContextItemSelected(MenuItem item, final int position) {
         int id = item.getItemId();
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
@@ -429,6 +429,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     @Override
                     public void run() {
                         deleteMedia(mw);
+                    }
+                }, new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.addItem(mw, true, position);
                     }
                 });
                 return true;

@@ -223,14 +223,25 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         return mMediaList.isEmpty();
     }
 
-    public void addItem(Media media, boolean notify, boolean top){
-        MediaWrapper mediaWrapper = new MediaWrapper(media);
-        addItem(mediaWrapper, notify, top);
+    public void addItem(Object item, boolean notify, boolean top){
+        addItem(item, notify, top, -1);
 
     }
 
-    public void addItem(Object item, boolean notify, boolean top){
-        int position = top ? 0 : mMediaList.size();
+    public void addItem(Object item, boolean notify, int position){
+        addItem(item, notify, false, position);
+    }
+
+    public void addItem(Object item, boolean notify, boolean top, int positionTo){
+        int position;
+        if (positionTo != -1)
+            position = positionTo;
+        else
+            position = top ? 0 : mMediaList.size();
+
+        if (item instanceof Media)
+            item = new MediaWrapper((Media) item);
+
         if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
             return;
         else if (item instanceof Media)
