@@ -210,6 +210,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void onCreate() {
         super.onCreate();
 
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mMediaPlayer = newMediaPlayer();
 
         if (!VLCInstance.testCompatibleCPU(this)) {
@@ -217,7 +218,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
         }
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
 
         mCurrentIndex = -1;
