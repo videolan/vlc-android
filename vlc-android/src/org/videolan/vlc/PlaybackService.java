@@ -1733,6 +1733,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         Log.d(TAG, "moveItem " + positionStart + " -> " + positionEnd);
     }
 
+    @MainThread
+    public void insertItem(int position, MediaWrapper mw) {
+        mMediaList.insert(position, mw);
+        saveMediaList();
+        determinePrevAndNextIndices();
+    }
+
 
     @MainThread
     public void remove(int position) {
