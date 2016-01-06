@@ -16,6 +16,12 @@
         android:title="@string/hardware_acceleration" />
 
     <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="playback_history"
+        android:summary="@string/playback_history_summary"
+        android:title="@string/playback_history_title" />
+
+    <CheckBoxPreference
         android:defaultValue="false"
         android:key="video_background"
         android:summary="@string/play_as_audio_background_summary"

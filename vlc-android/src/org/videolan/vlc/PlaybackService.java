@@ -1655,12 +1655,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             notifyTrackChanged();
             determinePrevAndNextIndices();
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    MediaDatabase.getInstance().addHistoryItem(mw);
-                }
-            });
+            if (mSettings.getBoolean(PreferencesActivity.PLAYBACK_HISTORY, true))
+                VLCApplication.runBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaDatabase.getInstance().addHistoryItem(mw);
+                    }
+                });
         } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     getCurrentMediaWrapper().getUri(), mCurrentIndex);

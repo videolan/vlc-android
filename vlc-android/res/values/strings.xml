@@ -175,6 +175,10 @@
     <string name="search">Search</string>
     <string name="search_history">Search history</string>
 
+
+    <string name="playback_history_title">Playback history</string>
+    <string name="playback_history_summary">Save all media played in History section</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>

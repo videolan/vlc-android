@@ -112,6 +112,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
             case "dev_category":
                 loadFragment(new Developer());
                 break;
+            case PreferencesActivity.PLAYBACK_HISTORY:
+                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                return true;
             default:
                 return super.onPreferenceTreeClick(preference);
         }
