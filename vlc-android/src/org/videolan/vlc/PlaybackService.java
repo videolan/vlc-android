@@ -127,6 +127,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         return binder.getService();
     }
 
+    private SharedPreferences mSettings;
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
     private MediaPlayer mMediaPlayer;
@@ -188,9 +189,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private MediaPlayer newMediaPlayer() {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         final MediaPlayer mp = new MediaPlayer(LibVLC());
-        final String aout = VLCOptions.getAout(pref);
+        final String aout = VLCOptions.getAout(mSettings);
         if (mp.setAudioOutput(aout) && aout.equals("android_audiotrack")) {
             mIsAudioTrack = true;
             if (mHasHdmiAudio)
@@ -217,8 +217,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mDetectHeadset = prefs.getBoolean("enable_headset_detection", true);
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
 
         mCurrentIndex = -1;
         mPrevIndex = -1;
@@ -250,8 +250,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         registerReceiver(mReceiver, filter);
         registerV21();
 
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean stealRemoteControl = pref.getBoolean("enable_steal_remote_control", false);
+        boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
 
         if (!AndroidUtil.isFroyoOrLater() || stealRemoteControl) {
             /* Backward compatibility for API 7 */
@@ -1270,35 +1269,34 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     public synchronized void loadLastPlaylist(int type) {
         boolean audio = type == TYPE_AUDIO;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentMedia = prefs.getString(audio ? "current_song" : "current_media", "");
+        String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
         if (currentMedia.equals(""))
             return;
-        String[] locations = prefs.getString(audio ? "audio_list" : "media_list", "").split(" ");
+        String[] locations = mSettings.getString(audio ? "audio_list" : "media_list", "").split(" ");
 
         List<String> mediaPathList = new ArrayList<String>(locations.length);
         for (int i = 0 ; i < locations.length ; ++i)
             mediaPathList.add(Uri.decode(locations[i]));
 
-        mShuffling = prefs.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
-        mRepeating = prefs.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
-        int position = prefs.getInt(audio ? "position_in_audio_list" : "position_in_media_list",
+        mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
+        mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
+        int position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list",
                 Math.max(0, mediaPathList.indexOf(currentMedia)));
-        long time = prefs.getLong(audio ? "position_in_song" : "position_in_media", -1);
+        long time = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
         mSavedTime = time;
         // load playlist
         loadLocations(mediaPathList, position);
         if (time > 0)
             setTime(time);
         if(!audio) {
-            boolean paused = prefs.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
-            float rate = prefs.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
+            boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
+            float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
             if (paused)
                 pause();
             if (rate != 1.0f)
                 setRate(rate);
         }
-        SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
         editor.putLong(audio ? "position_in_song" : "position_in_media", 0);
         Util.commitPreferences(editor);
@@ -1310,7 +1308,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
                 audio = false;
         }
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(audio ? "current_song" : "current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
         Util.commitPreferences(editor);
     }
@@ -1326,7 +1324,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
         }
         //We save a concatenated String because putStringSet is APIv11.
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(audio ? "audio_list" : "media_list", locations.toString().trim());
         Util.commitPreferences(editor);
     }
@@ -1334,7 +1332,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private synchronized void savePosition(){
         if (getCurrentMedia() == null)
             return;
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         boolean audio = true;
         for (int i = 0; i < mMediaList.size(); i++) {
             if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
