@@ -7,9 +7,16 @@ Core:
  * Improve UPnP support
 
 Application:
+ * Moved targetSDK to 23
+ * Runtime permissions for storage & ringtone setting
+ * Support Extensions
  * Support Video Playlists
+ * Support search in current playlist
  * Simplify and fix animations
  * Improve networking browser
+ * Undo action for media deletion
+ * Restore playback history
+ * Fix media deletion
 
 TV:
  * Improve Now Playing button
