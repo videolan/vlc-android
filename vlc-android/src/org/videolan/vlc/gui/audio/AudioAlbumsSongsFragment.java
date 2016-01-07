@@ -375,8 +375,13 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         for (final MediaWrapper media : listItem.mMediaList) {
             mMediaList.remove(media);
             mMediaLibrary.getMediaItems().remove(media);
-            if (mService != null)
-                mService.removeLocation(media.getLocation());
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mService != null)
+                        mService.removeLocation(media.getLocation());
+                }
+            });
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {

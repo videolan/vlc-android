@@ -681,9 +681,16 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             @Override
             public void run() {
                 final String path = mw.getUri().getPath();
-                boolean delete = FileUtils.deleteFile(path);
+                FileUtils.deleteFile(path);
                 MediaDatabase.getInstance().removeMedia(mw.getUri());
                 mMediaLibrary.getMediaItems().remove(mw);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mService != null)
+                            mService.removeLocation(mw.getLocation());
+                    }
+                });
                 mHandler.obtainMessage(REFRESH, path).sendToTarget();
             }
         });
