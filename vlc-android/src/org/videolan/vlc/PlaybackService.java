@@ -546,7 +546,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     final MediaWrapper mw = getCurrentMedia();
                     if (mw != null)
                         mw.updateMeta(mMediaPlayer);
-                    executeUpdate();
                     mParsed = true;
                     break;
 
