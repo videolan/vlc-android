@@ -363,12 +363,21 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
-        boolean needsRefresh = (mPlaylistAdapter.getItemCount() != 0) ^ mService.hasMedia();
-
-        if (refresh || needsRefresh)
+        if (refresh || playlistDiffer())
             updateList();
         else
             mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+    }
+
+    private boolean playlistDiffer() {
+        List<MediaWrapper> serviceList = mService.getMedias();
+        List<MediaWrapper> adapterList = mPlaylistAdapter.getMedias();
+        if (serviceList.size() != adapterList.size())
+            return true;
+        for (int i = 0 ; i < serviceList.size() ; ++i)
+            if (serviceList.get(i) != adapterList.get(i))
+                return true;
+        return false;
     }
 
     @Override
