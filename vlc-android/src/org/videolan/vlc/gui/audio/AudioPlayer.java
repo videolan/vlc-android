@@ -457,13 +457,13 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mService.setTime(prog);
                 mTime.setText(Strings.millisToString(mShowRemainingTime ? prog- mService.getLength() : prog));
                 mHeaderTime.setText(Strings.millisToString(prog));
+            }
         }
-    }
     };
 
     public void onTimeLabelClick(View view) {
         mShowRemainingTime = !mShowRemainingTime;
-        update();
+        update(false);
     }
 
     public void onPlayPauseClick(View view) {
@@ -515,13 +515,13 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mService.setRepeatType(PlaybackService.REPEAT_NONE);
                 break;
         }
-        update();
+        update(false);
     }
 
     public void onShuffleClick(View view) {
         if (mService != null)
             mService.shuffle();
-        update();
+        update(false);
     }
 
     public void showAdvancedOptions(View v) {
