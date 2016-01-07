@@ -365,8 +365,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         if (refresh || playlistDiffer())
             updateList();
-        else
-            mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+        mPlaylist.post(new Runnable() {
+            @Override
+            public void run() {
+                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+            }
+        });
     }
 
     private boolean playlistDiffer() {
@@ -433,14 +437,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             mPlaylistAdapter.notifyDataSetChanged();
         else
             mPlaylistAdapter.notifyItemRangeChanged(0, count);
+    }
 
-        final int selectionIndex = currentIndex;
-        mPlaylist.post(new Runnable() {
-            @Override
-            public void run() {
-                mPlaylistAdapter.setCurrentIndex(selectionIndex);
-            }
-        });
+    @Override
+    public void onSelectionSet(int position) {
+        mPlaylist.scrollToPosition(position);
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {

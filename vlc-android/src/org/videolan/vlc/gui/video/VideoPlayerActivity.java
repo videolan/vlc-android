@@ -2122,6 +2122,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
+    public void onSelectionSet(int position) {
+        mPlaylist.scrollToPosition(position);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.playlist_toggle:

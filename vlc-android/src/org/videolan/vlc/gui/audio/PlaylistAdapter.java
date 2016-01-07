@@ -57,6 +57,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public interface IPlayer {
         void onPopupMenu(View view, int position);
         void updateList();
+        void onSelectionSet(int position);
     }
     private static final String TAG = "VLC/PlaylistAdapter";
     PlaybackService mService = null;
@@ -146,6 +147,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mCurrentIndex = position;
         notifyItemChanged(former);
         notifyItemChanged(position);
+        mAudioPlayer.onSelectionSet(position);
     }
 
     @Override
