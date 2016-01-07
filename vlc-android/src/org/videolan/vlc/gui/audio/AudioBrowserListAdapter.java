@@ -201,6 +201,22 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         });
     }
 
+    public void remove(int position, String key) {
+        mItems.remove(position);
+        mMediaItemMap.remove(key);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(int position, String key, ListItem item) {
+        mMediaItemMap.put(key, item);
+        mItems.add(position, item);
+        notifyDataSetChanged();
+    }
+
+    public String getKey(int position) {
+        return (String) mMediaItemMap.keySet().toArray()[position];
+    }
+
     /**
      * Calculate sections of the list
      *
@@ -281,7 +297,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
      * Remove also all the list items that contain only this media.
      * @param media the media to remove
      */
-    public void removeMedia(MediaWrapper media) {
+    public void removeMedia(MediaWrapper media, boolean notify) {
         for (int i = 0; i < mItems.size(); ++i) {
             ListItem item = mItems.get(i);
             if (item.mMediaList == null)
@@ -296,7 +312,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 i--;
             }
         }
-        notifyDataSetChanged();
+        if (notify)
+            notifyDataSetChanged();
     }
 
     public void clear() {

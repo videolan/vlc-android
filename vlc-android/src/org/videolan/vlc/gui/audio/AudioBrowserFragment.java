@@ -423,7 +423,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         return super.onContextItemSelected(menu);
     }
 
-    private boolean handleContextItemSelected(MenuItem item, final int position) {
+    private boolean handleContextItemSelected(final MenuItem item, final int position) {
 
         int startPosition;
         int mode = mViewPager.getCurrentItem();
@@ -434,7 +434,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         boolean append = id == R.id.audio_list_browser_append;
 
         if (id == R.id.audio_list_browser_delete) {
-            AudioBrowserListAdapter adapter;
+            final AudioBrowserListAdapter adapter;
             if (mode == MODE_SONG){
                 adapter = mSongsAdapter;
             } else if (mode == MODE_PLAYLIST) {
@@ -444,21 +444,37 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             List<MediaWrapper> mediaList = adapter.getMedias(position);
             if (adapter.getCount() <= position || mediaList == null || mediaList.isEmpty())
                 return false;
+            final MediaWrapper media = mediaList.get(0);
+            final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
+            final String key = adapter.getKey(position);
+            String message;
+            Runnable action;
+
+            adapter.remove(position, key);
+
             if (mode == MODE_PLAYLIST) {
-                UiTools.snackerWithCancel(getView(), getString(R.string.playlist_deleted), new Runnable() {
+                message = getString(R.string.playlist_deleted);
+                action = new Runnable() {
                     @Override
                     public void run() {
-                        deletePlaylist(mPlaylistAdapter.getItem(position));
+                        deletePlaylist(listItem);
                     }
-                });
+                };
             } else {
-                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                message = getString(R.string.file_deleted);
+                action = new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(position);
+                        deleteMedia(media);
                     }
-                });
+                };
             }
+            UiTools.snackerWithCancel(getView(), message, action, new Runnable() {
+                @Override
+                public void run() {
+                    adapter.addItem(position, key, listItem);
+                }
+            });
             return true;
         }
 
@@ -660,13 +676,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         tcl.onPageSelected(position);
     }
 
-    private void deleteMedia(int position) {
-        final MediaWrapper mw = mSongsAdapter.getItem(position).mMediaList.get(0);
+    private void deleteMedia(final MediaWrapper mw) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final String path = mw.getUri().getPath();
-                FileUtils.deleteFile(path);
+                boolean delete = FileUtils.deleteFile(path);
                 MediaDatabase.getInstance().removeMedia(mw.getUri());
                 mMediaLibrary.getMediaItems().remove(mw);
                 mHandler.obtainMessage(REFRESH, path).sendToTarget();
