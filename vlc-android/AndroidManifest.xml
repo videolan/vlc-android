@@ -26,7 +26,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="23" />
 
     <!-- FIXME Because manifest merger will add it otherwise... -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
