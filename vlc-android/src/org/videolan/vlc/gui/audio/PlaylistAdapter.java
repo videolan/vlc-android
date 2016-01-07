@@ -129,9 +129,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void remove(int position) {
         if (mService == null)
             return;
-        mService.remove(position);
         mDataSet.remove(position);
         mOriginalDataSet.remove(position);
+        mService.remove(position);
         notifyItemRemoved(position);
     }
 
