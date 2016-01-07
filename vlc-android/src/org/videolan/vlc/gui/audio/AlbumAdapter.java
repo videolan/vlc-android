@@ -26,32 +26,32 @@ package org.videolan.vlc.gui.audio;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioClickHandler{
+public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
 
+    private Context mContext;
     private ArrayList<MediaWrapper> mMediaList;
 
     private ContextPopupMenuListener mContextPopupMenuListener;
 
     public AlbumAdapter(Context context, ArrayList<MediaWrapper> tracks) {
-        super(context, 0);
-        if (tracks != null)
-            Collections.sort(tracks, MediaComparators.byTrackNumber);
-        mMediaList = tracks;
+        mContext = context;
+        addAll(tracks);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
         View v = convertView;
         MediaWrapper mw = mMediaList.get(position);
         if (v == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             holder = new ViewHolder();
             holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
             v = holder.binding.getRoot();
@@ -78,9 +78,29 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
         return v;
     }
 
+    @MainThread
+    public void addMedia(int position, MediaWrapper media) {
+        mMediaList.add(position, media);
+        notifyDataSetChanged();
+    }
+
+    @MainThread void removeMedia(int position) {
+        mMediaList.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mMediaList == null ? 0 : mMediaList.size();
+    }
+
+    public MediaWrapper getItem(int position) {
+        return mMediaList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
     @Nullable
@@ -92,7 +112,9 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
     }
 
     public void addAll(ArrayList<MediaWrapper> tracks){
-        mMediaList = tracks;
+        if (tracks != null)
+            Collections.sort(tracks, MediaComparators.byTrackNumber);
+        mMediaList = new ArrayList<>(tracks);
         notifyDataSetChanged();
     }
 
@@ -105,7 +127,11 @@ public class AlbumAdapter extends ArrayAdapter<MediaWrapper> implements IAudioCl
     @Override
     public void onMoreClick(View v) {
         if (mContextPopupMenuListener != null)
-                mContextPopupMenuListener.onPopupMenu(v, ((Integer)v.getTag()).intValue());
+                mContextPopupMenuListener.onPopupMenu(v, ((Integer) v.getTag()).intValue());
+    }
+
+    public void clear() {
+        mMediaList.clear();
     }
 
     static class ViewHolder {

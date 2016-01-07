@@ -27,6 +27,8 @@ import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -44,8 +46,12 @@ import android.widget.ListView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
@@ -59,7 +65,7 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     private AlbumAdapter mAdapter;
     private ArrayList<MediaWrapper> mMediaList;
     private String mTitle;
-
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +192,7 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
         return super.onContextItemSelected(menu);
     }
 
-    private boolean handleContextItemSelected(MenuItem item, int position) {
+    private boolean handleContextItemSelected(MenuItem item, final int position) {
         int id = item.getItemId();
 
         if (mMediaList.size() <= position) {
@@ -200,9 +206,44 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
         } else if (id == R.id.audio_list_browser_append) {
             mService.append(mMediaList.get(position));
             return true;
+        } else if (id == R.id.audio_list_browser_delete) {
+            final MediaWrapper media = mAdapter.getItem(position);
+            mAdapter.removeMedia(position);
+            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(media);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addMedia(position, media);
+                }
+            });
+            return true;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void deleteMedia(final MediaWrapper mw) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                mMediaList.remove(mw);
+                final String path = mw.getUri().getPath();
+                FileUtils.deleteFile(path);
+                MediaDatabase.getInstance().removeMedia(mw.getUri());
+                MediaLibrary.getInstance().getMediaItems().remove(mw);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mService != null)
+                            mService.removeLocation(mw.getLocation());
+                    }
+                });
+            }
+        });
     }
 
     @Override
