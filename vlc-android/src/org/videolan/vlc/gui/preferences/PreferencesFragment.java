@@ -41,6 +41,8 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
 
     public final static String TAG = "VLC/PreferencesFragment";
 
+    public final static String PLAYBACK_HISTORY = "playback_history";
+
     @Override
     protected int getXml() {
         return R.xml.preferences;
@@ -112,7 +114,7 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
             case "dev_category":
                 loadFragment(new Developer());
                 break;
-            case PreferencesActivity.PLAYBACK_HISTORY:
+            case PLAYBACK_HISTORY:
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
             default:

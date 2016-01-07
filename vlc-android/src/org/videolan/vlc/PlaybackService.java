@@ -68,6 +68,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -1655,7 +1656,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             notifyTrackChanged();
             determinePrevAndNextIndices();
-            if (mSettings.getBoolean(PreferencesActivity.PLAYBACK_HISTORY, true))
+            if (mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {

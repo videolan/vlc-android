@@ -76,6 +76,7 @@ import org.videolan.vlc.gui.helpers.SearchSuggestionsAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
@@ -236,7 +237,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             mNavigationView.getMenu().findItem(R.id.nav_network).setVisible(true);
         }
 
-        mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesActivity.PLAYBACK_HISTORY, true));
+        mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
 
 
         if (AndroidUtil.isLolliPopOrLater())
