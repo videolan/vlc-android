@@ -441,7 +441,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onSelectionSet(int position) {
-        mPlaylist.scrollToPosition(position);
+        mPlaylist.smoothScrollToPosition(position);
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {

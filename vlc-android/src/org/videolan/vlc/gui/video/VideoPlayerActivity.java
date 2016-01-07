@@ -2112,14 +2112,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlaylistAdapter.notifyItemRangeChanged(0, count);
 
         final int selectionIndex = currentIndex;
-        if (!previousAudioList.equals(playlist))
-            mPlaylist.post(new Runnable() {
-                @Override
-                public void run() {
-                    mPlaylistAdapter.setCurrentIndex(selectionIndex);
-                }
-            });
-    }
+        mPlaylist.post(new Runnable() {
+            @Override
+            public void run() {
+                mPlaylistAdapter.setCurrentIndex(selectionIndex);
+                mPlaylist.scrollToPosition(selectionIndex);
+            }
+        });
+}
 
     @Override
     public void onSelectionSet(int position) {
