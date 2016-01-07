@@ -419,7 +419,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService == null)
             return;
 
-        final List<MediaWrapper> previousAudioList = mPlaylistAdapter.getMedias();
         mPlaylistAdapter.clear();
 
         final List<MediaWrapper> audioList = mService.getMedias();
@@ -436,28 +435,21 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             mPlaylistAdapter.notifyItemRangeChanged(0, count);
 
         final int selectionIndex = currentIndex;
-        if (!previousAudioList.equals(audioList))
-            mPlaylist.post(new Runnable() {
-                @Override
-                public void run() {
-                    mPlaylistAdapter.setCurrentIndex(selectionIndex);
-                }
-            });
+        mPlaylist.post(new Runnable() {
+            @Override
+            public void run() {
+                mPlaylistAdapter.setCurrentIndex(selectionIndex);
+            }
+        });
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
 
         @Override
-        public void onStopTrackingTouch(SeekBar arg0) {
-            // TODO Auto-generated method stub
-
-        }
+        public void onStopTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onStartTrackingTouch(SeekBar arg0) {
-            // TODO Auto-generated method stub
-
-        }
+        public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
