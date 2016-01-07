@@ -25,6 +25,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
@@ -75,6 +77,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
 
     private MediaLibrary mMediaLibrary;
     private PlaybackService.Client mClient;
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
@@ -221,15 +224,24 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         int startPosition;
         List<MediaWrapper> medias;
         int id = item.getItemId();
+        final AudioBrowserListAdapter adapter = mViewPager.getCurrentItem() == MODE_ALBUM ? mAlbumsAdapter : mSongsAdapter;
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
 
         if (id == R.id.audio_list_browser_delete) {
+            final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
+            final String key = adapter.getKey(position);
+            adapter.remove(position, key);
             UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
-                    deleteMedia(position);
+                    deleteMedia(listItem);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    adapter.addItem(position, key, listItem);
                 }
             });
             return true;
@@ -246,17 +258,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         }
         else {
             startPosition = 0;
-            switch (mViewPager.getCurrentItem())
-            {
-                case MODE_ALBUM: // albums
-                    medias = mAlbumsAdapter.getMedias(position);
-                    break;
-                case MODE_SONG: // songs
-                    medias = mSongsAdapter.getMedias(position);
-                    break;
-                default:
-                    return true;
-            }
+            medias = adapter.getMedias(position);
         }
 
         if (mService != null) {
@@ -369,13 +371,10 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         mSongsAdapter.clear();
     }
 
-    private void deleteMedia(int position) {
-        final AudioBrowserListAdapter.ListItem listItem = mSongsAdapter.getItem(position);
+    private void deleteMedia(final AudioBrowserListAdapter.ListItem listItem) {
         for (final MediaWrapper media : listItem.mMediaList) {
             mMediaList.remove(media);
             mMediaLibrary.getMediaItems().remove(media);
-            mSongsAdapter.removeMedia(media);
-            mAlbumsAdapter.removeMedia(media);
             if (mService != null)
                 mService.removeLocation(media.getLocation());
             VLCApplication.runBackground(new Runnable() {
@@ -386,5 +385,11 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                 }
             });
         }
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                updateList();
+            }
+        });
     }
 }
