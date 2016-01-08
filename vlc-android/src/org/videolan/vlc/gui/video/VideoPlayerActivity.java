@@ -113,6 +113,7 @@ import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
@@ -193,6 +194,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mCurrentSize = SURFACE_BEST_FIT;
 
     private SharedPreferences mSettings;
+    private boolean mTouchControls = true;
 
     /** Overlay */
     private ActionBar mActionBar;
@@ -356,6 +358,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mTouchControls = mSettings.getBoolean(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, true);
 
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
@@ -1778,10 +1782,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
             return true;
         }
-        if (mDetector != null && mDetector.onTouchEvent(event))
-            return true;
-        if (mIsLocked) {
-            // locked, only handle show/hide & ignore all actions
+        if (!mTouchControls || mIsLocked) {
+            // locked or swipe disabled, only handle show/hide & ignore all actions
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (!mShowing) {
                     showOverlay();
@@ -1791,6 +1793,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return false;
         }
+        if (mDetector != null && mDetector.onTouchEvent(event))
+            return true;
 
         DisplayMetrics screen = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(screen);

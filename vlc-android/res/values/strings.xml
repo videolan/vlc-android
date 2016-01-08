@@ -351,6 +351,8 @@
     <string name="directory_empty">Directory is empty</string>
     <string name="save_brightness_summary">Remember brightness level in video player</string>
     <string name="save_brightness_title">Save brightness level for video</string>
+    <string name="player_touch_summary">Enable swipe gestures and double tap in video player</string>
+    <string name="player_touch_title">Touch controls for Video</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>

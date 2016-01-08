@@ -19,6 +19,11 @@
             android:summary="@string/save_brightness_summary"
             android:title="@string/save_brightness_title" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_touch_player"
+            android:summary="@string/player_touch_summary"
+            android:title="@string/player_touch_title" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="dialog_confirm_resume"
             android:summary="@string/confirm_resume_summary"
