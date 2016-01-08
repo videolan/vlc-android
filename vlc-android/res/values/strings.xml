@@ -351,8 +351,10 @@
     <string name="directory_empty">Directory is empty</string>
     <string name="save_brightness_summary">Remember brightness level in video player</string>
     <string name="save_brightness_title">Save brightness level for video</string>
-    <string name="player_touch_summary">Enable swipe gestures and double tap in video player</string>
     <string name="player_touch_title">Touch controls for Video</string>
+    <string name="player_touch_enable_all">Enable Touch controls</string>
+    <string name="player_touch_disable_brightness">Disable brightness control</string>
+    <string name="player_touch_disable_all">Disable all Touch controls</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
@@ -540,6 +542,17 @@
         <item>Big5-HKSCS</item>
         <item>VISCII</item>
         <item>Windows-1258</item>
+    </string-array>
+
+    <string-array name="touch_entries">
+        <item>@string/player_touch_enable_all</item>
+        <item>@string/player_touch_disable_brightness</item>
+        <item>@string/player_touch_disable_all</item>
+    </string-array>
+    <string-array name="touch_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="aouts">

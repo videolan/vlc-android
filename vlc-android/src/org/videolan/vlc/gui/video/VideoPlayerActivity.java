@@ -194,7 +194,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mCurrentSize = SURFACE_BEST_FIT;
 
     private SharedPreferences mSettings;
-    private boolean mTouchControls = true;
+    private int mTouchControls = 0;
 
     /** Overlay */
     private ActionBar mActionBar;
@@ -359,7 +359,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mTouchControls = mSettings.getBoolean(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, true);
+        mTouchControls = Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
 
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
@@ -407,9 +407,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mInfo = (TextView) findViewById(R.id.player_overlay_textinfo);
         mVerticalBar = findViewById(R.id.verticalbar);
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
-
-        mEnableBrightnessGesture = !TextUtils.equals(BuildConfig.FLAVOR_target, "chrome") &&
-                mSettings.getBoolean("enable_brightness_gesture", true);
 
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
@@ -1782,7 +1779,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
             return true;
         }
-        if (!mTouchControls || mIsLocked) {
+        if (mTouchControls == 2 || mIsLocked) {
             // locked or swipe disabled, only handle show/hide & ignore all actions
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (!mShowing) {
@@ -1848,12 +1845,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mTouchY = event.getRawY();
                 mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
-                if (!mEnableBrightnessGesture || (int)mTouchX > (3 * screen.widthPixels / 5)){
+                if (mTouchControls == 1 || (int)mTouchX > (3 * screen.widthPixels / 5)){
                     doVolumeTouch(y_changed);
                     hideOverlay(true);
                 }
                 // Brightness (Up or Down - Left side)
-                if (mEnableBrightnessGesture && (int)mTouchX < (2 * screen.widthPixels / 5)){
+                else if ((int)mTouchX < (2 * screen.widthPixels / 5)){
                     doBrightnessTouch(y_changed);
                     hideOverlay(true);
                 }
