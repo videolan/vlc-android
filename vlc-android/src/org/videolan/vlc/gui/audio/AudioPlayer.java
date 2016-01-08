@@ -297,12 +297,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         context.getApplicationContext().sendBroadcast(intent);
     }
 
-    @Override
     public void update() {
-        update(false);
-    }
-
-    public void update(boolean refresh) {
         if (mService == null || getActivity() == null)
             return;
 
@@ -363,7 +358,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
-        if (refresh || playlistDiffer())
+        if (playlistDiffer())
             updateList();
         mPlaylist.post(new Runnable() {
             @Override
@@ -464,7 +459,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void onTimeLabelClick(View view) {
         mShowRemainingTime = !mShowRemainingTime;
-        update(false);
+        update();
     }
 
     public void onPlayPauseClick(View view) {
@@ -516,13 +511,13 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mService.setRepeatType(PlaybackService.REPEAT_NONE);
                 break;
         }
-        update(false);
+        update();
     }
 
     public void onShuffleClick(View view) {
         if (mService != null)
             mService.shuffle();
-        update(false);
+        update();
     }
 
     public void showAdvancedOptions(View v) {
@@ -689,7 +684,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         super.onConnected(service);
         mService.addCallback(this);
         mPlaylistAdapter.setService(service);
-        update(true);
+        update();
     }
 
     @Override
