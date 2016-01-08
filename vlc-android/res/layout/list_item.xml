@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
 
         <LinearLayout
@@ -43,7 +43,7 @@
                 android:text="@{media.title}"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_title"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:singleLine="true"
                 android:scrollHorizontally="true"/>
 
@@ -57,7 +57,6 @@
                 android:text="@{media.artist}"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_subtitle"
-                android:textSize="14sp"
                 android:singleLine="true"
                 android:ellipsize="start"
                 android:visibility="@{media.artist == null ? View.GONE : View.VISIBLE}"/>
