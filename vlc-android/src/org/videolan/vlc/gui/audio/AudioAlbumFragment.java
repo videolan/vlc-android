@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,7 +48,9 @@ import android.widget.ListView;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
@@ -173,8 +176,8 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     }
 
     private void setContextMenuItems(Menu menu, View v, int position) {
-        menu.setGroupVisible(R.id.songs_view_only, false);
-        menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
+        menu.setGroupVisible(R.id.songs_view_only, true);
+        menu.findItem(R.id.audio_list_browser_play_all).setVisible(false);
         menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
         //Hide delete if we cannot
         String location = mMediaList.get(position).getLocation();
@@ -221,6 +224,12 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
                 }
             });
             return true;
+        } else if (id == R.id.audio_view_info) {
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", mMediaList.get(position).getUri().toString());
+                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+                return true;
         }
 
         return super.onContextItemSelected(item);

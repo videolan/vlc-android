@@ -50,6 +50,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -250,6 +251,14 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         if (id == R.id.audio_list_browser_set_song) {
             AudioUtil.setRingtone(mSongsAdapter.getItem(position).mMediaList.get(0), getActivity());
             return true;
+        }
+
+        if (id == R.id.audio_view_info) {
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", mSongsAdapter.getItem(position).mMediaList.get(0).getUri().toString());
+                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+                return true;
         }
 
         if (useAllItems) {

@@ -485,6 +485,14 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             return true;
         }
 
+        if (id == R.id.audio_view_info) {
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", mSongsAdapter.getItem(position).mMediaList.get(0).getUri().toString());
+                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+                return true;
+        }
+
         if (useAllItems) {
             if (mSongsAdapter.getCount() <= position)
                 return false;

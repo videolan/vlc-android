@@ -45,6 +45,7 @@ import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -65,8 +66,6 @@ public class MediaInfoFragment extends ListFragment {
 
     public final static String ITEM_KEY = "key_item";
 
-    private static final int DELETE_DURATION = 3000;
-
     private MediaWrapper mItem;
     private Bitmap mImage;
     private TextView mLengthView;
@@ -83,7 +82,6 @@ public class MediaInfoFragment extends ListFragment {
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
     private final static int SHOW_SUBTITLES = 5;
-    private final static int DELETE_MEDIA = 6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,7 +174,8 @@ public class MediaInfoFragment extends ListFragment {
                 mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
             long length = itemFile.length();
             mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
-            checkSubtitles(itemFile);
+            if (mItem.getType() == MediaWrapper.TYPE_VIDEO)
+                checkSubtitles(itemFile);
         }
     };
 
@@ -229,8 +228,6 @@ public class MediaInfoFragment extends ListFragment {
             final LibVLC libVlc = VLCInstance.get();
             if (libVlc == null)
                 return;
-            mMedia = new Media(libVlc, mItem.getUri());
-            mMedia.parse();
             int videoHeight = mItem.getHeight();
             int videoWidth = mItem.getWidth();
             if (videoWidth == 0 || videoHeight == 0) {
@@ -242,6 +239,8 @@ public class MediaInfoFragment extends ListFragment {
             if (mHandler == null || Thread.interrupted()) {
                 return;
             }
+            mMedia = new Media(libVlc, mItem.getUri());
+            mMedia.parse();
 
             mHandler.sendEmptyMessage(NEW_TEXT);
 
@@ -255,19 +254,26 @@ public class MediaInfoFragment extends ListFragment {
             }
             height = width * videoHeight/videoWidth;
 
-            // Get the thumbnail.
-            mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+            if (mItem.getType() == MediaWrapper.TYPE_VIDEO) {
+                // Get the thumbnail.
+                mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-            byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
+                byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
 
-            if (b == null) // We were not able to create a thumbnail for this item.
+                if (b == null) // We were not able to create a thumbnail for this item.
+                    return;
+                mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
+                mImage = BitmapUtil.cropBorders(mImage, width, height);
+            } else if (mItem.getType() == MediaWrapper.TYPE_AUDIO) {
+                mImage = AudioUtil.getCover(getActivity(), mItem, width);
+                if (mImage == null)
+                    return;
+            } else
                 return;
 
             if (mHandler == null || Thread.interrupted()) {
                 return;
             }
-            mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            mImage = BitmapUtil.cropBorders(mImage, width, height);
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }
@@ -298,10 +304,7 @@ public class MediaInfoFragment extends ListFragment {
                 hasSubs = true;
             mAdapter.add(track);
         }
-        if (mAdapter.isEmpty()) {
-            getActivity().finish();
-            return;
-        }
+
         if (hasSubs)
             mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
     }
