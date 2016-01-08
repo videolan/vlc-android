@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -109,7 +110,7 @@ public class MediaInfoFragment extends ListFragment {
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                VideoPlayerActivity.start(getActivity(), mItem.getUri());
+                MediaUtils.openMedia(getContext(), mItem);
             }
         });
 
@@ -289,7 +290,6 @@ public class MediaInfoFragment extends ListFragment {
         lp.width = mImage.getWidth();
         imageView.setLayoutParams(lp);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mPlayButton.setVisibility(View.VISIBLE);
         mLengthView.setVisibility(View.VISIBLE);
     }
 
