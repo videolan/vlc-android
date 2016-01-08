@@ -369,9 +369,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
-        boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
-        if (mw.getType() == MediaWrapper.TYPE_DIR) {
+        if (type == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
             if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
@@ -389,8 +389,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         } else {
             inflater.inflate(R.menu.directory_view_file, menu);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
-            menu.findItem(R.id.directory_view_info).setVisible(isVideo);
-            menu.findItem(R.id.directory_view_play_audio).setVisible(isVideo);
+            menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO);
+            menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);
         }
     }
 
