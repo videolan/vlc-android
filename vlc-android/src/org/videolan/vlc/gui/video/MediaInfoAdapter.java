@@ -43,7 +43,7 @@ public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.list_item, parent, false);
+            v = inflater.inflate(R.layout.info_item, parent, false);
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.subtitle);
