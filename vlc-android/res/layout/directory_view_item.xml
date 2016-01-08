@@ -30,7 +30,7 @@
     <LinearLayout
         android:id="@+id/layout_item"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/audio_browser_item_size"
         android:orientation="horizontal"
         android:focusable="true"
         android:clickable="@{holder != null}"
@@ -63,9 +63,9 @@
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
@@ -76,27 +76,30 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_above="@+id/text"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="@{storage.name ?? media.title}"
+                android:gravity="center_vertical"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_title"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:ellipsize="marquee"
                 android:maxLines="1"
                 android:text="@{media.description}"
                 android:fontFamily="sans-serif-light"
-                android:visibility="@{media.description != null ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{media.description != null ? View.VISIBLE : View.GONE}"
                 android:textColor="?attr/list_subtitle"/>
-        </LinearLayout>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/item_more"
