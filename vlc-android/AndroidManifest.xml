@@ -153,9 +153,12 @@
                 <data android:scheme="" />
                 <data android:scheme="file" />
                 <data android:scheme="ftp" />
+                <data android:scheme="ftps" />
+                <data android:scheme="sftp" />
                 <data android:scheme="content" />
                 <data android:scheme="http" />
                 <data android:scheme="https" />
+                <data android:scheme="smb" />
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
                 <data android:mimeType="*/rmvb" />
