@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +103,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.setMedia(media);
         vh.binding.setType(TYPE_MEDIA);
         vh.binding.setHasContextMenu(true);
-        vh.binding.setProtocole(getProtocol(media));
+        if (fragment instanceof NetworkBrowserFragment)
+            vh.binding.setProtocole(getProtocol(media));
         vh.binding.executePendingBindings();
 
         vh.icon.setBackgroundResource(getIconResId(media));
@@ -347,11 +347,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)
             return null;
-        String scheme = media.getUri().getScheme();
-        if (TextUtils.equals(scheme, "smb") || TextUtils.equals(scheme, "upnp"))
-            return scheme;
-        else
-            return null;
+        return media.getUri().getScheme();
     }
 
     protected void checkBoxAction(View v, String path){}
