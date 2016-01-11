@@ -641,6 +641,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
         return super.onOptionsItemSelected(item);
     }
 
+    public void forceRefresh() {
+        forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
+    }
+
     private void forceRefresh(Fragment current) {
         if (!mMediaLibrary.isWorking()) {
             if(current != null && current instanceof IRefreshable)

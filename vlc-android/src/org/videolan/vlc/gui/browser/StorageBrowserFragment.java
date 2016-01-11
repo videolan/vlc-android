@@ -48,7 +48,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
     boolean mScannedDirectory = false;
-    FloatingActionButton mAddDirectoryFAB;
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);

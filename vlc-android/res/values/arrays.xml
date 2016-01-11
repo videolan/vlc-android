@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="server_protocols">
+        <item>FTP</item>
+        <item>FTPS</item>
+        <item>SFTP</item>
+        <item>HTTP</item>
+        <item>HTTPS</item>
+        <item>SMB</item>
+        <item>NFS</item>
+    </string-array>
+</resources>

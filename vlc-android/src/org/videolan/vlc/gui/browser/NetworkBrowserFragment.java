@@ -23,26 +23,32 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment {
+public class NetworkBrowserFragment extends BaseBrowserFragment implements View.OnClickListener {
+
+    private DialogFragment mDialog;
 
     public NetworkBrowserFragment() {
         ROOT = "smb";
@@ -56,6 +62,17 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (mMrl == null)
             mMrl = ROOT;
         mRoot = ROOT.equals(mMrl);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        if (mRoot) {
+            mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+            mAddDirectoryFAB.setVisibility(View.VISIBLE);
+            mAddDirectoryFAB.setOnClickListener(this);
+        }
+        return v;
     }
 
     public void onStart(){
@@ -164,6 +181,19 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 mSwipeRefreshLayout.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab_add_custom_dir){
+            showAddServerDialog();
+        }
+    }
+
+    public void showAddServerDialog() {
+        FragmentManager fm = getFragmentManager();
+        NetworkServerDialog dialog = new NetworkServerDialog();
+        dialog.show(fm, "fragment_add_server");
     }
 
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {

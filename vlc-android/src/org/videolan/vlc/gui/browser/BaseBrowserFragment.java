@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,6 +73,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static final String KEY_MEDIA = "key_media";
     public static final String KEY_MEDIA_LIST = "key_media_list";
     public static final String KEY_POSITION = "key_list";
+
+    protected FloatingActionButton mAddDirectoryFAB;
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;

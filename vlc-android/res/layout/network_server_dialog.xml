@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/server_protocol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:entries="@array/server_protocols"/>
+
+    <TextView
+        android:id="@+id/server_port_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/server_protocol"
+        android:layout_alignBaseline="@+id/server_protocol"
+        android:layout_alignTop="@+id/server_protocol"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="right"
+        android:text="@string/server_port"/>
+
+    <EditText
+        android:id="@+id/server_port"
+        android:layout_width="wrap_content"
+        android:minWidth="30dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/server_port_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignBaseline="@+id/server_protocol"
+        android:layout_alignTop="@+id/server_protocol"
+        android:inputType="number"
+        android:singleLine="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/server_domain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_protocol"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400dp"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/server_domain_hint"
+            android:inputType="textUri"
+            android:singleLine="true">
+            <requestFocus/>
+        </EditText>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/server_folder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_domain"
+        android:layout_alignParentLeft="true" >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400dp"
+            android:hint="@string/server_folder_hint"
+            android:inputType="textUri"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/server_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_folder"
+        android:layout_alignParentLeft="true" >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400dp"
+            android:hint="@string/server_username_hint"
+            android:inputType="text"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/server_url"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/server_username"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/server_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_url"
+        android:layout_alignParentLeft="true" >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400dp"
+            android:hint="@string/server_servername_hint"
+            android:inputType="text"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/server_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        android:layout_below="@id/server_name"
+        android:layout_toLeftOf="@+id/server_save"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"/>
+    <Button
+        android:id="@+id/server_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@android:string/ok"
+        android:layout_below="@id/server_name"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"/>
+</RelativeLayout>

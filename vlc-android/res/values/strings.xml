@@ -151,6 +151,14 @@
     <string name="subtitle_select">Select subtitle file</string>
     <string name="no_file_picker_found">No file picker was found on the system.</string>
 
+    <string name="server_add_title">Add a new server to favorites</string>
+    <string name="server_domain_hint">Server address (domain name or IP)</string>
+    <string name="server_share_hint">Network share name (or IP address)</string>
+    <string name="server_folder_hint">Folder path (optionnal)</string>
+    <string name="server_username_hint">Username</string>
+    <string name="server_servername_hint">Server name, for conveniency</string>
+    <string name="server_port">Port: </string>
+
     <string name="open">Open</string>
     <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
