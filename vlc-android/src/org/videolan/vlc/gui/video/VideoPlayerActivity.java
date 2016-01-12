@@ -141,7 +141,7 @@ import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError,
-        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener {
+        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -501,13 +501,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          * Set listeners here to avoid NPE when activity is closing
          */
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
-        mLock.setOnClickListener(mLockListener);
-        mPlayPause.setOnClickListener(mPlayPauseListener);
-        mPlayPause.setOnLongClickListener(mPlayPauseLongListener);
-        mLength.setOnClickListener(mRemainingTimeListener);
-        mTime.setOnClickListener(mRemainingTimeListener);
-        mSize.setOnClickListener(mSizeListener);
-        mNavMenu.setOnClickListener(mNavMenuListener);
+        mLock.setOnClickListener(this);
+        mPlayPause.setOnClickListener(this);
+        mPlayPause.setOnLongClickListener(this);
+        mLength.setOnClickListener(this);
+        mTime.setOnClickListener(this);
+        mSize.setOnClickListener(this);
+        mNavMenu.setOnClickListener(this);
 
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
@@ -1193,10 +1193,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void showDelayControls(){
         mTouchAction = TOUCH_NONE;
         showOverlayTimeout(OVERLAY_INFINITE);
-        mDelayMinus.setOnClickListener(mAudioDelayListener);
-        mDelayPlus.setOnClickListener(mAudioDelayListener);
-        mDelayMinus.setOnTouchListener(new OnRepeatListener(mAudioDelayListener));
-        mDelayPlus.setOnTouchListener(new OnRepeatListener(mAudioDelayListener));
+        mDelayMinus.setOnClickListener(this);
+        mDelayPlus.setOnClickListener(this);
+        mDelayMinus.setOnTouchListener(new OnRepeatListener(this));
+        mDelayPlus.setOnTouchListener(new OnRepeatListener(this));
         mDelayMinus.setVisibility(View.VISIBLE);
         mDelayPlus.setVisibility(View.VISIBLE);
         mDelayPlus.requestFocus();
@@ -1232,26 +1232,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mInfo.setText("");
         mPlayPause.requestFocus();
     }
-
-    private OnClickListener mAudioDelayListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.player_delay_minus:
-                    if (mDelay == DelayState.AUDIO)
-                        delayAudio(-50000);
-                    else if (mDelay == DelayState.SUBS)
-                        delaySubs(-50000);
-                    break;
-                case R.id.player_delay_plus:
-                    if (mDelay == DelayState.AUDIO)
-                        delayAudio(50000);
-                    else if (mDelay == DelayState.SUBS)
-                        delaySubs(50000);
-                    break;
-            }
-        }
-    };
 
     public void delayAudio(long delta){
         long delay = mService.getAudioDelay()+delta;
@@ -2130,6 +2110,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.player_overlay_play:
+                doPlayPause();
+                break;
             case R.id.playlist_toggle:
                 togglePlaylist();
                 break;
@@ -2139,6 +2122,54 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case R.id.player_overlay_rewind:
                 seekDelta(-10000);
                 break;
+            case R.id.lock_overlay_button:
+                if (mIsLocked)
+                    unlockScreen();
+                else
+                    lockScreen();
+                mIsLocked = !mIsLocked;
+                break;
+            case R.id.player_overlay_size:
+                resizeVideo();
+                break;
+            case R.id.player_overlay_navmenu:
+                showNavMenu();
+                break;
+            case R.id.player_overlay_length:
+            case R.id.player_overlay_time:
+                mDisplayRemainingTime = !mDisplayRemainingTime;
+                showOverlay();
+                break;
+            case R.id.player_delay_minus:
+                if (mDelay == DelayState.AUDIO)
+                    delayAudio(-50000);
+                else if (mDelay == DelayState.SUBS)
+                    delaySubs(-50000);
+                break;
+            case R.id.player_delay_plus:
+                if (mDelay == DelayState.AUDIO)
+                    delayAudio(50000);
+                else if (mDelay == DelayState.SUBS)
+                    delaySubs(50000);
+                break;
+        }
+    }
+
+    public boolean onLongClick(View v) {
+        switch (v.getId()){
+            case R.id.player_overlay_play:
+                if (mService == null)
+                    return false;
+                if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
+                    showInfo(getString(R.string.repeat), 1000);
+                    mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                } else {
+                    mService.setRepeatType(PlaybackService.REPEAT_ONE);
+                    showInfo(getString(R.string.repeat_single), 1000);
+                }
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -2231,32 +2262,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mMenuIdx >= 0)
             mService.setTitleIdx(mMenuIdx);
     }
-
-    /**
-    *
-    */
-    private final OnClickListener mPlayPauseListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            doPlayPause();
-        }
-    };
-
-    private final View.OnLongClickListener mPlayPauseLongListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            if (mService == null)
-                return false;
-            if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
-                showInfo(getString(R.string.repeat), 1000);
-                mService.setRepeatType(PlaybackService.REPEAT_NONE);
-            } else {
-                mService.setRepeatType(PlaybackService.REPEAT_ONE);
-                showInfo(getString(R.string.repeat_single), 1000);
-            }
-            return true;
-        }
-    };
 
     private void updateSeekable(boolean seekable) {
         if (mRewind != null) {
@@ -2351,42 +2356,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mForward.setOnTouchListener(new OnRepeatListener(this));
     }
 
-    /**
-     *
-     */
-    private final OnClickListener mLockListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            if (mIsLocked) {
-                mIsLocked = false;
-                unlockScreen();
-            } else {
-                mIsLocked = true;
-                lockScreen();
-            }
-        }
-    };
-
-    /**
-     *
-     */
-    private final OnClickListener mSizeListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            resizeVideo();
-        }
-    };
-
-    private final OnClickListener mNavMenuListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            showNavMenu();
-        }
-    };
-
     private void resizeVideo() {
         if (mCurrentSize < SURFACE_ORIGINAL) {
             mCurrentSize++;
@@ -2419,14 +2388,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         showOverlay();
     }
-
-    private final OnClickListener mRemainingTimeListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mDisplayRemainingTime = !mDisplayRemainingTime;
-            showOverlay();
-        }
-    };
 
     /**
      * show overlay
