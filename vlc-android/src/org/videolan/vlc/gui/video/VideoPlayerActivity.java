@@ -2133,6 +2133,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case R.id.playlist_toggle:
                 togglePlaylist();
                 break;
+            case R.id.player_overlay_forward:
+                seekDelta(10000);
+                break;
+            case R.id.player_overlay_rewind:
+                seekDelta(-10000);
+                break;
         }
     }
 
@@ -2339,26 +2345,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mForward = (ImageView) findViewById(R.id.player_overlay_forward);
         mRewind.setVisibility(View.VISIBLE);
         mForward.setVisibility(View.VISIBLE);
-        mRewind.setOnClickListener(mRewindListener);
-        mForward.setOnClickListener(mForwardListener);
-        mRewind.setOnTouchListener(new OnRepeatListener(mRewindListener));
-        mForward.setOnTouchListener(new OnRepeatListener(mForwardListener));
+        mRewind.setOnClickListener(this);
+        mForward.setOnClickListener(this);
+        mRewind.setOnTouchListener(new OnRepeatListener(this));
+        mForward.setOnTouchListener(new OnRepeatListener(this));
     }
-
-
-    private final OnClickListener mRewindListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            seekDelta(-30000);
-        }
-    };
-
-    private final OnClickListener mForwardListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            seekDelta(30000);
-        }
-    };
 
     /**
      *
