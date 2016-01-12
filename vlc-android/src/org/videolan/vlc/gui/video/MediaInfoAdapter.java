@@ -82,6 +82,8 @@ public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
     }
 
     private void appendCommon(StringBuilder textBuilder, Resources res, Media.Track track) {
+        if (track.bitrate != 0)
+            textBuilder.append(res.getString(R.string.track_bitrate_info, track.bitrate));
         textBuilder.append(res.getString(R.string.track_codec_info, track.codec));
         if (track.language != null && !track.language.equalsIgnoreCase("und"))
             textBuilder.append(res.getString(R.string.track_language_info, track.language));

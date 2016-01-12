@@ -123,6 +123,7 @@
     <string name="track_video">Video track</string>
     <string name="track_text">Subtitle track</string>
     <string name="track_unknown">Unknown track</string>
+    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
     <string name="volume">Volume</string>
