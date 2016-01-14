@@ -3235,6 +3235,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlaylist.setLayoutManager(layoutManager);
             mPlaylistToggle.setVisibility(View.VISIBLE);
             mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
+            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
 
             ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);

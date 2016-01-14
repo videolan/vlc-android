@@ -28,5 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_playlist"
+        android:focusable="true"
         android:visibility="gone"/>
 </RelativeLayout>
