@@ -2082,32 +2082,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void updateList() {
-        int currentIndex = -1, oldCount = mPlaylistAdapter.getItemCount();
+        int oldCount = mPlaylistAdapter.getItemCount();
         if (mService == null)
             return;
 
-        final List<MediaWrapper> previousAudioList = mPlaylistAdapter.getMedias();
         mPlaylistAdapter.clear();
 
-        final List<MediaWrapper> playlist = mService.getMedias();
-        final String currentItem = mService.getCurrentMediaLocation();
-
-        if (playlist != null) {
-            for (int i = 0; i < playlist.size(); i++) {
-                final MediaWrapper media = playlist.get(i);
-                if (currentItem != null && currentItem.equals(media.getLocation()))
-                    currentIndex = i;
-                mPlaylistAdapter.add(media);
-            }
-        }
-        mPlaylistAdapter.setCurrentIndex(currentIndex);
+        mPlaylistAdapter.addAll(mService.getMedias());
         int count = mPlaylistAdapter.getItemCount();
         if (oldCount != count)
             mPlaylistAdapter.notifyDataSetChanged();
         else
             mPlaylistAdapter.notifyItemRangeChanged(0, count);
 
-        final int selectionIndex = currentIndex;
+        final int selectionIndex = mService.getCurrentMediaPosition();
         mPlaylist.post(new Runnable() {
             @Override
             public void run() {
