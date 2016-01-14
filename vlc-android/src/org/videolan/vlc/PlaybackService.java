@@ -1756,6 +1756,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         determinePrevAndNextIndices();
     }
 
+    public int getMediaListSize() {
+        return mMediaList.size();
+    }
+
     @MainThread
     public List<MediaWrapper> getMedias() {
         final ArrayList<MediaWrapper> ml = new ArrayList<MediaWrapper>();

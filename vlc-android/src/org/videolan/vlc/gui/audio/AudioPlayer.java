@@ -354,8 +354,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             break;
         }
 
-        final List<String> mediaLocations = mService.getMediaLocations();
-        mShuffle.setVisibility(mediaLocations != null && mediaLocations.size() > 2 ? View.VISIBLE : View.INVISIBLE);
+        mShuffle.setVisibility(mService.getMediaListSize() > 2 ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
         if (playlistDiffer())
@@ -372,11 +371,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     private boolean playlistDiffer() {
-        List<MediaWrapper> serviceList = mService.getMedias();
-        List<MediaWrapper> adapterList = mPlaylistAdapter.getMedias();
-        if (serviceList.size() != adapterList.size())
+        int serviceListSize = mService.getMediaListSize();
+        if (serviceListSize != mPlaylistAdapter.getItemCount())
             return true;
-        for (int i = 0 ; i < serviceList.size() ; ++i)
+        List<MediaWrapper> adapterList = mPlaylistAdapter.getMedias();
+        List<MediaWrapper> serviceList = mService.getMedias();
+        for (int i = 0 ; i < serviceListSize ; ++i)
             if (serviceList.get(i) != adapterList.get(i))
                 return true;
         return false;
