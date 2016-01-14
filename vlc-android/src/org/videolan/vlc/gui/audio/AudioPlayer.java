@@ -360,12 +360,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         if (playlistDiffer())
             updateList();
-        mPlaylist.post(new Runnable() {
-            @Override
-            public void run() {
-                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
-            }
-        });
+        final int position = mService.getCurrentMediaPosition();
+        if (position != -1) {
+            mPlaylist.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPlaylistAdapter.setCurrentIndex(position);
+                }
+            });
+        }
     }
 
     private boolean playlistDiffer() {
