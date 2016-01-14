@@ -24,17 +24,24 @@ package org.videolan.vlc.gui.dialogs;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,16 +54,18 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.view.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener {
+public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener, DialogInterface.OnKeyListener {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final String MODE_KEY = "mode";
@@ -155,6 +164,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
 
         return mRecyclerView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getDialog().setOnKeyListener(this);
     }
 
     private void setDialogDimensions(int offset) {
@@ -348,6 +363,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -485,9 +502,42 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     };
 
+    @Override
+    public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+        if (keyEvent.getAction() != KeyEvent.ACTION_DOWN)
+            return true;
+        if (mAdapter.getSelection() == -1)
+            mAdapter.setSelection(0);
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                dismiss();
+                return true;
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                mAdapter.setSelection(mAdapter.getSelection() - 1);
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                mAdapter.setSelection(mAdapter.getSelection() + 1);
+                break;
+            case KeyEvent.KEYCODE_ENTER:
+                onClick(mRecyclerView.getChildAt(mAdapter.getSelection()));
+                break;
+        }
+        return true;
+    }
+
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
         private ArrayList<Option> mList = new ArrayList<>();
+        private int mSelection = -1;
+
+        public AdvOptionsAdapter() {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+            if (TextUtils.equals(prefs.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, AndroidDevices.hasTsp() ? "0" : "2"), "2"))
+                mSelection = 0;
+        }
+
         @Override
         public AdvOptionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
@@ -503,15 +553,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             Option option = mList.get(position);
             TextView tv = (TextView) holder.itemView;
             tv.setId(option.id);
+            int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
             if (option.id == ID_CHAPTER_TITLE)
-                tv.setCompoundDrawablesWithIntrinsicBounds(UiTools.getResourceFromAttribute(mActivity, option.icon),
-                        0, 0, 0);
+                tv.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
             else
-                tv.setCompoundDrawablesWithIntrinsicBounds(0,
-                        UiTools.getResourceFromAttribute(mActivity, option.icon),
-                        0, 0);
+                tv.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
             tv.setText(option.text);
             setViewReference(option.id, tv);
+            //TODO tv.setSelected(mSelection == position);
         }
 
         @Override
@@ -527,6 +576,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void addOption(Option opt) {
             mList.add(opt);
             notifyItemInserted(mList.size()-1);
+        }
+
+        public void setSelection(int position) {
+            if (mSelection == position || position < 0 || position >= mList.size())
+                return;
+            int formerSelection = mSelection;
+            mSelection = position;
+            notifyItemChanged(formerSelection);
+            notifyItemChanged(mSelection);
+        }
+
+        public int getSelection() {
+            return mSelection;
         }
 
         public void removeOption(Option opt) {
