@@ -140,8 +140,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mOriginalDataSet.clear();
     }
 
+    public int getCurrentIndex() {
+        return mCurrentIndex;
+    }
+
     public void setCurrentIndex(int position) {
-        if (position == mCurrentIndex)
+        if (position == mCurrentIndex || position < 0 || position >= mDataSet.size())
             return;
         int former = mCurrentIndex;
         mCurrentIndex = position;

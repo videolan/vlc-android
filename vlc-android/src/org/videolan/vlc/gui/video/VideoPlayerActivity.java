@@ -1066,6 +1066,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return false;
         }
+        //Handle playlist d-pad navigation
+        if (mPlaylist.hasFocus()) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_UP:
+                    mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() - 1);
+                    break;
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() + 1);
+                    break;
+                case KeyEvent.KEYCODE_ENTER:
+                    mService.playIndex(mPlaylistAdapter.getCurrentIndex());
+                    break;
+            }
+            return true;
+        }
         showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
