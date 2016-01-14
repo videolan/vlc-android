@@ -153,12 +153,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (service.isPlaying()) {
-            if (!service.canSwitchToVideo())
-                startActivity(new Intent(this, AudioPlayerActivity.class));
-            finish();
-        } else
-            updateList();
+        updateList();
     }
 
     @Override
