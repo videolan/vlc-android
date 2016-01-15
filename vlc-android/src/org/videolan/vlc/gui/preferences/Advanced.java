@@ -32,6 +32,7 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
@@ -161,7 +162,10 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
                 getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
-                UiTools.snacker(getView(), R.string.media_db_cleared);
+                if (BuildConfig.tv)
+                    Toast.makeText(getActivity(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
+                else
+                    UiTools.snacker(getView(), R.string.media_db_cleared);
                 return true;
             case "quit_app":
                 android.os.Process.killProcess(android.os.Process.myPid());
