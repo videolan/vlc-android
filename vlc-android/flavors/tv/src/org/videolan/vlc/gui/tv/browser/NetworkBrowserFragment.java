@@ -26,53 +26,20 @@ package org.videolan.vlc.gui.tv.browser;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Parcelable;
-import android.support.v17.leanback.app.BrowseFragment;
-import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.OnItemViewClickedListener;
-import android.support.v17.leanback.widget.OnItemViewSelectedListener;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.Row;
-import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.util.ArrayMap;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
-import org.videolan.vlc.gui.tv.CardPresenter;
-import org.videolan.vlc.gui.tv.DetailsActivity;
-import org.videolan.vlc.gui.tv.MediaItemDetails;
-import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
-import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
-
-public class NetworkBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, MediaBrowser.EventListener, OnItemViewSelectedListener, OnItemViewClickedListener {
+public class NetworkBrowserFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
-    public static final String SELECTED_ITEM = "selected";
-    public static int UPDATE_DISPLAY = 1;
 
-    ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     private MediaBrowser mMediaBrowser;
-    private MediaWrapper mItemSelected;
-    protected Map<String, ListItem> mMediaItemMap = new ArrayMap<String, ListItem>();
-    private NetworkHandler mHandler = new NetworkHandler(this);
 
     private Uri mUri;
 
@@ -83,31 +50,10 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
             String mrl = savedInstanceState.getString(BaseBrowserFragment.KEY_MRL);
             if (mrl != null)
                 mUri = Uri.parse(mrl);
-            mItemSelected = savedInstanceState.getParcelable(SELECTED_ITEM);
         } else {
             Intent intent = getActivity().getIntent();
             if (intent != null && intent.hasExtra(BaseBrowserFragment.KEY_MRL))
                 mUri = Uri.parse(intent.getStringExtra(BaseBrowserFragment.KEY_MRL));
-        }
-        setOnItemViewClickedListener(this);
-        setOnItemViewSelectedListener(this);
-        setAdapter(mAdapter);
-
-        // UI setting
-        setHeadersState(HEADERS_ENABLED);
-        setBrandColor(getResources().getColor(R.color.orange800));
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHeadersState(HEADERS_HIDDEN);
-    }
-
-    public void onResume() {
-        super.onResume();
-        if (mAdapter.size() == 0) {
-            browse();
         }
     }
 
@@ -125,12 +71,9 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
         super.onSaveInstanceState(outState);
         if (mUri != null)
             outState.putString(BaseBrowserFragment.KEY_MRL, mUri.toString());
-        if (mItemSelected != null) {
-            outState.putParcelable(SELECTED_ITEM, mItemSelected);
-        }
     }
 
-    private void browse() {
+    protected void browse() {
         mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
         if (mMediaBrowser != null) {
             if (mUri != null)
@@ -139,39 +82,6 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
                 mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
-    }
-
-    @Override
-    public void refresh() {
-        mAdapter.clear();
-        browse();
-    }
-
-    private void sort(){
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
-                for (ListItem item : mMediaItemMap.values()) {
-                    Collections.sort(item.mediaList, MediaComparators.byFileType);
-                }
-                mHandler.sendEmptyMessage(UPDATE_DISPLAY);
-            }
-        });
-    }
-
-    @Override
-    public void updateList() {
-        mAdapter.clear();
-        ArrayObjectAdapter adapter;
-        HeaderItem header;
-        for (ListItem item : mMediaItemMap.values()){
-            adapter = new ArrayObjectAdapter(new CardPresenter(getActivity()));
-            header = new HeaderItem(0, item.Letter);
-            adapter.addAll(0, item.mediaList);
-            mAdapter.add(new ListRow(header, adapter));
-        }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(mAdapter.size() == 0);
     }
 
     private void addMedia(Media media){
@@ -206,54 +116,5 @@ public class NetworkBrowserFragment extends BrowseFragment implements BrowserFra
         ((BrowserActivityInterface)getActivity()).showProgress(false);
         ((BrowserActivityInterface)getActivity()).updateEmptyView(mAdapter.size() == 0);
         sort();
-    }
-
-    public void showDetails() {
-        if (mItemSelected == null)
-            return;
-        if (mItemSelected.getType() == MediaWrapper.TYPE_DIR) {
-            Intent intent = new Intent(getActivity(),
-                    DetailsActivity.class);
-            // pass the item information
-            intent.putExtra("media", mItemSelected);
-            intent.putExtra("item", (Parcelable) new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-        mItemSelected = (MediaWrapper)item;
-    }
-
-    @Override
-    public void onItemClicked(Presenter.ViewHolder viewHolder, Object item, RowPresenter.ViewHolder viewHolder1, Row row) {
-        TvUtil.openMedia(getActivity(), item, null);
-    }
-
-    public static class ListItem {
-        public String Letter;
-        public ArrayList<MediaWrapper> mediaList;
-
-        public ListItem(String letter, MediaWrapper MediaWrapper) {
-            mediaList = new ArrayList<MediaWrapper>();
-            if (MediaWrapper != null)
-                mediaList.add(MediaWrapper);
-            Letter = letter;
-        }
-    }
-
-    private class NetworkHandler extends WeakHandler<NetworkBrowserFragment> {
-        public NetworkHandler(NetworkBrowserFragment owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            NetworkBrowserFragment owner = getOwner();
-            if (owner != null && msg.what == UPDATE_DISPLAY)
-                owner.updateList();
-        }
     }
 }
