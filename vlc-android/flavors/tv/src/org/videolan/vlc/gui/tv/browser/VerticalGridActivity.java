@@ -47,7 +47,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
         if (type == MainTvActivity.HEADER_VIDEO)
-                mFragment = new VideoGridFragment();
+                mFragment = new VideoBrowserFragment();
         else if (type == MainTvActivity.HEADER_CATEGORIES)
                 mFragment = new MusicFragment();
         else if (type == MainTvActivity.HEADER_NETWORK)
@@ -72,8 +72,8 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (mFragment instanceof NetworkBrowserFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
-            ((NetworkBrowserFragment)mFragment).showDetails();
+        if (mFragment instanceof SortedBrowserFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+            ((SortedBrowserFragment)mFragment).showDetails();
             return true;
         }
         return super.onKeyDown(keyCode, event);
