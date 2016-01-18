@@ -31,9 +31,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaWrapper;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
@@ -82,9 +82,10 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             vh.setContextMenuListener();
     }
 
-    public void addItem(Media media, boolean notify, boolean top){
-        Storage storage = new Storage(media.getUri());
-        addItem(storage, notify, top);
+    public void addItem(Object item, boolean notify, boolean top){
+        if (item instanceof Media)
+            item = new Storage(((Media)item).getUri());
+        super.addItem(item, notify, top);
     }
 
     private void removeDir(final String path) {

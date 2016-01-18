@@ -225,7 +225,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     public void addItem(Object item, boolean notify, boolean top){
         addItem(item, notify, top, -1);
-
     }
 
     public void addItem(Object item, boolean notify, int position){
@@ -244,8 +243,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
             return;
-        else if (item instanceof Media)
-            item = new MediaWrapper((Media) item);
 
         mMediaList.add(position, item);
         if (notify)

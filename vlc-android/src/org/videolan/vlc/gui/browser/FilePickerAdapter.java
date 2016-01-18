@@ -35,8 +35,8 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         super(fragment);
     }
 
-    public void addItem(Media media, boolean notify, boolean top){
-        MediaWrapper mediaWrapper = new MediaWrapper(media);
+    public void addItem(Object media, boolean notify, boolean top){
+        MediaWrapper mediaWrapper = new MediaWrapper((Media)media);
         if (filter(mediaWrapper))
             addItem(mediaWrapper, notify, top);
     }
