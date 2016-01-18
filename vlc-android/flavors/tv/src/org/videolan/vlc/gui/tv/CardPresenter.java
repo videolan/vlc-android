@@ -132,28 +132,28 @@ public class CardPresenter extends Presenter {
     }
 
     public static class SimpleCard {
-        int id;
+        long id;
         int imageId;
         String name;
         Bitmap image;
 
-        SimpleCard(int id, String name, Bitmap image){
+        SimpleCard(long id, String name, Bitmap image){
             this.id = id;
             this.name = name;
             this.image = image;
         }
 
-        SimpleCard(int id, String name, int imageId){
+        SimpleCard(long id, String name, int imageId){
             this.id = id;
             this.name = name;
             this.imageId = imageId;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

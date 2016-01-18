@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -47,6 +48,7 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;
+import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
@@ -64,12 +66,13 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
 
     public static final String TAG = "VLC/SortedBrowserFragment";
 
+    public static final String KEY_URI = "uri";
     public static final String SELECTED_ITEM = "selected";
     public static final int UPDATE_DISPLAY = 1;
     public static final int UPDATE_ITEM = 2;
 
     protected ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-    protected MediaWrapper mItemSelected;
+    protected MediaWrapper mItemSelected, mCurrentMedia;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>();
     SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
     protected BrowserHandler mHandler = new BrowserHandler(this);
@@ -130,9 +133,27 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
 
     @Override
     public void onItemClicked(Presenter.ViewHolder viewHolder, Object item, RowPresenter.ViewHolder viewHolder1, Row row) {
-        TvUtil.openMedia(getActivity(), item, null);
+        MediaWrapper media = (MediaWrapper) item;
+        if (media.getType() == MediaWrapper.TYPE_DIR)
+            open(media);
+        else
+            TvUtil.openMedia(getActivity(), item, null);
     }
 
+    private void open(MediaWrapper media) {
+        Intent intent = new Intent(getActivity(), VerticalGridActivity.class);
+        intent.putExtra(MainTvActivity.BROWSER_TYPE, getCategoryId());
+        intent.putExtra(KEY_URI, media.getUri());
+        startActivity(intent);
+    }
+
+    private long getCategoryId() {
+        if (this instanceof NetworkBrowserFragment)
+            return MainTvActivity.HEADER_NETWORK;
+        else if (this instanceof DirectoryBrowserFragment)
+            return MainTvActivity.HEADER_DIRECTORIES;
+        return -1;
+    }
     @Override
     public void refresh() {
         mMediaItemMap.clear();

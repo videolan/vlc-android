@@ -79,7 +79,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public static final long HEADER_VIDEO = 0;
     public static final long HEADER_CATEGORIES = 1;
     public static final long HEADER_NETWORK = 2;
-    public static final long HEADER_MISC = 3;
+    public static final long HEADER_DIRECTORIES = 3;
+    public static final long HEADER_MISC = 4;
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
 
@@ -93,7 +94,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     ArrayObjectAdapter mVideoAdapter;
     ArrayObjectAdapter mCategoriesAdapter;
-    ArrayObjectAdapter mNetworkAdapter;
+    ArrayObjectAdapter mBrowserAdapter;
     ArrayObjectAdapter mOtherAdapter;
     View mRootContainer;
     final ArrayMap<String, Integer> mVideoIndex = new ArrayMap<String, Integer>();
@@ -324,7 +325,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             TvUtil.openMedia(mContext, item, row);
         else if (row.getId() == HEADER_MISC)
             startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        else if (row.getId() == HEADER_NETWORK) {
+        else if (row.getId() == HEADER_NETWORK || row.getId() == HEADER_DIRECTORIES) {
             TvUtil.openMedia(mContext, item, row);
         }
     }
@@ -378,18 +379,20 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
-            if (AndroidDevices.hasLANConnection()) {
-                mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-                final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-                final HeaderItem networkHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing));
+            mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
+            final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing));
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, getString(R.string.directories), R.drawable.ic_menu_network_big));
 
-                mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+            if (AndroidDevices.hasLANConnection()) {
+                final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
+                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+
                 if (!favs.isEmpty()) {
                     for (MediaWrapper fav : favs) {
-                        mNetworkAdapter.add(fav);
+                        mBrowserAdapter.add(fav);
                     }
                 }
-                mRowsAdapter.add(new ListRow(networkHeader, mNetworkAdapter));
+                mRowsAdapter.add(new ListRow(browserHeader, mBrowserAdapter));
             }
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));

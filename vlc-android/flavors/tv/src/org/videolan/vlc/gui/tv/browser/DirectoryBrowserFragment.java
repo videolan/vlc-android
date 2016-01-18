@@ -26,16 +26,21 @@ package org.videolan.vlc.gui.tv.browser;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
 
-public class NetworkBrowserFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
+import java.io.File;
+
+public class DirectoryBrowserFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
 
@@ -68,18 +73,38 @@ public class NetworkBrowserFragment extends SortedBrowserFragment implements Med
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mUri != null)
-            outState.putString(BaseBrowserFragment.KEY_MRL, mUri.toString());
+            outState.putParcelable(KEY_URI, mUri);
     }
 
     protected void browse() {
+        ((BrowserActivityInterface)getActivity()).showProgress(true);
         mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
         if (mMediaBrowser != null) {
             if (mUri != null)
                 mMediaBrowser.browse(mUri);
             else
-                mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
-            ((BrowserActivityInterface)getActivity()).showProgress(true);
+                browseRoot();
         }
+    }
+
+    protected void browseRoot() {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                String storages[] = AndroidDevices.getMediaDirectories();
+                MediaWrapper directory;
+                for (String mediaDirLocation : storages) {
+                    if (!(new File(mediaDirLocation).exists()))
+                        continue;
+                    directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
+                    directory.setType(MediaWrapper.TYPE_DIR);
+                    if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+                        directory.setTitle(getString(R.string.internal_memory));
+                    addMedia(directory);
+                }
+                sort();
+            }
+        });
     }
 
     private void addMedia(Media media){
@@ -97,6 +122,7 @@ public class NetworkBrowserFragment extends SortedBrowserFragment implements Med
             ListItem item = new ListItem(letter, media);
             mMediaItemMap.put(letter, item);
         }
+        ((BrowserActivityInterface)getActivity()).showProgress(false);
     }
 
     public void onMediaAdded(int index, Media media) {

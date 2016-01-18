@@ -25,7 +25,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.Row;
 
-import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -48,12 +48,12 @@ public class TvUtil {
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
-                intent.putExtra(BaseBrowserFragment.KEY_MRL, mediaWrapper.getLocation());
+                intent.putExtra(SortedBrowserFragment.KEY_URI, mediaWrapper.getLocation());
                 activity.startActivity(intent);
             }
         } else if (item instanceof CardPresenter.SimpleCard){
             Intent intent = new Intent(activity, VerticalGridActivity.class);
-            intent.putExtra(MainTvActivity.BROWSER_TYPE, row.getId());
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, ((CardPresenter.SimpleCard) item).getId());
             activity.startActivity(intent);
         }
     }

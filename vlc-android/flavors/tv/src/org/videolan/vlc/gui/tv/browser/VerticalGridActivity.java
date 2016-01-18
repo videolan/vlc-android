@@ -47,11 +47,13 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
         if (type == MainTvActivity.HEADER_VIDEO)
-                mFragment = new VideoBrowserFragment();
+            mFragment = new VideoBrowserFragment();
         else if (type == MainTvActivity.HEADER_CATEGORIES)
-                mFragment = new MusicFragment();
+            mFragment = new MusicFragment();
         else if (type == MainTvActivity.HEADER_NETWORK)
-                mFragment = new NetworkBrowserFragment();
+            mFragment = new NetworkBrowserFragment();
+        else if (type == MainTvActivity.HEADER_DIRECTORIES)
+            mFragment = new DirectoryBrowserFragment();
         else {
             finish();
             return;
@@ -79,12 +81,22 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         return super.onKeyDown(keyCode, event);
     }
 
-    public void showProgress(boolean show){
-        mContentLoadingProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    public void showProgress(final boolean show){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mContentLoadingProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
-    public void updateEmptyView(boolean empty) {
-        mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
+    public void updateEmptyView(final boolean empty) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }
