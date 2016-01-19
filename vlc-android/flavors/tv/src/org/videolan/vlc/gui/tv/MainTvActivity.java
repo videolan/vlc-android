@@ -70,6 +70,8 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
         OnItemViewClickedListener, OnClickListener, PlaybackService.Callback {
@@ -379,9 +381,12 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
+            //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing));
-            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, getString(R.string.directories), R.drawable.ic_menu_network_big));
+            final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.browsing));
+            List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
+            for (MediaWrapper directory : directories)
+                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_network_big, directory.getUri()));
 
             if (AndroidDevices.hasLANConnection()) {
                 final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();

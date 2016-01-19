@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.Row;
 
@@ -48,13 +49,22 @@ public class TvUtil {
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
-                intent.putExtra(SortedBrowserFragment.KEY_URI, mediaWrapper.getLocation());
+//                intent.putExtra(SortedBrowserFragment.KEY_URI, mediaWrapper.getLocation());
+                intent.setData(mediaWrapper.getUri());
                 activity.startActivity(intent);
             }
         } else if (item instanceof CardPresenter.SimpleCard){
             Intent intent = new Intent(activity, VerticalGridActivity.class);
             intent.putExtra(MainTvActivity.BROWSER_TYPE, ((CardPresenter.SimpleCard) item).getId());
+            intent.setData(((CardPresenter.SimpleCard) item).getUri());
             activity.startActivity(intent);
         }
+    }
+
+    public static void browseFolder(Activity activity, long type, Uri uri) {
+                Intent intent = new Intent(activity, VerticalGridActivity.class);
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, type);
+                intent.setData(uri);
+                activity.startActivity(intent);
     }
 }

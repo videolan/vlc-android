@@ -28,19 +28,24 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -135,6 +140,22 @@ public class AndroidDevices {
         } catch (IOException e) {
         } finally {
             Util.close(bufReader);
+        }
+        return list;
+    }
+
+    public static List<MediaWrapper> getMediaDirectoriesList() {
+        String storages[] = AndroidDevices.getMediaDirectories();
+        LinkedList<MediaWrapper> list = new LinkedList<>();
+        MediaWrapper directory;
+        for (String mediaDirLocation : storages) {
+            if (!(new File(mediaDirLocation).exists()))
+                continue;
+            directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
+            directory.setType(MediaWrapper.TYPE_DIR);
+            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+                directory.setTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+            list.add(directory);
         }
         return list;
     }

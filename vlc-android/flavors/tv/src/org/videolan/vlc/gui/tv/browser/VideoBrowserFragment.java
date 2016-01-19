@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.os.Bundle;
 
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
@@ -59,6 +60,11 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
     public void refresh() {
         mMediaIndex.clear();
         super.refresh();
+    }
+
+    @Override
+    protected void browseRoot() {
+        browse();
     }
 
     @Override

@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
@@ -137,6 +138,8 @@ public class CardPresenter extends Presenter {
         String name;
         Bitmap image;
 
+        Uri uri;
+
         SimpleCard(long id, String name, Bitmap image){
             this.id = id;
             this.name = name;
@@ -147,6 +150,19 @@ public class CardPresenter extends Presenter {
             this.id = id;
             this.name = name;
             this.imageId = imageId;
+        }
+
+        SimpleCard(long id, String name, int imageId, Uri uri){
+            this(id, name, imageId);
+            this.uri = uri;
+        }
+
+        public Uri getUri() {
+            return uri;
+        }
+
+        public void setUri(Uri uri) {
+            this.uri = uri;
         }
 
         public long getId() {

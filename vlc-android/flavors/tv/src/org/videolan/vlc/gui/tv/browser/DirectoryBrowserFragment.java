@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
@@ -40,52 +41,9 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.io.File;
 
-public class DirectoryBrowserFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
+public class DirectoryBrowserFragment extends SortedBrowserFragment{
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
-
-    private MediaBrowser mMediaBrowser;
-
-    private Uri mUri;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
-            mUri = savedInstanceState.getParcelable(KEY_URI);
-        } else {
-            Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(KEY_URI))
-                mUri = intent.getParcelableExtra(KEY_URI);
-        }
-    }
-
-    public void onPause(){
-        super.onPause();
-        if (mMediaBrowser != null) {
-            mMediaBrowser.release();
-            mMediaBrowser = null;
-        }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mUri != null)
-            outState.putParcelable(KEY_URI, mUri);
-    }
-
-    protected void browse() {
-        ((BrowserActivityInterface)getActivity()).showProgress(true);
-        mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-        if (mMediaBrowser != null) {
-            if (mUri != null)
-                mMediaBrowser.browse(mUri);
-            else
-                browseRoot();
-        }
-    }
 
     protected void browseRoot() {
         VLCApplication.runBackground(new Runnable() {
@@ -105,40 +63,5 @@ public class DirectoryBrowserFragment extends SortedBrowserFragment implements M
                 sort();
             }
         });
-    }
-
-    private void addMedia(Media media){
-        addMedia(new MediaWrapper(media));
-    }
-
-    private void addMedia(MediaWrapper media){
-        int type = media.getType();
-        if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
-            return;
-        String letter = media.getTitle().substring(0, 1).toUpperCase();
-        if (mMediaItemMap.containsKey(letter)){
-            mMediaItemMap.get(letter).mediaList.add(media);
-        } else {
-            ListItem item = new ListItem(letter, media);
-            mMediaItemMap.put(letter, item);
-        }
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-    }
-
-    public void onMediaAdded(int index, Media media) {
-        addMedia(media);
-
-        if (mUri == null) { // we are at root level
-            sort();
-        }
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-    }
-
-    public void onMediaRemoved(int index, Media media) {}
-
-    public void onBrowseEnd() {
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(mAdapter.size() == 0);
-        sort();
     }
 }
