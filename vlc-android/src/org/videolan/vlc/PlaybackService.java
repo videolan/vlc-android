@@ -323,7 +323,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        if (!isPlaying())
+        if (!hasCurrentMedia())
             stopSelf();
         return true;
     }
