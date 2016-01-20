@@ -359,7 +359,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mTouchControls = Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
+        mTouchControls = VLCApplication.showTvUi() ? 2 : Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
 
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
@@ -1948,7 +1948,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void updateMute () {
         mute(!mMute);
-        showInfo(mMute ? R.string.sound_off : R.string.sound_on,1000);
+        showInfo(mMute ? R.string.sound_off : R.string.sound_on, 1000);
     }
 
     private void initBrightnessTouch() {
@@ -2683,121 +2683,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (wasPaused)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
-        if (TextUtils.equals(action, Intent.ACTION_VIEW)) {
-            /* Started from external application 'content' */
-            data = intent.getData();
-            if (data != null && TextUtils.equals(data.getScheme(), "content")) {
-
-
-                // Mail-based apps - download the stream to a temporary file and play it
-                if(data.getHost().equals("com.fsck.k9.attachmentprovider")
-                       || data.getHost().equals("gmail-ls")) {
-                    InputStream is = null;
-                    OutputStream os = null;
-                    try {
-                        Cursor cursor = getContentResolver().query(data,
-                                new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
-                        if (cursor != null) {
-                            cursor.moveToFirst();
-                            String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
-                            cursor.close();
-                            Log.i(TAG, "Getting file " + filename + " from content:// URI");
-
-                            is = getContentResolver().openInputStream(data);
-                            os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
-                            byte[] buffer = new byte[1024];
-                            int bytesRead = 0;
-                            while((bytesRead = is.read(buffer)) >= 0) {
-                                os.write(buffer, 0, bytesRead);
-                            }
-                            mUri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Couldn't download file from mail URI");
-                        encounteredError();
-                        return;
-                    } finally {
-                        Util.close(is);
-                        Util.close(os);
-                    }
-                }
-                // Media or MMS URI
-                else if (TextUtils.equals(data.getAuthority(), "media")){
-                    try {
-                        Cursor cursor = getContentResolver().query(data,
-                                new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
-                        if (cursor != null) {
-                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                            if (cursor.moveToFirst())
-                                mUri = AndroidUtil.PathToUri(cursor.getString(column_index));
-                            cursor.close();
-                        }
-                        // other content-based URI (probably file pickers)
-                        else {
-                            mUri = data;
-                        }
-                    } catch (Exception e) {
-                        mUri = data;
-                        if (mUri.getScheme() == null)
-                            mUri = AndroidUtil.PathToUri(mUri.getPath());
-                        Log.e(TAG, "Couldn't read the file from media or MMS");
-                    }
-                } else {
-                    ParcelFileDescriptor inputPFD = null;
-                    try {
-                        inputPFD = getContentResolver().openFileDescriptor(data, "r");
-                        if (AndroidUtil.isHoneycombMr1OrLater())
-                            mUri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
-                        else {
-                            String fdString = inputPFD.getFileDescriptor().toString();
-                            mUri = AndroidUtil.LocationToUri("fd://" + fdString.substring(15, fdString.length() - 1));
-                        }
-
-                        Cursor returnCursor =
-                                getContentResolver().query(data, null, null, null, null);
-                        if (returnCursor != null) {
-                            if (returnCursor.getCount() > 0) {
-                                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                                if (nameIndex > -1) {
-                                    returnCursor.moveToFirst();
-                                    title = returnCursor.getString(nameIndex);
-                                }
-                            }
-                            returnCursor.close();
-                        }
-                    } catch (FileNotFoundException e) {
-                        Log.e(TAG, "Couldn't understand the intent");
-                        encounteredError();
-                        return;
-                    }
-                }
-            } /* External application */
-            else if (intent.getData() != null) {
-                mUri = intent.getData();
-
-                // Remove VLC prefix if needed
-                if (TextUtils.equals(mUri.getScheme(), "vlc") && mUri.toString().length() > 6) {
-                    mUri = Uri.parse(mUri.toString().substring(6));
-                }
-                if (mUri.getScheme() == null)
-                    mUri = AndroidUtil.PathToUri(mUri.getPath());
-            } else {
-                Log.e(TAG, "Couldn't understand the intent");
-                encounteredError();
-                return;
-            }
-
-            // Try to get the position
-            if(extras != null)
-                intentPosition = extras.getLong("position", -1);
-        } /* ACTION_VIEW */
-        /* Started from VideoListActivity */
-        else if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
+        if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
             mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START);
             mAskResume &= !fromStart;
             openedPosition = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
-        }
+        } else if (intent.getData() != null)
+            mUri = intent.getData();
 
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
             mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
