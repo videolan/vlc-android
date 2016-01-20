@@ -45,6 +45,9 @@ public class VLCApplication extends Application {
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
 
     public static Calendar sPlayerSleepTime = null;
+
+    private static boolean sTV;
+
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
                                                                     new LinkedBlockingQueue<Runnable>());
@@ -89,6 +92,8 @@ public class VLCApplication extends Application {
         MediaDatabase.getInstance();
         // Prepare cache folder constants
         AudioUtil.prepareCacheFolder(this);
+
+        sTV = getPackageManager().hasSystemFeature("android.software.leanback");
     }
 
     /**
@@ -116,6 +121,10 @@ public class VLCApplication extends Application {
     public static Resources getAppResources()
     {
         return instance.getResources();
+    }
+
+    public static boolean isTv() {
+        return sTV;
     }
 
     public static void runBackground(Runnable runnable) {
