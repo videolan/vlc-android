@@ -164,6 +164,10 @@
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
     </style>
 
+    <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
     <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">
         <item name="android:listSelector">@drawable/background_item</item>
         <item name="android:divider">@android:color/transparent</item>

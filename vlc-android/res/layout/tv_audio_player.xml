@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/tv_overscan_vertical"
+    android:layout_marginLeft="@dimen/tv_overscan_horizontal"
+    android:layout_marginRight="@dimen/tv_overscan_horizontal"
+    android:layout_marginTop="@dimen/tv_overscan_vertical"
+    android:orientation="horizontal">
+
+    <!-- Cover -->
+    <ImageView
+        android:id="@+id/album_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- Playlist -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/playlist"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusDown="@+id/media_progress"
+            android:nextFocusLeft="@+id/media_progress"
+            android:nextFocusRight="@+id/media_progress"
+            android:scrollbars="vertical" />
+
+        <!-- Media HUD -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="5dip"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip"
+            android:paddingTop="10dip">
+
+            <TextView
+                android:id="@+id/media_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
+
+            <TextView
+                android:id="@+id/media_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
+            <ProgressBar
+                android:id="@+id/media_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/half_default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:focusable="true"
+
+                android:focusableInTouchMode="true"
+                android:indeterminate="false"
+                android:nextFocusDown="@+id/button_play"
+                android:nextFocusUp="@+id/playlist"
+                android:background="@drawable/background_item"
+                android:progressDrawable="@drawable/tv_audioprogressbar" />
+
+            <!-- Media control buttons -->
+            <LinearLayout
+                android:id="@+id/media_controls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/button_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusLeft="@+id/button_shuffle"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_repeat_w" />
+
+                <ImageView
+                    android:id="@+id/button_previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_previous_w" />
+
+                <ImageView
+                    android:id="@+id/button_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_play_w" />
+
+                <ImageView
+                    android:id="@+id/button_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_next_w" />
+
+                <ImageView
+                    android:id="@+id/button_shuffle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:nextFocusDown="@+id/playlist"
+                    android:nextFocusRight="@id/button_repeat"
+                    android:nextFocusUp="@+id/media_progress"
+                    android:onClick="onClick"
+                    android:src="@drawable/ic_shuffle_w" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

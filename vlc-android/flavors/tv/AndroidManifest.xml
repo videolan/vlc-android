@@ -31,7 +31,7 @@
             tools:node="replace"
             android:enabled="false"/>
         <activity
-            android:name="org.videolan.vlc.gui.tv.StartActivity">
+            android:name=".StartActivity">
             <intent-filter android:priority="5" >
                 <action android:name="android.intent.action.MAIN" />
 

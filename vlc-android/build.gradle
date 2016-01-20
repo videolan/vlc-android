@@ -210,7 +210,7 @@ dependencies {
     compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.android.support:preference-v7:23.1.1'
     compile 'com.android.support:percent:23.1.1'
-    tvCompile 'com.android.support:leanback-v17:23.1.1'
+    compile 'com.android.support:leanback-v17:23.1.1'
     tvCompile 'com.android.support:preference-leanback-v17:23.1.1'
     testCompile 'junit:junit:4.12'
 }

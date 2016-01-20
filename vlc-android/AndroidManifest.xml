@@ -26,7 +26,8 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="23"
+        tools:overrideLibrary="android.support.v17.leanback"/>
 
     <!-- FIXME Because manifest merger will add it otherwise... -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
@@ -36,6 +37,9 @@
 
     <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Launch recommendations service once device is booted -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- normal -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -53,6 +57,14 @@
     <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA" />
     <uses-permission android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER" />
 
+    <uses-feature android:name="android.software.leanback"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.microphone"
+        android:required="false"/>
+
     <application
         android:name="org.videolan.vlc.VLCApplication"
         android:hardwareAccelerated="true"
@@ -63,17 +75,21 @@
         android:logo="@drawable/icon"
         android:theme="@style/Theme.VLC.NoTitleBar" >
         <activity
+            android:name="org.videolan.vlc.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".gui.MainActivity"
             android:icon="@drawable/icon"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
 
@@ -471,6 +487,50 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="_PACKAGENAME_.remote.PlayPause" />
             </intent-filter>
+        </receiver>
+        
+        <!-- TV components -->
+        <activity
+            android:name="org.videolan.vlc.gui.tv.MainTvActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name="org.videolan.vlc.gui.tv.DetailsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name=".gui.tv.browser.VerticalGridActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <!--<activity-->
+            <!--android:name=".gui.preferences.PreferencesActivity"-->
+            <!--android:exported="true"-->
+            <!--tools:replace="android:theme"-->
+            <!--android:theme="@style/Theme.VLC.Leanback.Preferences" />-->
+        <activity
+            android:name="org.videolan.vlc.gui.tv.SearchActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:allowTaskReparenting="true"
+            android:theme="@style/Theme.Leanback" />
+
+        <service
+            android:name="org.videolan.vlc.gui.tv.RecommendationsService"
+            android:exported="false" >
+        </service>
+
+        <receiver
+            android:name="org.videolan.vlc.gui.tv.BootupReceiver"
+            android:enabled="true"
+            android:exported="true" >
+          <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED"/>
+          </intent-filter>
         </receiver>
     </application>
 
