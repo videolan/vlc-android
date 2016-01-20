@@ -70,7 +70,6 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
@@ -397,8 +396,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                         mBrowserAdapter.add(fav);
                     }
                 }
-                mRowsAdapter.add(new ListRow(browserHeader, mBrowserAdapter));
             }
+            mRowsAdapter.add(new ListRow(browserHeader, mBrowserAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
