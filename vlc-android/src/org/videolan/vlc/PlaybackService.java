@@ -1553,7 +1553,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void loadUri(Uri uri) {
-        String path = uri.getPath();
+        String path = uri.toString();
         if (TextUtils.equals(uri.getScheme(), "content")) {
             path = "file://"+ FileUtils.getPathFromURI(uri);
         }
