@@ -53,11 +53,11 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW)) {
+        if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
             intent.setData(getUri(intent));
             MediaUtils.openUri(this, intent.getData());
         } else
-            startActivity(new Intent(this, VLCApplication.isTv() ? MainTvActivity.class : MainActivity.class));
+            startActivity(new Intent(this, VLCApplication.showTvUi() ? MainTvActivity.class : MainActivity.class));
         finish();
         return;
     }

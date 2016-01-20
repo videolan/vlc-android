@@ -30,6 +30,7 @@ import android.util.Log;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Calendar;
@@ -47,6 +48,7 @@ public class VLCApplication extends Application {
     public static Calendar sPlayerSleepTime = null;
 
     private static boolean sTV;
+    private static SharedPreferences mSettings;
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
@@ -56,8 +58,8 @@ public class VLCApplication extends Application {
         super.onCreate();
 
         // Are we using advanced debugging - locale?
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        String p = pref.getString("set_locale", "");
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        String p = mSettings.getString("set_locale", "");
         if (!p.equals("")) {
             Locale locale;
             // workaround due to region code
@@ -93,7 +95,7 @@ public class VLCApplication extends Application {
         // Prepare cache folder constants
         AudioUtil.prepareCacheFolder(this);
 
-        sTV = getPackageManager().hasSystemFeature("android.software.leanback");
+        sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
     }
 
     /**
@@ -123,8 +125,8 @@ public class VLCApplication extends Application {
         return instance.getResources();
     }
 
-    public static boolean isTv() {
-        return sTV;
+    public static boolean showTvUi() {
+        return sTV || mSettings.getBoolean("tv_ui", false);
     }
 
     public static void runBackground(Runnable runnable) {

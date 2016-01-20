@@ -371,6 +371,8 @@
     <string name="player_touch_enable_all">Enable Touch controls</string>
     <string name="player_touch_disable_brightness">Disable brightness control</string>
     <string name="player_touch_disable_all">Disable all Touch controls</string>
+    <string name="tv_ui_title">Android TV interface</string>
+    <string name="tv_ui_summary">Change UI to TV adapted theme</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>

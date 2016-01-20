@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
@@ -49,12 +50,15 @@ public class PreferencesUi extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!AndroidDevices.hasTsp()){
-            findPreference("enable_clone_mode").setEnabled(false);
-            findPreference("force_list_portrait").setEnabled(false);
-            findPreference("enable_headset_detection").setEnabled(false);
-            findPreference("enable_steal_remote_control").setEnabled(false);
-        }
+        if (AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp()){
+            findPreference("enable_clone_mode").setVisible(false);
+            findPreference("force_list_portrait").setVisible(false);
+            findPreference("enable_headset_detection").setVisible(false);
+            findPreference("enable_steal_remote_control").setVisible(false);
+            findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(false);
+            findPreference("tv_ui").setVisible(false);
+        } else if (!AndroidUtil.isJellyBeanMR1OrLater())
+            findPreference("tv_ui").setVisible(false);
     }
 
     @Override
@@ -69,6 +73,7 @@ public class PreferencesUi extends BasePreferenceFragment {
                 PlaybackService.Client.restartService(getActivity());
                 return true;
             case "force_list_portrait":
+            case "tv_ui":
                 ((PreferencesActivity) getActivity()).setRestart();
                 return true;
         }

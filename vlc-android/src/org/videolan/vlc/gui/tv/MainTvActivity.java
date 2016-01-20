@@ -51,6 +51,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -220,6 +221,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 MediaLibrary.getInstance().scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
+                intent.setClass(this, StartActivity.class);
                 finish();
                 startActivity(intent);
             }

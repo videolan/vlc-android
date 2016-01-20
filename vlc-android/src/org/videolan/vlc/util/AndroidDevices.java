@@ -54,7 +54,7 @@ public class AndroidDevices {
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
 
     final static boolean hasNavBar;
-    final static boolean hasTsp;
+    final static boolean hasTsp, isTv;
 
     static {
         HashSet<String> devicesWithoutNavBar = new HashSet<String>();
@@ -65,6 +65,7 @@ public class AndroidDevices {
         hasNavBar = AndroidUtil.isICSOrLater()
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
         hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
+        isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
     }
 
     public static boolean hasExternalStorage() {
@@ -91,6 +92,10 @@ public class AndroidDevices {
 
     public static boolean hasTsp() {
         return hasTsp;
+    }
+
+    public static boolean isAndroidTv() {
+        return isTv;
     }
 
     public static ArrayList<String> getStorageDirectories() {

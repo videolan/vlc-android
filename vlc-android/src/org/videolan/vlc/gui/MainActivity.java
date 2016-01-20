@@ -62,6 +62,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
@@ -661,11 +662,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
                 mMediaLibrary.scanMediaItems(true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                Intent intent = getIntent();
-                if (intent == null)
-                    intent = new Intent(MainActivity.this, MainActivity.class);
-                if (intent.getAction() == null)
-                    intent.setAction(Intent.CATEGORY_LAUNCHER);
+                Intent intent = new Intent(MainActivity.this, StartActivity.class);
                 finish();
                 startActivity(intent);
             }
