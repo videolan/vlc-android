@@ -164,9 +164,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         if (mService != null)
             mService.removeCallback(this);
         super.onStop();
-        Intent recommendationIntent = new Intent(this,
-                RecommendationsService.class);
-        startService(recommendationIntent);
+        if (AndroidDevices.isAndroidTv()) {
+            Intent recommendationIntent = new Intent(this,
+                    RecommendationsService.class);
+            startService(recommendationIntent);
+        }
     }
 
     protected void onResume() {

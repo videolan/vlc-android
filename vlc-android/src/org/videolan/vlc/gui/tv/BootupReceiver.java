@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.AndroidDevices;
 
 public class BootupReceiver extends BroadcastReceiver {
     public BootupReceiver() {
@@ -38,7 +39,7 @@ public class BootupReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().endsWith(Intent.ACTION_BOOT_COMPLETED)) {
+        if (AndroidDevices.isAndroidTv() && intent.getAction().endsWith(Intent.ACTION_BOOT_COMPLETED)) {
             Log.d(TAG, "ACTION_BOOT_COMPLETED ");
             scheduleRecommendationUpdate(context);
         }
