@@ -1071,12 +1071,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPlaylist.hasFocus()) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_UP:
+                case KeyEvent.KEYCODE_DPAD_LEFT:
                     mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() - 1);
                     break;
                 case KeyEvent.KEYCODE_DPAD_DOWN:
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
                     mPlaylistAdapter.setCurrentIndex(mPlaylistAdapter.getCurrentIndex() + 1);
                     break;
                 case KeyEvent.KEYCODE_ENTER:
+                case KeyEvent.KEYCODE_DPAD_CENTER:
                     mService.playIndex(mPlaylistAdapter.getCurrentIndex());
                     break;
             }

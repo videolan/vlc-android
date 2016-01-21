@@ -521,6 +521,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mAdapter.setSelection(mAdapter.getSelection() + 1);
                 break;
             case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_DPAD_CENTER:
                 onClick(mRecyclerView.getChildAt(mAdapter.getSelection()));
                 break;
         }
