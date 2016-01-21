@@ -480,7 +480,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     : getScreenOrientation());
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
-            if(BuildConfig.DEBUG || BuildConfig.tv || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
+            if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
                 mOverlayTips.setVisibility(View.GONE);
             else {
                 mOverlayTips.bringToFront();
@@ -569,7 +569,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Stop the earliest possible to avoid vout error */
         if (isFinishing())
             stopPlayback();
-        else if (BuildConfig.tv && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !requestVisibleBehind(true))
+        else if (AndroidDevices.isAndroidTv() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !requestVisibleBehind(true))
             stopPlayback();
     }
 
@@ -1013,12 +1013,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
             if (Math.abs(x) > 0.3){
-                if (BuildConfig.tv) {
+                if (VLCApplication.showTvUi()) {
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT);
                 } else
                     seekDelta(x > 0.0f ? 10000 : -10000);
             } else if (Math.abs(y) > 0.3){
-                if (BuildConfig.tv)
+                if (VLCApplication.showTvUi())
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN);
                 else {
                     if (mIsFirstBrightnessGesture)
@@ -1046,7 +1046,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
         } else if (mDelay != DelayState.OFF){
             endDelaySetting();
-        } else if (BuildConfig.tv && mShowing && !mIsLocked) {
+        } else if (VLCApplication.showTvUi() && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else {
             exitOK();

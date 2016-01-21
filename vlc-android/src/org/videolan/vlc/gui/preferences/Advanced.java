@@ -37,6 +37,7 @@ import android.widget.Toast;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -162,7 +163,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
                 getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
-                if (BuildConfig.tv)
+                if (VLCApplication.showTvUi())
                     Toast.makeText(getActivity(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                 else
                     UiTools.snacker(getView(), R.string.media_db_cleared);

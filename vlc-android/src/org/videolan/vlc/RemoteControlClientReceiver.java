@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
+import org.videolan.vlc.util.AndroidDevices;
+
 /**
  * Small class to receive events passed out by the remote controls (wired, bluetooth, lock screen, ...)
  */
@@ -68,7 +70,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                                 mHeadsetDownTime = time;
                             break;
                         case KeyEvent.ACTION_UP:
-                            if (!BuildConfig.tv) { //no backward/forward on TV
+                            if (!AndroidDevices.hasTsp()) { //no backward/forward on TV
                                 if (time - mHeadsetDownTime >= 1000) { // long click
                                     i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD);
                                     time = 0;

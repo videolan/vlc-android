@@ -83,19 +83,16 @@ android {
         vanilla {
             dimension "target"
             versionCode = 0
-            buildConfigField "boolean", "tv", "false"
         }
         tv {
             minSdkVersion 17
             dimension "target"
             versionCode = 1
-            buildConfigField "boolean", "tv", "true"
         }
         chrome {
             minSdkVersion 19
             dimension "target"
             versionCode = 2
-            buildConfigField "boolean", "tv", "false"
         }
         ARMv5 {
             dimension "abi"

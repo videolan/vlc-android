@@ -47,6 +47,7 @@ import com.android.widget.SlidingPaneLayout;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -147,7 +148,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     private void applyTheme() {
         boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
-        if (BuildConfig.tv || enableBlackTheme) {
+        if (VLCApplication.showTvUi() || enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
         }
     }
@@ -181,7 +182,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
         if (BuildConfig.DEBUG)
             return;
-        if (!mSettings.getBoolean(settingKey, false) && !BuildConfig.tv) {
+        if (!mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
             ViewGroup root = (ViewGroup) findViewById(R.id.pane).getParent();
