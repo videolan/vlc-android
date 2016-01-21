@@ -23,9 +23,6 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
-        -t)
-            ANDROID_TV=1
-            ;;
         -c)
             CHROME_OS=1
             ;;
@@ -173,9 +170,7 @@ BUILDTYPE="Debug"
 if [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
-if [ "$ANDROID_TV" = 1 ]; then
-    PLATFORM="Tv"
-elif [ "$CHROME_OS" = 1 ]; then
+if [ "$CHROME_OS" = 1 ]; then
     PLATFORM="Chrome"
 fi
 
