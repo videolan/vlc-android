@@ -23,8 +23,10 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -46,6 +48,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MusicFragment extends MediaLibBrowserFragment {
 
     public static final String MEDIA_SECTION = "section";
@@ -56,28 +59,28 @@ public class MusicFragment extends MediaLibBrowserFragment {
     public static final long FILTER_GENRE = 4;
 
     public static final int CATEGORY_NOW_PLAYING = 0;
-    public static final int CATEGORY_ARTISTS = 1;
-    public static final int CATEGORY_ALBUMS = 2;
-    public static final int CATEGORY_GENRES = 3;
-    public static final int CATEGORY_SONGS = 4;
+    public static final long CATEGORY_ARTISTS = 1;
+    public static final long CATEGORY_ALBUMS = 2;
+    public static final long CATEGORY_GENRES = 3;
+    public static final long CATEGORY_SONGS = 4;
 
     protected SimpleArrayMap<String, ListItem> mMediaItemMap;
     protected ArrayList<ListItem> mMediaItemList;
     private volatile AsyncAudioUpdate mUpdater = null;
 
     String mFilter;
-    int mCategory;
+    long mCategory;
     long mType;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             mType = savedInstanceState.getLong(MEDIA_SECTION);
-            mCategory = savedInstanceState.getInt(AUDIO_CATEGORY);
+            mCategory = savedInstanceState.getLong(AUDIO_CATEGORY);
             mFilter = savedInstanceState.getString(AUDIO_FILTER);
         } else {
             mType = getActivity().getIntent().getLongExtra(MEDIA_SECTION, -1);
-            mCategory = getActivity().getIntent().getIntExtra(AUDIO_CATEGORY, 0);
+            mCategory = getActivity().getIntent().getLongExtra(AUDIO_CATEGORY, 0);
             mFilter = getActivity().getIntent().getStringExtra(AUDIO_FILTER);
         }
     }
@@ -100,7 +103,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putInt(AUDIO_CATEGORY, mCategory);
+        outState.putLong(AUDIO_CATEGORY, mCategory);
         outState.putLong(MEDIA_SECTION, mType);
     }
 
@@ -208,7 +211,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
                         } else {
                             int position = 0;
                             String location = listItem.mediaList.get(0).getLocation();
-                            for (int i = 0 ; i< audioList.size() ; ++i) {
+                            for (int i = 0; i < audioList.size(); ++i) {
                                 if (TextUtils.equals(location, audioList.get(i).getLocation())) {
                                     position = i;
                                     break;
