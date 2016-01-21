@@ -23,19 +23,26 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.Thumbnailer;
 
 import java.util.ArrayList;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VideoBrowserFragment extends SortedBrowserFragment {
 
     protected static Thumbnailer sThumbnailer;
+    private ArrayList<MediaWrapper> mVideos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,10 +76,10 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
 
     @Override
     protected void browse() {
-        ArrayList<MediaWrapper> videos = MediaLibrary.getInstance().getVideoItems();
+        mVideos = MediaLibrary.getInstance().getVideoItems();
         MediaWrapper media;
-        for (int i = 0 ; i < videos.size() ; ++i) {
-            media = videos.get(i);
+        for (int i = 0 ; i < mVideos.size() ; ++i) {
+            media = mVideos.get(i);
             String letter = media.getTitle().substring(0, 1).toUpperCase();
             if (mMediaItemMap.containsKey(letter)){
                 mMediaItemMap.get(letter).mediaList.add(media);
@@ -83,5 +90,11 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
             mMediaIndex.put(media.getLocation(), Integer.valueOf(i));
         }
         sort();
+    }
+
+    @Override
+    public void onItemClicked(Presenter.ViewHolder viewHolder, Object item, RowPresenter.ViewHolder viewHolder1, Row row) {
+        MediaWrapper media = (MediaWrapper) item;
+        MediaUtils.openList(getActivity(), mVideos, mMediaIndex.get(media.getLocation()));
     }
 }

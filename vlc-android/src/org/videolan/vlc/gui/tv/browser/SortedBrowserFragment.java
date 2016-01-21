@@ -23,12 +23,12 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
-import android.app.FragmentManager;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
@@ -41,13 +41,11 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
-import android.util.Log;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;
@@ -66,6 +64,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser, MediaBrowser.EventListener {
 
     public static final String TAG = "VLC/SortedBrowserFragment";
