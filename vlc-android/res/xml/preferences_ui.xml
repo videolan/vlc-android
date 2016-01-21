@@ -13,7 +13,7 @@
             android:title="@string/enable_clone_mode" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/interface_other_category" >
-        <android.support.v7.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
             android:key="tv_ui"
             android:summary="@string/tv_ui_summary"
             android:title="@string/tv_ui_title" />
