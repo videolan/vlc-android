@@ -27,7 +27,16 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="23"
-        tools:overrideLibrary="android.support.v17.leanback"/>
+        tools:overrideLibrary="android.support.v17.leanback, android.support.v14.preference, android.support.v17.preference" />
+
+    <uses-permission android:name="android.permission.READ_LOGS"
+        android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->
+
+    <!-- vibration on audioplayer buttons long press -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- used for setting ringtone -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!-- FIXME Because manifest merger will add it otherwise... -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
@@ -518,6 +527,8 @@
             android:launchMode="singleTop"
             android:allowTaskReparenting="true"
             android:theme="@style/Theme.Leanback" />
+        <activity android:name=".gui.tv.preferences.PreferencesActivity"
+            android:theme="@style/Theme.VLC.Leanback.Preferences" />
 
         <service
             android:name="org.videolan.vlc.gui.tv.RecommendationsService"

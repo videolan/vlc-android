@@ -327,7 +327,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         } else if (row.getId() == HEADER_VIDEO)
             TvUtil.openMedia(mContext, item, row);
         else if (row.getId() == HEADER_MISC)
-            startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+            startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
         else if (row.getId() == HEADER_NETWORK || row.getId() == HEADER_DIRECTORIES) {
             TvUtil.openMedia(mContext, item, row);
         }

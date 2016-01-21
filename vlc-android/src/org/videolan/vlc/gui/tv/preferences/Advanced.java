@@ -21,10 +21,12 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.preferences;
+package org.videolan.vlc.gui.tv.preferences;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
@@ -46,6 +48,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class Advanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected int getXml() {
@@ -163,7 +166,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
                 getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
-                UiTools.snacker(getView(), R.string.media_db_cleared);
+                Toast.makeText(getActivity(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                 return true;
             case "quit_app":
                 android.os.Process.killProcess(android.os.Process.myPid());

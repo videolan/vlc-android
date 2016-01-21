@@ -21,8 +21,10 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.preferences;
+package org.videolan.vlc.gui.tv.preferences;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
@@ -32,6 +34,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesUi extends BasePreferenceFragment {
 
     public static final String KEY_ENABLE_TOUCH_PLAYER = "enable_touch_player";
@@ -50,7 +53,12 @@ public class PreferencesUi extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
+        findPreference("enable_clone_mode").setVisible(false);
+        findPreference("force_list_portrait").setVisible(false);
+        findPreference("enable_headset_detection").setVisible(false);
+        findPreference("enable_steal_remote_control").setVisible(false);
+        findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(false);
+        findPreference("tv_ui").setVisible(false);
     }
 
     @Override

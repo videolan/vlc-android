@@ -21,10 +21,12 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.preferences;
+package org.videolan.vlc.gui.tv.preferences;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -37,6 +39,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesFragment extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public final static String TAG = "VLC/PreferencesFragment";
@@ -56,6 +59,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        findPreference("screen_orientation").setVisible(false);
+        findPreference("enable_black_theme").setVisible(false);
 
         // Screen orientation
         ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
