@@ -57,8 +57,8 @@ public class PreferencesUi extends BasePreferenceFragment {
         findPreference("force_list_portrait").setVisible(false);
         findPreference("enable_headset_detection").setVisible(false);
         findPreference("enable_steal_remote_control").setVisible(false);
-        findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(false);
-        findPreference("tv_ui").setVisible(false);
+        findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(AndroidDevices.hasTsp());
+        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
     }
 
     @Override
