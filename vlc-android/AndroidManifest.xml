@@ -524,7 +524,7 @@
         <activity
             android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:allowTaskReparenting="true"
             android:theme="@style/Theme.Leanback" />
         <activity android:name=".gui.tv.preferences.PreferencesActivity"
