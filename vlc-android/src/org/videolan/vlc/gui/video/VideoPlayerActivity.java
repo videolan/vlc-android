@@ -486,6 +486,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mOverlayTips.bringToFront();
                 mOverlayTips.invalidate();
             }
+
+            //Set margins for TV overscan
+            if (VLCApplication.showTvUi()) {
+                int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
+                int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
+
+                RelativeLayout uiContainer = (RelativeLayout) findViewById(R.id.player_ui_container);
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) uiContainer.getLayoutParams();
+                lp.setMargins(hm, 0, hm, vm);
+                uiContainer.setLayoutParams(lp);
+
+                lp = (RelativeLayout.LayoutParams) mTitle.getLayoutParams();
+                lp.setMargins(0, vm, 0, 0);
+                mTitle.setLayoutParams(lp);
+            }
         } else
             setRequestedOrientation(getScreenOrientation());
 

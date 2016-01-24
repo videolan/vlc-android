@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/playlist_toggle"
         android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/tv_overscan_vertical"
         android:layout_gravity="top"
         android:background="?attr/status_bar_overlay"
         android:text="@string/title"
