@@ -512,11 +512,6 @@
             android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
             android:theme="@style/Theme.Leanback" />
-        <!--<activity-->
-            <!--android:name=".gui.preferences.PreferencesActivity"-->
-            <!--android:exported="true"-->
-            <!--tools:replace="android:theme"-->
-            <!--android:theme="@style/Theme.VLC.Leanback.Preferences" />-->
         <activity
             android:name="org.videolan.vlc.gui.tv.SearchActivity"
             android:exported="true"
