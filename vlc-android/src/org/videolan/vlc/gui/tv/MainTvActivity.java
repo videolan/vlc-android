@@ -55,6 +55,7 @@ import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
@@ -83,6 +84,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public static final long HEADER_NETWORK = 2;
     public static final long HEADER_DIRECTORIES = 3;
     public static final long HEADER_MISC = 4;
+    public static final long HEADER_HISTORY = 5;
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
 
@@ -94,12 +96,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     private ProgressBar mProgressBar;
     private static Thumbnailer sThumbnailer;
     ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-    ArrayObjectAdapter mVideoAdapter;
-    ArrayObjectAdapter mCategoriesAdapter;
-    ArrayObjectAdapter mBrowserAdapter;
-    ArrayObjectAdapter mOtherAdapter;
+    ArrayObjectAdapter mVideoAdapter, mCategoriesAdapter, mHistoryAdapter, mBrowserAdapter, mOtherAdapter;
     View mRootContainer;
-    final ArrayMap<String, Integer> mVideoIndex = new ArrayMap<String, Integer>();
+    final ArrayMap<String, Integer> mVideoIndex = new ArrayMap<>(), mHistoryIndex = new ArrayMap<>();
     Drawable mDefaultBackground;
     Activity mContext;
     private Object mSelectedItem;
@@ -305,6 +304,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(item.getLocation()).intValue(), 1);
             }
         }
+        if (mHistoryAdapter != null && mHistoryIndex != null && item != null) {
+            if (mHistoryIndex.containsKey(item.getLocation())) {
+                mHistoryAdapter.notifyArrayItemRangeChanged(mHistoryIndex.get(item.getLocation()).intValue(), 1);
+            }
+        }
     }
 
     private Handler mHandler = new VideoListHandler(this);
@@ -326,11 +330,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
             intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
             startActivity(intent);
-        } else if (row.getId() == HEADER_VIDEO)
-            TvUtil.openMedia(mContext, item, row);
-        else if (row.getId() == HEADER_MISC)
+        } else if (row.getId() == HEADER_MISC)
             startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        else if (row.getId() == HEADER_NETWORK || row.getId() == HEADER_DIRECTORIES) {
+        else {
             TvUtil.openMedia(mContext, item, row);
         }
     }
@@ -343,7 +345,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
         private boolean askRefresh = false;
-        ArrayList<MediaWrapper> videoList;
+        boolean showHistory;
+        ArrayList<MediaWrapper> videoList, history;
 
         public AsyncUpdate() {
         }
@@ -354,8 +357,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
         @Override
         protected void onPreExecute() {
+
+            showHistory = mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true);
             mRowsAdapter.clear();
             mProgressBar.setVisibility(View.VISIBLE);
+            mHistoryIndex.clear();
 
             //Video Section
             mVideoIndex.clear();
@@ -414,6 +420,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         @Override
         protected Void doInBackground(Void... params) {
             videoList = mMediaLibrary.getVideoItems();
+            if (showHistory)
+                history = MediaDatabase.getInstance().getHistory();
             return null;
         }
 
@@ -435,6 +443,23 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                             mVideoAdapter.add(item);
                             mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
                         }
+                    }
+                });
+            }
+            if (showHistory && !history.isEmpty()){
+                mHistoryAdapter = new ArrayObjectAdapter(
+                        new CardPresenter(mContext));
+                final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
+                mRootContainer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaWrapper item;
+                        for (int i = 0; i < history.size(); ++i) {
+                            item = history.get(i);
+                            mHistoryAdapter.add(item);
+                            mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
+                        }
+                        mRowsAdapter.add(2, new ListRow(historyHeader, mHistoryAdapter));
                     }
                 });
             }
