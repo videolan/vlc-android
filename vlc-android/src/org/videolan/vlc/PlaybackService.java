@@ -213,6 +213,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mMediaPlayer = newMediaPlayer();
+        mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             stopSelf();
