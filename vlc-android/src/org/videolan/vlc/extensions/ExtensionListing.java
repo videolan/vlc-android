@@ -34,6 +34,7 @@ public class ExtensionListing implements Parcelable {
     private ComponentName mComponentName;
     private int mProtocolVersion;
     private boolean mCompatible;
+    private int menuIcon = 0;
     private String mTitle;
     private String mDescription;
     private ComponentName mSettingsActivity;
@@ -68,6 +69,21 @@ public class ExtensionListing implements Parcelable {
      */
     public int protocolVersion() {
         return mProtocolVersion;
+    }
+
+    /**
+     * Sets the resId of the icon displayed in VLC menu for this extension.
+     */
+    public ExtensionListing menuIcon(int menuIcon) {
+        this.menuIcon = menuIcon;
+        return this;
+    }
+
+    /**
+     * Returns the resId of the icon displayed in VLC menu for this extension.
+     */
+    public int menuIcon() {
+        return menuIcon;
     }
 
     /**
@@ -176,6 +192,7 @@ public class ExtensionListing implements Parcelable {
             mTitle = in.readString();
             mDescription = in.readString();
             boolean hasSettings = in.readInt() == 1;
+            menuIcon = in.readInt();
             if (hasSettings) {
                 mSettingsActivity = ComponentName.readFromParcel(in);
             }
@@ -197,6 +214,7 @@ public class ExtensionListing implements Parcelable {
         parcel.writeString(mTitle);
         parcel.writeString(mDescription);
         parcel.writeInt(mSettingsActivity != null ? 1 : 0);
+        parcel.writeInt(menuIcon);
         if (mSettingsActivity != null) {
             mSettingsActivity.writeToParcel(parcel, 0);
         }

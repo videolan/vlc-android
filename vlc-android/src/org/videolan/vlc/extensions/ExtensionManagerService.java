@@ -41,11 +41,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.extensions.api.IExtensionHost;
 import org.videolan.vlc.extensions.api.IExtensionService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +57,7 @@ public class ExtensionManagerService extends Service {
     private static final String KEY_PROTOCOL_VERSION = "protocolVersion";
     private static final String KEY_LISTING_TITLE = "title";
     private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_MENU_ICON = "menuicon";
     private static final String KEY_SETTINGS_ACTIVITY = "settingsActivity";
 
     public static final String ACTION_EXTENSION = "org.videolan.vlc.Extension";
@@ -113,23 +114,24 @@ public class ExtensionManagerService extends Service {
         ArrayList<ExtensionListing> extensions = new ArrayList<>();
 
         for (ResolveInfo resolveInfo : resolveInfos) {
-            ExtensionListing info = new ExtensionListing();
-            info.componentName(new ComponentName(resolveInfo.serviceInfo.packageName,
+            ExtensionListing extension = new ExtensionListing();
+            extension.componentName(new ComponentName(resolveInfo.serviceInfo.packageName,
                     resolveInfo.serviceInfo.name));
             Bundle metaData = resolveInfo.serviceInfo.metaData;
             if (metaData != null) {
-                info.compatible(metaData.getInt(KEY_PROTOCOL_VERSION) == PROTOCOLE_VERSION);
-                if (!info.compatible())
+                extension.compatible(metaData.getInt(KEY_PROTOCOL_VERSION) == PROTOCOLE_VERSION);
+                if (!extension.compatible())
                     continue;
                 String title = metaData.getString(KEY_LISTING_TITLE);
-                info.title(title != null ? title : resolveInfo.loadLabel(pm).toString());
-                info.description(metaData.getString(KEY_DESCRIPTION));
+                extension.title(title != null ? title : resolveInfo.loadLabel(pm).toString());
+                extension.description(metaData.getString(KEY_DESCRIPTION));
                 String settingsActivity = metaData.getString(KEY_SETTINGS_ACTIVITY);
                 if (!TextUtils.isEmpty(settingsActivity)) {
-                    info.settingsActivity(ComponentName.unflattenFromString(
+                    extension.settingsActivity(ComponentName.unflattenFromString(
                             resolveInfo.serviceInfo.packageName + "/" + settingsActivity));
                 }
-                extensions.add(info);
+                extension.menuIcon(metaData.getInt(KEY_MENU_ICON, 0));
+                extensions.add(extension);
             }
         }
         synchronized (mExtensions) {

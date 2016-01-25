@@ -29,7 +29,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -308,12 +310,24 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
                PLUGIN_NAVIGATION_GROUP, R.string.plugins);
         for (int i = 0 ; i < plugins.size() ; ++i) {
-            MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, plugins.get(i).title());
-            try {
-                item.setIcon(pm.getApplicationIcon(plugins.get(i).componentName().getPackageName()));
-            } catch (PackageManager.NameNotFoundException e) {
-                item.setIcon(R.drawable.icon);
+            ExtensionListing extension = plugins.get(i);
+            MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, extension.title());
+            int iconRes = extension.menuIcon();
+            Drawable extensionIcon = null;
+            if (iconRes != 0) {
+                try {
+                    Resources res = VLCApplication.getAppContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
+                    extensionIcon = res.getDrawable(extension.menuIcon());
+                } catch (PackageManager.NameNotFoundException e) {}
             }
+            if (extensionIcon != null)
+                item.setIcon(extensionIcon);
+            else
+                try {
+                    item.setIcon(pm.getApplicationIcon(plugins.get(i).componentName().getPackageName()));
+                } catch (PackageManager.NameNotFoundException e) {
+                    item.setIcon(R.drawable.icon);
+                }
         }
         mNavigationView.invalidate();
     }
