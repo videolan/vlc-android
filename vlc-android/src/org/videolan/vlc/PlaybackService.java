@@ -538,15 +538,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             switch (event.type) {
                 case Media.Event.MetaChanged:
                     /* Update Meta if file is already parsed */
-                    if (!mParsed)
-                        break;
+                    if (mParsed && updateCurrentMeta(event.getMetaId()))
+                        executeUpdate();
                     Log.i(TAG, "Media.Event.MetaChanged: " + event.getMetaId());
-
+                    break;
                 case Media.Event.ParsedChanged:
                     Log.i(TAG, "Media.Event.ParsedChanged");
-                    final MediaWrapper mw = getCurrentMedia();
-                    if (mw != null)
-                        mw.updateMeta(mMediaPlayer);
+                    updateCurrentMeta(-1);
                     mParsed = true;
                     break;
 
@@ -555,6 +553,21 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 callback.onMediaEvent(event);
         }
     };
+
+    /**
+     * Update current media meta and return true if player needs to be updated
+     *
+     * @param id of the Meta event received, -1 for none
+     * @return true if UI needs to be updated
+     */
+    private boolean updateCurrentMeta(int id) {
+        if (id == Media.Meta.Publisher)
+            return false;
+        final MediaWrapper mw = getCurrentMedia();
+        if (mw != null)
+            mw.updateMeta(mMediaPlayer);
+        return id != Media.Meta.NowPlaying || getCurrentMedia().getNowPlaying() != null;
+    }
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
 
@@ -599,7 +612,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     executeUpdate();
                     publishState(event.type);
                     executeUpdateProgress();
-                    showNotification();
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
                     break;
@@ -644,7 +656,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         if (!handleVout()) {
                             /* Update notification content intent: resume video or resume audio activity */
                             updateMetadata();
-                            showNotification();
                         }
                     }
                     break;
@@ -759,7 +770,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (updateWidget)
             updateWidget();
         updateMetadata();
-
     }
 
     private void executeUpdateProgress() {
@@ -1106,6 +1116,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             i.putExtra("track", media.getTitle());
             sendBroadcast(i);
         }
+        showNotification();
     }
 
     protected void publishState(int state) {
