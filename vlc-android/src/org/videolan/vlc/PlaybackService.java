@@ -1438,8 +1438,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public String getArtist() {
         if (hasCurrentMedia()) {
             final MediaWrapper media = getCurrentMedia();
-            return media.isArtistUnknown() && media.getNowPlaying() != null ?
-                    media.getNowPlaying()
+            return media.getNowPlaying() != null ?
+                    media.getTitle()
                     : MediaUtils.getMediaArtist(PlaybackService.this, media);
         } else
             return null;
@@ -1464,7 +1464,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public String getTitle() {
         if (hasCurrentMedia())
-            return getCurrentMedia().getTitle();
+            return getCurrentMedia().getNowPlaying() != null ? getCurrentMedia().getNowPlaying() : getCurrentMedia().getTitle();
         else
             return null;
     }
