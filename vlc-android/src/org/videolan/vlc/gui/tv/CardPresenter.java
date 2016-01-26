@@ -56,8 +56,8 @@ public class CardPresenter extends Presenter {
         sContext = context;
         mRes = sContext.getResources();
         sDefaultCardImage = mRes.getDrawable(R.drawable.background_cone);
-        CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
-        CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.grid_card_thumb_height);
+        CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
+        CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
