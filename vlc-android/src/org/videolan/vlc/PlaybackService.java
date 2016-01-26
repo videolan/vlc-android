@@ -626,7 +626,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     break;
                 case MediaPlayer.Event.EndReached:
                     Log.i(TAG, "MediaPlayer.Event.EndReached");
-                    executeUpdate();
                     executeUpdateProgress();
                     determinePrevAndNextIndices(true);
                     next();
