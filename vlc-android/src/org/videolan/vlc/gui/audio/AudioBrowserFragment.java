@@ -160,6 +160,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        setTabsClickListeners();
         mViewPager.addOnPageChangeListener(this);
 
         songsList.setOnItemClickListener(songListener);
@@ -201,6 +202,25 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         setFabPlayShuffleAllVisibility();
 
         return v;
+    }
+
+    private void setTabsClickListeners() {
+        for (int i = 0; i < mTabLayout.getTabCount(); ++i){
+            final int position = i;
+            ((ViewGroup)mTabLayout.getChildAt(0)).getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(position == mViewPager.getCurrentItem()){
+                        ((ListView)mLists.get(position)).smoothScrollToPosition(0);
+                    } else {
+                        mViewPager.setCurrentItem(position);
+                        updateEmptyView(position);
+                        setFabPlayShuffleAllVisibility();
+                        tcl.onPageSelected(position);
+                    }
+                }
+            });
+        }
     }
 
     AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener(){
