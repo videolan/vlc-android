@@ -23,8 +23,7 @@
     <item
         android:id="@+id/nav_network"
         android:title="@string/network_browsing"
-        android:icon="@drawable/ic_menu_network"
-        android:visible="false" />
+        android:icon="@drawable/ic_menu_network" />
 
     <item
         android:id="@+id/nav_mrl"

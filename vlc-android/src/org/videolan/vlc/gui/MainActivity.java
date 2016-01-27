@@ -236,10 +236,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             item.setTitle(R.string.open);
         }
 
-        if (BuildConfig.DEBUG) {
-            mNavigationView.getMenu().findItem(R.id.nav_network).setVisible(true);
-        }
-
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
 
 
