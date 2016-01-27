@@ -1095,6 +1095,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     break;
                 case KeyEvent.KEYCODE_ENTER:
                 case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_BUTTON_A:
                     mService.playIndex(mPlaylistAdapter.getCurrentIndex());
                     break;
             }
