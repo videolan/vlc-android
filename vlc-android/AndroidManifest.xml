@@ -524,6 +524,8 @@
             android:theme="@style/Theme.Leanback" />
         <activity android:name=".gui.tv.preferences.PreferencesActivity"
             android:theme="@style/Theme.VLC.Leanback.Preferences" />
+        <activity android:name=".gui.tv.AboutActivity"
+            android:theme="@style/Theme.Leanback" />
 
         <service
             android:name="org.videolan.vlc.gui.tv.RecommendationsService"

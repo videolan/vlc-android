@@ -32,12 +32,20 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -159,5 +167,32 @@ public class UiTools {
     public static boolean isBlackThemeEnabled() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return pref.getBoolean("enable_black_theme", false);
+    }
+
+    public static void fillAboutView(View v) {
+        TextView link = (TextView) v.findViewById(R.id.main_link);
+        link.setText(Html.fromHtml(VLCApplication.getAppResources().getString(R.string.about_link)));
+
+        String revision = VLCApplication.getAppResources().getString(R.string.build_revision);
+        String builddate = VLCApplication.getAppResources().getString(R.string.build_time);
+        String builder = VLCApplication.getAppResources().getString(R.string.build_host);
+
+        TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
+        compiled.setText(builder + " (" + builddate + ")");
+        TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
+        textview_rev.setText(VLCApplication.getAppResources().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR_abi);
+
+        final ImageView logo = (ImageView) v.findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationSet anim = new AnimationSet(true);
+                RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(800);
+                rotate.setInterpolator(new DecelerateInterpolator());
+                anim.addAnimation(rotate);
+                logo.startAnimation(anim);
+            }
+        });
     }
 }

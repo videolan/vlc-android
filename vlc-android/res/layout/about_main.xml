@@ -32,6 +32,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/info"
+                android:focusable="true"
+                android:clickable="true"
                 android:src="@drawable/icon" />
 
         </RelativeLayout>

@@ -25,22 +25,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPagerAdapter;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Util;
 
 import java.util.Arrays;
@@ -58,7 +51,8 @@ public class AboutFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("VLC " + BuildConfig.VERSION_NAME);
+        if (getActivity() instanceof AppCompatActivity)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("VLC " + BuildConfig.VERSION_NAME);
         View v = inflater.inflate(R.layout.about, container, false);
 
         View aboutMain = v.findViewById(R.id.about_main);
@@ -66,29 +60,8 @@ public class AboutFragment extends Fragment {
         String revision = getString(R.string.build_revision);
         t.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
 
-        TextView link = (TextView) v.findViewById(R.id.main_link);
-        link.setText(Html.fromHtml(this.getString(R.string.about_link)));
 
-        String builddate = getString(R.string.build_time);
-        String builder = getString(R.string.build_host);
-
-        TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
-        compiled.setText(builder + " (" + builddate + ")");
-        TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
-        textview_rev.setText(getResources().getString(R.string.revision) + " " + revision + " (" + builddate + ") "+ BuildConfig.FLAVOR_abi);
-
-        final ImageView logo = (ImageView) v.findViewById(R.id.logo);
-        logo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimationSet anim = new AnimationSet(true);
-                RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(800);
-                rotate.setInterpolator(new DecelerateInterpolator());
-                anim.addAnimation(rotate);
-                logo.startAnimation(anim);
-            }
-        });
+        UiTools.fillAboutView(v);
 
         List<View> lists = Arrays.asList(aboutMain, t);
         String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};

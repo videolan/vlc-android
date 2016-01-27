@@ -86,6 +86,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public static final long HEADER_MISC = 4;
     public static final long HEADER_HISTORY = 5;
 
+    public static final long ID_SETTINGS = 0;
+    public static final long ID_ABOUT = 1;
+
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
 
     public static final String BROWSER_TYPE = "browser_type";
@@ -330,9 +333,13 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
             intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
             startActivity(intent);
-        } else if (row.getId() == HEADER_MISC)
-            startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-        else {
+        } else if (row.getId() == HEADER_MISC) {
+            long id = ((CardPresenter.SimpleCard) item).getId();
+            if (id == ID_SETTINGS)
+                startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+            else if (id == ID_ABOUT)
+                startActivity(new Intent(this, org.videolan.vlc.gui.tv.AboutActivity.class));
+        } else {
             TvUtil.openMedia(mContext, item, row);
         }
     }
@@ -412,7 +419,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
 
-            mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), R.drawable.ic_menu_preferences_big));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
         }
