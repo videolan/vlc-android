@@ -88,6 +88,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     public static final long ID_SETTINGS = 0;
     public static final long ID_ABOUT = 1;
+    public static final long ID_LICENCE = 2;
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
 
@@ -339,6 +340,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
             else if (id == ID_ABOUT)
                 startActivity(new Intent(this, org.videolan.vlc.gui.tv.AboutActivity.class));
+            else if (id == ID_LICENCE)
+                startActivity(new Intent(this, org.videolan.vlc.gui.tv.LicenceActivity.class));
         } else {
             TvUtil.openMedia(mContext, item, row);
         }
@@ -421,6 +424,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), R.drawable.ic_menu_preferences_big));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_menu_preferences_big));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
         }
