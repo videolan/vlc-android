@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
@@ -48,6 +49,9 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/SecondaryActivity";
 
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
+
+    public static final String KEY_FRAGMENT = "fragment";
+    public static final String KEY_FILTER = "filter";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
     public static final String ALBUM = "album";
@@ -68,7 +72,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         if (getSupportFragmentManager().getFragments() == null) {
-            String fragmentId = getIntent().getStringExtra("fragment");
+            String fragmentId = getIntent().getStringExtra(KEY_FRAGMENT);
             fetchSecondaryFragment(fragmentId);
             if (mFragment == null){
                 finish();
@@ -138,13 +142,13 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
     public void fetchSecondaryFragment(String id) {
         if (id.equals(ALBUMS_SONGS)) {
-            ArrayList<MediaWrapper> mediaList = getIntent().getParcelableArrayListExtra("list");
-            String filter = getIntent().getStringExtra("filter");
+            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUMS_SONGS);
+            String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumsSongsFragment();
             ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(ALBUM)) {
-            ArrayList<MediaWrapper> mediaList = getIntent().getParcelableArrayListExtra("list");
-            String filter = getIntent().getStringExtra("filter");
+            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUM);
+            String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumFragment();
             ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
         } else if(id.equals(EQUALIZER)) {

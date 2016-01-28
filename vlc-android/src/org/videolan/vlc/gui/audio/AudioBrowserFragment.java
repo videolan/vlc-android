@@ -345,9 +345,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 return;
             MainActivity activity = (MainActivity)getActivity();
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra("fragment", "albumsSongs");
-            i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", MediaUtils.getMediaArtist(activity, mediaList.get(0)));
+            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
+            VLCApplication.storeData(SecondaryActivity.ALBUMS_SONGS, mediaList);
+            i.putExtra(SecondaryActivity.KEY_FILTER, MediaUtils.getMediaArtist(activity, mediaList.get(0)));
             startActivity(i);
         }
     };
@@ -359,9 +359,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             if (mediaList.isEmpty())
                 return;
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra("fragment", SecondaryActivity.ALBUM);
-            i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", MediaUtils.getMediaAlbum(getActivity(), mediaList.get(0)));
+            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
+            VLCApplication.storeData(SecondaryActivity.ALBUM, mediaList);
+            i.putExtra(SecondaryActivity.KEY_FILTER, MediaUtils.getMediaAlbum(getActivity(), mediaList.get(0)));
             startActivity(i);
         }
     };
@@ -373,9 +373,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             if (mediaList.isEmpty())
                 return;
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra("fragment", SecondaryActivity.ALBUMS_SONGS);
-            i.putParcelableArrayListExtra("list", mediaList);
-            i.putExtra("filter", MediaUtils.getMediaGenre(getActivity(), mediaList.get(0)));
+            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
+            VLCApplication.storeData(SecondaryActivity.ALBUMS_SONGS, mediaList);
+            i.putExtra(SecondaryActivity.KEY_FILTER, MediaUtils.getMediaGenre(getActivity(), mediaList.get(0)));
             startActivity(i);
         }
     };

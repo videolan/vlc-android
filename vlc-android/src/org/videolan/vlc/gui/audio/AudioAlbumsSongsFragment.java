@@ -73,9 +73,6 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
 
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
-    private static final int DELETE_MEDIA = 0;
-    private static final int DELETE_DURATION = 3000;
-
     private MediaLibrary mMediaLibrary;
     private PlaybackService.Client mClient;
     Handler mHandler = new Handler(Looper.getMainLooper());
@@ -315,8 +312,8 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mAlbumsAdapter.getMedias(p);
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra("fragment", SecondaryActivity.ALBUM);
-            i.putParcelableArrayListExtra("list", mediaList);
+            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
+            VLCApplication.storeData(SecondaryActivity.ALBUM, mediaList);
             i.putExtra("filter", mAlbumsAdapter.getTitle(p));
             startActivity(i);
         }

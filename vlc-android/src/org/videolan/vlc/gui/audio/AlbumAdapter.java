@@ -112,10 +112,11 @@ public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
     }
 
     public void addAll(ArrayList<MediaWrapper> tracks){
-        if (tracks != null)
+        if (tracks != null) {
             Collections.sort(tracks, MediaComparators.byTrackNumber);
-        mMediaList = new ArrayList<>(tracks);
-        notifyDataSetChanged();
+            mMediaList = new ArrayList<>(tracks);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
