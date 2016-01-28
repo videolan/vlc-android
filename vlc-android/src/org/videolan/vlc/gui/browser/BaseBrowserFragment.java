@@ -72,6 +72,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static final String KEY_MRL = "key_mrl";
     public static final String KEY_MEDIA = "key_media";
     public static final String KEY_MEDIA_LIST = "key_media_list";
+    public static final String KEY_CONTENT_LIST = "key_content_list";
     public static final String KEY_POSITION = "key_list";
 
     protected FloatingActionButton mAddDirectoryFAB;
@@ -87,7 +88,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected int mSavedPosition = -1, mFavorites = 0;
     public boolean mRoot;
 
-    private SparseArray<ArrayList<MediaWrapper>> mMediaLists = new SparseArray<ArrayList<MediaWrapper>>();
+    private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
     private ArrayList<MediaWrapper> mediaList;
     public int mCurrentParsedPosition = 0;
 
@@ -105,8 +106,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         if (bundle == null)
             bundle = getArguments();
+        else
+            mFoldersContentLists = (SparseArray<ArrayList<MediaWrapper>>) VLCApplication.getData(KEY_CONTENT_LIST);
+        if (mFoldersContentLists == null)
+            mFoldersContentLists = new SparseArray<>();
         if (bundle != null){
-            mediaList = bundle.getParcelableArrayList(KEY_MEDIA_LIST);
+            mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(KEY_MEDIA_LIST);
             if (mediaList != null)
                 mAdapter.addAll(mediaList);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
@@ -163,7 +168,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
-        outState.putParcelableArrayList(KEY_MEDIA_LIST, mediaList);
+        VLCApplication.storeData(KEY_MEDIA_LIST, mediaList);
+        VLCApplication.storeData(KEY_CONTENT_LIST, mFoldersContentLists);
         if (mRecyclerView != null) {
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
         }
@@ -202,9 +208,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
-        ArrayList<MediaWrapper> list = mMediaLists != null ? mMediaLists.get(position) : null;
+        ArrayList<MediaWrapper> list = mFoldersContentLists != null ? mFoldersContentLists.get(position) : null;
         if(list != null && !list.isEmpty())
-            args.putParcelableArrayList(KEY_MEDIA_LIST, list);
+            VLCApplication.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
@@ -300,7 +306,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void refresh() {
         mAdapter.clear();
-        mMediaLists.clear();
+        mFoldersContentLists.clear();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
         else
@@ -376,7 +382,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
-            boolean isEmpty = mMediaLists.get(position) == null || mMediaLists.get(position).isEmpty();
+            boolean isEmpty = mFoldersContentLists.get(position) == null || mFoldersContentLists.get(position).isEmpty();
             if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
 //                if (canWrite) {
@@ -456,7 +462,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             }
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-                for (MediaWrapper mediaItem : mMediaLists.get(position)){
+                for (MediaWrapper mediaItem : mFoldersContentLists.get(position)){
                     if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || mediaItem.getType() == MediaWrapper.TYPE_VIDEO)
                         mediaList.add(mediaItem);
                 }
@@ -479,7 +485,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected void parseSubDirectories() {
         if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
-        mMediaLists.clear();
+        mFoldersContentLists.clear();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), mFoldersBrowserListener);
         else
@@ -535,7 +541,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             if (!TextUtils.equals(holderText, "")) {
                 mAdapter.setDescription(mCurrentParsedPosition, holderText);
                 directories.addAll(files);
-                mMediaLists.put(mCurrentParsedPosition, new ArrayList<MediaWrapper>(directories));
+                mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<MediaWrapper>(directories));
             }
             while (++mCurrentParsedPosition < mAdapter.getItemCount()){ //skip media that are not browsable
                 if (mAdapter.getItem(mCurrentParsedPosition) instanceof MediaWrapper) {
