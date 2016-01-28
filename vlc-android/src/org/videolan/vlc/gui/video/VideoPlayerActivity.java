@@ -742,6 +742,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.addSubtitleTrack(file);
             }
         }
+
+        if (mService.getMediaListSize() > 1) {
+            mPlaylistAdapter = new PlaylistAdapter(this);
+            mPlaylistAdapter.setService(mService);
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            mPlaylist.setLayoutManager(layoutManager);
+            mPlaylistToggle.setVisibility(View.VISIBLE);
+            mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
+            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
+
+            ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(mPlaylist);
+        }
     }
 
     private void initUI() {
@@ -3142,20 +3157,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        if (mService.hasNext() || mService.hasPrevious()) {
-            mPlaylistAdapter = new PlaylistAdapter(this);
-            mPlaylistAdapter.setService(service);
-            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            mPlaylist.setLayoutManager(layoutManager);
-            mPlaylistToggle.setVisibility(View.VISIBLE);
-            mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
-            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
-
-            ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
-            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-            touchHelper.attachToRecyclerView(mPlaylist);
-        }
         mHandler.sendEmptyMessage(START_PLAYBACK);
     }
 
