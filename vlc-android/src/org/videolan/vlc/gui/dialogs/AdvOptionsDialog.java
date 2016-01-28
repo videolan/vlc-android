@@ -502,7 +502,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
         if (keyEvent.getAction() != KeyEvent.ACTION_DOWN)
-            return true;
+            return false;
         if (mAdapter.getSelection() == -1)
             mAdapter.setSelection(0);
         switch (keyCode) {
@@ -512,18 +512,18 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case KeyEvent.KEYCODE_DPAD_UP:
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 mAdapter.setSelection(mAdapter.getSelection() - 1);
-                break;
+                return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 mAdapter.setSelection(mAdapter.getSelection() + 1);
-                break;
+                return true;
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_BUTTON_A:
                 onClick(mRecyclerView.getChildAt(mAdapter.getSelection()));
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
 
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
@@ -551,6 +551,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void onBindViewHolder(ViewHolder holder, int position) {
             Option option = mList.get(position);
             TextView tv = (TextView) holder.itemView;
+            if (mSelection == position)
+                tv.requestFocus();
             tv.setId(option.id);
             int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
             if (option.id == ID_CHAPTER_TITLE)
@@ -559,7 +561,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
             tv.setText(option.text);
             setViewReference(option.id, tv);
-            //TODO tv.setSelected(mSelection == position);
         }
 
         @Override
@@ -582,8 +583,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 return;
             int formerSelection = mSelection;
             mSelection = position;
-            notifyItemChanged(formerSelection);
-            notifyItemChanged(mSelection);
+            notifyDataSetChanged();
         }
 
         public int getSelection() {
