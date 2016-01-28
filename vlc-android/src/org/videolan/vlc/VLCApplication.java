@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -49,6 +50,8 @@ public class VLCApplication extends Application {
 
     private static boolean sTV;
     private static SharedPreferences mSettings;
+
+    private static SimpleArrayMap<String, Object> sDataMap = new SimpleArrayMap<>();
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
@@ -135,5 +138,13 @@ public class VLCApplication extends Application {
 
     public static boolean removeTask(Runnable runnable) {
         return instance.mThreadPool.remove(runnable);
+    }
+
+    public static void storeData(String key, Object data) {
+        sDataMap.put(key, data);
+    }
+
+    public static Object getData(String key) {
+        return sDataMap.remove(key);
     }
 }
