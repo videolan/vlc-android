@@ -112,6 +112,14 @@ public class VLCApplication extends Application {
         BitmapCache.getInstance().clear();
     }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Log.w(TAG, "onTrimMemory, level: "+level);
+
+        BitmapCache.getInstance().clear();
+    }
+
     /**
      * @return the main context of the Application
      */
