@@ -1,6 +1,6 @@
 /*****************************************************************************
  * RemoteControlClientReceiver.java
- *****************************************************************************
+ * ****************************************************************************
  * Copyright © 2012 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if(action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
+        if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
             KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event == null)
@@ -54,8 +54,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                 return;
 
             Intent i = null;
-            switch (event.getKeyCode())
-            {
+            switch (event.getKeyCode()) {
             /*
              * one click => play/pause
              * long click => previous
@@ -70,10 +69,9 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                                 mHeadsetDownTime = time;
                             break;
                         case KeyEvent.ACTION_UP:
-                            if (!AndroidDevices.hasTsp()) { //no backward/forward on TV
+                            if (AndroidDevices.hasTsp()) { //no backward/forward on TV
                                 if (time - mHeadsetDownTime >= 1000) { // long click
                                     i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD);
-                                    time = 0;
                                     break;
                                 } else if (time - mHeadsetUpTime <= 500) { // double click
                                     i = new Intent(PlaybackService.ACTION_REMOTE_FORWARD);
@@ -107,9 +105,9 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
 
             if (isOrderedBroadcast())
                 abortBroadcast();
-            if(i != null)
+            if (i != null)
                 context.sendBroadcast(i);
-        } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)){
+        } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
             intent = new Intent(context, PlaybackService.class);
             intent.setAction(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
             context.startService(intent);
