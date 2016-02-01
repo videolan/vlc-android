@@ -70,7 +70,7 @@ public class ExtensionManagerService extends Service {
     int mCurrentIndex = -1;
 
     public interface ExtensionManagerActivity {
-        void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams);
+        void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams, boolean isRefresh);
     }
 
     public void setExtensionManagerActivity(ExtensionManagerActivity activity) {
@@ -239,12 +239,12 @@ public class ExtensionManagerService extends Service {
         return new IExtensionHost.Stub(){
 
             @Override
-            public void updateList(final String title, final List<VLCExtensionItem> items, final boolean showParams) throws RemoteException {
+            public void updateList(final String title, final List<VLCExtensionItem> items, final boolean showParams, final boolean isRefresh) throws RemoteException {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (mExtensionManagerActivity != null)
-                            mExtensionManagerActivity.displayExtensionItems(title, items, showParams);
+                            mExtensionManagerActivity.displayExtensionItems(title, items, showParams, isRefresh);
                     }
                 });
             }

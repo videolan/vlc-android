@@ -93,9 +93,9 @@ public abstract class VLCExtensionService extends Service{
      * @param items The items to show.
      * @param showParams Wether you want to show the FAB to launch your extension settings activity.
      */
-    protected void updateList(String title, List<VLCExtensionItem> items, boolean showParams){
+    protected void updateList(String title, List<VLCExtensionItem> items, boolean showParams, boolean isrefresh){
         try {
-            mHost.updateList(title, items, showParams);
+            mHost.updateList(title, items, showParams, isrefresh);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public abstract class VLCExtensionService extends Service{
 
     /**
      * Called once VLC is binded to your service.
-     * Use it to call {@link #updateList(String, List, boolean)} with root level elements
+     * Use it to call {@link #updateList(String, List, boolean, boolean)} with root level elements
      * if you want VLC to handle your extension browsing.
      */
     protected void onInitialize() {};

@@ -32,11 +32,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
 
     ExtensionBrowser mFragment;
-    ArrayList<VLCExtensionItem> mItemsList = new ArrayList<>();
+    List<VLCExtensionItem> mItemsList = new ArrayList<>();
     static HashMap<String, SoftReference<Bitmap>> iconsMap = new HashMap<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -171,7 +172,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         return mItemsList.get(position);
     }
 
-    public ArrayList<VLCExtensionItem> getAll() {
+    public List<VLCExtensionItem> getAll() {
         return mItemsList;
     }
 
@@ -180,7 +181,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         return mItemsList.size();
     }
 
-    public void addAll(ArrayList<VLCExtensionItem> list) {
+    public void addAll(List<VLCExtensionItem> list) {
         mItemsList.clear();
         mItemsList.addAll(list);
         notifyDataSetChanged();

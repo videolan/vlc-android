@@ -468,25 +468,31 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
     }
 
     @Override
-    public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams) {
-        ExtensionBrowser fragment = new ExtensionBrowser();
-        ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, list);
-        args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
-        args.putString(ExtensionBrowser.KEY_TITLE, title);
-        fragment.setArguments(args);
-        fragment.setExtensionService(mExtensionManagerService);
-
+    public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
-        ft.replace(R.id.fragment_placeholder, fragment, title);
-        if (!(fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
-            ft.addToBackStack(getTag(mCurrentFragmentId));
-        else
-            ft.addToBackStack(title);
-        ft.commit();
+
+        if (refresh && fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser) {
+            ExtensionBrowser browser = (ExtensionBrowser) fm.findFragmentById(R.id.fragment_placeholder);
+            browser.doRefresh(title, items);
+        } else {
+            ExtensionBrowser fragment = new ExtensionBrowser();
+            ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, list);
+            args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
+            args.putString(ExtensionBrowser.KEY_TITLE, title);
+            fragment.setArguments(args);
+            fragment.setExtensionService(mExtensionManagerService);
+
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
+            ft.replace(R.id.fragment_placeholder, fragment, title);
+            if (!(fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
+                ft.addToBackStack(getTag(mCurrentFragmentId));
+            else
+                ft.addToBackStack(title);
+            ft.commit();
+        }
     }
 
     /**

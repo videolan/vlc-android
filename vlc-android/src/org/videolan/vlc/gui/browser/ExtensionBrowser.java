@@ -16,17 +16,18 @@ import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.extensions.ExtensionListing;
+import org.videolan.vlc.extensions.ExtensionManagerService;
+import org.videolan.vlc.extensions.Utils;
+import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.extensions.ExtensionListing;
-import org.videolan.vlc.extensions.ExtensionManagerService;
-import org.videolan.vlc.extensions.Utils;
-import org.videolan.vlc.extensions.api.VLCExtensionItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExtensionBrowser extends Fragment implements View.OnClickListener, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
@@ -92,12 +93,16 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     @Override
     public void onStart() {
         super.onStart();
+        setTitle(mTitle);
+        updateDisplay();
+    }
+
+    private void setTitle(String title) {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
         if (activity != null && activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setTitle(mTitle);
+            activity.getSupportActionBar().setTitle(title);
             getActivity().supportInvalidateOptionsMenu();
         }
-        updateDisplay();
     }
 
     public void goBack(){
@@ -105,6 +110,11 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
             getActivity().finish();
         else
             getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    public void doRefresh(String title, List<VLCExtensionItem> items) {
+        setTitle(title);
+        mAdapter.addAll(items);
     }
 
     private void updateDisplay() {
@@ -182,7 +192,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
         switch (item.getItemId()) {
             case R.id.extension_item_view_play_all:
-                ArrayList<VLCExtensionItem> items = mAdapter.getAll();
+                List<VLCExtensionItem> items = mAdapter.getAll();
                 ArrayList<MediaWrapper> medias = new ArrayList<>(items.size());
                 for (VLCExtensionItem vlcItem : items) {
                     medias.add(Utils.mediawrapperFromExtension(vlcItem));
