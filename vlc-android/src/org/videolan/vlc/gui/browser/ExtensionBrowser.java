@@ -2,6 +2,8 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -25,15 +27,24 @@ import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionBrowser extends Fragment implements View.OnClickListener, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
+    public static final String TAG = "VLC/ExtensionBrowser";
+
     public static final String KEY_ITEMS_LIST = "key_items_list";
     public static final String KEY_SHOW_FAB = "key_fab";
     public static final String KEY_TITLE = "key_title";
+
+
+    private static final int ACTION_HIDE_REFRESH = 42;
+    private static final int ACTION_SHOW_REFRESH = 43;
+
+    private static final int REFRESH_TIMEOUT = 5000;
 
     private String mTitle;
     FloatingActionButton mAddDirectoryFAB;
@@ -146,6 +157,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         mExtensionManagerService.refresh();
+        mHandler.sendEmptyMessageDelayed(ACTION_HIDE_REFRESH, REFRESH_TIMEOUT);
     }
 
     RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
@@ -211,6 +223,30 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
                 //TODO
             default:return false;
 
+        }
+    }
+
+    private Handler mHandler = new ExtensionBrowserHandler(this);
+
+    private class ExtensionBrowserHandler extends WeakHandler<ExtensionBrowser> {
+
+        public ExtensionBrowserHandler(ExtensionBrowser owner) {
+            super(owner);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ACTION_HIDE_REFRESH:
+                    removeMessages(ACTION_SHOW_REFRESH);
+                    getOwner().mSwipeRefreshLayout.setRefreshing(false);
+                    break;
+                case ACTION_SHOW_REFRESH:
+                    removeMessages(ACTION_HIDE_REFRESH);
+                    getOwner().mSwipeRefreshLayout.setRefreshing(true);
+                    sendEmptyMessageDelayed(ACTION_HIDE_REFRESH, REFRESH_TIMEOUT);
+                    break;
+            }
         }
     }
 }
