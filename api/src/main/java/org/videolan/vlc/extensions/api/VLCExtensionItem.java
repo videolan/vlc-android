@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.extensions.api;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -77,7 +78,7 @@ public class VLCExtensionItem implements Parcelable {
     public String title;
     public String subTitle;
 
-    public String imageLink; // for content provider
+    public Uri imageUri; // for content provider
     public int type; // Using VLC icons. maybe with iconRes?
 
     /**
@@ -152,17 +153,17 @@ public class VLCExtensionItem implements Parcelable {
     /**
      * Returns the {#link VLCExtensionItem} icon image link
      */
-    public String getImageLink() {
-        return imageLink;
+    public Uri getImageUri() {
+        return imageUri;
     }
 
     /**
      * Sets the uri string of the {#link VLCExtensionItem} icon image.
      *
-     * @param imageLink The uri string to set.
+     * @param imageUri The uri string to set.
      */
-    public VLCExtensionItem setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+    public VLCExtensionItem setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
         return this;
     }
 
@@ -208,7 +209,7 @@ public class VLCExtensionItem implements Parcelable {
         dest.writeString(link);
         dest.writeString(title);
         dest.writeString(subTitle);
-        dest.writeString(imageLink);
+        dest.writeParcelable(imageUri, 0);
         dest.writeInt(type);
     }
 
@@ -218,7 +219,7 @@ public class VLCExtensionItem implements Parcelable {
         link = in.readString();
         title = in.readString();
         subTitle = in.readString();
-        imageLink = in.readString();
+        imageUri = in.readParcelable(null);
         type = in.readInt();
     }
 }

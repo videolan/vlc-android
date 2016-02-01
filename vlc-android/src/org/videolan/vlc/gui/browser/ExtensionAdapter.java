@@ -96,9 +96,10 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         vh.binding.executePendingBindings();
         Resources res = holder.itemView.getContext().getResources();
         vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
-
-        if (!TextUtils.isEmpty(item.imageLink) && item.imageLink.startsWith("http://"))
-            AsyncImageLoader.LoadImage(new HttpImageFetcher(holder.binding, item.imageLink), null);
+        if (item.imageUri != null) {
+            if (TextUtils.equals("http", item.imageUri.getScheme()))
+                AsyncImageLoader.LoadImage(new HttpImageFetcher(holder.binding, item.getImageUri().toString()), null);
+        }
     }
 
     private static class HttpImageFetcher extends AsyncImageLoader.CoverFetcher {
