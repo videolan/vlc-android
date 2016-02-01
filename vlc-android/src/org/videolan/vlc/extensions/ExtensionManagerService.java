@@ -253,7 +253,7 @@ public class ExtensionManagerService extends Service {
             public void playUri(Uri uri, String title) throws RemoteException {
                 final MediaWrapper media = new MediaWrapper(uri);
                 if (!TextUtils.isEmpty(title));
-                    media.setTitle(title);
+                    media.setDisplayTitle(title);
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {

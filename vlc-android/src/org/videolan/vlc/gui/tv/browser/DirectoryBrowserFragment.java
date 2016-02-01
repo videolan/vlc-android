@@ -23,21 +23,13 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.VLCInstance;
 
 import java.io.File;
 
@@ -57,7 +49,7 @@ public class DirectoryBrowserFragment extends SortedBrowserFragment{
                     directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
                     directory.setType(MediaWrapper.TYPE_DIR);
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                        directory.setTitle(getString(R.string.internal_memory));
+                        directory.setDisplayTitle(getString(R.string.internal_memory));
                     addMedia(directory);
                 }
                 sort();

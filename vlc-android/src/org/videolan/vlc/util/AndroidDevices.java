@@ -159,7 +159,7 @@ public class AndroidDevices {
             directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
             directory.setType(MediaWrapper.TYPE_DIR);
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                directory.setTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+                directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
             list.add(directory);
         }
         return list;

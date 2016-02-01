@@ -97,7 +97,7 @@
                         android:fontFamily="sans-serif-light"
                         android:gravity="top"
                         android:maxLines="2"
-                        android:text="@{media.displayTitle}"
+                        android:text="@{media.title}"
                         android:textColor="?attr/list_title"
                         android:textSize="@dimen/grid_card_title_text_size" />
 

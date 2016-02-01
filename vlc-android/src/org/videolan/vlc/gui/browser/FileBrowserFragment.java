@@ -111,7 +111,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
                     directory.setType(MediaWrapper.TYPE_DIR);
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                        directory.setTitle(getString(R.string.internal_memory));
+                        directory.setDisplayTitle(getString(R.string.internal_memory));
                     mAdapter.addItem(directory, false, false);
                 }
                 if (mReadyToDisplay) {

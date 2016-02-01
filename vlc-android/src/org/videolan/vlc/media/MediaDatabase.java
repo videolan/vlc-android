@@ -1169,7 +1169,7 @@ public class MediaDatabase {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 MediaWrapper mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
-                mw.setTitle(cursor.getString(1));
+                mw.setDisplayTitle(cursor.getString(1));
                 mw.setArtist(cursor.getString(2));
                 mw.setType(cursor.getInt(3));
                 history.add(mw);
@@ -1224,7 +1224,7 @@ public class MediaDatabase {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
-                mw.setTitle(Uri.decode(cursor.getString(1)));
+                mw.setDisplayTitle(Uri.decode(cursor.getString(1)));
                 mw.setType(MediaWrapper.TYPE_DIR);
                 favs.add(mw);
             }

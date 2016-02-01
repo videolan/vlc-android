@@ -88,7 +88,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         ClassPresenterSelector selector = new ClassPresenterSelector();
         final MediaWrapper media = hasMedia ? (MediaWrapper) extras.getParcelable("media") : new MediaWrapper(AndroidUtil.LocationToUri(mMedia.getLocation()));
         if (!hasMedia){
-            media.setTitle(mMedia.getTitle());
+            media.setDisplayTitle(mMedia.getTitle());
         }
         mMediaWrapper = media;
         // Attach your media item details presenter to the row presenter:

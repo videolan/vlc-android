@@ -56,7 +56,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
                 mFragment.browseItem(item);
             } else if (item.type == VLCExtensionItem.TYPE_AUDIO || item.type == VLCExtensionItem.TYPE_VIDEO){
                 MediaWrapper mw = new MediaWrapper(Uri.parse(item.link));
-                mw.setTitle(item.getTitle());
+                mw.setDisplayTitle(item.getTitle());
                 mw.setDescription(item.getSubTitle());
                 mw.setType(getTypeAccordingToItem(item.type));
                 MediaUtils.openMedia(v.getContext(), mw);

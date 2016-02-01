@@ -53,6 +53,7 @@ public class MediaWrapper implements Parcelable {
     public final static int MEDIA_FORCE_AUDIO = 0x8;
 
     protected String mTitle;
+    protected String mDisplayTitle;
     private String mArtist;
     private String mGenre;
     private String mCopyright;
@@ -339,9 +340,8 @@ public class MediaWrapper implements Parcelable {
         mIsPictureParsed = isParsed;
     }
 
-    public void setTitle(String title){
-        mTitle = title;
-        defineType();
+    public void setDisplayTitle(String title){
+        mDisplayTitle = title;
     }
 
     public void setArtist(String artist){
@@ -349,21 +349,17 @@ public class MediaWrapper implements Parcelable {
     }
 
     public String getTitle() {
+        if (!TextUtils.isEmpty(mDisplayTitle))
+            return mDisplayTitle;
         if (!TextUtils.isEmpty(mTitle))
             return mTitle;
-        else {
-            String fileName = getFileName();
-            if (fileName == null)
-                return "";
-            int end = fileName.lastIndexOf(".");
-            if (end <= 0)
-                return fileName;
-            return fileName.substring(0, end);
-        }
-    }
-
-    public String getDisplayTitle() {
-        return getTitle();
+        String fileName = getFileName();
+        if (fileName == null)
+            return "";
+        int end = fileName.lastIndexOf(".");
+        if (end <= 0)
+            return fileName;
+        return fileName.substring(0, end);
     }
 
     public String getReferenceArtist() {
