@@ -1,8 +1,10 @@
 package org.videolan.vlc.extensions.api.tools;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -86,6 +88,24 @@ public class Dialogs {
                     public void onClick(DialogInterface dialog, int which) {
                         context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                         dialog.cancel();
+                    }
+                }, null);
+    }
+
+    public static AlertDialog showInstallVlc(@NonNull final Activity activity) {
+        return showAlertDialog(activity, R.string.vlc_error_title, R.string.vlc_error_message,
+                new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.dismiss();
+                        activity.finish();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=org.videolan.vlc")));
+                        dialog.dismiss();
+                        activity.finish();
                     }
                 }, null);
     }
