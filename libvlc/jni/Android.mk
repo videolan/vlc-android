@@ -8,6 +8,7 @@ LOCAL_SRC_FILES := libvlcjni.c
 LOCAL_SRC_FILES += libvlcjni-mediaplayer.c
 LOCAL_SRC_FILES += libvlcjni-vlcobject.c
 LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c
+LOCAL_SRC_FILES += libvlcjni-dialog.c
 LOCAL_SRC_FILES += native_crash_handler.c thumbnailer.c
 LOCAL_SRC_FILES += std_logger.c
 

@@ -81,6 +81,15 @@ struct fields {
         jmethodID createChapterFromNativeID;
         jmethodID createTrackDescriptionFromNativeID;
     } MediaPlayer;
+    struct {
+        jclass clazz;
+        jmethodID displayErrorFromNativeID;
+        jmethodID displayLoginFromNativeID;
+        jmethodID displayQuestionFromNativeID;
+        jmethodID displayProgressFromNativeID;
+        jmethodID cancelFromNativeID;
+        jmethodID updateProgressFromNativeID;
+    } Dialog;
 };
 
 extern struct fields fields;

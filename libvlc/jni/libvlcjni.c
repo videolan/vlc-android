@@ -186,6 +186,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/MediaPlayer$TrackDescription", true);
     GET_CLASS(fields.MediaPlayer.Equalizer.clazz,
               "org/videolan/libvlc/MediaPlayer$Equalizer", true);
+    GET_CLASS(fields.Dialog.clazz,
+              "org/videolan/libvlc/Dialog", true);
 
     GET_ID(GetStaticMethodID,
            fields.LibVLC.onNativeCrashID,
@@ -262,6 +264,46 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.MediaPlayer.clazz,
            "createTrackDescriptionFromNative",
            "(ILjava/lang/String;)Lorg/videolan/libvlc/MediaPlayer$TrackDescription;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.displayErrorFromNativeID,
+           fields.Dialog.clazz,
+           "displayErrorFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;)V");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.displayLoginFromNativeID,
+           fields.Dialog.clazz,
+           "displayLoginFromNative",
+           "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)"
+           "Lorg/videolan/libvlc/Dialog;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.displayQuestionFromNativeID,
+           fields.Dialog.clazz,
+           "displayQuestionFromNative",
+           "(JLjava/lang/String;Ljava/lang/String;ILjava/lang/String;"
+           "Ljava/lang/String;Ljava/lang/String;)"
+           "Lorg/videolan/libvlc/Dialog;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.displayProgressFromNativeID,
+           fields.Dialog.clazz,
+           "displayProgressFromNative",
+           "(JLjava/lang/String;Ljava/lang/String;ZFLjava/lang/String;)"
+           "Lorg/videolan/libvlc/Dialog;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.cancelFromNativeID,
+           fields.Dialog.clazz,
+           "cancelFromNative",
+           "(Lorg/videolan/libvlc/Dialog;)V");
+
+    GET_ID(GetStaticMethodID,
+           fields.Dialog.updateProgressFromNativeID,
+           fields.Dialog.clazz,
+           "updateProgressFromNative",
+           "(Lorg/videolan/libvlc/Dialog;FLjava/lang/String;)V");
 
 #undef GET_CLASS
 #undef GET_ID
