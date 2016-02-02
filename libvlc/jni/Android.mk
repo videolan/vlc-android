@@ -82,7 +82,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-ldsm -ltasn1 \
 	-lmad \
 	-lzvbi \
-	-lssh2 \
+	-lssh2 -lnfs \
 	-lmodplug \
 	-lupnp -lthreadutil -lixml \
 	-larchive \

@@ -96,8 +96,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-libarchive \
     --disable-libmpeg2 \
     --enable-soxr \
-    --disable-libnfs \
-    --disable-nfs \
+    --enable-nfs \
 "
 
 ###########################
