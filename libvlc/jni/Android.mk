@@ -11,43 +11,6 @@ LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscov
 LOCAL_SRC_FILES += native_crash_handler.c thumbnailer.c
 LOCAL_SRC_FILES += std_logger.c
 
-ifneq ($(APP_PLATFORM),android-21)
-# compat functions not needed after android-21
-LOCAL_SRC_FILES += compat/pthread-condattr.c compat/pthread-rwlocks.c
-LOCAL_SRC_FILES += compat/pthread-once.c compat/eventfd.c compat/sem.c compat/pipe2.c
-LOCAL_SRC_FILES += compat/localtime.c
-LOCAL_SRC_FILES += compat/wchar/wcpcpy.c
-LOCAL_SRC_FILES += compat/wchar/wcpncpy.c
-LOCAL_SRC_FILES += compat/wchar/wcscasecmp.c
-LOCAL_SRC_FILES += compat/wchar/wcscat.c
-LOCAL_SRC_FILES += compat/wchar/wcschr.c
-LOCAL_SRC_FILES += compat/wchar/wcscmp.c
-LOCAL_SRC_FILES += compat/wchar/wcscoll.c
-LOCAL_SRC_FILES += compat/wchar/wcscpy.c
-LOCAL_SRC_FILES += compat/wchar/wcscspn.c
-LOCAL_SRC_FILES += compat/wchar/wcsdup.c
-LOCAL_SRC_FILES += compat/wchar/wcslcat.c
-LOCAL_SRC_FILES += compat/wchar/wcslcpy.c
-LOCAL_SRC_FILES += compat/wchar/wcslen.c
-LOCAL_SRC_FILES += compat/wchar/wcsncasecmp.c
-LOCAL_SRC_FILES += compat/wchar/wcsncat.c
-LOCAL_SRC_FILES += compat/wchar/wcsncmp.c
-LOCAL_SRC_FILES += compat/wchar/wcsncpy.c
-LOCAL_SRC_FILES += compat/wchar/wcsnlen.c
-LOCAL_SRC_FILES += compat/wchar/wcspbrk.c
-LOCAL_SRC_FILES += compat/wchar/wcsrchr.c
-LOCAL_SRC_FILES += compat/wchar/wcsspn.c
-LOCAL_SRC_FILES += compat/wchar/wcsstr.c
-LOCAL_SRC_FILES += compat/wchar/wcstok.c
-LOCAL_SRC_FILES += compat/wchar/wcswidth.c
-LOCAL_SRC_FILES += compat/wchar/wcsxfrm.c
-LOCAL_SRC_FILES += compat/wchar/wmemchr.c
-LOCAL_SRC_FILES += compat/wchar/wmemcmp.c
-LOCAL_SRC_FILES += compat/wchar/wmemcpy.c
-LOCAL_SRC_FILES += compat/wchar/wmemmove.c
-LOCAL_SRC_FILES += compat/wchar/wmemset.c
-endif
-
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
 ARCH=$(APP_ABI)
@@ -89,7 +52,17 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lmpg123 \
 	$(EXTRA_LDFLAGS)
 
+LOCAL_SHARED_LIBRARIES:= libcompat.7
+
 $(TARGET_OUT)/$(LOCAL_MODULE).so: $(ANDROID_PRIVATE_LIBS)
+include $(BUILD_SHARED_LIBRARY)
+
+####################
+# DUMMY COMPAT LIB #
+####################
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libcompat.7
 include $(BUILD_SHARED_LIBRARY)
 
 ################
