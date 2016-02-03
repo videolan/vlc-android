@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <import type="android.text.TextUtils" />
+        <import type="android.view.View" />
+        <variable name="dialog" type="org.videolan.libvlc.Dialog.QuestionDialog"/>
+        <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcQuestionDialog"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@{dialog.text}"
+            android:layout_margin="10dp" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/store"
+            android:text="@android:string/cancel"
+            android:layout_toLeftOf="@+id/action1"
+            android:onClick="@{handler.onCancel}"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle" />
+        <Button
+            android:id="@+id/action1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/action2"
+            android:layout_below="@+id/store"
+            android:text="@{dialog.action1Text}"
+            android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
+            android:onClick="@{handler.onAction1}"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle" />
+        <Button
+            android:id="@+id/action2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/store"
+            android:text="@{dialog.action2Text}"
+            android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
+            android:onClick="@{handler.onAction2}"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle" />
+    </RelativeLayout>
+</layout>

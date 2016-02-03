@@ -21,18 +21,25 @@ package org.videolan.vlc;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
+import org.videolan.libvlc.Dialog;
+import org.videolan.vlc.gui.DialogActivity;
+import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.VLCInstance;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -56,6 +63,10 @@ public class VLCApplication extends Application {
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
                                                                     new LinkedBlockingQueue<Runnable>());
+
+    private static int sDialogCounter = 0;
+    LocalBroadcastManager mLocalBroadcastManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -99,6 +110,8 @@ public class VLCApplication extends Application {
         AudioUtil.prepareCacheFolder(this);
 
         sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
+
+        Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
     }
 
     /**
@@ -154,5 +167,47 @@ public class VLCApplication extends Application {
 
     public static Object getData(String key) {
         return sDataMap.remove(key);
+    }
+
+    Dialog.Callbacks mDialogCallbacks = new Dialog.Callbacks() {
+        @Override
+        public void onDisplay(Dialog.ErrorMessage dialog) {
+            Log.w(TAG, "ErrorMessage "+dialog.getText());
+        }
+
+        @Override
+        public void onDisplay(Dialog.LoginDialog dialog) {
+            String key = DialogActivity.KEY_LOGIN + sDialogCounter++;
+            fireDialog(dialog, key);
+        }
+
+        @Override
+        public void onDisplay(Dialog.QuestionDialog dialog) {
+            String key = DialogActivity.KEY_QUESTION + sDialogCounter++;
+            fireDialog(dialog, key);
+        }
+
+        @Override
+        public void onDisplay(Dialog.ProgressDialog dialog) {
+            String key = DialogActivity.KEY_PROGRESS + sDialogCounter++;
+            fireDialog(dialog, key);
+            mLocalBroadcastManager = LocalBroadcastManager.getInstance(instance);
+        }
+
+        @Override
+        public void onCanceled(Dialog dialog) {
+            ((DialogFragment)dialog.getContext()).dismiss();
+        }
+
+        @Override
+        public void onProgressUpdate(Dialog.ProgressDialog dialog) {
+            mLocalBroadcastManager.sendBroadcast(new Intent(VlcProgressDialog.ACTION_PROGRESS));
+        }
+    };
+
+    private void fireDialog(Dialog dialog, String key) {
+        storeData(key, dialog);
+        startActivity(new Intent(instance, DialogActivity.class).setAction(key)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

@@ -159,6 +159,8 @@
     <string name="server_username_hint">Username</string>
     <string name="server_servername_hint">Server name, for conveniency</string>
     <string name="server_port">Port: </string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
 
     <string name="search_results">Search results</string>
     <string name="favorites_add">Add to favorites</string>

@@ -455,8 +455,11 @@
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.VLC.Player" >
-        </activity>
+            android:theme="@style/Theme.VLC.Player" />
+
+        <activity
+            android:name=".gui.DialogActivity"
+            android:theme="@style/TransparentTheme" />
 
         <service android:name=".extensions.ExtensionManagerService" />
         <service android:name=".PlaybackService" />

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <import type="android.text.TextUtils" />
+        <import type="android.view.View" />
+        <variable name="dialog" type="org.videolan.libvlc.Dialog.ProgressDialog"/>
+        <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcProgressDialog"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@{dialog.text}"
+            android:layout_margin="10dp" />
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:indeterminate="@{dialog.isIndeterminate()}"/>
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress"
+            android:text="@android:string/cancel"
+            android:layout_alignParentRight="true"
+            android:onClick="@{handler.onCancel}"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle"
+            android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}"/>
+    </RelativeLayout>
+</layout>
