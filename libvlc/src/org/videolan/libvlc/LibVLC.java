@@ -50,6 +50,8 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      * @param options
      */
     public LibVLC(ArrayList<String> options) {
+        loadLibraries();
+
         boolean setAout = true, setChroma = true;
         // check if aout/vout options are already set
         if (options != null) {
@@ -151,9 +153,14 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     private native void nativeNew(String[] options);
     private native void nativeRelease();
     private native void nativeSetUserAgent(String name, String http);
+    
+    private static boolean sLoaded = false;
 
-    /* Load library before object instantiation */
-    static {
+    static synchronized void loadLibraries() {
+        if (sLoaded)
+            return;
+        sLoaded = true;
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
             try {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR1)
