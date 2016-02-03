@@ -74,11 +74,11 @@ public class AudioAlbumFragment extends PlaybackServiceFragment implements Adapt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
-
         if (savedInstanceState != null)
             setMediaList(savedInstanceState.<MediaWrapper>getParcelableArrayList("list"), savedInstanceState.getString("title"));
         mAdapter = new AlbumAdapter(getActivity(), mMediaList);
+
+        mAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
     }
 
     @Override
