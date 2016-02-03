@@ -676,6 +676,17 @@ $ANDROID_NDK/ndk-build -C libvlc \
 
 checkfail "ndk-build failed"
 
+if [ "${ANDROID_API}" = "android-9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+    $ANDROID_NDK/ndk-build -C libvlc \
+        APP_BUILD_SCRIPT=libcompat/Android.mk \
+        APP_PLATFORM=${ANDROID_API} \
+        APP_ABI="armeabi" \
+        NDK_PROJECT_PATH=libcompat \
+        NDK_TOOLCHAIN_VERSION=${GCCVER} \
+        NDK_DEBUG=${NDK_DEBUG}
+    checkfail "ndk-build compat failed"
+fi
+
 DBG_LIB_DIR=libvlc/jni/obj/local/${ANDROID_ABI}
 OUT_LIB_DIR=libvlc/jni/libs/${ANDROID_ABI}
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
