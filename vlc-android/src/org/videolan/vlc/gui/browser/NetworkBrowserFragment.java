@@ -136,11 +136,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
             mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
         } else {
             if (mFavorites == 0)
-                mAdapter.addItem("Network favorites", false, false,0); //add header if needed
+                mAdapter.addItem(getString(R.string.network_favorites), false, false,0); //add header if needed
             for (int i = 0 ; i < newSize ; ++i)
                 mAdapter.addItem(favs.get(i), false, false, i+1); //add new favorites
             if (mFavorites == 0)
-                mAdapter.addItem("Shared folders", false, false, newSize + 1); //add header if needed
+                mAdapter.addItem(getString(R.string.network_shared_folders), false, false, newSize + 1); //add header if needed
             mAdapter.setTop(newSize + 2);
             mAdapter.notifyItemRangeChanged(0, newSize + 1);
         }

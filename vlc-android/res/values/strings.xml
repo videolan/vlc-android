@@ -588,6 +588,8 @@
         <item>YV12</item>
     </string-array>
     <string name="chroma_format_default" translatable="false">RV32</string>
+    <string name="network_favorites">Network favorites</string>
+    <string name="network_shared_folders">Shared folders</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
