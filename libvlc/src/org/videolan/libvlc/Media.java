@@ -122,6 +122,7 @@ public class Media extends VLCObject<Media.Event> {
         public static final int ParseNetwork = 0x01;
         public static final int FetchLocal   = 0x02;
         public static final int FetchNetwork = 0x04;
+        public static final int DoInteract   = 0x08;
     }
 
     /**
