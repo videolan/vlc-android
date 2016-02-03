@@ -112,13 +112,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     @Override
     protected void browseRoot() {
         ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-        if (!favs.isEmpty()) {
-            mFavorites = favs.size();
-            for (MediaWrapper fav : favs) {
-                mAdapter.addItem(fav, false, true);
-            }
-            mAdapter.addItem("Network favorites", false, true);
-        }
+        updateFavorites();
         mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
     }
 
@@ -133,16 +127,22 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
 
         if (newSize == 0 && mFavorites == 0)
             return;
-        for (int i = 1 ; i <= mFavorites ; ++i){ //remove former favorites
-            mAdapter.removeItem(totalSize-i, mReadyToDisplay);
-        }
-        if (newSize == 0)
-            mAdapter.removeItem(totalSize-mFavorites-1, mReadyToDisplay); //also remove separator if no more fav
-        else {
+        if (mFavorites != 0)
+            for (int i = 1 ; i <= mFavorites ; ++i) //remove former favorites
+                mAdapter.removeItem(i, mReadyToDisplay);
+
+        if (newSize == 0) {
+            mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
+            mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
+        } else {
             if (mFavorites == 0)
-                mAdapter.addItem("Network favorites", false, false); //add header if needed
-            for (MediaWrapper fav : favs)
-                mAdapter.addItem(fav, false, false); //add new favorites
+                mAdapter.addItem("Network favorites", false, false,0); //add header if needed
+            for (int i = 0 ; i < newSize ; ++i)
+                mAdapter.addItem(favs.get(i), false, false, i+1); //add new favorites
+            if (mFavorites == 0)
+                mAdapter.addItem("Shared folders", false, false, newSize + 1); //add header if needed
+            mAdapter.setTop(newSize + 2);
+            mAdapter.notifyItemRangeChanged(0, newSize + 1);
         }
         mFavorites = newSize; //update count
     }

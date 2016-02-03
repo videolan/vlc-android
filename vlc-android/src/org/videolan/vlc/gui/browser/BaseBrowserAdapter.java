@@ -64,6 +64,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     LinkedList<String> mMediaDirsLocation;
     List<String> mCustomDirsLocation;
     String mEmptyDirectoryString;
+    private int mTop = 0;
 
     public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -236,7 +237,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         if (positionTo != -1)
             position = positionTo;
         else
-            position = top ? 0 : mMediaList.size();
+            position = top ? mTop : mMediaList.size();
 
         if (item instanceof Media)
             item = new MediaWrapper((Media) item);
@@ -247,6 +248,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         mMediaList.add(position, item);
         if (notify)
             notifyItemInserted(position);
+    }
+
+    public void setTop (int top) {
+        mTop = top;
     }
 
     public void setDescription(int position, String description){
