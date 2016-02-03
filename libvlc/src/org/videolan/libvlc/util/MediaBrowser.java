@@ -153,10 +153,11 @@ public class MediaBrowser {
      * Browse to the specified local path starting with '/'.
      *
      * @param path
+     * @param interact true if browsing could fire up dialogs
      */
-    public synchronized void browse(String path) {
+    public synchronized void browse(String path, boolean interact) {
         final Media media = new Media(mLibVlc, path);
-        browse(media);
+        browse(media, interact);
         media.release();
     }
 
@@ -164,10 +165,11 @@ public class MediaBrowser {
      * Browse to the specified uri.
      *
      * @param uri
+     * @param interact true if browsing could fire up dialogs
      */
-    public synchronized void browse(Uri uri) {
+    public synchronized void browse(Uri uri, boolean interact) {
         final Media media = new Media(mLibVlc, uri);
-        browse(media);
+        browse(media, interact);
         media.release();
     }
 
@@ -175,17 +177,21 @@ public class MediaBrowser {
      * Browse to the specified media.
      *
      * @param media Can be a media returned by MediaBrowser.
+     * @param interact true if browsing could fire up dialogs
      */
-    public synchronized void browse(Media media) {
+    public synchronized void browse(Media media, boolean interact) {
         /* media can be associated with a medialist,
          * so increment ref count in order to don't clean it with the medialist
          */
         media.retain();
-        media.addOption(IGNORE_LIST_OPTION+mIgnoreList);
+        media.addOption(IGNORE_LIST_OPTION + mIgnoreList);
+        int flags = Media.Parse.ParseNetwork;
+        if (interact)
+            flags |= Media.Parse.DoInteract;
         reset();
         mBrowserMediaList = media.subItems();
         mBrowserMediaList.setEventListener(mBrowserMediaListEventListener);
-        media.parseAsync(Media.Parse.ParseNetwork);
+        media.parseAsync(flags);
         mMedia = media;
     }
 

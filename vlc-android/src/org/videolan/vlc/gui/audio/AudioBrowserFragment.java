@@ -539,7 +539,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     if (medias.size() == 1 && mPlaylistAdapter.getMedias(position).get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
                         if (mMediaBrowser == null)
                             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-                        mMediaBrowser.browse(mPlaylistAdapter.getMedias(position).get(0).getUri());
+                        mMediaBrowser.browse(mPlaylistAdapter.getMedias(position).get(0).getUri(), true);
                         return true;
                     } else
                         adapter = mPlaylistAdapter;
