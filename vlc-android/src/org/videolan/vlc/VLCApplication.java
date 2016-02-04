@@ -27,7 +27,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
@@ -65,7 +64,6 @@ public class VLCApplication extends Application {
                                                                     new LinkedBlockingQueue<Runnable>());
 
     private static int sDialogCounter = 0;
-    LocalBroadcastManager mLocalBroadcastManager;
 
     @Override
     public void onCreate() {
@@ -191,7 +189,6 @@ public class VLCApplication extends Application {
         public void onDisplay(Dialog.ProgressDialog dialog) {
             String key = DialogActivity.KEY_PROGRESS + sDialogCounter++;
             fireDialog(dialog, key);
-            mLocalBroadcastManager = LocalBroadcastManager.getInstance(instance);
         }
 
         @Override
@@ -201,7 +198,9 @@ public class VLCApplication extends Application {
 
         @Override
         public void onProgressUpdate(Dialog.ProgressDialog dialog) {
-            mLocalBroadcastManager.sendBroadcast(new Intent(VlcProgressDialog.ACTION_PROGRESS));
+            VlcProgressDialog vlcProgressDialog = (VlcProgressDialog) dialog.getContext();
+            if (vlcProgressDialog != null && vlcProgressDialog.isVisible())
+                vlcProgressDialog.updateProgress();
         }
     };
 
