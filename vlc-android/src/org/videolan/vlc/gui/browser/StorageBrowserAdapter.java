@@ -67,17 +67,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
                 mMediaDirsLocation.contains(storagePath));
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
-        vh.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isChecked = ((CheckBox) v).isChecked();
-                String path = ((Storage) getItem(vh.getAdapterPosition())).getUri().getPath();
-                if (isChecked)
-                    addDir(path);
-                else
-                    removeDir(path);
-            }
-        });
         if (hasContextMenu)
             vh.setContextMenuListener();
     }
@@ -147,7 +136,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     protected void openMediaFromView(MediaViewHolder holder, View v) {
         MediaWrapper mw = new MediaWrapper(((Storage) getItem(holder.getAdapterPosition())).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
-        fragment.browse(mw, holder.getAdapterPosition(), holder.checkBox.isChecked());
+        fragment.browse(mw, holder.getAdapterPosition(), holder.binding.browserCheckbox.isChecked());
     }
 
     protected void checkBoxAction(View v, String path){

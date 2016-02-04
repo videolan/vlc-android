@@ -28,8 +28,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
@@ -108,7 +106,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             vh.binding.setProtocole(getProtocol(media));
         vh.binding.executePendingBindings();
 
-        vh.icon.setBackgroundResource(getIconResId(media));
+        vh.binding.dviIcon.setBackgroundResource(getIconResId(media));
 
         vh.setContextMenuListener();
     }
@@ -131,16 +129,12 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class MediaViewHolder extends ViewHolder implements View.OnLongClickListener {
-        public CheckBox checkBox;
-        public TextView icon;
         DirectoryViewItemBinding binding;
 
         public MediaViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
             binding.setHolder(this);
-            checkBox = (CheckBox) v.findViewById(R.id.browser_checkbox);
-            icon = (TextView) v.findViewById(R.id.dvi_icon);
             v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
         }
 
@@ -155,7 +149,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         protected void openStorage() {
             MediaWrapper mw = new MediaWrapper(((Storage) getItem(getAdapterPosition())).getUri());
             mw.setType(MediaWrapper.TYPE_DIR);
-            fragment.browse(mw, getAdapterPosition(), checkBox.isChecked());
+            fragment.browse(mw, getAdapterPosition(), binding.browserCheckbox.isChecked());
         }
 
         public void onCheckBoxClick(View v){

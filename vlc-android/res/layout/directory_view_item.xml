@@ -58,7 +58,6 @@
             android:layout_marginLeft="15dp"
             android:contentDescription="@string/cover_art"
             android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
-            android:background="@drawable/icon"
             android:text="@{protocole}"
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"/>
