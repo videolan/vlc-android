@@ -32,7 +32,7 @@ import org.videolan.libvlc.MediaList;
 public class MediaBrowser {
     private static final String TAG = "LibVLC/util/MediaBrowser";
 
-    public static enum Discover {
+    public enum Discover {
         UPNP("upnp"),
         SMB("dsm")
         ;
@@ -63,19 +63,19 @@ public class MediaBrowser {
          * @param index
          * @param media
          */
-        public void onMediaAdded(int index, Media media);
+        void onMediaAdded(int index, Media media);
         /**
          * Received when a media is removed (Happens only when you discover networks)
          * @param index
          * @param media Released media, but cached attributes are still
          * available (like media.getMrl())
          */
-        public void onMediaRemoved(int index, Media media);
+        void onMediaRemoved(int index, Media media);
         /**
          * Called when browse ended.
          * It won't be called when you discover networks
          */
-        public void onBrowseEnd();
+        void onBrowseEnd();
     }
 
     public MediaBrowser(LibVLC libvlc, EventListener listener) {
@@ -229,11 +229,8 @@ public class MediaBrowser {
         public void onEvent(MediaList.Event event) {
             if (mEventListener == null)
                 return;
-            final MediaList.Event mlEvent = (MediaList.Event) event;
+            final MediaList.Event mlEvent = event;
 
-            /*
-             * We use an intermediate array here since more than one MediaDiscoverer can be used
-             */
             switch (mlEvent.type) {
             case MediaList.Event.ItemAdded:
                 mEventListener.onMediaAdded(mlEvent.index, mlEvent.media);
@@ -252,7 +249,7 @@ public class MediaBrowser {
         public void onEvent(MediaList.Event event) {
             if (mEventListener == null)
                 return;
-            final MediaList.Event mlEvent = (MediaList.Event) event;
+            final MediaList.Event mlEvent = event;
             int index = -1;
 
             /*
