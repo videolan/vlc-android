@@ -50,6 +50,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lupnp -lthreadutil -lixml \
 	-larchive \
 	-lmpg123 \
+	-llua \
 	$(EXTRA_LDFLAGS)
 
 LOCAL_SHARED_LIBRARIES:= libcompat.7

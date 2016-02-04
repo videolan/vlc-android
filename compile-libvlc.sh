@@ -70,7 +70,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-dca \
     --disable-goom \
     --disable-chromaprint \
-    --disable-lua \
+    --enable-lua \
     --disable-schroedinger \
     --disable-sdl \
     --disable-SDL_image \
@@ -118,7 +118,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-update-check \
     --disable-vlm \
     --disable-dbus \
-    --disable-lua \
+    --enable-lua \
     --disable-vcd \
     --disable-v4l2 \
     --disable-gnomevfs \
