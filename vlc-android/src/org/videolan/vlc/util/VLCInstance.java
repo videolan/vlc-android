@@ -22,6 +22,7 @@ package org.videolan.vlc.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -41,6 +42,16 @@ public class VLCInstance {
     public final static String TAG = "VLC/UiTools/VLCInstance";
 
     private static LibVLC sLibVLC = null;
+
+    private static Runnable sCopyLua = new Runnable() {
+        @Override
+        public void run() {
+            String destinationFolder = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+
+                    "/Android/data/"+VLCApplication.getAppContext().getPackageName()+"/lua";
+            AssetManager am = VLCApplication.getAppResources().getAssets();
+            FileUtils.copyAssetFolder(am, "lua", destinationFolder);
+        }
+    };
 
     public static void linkCompatLib(Context context) {
         final File outDir = new File(context.getFilesDir(), "compat");
@@ -110,6 +121,8 @@ public class VLCInstance {
                     context.startActivity(i);
                 }
             });
+
+            VLCApplication.runBackground(sCopyLua);
         }
         return sLibVLC;
     }
