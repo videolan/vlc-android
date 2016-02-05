@@ -75,16 +75,12 @@ public class Util {
     }
 
     public static boolean close(Closeable closeable) {
-        if (closeable != null) {
+        if (closeable != null)
             try {
                 closeable.close();
                 return true;
-            } catch (IOException e) {
-                return false;
-            }
-        } else {
-            return false;
-        }
+            } catch (IOException e) {}
+        return false;
     }
 
     public static boolean isCallable(Intent intent) {
