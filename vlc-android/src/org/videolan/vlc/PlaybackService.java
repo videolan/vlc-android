@@ -858,8 +858,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
 
             PendingIntent pendingIntent;
-            if (canSwitchToVideo()) {
-                /* Resume VideoPlayerActivity from from ACTION_REMOTE_SWITCH_VIDEO intent */
+            if (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) ) {
+                /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
                 final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
                 pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             } else {
