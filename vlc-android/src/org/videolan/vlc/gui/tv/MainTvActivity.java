@@ -413,6 +413,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
                 if (!favs.isEmpty()) {
                     for (MediaWrapper fav : favs) {
+                        fav.setDescription(fav.getUri().getScheme());
                         mBrowserAdapter.add(fav);
                     }
                 }

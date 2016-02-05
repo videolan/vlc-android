@@ -37,6 +37,8 @@ public class NetworkBrowserFragment extends SortedBrowserFragment {
 
     protected void addMedia(Media media){
         MediaWrapper mw = new MediaWrapper(media);
+        if (mUri == null)
+            mw.setDescription(mw.getUri().getScheme());
         int type = mw.getType();
         if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
             return;
