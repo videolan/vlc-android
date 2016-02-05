@@ -12,12 +12,31 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation'
     }
 
+    task luaPlaylistCopy(type: Copy) {
+        from '../vlc/share/lua/playlist'
+        into 'assets/lua/playlist'
+        exclude '**/*.txt'
+    }
+
+    task luaMetaCopy(type: Copy) {
+        from '../vlc/share/lua/meta'
+        into 'assets/lua/meta'
+        exclude '**/*.txt'
+    }
+
     defaultConfig {
         applicationId "org.videolan.vlc"
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
+
+        tasks.whenTaskAdded { task ->
+            if (task.name.startsWith('assemble')) {
+                task.dependsOn luaPlaylistCopy
+                task.dependsOn luaMetaCopy
+            }
+        }
 
         //Set the build ABI according to build types only if not launched from compile.sh
         if (System.getenv('PASSWORD_KEYSTORE') == null)
