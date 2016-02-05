@@ -25,7 +25,8 @@
         android:layout_alignBottom="@+id/mrl_edit"
         android:layout_alignTop="@+id/mrl_edit"
         android:scaleType="center"
-        android:src="@drawable/ic_send"/>
+        android:src="@drawable/ic_send"
+        android:layout_marginRight="10dp"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mrl_list"
         android:layout_width="match_parent"
