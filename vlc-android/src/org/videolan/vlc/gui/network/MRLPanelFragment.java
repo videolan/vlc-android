@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
@@ -42,13 +43,14 @@ import org.videolan.vlc.media.MediaUtils;
 
 import java.util.ArrayList;
 
-public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener {
+public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "VLC/MrlPanelFragment";
     private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<String> mHistory;
     TextInputLayout mEditText;
+    ImageView mSend;
     View mRootView;
 
     public MRLPanelFragment(){}
@@ -63,6 +65,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         View v = inflater.inflate(R.layout.mrl_panel, container, false);
         mRootView = v.findViewById(R.id.mrl_root);
         mEditText = (TextInputLayout) v.findViewById(R.id.mrl_edit);
+        mSend = (ImageView) v.findViewById(R.id.send);
         mEditText.getEditText().setOnKeyListener(this);
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
@@ -71,6 +74,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MRLAdapter(mHistory);
         mRecyclerView.setAdapter(mAdapter);
+        mSend.setOnClickListener(this);
 
         return v;
     }
@@ -129,5 +133,10 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
 
     public boolean isEmpty(){
         return mAdapter.isEmpty();
+    }
+
+    @Override
+    public void onClick(View v) {
+        processUri();
     }
 }
