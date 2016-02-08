@@ -1284,6 +1284,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (currentMedia.equals(""))
             return;
         String[] locations = mSettings.getString(audio ? "audio_list" : "media_list", "").split(" ");
+        if (locations.length == 0)
+            return;
 
         List<String> mediaPathList = new ArrayList<String>(locations.length);
         for (int i = 0 ; i < locations.length ; ++i)
