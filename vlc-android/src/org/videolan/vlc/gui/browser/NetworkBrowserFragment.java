@@ -111,8 +111,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
 
     @Override
     protected void browseRoot() {
-        ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
         updateFavorites();
+        mAdapter.setTop(mAdapter.getItemCount());
         mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
     }
 
@@ -127,22 +127,22 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
 
         if (newSize == 0 && mFavorites == 0)
             return;
-        if (mFavorites != 0)
+        if (mFavorites != 0 && !mAdapter.isEmpty())
             for (int i = 1 ; i <= mFavorites ; ++i) //remove former favorites
-                mAdapter.removeItem(i, mReadyToDisplay);
+                mAdapter.removeItem(1, mReadyToDisplay);
 
-        if (newSize == 0) {
+        if (newSize == 0 && !mAdapter.isEmpty()) {
             mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
             mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
         } else {
-            if (mFavorites == 0)
+            boolean isEmpty =  mAdapter.isEmpty();
+            if (mFavorites == 0 || isEmpty)
                 mAdapter.addItem(getString(R.string.network_favorites), false, false,0); //add header if needed
-            for (int i = 0 ; i < newSize ; ++i)
-                mAdapter.addItem(favs.get(i), false, false, i+1); //add new favorites
-            if (mFavorites == 0)
+            for (int i = 0 ; i < newSize ; )
+                mAdapter.addItem(favs.get(i), false, false, ++i); //add new favorites
+            if (mFavorites == 0 || isEmpty)
                 mAdapter.addItem(getString(R.string.network_shared_folders), false, false, newSize + 1); //add header if needed
-            mAdapter.setTop(newSize + 2);
-            mAdapter.notifyItemRangeChanged(0, newSize + 1);
+            mAdapter.notifyItemRangeChanged(0, newSize+1);
         }
         mFavorites = newSize; //update count
     }
