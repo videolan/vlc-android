@@ -97,6 +97,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-libmpeg2 \
     --enable-soxr \
     --enable-nfs \
+    --enable-microdns \
 "
 
 ###########################

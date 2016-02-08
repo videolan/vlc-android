@@ -52,6 +52,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-larchive \
 	-lmpg123 \
 	-llua \
+	-lmicrodns \
 	$(EXTRA_LDFLAGS)
 
 LOCAL_SHARED_LIBRARIES:= libcompat.7
