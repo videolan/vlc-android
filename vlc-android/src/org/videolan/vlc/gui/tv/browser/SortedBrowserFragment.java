@@ -73,6 +73,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     public static final String SELECTED_ITEM = "selected";
     public static final int UPDATE_DISPLAY = 1;
     public static final int UPDATE_ITEM = 2;
+    public static final int HIDE_LOADING = 3;
 
     protected Uri mUri;
     protected MediaBrowser mMediaBrowser;
@@ -166,15 +167,15 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         if (mUri == null) { // we are at root level
             sort();
         }
+        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
         ((BrowserActivityInterface)getActivity()).showProgress(false);
     }
 
     public void onMediaRemoved(int index, Media media) {}
 
     public void onBrowseEnd() {
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(mAdapter.size() == 0);
         sort();
+        mHandler.sendEmptyMessage(HIDE_LOADING);
     }
 
     @Override
@@ -230,7 +231,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
             adapter.addAll(0, item.mediaList);
             mAdapter.add(new ListRow(header, adapter));
         }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(mAdapter.size() == 0);
+        mHandler.sendEmptyMessageDelayed(HIDE_LOADING, 3000);
     }
 
     protected void addMedia(Media media){
@@ -249,6 +250,12 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
             mMediaItemMap.put(letter, item);
         }
         ((BrowserActivityInterface)getActivity()).showProgress(false);
+        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+        mHandler.removeMessages(HIDE_LOADING);
+    }
+
+    public boolean isEmpty() {
+        return mMediaItemMap.isEmpty();
     }
 
     @Override
@@ -301,6 +308,10 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
                     break;
                 case UPDATE_DISPLAY:
                     owner.updateList();
+                    break;
+                case HIDE_LOADING:
+                    ((VerticalGridActivity)owner.getActivity()).showProgress(false);
+                    ((VerticalGridActivity)owner.getActivity()).updateEmptyView(owner.isEmpty());
                     break;
             }
         }

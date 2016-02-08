@@ -85,6 +85,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mEmptyView.setVisibility(View.GONE);
                 mContentLoadingProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
