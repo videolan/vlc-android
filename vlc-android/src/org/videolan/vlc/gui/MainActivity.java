@@ -577,14 +577,17 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                 item.setTitle(R.string.sortby_date);
         }
 
-        boolean networkSave = current instanceof NetworkBrowserFragment && !((NetworkBrowserFragment)current).isRootDirectory();
-        if (networkSave) {
+        if (current instanceof NetworkBrowserFragment &&
+                !((NetworkBrowserFragment)current).isRootDirectory()) {
+            menu.findItem(R.id.ml_menu_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
-            item.setIcon(MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl)) ?
+            boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl));
+            item.setIcon(isFavorite ?
                     R.drawable.ic_menu_bookmark_w :
                     R.drawable.ic_menu_bookmark_outline_w);
+            item.setTitle(isFavorite ? R.string.favorites_remove : R.string.favorites_add);
         } else
             menu.findItem(R.id.ml_menu_save).setVisible(false);
         if (current instanceof IHistory)
