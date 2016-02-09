@@ -60,6 +60,7 @@ struct fields {
         jmethodID createAudioTrackFromNativeID;
         jmethodID createVideoTrackFromNativeID;
         jmethodID createSubtitleTrackFromNativeID;
+        jmethodID createUnknownTrackFromNativeID;
     } Media;
     struct {
         struct {

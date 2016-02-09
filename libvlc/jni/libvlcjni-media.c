@@ -278,9 +278,6 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
     jstring jlanguage = NULL;
     jstring jdescription = NULL;
 
-    if (!p_tracks || p_tracks->i_type == libvlc_track_unknown)
-        return NULL;
-
     psz_desc = libvlc_media_get_codec_description(p_tracks->i_type,
                                                   p_tracks->i_codec);
     if (psz_desc)
@@ -347,6 +344,17 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 jdescription,
                                 jencoding);
         }
+        case libvlc_track_unknown:
+            return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+                                fields.Media.createUnknownTrackFromNativeID,
+                                jcodec,
+                                joriginalCodec,
+                                (jint)p_tracks->i_id,
+                                (jint)p_tracks->i_profile,
+                                (jint)p_tracks->i_level,
+                                (jint)p_tracks->i_bitrate,
+                                jlanguage,
+                                jdescription);
         default:
             return NULL;
     }
@@ -376,8 +384,7 @@ Java_org_videolan_libvlc_Media_nativeGetTracks(JNIEnv *env, jobject thiz)
     {
         jobject jtrack = media_track_to_object(env, pp_tracks[i]);
 
-        if (jtrack) 
-            (*env)->SetObjectArrayElement(env, array, i, jtrack);
+        (*env)->SetObjectArrayElement(env, array, i, jtrack);
     }
 
 error:

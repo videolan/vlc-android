@@ -209,7 +209,7 @@ public class Media extends VLCObject<Media.Event> {
         }
     }
 
-    /* Used from JNI */
+    @SuppressWarnings("unused") /* Used from JNI */
     private static Track createVideoTrackFromNative(String codec, String originalCodec, int id, int profile,
             int level, int bitrate, String language, String description,
             int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen) {
@@ -239,6 +239,23 @@ public class Media extends VLCObject<Media.Event> {
         return new SubtitleTrack(codec, originalCodec, id, profile,
                 level, bitrate, language, description,
                 encoding);
+    }
+
+    /**
+     * see libvlc_subtitle_track_t
+     */
+    public static class UnknownTrack extends Track {
+        private UnknownTrack(String codec, String originalCodec, int id, int profile,
+                             int level, int bitrate, String language, String description) {
+            super(Type.Unknown, codec, originalCodec, id, profile, level, bitrate, language, description);
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static Track createUnknownTrackFromNative(String codec, String originalCodec, int id, int profile,
+                                                      int level, int bitrate, String language, String description) {
+        return new UnknownTrack(codec, originalCodec, id, profile,
+                level, bitrate, language, description);
     }
 
     private static final int PARSE_STATUS_INIT = 0x00;

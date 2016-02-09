@@ -248,6 +248,13 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            "Lorg/videolan/libvlc/Media$Track;");
 
     GET_ID(GetStaticMethodID,
+           fields.Media.createUnknownTrackFromNativeID,
+           fields.Media.clazz,
+           "createUnknownTrackFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;)"
+           "Lorg/videolan/libvlc/Media$Track;");
+
+    GET_ID(GetStaticMethodID,
            fields.MediaPlayer.createTitleFromNativeID,
            fields.MediaPlayer.clazz,
            "createTitleFromNative",
