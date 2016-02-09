@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.gui.tv;
+package org.videolan.vlc;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
 
 public class BootupReceiver extends BroadcastReceiver {
