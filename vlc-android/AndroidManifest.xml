@@ -511,7 +511,7 @@
         <activity
             android:name="org.videolan.vlc.gui.tv.DetailsActivity"
             android:exported="true"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.Leanback.Details" />
         <activity
             android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
