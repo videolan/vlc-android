@@ -20,34 +20,37 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import java.util.ArrayList;
-
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
-import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
+import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.widget.Toast;
 
+import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
+
+import java.util.ArrayList;
+
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackService.Client.Callback {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
@@ -92,8 +95,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         }
         mMediaWrapper = media;
         // Attach your media item details presenter to the row presenter:
-        DetailsOverviewRowPresenter rowPresenter =
-                new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
+        FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
         Resources res = getActivity().getResources();
         final DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
