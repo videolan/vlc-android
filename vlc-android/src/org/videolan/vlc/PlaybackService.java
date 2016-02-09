@@ -74,6 +74,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -220,6 +221,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
         }
 
+        if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
+            AndroidDevices.setRemoteControlReceiverEnabled(true);
+
         mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
 
         mCurrentIndex = -1;
@@ -300,6 +304,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void onDestroy() {
         super.onDestroy();
         stop();
+
+        if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
+            AndroidDevices.setRemoteControlReceiverEnabled(false);
+
         if (mWakeLock.isHeld())
             mWakeLock.release();
         unregisterReceiver(mReceiver);
