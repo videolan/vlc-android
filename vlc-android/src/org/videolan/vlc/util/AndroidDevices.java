@@ -21,7 +21,9 @@
 package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build.VERSION;
@@ -34,6 +36,7 @@ import android.view.MotionEvent;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaWrapper;
 
@@ -194,6 +197,14 @@ public class AndroidDevices {
         return 0;
     }
 
+    public static boolean hasPlayServices() {
+        try {
+            VLCApplication.getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {}
+        return false;
+    }
+
     public static boolean hasLANConnection() {
         boolean networkEnabled = false;
         ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
@@ -205,5 +216,13 @@ public class AndroidDevices {
             }
         }
         return networkEnabled;
+    }
+
+    public static void setRemoteControlReceiverEnabled(boolean enabled) {
+        VLCApplication.getAppContext().getPackageManager().setComponentEnabledSetting(
+                new ComponentName(VLCApplication.getAppContext(), RemoteControlClientReceiver.class),
+                enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
     }
 }
