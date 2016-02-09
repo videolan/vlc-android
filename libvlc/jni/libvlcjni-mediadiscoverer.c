@@ -88,3 +88,57 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeStop(JNIEnv *env, jobject thiz)
 
     libvlc_media_discoverer_stop(p_obj->u.p_md);
 }
+
+
+static jobject
+service_to_object(JNIEnv *env, libvlc_media_discoverer_service *p_service)
+{
+    jstring jname = NULL;
+    jstring jlongName = NULL;
+
+    jname = (*env)->NewStringUTF(env, p_service->psz_name);
+    jlongName = (*env)->NewStringUTF(env, p_service->psz_longname);
+
+    return (*env)->CallStaticObjectMethod(env, fields.MediaDiscoverer.clazz,
+                        fields.MediaDiscoverer.createServiceFromNativeID,
+                        jname, jlongName, p_service->i_cat);
+}
+
+jobject
+Java_org_videolan_libvlc_MediaDiscoverer_nativeGetServices(JNIEnv *env,
+                                                           jobject thiz,
+                                                           jobject libVlc,
+                                                           jint i_category)
+{
+    vlcjni_object *p_lib_obj = VLCJniObject_getInstance(env, libVlc);
+    libvlc_instance_t *p_libvlc = p_lib_obj->u.p_libvlc;
+    libvlc_media_discoverer_service **pp_services = NULL;
+    unsigned int i_nb_services = 0;
+    jobjectArray array;
+
+    if (!p_lib_obj)
+        return NULL;
+
+    i_nb_services =
+        libvlc_media_discoverer_services_get( p_libvlc, i_category,
+                                              &pp_services);
+    if (i_nb_services == 0)
+        return NULL;
+
+    array = (*env)->NewObjectArray(env, i_nb_services,
+                                   fields.MediaDiscoverer.Service.clazz, NULL);
+    if (!array)
+        goto error;
+
+    for (int i = 0; i < i_nb_services; ++i)
+    {
+        jobject jservice = service_to_object(env, pp_services[i]);
+
+        (*env)->SetObjectArrayElement(env, array, i, jservice);
+    }
+
+error:
+    if (pp_services)
+        libvlc_media_discoverer_services_release(pp_services, i_nb_services);
+    return array;
+}

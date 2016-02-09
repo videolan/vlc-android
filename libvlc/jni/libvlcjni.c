@@ -186,6 +186,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/MediaPlayer$TrackDescription", true);
     GET_CLASS(fields.MediaPlayer.Equalizer.clazz,
               "org/videolan/libvlc/MediaPlayer$Equalizer", true);
+    GET_CLASS(fields.MediaDiscoverer.clazz,
+              "org/videolan/libvlc/MediaDiscoverer", true);
+    GET_CLASS(fields.MediaDiscoverer.Service.clazz,
+              "org/videolan/libvlc/MediaDiscoverer$Service", true);
     GET_CLASS(fields.Dialog.clazz,
               "org/videolan/libvlc/Dialog", true);
 
@@ -271,6 +275,13 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.MediaPlayer.clazz,
            "createTrackDescriptionFromNative",
            "(ILjava/lang/String;)Lorg/videolan/libvlc/MediaPlayer$TrackDescription;");
+
+    GET_ID(GetStaticMethodID,
+           fields.MediaDiscoverer.createServiceFromNativeID,
+           fields.MediaDiscoverer.clazz,
+           "createServiceFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;I)"
+           "Lorg/videolan/libvlc/MediaDiscoverer$Service;");
 
     GET_ID(GetStaticMethodID,
            fields.Dialog.displayErrorFromNativeID,

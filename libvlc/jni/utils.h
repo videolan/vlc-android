@@ -83,6 +83,13 @@ struct fields {
         jmethodID createTrackDescriptionFromNativeID;
     } MediaPlayer;
     struct {
+        struct {
+            jclass clazz;
+        } Service;
+        jclass clazz;
+        jmethodID createServiceFromNativeID;
+    } MediaDiscoverer;
+    struct {
         jclass clazz;
         jmethodID displayErrorFromNativeID;
         jmethodID displayLoginFromNativeID;
