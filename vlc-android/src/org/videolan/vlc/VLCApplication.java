@@ -20,11 +20,9 @@
 package org.videolan.vlc;
 
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
@@ -115,9 +113,7 @@ public class VLCApplication extends Application {
 
         // Disable remote control receiver on Fire TV.
         if (!AndroidDevices.hasTsp())
-            getPackageManager().setComponentEnabledSetting(
-                    new ComponentName(this, RemoteControlClientReceiver.class),
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            AndroidDevices.setRemoteControlReceiverEnabled(false);
     }
 
     /**

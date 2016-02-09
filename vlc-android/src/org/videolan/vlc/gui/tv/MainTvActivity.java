@@ -148,12 +148,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         mBrowseFragment.setOnItemViewSelectedListener(this);
 
         //Enable search feature only if we detect Google Play Services.
-        try {
-            getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
+        if (AndroidDevices.hasPlayServices()) {
             mBrowseFragment.setOnSearchClickedListener(this);
             // set search icon color
             mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
-        } catch (PackageManager.NameNotFoundException e) {}
+        }
 
         mRootContainer = mBrowseFragment.getView();
     }
