@@ -20,12 +20,15 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.SpeechRecognitionCallback;
 
 import org.videolan.vlc.R;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SearchActivity extends Activity {
 
     SearchFragment mFragment;
