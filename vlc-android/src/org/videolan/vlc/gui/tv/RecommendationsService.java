@@ -49,7 +49,7 @@ import java.util.Collections;
 public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
-    private static final int NUM_RECOMMANDATIONS = 3;
+    private static final int MAX_RECOMMENDATIONS = 3;
 
     private NotificationManager mNotificationManager;
     private MediaDatabase mMediaDatabase = MediaDatabase.getInstance();
@@ -148,7 +148,7 @@ public class RecommendationsService extends IntentService {
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }
-            if (id == NUM_RECOMMANDATIONS)
+            if (id == MAX_RECOMMENDATIONS)
                 break;
         }
         return true;
