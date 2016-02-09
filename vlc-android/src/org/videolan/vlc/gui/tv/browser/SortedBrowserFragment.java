@@ -310,8 +310,10 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
                     owner.updateList();
                     break;
                 case HIDE_LOADING:
-                    ((VerticalGridActivity)owner.getActivity()).showProgress(false);
-                    ((VerticalGridActivity)owner.getActivity()).updateEmptyView(owner.isEmpty());
+                    if (owner.getActivity() != null) {
+                        ((VerticalGridActivity)owner.getActivity()).showProgress(false);
+                        ((VerticalGridActivity)owner.getActivity()).updateEmptyView(owner.isEmpty());
+                    }
                     break;
             }
         }
