@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -74,6 +75,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 import java.util.List;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
         OnItemViewClickedListener, OnClickListener, PlaybackService.Callback {
 

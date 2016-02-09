@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,6 +44,7 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.WeakHandler;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected MediaLibrary mMediaLibrary;
     protected SharedPreferences mSettings;
@@ -57,13 +60,13 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected void onResume() {
         super.onResume();
         //Handle network connection state
-        IntentFilter networkfilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
         storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         storageFilter.addDataScheme("file");
 
-        registerReceiver(mExternalDevicesReceiver, networkfilter);
+        registerReceiver(mExternalDevicesReceiver, networkFilter);
         registerReceiver(mExternalDevicesReceiver, storageFilter);
     }
 

@@ -20,7 +20,9 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -41,6 +43,7 @@ import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
         implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider {
 
@@ -106,7 +109,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof MediaWrapper) {
-                    TvUtil.openMedia(mActivity, (MediaWrapper) item, row);
+                    TvUtil.openMedia(mActivity, item, row);
                 }
             }
         };

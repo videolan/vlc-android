@@ -23,6 +23,8 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -33,6 +35,7 @@ import org.videolan.vlc.util.AndroidDevices;
 
 import java.io.File;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DirectoryBrowserFragment extends SortedBrowserFragment{
 
     public static final String TAG = "VLC/NetworkBrowserFragment";

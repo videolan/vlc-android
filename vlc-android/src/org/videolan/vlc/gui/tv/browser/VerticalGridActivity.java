@@ -20,7 +20,9 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +34,7 @@ import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
 
     BrowserFragmentInterface mFragment;
