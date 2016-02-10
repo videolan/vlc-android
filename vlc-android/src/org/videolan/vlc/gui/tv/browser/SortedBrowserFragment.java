@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -43,7 +42,6 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
@@ -56,7 +54,6 @@ import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -65,7 +62,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser, MediaBrowser.EventListener {
+public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser {
 
     public static final String TAG = "VLC/SortedBrowserFragment";
 
@@ -75,8 +72,6 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     public static final int UPDATE_ITEM = 2;
     public static final int HIDE_LOADING = 3;
 
-    protected Uri mUri;
-    protected MediaBrowser mMediaBrowser;
 
     protected ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     protected MediaWrapper mItemSelected;
@@ -84,18 +79,13 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
     protected BrowserHandler mHandler = new BrowserHandler(this);
 
-    abstract protected void browseRoot();
+    abstract protected void browse();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
-            mUri = savedInstanceState.getParcelable(KEY_URI);
             mItemSelected = savedInstanceState.getParcelable(SELECTED_ITEM);
-        } else {
-            Intent intent = getActivity().getIntent();
-            if (intent != null)
-                mUri = intent.getData();
         }
         setOnItemViewClickedListener(this);
         setOnItemViewSelectedListener(this);
@@ -106,13 +96,6 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         setBrandColor(getResources().getColor(R.color.orange800));
     }
 
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHeadersState(HEADERS_HIDDEN);
-    }
-
     public void onResume() {
         super.onResume();
         if (mAdapter.size() == 0) {
@@ -120,13 +103,10 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         }
     }
 
-    public void onPause(){
-        super.onPause();
-        if (mMediaBrowser != null) {
-            mMediaBrowser.release();
-            mMediaBrowser = null;
-        }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHeadersState(HEADERS_HIDDEN);
     }
 
 
@@ -135,19 +115,6 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         super.onSaveInstanceState(outState);
         if (mItemSelected != null)
             outState.putParcelable(SELECTED_ITEM, mItemSelected);
-        if (mUri != null)
-            outState.putParcelable(KEY_URI, mUri);
-    }
-
-    protected void browse() {
-        mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-        if (mMediaBrowser != null) {
-            if (mUri != null)
-                mMediaBrowser.browse(mUri, true);
-            else
-                browseRoot();
-            ((BrowserActivityInterface)getActivity()).showProgress(true);
-        }
     }
 
     public void showDetails() {
@@ -159,23 +126,6 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         intent.putExtra("media", mItemSelected);
         intent.putExtra("item", new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
         startActivity(intent);
-    }
-
-    public void onMediaAdded(int index, Media media) {
-        addMedia(media);
-
-        if (mUri == null) { // we are at root level
-            sort();
-        }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-    }
-
-    public void onMediaRemoved(int index, Media media) {}
-
-    public void onBrowseEnd() {
-        sort();
-        mHandler.sendEmptyMessage(HIDE_LOADING);
     }
 
     @Override
@@ -199,6 +149,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
             return MainTvActivity.HEADER_DIRECTORIES;
         return -1;
     }
+
     @Override
     public void refresh() {
         mMediaItemMap.clear();
@@ -285,10 +236,10 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         public String Letter;
         public ArrayList<MediaWrapper> mediaList;
 
-        public ListItem(String letter, MediaWrapper MediaWrapper) {
+        public ListItem(String letter, MediaWrapper mediaWrapper) {
             mediaList = new ArrayList<>();
-            if (MediaWrapper != null)
-                mediaList.add(MediaWrapper);
+            if (mediaWrapper != null)
+                mediaList.add(mediaWrapper);
             Letter = letter;
         }
     }

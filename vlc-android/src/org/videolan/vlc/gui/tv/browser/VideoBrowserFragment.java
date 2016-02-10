@@ -64,29 +64,12 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
     }
 
     @Override
-    public void refresh() {
-        mMediaIndex.clear();
-        super.refresh();
-    }
-
-    @Override
-    protected void browseRoot() {
-        browse();
-    }
-
-    @Override
     protected void browse() {
         mVideos = MediaLibrary.getInstance().getVideoItems();
         MediaWrapper media;
         for (int i = 0 ; i < mVideos.size() ; ++i) {
             media = mVideos.get(i);
-            String letter = media.getTitle().substring(0, 1).toUpperCase();
-            if (mMediaItemMap.containsKey(letter)){
-                mMediaItemMap.get(letter).mediaList.add(media);
-            } else {
-                ListItem item = new ListItem(letter, media);
-                mMediaItemMap.put(letter, item);
-            }
+            addMedia(media);
             mMediaIndex.put(media.getLocation(), Integer.valueOf(i));
         }
         sort();
