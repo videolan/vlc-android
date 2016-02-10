@@ -33,10 +33,12 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.media.MediaLibrary;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
 
+    private static final int GRID_LIMIT = 24;
     BrowserFragmentInterface mFragment;
     ProgressBar mContentLoadingProgressBar;
     TextView mEmptyView;
@@ -52,7 +54,11 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         if (type == MainTvActivity.HEADER_VIDEO)
             mFragment = new VideoBrowserFragment();
         else if (type == MainTvActivity.HEADER_CATEGORIES)
-            mFragment = new MusicFragment();
+            if (getIntent().getLongExtra(MusicFragment.AUDIO_CATEGORY, MusicFragment.CATEGORY_SONGS) == MusicFragment.CATEGORY_SONGS &&
+                    MediaLibrary.getInstance().getAudioItems().size() > GRID_LIMIT)
+                mFragment = new SongsBrowserFragment();
+            else
+                mFragment = new MusicFragment();
         else if (type == MainTvActivity.HEADER_NETWORK)
             mFragment = new NetworkBrowserFragment();
         else if (type == MainTvActivity.HEADER_DIRECTORIES)
