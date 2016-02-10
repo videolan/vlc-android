@@ -36,13 +36,13 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.tv.MainTvActivity;
+import org.videolan.vlc.gui.tv.TvUtil;
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.tv.MainTvActivity;
-import org.videolan.vlc.gui.helpers.MediaComparators;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -204,10 +204,9 @@ public class MusicFragment extends MediaLibBrowserFragment {
                         intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
                         intent.putExtra(AUDIO_FILTER, listItem.mediaList.get(0).getGenre());
                     } else {
-                        intent = new Intent(mContext, AudioPlayerActivity.class);
                         if (CATEGORY_ALBUMS == mCategory) {
                             Collections.sort(listItem.mediaList, MediaComparators.byTrackNumber);
-                            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, listItem.mediaList);
+                            TvUtil.playAudioList(mContext, listItem.mediaList, 0);
                         } else {
                             int position = 0;
                             String location = listItem.mediaList.get(0).getLocation();
@@ -217,9 +216,9 @@ public class MusicFragment extends MediaLibBrowserFragment {
                                     break;
                                 }
                             }
-                            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, audioList);
-                            intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position);
+                            TvUtil.playAudioList(mContext, audioList, position);
                         }
+                        return;
                     }
                     startActivity(intent);
                 }
