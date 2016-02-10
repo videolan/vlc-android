@@ -26,11 +26,13 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v17.leanback.widget.Row;
 
-import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
+
+import java.util.ArrayList;
 
 public class TvUtil {
 
@@ -66,5 +68,12 @@ public class TvUtil {
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, type);
                 intent.setData(uri);
                 activity.startActivity(intent);
+    }
+
+    public static void playAudioList(Activity activity, ArrayList<MediaWrapper> list, int position) {
+        Intent intent = new Intent(activity, AudioPlayerActivity.class);
+        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, list);
+        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position);
+        activity.startActivity(intent);
     }
 }
