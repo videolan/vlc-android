@@ -84,10 +84,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     public static final long HEADER_VIDEO = 0;
     public static final long HEADER_CATEGORIES = 1;
-    public static final long HEADER_NETWORK = 2;
-    public static final long HEADER_DIRECTORIES = 3;
-    public static final long HEADER_MISC = 4;
-    public static final long HEADER_HISTORY = 5;
+    public static final long HEADER_HISTORY = 2;
+    public static final long HEADER_NETWORK = 3;
+    public static final long HEADER_DIRECTORIES = 4;
+    public static final long HEADER_MISC = 5;
 
     public static final long ID_SETTINGS = 0;
     public static final long ID_ABOUT = 1;
@@ -380,11 +380,42 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
             //Video Section
             mVideoIndex.clear();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            videoList = mMediaLibrary.getVideoItems();
+            if (showHistory)
+                history = MediaDatabase.getInstance().getHistory();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
+            int size;
+            // Update video section
+            if (!videoList.isEmpty()) {
+                size = videoList.size();
+                if (NUM_ITEMS_PREVIEW < size)
+                    size = NUM_ITEMS_PREVIEW;
+                final int total = size;
+                mRootContainer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaWrapper item;
+                        for (int i = 0; i < total; ++i) {
+                            item = videoList.get(i);
+                            mVideoAdapter.add(item);
+                            mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
+                        }
+                    }
+                });
+            }
             mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -404,6 +435,19 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
+
+            if (showHistory && !history.isEmpty()){
+                mHistoryAdapter = new ArrayObjectAdapter(
+                        new CardPresenter(mContext));
+                final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
+                MediaWrapper item;
+                for (int i = 0; i < history.size(); ++i) {
+                    item = history.get(i);
+                    mHistoryAdapter.add(item);
+                    mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
+                }
+                mRowsAdapter.add(new ListRow(historyHeader, mHistoryAdapter));
+            }
 
             //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -433,57 +477,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.background_cone));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
-        }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            videoList = mMediaLibrary.getVideoItems();
-            if (showHistory)
-                history = MediaDatabase.getInstance().getHistory();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            int size;
-            // Update video section
-            if (!videoList.isEmpty()) {
-                size = videoList.size();
-                if (NUM_ITEMS_PREVIEW < size)
-                    size = NUM_ITEMS_PREVIEW;
-                final int total = size;
-                mRootContainer.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MediaWrapper item;
-                        for (int i = 0; i < total; ++i) {
-                            item = videoList.get(i);
-                            mVideoAdapter.add(item);
-                            mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
-                        }
-                    }
-                });
-            }
-            if (showHistory && !history.isEmpty()){
-                mHistoryAdapter = new ArrayObjectAdapter(
-                        new CardPresenter(mContext));
-                final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
-                mRootContainer.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MediaWrapper item;
-                        for (int i = 0; i < history.size(); ++i) {
-                            item = history.get(i);
-                            mHistoryAdapter.add(item);
-                            mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
-                        }
-                        mRowsAdapter.add(2, new ListRow(historyHeader, mHistoryAdapter));
-                    }
-                });
-            }
             if (!mMediaLibrary.isWorking())
                 mProgressBar.setVisibility(View.GONE);
-            if (askRefresh) { //in case new event occured while loading view
+            if (askRefresh) { //in case new event occurred while loading view
                 mHandler.sendEmptyMessage(VideoListHandler.MEDIA_ITEMS_UPDATED);
             }
         }
