@@ -230,7 +230,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaRemoved(int index, Media media) {
-        mAdapter.removeItem(index, mReadyToDisplay);
+        mAdapter.removeItem(media.getUri().toString(), mReadyToDisplay);
     }
 
     @Override

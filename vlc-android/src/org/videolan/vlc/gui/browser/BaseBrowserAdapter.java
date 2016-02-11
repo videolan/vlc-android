@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -280,6 +281,21 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void removeItem(int position, boolean notify){
+        mMediaList.remove(position);
+        if (notify) {
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void removeItem(String path, boolean notify){
+        int position = -1;
+        for (int i = 0; i< getItemCount(); ++i) {
+            Object item = mMediaList.get(i);
+            if (item instanceof MediaWrapper && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString()))
+                position = i;
+        }
+        if (position == -1)
+            return;
         mMediaList.remove(position);
         if (notify) {
             notifyItemRemoved(position);
