@@ -22,6 +22,7 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.support.annotation.MainThread;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -31,18 +32,7 @@ import org.videolan.libvlc.MediaDiscoverer;
 import org.videolan.libvlc.MediaList;
 
 public class MediaBrowser {
-    private static final String TAG = "LibVLC/util/MediaBrowser";
-
-    public enum Discover {
-        UPNP("upnp"),
-        SMB("dsm")
-        ;
-
-        private final String str;
-        Discover(String str) {
-            this.str = str;
-        }
-    }
+    private static final String TAG = "MediaBrowser";
 
     private final LibVLC mLibVlc;
     private final ArrayList<MediaDiscoverer> mMediaDiscoverers = new ArrayList<MediaDiscoverer>();
@@ -134,24 +124,29 @@ public class MediaBrowser {
     }
 
     /**
-     * Discover networks shares using a list of Discoverers
+     * Discover all networks shares
      */
     @MainThread
-    public void discoverNetworkShares(Discover discovers[]) {
+    public void discoverNetworkShares() {
         reset();
-        for (Discover discover : discovers)
-            startMediaDiscoverer(discover.str);
+        final MediaDiscoverer.Service services[] =
+                MediaDiscoverer.getServices(mLibVlc, MediaDiscoverer.Service.Category.Lan);
+        if (services == null)
+            return;
+        for (MediaDiscoverer.Service service : services) {
+            Log.i(TAG, "starting " + service.name + " discover (" + service.longName + ")");
+            startMediaDiscoverer(service.name);
+        }
     }
 
     /**
      * Discover networks shares using a specified Discoverer
-     * @param discovererName
+     * @param serviceName see {@link MediaDiscoverer.Service.Category#name}
      */
     @MainThread
-    public void discoverNetworkShares(Discover discover) {
-        Discover discovers[] = new Discover[1];
-        discovers[0] = discover;
-        discoverNetworkShares(discovers);
+    public void discoverNetworkShares(String serviceName) {
+        reset();
+        startMediaDiscoverer(serviceName);
     }
 
     /**

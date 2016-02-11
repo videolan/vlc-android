@@ -88,9 +88,4 @@ public class Util {
                 PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
-
-    public static final MediaBrowser.Discover NETWORK_DISCOVER_LIST[] = new MediaBrowser.Discover[] {
-            MediaBrowser.Discover.UPNP,
-            MediaBrowser.Discover.SMB,
-    };
 }

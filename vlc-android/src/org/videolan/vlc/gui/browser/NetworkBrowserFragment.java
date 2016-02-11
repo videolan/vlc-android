@@ -113,7 +113,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     protected void browseRoot() {
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
-        mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
+        mMediaBrowser.discoverNetworkShares();
     }
 
     @Override

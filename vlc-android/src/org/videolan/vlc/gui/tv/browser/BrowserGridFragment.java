@@ -74,7 +74,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                 if (mUri != null)
                     mMediaBrowser.browse(mUri, true);
                 else
-                    mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
+                    mMediaBrowser.discoverNetworkShares();
                 ((BrowserActivityInterface)getActivity()).showProgress(true);
             }
         }

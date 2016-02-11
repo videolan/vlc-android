@@ -36,7 +36,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
     public static final String TAG = "VLC/NetworkBrowserFragment";
 
     protected void browseRoot() {
-        mMediaBrowser.discoverNetworkShares(Util.NETWORK_DISCOVER_LIST);
+        mMediaBrowser.discoverNetworkShares();
     }
 
     protected void addMedia(Media media){
