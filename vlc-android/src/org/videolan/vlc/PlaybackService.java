@@ -1092,6 +1092,21 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         public void onSkipToPrevious() {
             previous();
         }
+
+        @Override
+        public void onSeekTo(long pos) {
+            setTime(pos);
+        }
+
+        @Override
+        public void onFastForward() {
+            next();
+        }
+
+        @Override
+        public void onRewind() {
+            previous();
+        }
     }
 
     protected void updateMetadata() {
