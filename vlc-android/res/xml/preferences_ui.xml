@@ -29,6 +29,11 @@
             android:entries="@array/touch_entries"
             android:entryValues="@array/touch_values"/>
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="lockscreen_cover"
+            android:summary="@string/lockscreen_cover_summary"
+            android:title="@string/lockscreen_cover_title" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="dialog_confirm_resume"
             android:summary="@string/confirm_resume_summary"

@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
@@ -59,6 +58,7 @@ public class PreferencesUi extends BasePreferenceFragment {
         findPreference("enable_steal_remote_control").setVisible(false);
         findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(AndroidDevices.hasTsp());
         findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
+        findPreference("lockscreen_cover").setVisible(false);
     }
 
     @Override

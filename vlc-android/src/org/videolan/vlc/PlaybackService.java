@@ -839,11 +839,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mMediaPlayer.getVLCVout().areViewsAttached())
             return;
         try {
+            boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
             MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
             String title = metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
             String artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
             String album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
-            Bitmap cover = metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART);
+            Bitmap cover = coverOnLockscreen ?
+                    metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
+                    AudioUtil.getCover(this, getCurrentMedia(), 512);
             if (cover == null)
                 cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.icon);
             Notification notification;
@@ -1118,7 +1121,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         String title = media.getNowPlaying();
         if (title == null)
             title = media.getTitle();
-        Bitmap cover = AudioUtil.getCover(this, media, 512);
+        boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
         MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
         bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
             .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(this, media))
@@ -1126,8 +1129,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(this, media))
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(this, media))
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
-        if (cover != null && cover.getConfig() != null) //In case of format not supported
+        if (coverOnLockscreen) {
+            Bitmap cover = AudioUtil.getCover(this, media, 512);
+            if (cover != null && cover.getConfig() != null) //In case of format not supported
                 bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
+        }
         mMediaSession.setMetadata(bob.build());
 
         //Send metadata to Pebble watch
