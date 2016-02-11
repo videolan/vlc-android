@@ -36,7 +36,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
         }
     }
 
-    public static class Service {
+    public static class Description {
         public static class Category {
             /** devices, like portable music player */
             public static final int Devices = 0;
@@ -51,7 +51,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
         public final String longName;
         public final int category;
 
-        private Service(String name, String longName, int category)
+        private Description(String name, String longName, int category)
         {
             this.name = name;
             this.longName = longName;
@@ -60,9 +60,9 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     }
 
     @SuppressWarnings("unused") /* Used from JNI */
-    private static Service createServiceFromNative(String name, String longName, int category)
+    private static Description createDescriptionFromNative(String name, String longName, int category)
     {
-        return new Service(name, longName, category);
+        return new Description(name, longName, category);
     }
 
     public interface EventListener extends VLCEvent.Listener<MediaDiscoverer.Event> {}
@@ -143,12 +143,12 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     }
 
     /**
-     * Get media discoverer services by category
-     * @param category see {@link MediaDiscoverer.Service.Category}
+     * Get media discoverers by category
+     * @param category see {@link Description.Category}
      */
     @Nullable
-    public static Service[] getServices(LibVLC libVLC, int category) {
-        return nativeGetServices(libVLC, category);
+    public static Description[] list(LibVLC libVLC, int category) {
+        return nativeList(libVLC, category);
     }
 
     /* JNI */
@@ -156,5 +156,5 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     private native void nativeRelease();
     private native boolean nativeStart();
     private native void nativeStop();
-    private static native Service[] nativeGetServices(LibVLC libVLC, int category);
+    private static native Description[] nativeList(LibVLC libVLC, int category);
 }

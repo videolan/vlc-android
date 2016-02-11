@@ -129,19 +129,20 @@ public class MediaBrowser {
     @MainThread
     public void discoverNetworkShares() {
         reset();
-        final MediaDiscoverer.Service services[] =
-                MediaDiscoverer.getServices(mLibVlc, MediaDiscoverer.Service.Category.Lan);
-        if (services == null)
+
+        final MediaDiscoverer.Description descriptions[] =
+                MediaDiscoverer.list(mLibVlc, MediaDiscoverer.Description.Category.Lan);
+        if (descriptions == null)
             return;
-        for (MediaDiscoverer.Service service : services) {
-            Log.i(TAG, "starting " + service.name + " discover (" + service.longName + ")");
-            startMediaDiscoverer(service.name);
+        for (MediaDiscoverer.Description description : descriptions) {
+            Log.i(TAG, "starting " + description.name + " discover (" + description.longName + ")");
+            startMediaDiscoverer(description.name);
         }
     }
 
     /**
      * Discover networks shares using a specified Discoverer
-     * @param serviceName see {@link MediaDiscoverer.Service.Category#name}
+     * @param serviceName see {@link MediaDiscoverer.Description.Category#name}
      */
     @MainThread
     public void discoverNetworkShares(String serviceName) {

@@ -85,9 +85,9 @@ struct fields {
     struct {
         struct {
             jclass clazz;
-        } Service;
+        } Description;
         jclass clazz;
-        jmethodID createServiceFromNativeID;
+        jmethodID createDescriptionFromNativeID;
     } MediaDiscoverer;
     struct {
         jclass clazz;

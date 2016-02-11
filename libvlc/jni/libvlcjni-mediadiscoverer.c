@@ -91,7 +91,7 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeStop(JNIEnv *env, jobject thiz)
 
 
 static jobject
-service_to_object(JNIEnv *env, libvlc_media_discoverer_service *p_service)
+service_to_object(JNIEnv *env, libvlc_media_discoverer_description *p_service)
 {
     jstring jname = NULL;
     jstring jlongName = NULL;
@@ -100,19 +100,18 @@ service_to_object(JNIEnv *env, libvlc_media_discoverer_service *p_service)
     jlongName = (*env)->NewStringUTF(env, p_service->psz_longname);
 
     return (*env)->CallStaticObjectMethod(env, fields.MediaDiscoverer.clazz,
-                        fields.MediaDiscoverer.createServiceFromNativeID,
+                        fields.MediaDiscoverer.createDescriptionFromNativeID,
                         jname, jlongName, p_service->i_cat);
 }
 
 jobject
-Java_org_videolan_libvlc_MediaDiscoverer_nativeGetServices(JNIEnv *env,
-                                                           jobject thiz,
-                                                           jobject libVlc,
-                                                           jint i_category)
+Java_org_videolan_libvlc_MediaDiscoverer_nativeList(JNIEnv *env, jobject thiz,
+                                                    jobject libVlc,
+                                                    jint i_category)
 {
     vlcjni_object *p_lib_obj = VLCJniObject_getInstance(env, libVlc);
     libvlc_instance_t *p_libvlc = p_lib_obj->u.p_libvlc;
-    libvlc_media_discoverer_service **pp_services = NULL;
+    libvlc_media_discoverer_description **pp_services = NULL;
     unsigned int i_nb_services = 0;
     jobjectArray array;
 
@@ -120,13 +119,14 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeGetServices(JNIEnv *env,
         return NULL;
 
     i_nb_services =
-        libvlc_media_discoverer_services_get( p_libvlc, i_category,
+        libvlc_media_discoverer_list_get( p_libvlc, i_category,
                                               &pp_services);
     if (i_nb_services == 0)
         return NULL;
 
     array = (*env)->NewObjectArray(env, i_nb_services,
-                                   fields.MediaDiscoverer.Service.clazz, NULL);
+                                   fields.MediaDiscoverer.Description.clazz,
+                                   NULL);
     if (!array)
         goto error;
 
@@ -139,6 +139,6 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeGetServices(JNIEnv *env,
 
 error:
     if (pp_services)
-        libvlc_media_discoverer_services_release(pp_services, i_nb_services);
+        libvlc_media_discoverer_list_release(pp_services, i_nb_services);
     return array;
 }
