@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -59,9 +60,15 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
                 mFragment = new SongsBrowserFragment();
             else
                 mFragment = new MusicFragment();
-        else if (type == MainTvActivity.HEADER_NETWORK)
-            mFragment = new NetworkBrowserFragment();
-        else if (type == MainTvActivity.HEADER_DIRECTORIES)
+        else if (type == MainTvActivity.HEADER_NETWORK) {
+            Uri uri = getIntent().getData();
+            if (uri == null)
+                uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
+            if (uri == null)
+                mFragment = new BrowserGridFragment();
+            else
+                mFragment = new NetworkBrowserFragment();
+        } else if (type == MainTvActivity.HEADER_DIRECTORIES)
             mFragment = new DirectoryBrowserFragment();
         else {
             finish();

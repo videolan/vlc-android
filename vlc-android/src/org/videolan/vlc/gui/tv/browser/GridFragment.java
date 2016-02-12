@@ -55,14 +55,6 @@ public class GridFragment extends VerticalGridFragment implements BrowserFragmen
         setAdapter(mAdapter);
     }
 
-    OnItemViewClickedListener mClickListener = new OnItemViewClickedListener() {
-        @Override
-        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
-            TvUtil.openMedia(getActivity(), item, null);
-        }
-    };
-
     public void refresh() {}
 
     public void updateList() {}

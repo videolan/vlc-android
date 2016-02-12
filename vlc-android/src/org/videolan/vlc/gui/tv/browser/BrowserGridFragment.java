@@ -23,10 +23,13 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
@@ -34,19 +37,21 @@ import android.support.v17.leanback.widget.RowPresenter;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.DetailsActivity;
+import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
+import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener {
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener, OnItemViewClickedListener {
 
     private MediaBrowser mMediaBrowser;
     private Uri mUri;
@@ -63,6 +68,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                 mUri = Uri.parse(intent.getStringExtra(BaseBrowserFragment.KEY_MRL));
         }
         setOnItemViewSelectedListener(this);
+        setOnItemViewClickedListener(this);
     }
 
     public void onResume() {
@@ -70,15 +76,14 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         if (mAdapter.size() == 0) {
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
             if (mMediaBrowser != null) {
-                mMediaList = new ArrayList<MediaWrapper>();
+                mMediaList = new ArrayList<>();
                 if (mUri != null)
                     mMediaBrowser.browse(mUri, true);
                 else
                     mMediaBrowser.discoverNetworkShares();
-                ((BrowserActivityInterface)getActivity()).showProgress(true);
+                ((BrowserActivityInterface)mContext).showProgress(true);
             }
         }
-        setOnItemViewClickedListener(mClickListener);
     }
 
     public void onPause(){
@@ -87,7 +92,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mMediaBrowser.release();
             mMediaBrowser = null;
         }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+        ((BrowserActivityInterface)mContext).updateEmptyView(false);
     }
     @Override
     public void onMediaAdded(int index, Media media) {
@@ -97,8 +102,8 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mMediaList.add(mw);
 
         if (mUri == null) { // we are at root level
-            mAdapter.clear();
-            mAdapter.addAll(0, mMediaList); //FIXME adding 1 by 1 doesn't work
+            mw.setDescription(mw.getUri().getScheme());
+            mAdapter.add(mw);
         }
         ((BrowserActivityInterface)getActivity()).showProgress(false);
     }
@@ -148,5 +153,14 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     @Override
     public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         mItemSelected = (MediaWrapper)item;
+    }
+
+    @Override
+    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+        MediaWrapper media = (MediaWrapper) item;
+        if (media.getType() == MediaWrapper.TYPE_DIR)
+            TvUtil.browseFolder(getActivity(), MainTvActivity.HEADER_NETWORK, ((MediaWrapper) item).getUri());
+        else
+            TvUtil.openMedia(getActivity(), item, null);
     }
 }
