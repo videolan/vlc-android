@@ -173,7 +173,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mHeaderPlayPauseVisible = true;
         mProgressBarVisible = true;
         mHeaderTimeVisible = true;
-        restoreHedaderButtonVisibilities();
+        restoreHeaderButtonVisibilities();
 
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -563,10 +563,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mProgressBarVisible = progressBarVisible;
         mHeaderTimeVisible = headerTimeVisible;
         mSearchVisible = searchVisible;
-        restoreHedaderButtonVisibilities();
+        restoreHeaderButtonVisibilities();
     }
 
-    private void restoreHedaderButtonVisibilities() {
+    private void restoreHeaderButtonVisibilities() {
         mAdvFunc.setVisibility(mAdvFuncVisible ? View.VISIBLE : View.GONE);
         mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? View.VISIBLE : View.GONE);
         mPlaylistSearchButton.setVisibility(mSearchVisible ? View.VISIBLE : View.GONE);
@@ -575,7 +575,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mHeaderTime.setVisibility(mHeaderTimeVisible ? TextView.VISIBLE : TextView.GONE);
     }
 
-    private void hideHedaderButtons() {
+    private void hideHeaderButtons() {
         mAdvFunc.setVisibility(View.GONE);
         mPlaylistSwitch.setVisibility(View.GONE);
         mPlaylistSearchButton.setVisibility(View.GONE);
@@ -600,12 +600,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         @Override
         public void onTouchDown() {
-            hideHedaderButtons();
+            hideHeaderButtons();
         }
 
         @Override
         public void onTouchUp() {
-            restoreHedaderButtonVisibilities();
+            restoreHeaderButtonVisibilities();
         }
 
         @Override
