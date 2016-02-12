@@ -483,7 +483,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void parseSubDirectories() {
-        if (mCurrentParsedPosition == -1 || mAdapter.isEmpty())
+        if (mRoot || mCurrentParsedPosition == -1 || mAdapter.isEmpty())
             return;
         mFoldersContentLists.clear();
         if (mMediaBrowser == null)
