@@ -76,6 +76,8 @@ import java.util.List;
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
 
+    public static final int SEARCH_TIMEOUT_MILLIS = 5000;
+
     private ProgressBar mProgressBar;
     private HeaderMediaSwitcher mHeaderMediaSwitcher;
     private CoverMediaSwitcher mCoverMediaSwitcher;
@@ -102,6 +104,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mPreviewingSeek = false;
 
     private PlaylistAdapter mPlaylistAdapter;
+    private Handler mHandler = new Handler();
 
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
@@ -408,6 +411,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Opening:
+                hideSearchField();
                 break;
             case MediaPlayer.Event.Stopped:
                 hide();
@@ -642,7 +646,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             case R.id.playlist_search:
                 mPlaylistSearchButton.setVisibility(View.GONE);
                 mPlaylistSearchText.setVisibility(View.VISIBLE);
-                mPlaylistSearchText.requestFocus();
+                mPlaylistSearchText.getEditText().requestFocus();
+                InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideSearchField();
+                    }
+                }, SEARCH_TIMEOUT_MILLIS);
                 break;
         }
     }
@@ -736,11 +748,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mTime.setText(Strings.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
                 mTimeline.setProgress(possibleSeek);
                 mProgressBar.setProgress(possibleSeek);
-                h.postDelayed(seekRunnable, 50);
+                handler.postDelayed(seekRunnable, 50);
             }
         };
 
-        Handler h = new Handler();
+        Handler handler = new Handler();
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -756,12 +768,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 vibrated = false;
                 length = mService.getLength();
 
-                h.postDelayed(seekRunnable, 1000);
+                handler.postDelayed(seekRunnable, 1000);
                 return true;
 
             case MotionEvent.ACTION_UP:
                 (forward ? mNext : mPrevious).setImageResource(this.normal);
-                h.removeCallbacks(seekRunnable);
+                handler.removeCallbacks(seekRunnable);
                 mPreviewingSeek = false;
 
                 if(event.getEventTime()-event.getDownTime() < 1000) {
