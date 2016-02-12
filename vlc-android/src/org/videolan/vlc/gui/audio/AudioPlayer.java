@@ -649,12 +649,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mPlaylistSearchText.getEditText().requestFocus();
                 InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideSearchField();
-                    }
-                }, SEARCH_TIMEOUT_MILLIS);
+                mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
                 break;
         }
     }
@@ -680,11 +675,20 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         return true;
     }
 
+    Runnable hideSearchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hideSearchField();
+            mPlaylistAdapter.restoreList();
+        }
+    };
+
     @Override
     public void onTextChanged(CharSequence charSequence,  int start, int before, int count) {
         int length = charSequence.length();
         if (length > 1) {
             mPlaylistAdapter.getFilter().filter(charSequence);
+            mHandler.removeCallbacks(hideSearchRunnable);
         } else if (length == 0) {
             mPlaylistAdapter.restoreList();
             hideSearchField();
