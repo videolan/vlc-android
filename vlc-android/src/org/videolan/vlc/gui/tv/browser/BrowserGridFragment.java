@@ -34,6 +34,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
@@ -109,7 +110,19 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     }
 
     @Override
-    public void onMediaRemoved(int index, Media media) {}
+    public void onMediaRemoved(int index, Media media) {
+        int position = -1;
+        String uri = media.getUri().toString();
+        for (int i = 0; i < mMediaList.size(); ++i) {
+            if (TextUtils.equals(mMediaList.get(i).getUri().toString(), uri)) {
+                position = i;
+                break;
+            }
+        }
+        if (position == -1)
+            return;
+        mAdapter.removeItems(position, 1);
+    }
 
     @Override
     public void onBrowseEnd() {
