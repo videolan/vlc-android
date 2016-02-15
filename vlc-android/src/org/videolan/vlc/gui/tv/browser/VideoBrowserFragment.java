@@ -30,6 +30,8 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
@@ -37,6 +39,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.Thumbnailer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VideoBrowserFragment extends SortedBrowserFragment {
@@ -65,14 +68,26 @@ public class VideoBrowserFragment extends SortedBrowserFragment {
 
     @Override
     protected void browse() {
-        mVideos = MediaLibrary.getInstance().getVideoItems();
-        MediaWrapper media;
-        for (int i = 0 ; i < mVideos.size() ; ++i) {
-            media = mVideos.get(i);
-            addMedia(media);
-            mMediaIndex.put(media.getLocation(), Integer.valueOf(i));
-        }
-        sort();
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                mVideos = MediaLibrary.getInstance().getVideoItems();
+                Collections.sort(mVideos, MediaComparators.byName);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaWrapper media;
+                        for (int i = 0; i < mVideos.size(); ++i) {
+                            media = mVideos.get(i);
+                            addMedia(media);
+                            mMediaIndex.put(media.getLocation(), i);
+                        }
+                        mHandler.sendEmptyMessage(UPDATE_DISPLAY);
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
