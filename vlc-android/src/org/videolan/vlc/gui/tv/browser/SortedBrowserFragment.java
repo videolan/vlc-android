@@ -96,17 +96,12 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         setBrandColor(getResources().getColor(R.color.orange800));
     }
 
-    public void onResume() {
-        super.onResume();
-        if (mAdapter.size() == 0) {
-            browse();
-        }
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHeadersState(HEADERS_HIDDEN);
+        if (mAdapter.size() == 0)
+            browse();
     }
 
 
