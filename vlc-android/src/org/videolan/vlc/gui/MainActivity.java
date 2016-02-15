@@ -167,7 +167,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
                 mMediaLibrary.scanMediaItems();
             else
-                mMediaLibrary.loadMedaItems();
+                mMediaLibrary.loadMediaItems();
         }
 
         /*** Start initializing the UI ***/

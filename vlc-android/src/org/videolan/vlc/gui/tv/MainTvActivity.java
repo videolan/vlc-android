@@ -119,7 +119,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
                 mMediaLibrary.scanMediaItems(false);
             else
-                mMediaLibrary.loadMedaItems();
+                mMediaLibrary.loadMediaItems();
         }
 
         if (!VLCInstance.testCompatibleCPU(this)) {

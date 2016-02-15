@@ -36,7 +36,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -116,7 +115,7 @@ public class MediaLibrary {
         }
     }
 
-    public void loadMedaItems(){
+    public void loadMediaItems(){
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
