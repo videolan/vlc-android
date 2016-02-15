@@ -115,8 +115,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mMediaLibrary.getMediaItems().isEmpty()) {
-            if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
+        boolean rescan = mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true);
+        if (rescan || mMediaLibrary.getMediaItems().isEmpty()) {
+            if (rescan)
                 mMediaLibrary.scanMediaItems(false);
             else
                 mMediaLibrary.loadMediaItems();
