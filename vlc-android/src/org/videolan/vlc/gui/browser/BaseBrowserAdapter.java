@@ -370,9 +370,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
         if (mw.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(mw, holder.getAdapterPosition(), true);
-        else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
-            MediaUtils.openMedia(holder.itemView.getContext(), mw);
-        else  if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
+        else  if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
             int position = 0;
             LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
             MediaWrapper mediaItem;
