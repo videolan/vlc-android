@@ -383,7 +383,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = mFoldersContentLists.get(position) == null || mFoldersContentLists.get(position).isEmpty();
-            if (canWrite || !isEmpty) {
                 inflater.inflate(R.menu.directory_view_dir, menu);
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
@@ -395,6 +394,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 //                }
                 menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
                 menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
+            if (this instanceof NetworkBrowserFragment) {
+                MediaDatabase db = MediaDatabase.getInstance();
+                if (db.networkFavExists(mw.getUri()))
+                    menu.findItem(R.id.network_remove_favorite).setVisible(true);
+                else
+                    menu.findItem(R.id.network_add_favorite).setVisible(true);
             }
         } else {
             inflater.inflate(R.menu.directory_view_file, menu);
@@ -423,6 +428,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        MediaDatabase db;
         switch (id){
             case R.id.directory_view_play:
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -478,6 +484,18 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 //                if (new File(mw.getLocation()+"/.nomedia").delete())
 //                    updateLib();
 //                return true;
+            case R.id.network_add_favorite:
+                db = MediaDatabase.getInstance();
+                db.addNetworkFavItem(mw.getUri(), mw.getTitle());
+                if (isRootDirectory())
+                    updateDisplay();
+                return true;
+            case R.id.network_remove_favorite:
+                db = MediaDatabase.getInstance();
+                db.deleteNetworkFav(mw.getUri());
+                if (isRootDirectory())
+                    updateDisplay();
+                return true;
         }
         return false;
     }

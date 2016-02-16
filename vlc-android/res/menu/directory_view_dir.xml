@@ -12,4 +12,12 @@
     <!--<item-->
         <!--android:id="@+id/directory_view_show_media"-->
         <!--android:title="@string/directory_show_medialib" />-->
+    <item
+        android:id="@+id/network_add_favorite"
+        android:title="@string/favorites_add"
+        android:visible="false" />
+    <item
+        android:id="@+id/network_remove_favorite"
+        android:title="@string/favorites_remove"
+        android:visible="false" />
 </menu>
