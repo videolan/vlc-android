@@ -35,6 +35,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -103,6 +104,32 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         super.updateDisplay();
     }
 
+    protected boolean handleContextItemSelected(MenuItem item, final int position) {
+        int id = item.getItemId();
+        if (! (mAdapter.getItem(position) instanceof MediaWrapper))
+            return super.onContextItemSelected(item);
+        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        MediaDatabase db;
+        switch (id){
+            case R.id.network_add_favorite:
+                db = MediaDatabase.getInstance();
+                db.addNetworkFavItem(mw.getUri(), mw.getTitle());
+                if (isRootDirectory())
+                    updateDisplay();
+                return true;
+            case R.id.network_remove_favorite:
+                db = MediaDatabase.getInstance();
+                db.deleteNetworkFav(mw.getUri());
+                if (isRootDirectory())
+                    updateDisplay();
+                return true;
+            case R.id.network_edit_favorite:
+                showAddServerDialog(mw);
+                return true;
+        }
+        return super.handleContextItemSelected(item, position);
+    }
+
     @Override
     protected void browseRoot() {
         updateFavorites();
@@ -130,7 +157,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         }
 
         ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-        int newSize = favs.size(), totalSize = mAdapter.getItemCount();
+        int newSize = favs.size();
 
         if (newSize == 0 && mFavorites == 0)
             return;
@@ -207,13 +234,15 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_add_custom_dir){
-            showAddServerDialog();
+            showAddServerDialog(null);
         }
     }
 
-    public void showAddServerDialog() {
+    public void showAddServerDialog(MediaWrapper mw) {
         FragmentManager fm = getFragmentManager();
         NetworkServerDialog dialog = new NetworkServerDialog();
+        if (mw != null)
+            dialog.setServer(mw);
         dialog.show(fm, "fragment_add_server");
     }
 

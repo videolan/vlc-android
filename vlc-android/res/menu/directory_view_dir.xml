@@ -20,4 +20,8 @@
         android:id="@+id/network_remove_favorite"
         android:title="@string/favorites_remove"
         android:visible="false" />
+    <item
+        android:id="@+id/network_edit_favorite"
+        android:title="@string/favorites_edit"
+        android:visible="false" />
 </menu>

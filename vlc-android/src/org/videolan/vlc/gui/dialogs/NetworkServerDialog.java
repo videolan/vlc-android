@@ -24,6 +24,7 @@ import android.widget.TextView;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaWrapper;
 
 public class NetworkServerDialog extends DialogFragment implements AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
@@ -43,6 +44,8 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     Spinner mSpinnerProtocol;
     TextView mUrl, mPortTitle;
     Button mCancel, mSave;
+    Uri mUri;
+    String mName;
 
 
     public NetworkServerDialog() {}
@@ -115,13 +118,30 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         return v;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mEditAddress.setText(mUri.getHost());
+        if (!TextUtils.isEmpty(mUri.getUserInfo()))
+            mEditUsername.setText(mUri.getUserInfo());
+        if (!TextUtils.isEmpty(mUri.getPath()))
+            mEditFolder.setText(mUri.getPath().substring(1));
+        if (!TextUtils.isEmpty(mName))
+            mEditServername.setText(mName);
+
+        int position = getProtocolSpinnerPosition(mUri.getScheme().toUpperCase());
+        mSpinnerProtocol.setSelection(position);
+        int port = mUri.getPort();
+        mEditPort.setText(port != -1 ? String.valueOf(port) : getPortForProtocol(position));
+    }
     private void saveServer() {
         String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
         Uri uri = Uri.parse(mUrl.getText().toString());
-         MediaDatabase db = MediaDatabase.getInstance();
-        if (!db.networkFavExists(uri))
-            db.addNetworkFavItem(uri, name);
+        MediaDatabase db = MediaDatabase.getInstance();
+        if (mUri != null)
+            db.deleteNetworkFav(mUri);
+        db.addNetworkFavItem(uri, name);
     }
 
     private void updateUrl() {
@@ -136,7 +156,9 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
             sb.append(':').append(mEditPort.getText());
         }
         if (mEditFolder.isEnabled() && !TextUtils.isEmpty(mEditFolder.getText())) {
-            sb.append('/').append(mEditFolder.getText());
+            if (!mEditFolder.getText().toString().startsWith("/"))
+                sb.append('/');
+            sb.append(mEditFolder.getText());
         }
         mUrl.setText(sb.toString());
         mSave.setEnabled(!TextUtils.isEmpty(mEditAddress.getText().toString()));
@@ -156,37 +178,46 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         }
     }
 
+    private int getProtocolSpinnerPosition(String protocol) {
+        for (int i = 0; i < mProtocols.length; ++i) {
+            if (TextUtils.equals(mProtocols[i], protocol))
+                return i;
+        }
+        return -1;
+    }
+
+
+    private String getPortForProtocol(int position) {
+        switch (mProtocols[position]) {
+            case "FTP":
+                return FTP_DEFAULT_PORT;
+            case "FTPS":
+                return FTPS_DEFAULT_PORT;
+            case "SFTP":
+                return SFTP_DEFAULT_PORT;
+            case "HTTP":
+                return HTTP_DEFAULT_PORT;
+            case "HTTPS":
+                return HTTPS_DEFAULT_PORT;
+            default:
+                return "";
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         boolean portEnabled = true, userEnabled = true;
-        String port = null;
+        String port = getPortForProtocol(position);
         int addressHint = R.string.server_domain_hint;
         switch (mProtocols[position]) {
-            case "FTP":
-                port = FTP_DEFAULT_PORT;
-                break;
-            case "FTPS":
-                port = FTPS_DEFAULT_PORT;
-                break;
-            case "SFTP":
-                port = SFTP_DEFAULT_PORT;
-                break;
-            case "HTTP":
-                port = HTTP_DEFAULT_PORT;
-                break;
-            case "HTTPS":
-                port = HTTPS_DEFAULT_PORT;
-                break;
             case "SMB":
                 addressHint = R.string.server_share_hint;
                 portEnabled = false;
-                port = "";
                 break;
             case "NFS":
                 addressHint = R.string.server_share_hint;
                 userEnabled = false;
                 portEnabled = false;
-                port = "";
                 break;
         }
         mEditAddressLayout.setHint(getString(addressHint));
@@ -223,5 +254,10 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
                 break;
 
         }
+    }
+
+    public void setServer(MediaWrapper mw) {
+        mUri = mw.getUri();
+        mName = mw.getTitle();
     }
 }
