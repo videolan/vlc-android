@@ -218,6 +218,31 @@ public class AndroidDevices {
         return networkEnabled;
     }
 
+    public static boolean hasConnection() {
+        boolean networkEnabled = false;
+        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (connectivity != null) {
+            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                networkEnabled = true;
+            }
+        }
+        return networkEnabled;
+    }
+
+    public static boolean hasMobileConnection() {
+        boolean networkEnabled = false;
+        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (connectivity != null) {
+            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected() &&
+                    (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
+                networkEnabled = true;
+            }
+        }
+        return networkEnabled;
+    }
+
     public static void setRemoteControlReceiverEnabled(boolean enabled) {
         VLCApplication.getAppContext().getPackageManager().setComponentEnabledSetting(
                 new ComponentName(VLCApplication.getAppContext(), RemoteControlClientReceiver.class),
