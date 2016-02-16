@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -38,12 +39,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment implements View.OnClickListener {
 
@@ -93,14 +97,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         getActivity().unregisterReceiver(networkReceiver);
     }
 
-    @Override
-    protected void update() {
-        if (!AndroidDevices.hasLANConnection())
-            updateEmptyView();
-        else
-            super.update();
-    }
-
     protected void updateDisplay() {
         if (mRoot)
             updateFavorites();
@@ -111,7 +107,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     protected void browseRoot() {
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
-        mMediaBrowser.discoverNetworkShares();
+        if (AndroidDevices.hasLANConnection())
+            mMediaBrowser.discoverNetworkShares();
+        else if (!mAdapter.isEmpty())
+            mAdapter.removeItem(mAdapter.getItemCount()-1, true);
+        if (!AndroidDevices.hasConnection())
+            updateEmptyView();
     }
 
     @Override
@@ -120,11 +121,34 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     }
 
     private void updateFavorites(){
+        if (!AndroidDevices.hasConnection()) {
+            if (mFavorites != 0) {
+                mAdapter.clear();
+                mFavorites = 0;
+            }
+            return;
+        }
+
         ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
         int newSize = favs.size(), totalSize = mAdapter.getItemCount();
 
         if (newSize == 0 && mFavorites == 0)
             return;
+        if (!AndroidDevices.hasLANConnection()) {
+            List<String> schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https");
+            for (MediaWrapper mw : favs) {
+                if (!schemes.contains(mw.getUri().getScheme()))
+                    favs.remove(mw);
+            }
+            newSize = favs.size();
+            if (newSize == 0) {
+                if (mFavorites != 0) {
+                    mAdapter.clear();
+                    mFavorites = 0;
+                }
+                return;
+            }
+        }
         if (mFavorites != 0 && !mAdapter.isEmpty())
             for (int i = 1 ; i <= mFavorites ; ++i) //remove former favorites
                 mAdapter.removeItem(1, mReadyToDisplay);
@@ -143,6 +167,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
             mAdapter.notifyItemRangeChanged(0, newSize+1);
         }
         mFavorites = newSize; //update count
+        updateEmptyView();
     }
 
     public void toggleFavorite() {
@@ -158,17 +183,15 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (AndroidDevices.hasLANConnection()) {
+        if (AndroidDevices.hasConnection()) {
             if (mAdapter.isEmpty()) {
                 mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
                 mEmptyView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setEnabled(false);
             } else {
                 if (mEmptyView.getVisibility() == View.VISIBLE) {
                     mEmptyView.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
-                    mSwipeRefreshLayout.setEnabled(true);
                 }
             }
         } else {
@@ -176,9 +199,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
                 mEmptyView.setText(R.string.network_connection_needed);
                 mEmptyView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setEnabled(false);
             }
         }
+        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
     @Override
@@ -195,11 +218,23 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     }
 
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        boolean connected = true;
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (mReadyToDisplay && ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                update();
+                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
+                        Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+                if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    if (networkInfo == null){
+                        if (connected)
+                            connected = false;
+                        else
+                            return; //block consecutive calls when disconnected
+                    } else
+                        connected = true;
+                    refresh();
+                }
             }
         }
     };
