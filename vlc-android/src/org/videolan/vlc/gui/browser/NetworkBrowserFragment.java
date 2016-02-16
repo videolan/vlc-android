@@ -42,7 +42,6 @@ import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
@@ -105,8 +104,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     protected void updateDisplay() {
         if (mRoot)
             updateFavorites();
-        mAdapter.notifyDataSetChanged();
-        parseSubDirectories();
+        super.updateDisplay();
     }
 
     @Override
