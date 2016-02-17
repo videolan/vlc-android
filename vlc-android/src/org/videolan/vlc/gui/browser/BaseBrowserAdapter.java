@@ -35,11 +35,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.HttpImageFetcher;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -108,6 +110,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.executePendingBindings();
 
         vh.binding.dviIcon.setBackgroundResource(getIconResId(media));
+        if (!TextUtils.isEmpty(media.getArtworkURL()) && media.getArtworkURL().startsWith("http"))
+            AsyncImageLoader.LoadImage(new HttpImageFetcher(vh.binding, media.getArtworkURL()), null);
 
         vh.setContextMenuListener();
     }

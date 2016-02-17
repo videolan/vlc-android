@@ -26,6 +26,9 @@
         <variable
             name="protocole"
             type="String"/>
+        <variable
+            name="image"
+            type="android.graphics.drawable.BitmapDrawable"/>
     </data>
     <LinearLayout
         android:id="@+id/layout_item"
@@ -60,7 +63,8 @@
             android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
             android:text="@{protocole}"
             android:textSize="11sp"
-            android:textColor="@color/whitetransparent"/>
+            android:textColor="@color/whitetransparent"
+            android:background="@{image}"/>
 
         <RelativeLayout
             android:layout_width="0dp"
