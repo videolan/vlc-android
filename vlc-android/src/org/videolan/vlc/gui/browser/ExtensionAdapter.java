@@ -18,11 +18,9 @@ import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.util.HttpImageFetcher;
+import org.videolan.vlc.util.HttpImageLoader;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
@@ -93,7 +91,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
         if (item.imageUri != null) {
             if (TextUtils.equals("http", item.imageUri.getScheme()))
-                AsyncImageLoader.LoadImage(new HttpImageFetcher(holder.binding, item.getImageUri().toString()), null);
+                AsyncImageLoader.LoadImage(new HttpImageLoader(item.getImageUri().toString(), holder.binding), null);
         }
     }
 
