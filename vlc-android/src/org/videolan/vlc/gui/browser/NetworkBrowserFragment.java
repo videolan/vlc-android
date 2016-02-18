@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -51,8 +50,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment implements View.OnClickListener {
-
-    private DialogFragment mDialog;
 
     public NetworkBrowserFragment() {
         ROOT = "smb";
@@ -212,14 +209,20 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
     protected void updateEmptyView() {
         if (AndroidDevices.hasConnection()) {
             if (mAdapter.isEmpty()) {
-                mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-            } else {
-                if (mEmptyView.getVisibility() == View.VISIBLE) {
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mEmptyView.setText(R.string.loading);
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                } else {
+                    mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            } else if (mEmptyView.getVisibility() == View.VISIBLE) {
                     mEmptyView.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
-                }
+                    mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {
             if (mEmptyView.getVisibility() == View.GONE) {
@@ -228,7 +231,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
                 mRecyclerView.setVisibility(View.GONE);
             }
         }
-        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
     @Override

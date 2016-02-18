@@ -221,10 +221,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaAdded(int index, Media media) {
+        boolean empty = mAdapter.isEmpty();
         mAdapter.addItem(media, mReadyToDisplay && mRoot, mRoot);
-        if (mReadyToDisplay)
+        if (empty && mReadyToDisplay)
             updateEmptyView();
-        if (mRoot)
+        if (mRoot && mSwipeRefreshLayout.isRefreshing())
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
@@ -266,13 +267,20 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
      */
     protected void updateEmptyView(){
         if (mAdapter.isEmpty()){
-            mEmptyView.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
-            mSwipeRefreshLayout.setEnabled(false);
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mEmptyView.setText(R.string.loading);
+                mEmptyView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+            } else {
+                mEmptyView.setText(R.string.directory_empty);
+                mEmptyView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
         } else if (mEmptyView.getVisibility() == View.VISIBLE) {
             mEmptyView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setEnabled(true);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -344,10 +352,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             switch (msg.what){
                 case MSG_SHOW_LOADING:
                     fragment.mSwipeRefreshLayout.setRefreshing(true);
+                    fragment.updateEmptyView();
                     break;
                 case MSG_HIDE_LOADING:
                     removeMessages(MSG_SHOW_LOADING);
                     fragment.mSwipeRefreshLayout.setRefreshing(false);
+                    fragment.updateEmptyView();
                     break;
                 case MSG_REFRESH:
                     if (getOwner() != null && !getOwner().isDetached())

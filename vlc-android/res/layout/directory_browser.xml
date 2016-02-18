@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/network_connection_needed"/>
+                android:text="@string/directory_empty"/>
         </FrameLayout>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
