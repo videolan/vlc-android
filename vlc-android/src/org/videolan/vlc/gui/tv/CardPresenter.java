@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.HttpImageLoader;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -233,6 +235,8 @@ public class CardPresenter extends Presenter {
 
         @Override
         public void updateImage(final Bitmap picture, final View target) {
+            if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http"))
+                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), target);
             context.runOnUiThread(
                     new Runnable() {
                         @Override
