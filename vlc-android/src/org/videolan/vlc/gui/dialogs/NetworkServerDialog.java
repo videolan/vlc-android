@@ -121,18 +121,20 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mEditAddress.setText(mUri.getHost());
-        if (!TextUtils.isEmpty(mUri.getUserInfo()))
-            mEditUsername.setText(mUri.getUserInfo());
-        if (!TextUtils.isEmpty(mUri.getPath()))
-            mEditFolder.setText(mUri.getPath().substring(1));
-        if (!TextUtils.isEmpty(mName))
-            mEditServername.setText(mName);
+        if (mUri != null) {
+            mEditAddress.setText(mUri.getHost());
+            if (!TextUtils.isEmpty(mUri.getUserInfo()))
+                mEditUsername.setText(mUri.getUserInfo());
+            if (!TextUtils.isEmpty(mUri.getPath()))
+                mEditFolder.setText(mUri.getPath().substring(1));
+            if (!TextUtils.isEmpty(mName))
+                mEditServername.setText(mName);
 
-        int position = getProtocolSpinnerPosition(mUri.getScheme().toUpperCase());
-        mSpinnerProtocol.setSelection(position);
-        int port = mUri.getPort();
-        mEditPort.setText(port != -1 ? String.valueOf(port) : getPortForProtocol(position));
+            int position = getProtocolSpinnerPosition(mUri.getScheme().toUpperCase());
+            mSpinnerProtocol.setSelection(position);
+            int port = mUri.getPort();
+            mEditPort.setText(port != -1 ? String.valueOf(port) : getPortForProtocol(position));
+        }
     }
     private void saveServer() {
         String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
