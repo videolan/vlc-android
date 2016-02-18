@@ -34,9 +34,6 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class AsyncImageLoader {
 
@@ -47,12 +44,8 @@ public class AsyncImageLoader {
 
     public final static String TAG = "VLC/AsyncImageLoader";
 
-    /* Maximum one thread that is killed after 2 seconds of inactivity */
-    static ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
-                                                                   new LinkedBlockingQueue<Runnable>());
-
     public static void LoadImage(final Callbacks cbs, final View target){
-        sThreadPool.execute(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Bitmap bitmap = cbs.getImage();
