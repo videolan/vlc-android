@@ -2,6 +2,7 @@ Changes between 1.7.0 and 1.8.0:
 --------------------------------
 
 Core:
+ * Hardware accleleration is now asynchronous
  * Preparation for Asynchronous debugging
  * Use mpg123 as MP3 decoder
  * Improve UPnP support
@@ -9,18 +10,30 @@ Core:
 Application:
  * Moved targetSDK to 23
  * Runtime permissions for storage & ringtone setting
- * Support Extensions
+ * Network browsing
  * Support Video Playlists
- * Support search in current playlist
- * Simplify and fix animations
- * Improve networking browser
- * Undo action for media deletion
+ * Support search in 'now playing' playlist
  * Restore playback history
+ * Properly restore previous Equalizer setting
+ * Undo action for media deletion
+ * 'now playing' list auto-scrolls to current item
+ * @hide Support Extensions
+ * TV UI is now available for Android 4.2+ devices
+ * Simplify and fix animations
+ * 'Save playlist' has moved into Advanced options
+ * Playback service is more persistent
  * Fix media deletion
+ * Fix crash with huge collection for a single artist
 
 TV:
+ * Audio Player view has been redesigned
  * Improve Now Playing button
  * Improve Audio player
+ * Video, Songs and Browser views now sort item by first letter
+ * File Browser
+ * Playback history
+ * 'About' and 'Licence' views
+ * Scan device media more often
 
 
 Changes between 1.7.1 and 1.7.2:
