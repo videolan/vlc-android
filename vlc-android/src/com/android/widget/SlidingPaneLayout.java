@@ -47,6 +47,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -365,9 +366,8 @@ public class SlidingPaneLayout extends ViewGroup {
         final int heightAvailable = heightSize - getPaddingTop() - getPaddingBottom();
         final int childCount = getChildCount();
 
-        if (childCount > 2) {
+        if (childCount > 2)
             if (BuildConfig.DEBUG) Log.e(TAG, "onMeasure: More than two child views are not supported.");
-        }
 
         // We'll find the current one below.
         mSlideableView = null;
@@ -697,10 +697,12 @@ public class SlidingPaneLayout extends ViewGroup {
             return false;
         }
 
+        int maxY = VLCApplication.getAppContext().getResources().getDisplayMetrics().heightPixels;
+
         final LayoutParams lp = (LayoutParams) mSlideableView.getLayoutParams();
 
         final int topBound = getPaddingTop() + lp.topMargin;
-        int y = (int) (topBound + slideOffset * mSlideRange);
+        int y = Math.min(maxY, (int) (topBound + slideOffset * mSlideRange));
 
         if (mDragHelper.smoothSlideViewTo(mSlideableView, mSlideableView.getLeft(), y)) {
             setAllChildrenVisible();

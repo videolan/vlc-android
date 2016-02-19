@@ -88,11 +88,6 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
         registerForContextMenu(mRecyclerView);
-        if (showSettings) {
-            mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
-            mAddDirectoryFAB.setVisibility(View.VISIBLE);
-            mAddDirectoryFAB.setOnClickListener(this);
-        }
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
@@ -106,6 +101,21 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         super.onStart();
         setTitle(mTitle);
         updateDisplay();
+        if (showSettings) {
+            mAddDirectoryFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            mAddDirectoryFAB.setImageResource(R.drawable.ic_fab_add);
+            mAddDirectoryFAB.setVisibility(View.VISIBLE);
+            mAddDirectoryFAB.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (showSettings) {
+            mAddDirectoryFAB.setVisibility(View.GONE);
+            mAddDirectoryFAB.setOnClickListener(null);
+        }
     }
 
     private void setTitle(String title) {

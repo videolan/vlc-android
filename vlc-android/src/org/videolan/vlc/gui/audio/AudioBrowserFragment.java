@@ -163,31 +163,40 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mFabPlayShuffleAll = (FloatingActionButton)v.findViewById(R.id.fab_play_shuffle_all);
-
         return v;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         for (View rv : mLists) {
             ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(getActivity()));
             registerForContextMenu(rv);
-            ((RecyclerView)rv).addOnScrollListener(mRVScrollListener);
+            ((RecyclerView) rv).addOnScrollListener(mRVScrollListener);
             rv.setOnKeyListener(keyListener);
         }
 
         mViewPager.setOnTouchListener(mSwipeFilter);
+    }
 
+    public void onStart() {
+        super.onStart();
+        mFabPlayShuffleAll = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        mFabPlayShuffleAll.setImageResource(R.drawable.ic_fab_shuffle);
+        setFabPlayShuffleAllVisibility();
         mFabPlayShuffleAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFabPlayAllClick(v);
             }
         });
-        setFabPlayShuffleAllVisibility();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFabPlayShuffleAll.setOnClickListener(null);
+        mFabPlayShuffleAll.setVisibility(View.GONE);
     }
 
     private void setupTabLayout() {

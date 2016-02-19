@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -43,6 +42,7 @@
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset"
                 android:focusable="true"
+                android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/artists_list"
@@ -58,6 +58,7 @@
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset"
                 android:focusable="true"
+                android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/artists_list"
@@ -73,6 +74,7 @@
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset"
                 android:focusable="true"
+                android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/albums_list"
@@ -88,6 +90,7 @@
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset"
                 android:focusable="true"
+                android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/songs_list"
@@ -103,6 +106,7 @@
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset"
                 android:focusable="true"
+                android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/genres_list"
@@ -114,17 +118,4 @@
         android:layout_width="match_parent"
         android:layout_height="9dp"
         android:layout_below="@+id/sliding_tabs" />
-
-    <android.support.design.widget.FloatingActionButton
-        app:borderWidth="0dp"
-        app:rippleColor="@color/orange50"
-        android:id="@+id/fab_play_shuffle_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_fab_shuffle"
-        android:tint="@color/grey50"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"/>
 </RelativeLayout>

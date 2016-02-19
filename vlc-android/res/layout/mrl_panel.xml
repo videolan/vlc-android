@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mrl_root"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/send"
-        android:id="@+id/mrl_edit">
-        <EditText
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:id="@+id/mrl_root"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:hint="@string/open_mrl_dialog_msg"
-            android:inputType="textUri"
-            android:maxLines="2"
-            android:imeOptions="actionGo"/>
-    </android.support.design.widget.TextInputLayout>
-    <ImageView
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/mrl_edit"
-        android:layout_alignTop="@+id/mrl_edit"
-        android:scaleType="center"
-        android:src="@drawable/ic_send"
-        android:layout_marginRight="10dp"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mrl_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_below="@+id/mrl_edit"/>
+            android:layout_toLeftOf="@+id/send"
+            android:layout_marginTop="5dip"
+            android:id="@+id/mrl_edit">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:hint="@string/open_mrl_dialog_msg"
+                android:inputType="textUri"
+                android:maxLines="2"
+                android:imeOptions="actionGo"/>
+        </android.support.design.widget.TextInputLayout>
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/mrl_edit"
+            android:layout_alignTop="@+id/mrl_edit"
+            android:scaleType="center"
+            android:src="@drawable/ic_send"
+            android:layout_marginRight="10dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mrl_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/mrl_edit"/>
 
-    <include layout="@layout/shadow_top"/>
-</RelativeLayout>
+        <include layout="@layout/shadow_top"/>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

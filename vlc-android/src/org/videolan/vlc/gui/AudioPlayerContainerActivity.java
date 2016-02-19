@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -77,6 +78,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected static final String ID_ABOUT = "about";
 
     protected ActionBar mActionBar;
+    protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
     protected SlidingPaneLayout mSlidingPane;
@@ -107,6 +109,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
         mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
@@ -254,10 +257,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      */
     public void slideUpOrDownAudioPlayer() {
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED){
-            mActionBar.show();
             mSlidingPane.openPane();
         } else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED){
-            mActionBar.hide();
             mSlidingPane.closePane();
         }
     }
@@ -286,10 +287,10 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         float previousOffset =  1.0f;
         @Override
         public void onPanelSlide(float slideOffset) {
-            if (slideOffset >= 0.1 && slideOffset > previousOffset && !mActionBar.isShowing())
-                mActionBar.show();
-            else if (slideOffset <= 0.1 && slideOffset < previousOffset && mActionBar.isShowing())
-                mActionBar.hide();
+            if (slideOffset >= 0.1 && slideOffset > previousOffset && !mAppBarLayout.isShown())
+                mAppBarLayout.setExpanded(true);
+            else if (slideOffset <= 0.1 && slideOffset < previousOffset && mAppBarLayout.isShown())
+                mAppBarLayout.setExpanded(false);
             previousOffset = slideOffset;
         }
 
@@ -309,6 +310,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             mAudioPlayer.setUserVisibleHint(false);
             mSlidingPane.setShadowDrawable(null);
             onPanelOpenedEntirelyUiSet();
+            mAppBarLayout.setExpanded(true);
         }
 
         @Override
@@ -317,6 +319,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
             onPanelClosedUiSet();
             mAudioPlayer.showPlaylistTips();
+            mAppBarLayout.setExpanded(false);
         }
 
     };

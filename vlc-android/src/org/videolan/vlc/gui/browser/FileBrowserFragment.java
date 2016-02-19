@@ -66,11 +66,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }

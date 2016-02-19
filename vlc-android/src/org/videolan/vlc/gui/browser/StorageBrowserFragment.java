@@ -29,11 +29,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
@@ -72,15 +70,21 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+    public void onStart() {
+        super.onStart();
         if (mRoot) {
-            mFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+            mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
             mFAB.setImageResource(R.drawable.ic_fab_add);
             mFAB.setVisibility(View.VISIBLE);
             mFAB.setOnClickListener(this);
         }
-        return v;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFAB.setVisibility(View.GONE);
+        mFAB.setOnClickListener(null);
     }
 
     @Override
@@ -164,7 +168,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fab_add_custom_dir){
+        if (v.getId() == R.id.fab){
             showAddDirectoryDialog();
         }
     }

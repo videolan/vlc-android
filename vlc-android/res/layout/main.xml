@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <org.videolan.vlc.gui.view.HackyDrawerLayout
-        android:id="@+id/root_container"
+<org.videolan.vlc.gui.view.HackyDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:nextFocusLeft="@+id/ml_menu_search"
+    android:nextFocusRight="@+id/ml_menu_search"
+    android:nextFocusUp="@+id/ml_menu_search"
+    android:nextFocusDown="@+id/ml_menu_search"
+    android:nextFocusForward="@+id/ml_menu_search"
+    android:fitsSystemWindows="true" >
+    <com.android.widget.SlidingPaneLayout
+        android:id="@+id/pane"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:nextFocusLeft="@+id/ml_menu_search"
-        android:nextFocusRight="@+id/ml_menu_search"
-        android:nextFocusUp="@+id/ml_menu_search"
-        android:nextFocusDown="@+id/ml_menu_search"
-        android:nextFocusForward="@+id/ml_menu_search">
-
-        <com.android.widget.SlidingPaneLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:vlc="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/pane"
+        app:overhangSize="60dp"
+        android:orientation="vertical">
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            vlc:overhangSize="60dp" >
+            android:layout_height="match_parent" >
+
+            <include layout="@layout/toolbar"/>
 
             <org.videolan.vlc.gui.view.ContentLinearLayout
+                android:id="@+id/content_container"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:orientation="vertical" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/background_actionbar" />
 
                 <FrameLayout
                     android:id="@+id/fragment_placeholder"
@@ -69,26 +70,38 @@
                     android:layout_width="fill_parent"
                     android:layout_height="60dp"
                     android:visibility="gone" />
+
             </org.videolan.vlc.gui.view.ContentLinearLayout>
 
-            <FrameLayout
-                android:id="@+id/audio_player"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-        </com.android.widget.SlidingPaneLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fab_add"
+                android:tint="@color/grey50"
+                app:borderWidth="0dp"
+                app:rippleColor="@color/orange50"
+                app:layout_anchor="@+id/fragment_placeholder"
+                app:layout_anchorGravity="bottom|end"
+                android:visibility="gone"
+                android:layout_margin="16dp"/>
+        </android.support.design.widget.CoordinatorLayout>
 
-        <!-- The navigation drawer -->
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingTop="?attr/actionBarSize"
-            android:layout_gravity="start"
-            app:menu="@menu/navigation"
-            app:itemTextColor="?attr/navigationview_item_color"
-            app:itemIconTint="?attr/navigationview_item_color" />
+        <FrameLayout
+            android:id="@+id/audio_player"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </com.android.widget.SlidingPaneLayout>
 
-    </org.videolan.vlc.gui.view.HackyDrawerLayout>
+    <!-- The navigation drawer -->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/navigation"
+        app:itemTextColor="?attr/navigationview_item_color"
+        app:itemIconTint="?attr/navigationview_item_color" />
 
-    <include layout="@layout/toolbar"/>
-</merge>
+</org.videolan.vlc.gui.view.HackyDrawerLayout>

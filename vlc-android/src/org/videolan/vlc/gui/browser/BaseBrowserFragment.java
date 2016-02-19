@@ -141,7 +141,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         View v = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
-        mFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+        mFAB = (FloatingActionButton) v.findViewById(R.id.fab);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -370,7 +370,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab_add_custom_dir:
+            case R.id.fab:
                 playAll(null);
         }
     }

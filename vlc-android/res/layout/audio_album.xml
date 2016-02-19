@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/album_cover"
+        android:nestedScrollingEnabled="true"
         android:clipToPadding="false"
         android:fastScrollEnabled="true"
         android:paddingBottom="@dimen/listview_bottom_padding"

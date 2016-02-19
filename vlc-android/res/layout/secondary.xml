@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <com.android.widget.SlidingPaneLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:vlc="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/pane"
+<com.android.widget.SlidingPaneLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pane"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:nestedScrollingEnabled="true"
+    vlc:overhangSize="60dp" >
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        vlc:overhangSize="60dp" >
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar"/>
 
         <org.videolan.vlc.gui.view.ContentLinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:orientation="vertical" >
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/background_actionbar" />
 
             <FrameLayout
                 android:id="@+id/fragment_placeholder"
@@ -32,11 +33,22 @@
                 android:visibility="gone" />
         </org.videolan.vlc.gui.view.ContentLinearLayout>
 
-        <FrameLayout
-            android:id="@+id/audio_player"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </com.android.widget.SlidingPaneLayout>
+        <android.support.design.widget.FloatingActionButton
+            vlc:borderWidth="0dp"
+            vlc:rippleColor="@color/orange50"
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_add"
+            android:tint="@color/grey50"
+            vlc:layout_anchor="@+id/fragment_placeholder"
+            vlc:layout_anchorGravity="bottom|end"
+            android:visibility="gone"
+            android:layout_margin="16dp"/>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <include layout="@layout/toolbar"/>
-</merge>
+    <FrameLayout
+        android:id="@+id/audio_player"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</com.android.widget.SlidingPaneLayout>

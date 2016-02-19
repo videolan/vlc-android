@@ -23,7 +23,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:background="?attr/background_default"
-        android:layout_below="@+id/progressBar">
+        android:layout_below="@+id/progressBar"
+        android:fitsSystemWindows="true">
 
         <ImageButton
             android:id="@+id/playlist_playasaudio_off"

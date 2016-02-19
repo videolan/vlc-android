@@ -850,15 +850,27 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
     }
 
+    // Player is expanded
     protected void onPanelClosedUiSet() {
         mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
+    // Player is hidden
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onPanelOpenedEntirelyUiSet() {
+        View fab = findViewById(R.id.fab);
+        if (fab != null && AndroidUtil.isHoneycombOrLater())
+            fab.setY(fab.getY()+mAudioPlayerFilling.getHeight());
         mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
+    // Player is shown folded
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onPanelOpenedUiSet() {
+        View fab = findViewById(R.id.fab);
+        if (fab != null && AndroidUtil.isHoneycombOrLater() &&
+                fab.getY() > (mAudioPlayerFilling.getY()-mAudioPlayerFilling.getHeight()))
+            fab.setY(fab.getY()-mAudioPlayerFilling.getHeight());
         mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
         removeTipViewIfDisplayed();
     }

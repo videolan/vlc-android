@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
 
 import com.android.widget.SlidingPaneLayout;
@@ -40,7 +41,10 @@ public class ContentLinearLayout extends LinearLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        SlidingPaneLayout slidingPaneLayout = (SlidingPaneLayout)getParent();
+        ViewParent parent = getParent();
+        if (!(parent instanceof SlidingPaneLayout))
+            parent = parent.getParent();
+        SlidingPaneLayout slidingPaneLayout = (SlidingPaneLayout)parent;
         if (slidingPaneLayout.isSecondChildUnder((int)ev.getX(), (int)ev.getY()))
             return true;
         else

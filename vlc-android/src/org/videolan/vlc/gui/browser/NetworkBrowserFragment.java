@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.videolan.vlc.R.id.hide;
+
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public NetworkBrowserFragment() {
@@ -68,12 +70,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        if (mRoot) {
-            mFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
-            mFAB.setImageResource(R.drawable.ic_fab_add);
-            mFAB.setVisibility(View.VISIBLE);
-            mFAB.setOnClickListener(this);
-        }
         return v;
     }
 
@@ -83,6 +79,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         getActivity().registerReceiver(networkReceiver, filter);
+        if (mRoot) {
+            mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            mFAB.setImageResource(R.drawable.ic_fab_add);
+            mFAB.setVisibility(View.VISIBLE);
+            mFAB.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -94,6 +96,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public void onStop() {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
+        if (mRoot) {
+            mFAB.setVisibility(View.GONE);
+            mFAB.setOnClickListener(null);
+        }
     }
 
     protected void updateDisplay() {
@@ -245,9 +251,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public void onClick(View v) {
         if (!isRootDirectory())
             super.onClick(v);
-        else if (v.getId() == R.id.fab_add_custom_dir){
+        else if (v.getId() == R.id.fab)
             showAddServerDialog(null);
-        }
     }
 
     public void showAddServerDialog(MediaWrapper mw) {
