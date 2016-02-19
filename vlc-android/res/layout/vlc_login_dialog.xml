@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
     <data>
         <import type="android.view.View" />
+        <import type="org.videolan.libvlc.util.AndroidUtil" />
         <variable name="dialog" type="org.videolan.libvlc.Dialog.LoginDialog"/>
         <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcLoginDialog"/>
     </data>
@@ -57,11 +58,19 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
+        <TextView
+            android:id="@+id/warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/store"
+            android:layout_margin="10dp"
+            android:text="@string/encryption_warning"
+            android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater() ? View.VISIBLE : View.GONE}" />
         <Button
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/store"
+            android:layout_below="@+id/warning"
             android:layout_toLeftOf="@+id/action"
             android:text="@android:string/cancel"
             android:onClick="@{handler.onCancel}"
@@ -72,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/store"
+            android:layout_below="@+id/warning"
             android:text="@android:string/ok"
             android:onClick="@{handler.onLogin}"
             tools:targetApi="11"
