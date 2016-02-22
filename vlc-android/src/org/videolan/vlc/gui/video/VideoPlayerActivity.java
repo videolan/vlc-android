@@ -34,7 +34,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
@@ -45,10 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
@@ -126,13 +122,9 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -2686,6 +2678,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     /**
      * External extras:
      * - position (long) - position of the video to start with (in ms)
+     * - subtitles_location (String) - location of a subtitles file to load
+     * - from_start (boolean) - Whether playback should start from start or from resume point
+     * - title (String) - video title, will be guessed from file if not set.
      */
     @TargetApi(12)
     @SuppressWarnings({ "unchecked" })
