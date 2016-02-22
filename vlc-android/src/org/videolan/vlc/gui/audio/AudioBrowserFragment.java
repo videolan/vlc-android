@@ -800,7 +800,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     updateAlbums, updateSongs, updateGenres, updatePlaylists));
 
             //process the visible list first
-            tasks.add(0, tasks.remove(mViewPager.getCurrentItem()));
+            if (mViewPager.getCurrentItem() != 0)
+                tasks.add(0, tasks.remove(mViewPager.getCurrentItem()));
             tasks.add(new Runnable() {
                 @Override
                 public void run() {
