@@ -2832,8 +2832,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Get the title
             if (itemTitle == null)
                 title = mUri.getLastPathSegment();
-        } else
+        } else {
+            mService.addCallback(this);
             mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
+        }
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);
