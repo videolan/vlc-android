@@ -94,4 +94,12 @@ public interface IAWindowNativeHandler {
      */
     @SuppressWarnings("unused") /* Used by JNI */
     void setWindowLayout(int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen);
+
+    /**
+     * TODO: temporary method, will be removed when VLC can handle decoder fallback
+     * This call will result of {@link IVLCVout.Callback#onHardwareAccelerationError} being called from the main thread.
+     *
+     */
+    @SuppressWarnings("unused") /* Used by JNI */
+    void sendHardwareAccelerationError();
 }

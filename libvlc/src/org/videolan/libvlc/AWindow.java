@@ -526,6 +526,17 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
             }
         });
     }
+
+    @Override
+    public void sendHardwareAccelerationError() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+                    cb.onHardwareAccelerationError(AWindow.this);
+            }
+        });
+    }
     public native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
     public native void nativeOnWindowSize(long nativeHandle, int width, int height);
 }

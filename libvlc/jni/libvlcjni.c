@@ -479,38 +479,3 @@ int aout_get_native_sample_rate(void)
     int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
     return sample_rate;
 }
-
-/* TODO REMOVE */
-static jobject error_obj = NULL;
-pthread_mutex_t error_obj_lock;
-
-void Java_org_videolan_libvlc_LibVLC_nativeSetOnHardwareAccelerationError(JNIEnv *env, jobject thiz, jobject error_obj_)
-{
-    pthread_mutex_lock(&error_obj_lock);
-
-    if (error_obj != NULL)
-        (*env)->DeleteGlobalRef(env, error_obj);
-    error_obj = error_obj_ ? (*env)->NewGlobalRef(env, error_obj_) : NULL;
-    pthread_mutex_unlock(&error_obj_lock);
-}
-
-void jni_EventHardwareAccelerationError()
-{
-    JNIEnv *env;
-
-    if (!(env = jni_get_env(THREAD_NAME)))
-        return;
-
-    pthread_mutex_lock(&error_obj_lock);
-    if (error_obj == NULL) {
-        pthread_mutex_unlock(&error_obj_lock);
-        return;
-    }
-
-    jclass cls = (*env)->GetObjectClass(env, error_obj);
-    jmethodID methodId = (*env)->GetMethodID(env, cls, "eventHardwareAccelerationError", "()V");
-    (*env)->CallVoidMethod(env, error_obj, methodId);
-
-    (*env)->DeleteLocalRef(env, cls);
-    pthread_mutex_unlock(&error_obj_lock);
-}

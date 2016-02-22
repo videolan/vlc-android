@@ -132,7 +132,7 @@ import java.util.Date;
 import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
-        GestureDetector.OnDoubleTapListener, IDelayController, LibVLC.HardwareAccelerationError,
+        GestureDetector.OnDoubleTapListener, IDelayController,
         PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
@@ -723,8 +723,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         initUI();
 
-        LibVLC().setOnHardwareAccelerationError(this);
-
         loadMedia();
 
         // Add any selected subtitle file from the file picker
@@ -819,8 +817,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mMute)
             mute(false);
-
-        LibVLC().setOnHardwareAccelerationError(null);
 
         mPlaybackStarted = false;
 
@@ -1597,11 +1593,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         .setMessage(R.string.encountered_error_message)
         .create();
         mAlertDialog.show();
-    }
-
-    @Override
-    public void eventHardwareAccelerationError() {
-        mHandler.sendEmptyMessage(HW_ERROR);
     }
 
     private void handleHardwareAccelerationError() {
@@ -3185,6 +3176,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
         mSurfacesAttached = false;
+    }
+
+    @Override
+    public void onHardwareAccelerationError(IVLCVout vlcVout) {
+        mHandler.sendEmptyMessage(HW_ERROR);
     }
 
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {

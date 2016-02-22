@@ -40,10 +40,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     /** Native crash handler */
     private static OnNativeCrashListener sOnNativeCrashListener;
 
-    public interface HardwareAccelerationError {
-        void eventHardwareAccelerationError(); // TODO REMOVE
-    }
-
     /**
      * Create a LibVLC withs options
      *
@@ -91,11 +87,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     public LibVLC() {
         this(null);
     }
-
-    public void setOnHardwareAccelerationError(HardwareAccelerationError error) {
-        nativeSetOnHardwareAccelerationError(error);
-    }
-    private native void nativeSetOnHardwareAccelerationError(HardwareAccelerationError error);
 
     /**
      * Get the libVLC version
