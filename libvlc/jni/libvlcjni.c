@@ -467,15 +467,3 @@ void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,
     if (!psz_name || !psz_http)
         throw_IllegalArgumentException(env, "name or http invalid");
 }
-
-/* used by opensles module */
-int aout_get_native_sample_rate(void)
-{
-    JNIEnv *p_env;
-    if (!(p_env = jni_get_env(THREAD_NAME)))
-        return -1;
-    jclass cls = (*p_env)->FindClass (p_env, "android/media/AudioTrack");
-    jmethodID method = (*p_env)->GetStaticMethodID (p_env, cls, "getNativeOutputSampleRate", "(I)I");
-    int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
-    return sample_rate;
-}
