@@ -188,6 +188,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         }
 
         try {
+            System.loadLibrary("vlc");
             System.loadLibrary("vlcjni");
         } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load vlcjni library: " + ule);
