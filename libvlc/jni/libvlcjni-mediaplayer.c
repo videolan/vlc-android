@@ -26,7 +26,6 @@
 
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
-extern JavaVM *libvlc_get_jvm();
 
 static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerOpening,
@@ -118,8 +117,7 @@ MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj,
         throw_IllegalStateException(env, "can't create MediaPlayer instance");
         return;
     }
-    libvlc_media_player_set_android_context(p_obj->u.p_mp, libvlc_get_jvm(),
-                                            p_obj->p_sys->jwindow);
+    libvlc_media_player_set_android_context(p_obj->u.p_mp, p_obj->p_sys->jwindow);
 
     VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
                               libvlc_media_player_event_manager(p_obj->u.p_mp),

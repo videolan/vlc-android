@@ -34,7 +34,6 @@
 
 #include <android/api-level.h>
 
-#include "libvlcjni-modules.h"
 #include "libvlcjni-vlcobject.h"
 #include "utils.h"
 #include "native_crash_handler.h"
@@ -52,12 +51,6 @@ JNIEnv *jni_get_env(const char *name);
  * can only be one instance of this shared library in a single VM
  */
 static JavaVM *myVm;
-
-JavaVM *
-libvlc_get_jvm()
-{
-    return myVm;
-}
 
 static pthread_key_t jni_env_key;
 
