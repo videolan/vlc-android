@@ -2504,10 +2504,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mForward != null)
                     mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mSize.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mMenuIdx >= 0 && mNavMenu != null)
                     mNavMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-            } else
-                mSize.setVisibility(View.INVISIBLE);
+            }
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
@@ -2523,6 +2523,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mRewind.setVisibility(View.INVISIBLE);
             if (mForward != null)
                 mForward.setVisibility(View.INVISIBLE);
+            mSize.setVisibility(View.INVISIBLE);
             if (mMenuIdx >= 0 && mNavMenu != null)
                 mNavMenu.setVisibility(View.INVISIBLE);
             mShowing = false;
