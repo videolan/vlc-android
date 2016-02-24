@@ -1310,6 +1310,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSize.setEnabled(false);
         hideOverlay(true);
         mLockBackButton = true;
+        mIsLocked = true;
     }
 
     /**
@@ -1325,6 +1326,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLength.setEnabled(true);
         mSize.setEnabled(true);
         mShowing = false;
+        mIsLocked = false;
         showOverlay();
         mLockBackButton = false;
     }
@@ -2148,7 +2150,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     unlockScreen();
                 else
                     lockScreen();
-                mIsLocked = !mIsLocked;
                 break;
             case R.id.player_overlay_size:
                 resizeVideo();
