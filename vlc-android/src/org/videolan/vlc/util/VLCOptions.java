@@ -35,6 +35,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -51,7 +52,8 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_FULL = 2;
 
     public static ArrayList<String> getLibOptions() {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        final Context context = VLCApplication.getAppContext();
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         ArrayList<String> options = new ArrayList<String>(50);
 
@@ -93,8 +95,18 @@ public class VLCOptions {
         options.add(chroma != null ? chroma : "RV32");
         options.add("--audio-resampler");
         options.add(getResampler());
+        
+        /* Configure keystore */
+        options.add("--keystore");
+        if (AndroidUtil.isMarshMallowOrLater())
+            options.add("file_crypt,none");
+        else
+            options.add("file_plaintext,none");
+        options.add("--keystore-file");
+        options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
         options.add(verboseMode ? "-vvv" : "-vv");
+
         return options;
     }
 
