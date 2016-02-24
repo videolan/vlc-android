@@ -36,9 +36,13 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
     }
 
     public void addItem(Object media, boolean notify, boolean top){
-        MediaWrapper mediaWrapper = new MediaWrapper((Media)media);
+        MediaWrapper mediaWrapper;
+        if (media instanceof MediaWrapper)
+            mediaWrapper = (MediaWrapper) media;
+        else
+            mediaWrapper = new MediaWrapper((Media)media);
         if (filter(mediaWrapper))
-            addItem(mediaWrapper, notify, top);
+            super.addItem(mediaWrapper, notify, top);
     }
 
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
