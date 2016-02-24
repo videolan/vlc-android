@@ -223,8 +223,9 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
      * @param type Type of the audio file sort.
      */
     private void calculateSections(int type) {
-        char prevFirstChar = 'a';
+        char prevFirstChar = '%';
         boolean firstSeparator = true;
+        ArrayList<String> sections = new ArrayList<>();
 
         for (int i = 0; i < mItems.size(); ++i) {
             String title = mItems.get(i).mTitle;
@@ -249,13 +250,15 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 firstChar = '#'; // Blank / spaces-only song title.
 
             if (Character.isLetter(firstChar)) {
-                if (firstSeparator || firstChar != prevFirstChar) {
-                    ListItem item = new ListItem(String.valueOf(firstChar), null, null, true);
+                String firstCharInString = String.valueOf(firstChar);
+                if ((firstSeparator || firstChar != prevFirstChar) && !sections.contains(firstCharInString)) {
+                    ListItem item = new ListItem(firstCharInString, null, null, true);
                     mItems.add(i, item);
                     mSections.put(i, String.valueOf(firstChar));
                     i++;
                     prevFirstChar = firstChar;
                     firstSeparator = false;
+                    sections.add(firstCharInString);
                 }
             }
             else if (firstSeparator) {
