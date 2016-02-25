@@ -199,15 +199,15 @@ android {
 dependencies {
     compile project(':libvlc')
     compile project(':api')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:support-annotations:23.1.1'
-    compile 'com.android.support:preference-v7:23.1.1'
-    compile 'com.android.support:percent:23.1.1'
-    compile 'com.android.support:leanback-v17:23.1.1'
-    compile 'com.android.support:preference-leanback-v17:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:support-annotations:23.2.0'
+    compile 'com.android.support:preference-v7:23.2.0'
+    compile 'com.android.support:percent:23.2.0'
+    compile 'com.android.support:leanback-v17:23.2.0'
+    compile 'com.android.support:preference-leanback-v17:23.2.0'
     testCompile 'junit:junit:4.12'
 }
 
