@@ -64,6 +64,7 @@ public class MediaUtils {
                 @Override
                 public void onConnected(PlaybackService service) {
                     service.load(media);
+                    mClient.disconnect();
                 }
             };
     }
@@ -196,7 +197,7 @@ public class MediaUtils {
         @Override
         public void onConnected(PlaybackService service) {
             mRunnable.run(service);
-            dialog.dismiss();
+            dialog.cancel();
         }
 
         @Override
