@@ -21,7 +21,6 @@
 package org.videolan.libvlc;
 
 import android.net.Uri;
-import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
@@ -636,20 +635,17 @@ public class Media extends VLCObject<Media.Event> {
             return;
         }
 
-        if (!AndroidUtil.isJellyBeanOrLater()) {
-            /*
-             * Set higher caching values if using iomx decoding, since some omx
-             * decoders have a very high latency, and if the preroll data isn't
-             * enough to make the decoder output a frame, the playback timing gets
-             * started too soon, and every decoded frame appears to be too late.
-             * On Nexus One, the decoder latency seems to be 25 input packets
-             * for 320x170 H.264, a few packets less on higher resolutions.
-             * On Nexus S, the decoder latency seems to be about 7 packets.
-             */
-            addOption(":file-caching=1500");
-            addOption(":network-caching=1500");
-            Log.i(TAG, "file/network caching for hw decoders");
-        }
+        /*
+         * Set higher caching values if using iomx decoding, since some omx
+         * decoders have a very high latency, and if the preroll data isn't
+         * enough to make the decoder output a frame, the playback timing gets
+         * started too soon, and every decoded frame appears to be too late.
+         * On Nexus One, the decoder latency seems to be 25 input packets
+         * for 320x170 H.264, a few packets less on higher resolutions.
+         * On Nexus S, the decoder latency seems to be about 7 packets.
+         */
+        addOption(":file-caching=1500");
+        addOption(":network-caching=1500");
 
         final StringBuilder sb = new StringBuilder(":codec=");
         if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
