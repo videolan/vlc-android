@@ -41,8 +41,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dip"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
         android:longClickable="true"
         android:clickable="true"
         android:onClick="@{holder.onClick}">
