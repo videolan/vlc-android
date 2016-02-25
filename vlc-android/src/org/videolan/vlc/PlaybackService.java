@@ -138,6 +138,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private boolean mPausable = false;
     private boolean mIsAudioTrack = false;
     private boolean mHasHdmiAudio = false;
+    private boolean mSwitchingToVideo = false;
 
     final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
     private boolean mDetectHeadset = true;
@@ -532,12 +533,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @Override
     public void onSurfacesCreated(IVLCVout vlcVout) {
-        handleVout();
+        hideNotification(false);
     }
 
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
-        handleVout();
+        mSwitchingToVideo = false;
     }
 
     @Override
@@ -663,11 +664,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 case MediaPlayer.Event.Vout:
                     break;
                 case MediaPlayer.Event.ESAdded:
-                    if (event.getEsChangedType() == Media.Track.Type.Video) {
-                        if (!handleVout()) {
-                            /* Update notification content intent: resume video or resume audio activity */
-                            updateMetadata();
-                        }
+                    if (event.getEsChangedType() == Media.Track.Type.Video && !switchToVideo()) {
+                        /* Update notification content intent: resume video or resume audio activity */
+                        updateMetadata();
                     }
                     break;
                 case MediaPlayer.Event.ESDeleted:
@@ -744,16 +743,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         return hasCurrentMedia() && mMediaPlayer.getVideoTracksCount() > 0;
     }
 
-    private boolean handleVout() {
-        if (!canSwitchToVideo() || !mMediaPlayer.isPlaying())
-            return false;
-        if (isVideoPlaying()) {
-            hideNotification(false);
-            return true;
-        } else
-            return false;
-    }
-
     @MainThread
     public boolean switchToVideo() {
         if (mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
@@ -763,9 +752,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             LocalBroadcastManager.getInstance(this).sendBroadcast(
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
                             getCurrentMediaWrapper(), false, mCurrentIndex));
-        } else {//Start the video player
+        } else if (!mSwitchingToVideo) {//Start the video player
+            Log.e(TAG, "startOpened", new Exception());
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     getCurrentMediaWrapper().getUri(), mCurrentIndex);
+            mSwitchingToVideo = true;
         }
         return true;
     }
@@ -1683,6 +1674,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         /* Pausable and seekable are true by default */
         mParsed = false;
+        mSwitchingToVideo = false;
         mPausable = mSeekable = true;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
