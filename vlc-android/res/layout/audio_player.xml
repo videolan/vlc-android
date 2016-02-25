@@ -8,7 +8,6 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:focusable="false"
         android:indeterminate="false"
         android:maxHeight="2dip"
@@ -135,7 +134,6 @@
         android:id="@+id/view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:layout_below="@+id/header"
         android:layout_above="@+id/player_controls">
 
