@@ -3,4 +3,15 @@
     <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textCursorDrawable">@drawable/cursor_w</item>
     </style>
+
+    <!--Preferences-->
+    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:textColorPrimary">@color/grey900</item>
+        <item name="android:textColorSecondary">@color/grey700</item>
+    </style>
+
+    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:textColorPrimary">@color/grey50</item>
+        <item name="android:textColorSecondary">@color/grey600</item>
+    </style>
 </resources>
