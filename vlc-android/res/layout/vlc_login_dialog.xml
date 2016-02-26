@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/password_container"
-            android:text="store"
+            android:text="@string/store_password"
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
