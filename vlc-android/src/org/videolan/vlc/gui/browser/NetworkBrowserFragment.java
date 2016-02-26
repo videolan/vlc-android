@@ -133,10 +133,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         mAdapter.setTop(mAdapter.getItemCount());
         if (AndroidDevices.hasLANConnection())
             mMediaBrowser.discoverNetworkShares();
-        else if (!mAdapter.isEmpty())
-            mAdapter.removeItem(mAdapter.getItemCount()-1, true);
-        if (!AndroidDevices.hasConnection())
-            updateEmptyView();
+        else {
+            if (!mAdapter.isEmpty())
+                mAdapter.removeItem(mAdapter.getItemCount() - 1, true);
+            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
+        }
     }
 
     @Override
@@ -194,7 +195,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
             mAdapter.notifyItemRangeChanged(0, newSize+1);
         }
         mFavorites = newSize; //update count
-        updateEmptyView();
+        if (newSize != 0)
+            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
+        else
+           updateEmptyView();
     }
 
     public void toggleFavorite() {
@@ -225,14 +229,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
             } else if (mEmptyView.getVisibility() == View.VISIBLE) {
                     mEmptyView.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
-                    mSwipeRefreshLayout.setRefreshing(false);
             }
         } else {
-            if (mEmptyView.getVisibility() == View.GONE) {
-                mEmptyView.setText(R.string.network_connection_needed);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
-            }
+            mEmptyView.setText(R.string.network_connection_needed);
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
         }
     }
 

@@ -147,12 +147,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return v;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-    }
-
     public void onStop(){
         super.onStop();
         releaseBrowser();
@@ -313,6 +307,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
+        mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
         mAdapter.clear();
         mFoldersContentLists.clear();
         if (mMediaBrowser == null)
@@ -324,7 +319,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             browseRoot();
         else
             mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), true);
-        mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
     private void deleteMedia(final MediaWrapper mw) {
