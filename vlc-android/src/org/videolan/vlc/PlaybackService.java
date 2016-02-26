@@ -359,9 +359,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_LOSS:
                         Log.i(TAG, "AUDIOFOCUS_LOSS");
-                        // Stop playback
+                        // Pause playback
                         changeAudioFocus(false);
-                        stop();
+                        pause();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
@@ -397,7 +397,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
-    private void changeAudioFocusFroyoOrLater(boolean acquire) {
+    private void changeAudioFocus(boolean acquire) {
         final AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         if (am == null)
             return;
@@ -418,11 +418,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 mHasAudioFocus = false;
             }
         }
-    }
-
-    private void changeAudioFocus(boolean acquire) {
-        if (AndroidUtil.isFroyoOrLater())
-            changeAudioFocusFroyoOrLater(acquire);
     }
 
 
