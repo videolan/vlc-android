@@ -579,7 +579,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
 
         if (current instanceof NetworkBrowserFragment &&
                 !((NetworkBrowserFragment)current).isRootDirectory()) {
-            menu.findItem(R.id.ml_menu_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setShowAsAction(menu.findItem(R.id.ml_menu_search), MenuItem.SHOW_AS_ACTION_IF_ROOM);
             item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
