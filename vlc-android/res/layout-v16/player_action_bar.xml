@@ -25,8 +25,20 @@
         android:id="@+id/playlist_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/player_overlay_navmenu"
         android:src="@drawable/ic_playlist_circle"
         android:focusable="true"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/player_overlay_navmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:clickable="true"
+        android:src="@drawable/ic_navmenu_circle"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:focusable="true"
+        android:visibility="gone" />
 </RelativeLayout>

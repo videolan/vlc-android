@@ -118,17 +118,6 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/player_overlay_navmenu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:src="@drawable/ic_navmenu_circle"
-            android:scaleType="center"
-            android:focusable="true"
-            android:visibility="gone" />
-
-        <ImageView
             android:id="@+id/player_overlay_adv_function"
             android:layout_width="0dp"
             android:layout_height="match_parent"

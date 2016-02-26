@@ -38,7 +38,18 @@
         android:id="@+id/playlist_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
         android:src="@drawable/ic_playlist_circle"
         android:focusable="true"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/player_overlay_navmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_navmenu_circle"
+        android:scaleType="center"
+        android:focusable="true"
+        android:visibility="gone" />
 </LinearLayout>
