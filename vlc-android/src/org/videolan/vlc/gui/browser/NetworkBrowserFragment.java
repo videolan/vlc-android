@@ -159,11 +159,14 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         if (newSize == 0 && mFavorites == 0)
             return;
         if (!AndroidDevices.hasLANConnection()) {
+            ArrayList<MediaWrapper> toRemove = new ArrayList<>();
             List<String> schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https");
-            for (MediaWrapper mw : favs) {
+            for (MediaWrapper mw : favs)
                 if (!schemes.contains(mw.getUri().getScheme()))
+                    toRemove.add(mw);
+            if (!toRemove.isEmpty())
+                for (MediaWrapper mw : toRemove)
                     favs.remove(mw);
-            }
             newSize = favs.size();
             if (newSize == 0) {
                 if (mFavorites != 0) {
