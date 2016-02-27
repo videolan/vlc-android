@@ -25,6 +25,7 @@ import android.os.Looper;
 
 import java.lang.ref.WeakReference;
 
+@SuppressWarnings("JniMissingFunction")
 abstract class VLCObject<T extends VLCEvent> {
     private VLCEvent.Listener<T> mEventListener = null;
     private Handler mHandler = null;

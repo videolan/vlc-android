@@ -22,6 +22,7 @@ package org.videolan.libvlc;
 
 import android.view.Surface;
 
+@SuppressWarnings("unused, JniMissingFunction")
 public abstract class IAWindowNativeHandler {
     /**
      * Callback called from {@link IVLCVout#sendMouseEvent}.

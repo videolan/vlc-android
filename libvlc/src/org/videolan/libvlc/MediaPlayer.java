@@ -22,7 +22,7 @@
 
 package org.videolan.libvlc;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("unused, JniMissingFunction")
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     public static class Event extends VLCEvent {

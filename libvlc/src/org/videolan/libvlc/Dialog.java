@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.MainThread;
 
+@SuppressWarnings("unused, JniMissingFunction")
 public abstract class Dialog {
 
     /**

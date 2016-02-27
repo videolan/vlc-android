@@ -28,6 +28,7 @@ import android.view.Surface;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 
+@SuppressWarnings("unused, JniMissingFunction")
 public class LibVLC extends VLCObject<LibVLC.Event> {
     private static final String TAG = "VLC/LibVLC";
 
@@ -116,8 +117,8 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         nativeRelease();
     }
 
-    public static interface OnNativeCrashListener {
-        public void onNativeCrash();
+    public interface OnNativeCrashListener {
+        void onNativeCrash();
     }
 
     public static void setOnNativeCrashListener(OnNativeCrashListener l) {

@@ -27,7 +27,7 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.io.FileDescriptor;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("unused, JniMissingFunction")
 public class Media extends VLCObject<Media.Event> {
     private final static String TAG = "LibVLC/Media";
 

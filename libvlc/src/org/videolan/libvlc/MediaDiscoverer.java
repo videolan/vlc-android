@@ -22,7 +22,7 @@ package org.videolan.libvlc;
 
 import android.support.annotation.Nullable;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("unused, JniMissingFunction")
 public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     private final static String TAG = "LibVLC/MediaDiscoverer";
 
