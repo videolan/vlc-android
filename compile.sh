@@ -17,6 +17,7 @@ while [ $# -gt 0 ]; do
             echo "Use -s to set your keystore file and -p for the password"
             echo "Use -t to get an AndroidTv build"
             echo "Use -c to get a ChromeOS build"
+            echo "Use -l to build only LibVLC"
             exit 0
             ;;
         a|-a)
@@ -35,6 +36,10 @@ while [ $# -gt 0 ]; do
             ;;
         -p|--password)
             PASSWORD_KEYSTORE=$2
+            shift
+            ;;
+        -l)
+            BUILD_LIBVLC=1
             shift
             ;;
         run)
@@ -194,9 +199,14 @@ else
     GRADLE_ABI="ARMv7"
 fi
 
-TARGET="assemble${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
-
-PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
+if [ "$BUILD_LIBVLC" = 1 ];then
+    ./gradlew -p libvlc assemble${BUILDTYPE}
+    RUN=0
+    CHROME_OS=0
+else
+    TARGET="assemble${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
+    PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
+fi
 
 #######
 # RUN #
