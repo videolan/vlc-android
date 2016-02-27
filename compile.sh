@@ -40,7 +40,6 @@ while [ $# -gt 0 ]; do
             ;;
         -l)
             BUILD_LIBVLC=1
-            shift
             ;;
         run)
             RUN=1
