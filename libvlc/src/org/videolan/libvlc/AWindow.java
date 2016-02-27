@@ -37,7 +37,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AWindow implements IAWindowNativeHandler, IVLCVout {
+public class AWindow implements IVLCVout {
     private static final String TAG = "AWindow";
 
     private static final int ID_VIDEO = 0;
@@ -382,7 +382,7 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
     public void sendMouseEvent(int action, int button, int x, int y) {
         synchronized (mNativeLock) {
             if (mCallbackNativeHandle != 0)
-                nativeOnMouseEvent(mCallbackNativeHandle, action, button, x, y);
+                mAWindowNativeHandler.nativeOnMouseEvent(mCallbackNativeHandle, action, button, x, y);
             else {
                 mMouseAction = action;
                 mMouseButton = button;
@@ -396,30 +396,12 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
     public void setWindowSize(int width, int height) {
         synchronized (mNativeLock) {
             if (mCallbackNativeHandle != 0)
-                nativeOnWindowSize(mCallbackNativeHandle, width, height);
+                mAWindowNativeHandler.nativeOnWindowSize(mCallbackNativeHandle, width, height);
             else {
                 mWindowWidth = width;
                 mWindowHeight = height;
             }
         }
-    }
-
-    @Override
-    public boolean setCallback(long nativeHandle) {
-        synchronized (mNativeLock) {
-            if (mCallbackNativeHandle != 0 && nativeHandle != 0)
-                return false;
-            mCallbackNativeHandle = nativeHandle;
-            if (mCallbackNativeHandle != 0) {
-                if (mMouseAction != -1)
-                    nativeOnMouseEvent(mCallbackNativeHandle, mMouseAction, mMouseButton, mMouseX, mMouseY);
-                if (mWindowWidth != -1 && mWindowHeight != -1)
-                    nativeOnWindowSize(mCallbackNativeHandle, mWindowWidth, mWindowHeight);
-            }
-            mMouseAction = mMouseButton = mMouseX = mMouseY = -1;
-            mWindowWidth = mWindowHeight = -1;
-        }
-        return true;
     }
 
     private void setNativeSurface(int id, Surface surface) {
@@ -434,76 +416,11 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
         }
     }
 
-    @Override
-    public Surface getVideoSurface() {
-        return getNativeSurface(ID_VIDEO);
-    }
-
-    @Override
-    public Surface getSubtitlesSurface() {
-        return getNativeSurface(ID_SUBTITLES);
-    }
-
     private static class BuffersGeometryCond {
         private boolean configured = false;
         private boolean abort = false;
     }
     private final BuffersGeometryCond mBuffersGeometryCond = new BuffersGeometryCond();
-
-    @Override
-    public boolean setBuffersGeometry(final Surface surface, final int width, final int height, final int format) {
-        if (AndroidUtil.isICSOrLater())
-            return false;
-        if (width * height == 0)
-            return false;
-        Log.d(TAG, "configureSurface: " + width + "x" + height);
-
-        synchronized (mBuffersGeometryCond) {
-            if (mBuffersGeometryCond.configured || mBuffersGeometryCond.abort)
-                return false;
-        }
-
-        mHandler.post(new Runnable() {
-            private SurfaceHelper getSurfaceHelper(Surface surface) {
-                for (int id = 0; id < ID_MAX; ++id) {
-                    final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
-                    if (surfaceHelper != null && surfaceHelper.getSurface() == surface)
-                        return surfaceHelper;
-                }
-                return null;
-            }
-
-            @Override
-            public void run() {
-                final SurfaceHelper surfaceHelper = getSurfaceHelper(surface);
-                final SurfaceHolder surfaceHolder = surfaceHelper != null ? surfaceHelper.getSurfaceHolder() : null;
-
-                if (surfaceHolder != null) {
-                    if (surfaceHolder.getSurface().isValid()) {
-                        if (format != 0)
-                            surfaceHolder.setFormat(format);
-                        surfaceHolder.setFixedSize(width, height);
-                    }
-                }
-
-                synchronized (mBuffersGeometryCond) {
-                    mBuffersGeometryCond.configured = true;
-                    mBuffersGeometryCond.notifyAll();
-                }
-            }
-        });
-
-        try {
-            synchronized (mBuffersGeometryCond) {
-                while (!mBuffersGeometryCond.configured && !mBuffersGeometryCond.abort)
-                    mBuffersGeometryCond.wait();
-                mBuffersGeometryCond.configured = false;
-            }
-        } catch (InterruptedException e) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public void addCallback(IVLCVout.Callback callback) {
@@ -516,27 +433,115 @@ public class AWindow implements IAWindowNativeHandler, IVLCVout {
         mIVLCVoutCallbacks.remove(callback);
     }
 
-    @Override
-    public void setWindowLayout(final int width, final int height, final int visibleWidth, final int visibleHeight, final int sarNum, final int sarDen) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
-                    cb.onNewLayout(AWindow.this, width, height, visibleWidth, visibleHeight, sarNum, sarDen);
-            }
-        });
+    public IAWindowNativeHandler getNativeHandler() {
+        return mAWindowNativeHandler;
     }
 
-    @Override
-    public void sendHardwareAccelerationError() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
-                    cb.onHardwareAccelerationError(AWindow.this);
+    private final IAWindowNativeHandler mAWindowNativeHandler = new IAWindowNativeHandler() {
+        @Override
+        public Surface getVideoSurface() {
+            return getNativeSurface(ID_VIDEO);
+        }
+
+        @Override
+        public Surface getSubtitlesSurface() {
+            return getNativeSurface(ID_SUBTITLES);
+        }
+
+        @Override
+        public boolean setCallback(long nativeHandle) {
+            synchronized (mNativeLock) {
+                if (mCallbackNativeHandle != 0 && nativeHandle != 0)
+                    return false;
+                mCallbackNativeHandle = nativeHandle;
+                if (mCallbackNativeHandle != 0) {
+                    if (mMouseAction != -1)
+                        nativeOnMouseEvent(mCallbackNativeHandle, mMouseAction, mMouseButton, mMouseX, mMouseY);
+                    if (mWindowWidth != -1 && mWindowHeight != -1)
+                        nativeOnWindowSize(mCallbackNativeHandle, mWindowWidth, mWindowHeight);
+                }
+                mMouseAction = mMouseButton = mMouseX = mMouseY = -1;
+                mWindowWidth = mWindowHeight = -1;
             }
-        });
-    }
-    public native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
-    public native void nativeOnWindowSize(long nativeHandle, int width, int height);
+            return true;
+        }
+
+        @Override
+        public boolean setBuffersGeometry(final Surface surface, final int width, final int height, final int format) {
+            if (AndroidUtil.isICSOrLater())
+                return false;
+            if (width * height == 0)
+                return false;
+            Log.d(TAG, "configureSurface: " + width + "x" + height);
+
+            synchronized (mBuffersGeometryCond) {
+                if (mBuffersGeometryCond.configured || mBuffersGeometryCond.abort)
+                    return false;
+            }
+
+            mHandler.post(new Runnable() {
+                private SurfaceHelper getSurfaceHelper(Surface surface) {
+                    for (int id = 0; id < ID_MAX; ++id) {
+                        final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
+                        if (surfaceHelper != null && surfaceHelper.getSurface() == surface)
+                            return surfaceHelper;
+                    }
+                    return null;
+                }
+
+                @Override
+                public void run() {
+                    final SurfaceHelper surfaceHelper = getSurfaceHelper(surface);
+                    final SurfaceHolder surfaceHolder = surfaceHelper != null ? surfaceHelper.getSurfaceHolder() : null;
+
+                    if (surfaceHolder != null) {
+                        if (surfaceHolder.getSurface().isValid()) {
+                            if (format != 0)
+                                surfaceHolder.setFormat(format);
+                            surfaceHolder.setFixedSize(width, height);
+                        }
+                    }
+
+                    synchronized (mBuffersGeometryCond) {
+                        mBuffersGeometryCond.configured = true;
+                        mBuffersGeometryCond.notifyAll();
+                    }
+                }
+            });
+
+            try {
+                synchronized (mBuffersGeometryCond) {
+                    while (!mBuffersGeometryCond.configured && !mBuffersGeometryCond.abort)
+                        mBuffersGeometryCond.wait();
+                    mBuffersGeometryCond.configured = false;
+                }
+            } catch (InterruptedException e) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public void setWindowLayout(final int width, final int height, final int visibleWidth,
+                                    final int visibleHeight, final int sarNum, final int sarDen) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+                        cb.onNewLayout(AWindow.this, width, height, visibleWidth, visibleHeight, sarNum, sarDen);
+                }
+            });
+        }
+
+        @Override
+        public void sendHardwareAccelerationError() {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
+                        cb.onHardwareAccelerationError(AWindow.this);
+                }
+            });
+        }
+    };
 }
