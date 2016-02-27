@@ -845,8 +845,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /* JNI */
-    private native void nativeNewFromLibVlc(LibVLC libVLC, IAWindowNativeHandler window);
-    private native void nativeNewFromMedia(Media media, IAWindowNativeHandler window);
+    private native void nativeNewFromLibVlc(LibVLC libVLC, AWindowNativeHandler window);
+    private native void nativeNewFromMedia(Media media, AWindowNativeHandler window);
     private native void nativeRelease();
     private native void nativeSetMedia(Media media);
     private native void nativePlay();

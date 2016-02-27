@@ -433,11 +433,11 @@ public class AWindow implements IVLCVout {
         mIVLCVoutCallbacks.remove(callback);
     }
 
-    public IAWindowNativeHandler getNativeHandler() {
+    public AWindowNativeHandler getNativeHandler() {
         return mAWindowNativeHandler;
     }
 
-    private final IAWindowNativeHandler mAWindowNativeHandler = new IAWindowNativeHandler() {
+    private final AWindowNativeHandler mAWindowNativeHandler = new AWindowNativeHandler() {
         @Override
         public Surface getVideoSurface() {
             return getNativeSurface(ID_VIDEO);

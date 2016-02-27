@@ -1,5 +1,5 @@
 /*****************************************************************************
- * public class IAWindowNativeHandler.java
+ * public class AWindowNativeHandler.java
  *****************************************************************************
  * Copyright © 2015 VLC authors, VideoLAN and VideoLabs
  *
@@ -23,7 +23,7 @@ package org.videolan.libvlc;
 import android.view.Surface;
 
 @SuppressWarnings("unused, JniMissingFunction")
-public abstract class IAWindowNativeHandler {
+public abstract class AWindowNativeHandler {
     /**
      * Callback called from {@link IVLCVout#sendMouseEvent}.
      *
