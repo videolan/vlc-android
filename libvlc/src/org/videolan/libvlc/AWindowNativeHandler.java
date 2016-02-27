@@ -33,7 +33,7 @@ public abstract class AWindowNativeHandler {
      * @param x x coordinate.
      * @param y y coordinate.
      */
-    native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
+    protected native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
 
     /**
      * Callback called from {@link IVLCVout#setWindowSize}.
@@ -42,7 +42,7 @@ public abstract class AWindowNativeHandler {
      * @param width width of the window.
      * @param height height of the window.
      */
-    native void nativeOnWindowSize(long nativeHandle, int width, int height);
+    protected native void nativeOnWindowSize(long nativeHandle, int width, int height);
 
     /**
      * Get the valid Video surface.
@@ -50,7 +50,7 @@ public abstract class AWindowNativeHandler {
      * @return can be null if the surface was destroyed.
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract Surface getVideoSurface();
+    protected abstract Surface getVideoSurface();
 
     /**
      * Get the valid Subtitles surface.
@@ -58,7 +58,7 @@ public abstract class AWindowNativeHandler {
      * @return can be null if the surface was destroyed.
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract Surface getSubtitlesSurface();
+    protected abstract Surface getSubtitlesSurface();
 
     /**
      * Set a callback in order to receive {@link #nativeOnMouseEvent} and {@link #nativeOnWindowSize} events.
@@ -67,7 +67,7 @@ public abstract class AWindowNativeHandler {
      * @return true if callback was successfully registered
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract boolean setCallback(long nativeHandle);
+    protected abstract boolean setCallback(long nativeHandle);
 
     /**
      * This method is only used for ICS and before since ANativeWindow_setBuffersGeometry doesn't work before.
@@ -80,7 +80,7 @@ public abstract class AWindowNativeHandler {
      * @return true if buffersGeometry were set (only before ICS)
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract boolean setBuffersGeometry(Surface surface, int width, int height, int format);
+    protected abstract boolean setBuffersGeometry(Surface surface, int width, int height, int format);
 
     /**
      * Set the window Layout.
@@ -94,7 +94,7 @@ public abstract class AWindowNativeHandler {
      * @param sarDen Surface aspect ratio denominator
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract void setWindowLayout(int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen);
+    protected abstract void setWindowLayout(int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen);
 
     /**
      * TODO: temporary method, will be removed when VLC can handle decoder fallback
@@ -102,5 +102,5 @@ public abstract class AWindowNativeHandler {
      *
      */
     @SuppressWarnings("unused") /* Used by JNI */
-    abstract void sendHardwareAccelerationError();
+    protected abstract void sendHardwareAccelerationError();
 }
