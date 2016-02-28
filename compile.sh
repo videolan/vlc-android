@@ -15,7 +15,6 @@ while [ $# -gt 0 ]; do
             echo "  MIPS:    mips, mips64."
             echo "Use --release to build in release mode"
             echo "Use -s to set your keystore file and -p for the password"
-            echo "Use -t to get an AndroidTv build"
             echo "Use -c to get a ChromeOS build"
             echo "Use -l to build only LibVLC"
             exit 0
