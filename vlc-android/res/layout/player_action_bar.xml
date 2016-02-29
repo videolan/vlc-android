@@ -11,8 +11,9 @@
     <TextView
         android:id="@+id/player_overlay_title"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center"
         android:text="@string/title"
         android:textColor="#ffffff"
         android:textSize="15sp" />
@@ -20,10 +21,11 @@
     <TextView
         android:id="@+id/player_overlay_battery"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginRight="5dp"
         android:textColor="#ffffff"
         android:textSize="15sp"
+        android:gravity="center"
         tools:ignore="true" />
 
     <TextView
@@ -39,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_playlist_circle"
         android:focusable="true"
         android:visibility="gone"/>
@@ -47,6 +50,7 @@
         android:id="@+id/player_overlay_navmenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:clickable="true"
         android:src="@drawable/ic_navmenu_circle"
         android:scaleType="center"
