@@ -110,6 +110,7 @@ import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
@@ -502,7 +503,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onResume() {
         super.onResume();
-        mSwitchingView = false;
 
         /*
          * Set listeners here to avoid NPE when activity is closing
@@ -634,7 +634,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
         if (!isFinishing() && mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
-            Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
             switchToAudioMode(false);
         }
         stopPlayback();
@@ -1634,18 +1633,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
-        if (showUI && getIntent().getAction() != null
-            && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            Intent i = new Intent(this, MainActivity.class);
-            if (!Util.isCallable(i)){
-                try {
-                    i = new Intent(this, Class.forName("org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"));
-                } catch (ClassNotFoundException e) {
-                    return;
-                }
-            }
+        if (showUI) {
+            Intent i = new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
             startActivity(i);
-        }
+        } else
+            Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
         exitOK();
     }
 
@@ -3153,7 +3145,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        mHandler.sendEmptyMessage(START_PLAYBACK);
+        if (!mSwitchingView)
+            mHandler.sendEmptyMessage(START_PLAYBACK);
+        mSwitchingView = false;
+        Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
     }
 
     @Override
