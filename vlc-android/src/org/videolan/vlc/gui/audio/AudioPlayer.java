@@ -260,11 +260,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         getView().cancelLongPress();
@@ -306,7 +301,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         if (mService.hasMedia() && !mService.isVideoPlaying()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
-            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
+            if (isResumed() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
                 Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
                 mService.switchToVideo();
                 return;
