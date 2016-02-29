@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
     <TextView
         android:id="@+id/player_overlay_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/playlist_toggle"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:layout_gravity="top"
         android:background="?attr/status_bar_overlay"
@@ -25,7 +26,6 @@
         android:id="@+id/playlist_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/player_overlay_navmenu"
         android:src="@drawable/ic_playlist_circle"
         android:focusable="true"
         android:visibility="gone"/>
@@ -37,8 +37,7 @@
         android:layout_marginLeft="10dp"
         android:clickable="true"
         android:src="@drawable/ic_navmenu_circle"
-        android:layout_alignParentRight="true"
         android:scaleType="center"
         android:focusable="true"
         android:visibility="gone" />
-</RelativeLayout>
+</LinearLayout>
