@@ -437,7 +437,14 @@ public class AWindow implements IVLCVout {
         return mAWindowNativeHandler;
     }
 
+    @SuppressWarnings("unused, JniMissingFunction")
     private final AWindowNativeHandler mAWindowNativeHandler = new AWindowNativeHandler() {
+        @Override
+        protected native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
+
+        @Override
+        protected native void nativeOnWindowSize(long nativeHandle, int width, int height);
+
         @Override
         public Surface getVideoSurface() {
             return getNativeSurface(ID_VIDEO);

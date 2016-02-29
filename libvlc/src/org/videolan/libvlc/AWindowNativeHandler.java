@@ -22,7 +22,6 @@ package org.videolan.libvlc;
 
 import android.view.Surface;
 
-@SuppressWarnings("unused, JniMissingFunction")
 public abstract class AWindowNativeHandler {
     /**
      * Callback called from {@link IVLCVout#sendMouseEvent}.
@@ -33,7 +32,7 @@ public abstract class AWindowNativeHandler {
      * @param x x coordinate.
      * @param y y coordinate.
      */
-    protected native void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
+    protected abstract void nativeOnMouseEvent(long nativeHandle, int action, int button, int x, int y);
 
     /**
      * Callback called from {@link IVLCVout#setWindowSize}.
@@ -42,7 +41,7 @@ public abstract class AWindowNativeHandler {
      * @param width width of the window.
      * @param height height of the window.
      */
-    protected native void nativeOnWindowSize(long nativeHandle, int width, int height);
+    protected abstract void nativeOnWindowSize(long nativeHandle, int width, int height);
 
     /**
      * Get the valid Video surface.
