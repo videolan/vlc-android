@@ -2552,19 +2552,27 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         }
-        visibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        if (AndroidUtil.isJellyBeanOrLater())
+            visibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
         if (dim || mIsLocked) {
-            navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            if (AndroidUtil.isICSOrLater())
+                navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            else
+                visibility |= View.STATUS_BAR_HIDDEN;
             if (!AndroidDevices.hasCombBar()) {
                 navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 if (AndroidUtil.isKitKatOrLater())
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
-                visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+                if (AndroidUtil.isJellyBeanOrLater())
+                    visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             }
         }
         if (!dim) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
+            if (AndroidUtil.isICSOrLater())
+                visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
+            else
+                visibility |= View.STATUS_BAR_VISIBLE;
         }
 
         if (AndroidDevices.hasNavBar())
