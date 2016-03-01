@@ -279,14 +279,20 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 return true;
             case R.id.video_list_play_all:
                 ArrayList<MediaWrapper> playList = new ArrayList<>();
-                for (MediaWrapper mw : mVideoAdapter.getAll()) {
+                ArrayList<MediaWrapper> videos = mVideoAdapter.getAll();
+                MediaWrapper mw;
+                int offset = 0;
+                for (int i = 0; i < videos.size(); ++i) {
+                    mw = videos.get(i);
                     if (mw instanceof MediaGroup) {
                         for (MediaWrapper item : ((MediaGroup) mw).getAll())
                             playList.add(item);
+                        if (i < position)
+                            offset += ((MediaGroup)mw).size()-1;
                     } else
                         playList.add(mw);
                 }
-                MediaUtils.openList(getActivity(), playList, position);
+                MediaUtils.openList(getActivity(), playList, position+offset);
                 return true;
             case R.id.video_list_info:
                 Activity activity = getActivity();
