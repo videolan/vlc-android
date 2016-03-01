@@ -7,9 +7,9 @@
     <TextView
         android:id="@+id/player_overlay_title"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:layout_gravity="top"
         android:background="?attr/status_bar_overlay"
         android:text="@string/title"
@@ -26,6 +26,7 @@
         android:id="@+id/playlist_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_playlist_circle"
         android:focusable="true"
         android:visibility="gone"/>
@@ -35,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
         android:clickable="true"
         android:src="@drawable/ic_navmenu_circle"
         android:scaleType="center"
