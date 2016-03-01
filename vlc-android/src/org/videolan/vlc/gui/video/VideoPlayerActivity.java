@@ -252,9 +252,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mHardwareAccelerationError;
     private boolean mHasSubItems = false;
 
-    // Playlist
-    private int savedIndexPosition = -1;
-
     // size of the video
     private int mVideoHeight;
     private int mVideoWidth;
@@ -829,7 +826,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
-            mService.showWithoutParse(savedIndexPosition);
+            mService.showWithoutParse(mService.getCurrentMediaPosition());
             return;
         }
 
@@ -2732,7 +2729,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             mUri = openedMedia.getUri();
             itemTitle = openedMedia.getTitle();
-            savedIndexPosition = openedPosition;
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
         }
@@ -2791,13 +2787,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mw.addFlags(MediaWrapper.MEDIA_VIDEO);
                 mService.addCallback(this);
                 mService.load(mw);
-                savedIndexPosition = mService.getCurrentMediaPosition();
             } else {
                 mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
                 mService.addCallback(this);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mService.isPlaying())
-                    mService.playIndex(savedIndexPosition);
+                    mService.playIndex(openedPosition);
                 else
                     onPlaying();
             }
