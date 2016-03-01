@@ -50,6 +50,25 @@ public class VLCUtil {
         return errorMsg;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static String[] getABIList21() {
+        final String[] abis = Build.SUPPORTED_ABIS;
+        if (abis == null || abis.length == 0)
+            return getABIList();
+        return abis;
+    }
+
+    @SuppressWarnings("deprecation")
+    @TargetApi(Build.VERSION_CODES.FROYO)
+    public static String[] getABIList() {
+        final boolean hasABI2 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
+        final String[] abis = new String[hasABI2 ? 2 : 1];
+        abis[0] = android.os.Build.CPU_ABI;
+        if (hasABI2)
+            abis[1] = android.os.Build.CPU_ABI2;
+        return abis;
+    }
+
     public static boolean hasCompatibleCPU(Context context) {
         // If already checked return cached result
         if (errorMsg != null || isCompatible) return isCompatible;
@@ -65,14 +84,11 @@ public class VLCUtil {
             return true;
         }
 
-        String CPU_ABI = android.os.Build.CPU_ABI;
-        String CPU_ABI2 = "none";
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) { // CPU_ABI2 since 2.2
-            try {
-                CPU_ABI2 = (String) android.os.Build.class.getDeclaredField("CPU_ABI2").get(null);
-            } catch (Exception e) {
-            }
-        }
+        String[] abis;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            abis = getABIList21();
+        else
+            abis = getABIList();
 
         final boolean elfHasX86 = elf.e_machine == EM_386 || elf.e_machine == EM_X86_64;
         final boolean elfHasArm = elf.e_machine == EM_ARM || elf.e_machine == EM_AARCH64;
@@ -88,27 +104,27 @@ public class VLCUtil {
         float bogoMIPS = -1;
         int processors = 0;
 
-        if (CPU_ABI.equals("x86") ||
-                CPU_ABI2.equals("x86")) {
-            hasX86 = true;
-        } else if (CPU_ABI.equals("x86_64") ||
-                CPU_ABI2.equals("x86_64")) {
-            hasX86 = true;
-            is64bits = true;
-        } else if (CPU_ABI.equals("armeabi-v7a") ||
-                CPU_ABI2.equals("armeabi-v7a")) {
-            hasArmV7 = true;
-            hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-        } else if (CPU_ABI.equals("armeabi") ||
-                CPU_ABI2.equals("armeabi")) {
-            hasArmV6 = true;
-        } else if (CPU_ABI.equals("arm64-v8a") ||
-                CPU_ABI2.equals("arm64-v8a")) {
-            hasNeon = true;
-            hasArmV6 = true;
-            hasArmV7 = true;
-            is64bits = true;
+        for (String abi : abis) {
+            if (abi.equals("x86")) {
+                Log.e(TAG, "is X86");
+                hasX86 = true;
+            } else if (abi.equals("x86_64")) {
+                hasX86 = true;
+                is64bits = true;
+            } else if (abi.equals("armeabi-v7a")) {
+                Log.e(TAG, "is ARMV7");
+                hasArmV7 = true;
+                hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
+            } else if (abi.equals("armeabi")) {
+                hasArmV6 = true;
+            } else if (abi.equals("arm64-v8a")) {
+                hasNeon = true;
+                hasArmV6 = true;
+                hasArmV7 = true;
+                is64bits = true;
+            }
         }
+
         FileReader fileReader = null;
         BufferedReader br = null;
         try {
@@ -178,8 +194,8 @@ public class VLCUtil {
             errorMsg = "x86 build on non-x86 device";
             isCompatible = false;
             return false;
-        } else if (elfHasArm && hasX86) {
-            errorMsg = "ARM build on x86 device";
+        } else if (elfHasArm && !hasArmV6) {
+            errorMsg = "ARM build on non ARM device";
             isCompatible = false;
             return false;
         }
