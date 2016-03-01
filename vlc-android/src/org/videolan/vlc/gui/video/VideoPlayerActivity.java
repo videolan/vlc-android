@@ -2497,10 +2497,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (mForward != null)
                     mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mSize.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                if (mMenuIdx >= 0 && mNavMenu != null)
-                    mNavMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-            if (mService.getMediaListSize() > 1)
-                mPlaylistToggle.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -2518,10 +2514,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mForward != null)
                 mForward.setVisibility(View.INVISIBLE);
             mSize.setVisibility(View.INVISIBLE);
-            if (mMenuIdx >= 0 && mNavMenu != null)
-                mNavMenu.setVisibility(View.INVISIBLE);
-            if (mService.getMediaListSize() > 1)
-                mPlaylistToggle.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
