@@ -126,7 +126,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
             if (!TextUtils.isEmpty(mUri.getUserInfo()))
                 mEditUsername.setText(mUri.getUserInfo());
             if (!TextUtils.isEmpty(mUri.getPath()))
-                mEditFolder.setText(mUri.getPath().substring(1));
+                mEditFolder.setText(mUri.getPath());
             if (!TextUtils.isEmpty(mName))
                 mEditServername.setText(mName);
 
@@ -231,15 +231,19 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mEditUsername.hasFocus() &&
+                TextUtils.equals(mSpinnerProtocol.getSelectedItem().toString(),"SFTP")) {
+            mEditFolder.removeTextChangedListener(this);
+            mEditFolder.setText("/home/" + mEditUsername.getText().toString());
+            mEditFolder.addTextChangedListener(this);
+        }
         updateUrl();
     }
 
