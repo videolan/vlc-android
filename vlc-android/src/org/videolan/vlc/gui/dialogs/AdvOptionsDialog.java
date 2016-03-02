@@ -465,7 +465,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.addOption(new Option(ID_JUMP_TO, R.attr.ic_jumpto_normal_style));
 
         if (mMode == MODE_VIDEO) {
-            mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on));
+            if (!VLCApplication.showTvUi())
+                mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay));
 
