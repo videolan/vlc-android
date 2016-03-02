@@ -9,10 +9,12 @@
     <application
         android:name="org.videolan.vlc.VLCApplication" >
         <activity
-            android:name=".gui.video.VideoPlayerActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.VLC.Player"
-            tools:node="replace" >
+            android:name="org.videolan.vlc.StartActivity"
+            tools:node="replace">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <!-- This filter captures protocols without type info -->
             <intent-filter>
