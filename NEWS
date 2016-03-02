@@ -1,4 +1,4 @@
-Changes between 1.7.0 and 1.8.0:
+Changes between 1.7.0 and 1.9.0:
 --------------------------------
 
 Core:
@@ -11,19 +11,27 @@ Application:
  * Moved targetSDK to 23
  * Runtime permissions for storage & ringtone setting
  * Network browsing
- * Support Video Playlists
- * Support search in 'now playing' playlist
+ * Video Playlists
+ * Search in 'now playing' playlist
  * Restore playback history
  * Properly restore previous Equalizer setting
  * Undo action for media deletion
  * 'now playing' list auto-scrolls to current item
- * @hide Support Extensions
+ * Playback service is more persistent
+ * Pause playback, instead of stop, on audiofocus lost
  * TV UI is now available for Android 4.2+ devices
+ * Option to disable touch control in video playback
+ * Option to disable coverArt as lockscreen wallpaper
  * Simplify and fix animations
  * 'Save playlist' has moved into Advanced options
- * Playback service is more persistent
+ * Fix preferences appearence on Android 4.0+ devices
+ * Fix HoneyComb status bar dimming in video playback
  * Fix media deletion
  * Fix crash with huge collection for a single artist
+ * Fix playlist sections duplicated
+ * Fix case sensitive sorting in browsers
+
+ * @hide Extensions API
 
 TV:
  * Audio Player view has been redesigned
