@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="200dp"
                 android:hint="@string/login"
+                android:text="@{dialog.getDefaultUsername()}"
                 android:inputType="textNoSuggestions"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
