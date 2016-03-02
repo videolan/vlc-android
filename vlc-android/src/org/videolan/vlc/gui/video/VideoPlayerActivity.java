@@ -487,9 +487,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 lp.setMargins(hm, 0, hm, vm);
                 uiContainer.setLayoutParams(lp);
 
-                lp = (RelativeLayout.LayoutParams) mTitle.getLayoutParams();
-                lp.setMargins(0, vm, 0, 0);
-                mTitle.setLayoutParams(lp);
+                LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) mTitle.getLayoutParams();
+                titleParams.setMargins(0, vm, 0, 0);
+                mTitle.setLayoutParams(titleParams);
             }
         } else
             setRequestedOrientation(getScreenOrientation());
