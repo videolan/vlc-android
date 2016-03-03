@@ -110,7 +110,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         switch (id){
             case R.id.network_add_favorite:
                 db = MediaDatabase.getInstance();
-                db.addNetworkFavItem(mw.getUri(), mw.getTitle());
+                db.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory())
                     updateDisplay();
                 return true;
@@ -206,7 +206,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         if (db.networkFavExists(mCurrentMedia.getUri()))
             db.deleteNetworkFav(mCurrentMedia.getUri());
         else
-            db.addNetworkFavItem(mCurrentMedia.getUri(), mCurrentMedia.getTitle());
+            db.addNetworkFavItem(mCurrentMedia.getUri(), mCurrentMedia.getTitle(), mCurrentMedia.getArtworkURL());
         getActivity().supportInvalidateOptionsMenu();
     }
 

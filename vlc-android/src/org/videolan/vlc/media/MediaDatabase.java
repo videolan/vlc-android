@@ -42,6 +42,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -54,7 +55,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private static final String DB_NAME = "vlc_database";
-    private static final int DB_VERSION = 23;
+    private static final int DB_VERSION = 24;
     private static final int CHUNK_SIZE = 50;
 
     private static final String DIR_TABLE_NAME = "directories_table";
@@ -110,6 +111,7 @@ public class MediaDatabase {
     private static final String NETWORK_FAV_TABLE_NAME = "fav_table";
     private static final String NETWORK_FAV_URI = "uri";
     private static final String NETWORK_FAV_TITLE = "title";
+    private static final String NETWORK_FAV_ICON_URL = "icon_url";
 
     //    public static final int INDEX_MEDIA_TABLE_NAME = 0;
 //    public static final int INDEX_MEDIA_PATH = 1;
@@ -320,7 +322,8 @@ public class MediaDatabase {
             String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
                     NETWORK_FAV_TABLE_NAME + " (" +
                     NETWORK_FAV_URI + " TEXT PRIMARY KEY NOT NULL, " +
-                    NETWORK_FAV_TITLE + " TEXT NOT NULL" +
+                    NETWORK_FAV_TITLE + " TEXT NOT NULL, " +
+                    NETWORK_FAV_ICON_URL + " TEXT" +
                     ");";
             db.execSQL(createMrlTableQuery);
         }
@@ -400,6 +403,10 @@ public class MediaDatabase {
                             break;
                         case 23:
                             createHistoryTableQuery(db);
+                            break;
+                        case 24:
+                            dropNetworkFavTableQuery(db);
+                            createNetworkFavTableQuery(db);
                         default:
                             break;
                     }
@@ -1193,10 +1200,11 @@ public class MediaDatabase {
      * Network favorites management
      */
 
-    public synchronized void addNetworkFavItem(Uri uri, String title) {
+    public synchronized void addNetworkFavItem(Uri uri, String title, String iconUrl) {
         ContentValues values = new ContentValues();
         values.put(NETWORK_FAV_URI, uri.toString());
         values.put(NETWORK_FAV_TITLE, Uri.encode(title));
+        values.put(NETWORK_FAV_ICON_URL, Uri.encode(iconUrl));
         mDb.replace(NETWORK_FAV_TABLE_NAME, null, values);
     }
 
@@ -1219,13 +1227,16 @@ public class MediaDatabase {
 
         MediaWrapper mw;
         Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
-                new String[] { NETWORK_FAV_URI , NETWORK_FAV_TITLE},
+                new String[] { NETWORK_FAV_URI , NETWORK_FAV_TITLE, NETWORK_FAV_ICON_URL},
                 null, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
                 mw.setDisplayTitle(Uri.decode(cursor.getString(1)));
                 mw.setType(MediaWrapper.TYPE_DIR);
+                String url = cursor.getString(2);
+                if (!TextUtils.isEmpty(url))
+                    mw.setArtworkURL(Uri.decode(url));
                 favs.add(mw);
             }
             cursor.close();

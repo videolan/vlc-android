@@ -143,7 +143,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         MediaDatabase db = MediaDatabase.getInstance();
         if (mUri != null)
             db.deleteNetworkFav(mUri);
-        db.addNetworkFavItem(uri, name);
+        db.addNetworkFavItem(uri, name, null);
     }
 
     private void updateUrl() {
