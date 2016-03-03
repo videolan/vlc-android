@@ -249,7 +249,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                     DetailsActivity.class);
             // pass the item information
             intent.putExtra("media", (MediaWrapper) mSelectedItem);
-            intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
+            intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation(), media.getArtworkURL()));
             startActivity(intent);
             return true;
         }

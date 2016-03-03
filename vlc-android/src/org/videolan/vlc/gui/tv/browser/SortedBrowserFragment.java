@@ -120,7 +120,9 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
                 DetailsActivity.class);
         // pass the item information
         intent.putExtra("media", mItemSelected);
-        intent.putExtra("item", new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
+        intent.putExtra("item", new MediaItemDetails(mItemSelected.getTitle(),
+                mItemSelected.getArtist(), mItemSelected.getAlbum(),
+                mItemSelected.getLocation(), mItemSelected.getArtworkURL()));
         startActivity(intent);
     }
 

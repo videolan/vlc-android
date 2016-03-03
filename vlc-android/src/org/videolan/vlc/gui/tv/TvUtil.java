@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.tv;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v17.leanback.widget.Row;
 
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -46,7 +45,7 @@ public class TvUtil {
                 Intent intent = new Intent(activity,
                         DetailsActivity.class);
                 // pass the item information
-                intent.putExtra("item", (Parcelable) new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation()));
+                intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
                 activity.startActivity(intent);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);

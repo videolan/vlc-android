@@ -119,7 +119,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         startActivity(intent);
                         break;
                     case ID_FAVORITE_ADD:
-                        mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), null);
+                        mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());

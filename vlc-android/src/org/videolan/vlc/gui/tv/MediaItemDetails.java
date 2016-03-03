@@ -25,13 +25,14 @@ import android.os.Parcelable;
 
 public class MediaItemDetails implements Parcelable {
 
-    private String title, subTitle, body, location;
+    private String title, subTitle, body, location, artworkUrl;
 
-    public MediaItemDetails(String title, String subTitle, String body, String location) {
+    public MediaItemDetails(String title, String subTitle, String body, String location, String artworkUrl) {
         this.title = title;
         this.subTitle = subTitle;
         this.body = body;
         this.location = location;
+        this.artworkUrl = artworkUrl;
     }
 
     public String getTitle() {
@@ -50,6 +51,10 @@ public class MediaItemDetails implements Parcelable {
         return location;
     }
 
+    public String getArtworkUrl() {
+        return artworkUrl;
+    }
+
     @Override
     public int describeContents() {
         // TODO Auto-generated method stub
@@ -62,6 +67,7 @@ public class MediaItemDetails implements Parcelable {
         dest.writeString(subTitle);
         dest.writeString(body);
         dest.writeString(location);
+        dest.writeString(artworkUrl);
     }
 
     public static final Parcelable.Creator<MediaItemDetails> CREATOR
@@ -80,5 +86,6 @@ public class MediaItemDetails implements Parcelable {
         subTitle = in.readString();
         body = in.readString();
         location = in.readString();
+        artworkUrl = in.readString();
     }
 }

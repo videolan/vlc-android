@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -159,7 +158,9 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                     DetailsActivity.class);
             // pass the item information
             intent.putExtra("media", mItemSelected);
-            intent.putExtra("item", (Parcelable) new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
+            intent.putExtra("item", new MediaItemDetails(mItemSelected.getTitle(),
+                    mItemSelected.getArtist(), mItemSelected.getAlbum(),
+                    mItemSelected.getLocation(), mItemSelected.getArtworkURL()));
             startActivity(intent);
         }
     }
