@@ -29,6 +29,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.text.TextUtils;
@@ -56,6 +58,7 @@ public class CardPresenter extends Presenter {
     private static int CARD_HEIGHT = 0;
     private static MediaDatabase sMediaDatabase = MediaDatabase.getInstance();
     private static Drawable sDefaultCardImage;
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
 
     public CardPresenter(Activity context){
         mContext = context;
@@ -237,7 +240,7 @@ public class CardPresenter extends Presenter {
         public void updateImage(final Bitmap picture, final View target) {
             if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http"))
                 AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), target);
-            context.runOnUiThread(
+            sHandler.post(
                     new Runnable() {
                         @Override
                         public void run() {
