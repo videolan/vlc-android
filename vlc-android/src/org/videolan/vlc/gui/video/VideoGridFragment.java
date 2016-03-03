@@ -47,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
@@ -359,6 +360,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(
                 FileUtils.canWrite(mediaWrapper.getLocation()));
+        if (!AndroidUtil.isHoneycombOrLater())
+            menu.findItem(R.id.video_list_play_all).setVisible(false);
     }
 
     @Override

@@ -45,6 +45,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -472,8 +473,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             }
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
+                boolean videoPlaylist = AndroidUtil.isHoneycombOrLater();
                 for (MediaWrapper mediaItem : mFoldersContentLists.get(position)){
-                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || mediaItem.getType() == MediaWrapper.TYPE_VIDEO)
+                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (videoPlaylist && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
                         mediaList.add(mediaItem);
                 }
                 MediaUtils.openList(getActivity(), mediaList, 0);

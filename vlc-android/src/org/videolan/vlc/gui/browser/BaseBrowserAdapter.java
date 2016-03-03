@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
@@ -375,6 +376,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         if (mw.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(mw, holder.getAdapterPosition(), true);
         else  if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
+            if (mw.getType() == MediaWrapper.TYPE_VIDEO && !AndroidUtil.isHoneycombOrLater()) {
+                MediaUtils.openMedia(holder.itemView.getContext(), mw);
+                return;
+            }
             int position = 0;
             LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
             MediaWrapper mediaItem;
