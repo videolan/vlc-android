@@ -24,7 +24,7 @@
             name="checked"
             type="boolean"/>
         <variable
-            name="protocole"
+            name="protocol"
             type="String"/>
         <variable
             name="image"
@@ -61,7 +61,7 @@
             android:layout_marginLeft="15dp"
             android:contentDescription="@string/cover_art"
             android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
-            android:text="@{protocole}"
+            android:text="@{protocol}"
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"
             android:background="@{image}"/>

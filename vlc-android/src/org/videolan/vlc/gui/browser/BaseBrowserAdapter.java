@@ -107,7 +107,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         vh.binding.setType(TYPE_MEDIA);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
-            vh.binding.setProtocole(getProtocol(media));
+            vh.binding.setProtocol(getProtocol(media));
         vh.binding.executePendingBindings();
 
         vh.binding.dviIcon.setBackgroundResource(getIconResId(media));

@@ -123,7 +123,7 @@ public class HttpImageLoader implements Callbacks {
                         return;
                     mBinding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                     mBinding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                    mBinding.setVariable(BR.protocole, null);
+                    mBinding.setVariable(BR.protocol, null);
                 }
             }
         } else if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
