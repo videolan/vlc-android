@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -158,10 +159,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         mViewPager.setOnTouchListener(mSwipeFilter);
 
         mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        setTabsClickListeners();
-        mViewPager.addOnPageChangeListener(this);
+        setupTabLayout();
 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
@@ -204,23 +202,24 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
         return v;
     }
 
-    private void setTabsClickListeners() {
-        for (int i = 0; i < mTabLayout.getTabCount(); ++i){
-            final int position = i;
-            ((ViewGroup)mTabLayout.getChildAt(0)).getChildAt(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(position == mViewPager.getCurrentItem()){
-                        ((ListView)mLists.get(position)).smoothScrollToPosition(0);
-                    } else {
-                        mViewPager.setCurrentItem(position);
-                        updateEmptyView(position);
-                        setFabPlayShuffleAllVisibility();
-                        tcl.onPageSelected(position);
-                    }
-                }
-            });
-        }
+    private void setupTabLayout() {
+        final PagerAdapter adapter = mViewPager.getAdapter();
+        mTabLayout.setTabsFromPagerAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                ((ListView) mLists.get(tab.getPosition())).smoothScrollToPosition(0);
+            }
+        });
     }
 
     AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener(){
@@ -242,6 +241,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     @Override
     public void onPause() {
         super.onPause();
+
+        mViewPager.removeOnPageChangeListener(this);
         mMediaLibrary.removeUpdateHandler(mHandler);
         mMediaLibrary.setBrowser(null);
         if (mMediaBrowser != null) {
@@ -254,6 +255,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     public void onResume() {
         super.onResume();
         mMainActivity = (MainActivity) getActivity();
+
+        mViewPager.addOnPageChangeListener(this);
         if (mMediaLibrary.isWorking())
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
         else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
@@ -698,10 +701,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     @Override
     public void onPageSelected(int position) {
-        mViewPager.setCurrentItem(position);
+//        mViewPager.setCurrentItem(position);
         updateEmptyView(position);
         setFabPlayShuffleAllVisibility();
-        tcl.onPageSelected(position);
+//        tcl.onPageSelected(position);
     }
 
     private void deleteMedia(final MediaWrapper mw) {
