@@ -34,6 +34,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
 import org.videolan.vlc.media.MediaLibrary;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -90,8 +91,9 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (mFragment instanceof SortedBrowserFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
-            ((SortedBrowserFragment)mFragment).showDetails();
+        if ((mFragment instanceof DetailsFragment)
+                && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+            ((DetailsFragment)mFragment).showDetails();
             return true;
         }
         return super.onKeyDown(keyCode, event);

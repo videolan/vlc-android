@@ -45,6 +45,7 @@ import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
+import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener, OnItemViewClickedListener {
+public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     private MediaBrowser mMediaBrowser;
     private Uri mUri;

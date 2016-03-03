@@ -52,6 +52,7 @@ import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
+import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.WeakHandler;
@@ -62,7 +63,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser {
+public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser, DetailsFragment {
 
     public static final String TAG = "VLC/SortedBrowserFragment";
 
