@@ -7,7 +7,7 @@
     android:versionName="1.9.0">
     <!--
          versionCode scheme is T M NN RR AA
-         T: Target/Flavour (0 for Android, 1 for ATV, 2 for Chrome?)
+         T: Target/Flavour (1 for Android, 2 for Chrome?)
          M: Major version from 0 to 9
          NN: Minor version from 00 to 99
          RR: Micro/Revision version from 00 to 99

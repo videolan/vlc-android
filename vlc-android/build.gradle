@@ -101,7 +101,7 @@ android {
     productFlavors {
         vanilla {
             dimension "target"
-            versionCode = 0
+            versionCode = 1
         }
         chrome {
             minSdkVersion 19
