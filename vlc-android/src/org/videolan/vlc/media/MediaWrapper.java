@@ -447,6 +447,10 @@ public class MediaWrapper implements Parcelable {
         return mArtworkURL;
     }
 
+    public void setArtworkURL(String url) {
+        mArtworkURL = url;
+    }
+
     public long getLastModified() {
         return mLastModified;
     }
