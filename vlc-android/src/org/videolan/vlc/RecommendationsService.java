@@ -129,11 +129,6 @@ public class RecommendationsService extends IntentService {
 
     private boolean doRecommendations() {
         mNotificationManager.cancelAll();
-        String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(mContext).getString(PreferencesActivity.VIDEO_LAST, null));
-        int id = 0;
-        if (last != null) {
-            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last), id, Notification.PRIORITY_HIGH);
-        }
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
         if (videoList == null || videoList.isEmpty())
             return false;

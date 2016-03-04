@@ -40,7 +40,6 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     public final static String VIDEO_RESUME_TIME = "VideoResumeTime";
     public final static String VIDEO_PAUSED = "VideoPaused";
     public final static String VIDEO_SUBTITLE_FILES = "VideoSubtitleFiles";
-    public final static String VIDEO_LAST = "VideoLastPlayed";
     public final static String VIDEO_SPEED = "VideoSpeed";
     public final static String VIDEO_BACKGROUND = "video_background";
     public final static String VIDEO_RESTORE = "video_restore";
