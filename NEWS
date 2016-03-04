@@ -1,3 +1,14 @@
+Changes between 1.9.0 and 1.9.1:
+--------------------------------
+
+Application:
+ * Ask system permission for brightness mode on Marshmallow
+ * Fix version code, beta is available for Android TV now
+ * Restrict video playlists from Android 2.x devices
+ * Show server icon in favorites
+ * Fix favs saving not available for network servers
+ * Fix image loading on TV
+
 Changes between 1.7.0 and 1.9.0:
 --------------------------------
 
