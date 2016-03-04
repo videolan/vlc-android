@@ -50,6 +50,10 @@ public class Permissions {
     public static final int PERMISSION_STORAGE_TAG = 255;
     public static final int PERMISSION_SETTINGS_TAG = 254;
 
+
+    public static final int PERMISSION_SYSTEM_RINGTONE = 42;
+    public static final int PERMISSION_SYSTEM_BRIGHTNESS = 43;
+
     /*
      * Marshmallow permission system management
      */
@@ -78,18 +82,18 @@ public class Permissions {
         }
     }
 
-    public static void checkWriteSettingsPermission(Activity activity) {
+    public static void checkWriteSettingsPermission(Activity activity, int mode) {
         if (AndroidUtil.isMarshMallowOrLater() && !canWriteSettings(activity)) {
-            showSettingsPermissionDialog(activity);
+            showSettingsPermissionDialog(activity, mode);
         }
     }
 
     private static Dialog sAlertDialog;
 
-    public static void showSettingsPermissionDialog(final Activity activity) {
+    public static void showSettingsPermissionDialog(final Activity activity, int mode) {
         if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing()))
             return;
-        sAlertDialog = createSettingsDialogCompat(activity);
+        sAlertDialog = createSettingsDialogCompat(activity, mode);
     }
 
     public static void showStoragePermissionDialog(final Activity activity, boolean exit) {
@@ -177,10 +181,21 @@ public class Permissions {
         return dialogBuilder.show();
     }
 
-    private static Dialog createSettingsDialogCompat(final Activity activity) {
+    private static Dialog createSettingsDialogCompat(final Activity activity, int mode) {
+        int titleId = 0, textId = 0;
+        switch (mode) {
+            case PERMISSION_SYSTEM_RINGTONE:
+                titleId = R.string.allow_settings_access_ringtone_title;
+                textId = R.string.allow_settings_access_ringtone_description;
+                break;
+            case PERMISSION_SYSTEM_BRIGHTNESS:
+                titleId = R.string.allow_settings_access_brightness_title;
+                textId = R.string.allow_settings_access_brightness_description;
+                break;
+        }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.allow_settings_access_title))
-                .setMessage(activity.getString(R.string.allow_settings_access_description))
+                .setTitle(activity.getString(titleId))
+                .setMessage(activity.getString(textId))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override

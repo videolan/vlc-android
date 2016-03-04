@@ -86,7 +86,7 @@ public class AudioUtil {
     @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
     public static void setRingtone(MediaWrapper song, Activity context){
         if (!Permissions.canWriteSettings(context)) {
-            Permissions.checkWriteSettingsPermission(context);
+            Permissions.checkWriteSettingsPermission(context, Permissions.PERMISSION_SYSTEM_RINGTONE);
             return;
         }
         File newringtone = AndroidUtil.UriToFile(song.getUri());
