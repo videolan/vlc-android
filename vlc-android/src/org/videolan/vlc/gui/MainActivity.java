@@ -592,7 +592,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
             menu.findItem(R.id.ml_menu_save).setVisible(false);
         if (current instanceof IHistory)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
-        boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
+        boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
         return true;
     }
