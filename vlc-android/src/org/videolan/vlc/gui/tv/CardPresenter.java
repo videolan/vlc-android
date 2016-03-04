@@ -81,8 +81,13 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(MediaWrapper mediaWrapper) {
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
-            AsyncImageLoader.LoadImage(new CoverFetcher(mContext, mediaWrapper), mCardView);
+            if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http")) {
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), mCardView);
+            } else {
+                mCardView.getMainImageView().setScaleType(mediaWrapper.getType() == MediaWrapper.TYPE_DIR ? ImageView.ScaleType.CENTER : ImageView.ScaleType.CENTER_CROP);
+                AsyncImageLoader.LoadImage(new CoverFetcher(mContext, mediaWrapper), mCardView);
+            }
         }
 
         protected void updateCardViewImage(Drawable image) {
@@ -124,9 +129,11 @@ public class CardPresenter extends Presenter {
             SimpleCard card = (SimpleCard) item;
             Bitmap image = card.getImage();
             holder.mCardView.setTitleText(card.getName());
+            holder.mCardView.setContentText("");
             holder.updateCardViewImage(image != null ? new BitmapDrawable(image) : mRes.getDrawable(card.getImageId()));
         }else if (item instanceof String){
             holder.mCardView.setTitleText((String) item);
+            holder.mCardView.setContentText("");
             holder.updateCardViewImage(sDefaultCardImage);
         }
     }
@@ -238,8 +245,6 @@ public class CardPresenter extends Presenter {
 
         @Override
         public void updateImage(final Bitmap picture, final View target) {
-            if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http"))
-                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), target);
             sHandler.post(
                     new Runnable() {
                         @Override

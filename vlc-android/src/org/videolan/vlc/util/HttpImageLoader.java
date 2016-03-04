@@ -29,6 +29,8 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
@@ -54,6 +56,7 @@ public class HttpImageLoader implements Callbacks {
     private ViewDataBinding mBinding;
     private boolean bindChanged = false;
     final OnRebindCallback<ViewDataBinding> rebindCallbacks;
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
     public HttpImageLoader(String imageLink) {
         mImageLink = imageLink;
@@ -127,7 +130,7 @@ public class HttpImageLoader implements Callbacks {
                 }
             }
         } else if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-            target.post(new Runnable() {
+            sHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (target instanceof ImageCardView)
