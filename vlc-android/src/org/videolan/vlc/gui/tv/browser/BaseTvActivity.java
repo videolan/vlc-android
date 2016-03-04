@@ -86,7 +86,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     }
 
     protected abstract void refresh();
-    protected abstract void updateList();
+    protected abstract void onNetworkUpdated();
 
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
         boolean connected = true;
@@ -106,7 +106,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                             return; //block consecutive calls when disconnected
                     } else
                         connected = true;
-                    updateList();
+                    onNetworkUpdated();
                 }
 
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {

@@ -20,23 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.audioplayer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
-import org.videolan.vlc.gui.preferences.PreferencesActivity;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.MediaComparators;
-import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
-
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -50,6 +33,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
+import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
+import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
         PlaybackService.Callback, View.OnFocusChangeListener {
@@ -143,7 +143,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     @Override
-    protected void updateList() {
+    protected void onNetworkUpdated() {
         update();
     }
 

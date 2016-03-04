@@ -165,7 +165,24 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        updateList();
+        if (mRowsAdapter.size() == 0)
+            update();
+        else {
+            updateBrowsers();
+            updateNowPlayingCard();
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    final ArrayList<MediaWrapper> history = MediaDatabase.getInstance().getHistory();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateHistory(history);
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override
@@ -264,7 +281,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
     }
 
-    public void updateList() {
+    public void update() {
         if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
             mUpdateTask = new AsyncUpdate();
             mUpdateTask.execute();
@@ -272,6 +289,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mUpdateTask.AskRefresh();
         }
         checkThumbs();
+    }
+
+    public void updateList() {
+        mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
     }
 
     @Override
@@ -418,56 +439,30 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 });
             }
             mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
+
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio));
-            if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo()) {
-                MediaWrapper mw = mService.getCurrentMediaWrapper();
-                String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
-                Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
-                if (cover != null)
-                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
-                else
-                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_tv_icon_small);
-                mCategoriesAdapter.add(mNowPlayingCard);
-            }
+            updateNowPlayingCard();
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
+            //History
             if (showHistory && !history.isEmpty()){
                 mHistoryAdapter = new ArrayObjectAdapter(
                         new CardPresenter(mContext));
                 final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
-                MediaWrapper item;
-                for (int i = 0; i < history.size(); ++i) {
-                    item = history.get(i);
-                    mHistoryAdapter.add(item);
-                    mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
-                }
+                updateHistory(history);
                 mRowsAdapter.add(new ListRow(historyHeader, mHistoryAdapter));
             }
 
             //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.browsing));
-            List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
-            for (MediaWrapper directory : directories)
-                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_network_big, directory.getUri()));
-
-            if (AndroidDevices.hasLANConnection()) {
-                final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
-
-                if (!favs.isEmpty()) {
-                    for (MediaWrapper fav : favs) {
-                        fav.setDescription(fav.getUri().getScheme());
-                        mBrowserAdapter.add(fav);
-                    }
-                }
-            }
+            updateBrowsers();
             mRowsAdapter.add(new ListRow(browserHeader, mBrowserAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -479,12 +474,52 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
 
-            if (!mMediaLibrary.isWorking())
-                mProgressBar.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
             if (askRefresh) { //in case new event occurred while loading view
-                mHandler.sendEmptyMessage(VideoListHandler.MEDIA_ITEMS_UPDATED);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
             }
         }
+    }
+
+    private void updateHistory(ArrayList<MediaWrapper> history) {
+        if (mHistoryAdapter == null || history == null)
+            return;
+        mHistoryAdapter.clear();
+        if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
+            return;
+        MediaWrapper item;
+        for (int i = 0; i < history.size(); ++i) {
+            item = history.get(i);
+            mHistoryAdapter.add(item);
+            mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
+        }
+    }
+
+    private void updateBrowsers() {
+        if (mBrowserAdapter == null)
+            return;
+        mBrowserAdapter.clear();
+        List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
+        for (MediaWrapper directory : directories)
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_network_big, directory.getUri()));
+
+        if (AndroidDevices.hasLANConnection()) {
+            final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+
+            if (!favs.isEmpty()) {
+                for (MediaWrapper fav : favs) {
+                    fav.setDescription(fav.getUri().getScheme());
+                    mBrowserAdapter.add(fav);
+                }
+            }
+        }
+        mBrowserAdapter.notifyArrayItemRangeChanged(0, mBrowserAdapter.size());
     }
 
     private void checkThumbs() {
@@ -517,7 +552,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     @Override
-    public void update(){}
+    protected void onNetworkUpdated() {
+        updateBrowsers();
+    }
 
     @Override
     public void updateProgress(){}
@@ -542,7 +579,12 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     public void updateNowPlayingCard () {
-        if (mService != null && mService.hasMedia() && !mService.canSwitchToVideo()) {
+        if (mService == null)
+            return;
+        if ((!mService.hasMedia() || mService.canSwitchToVideo()) && mNowPlayingCard != null) {
+            mCategoriesAdapter.removeItems(0, 1);
+            mNowPlayingCard = null;
+        } else  if (mService.hasMedia()){
             MediaWrapper mw = mService.getCurrentMediaWrapper();
             String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
             Bitmap cover = AudioUtil.getCover(MainTvActivity.this, mw, VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));

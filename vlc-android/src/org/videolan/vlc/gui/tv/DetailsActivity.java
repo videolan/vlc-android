@@ -20,10 +20,10 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.os.Bundle;
+
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
-
-import android.os.Bundle;
 
 public class DetailsActivity extends BaseTvActivity {
     @Override
@@ -36,5 +36,5 @@ public class DetailsActivity extends BaseTvActivity {
     protected void refresh() {}
 
     @Override
-    protected void updateList() {}
+    protected void onNetworkUpdated() {}
 }
