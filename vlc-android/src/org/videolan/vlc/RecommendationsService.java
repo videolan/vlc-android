@@ -129,14 +129,13 @@ public class RecommendationsService extends IntentService {
 
     private boolean doRecommendations() {
         mNotificationManager.cancelAll();
+        int id = 0;
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
         if (videoList == null || videoList.isEmpty())
             return false;
         Bitmap pic;
         Collections.shuffle(videoList);
         for (MediaWrapper mediaWrapper : videoList){
-            if (TextUtils.equals(mediaWrapper.getLocation(), last))
-                continue;
             pic = mMediaDatabase.getPicture(mediaWrapper.getUri());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
