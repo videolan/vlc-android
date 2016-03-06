@@ -1816,7 +1816,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
         float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
-        float delta_y = Math.max(1f, ((mInitTouchY - event.getRawY()) / screen.xdpi + 0.5f) * 2f);
+        float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / screen.xdpi + 0.5f) * 2f);
 
         /* Offset for Mouse Events */
         int[] offset = new int[2];
@@ -1914,10 +1914,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (length > 0)
             //Show the jump's size
-            showInfo(String.format("%s%s (%s) x%d",
+            showInfo(String.format("%s%s (%s)%s",
                     jump >= 0 ? "+" : "",
                     Strings.millisToString(jump),
-                    Strings.millisToString(time + jump), coef), 1000);
+                    Strings.millisToString(time + jump),
+                    coef > 1 ? String.format(" x%.1g", 1.0/coef) : ""), 1000);
         else
             showInfo(R.string.unseekable_stream, 1000);
     }
