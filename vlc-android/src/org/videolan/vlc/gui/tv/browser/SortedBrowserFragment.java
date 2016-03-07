@@ -251,6 +251,8 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             SortedBrowserFragment owner = getOwner();
+            if (owner == null)
+                return;
             switch (msg.what) {
                 case UPDATE_ITEM:
                     owner.updateItem((MediaWrapper)msg.obj);

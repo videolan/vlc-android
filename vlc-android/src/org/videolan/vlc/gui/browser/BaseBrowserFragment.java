@@ -344,6 +344,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         @Override
         public void handleMessage(Message msg) {
             BaseBrowserFragment fragment = getOwner();
+            if (fragment == null)
+                return;
             switch (msg.what){
                 case MSG_SHOW_LOADING:
                     fragment.mSwipeRefreshLayout.setRefreshing(true);
