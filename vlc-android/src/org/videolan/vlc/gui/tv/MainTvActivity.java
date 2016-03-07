@@ -292,7 +292,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     public void updateList() {
-        mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
+        if (mVideoAdapter != null)
+            mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
     }
 
     @Override
@@ -419,24 +420,21 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
-            int size;
             // Update video section
             if (!videoList.isEmpty()) {
-                size = videoList.size();
-                if (NUM_ITEMS_PREVIEW < size)
-                    size = NUM_ITEMS_PREVIEW;
-                final int total = size;
+                final int size = Math.min(NUM_ITEMS_PREVIEW, videoList.size());
                 mRootContainer.post(new Runnable() {
                     @Override
                     public void run() {
                         MediaWrapper item;
-                        for (int i = 0; i < total; ++i) {
+                        for (int i = 0; i < size; ++i) {
                             item = videoList.get(i);
                             mVideoAdapter.add(item);
                             mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
                         }
                     }
                 });
+                mVideoAdapter.notifyArrayItemRangeChanged(0, size);
             }
             mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
 
