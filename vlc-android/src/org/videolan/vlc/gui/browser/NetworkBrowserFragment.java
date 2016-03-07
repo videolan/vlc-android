@@ -221,7 +221,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
                     mEmptyView.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                 } else {
-                    mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
+                    if (mRoot)
+                        mEmptyView.setText(AndroidDevices.hasLANConnection() ? R.string.network_shares_discovery : R.string.network_connection_needed);
+                    else
+                        mEmptyView.setText(R.string.network_empty);
                     mEmptyView.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                     mSwipeRefreshLayout.setRefreshing(false);
