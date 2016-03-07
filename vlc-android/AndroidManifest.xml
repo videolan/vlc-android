@@ -459,6 +459,7 @@
 
         <activity
             android:name=".gui.DialogActivity"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/TransparentTheme" />
 
         <service android:name=".extensions.ExtensionManagerService" />
