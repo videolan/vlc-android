@@ -185,7 +185,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
             if (TextUtils.equals(mProtocols[i], protocol))
                 return i;
         }
-        return -1;
+        return 0;
     }
 
 
