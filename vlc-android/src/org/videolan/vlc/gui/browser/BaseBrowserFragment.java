@@ -88,6 +88,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected MediaWrapper mCurrentMedia;
     protected int mSavedPosition = -1, mFavorites = 0;
     public boolean mRoot;
+    boolean goBack = false;
 
     private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
     private ArrayList<MediaWrapper> mediaList;
@@ -146,6 +147,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (goBack)
+            goBack();
     }
 
     public void onStop(){
@@ -235,6 +243,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         if (mReadyToDisplay)
             display();
+        if (!isResumed())
+            goBack = true;
     }
 
     @Override
