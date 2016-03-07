@@ -2819,6 +2819,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else {
             mService.addCallback(this);
             mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
+            MediaWrapper mw = mService.getCurrentMediaWrapper();
+            if (mw == null) {
+                finish();
+                return;
+            }
+            mUri = mService.getCurrentMediaWrapper().getUri();
         }
         if (itemTitle != null)
             title = itemTitle;
