@@ -3,11 +3,18 @@ Changes between 1.9.0 and 1.9.1:
 
 Application:
  * Ask system permission for brightness mode on Marshmallow
- * Fix version code, beta is available for Android TV now
+ * Fix thumbnails generation slowdown
+ * Changed version code, beta is available for Android TV now
+ * Samba library updated
+ * Fix 'show last video' option being hidden
+ * Fix crash on screen rotation with login dialog
+ * Fixed notification displayed when playing network video
+ * Go back on login dialog cancelled
  * Restrict video playlists from Android 2.x devices
  * Show server icon in favorites
- * Fix favs saving not available for network servers
+ * Fix 'save as favorite' option not available for network servers
  * Fix image loading on TV
+ * Misc. fixes
 
 Changes between 1.7.0 and 1.9.0:
 --------------------------------
