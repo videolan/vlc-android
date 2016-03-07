@@ -826,8 +826,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
-        if (mMediaPlayer.getVLCVout().areViewsAttached())
+        if (mMediaPlayer.getVLCVout().areViewsAttached()) {
+            hideNotification(false);
             return;
+        }
         try {
             boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
             MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
@@ -920,6 +922,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
      */
     private void hideNotification(boolean stopPlayback) {
         stopForeground(true);
+        NotificationManagerCompat.from(this).cancelAll();
         if(stopPlayback)
             stopSelf();
     }
@@ -1686,7 +1689,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 mMediaPlayer.setTime(mSavedTime);
             mSavedTime = 0l;
 
-            notifyTrackChanged();
             determinePrevAndNextIndices();
             if (mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
                 VLCApplication.runBackground(new Runnable() {
