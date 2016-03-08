@@ -26,7 +26,7 @@ package org.videolan.libvlc;
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     public static class Event extends VLCEvent {
-        //public static final int MediaChanged        = 0x100;
+        public static final int MediaChanged        = 0x100;
         //public static final int NothingSpecial      = 0x101;
         public static final int Opening             = 0x102;
         //public static final int Buffering           = 0x103;
@@ -811,6 +811,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     @Override
     protected synchronized Event onEventNative(int eventType, long arg1, float arg2) {
         switch (eventType) {
+            case Event.MediaChanged:
             case Event.Stopped:
             case Event.EndReached:
             case Event.EncounteredError:

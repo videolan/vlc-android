@@ -28,6 +28,7 @@
 JNIEnv *jni_get_env(const char *name);
 
 static const libvlc_event_type_t mp_events[] = {
+    libvlc_MediaPlayerMediaChanged,
     libvlc_MediaPlayerOpening,
     libvlc_MediaPlayerPlaying,
     libvlc_MediaPlayerPaused,
