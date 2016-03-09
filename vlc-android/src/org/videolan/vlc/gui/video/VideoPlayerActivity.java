@@ -465,7 +465,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPresentation == null) {
             // Orientation
             // 100 is the value for screen_orientation_start_lock
-            setRequestedOrientation(getScreenOrientation());
+            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
             if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
@@ -490,7 +490,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mTitle.setLayoutParams(titleParams);
             }
         } else
-            setRequestedOrientation(getScreenOrientation());
+            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
 
         resetHudLayout();
     }
@@ -511,8 +511,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSize.setOnClickListener(this);
         mNavMenu.setOnClickListener(this);
 
-        if (mIsLocked &&(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_USER ||
-                mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_FULL_USER))
+        if (mIsLocked && mScreenOrientation == 99)
             setRequestedOrientation(mScreenOrientationLock);
     }
 
@@ -593,7 +592,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     public void resetHudLayout() {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mOverlayButtons.getLayoutParams();
-        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        int orientation = getScreenOrientation(100);
+        boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+        if (portrait) {
             layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_length);
             layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
             layoutParams.addRule(RelativeLayout.LEFT_OF, 0);
@@ -1290,12 +1292,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Lock screen rotation
      */
     private void lockScreen() {
-        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) {
+        if(mScreenOrientation == 99) {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
             else
-                setRequestedOrientation(getScreenOrientation());
-            mScreenOrientationLock = getScreenOrientation();
+                setRequestedOrientation(getScreenOrientation(100));
+            mScreenOrientationLock = getScreenOrientation(mScreenOrientation);
         }
         showInfo(R.string.locked, 1000);
         mLock.setImageResource(R.drawable.ic_locked_circle);
@@ -2849,8 +2851,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private int getScreenOrientation(){
-        switch(mScreenOrientation) {
+    private int getScreenOrientation(int mode){
+        switch(mode) {
             case 99: //screen orientation user
                 return AndroidUtil.isJellyBeanMR2OrLater() ?
                         ActivityInfo.SCREEN_ORIENTATION_FULL_USER :
