@@ -70,6 +70,8 @@ public class MediaUtils {
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){
+        if (list == null || list.isEmpty())
+            return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
@@ -79,6 +81,8 @@ public class MediaUtils {
     }
 
     public static void openUri(final Context context, final Uri uri){
+        if (uri == null)
+            return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
@@ -88,6 +92,8 @@ public class MediaUtils {
     }
 
     public static void openStream(final Context context, final String uri){
+        if (uri == null)
+            return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
