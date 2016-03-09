@@ -1187,7 +1187,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         mPrevious.push(mCurrentIndex);
         mCurrentIndex = mNextIndex;
-        Log.d(TAG, "setting current to " + mCurrentIndex);
         if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
             if (mCurrentIndex < 0)
                 saveCurrentMedia();
@@ -1766,7 +1765,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void moveItem(int positionStart, int positionEnd) {
         mMediaList.move(positionStart, positionEnd);
         PlaybackService.this.saveMediaList();
-        Log.d(TAG, "moveItem " + positionStart + " -> " + positionEnd);
     }
 
     @MainThread
@@ -1782,7 +1780,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         mMediaList.remove(position);
         saveMediaList();
         determinePrevAndNextIndices();
-        Log.d(TAG, "remove "+position);
     }
 
     @MainThread
@@ -2038,7 +2035,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         private final ServiceConnection mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder iBinder) {
-                Log.d(TAG, "Service Connected");
                 if (!mBound)
                     return;
 
@@ -2049,7 +2045,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                Log.d(TAG, "Service Disconnected");
                 mCallback.onDisconnected();
             }
         };
