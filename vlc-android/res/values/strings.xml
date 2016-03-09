@@ -454,16 +454,12 @@
         <item>@string/screen_orientation_start_lock</item>
         <item>@string/screen_orientation_landscape</item>
         <item>@string/screen_orientation_portrait</item>
-        <item>@string/screen_orientation_reverse_landscape</item>
-        <item>@string/screen_orientation_reverse_portrait</item>
     </string-array>
     <string-array name="screen_orientation_values" translatable="false">
-        <item>4</item> <!-- 4 ActivityInfo.SCREEN_ORIENTATION_SENSOR -->
-        <item>100</item> <!-- 100 Arbitrary value for locked start -->
-        <item>0</item> <!-- 0 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -->
-        <item>1</item> <!-- 1 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -->
-        <item>8</item> <!-- 8 ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -->
-        <item>9</item> <!-- 9 ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -->
+        <item>99</item>
+        <item>100</item>
+        <item>101</item>
+        <item>102</item>
     </string-array>
 
     <string-array name="audio_title_alignment_list">

@@ -399,7 +399,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
         mScreenOrientation = Integer.valueOf(
-                mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
+                mSettings.getString("screen_orientation_value", "99" /*SCREEN ORIENTATION USER*/));
 
         mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
 
@@ -465,9 +465,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPresentation == null) {
             // Orientation
             // 100 is the value for screen_orientation_start_lock
-            setRequestedOrientation(mScreenOrientation != 100
-                    ? mScreenOrientation
-                    : getScreenOrientation());
+            setRequestedOrientation(getScreenOrientation());
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
             if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
@@ -513,7 +511,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSize.setOnClickListener(this);
         mNavMenu.setOnClickListener(this);
 
-        if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+        if (mIsLocked &&(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_USER ||
+                mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_FULL_USER))
             setRequestedOrientation(mScreenOrientationLock);
     }
 
@@ -1293,7 +1292,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void lockScreen() {
         if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                setRequestedOrientation(14 /* SCREEN_ORIENTATION_LOCKED */);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
             else
                 setRequestedOrientation(getScreenOrientation());
             mScreenOrientationLock = getScreenOrientation();
@@ -1313,8 +1312,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Remove screen lock
      */
     private void unlockScreen() {
-        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if(mScreenOrientation == 99)
+            setRequestedOrientation(AndroidUtil.isJellyBeanMR2OrLater() ?
+                    ActivityInfo.SCREEN_ORIENTATION_FULL_USER :
+                    ActivityInfo.SCREEN_ORIENTATION_USER);
         showInfo(R.string.unlocked, 1000);
         mLock.setImageResource(R.drawable.ic_lock_circle);
         mTime.setEnabled(true);
@@ -2847,8 +2848,31 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private int getScreenOrientation(){
+        switch(mScreenOrientation) {
+            case 99: //screen orientation user
+                return AndroidUtil.isJellyBeanMR2OrLater() ?
+                        ActivityInfo.SCREEN_ORIENTATION_FULL_USER :
+                        ActivityInfo.SCREEN_ORIENTATION_USER;
+            case 101: //screen orientation landscape
+                if (AndroidUtil.isJellyBeanMR2OrLater())
+                    return ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
+                else if (AndroidUtil.isGingerbreadOrLater())
+                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+                else
+                    return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            case 102: //screen orientation portrait
+                if (AndroidUtil.isJellyBeanMR2OrLater())
+                    return ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
+                else if (AndroidUtil.isGingerbreadOrLater())
+                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+                else
+                    return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        }
+        /*
+         mScreenOrientation = 100, we lock screen at its current orientation
+         */
         WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         int rot = getScreenRotation();
@@ -2871,12 +2895,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case Surface.ROTATION_180:
                 // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
                 // Level 9+
-                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                         : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             case Surface.ROTATION_270:
                 // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
                 // Level 9+
-                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
                         : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             default:
                 return 0;
@@ -2890,12 +2914,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case Surface.ROTATION_180:
                 // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
                 // Level 9+
-                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
                         : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             case Surface.ROTATION_270:
                 // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
                 // Level 9+
-                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                         : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             default:
                 return 0;
