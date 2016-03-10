@@ -3,20 +3,36 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/interface_prefs_screen"
     android:key="ui_category" >
-    <PreferenceCategory android:title="@string/interface_secondary_display_category" >
-        <Preference android:summary="@string/interface_secondary_display_category_summary" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_clone_mode"
-            android:summary="@string/enable_clone_mode_summary"
-            android:title="@string/enable_clone_mode" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/interface_other_category" >
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="enable_black_theme"
+        android:summary="@string/enable_black_theme_summary"
+        android:title="@string/enable_black_theme" />
+    <PreferenceCategory android:title="@string/interface_gui" >
         <CheckBoxPreference
             android:key="tv_ui"
             android:summary="@string/tv_ui_summary"
             android:title="@string/tv_ui_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="lockscreen_cover"
+            android:summary="@string/lockscreen_cover_summary"
+            android:title="@string/lockscreen_cover_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="force_list_portrait"
+            android:summary="@string/force_list_portrait_summary"
+            android:title="@string/force_list_portrait" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/audio_title_alignment_list"
+            android:entryValues="@array/audio_title_alignment_values"
+            android:key="audio_title_alignment"
+            android:persistent="true"
+            android:title="@string/audio_title_alignment" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/interface_controls" >
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="save_brightness"
@@ -29,11 +45,6 @@
             android:entries="@array/touch_entries"
             android:entryValues="@array/touch_values"/>
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="lockscreen_cover"
-            android:summary="@string/lockscreen_cover_summary"
-            android:title="@string/lockscreen_cover_title" />
-        <CheckBoxPreference
             android:defaultValue="false"
             android:key="dialog_confirm_resume"
             android:summary="@string/confirm_resume_summary"
@@ -44,11 +55,6 @@
             android:summary="@string/enable_seek_buttons_summary"
             android:title="@string/enable_seek_buttons" />
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="force_list_portrait"
-            android:summary="@string/force_list_portrait_summary"
-            android:title="@string/force_list_portrait" />
-        <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_headset_detection"
             android:summary="@string/enable_headset_detection_summary"
@@ -58,12 +64,15 @@
             android:key="enable_steal_remote_control"
             android:summary="@string/enable_steal_remote_control_summary"
             android:title="@string/enable_steal_remote_control" />
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/audio_title_alignment_list"
-            android:entryValues="@array/audio_title_alignment_values"
-            android:key="audio_title_alignment"
-            android:persistent="true"
-            android:title="@string/audio_title_alignment" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/interface_secondary_display_category" >
+        <Preference android:summary="@string/interface_secondary_display_category_summary" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_clone_mode"
+            android:summary="@string/enable_clone_mode_summary"
+            android:title="@string/enable_clone_mode" />
     </PreferenceCategory>
 </PreferenceScreen>

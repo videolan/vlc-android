@@ -61,7 +61,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
         super.onCreate(savedInstanceState);
 
         findPreference("screen_orientation").setVisible(false);
-        findPreference("enable_black_theme").setVisible(false);
 
         // Screen orientation
         ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");

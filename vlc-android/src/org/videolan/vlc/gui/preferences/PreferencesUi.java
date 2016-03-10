@@ -30,7 +30,6 @@ import android.support.v7.preference.TwoStatePreference;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
 
 public class PreferencesUi extends BasePreferenceFragment {
 
@@ -67,6 +66,9 @@ public class PreferencesUi extends BasePreferenceFragment {
             case "force_list_portrait":
             case "tv_ui":
                 ((PreferencesActivity) getActivity()).setRestart();
+                return true;
+            case "enable_black_theme":
+                ((PreferencesActivity) getActivity()).exitAndRescan();
                 return true;
         }
         return super.onPreferenceTreeClick(preference);

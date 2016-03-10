@@ -94,9 +94,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 startActivity(intent);
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
-            case "enable_black_theme":
-                ((PreferencesActivity) getActivity()).exitAndRescan();
-                return true;
             case "ui_category":
                 loadFragment(new PreferencesUi());
                 break;

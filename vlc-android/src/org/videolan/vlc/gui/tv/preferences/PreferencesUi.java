@@ -59,6 +59,7 @@ public class PreferencesUi extends BasePreferenceFragment {
         findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(AndroidDevices.hasTsp());
         findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
         findPreference("lockscreen_cover").setVisible(false);
+        findPreference("enable_black_theme").setVisible(false);
     }
 
     @Override
