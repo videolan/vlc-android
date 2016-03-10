@@ -3114,6 +3114,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void updateNavStatus() {
         mIsNavMenu = false;
         mMenuIdx = -1;
+        mNavMenu.setVisibility(View.GONE);
 
         final MediaPlayer.Title[] titles = mService.getTitles();
         if (titles != null) {
