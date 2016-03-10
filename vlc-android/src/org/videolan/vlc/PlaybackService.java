@@ -361,16 +361,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         Log.i(TAG, "AUDIOFOCUS_LOSS");
                         // Pause playback
                         changeAudioFocus(false);
-                        if (isPlaying())
-                            pause();
+                        pause();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
                         // Pause playback
-                        if (mMediaPlayer.isPlaying()) {
-                            mLossTransient = true;
-                            mMediaPlayer.pause();
-                        }
+                        mLossTransient = true;
+                        mMediaPlayer.pause();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
@@ -470,7 +467,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
              * Remote / headset control events
              */
             if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
-                if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                if (hasCurrentMedia())
                     pause();
                 else if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
                     play();
@@ -478,7 +475,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
                     play();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_PAUSE)) {
-                if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                if (hasCurrentMedia())
                     pause();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
                 previous();
@@ -503,12 +500,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (mDetectHeadset && !mHasHdmiAudio) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
-                    if (mMediaPlayer.isPlaying() && hasCurrentMedia())
+                    if (hasCurrentMedia())
                         pause();
                 }
                 else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
                     Log.i(TAG, "Headset Inserted.");
-                    if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
+                    if (hasCurrentMedia())
                         play();
                 }
             }
