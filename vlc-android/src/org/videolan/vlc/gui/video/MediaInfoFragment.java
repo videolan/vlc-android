@@ -102,11 +102,6 @@ public class MediaInfoFragment extends ListFragment {
         mPlayButton = (FloatingActionButton) v.findViewById(R.id.play);
         mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
-
-        VLCApplication.runBackground(mCheckFile);
-        VLCApplication.runBackground(mLoadImage);
-
-        mPathView.setText(mItem == null ? "" : Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,8 +132,13 @@ public class MediaInfoFragment extends ListFragment {
             return;
         }
 
+        VLCApplication.runBackground(mCheckFile);
+        VLCApplication.runBackground(mLoadImage);
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
+
+        mPathView.setText(Uri.decode(mItem.getUri().getPath()));
     }
 
     public void onStop(){
