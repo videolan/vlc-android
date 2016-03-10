@@ -157,8 +157,7 @@ public class MediaPlayer
     }
 
     public void pause() throws IllegalStateException {
-        if (mMediaPlayer.isPlaying())
-            mMediaPlayer.pause(); // FIXME, this is toggling for now.
+        mMediaPlayer.pause();
     }
 
     public void setWakeMode(Context context, int mode) {
