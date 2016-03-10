@@ -16,7 +16,7 @@
     <LinearLayout
         android:id="@+id/layout_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
         android:clickable="true"
@@ -28,21 +28,20 @@
             android:layout_height="wrap_content"
             android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/subtitle"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_marginTop="5dip"
                 android:text="@{media.title}"
-                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"
@@ -56,14 +55,13 @@
                 android:layout_marginBottom="5dip"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:layout_alignParentBottom="true"
                 android:text="@{media.artist}"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_subtitle"
                 android:singleLine="true"
                 android:ellipsize="start"
                 android:visibility="@{media.artist == null ? View.GONE : View.VISIBLE}"/>
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
