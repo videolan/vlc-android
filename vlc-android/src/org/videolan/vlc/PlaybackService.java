@@ -2042,6 +2042,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                mBound = false;
                 mCallback.onDisconnected();
             }
         };
