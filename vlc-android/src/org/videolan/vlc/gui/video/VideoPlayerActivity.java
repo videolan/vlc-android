@@ -1542,9 +1542,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void onPlaying() {
         stopLoading();
+        updateNavStatus();
         showOverlay(true);
         setESTracks();
-        updateNavStatus();
     }
 
     private void endReached() {
@@ -2462,10 +2462,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.setVisibility(View.VISIBLE);
                 if (mForward != null)
                     mForward.setVisibility(View.VISIBLE);
-                if (mMenuIdx >= 0 && mNavMenu != null)
-                    mNavMenu.setVisibility(View.VISIBLE);
-                if (mService.getMediaListSize() > 1)
-                    mPlaylistToggle.setVisibility(View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -3114,7 +3110,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void updateNavStatus() {
         mIsNavMenu = false;
         mMenuIdx = -1;
-        mNavMenu.setVisibility(View.GONE);
 
         final MediaPlayer.Title[] titles = mService.getTitles();
         if (titles != null) {
@@ -3138,6 +3133,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         else if (mMenuIdx != -1)
             setESTracks();
+
+        mNavMenu.setVisibility(mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
         supportInvalidateOptionsMenu();
     }
 
