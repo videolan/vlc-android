@@ -43,7 +43,7 @@ dialog_set_context(JNIEnv *env, libvlc_dialog_id *p_id, jobject *jdialog)
 }
 
 static void
-display_error_cb(const char *psz_title, const char *psz_text, void *p_data)
+display_error_cb(void *p_data, const char *psz_title, const char *psz_text)
 {
     JNIEnv *env = NULL;
     if (!(env = jni_get_env(THREAD_NAME)))
@@ -56,9 +56,9 @@ display_error_cb(const char *psz_title, const char *psz_text, void *p_data)
 }
 
 static void
-display_login_cb(libvlc_dialog_id *p_id, const char *psz_title,
+display_login_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
                  const char *psz_text, const char *psz_default_username,
-                 bool b_ask_store, void *p_data)
+                 bool b_ask_store)
 {
     jobject jdialog = NULL;
     JNIEnv *env = NULL;
@@ -75,10 +75,10 @@ display_login_cb(libvlc_dialog_id *p_id, const char *psz_title,
 }
 
 static void
-display_question_cb(libvlc_dialog_id *p_id, const char *psz_title,
+display_question_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
                     const char *psz_text, libvlc_dialog_question_type i_type,
                     const char *psz_cancel, const char *psz_action1,
-                    const char *psz_action2, void *p_data)
+                    const char *psz_action2)
 {
     jobject jdialog = NULL;
     JNIEnv *env = NULL;
@@ -97,9 +97,9 @@ display_question_cb(libvlc_dialog_id *p_id, const char *psz_title,
 }
 
 static void
-display_progress_cb(libvlc_dialog_id *p_id, const char *psz_title,
+display_progress_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
                     const char *psz_text, bool b_indeterminate,
-                    float f_position, const char *psz_cancel, void *p_data)
+                    float f_position, const char *psz_cancel)
 {
     jobject jdialog = NULL;
     JNIEnv *env = NULL;
@@ -116,7 +116,7 @@ display_progress_cb(libvlc_dialog_id *p_id, const char *psz_title,
 }
 
 static void
-cancel_cb(libvlc_dialog_id *p_id, void *p_data)
+cancel_cb(void *p_data, libvlc_dialog_id *p_id)
 {
     JNIEnv *env = NULL;
     jobject jdialog = (jobject)libvlc_dialog_get_context(p_id);
@@ -133,8 +133,8 @@ cancel_cb(libvlc_dialog_id *p_id, void *p_data)
 }
 
 static void
-update_progress_cb(libvlc_dialog_id *p_id, float f_position,
-                   const char *psz_text, void *p_data)
+update_progress_cb(void *p_data, libvlc_dialog_id *p_id, float f_position,
+                   const char *psz_text)
 {
     JNIEnv *env = NULL;
     jobject jdialog = (jobject)libvlc_dialog_get_context(p_id);
