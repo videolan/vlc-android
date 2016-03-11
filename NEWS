@@ -1,3 +1,17 @@
+Changes between 1.9.1 and 1.9.2:
+--------------------------------
+
+Application:
+ * Add 'Auto landscape' and 'Auto portrait' modes
+ * Login dialog is now scrollable
+ * Better usb key/SD card mount/unmount detection on TV
+ * Fix wrong thumbnails on media or images corruption
+ * Fix video -> audio transition
+ * Fix VLC starting playback when another app grabs audiofocus
+ * Fix Browsers and History appearance with large fonts
+ * Misc fixes
+
+
 Changes between 1.9.0 and 1.9.1:
 --------------------------------
 
@@ -20,7 +34,7 @@ Changes between 1.7.0 and 1.9.0:
 --------------------------------
 
 Core:
- * Hardware accleleration is now asynchronous
+ * Hardware accelleration is now asynchronous
  * Preparation for Asynchronous debugging
  * Use mpg123 as MP3 decoder
  * Improve UPnP support
