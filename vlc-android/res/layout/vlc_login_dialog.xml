@@ -7,85 +7,87 @@
         <variable name="dialog" type="org.videolan.libvlc.Dialog.LoginDialog"/>
         <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcLoginDialog"/>
     </data>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+    <ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:text="@{dialog.text}"/>
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text"
-            android:layout_margin="10dp" >
-            <EditText
-                android:id="@+id/login"
+            <TextView
+                android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minWidth="200dp"
-                android:hint="@string/login"
-                android:text="@{dialog.getDefaultUsername()}"
-                android:inputType="textNoSuggestions"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/login_container"
-            android:layout_margin="10dp" >
-            <EditText
-                android:id="@+id/password"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:text="@{dialog.text}"/>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/login_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minWidth="200dp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-        <CheckBox
-            android:id="@+id/store"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password_container"
-            android:text="@string/store_password"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="5dp"
-            android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
-        <TextView
-            android:id="@+id/warning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/store"
-            android:layout_margin="10dp"
-            android:text="@string/encryption_warning"
-            android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater() ? View.VISIBLE : View.GONE}" />
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/warning"
-            android:layout_toLeftOf="@+id/action"
-            android:text="@android:string/cancel"
-            android:onClick="@{handler.onCancel}"
-            tools:targetApi="11"
-            style="?android:attr/borderlessButtonStyle" />
-        <Button
-            android:id="@+id/action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/warning"
-            android:text="@android:string/ok"
-            android:onClick="@{handler.onLogin}"
-            tools:targetApi="11"
-            style="?android:attr/borderlessButtonStyle" />
-    </RelativeLayout>
+                android:layout_below="@+id/text"
+                android:layout_margin="10dp" >
+                <EditText
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="200dp"
+                    android:hint="@string/login"
+                    android:text="@{dialog.getDefaultUsername()}"
+                    android:inputType="textNoSuggestions"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_container"
+                android:layout_margin="10dp" >
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="200dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+            <CheckBox
+                android:id="@+id/store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/password_container"
+                android:text="@string/store_password"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp"
+                android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/store"
+                android:layout_margin="10dp"
+                android:text="@string/encryption_warning"
+                android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater() ? View.VISIBLE : View.GONE}" />
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/warning"
+                android:layout_toLeftOf="@+id/action"
+                android:text="@android:string/cancel"
+                android:onClick="@{handler.onCancel}"
+                tools:targetApi="11"
+                style="?android:attr/borderlessButtonStyle" />
+            <Button
+                android:id="@+id/action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/warning"
+                android:text="@android:string/ok"
+                android:onClick="@{handler.onLogin}"
+                tools:targetApi="11"
+                style="?android:attr/borderlessButtonStyle" />
+        </RelativeLayout>
+    </ScrollView>
 </layout>
