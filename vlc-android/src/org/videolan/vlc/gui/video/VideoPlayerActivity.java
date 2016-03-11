@@ -2702,13 +2702,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (wasPaused)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
-        if(TextUtils.equals(action, PLAY_FROM_VIDEOGRID) && extras != null) {
-            mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
-            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START);
-            mAskResume &= !fromStart;
-            openedPosition = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
-        } else if (intent.getData() != null)
+        if (intent.getData() != null)
             mUri = intent.getData();
+        if(extras != null) {
+            if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
+                mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
+            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, true);
+            mAskResume &= !fromStart;
+            intentPosition = extras.getLong(PLAY_EXTRA_OPENED_POSITION, -1);
+        }
 
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
             mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
@@ -2792,8 +2794,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     onPlaying();
             }
-            if (media != null && media.getTime() > 0l)
-                seek(media.getTime());
+            long resumeTime = intentPosition;
+            if (intentPosition <= 0 && media != null && media.getTime() > 0l)
+                resumeTime = media.getTime();
+            if (resumeTime > 0)
+                seek(resumeTime);
 
             // Get possible subtitles
             String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
