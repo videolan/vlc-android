@@ -38,10 +38,10 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
+import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.util.WeakHandler;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -63,7 +63,8 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
-        storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        storageFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
+        storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         storageFilter.addDataScheme("file");
 
         registerReceiver(mExternalDevicesReceiver, networkFilter);
@@ -87,6 +88,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     protected abstract void refresh();
     protected abstract void onNetworkUpdated();
+    protected void onExternelDeviceChange() {};
 
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
         boolean connected = true;
@@ -110,9 +112,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 }
 
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100); //Delay to cancel it in case of MOUNT
+                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
+            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
+                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 2000); //Delay to cancel it in case of MOUNT
             }
         }
     };
@@ -136,7 +138,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 case ACTION_MEDIA_MOUNTED:
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                 case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().refresh();
+                    getOwner().onExternelDeviceChange();
                     break;
             }
         }

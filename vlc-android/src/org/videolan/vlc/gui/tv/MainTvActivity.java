@@ -555,6 +555,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     @Override
+    protected void onExternelDeviceChange() {
+        updateBrowsers();
+    }
+
+    @Override
     public void updateProgress(){}
 
     @Override
