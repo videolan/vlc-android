@@ -379,9 +379,6 @@ public class AudioUtil {
 
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true;
-        if (AndroidUtil.isHoneycombOrLater())
-            options.inMutable = true;
-        BitmapUtil.setInBitmap(options);
         BitmapFactory.decodeFile(path, options);
 
         if (options.outWidth > 0 && options.outHeight > 0) {
@@ -393,7 +390,6 @@ public class AudioUtil {
                 options.inSampleSize = options.inSampleSize * 2;
 
             // Decode the file (with memory allocation this time)
-            BitmapUtil.setInBitmap(options);
             cover = BitmapFactory.decodeFile(path, options);
         }
 

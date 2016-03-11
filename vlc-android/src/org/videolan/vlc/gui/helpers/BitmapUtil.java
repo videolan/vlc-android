@@ -191,14 +191,4 @@ public class BitmapUtil {
         }
         return 1;
     }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static void setInBitmap(BitmapFactory.Options options){
-        if (!AndroidUtil.isHoneycombOrLater())
-            return;
-        Bitmap inBitmap = BitmapCache.getInstance().getReusableBitmap(options);
-        if (inBitmap != null) {
-            options.inBitmap = inBitmap;
-        }
-    }
 }

@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.util.LruCache;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -36,10 +35,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.lang.ref.SoftReference;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
 
 public class BitmapCache {
 
@@ -50,8 +45,6 @@ public class BitmapCache {
     private static final String CONE_O_KEY = "res:"+ R.drawable.ic_cone_o;
     private static BitmapCache mInstance;
     private final LruCache<String, CacheableBitmap> mMemCache;
-    Set<SoftReference<Bitmap>> mCachedBitmaps;
-    Set<SoftReference<Bitmap>> mReusableBitmaps;
 
     public synchronized static BitmapCache getInstance() {
         if (mInstance == null)
@@ -79,20 +72,7 @@ public class BitmapCache {
             protected int sizeOf(String key, CacheableBitmap value) {
                 return value.getSize();
             }
-
-            @Override
-            protected void entryRemoved(boolean evicted, String key, CacheableBitmap oldValue, CacheableBitmap newValue) {
-                if (evicted) {
-                    mCachedBitmaps.remove(oldValue.getReference());
-                    if (mReusableBitmaps != null && oldValue.get() != null && !TextUtils.equals(key, CONE_KEY) && !TextUtils.equals(key, CONE_O_KEY))
-                        addReusableBitmapRef(oldValue.getReference());
-                }
-            }
         };
-
-        if (AndroidUtil.isHoneycombOrLater())
-            mReusableBitmaps = Collections.synchronizedSet(new HashSet<SoftReference<Bitmap>>());
-            mCachedBitmaps = Collections.synchronizedSet(new HashSet<SoftReference<Bitmap>>());
     }
 
     public synchronized Bitmap getBitmapFromMemCache(String key) {
@@ -102,15 +82,7 @@ public class BitmapCache {
         Bitmap b = cacheableBitmap.get();
         if (b == null){
             mMemCache.remove(key);
-            mCachedBitmaps.remove(cacheableBitmap.getReference());
             return null;
-        }
-        if (b.isRecycled()) {
-            /* A recycled bitmap cannot be used again */
-            addReusableBitmapRef(cacheableBitmap.getReference());
-            mCachedBitmaps.remove(cacheableBitmap.getReference());
-            mMemCache.remove(key);
-            b = null;
         }
         if (LOG_ENABLED)
             Log.d(TAG, (b == null) ? "Cache miss" : "Cache found");
@@ -121,7 +93,6 @@ public class BitmapCache {
         if (key != null && bitmap != null && getBitmapFromMemCache(key) == null) {
             final CacheableBitmap cacheableBitmap = new CacheableBitmap(bitmap);
             mMemCache.put(key, cacheableBitmap);
-            mCachedBitmaps.add(cacheableBitmap.getReference());
         }
     }
 
@@ -135,51 +106,16 @@ public class BitmapCache {
 
     public synchronized void clear() {
         mMemCache.evictAll();
-        mCachedBitmaps.clear();
     }
 
     public static Bitmap getFromResource(Resources res, int resId) {
         BitmapCache cache = BitmapCache.getInstance();
         Bitmap bitmap = cache.getBitmapFromMemCache(resId);
         if (bitmap == null) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            BitmapUtil.setInBitmap(options);
-            if (AndroidUtil.isHoneycombOrLater())
-                options.inMutable = true;
-            bitmap = BitmapFactory.decodeResource(res, resId, options);
+            bitmap = BitmapFactory.decodeResource(res, resId);
             cache.addBitmapToMemCache(resId, bitmap);
         }
         return bitmap;
-    }
-
-    private synchronized void addReusableBitmapRef(SoftReference<Bitmap> ref){
-        mReusableBitmaps.add(ref);
-    }
-
-    public synchronized Bitmap getReusableBitmap(BitmapFactory.Options targetOptions){
-        if (mReusableBitmaps == null || mReusableBitmaps.isEmpty())
-            return null;
-        Bitmap reusable = null;
-        LinkedList<SoftReference<Bitmap>> itemsToRemove = new LinkedList<SoftReference<Bitmap>>();
-        for(SoftReference<Bitmap> b : mReusableBitmaps){
-            reusable = b.get();
-            if (reusable == null) {
-                itemsToRemove.add(b);
-                continue;
-            }
-//            if (!reusable.isRecycled()) {
-//                Log.d(TAG, "not recycled");
-//                itemsToRemove.add(b);
-//                continue;
-//            }
-            if (BitmapUtil.canUseForInBitmap(reusable, targetOptions)) {
-                itemsToRemove.add(b);
-                return reusable;
-            }
-        }
-        if (!itemsToRemove.isEmpty())
-            mReusableBitmaps.removeAll(itemsToRemove);
-        return null;
     }
 
     private static class CacheableBitmap {
