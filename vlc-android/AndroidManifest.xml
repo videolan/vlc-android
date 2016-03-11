@@ -455,6 +455,7 @@
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:theme="@style/Theme.VLC.Player" />
 
         <activity
