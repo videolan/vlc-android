@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.view;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -30,6 +27,9 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 
 public class EqualizerBar extends LinearLayout {
 
@@ -77,7 +77,7 @@ public class EqualizerBar extends LinearLayout {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             float value = (progress - RANGE) / (float) PRECISION;
-            mValue.setText(value + " Db");
+            mValue.setText(value + " dB");
             if (listener != null)
                 listener.onProgressChanged(value);
         }
