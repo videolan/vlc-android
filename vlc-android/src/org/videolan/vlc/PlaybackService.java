@@ -488,8 +488,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
                 loadLastPlaylist(TYPE_VIDEO);
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_SWITCH_VIDEO)) {
-                getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                switchToVideo();
+                if (hasMedia()) {
+                    getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                    switchToVideo();
+                }
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_INIT)) {
                 updateWidget();
             }
