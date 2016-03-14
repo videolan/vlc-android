@@ -248,10 +248,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         }
 
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
-
-
-        if (AndroidUtil.isLolliPopOrLater())
-            mNavigationView.setPadding(0, mNavigationView.getPaddingTop()/2, 0, 0);
     }
 
     @Override
