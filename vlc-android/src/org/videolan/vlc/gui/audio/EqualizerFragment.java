@@ -66,7 +66,6 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.equalizer, container, false);
         saveViewChildren(v);
-        fillViews();
 
         return v;
     }
@@ -153,6 +152,12 @@ public class EqualizerFragment extends PlaybackServiceFragment {
             VLCOptions.setEqualizer(getActivity(), mEqualizer, equalizer_presets.getSelectedItemPosition());
         else
             VLCOptions.setEqualizer(getActivity(), null, 0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fillViews();
     }
 
     private final OnItemSelectedListener mPresetListener = new OnItemSelectedListener() {
