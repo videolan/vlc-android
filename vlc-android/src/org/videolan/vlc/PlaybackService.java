@@ -467,9 +467,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
              * Remote / headset control events
              */
             if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
-                if (hasCurrentMedia())
+                if (!hasCurrentMedia())
+                    return;
+                if (mMediaPlayer.isPlaying())
                     pause();
-                else if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
+                else
                     play();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_PLAY)) {
                 if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
@@ -479,7 +481,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     pause();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
                 previous();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP)) {
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP) ||
+                    action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
                 stop();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
                 next();
@@ -499,24 +502,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             /*
              * headset plug events
              */
-            if (mDetectHeadset && !mHasHdmiAudio) {
+            else if (mDetectHeadset && !mHasHdmiAudio) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
                     if (hasCurrentMedia())
                         pause();
-                }
-                else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
+                } else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
                     Log.i(TAG, "Headset Inserted.");
                     if (hasCurrentMedia())
                         play();
                 }
-            }
-
-            /*
-             * Sleep
-             */
-            if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
-                stop();
             }
         }
     };
