@@ -415,7 +415,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 MediaDatabase db = MediaDatabase.getInstance();
                 if (db.networkFavExists(mw.getUri())) {
                     menu.findItem(R.id.network_remove_favorite).setVisible(true);
-                    menu.findItem(R.id.network_edit_favorite).setVisible(true);
+                    menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
                 } else
                     menu.findItem(R.id.network_add_favorite).setVisible(true);
             }
