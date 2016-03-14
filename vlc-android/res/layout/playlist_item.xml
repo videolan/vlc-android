@@ -69,7 +69,8 @@
             android:layout_toLeftOf="@+id/item_more"
             android:layout_marginRight="5dip"
             android:gravity="center_vertical"
-            android:text="@{Strings.millisToString(media.length)}" />
+            android:text="@{Strings.millisToString(media.length)}"
+            android:visibility="@{media.length > 0 ? View.VISIBLE : View.GONE}"/>
 
         <ImageView
             android:id="@+id/item_more"
