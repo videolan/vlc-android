@@ -722,6 +722,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         loadMedia();
 
+        int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
+        if (ratePref == 2)
+            mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
+
         // Add any selected subtitle file from the file picker
         if(mSubtitleSelectedFiles.size() > 0) {
             for(String file : mSubtitleSelectedFiles) {
@@ -867,7 +871,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             } catch(IOException e) {}
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
-        mService.setRate(1.0f);
+
+        int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
+        if (ratePref == 2)
+            editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
+        else if (ratePref == 0)
+            mService.setRate(1.0f);
 
         Util.commitPreferences(editor);
     }
