@@ -11,6 +11,14 @@
     <!--android:summary="@string/vout_summary"-->
     <!--android:title="@string/vout" />-->
 
+    <ListPreference
+        android:defaultValue="1"
+        android:key="save_video_speed"
+        android:title="@string/save_video_speed_title"
+        android:summary="@string/save_video_speed_summary"
+        android:entries="@array/video_rate_list"
+        android:entryValues="@array/video_rate_values"/>
+
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="auto_rescan"
