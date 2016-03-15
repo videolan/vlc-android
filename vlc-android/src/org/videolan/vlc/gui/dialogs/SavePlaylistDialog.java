@@ -55,6 +55,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     public final static String TAG = "VLC/SavePlaylistDialog";
 
     public static final String KEY_TRACKS = "PLAYLIST_TRACKS";
+    public static final String KEY_NEW_TRACKS = "PLAYLIST_TRACKS";
 
     EditText mEditText;
     ListView mListView;
@@ -63,6 +64,8 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     Button mCancelButton;
     AudioBrowserListAdapter mAdapter;
     ArrayList<MediaWrapper> mTracks;
+    ArrayList<MediaWrapper> mNewTrack;
+    Runnable mCallBack;
 
     public SavePlaylistDialog(){}
 
@@ -72,6 +75,11 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
         mAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
         mAdapter.addAll(MediaLibrary.getInstance().getPlaylistDbItems());
         mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
+        mNewTrack = getArguments().getParcelableArrayList(KEY_NEW_TRACKS);
+    }
+
+    public void setCallBack(Runnable cb) {
+        mCallBack = cb;
     }
 
     @NonNull
@@ -132,14 +140,28 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
             public void run() {
                 final MediaDatabase db = MediaDatabase.getInstance();
                 final String name = mEditText.getText().toString().trim();
-                if (db.playlistExists(name))
-                    db.playlistDelete(name);
-                db.playlistAdd(name);
-                MediaWrapper mw;
-                for (int i = 0 ; i< mTracks.size() ; ++i){
-                    mw = mTracks.get(i);
-                    db.playlistInsertItem(name, i, mw.getLocation());
+                boolean addTracks = mNewTrack != null;
+                boolean exists = db.playlistExists(name);
+                if (addTracks) {
+                    int position = 0;
+                    if (!exists)
+                        db.playlistAdd(name);
+                    else
+                        position = db.playlistGetItems(name).length;
+                    for (int i = 0 ; i < mNewTrack.size(); ++i)
+                        db.playlistInsertItem(name, position+i, mNewTrack.get(i).getLocation());
+                } else { //Save a playlist
+                    if (exists)
+                        db.playlistDelete(name);
+                    db.playlistAdd(name);
+                    MediaWrapper mw;
+                    for (int i = 0; i < mTracks.size(); ++i) {
+                        mw = mTracks.get(i);
+                        db.playlistInsertItem(name, i, mw.getLocation());
+                    }
                 }
+                if (mCallBack != null)
+                    mCallBack.run();
             }
         });
         dismiss();
