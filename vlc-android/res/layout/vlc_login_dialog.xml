@@ -59,6 +59,7 @@
                 android:text="@string/store_password"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="5dp"
+                android:checked="@{handler.store()}"
                 android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
             <TextView
                 android:id="@+id/warning"

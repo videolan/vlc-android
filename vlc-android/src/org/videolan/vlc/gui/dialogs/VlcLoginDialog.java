@@ -24,22 +24,43 @@
 
 package org.videolan.vlc.gui.dialogs;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 
 import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.VlcLoginDialogBinding;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.util.Util;
 
 public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding> {
+
+    SharedPreferences mSettings;
 
     @Override
     int getLayout() {
         return R.layout.vlc_login_dialog;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mSettings = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
     public void onLogin(View v) {
         mVlcDialog.postLogin(mBinding.login.getText().toString().trim(),
                 mBinding.password.getText().toString().trim(), mBinding.store.isChecked());
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putBoolean(PreferencesActivity.LOGIN_STORE, mBinding.store.isChecked());
+        Util.commitPreferences(editor);
         dismiss();
+    }
+
+    public boolean store() {
+        return mSettings.getBoolean(PreferencesActivity.LOGIN_STORE, true);
     }
 }
