@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -53,6 +54,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -256,6 +258,16 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
                 i.putExtra("param", mSongsAdapter.getItem(position).mMediaList.get(0).getUri().toString());
                 getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
                 return true;
+        }
+
+        if (id == R.id .audio_view_add_playlist) {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, adapter.getMedias(position));
+            savePlaylistDialog.setArguments(args);
+            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+            return true;
         }
 
         if (useAllItems) {

@@ -16,6 +16,9 @@
             android:title="@string/info" />
     </group>
     <item
+        android:id="@+id/audio_view_add_playlist"
+        android:title="@string/add_to_playlist" />
+    <item
         android:id="@+id/audio_list_browser_delete"
         android:title="@string/delete"/>
     <group android:id="@+id/phone_only" >

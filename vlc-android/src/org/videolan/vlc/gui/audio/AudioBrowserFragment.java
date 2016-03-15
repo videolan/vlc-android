@@ -25,9 +25,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
@@ -57,6 +59,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -213,7 +216,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -450,7 +454,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
         int startPosition;
         int mode = mViewPager.getCurrentItem();
-        List<MediaWrapper> medias;
+        ArrayList<MediaWrapper> medias;
         int id = item.getItemId();
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
@@ -553,6 +557,17 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             if (position >= adapter.getCount())
                 return false;
             medias = adapter.getMedias(position);
+        }
+
+        if (id == R.id .audio_view_add_playlist) {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+            savePlaylistDialog.setArguments(args);
+            savePlaylistDialog.setCallBack(updatePlaylists);
+            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+            return true;
         }
 
         if (mService != null) {
@@ -869,6 +884,14 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     Runnable updatePlaylists = new Runnable() {
         @Override
         public void run() {
+            if (Looper.myLooper() != Looper.getMainLooper()) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPlaylistAdapter.clear();
+                    }
+                });
+            }
             //File playlists
             ArrayList<MediaWrapper> playlists = mMediaLibrary.getPlaylistFilesItems();
             mPlaylistAdapter.addAll(playlists, AudioBrowserListAdapter.TYPE_PLAYLISTS);
