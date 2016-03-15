@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.databinding'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -22,6 +21,10 @@ android {
         from '../vlc/share/lua/meta'
         into 'assets/lua/meta'
         exclude '**/*.txt'
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     defaultConfig {
