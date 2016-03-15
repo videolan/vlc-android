@@ -279,6 +279,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 mSwipeRefreshLayout.setEnabled(current.getFirstVisiblePosition() == 0);
             }
         });
+        updatePlaylists();
     }
 
     private void focusHelper(final boolean idIsEmpty, final int listId) {
@@ -904,6 +905,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 display();
         }
     };
+
+    private void updatePlaylists() {
+        VLCApplication.runBackground(updatePlaylists);
+    }
 
     AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener
             = new AudioBrowserListAdapter.ContextPopupMenuListener() {
