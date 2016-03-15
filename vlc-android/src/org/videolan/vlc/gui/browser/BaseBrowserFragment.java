@@ -227,7 +227,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onMediaAdded(int index, Media media) {
         boolean empty = mAdapter.isEmpty();
-        mAdapter.addItem(media, mReadyToDisplay && mRoot, mRoot);
+        mAdapter.addItem(media, mReadyToDisplay && mRoot, false);
         if (empty && mReadyToDisplay)
             updateEmptyView();
         if (mRoot && mSwipeRefreshLayout.isRefreshing())
