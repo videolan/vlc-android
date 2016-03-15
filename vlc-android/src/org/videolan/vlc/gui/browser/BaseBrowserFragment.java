@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
@@ -424,6 +426,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
             menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_AUDIO);
             menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);
+            menu.findItem(R.id.directory_view_add_playlist).setVisible(type == MediaWrapper.TYPE_AUDIO);
         }
     }
 
@@ -476,13 +479,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 i.putExtra("param", mw.getUri().toString());
                 getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
                 return true;
-            case R.id.directory_view_play_audio: {
+            case R.id.directory_view_play_audio:
                 if (mService != null) {
                     mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                     mService.load(mw);
                 }
                 return true;
-            }
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
                 boolean videoPlaylist = AndroidUtil.isHoneycombOrLater();
@@ -491,6 +493,16 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         mediaList.add(mediaItem);
                 }
                 MediaUtils.openList(getActivity(), mediaList, 0);
+                return true;
+            case R.id.directory_view_add_playlist:
+                ArrayList<MediaWrapper> medias = new ArrayList<>();
+                medias.add(mw);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+                savePlaylistDialog.setArguments(args);
+                savePlaylistDialog.show(fm, "fragment_add_to_playlist");
                 return true;
 //            case R.id.directory_view_hide_media:
 //                try {

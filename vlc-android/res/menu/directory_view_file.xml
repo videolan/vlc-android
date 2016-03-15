@@ -15,4 +15,7 @@
     <item
         android:id="@+id/directory_view_info"
         android:title="@string/info" />
+    <item
+        android:id="@+id/directory_view_add_playlist"
+        android:title="@string/add_to_playlist" />
 </menu>
