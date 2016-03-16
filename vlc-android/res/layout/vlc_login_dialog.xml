@@ -17,6 +17,7 @@
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minWidth="600dip"
                 android:layout_alignParentTop="true"
                 android:layout_margin="10dp"
                 android:text="@{dialog.text}"/>
