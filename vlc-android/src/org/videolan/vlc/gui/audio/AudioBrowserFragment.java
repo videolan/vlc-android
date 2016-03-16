@@ -452,25 +452,35 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     }
 
     private boolean handleContextItemSelected(final MenuItem item, final int position) {
-
-        int startPosition;
+        final AudioBrowserListAdapter adapter;
         int mode = mViewPager.getCurrentItem();
-        ArrayList<MediaWrapper> medias;
+        switch (mode) {
+            case MODE_SONG:
+                adapter = mSongsAdapter;
+                break;
+            case MODE_ALBUM:
+                adapter = mAlbumsAdapter;
+                break;
+            case MODE_ARTIST:
+                adapter = mArtistsAdapter;
+                break;
+            case MODE_PLAYLIST:
+                adapter = mPlaylistAdapter;
+                break;
+            case MODE_GENRE:
+                adapter = mGenresAdapter;
+                break;
+            default:
+                return false;
+        }
+        if (position < 0 && position >= adapter.getCount())
+            return false;
+
         int id = item.getItemId();
 
-        boolean useAllItems = id == R.id.audio_list_browser_play_all;
-        boolean append = id == R.id.audio_list_browser_append;
-
         if (id == R.id.audio_list_browser_delete) {
-            final AudioBrowserListAdapter adapter;
-            if (mode == MODE_SONG){
-                adapter = mSongsAdapter;
-            } else if (mode == MODE_PLAYLIST) {
-                adapter = mPlaylistAdapter;
-            } else
-                return false;
             List<MediaWrapper> mediaList = adapter.getMedias(position);
-            if (adapter.getCount() <= position || mediaList == null || mediaList.isEmpty())
+            if (mediaList == null || mediaList.isEmpty())
                 return false;
             final MediaWrapper media = mediaList.get(0);
             final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
@@ -521,6 +531,24 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 return true;
         }
 
+        if (id == R.id .audio_view_add_playlist) {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, adapter.getMedias(position));
+            savePlaylistDialog.setArguments(args);
+            savePlaylistDialog.setCallBack(updatePlaylists);
+            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+            return true;
+        }
+
+        int startPosition;
+        ArrayList<MediaWrapper> medias;
+
+        boolean useAllItems = id == R.id.audio_list_browser_play_all;
+        boolean append = id == R.id.audio_list_browser_append;
+
+        // Play/Append
         if (useAllItems) {
             if (mSongsAdapter.getCount() <= position)
                 return false;
@@ -528,47 +556,18 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             startPosition = mSongsAdapter.getListWithPosition(medias, position);
         } else {
             startPosition = 0;
-            AudioBrowserListAdapter adapter;
-            switch (mode){
-                case MODE_SONG:
-                    adapter = mSongsAdapter;
-                    break;
-                case MODE_ARTIST:
-                    adapter = mArtistsAdapter;
-                    break;
-                case MODE_ALBUM:
-                    adapter = mAlbumsAdapter;
-                    break;
-                case MODE_GENRE:
-                    adapter = mGenresAdapter;
-                    break;
-                case MODE_PLAYLIST: //For file playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
+            if (mode == MODE_PLAYLIST){ //For file playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
                     medias = mPlaylistAdapter.getMedias(position);
                     if (medias.size() == 1 && mPlaylistAdapter.getMedias(position).get(0).getType() == MediaWrapper.TYPE_PLAYLIST) {
                         if (mMediaBrowser == null)
                             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
                         mMediaBrowser.browse(mPlaylistAdapter.getMedias(position).get(0).getUri(), true);
                         return true;
-                    } else
-                        adapter = mPlaylistAdapter;
-                    break;
-                default:
-                    return false;
+                    }
             }
             if (position >= adapter.getCount())
                 return false;
             medias = adapter.getMedias(position);
-        }
-
-        if (id == R.id .audio_view_add_playlist) {
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-            Bundle args = new Bundle();
-            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
-            savePlaylistDialog.setArguments(args);
-            savePlaylistDialog.setCallBack(updatePlaylists);
-            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
-            return true;
         }
 
         if (mService != null) {
