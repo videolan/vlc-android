@@ -1,3 +1,19 @@
+Changes between 1.9.2 and 1.9.3:
+--------------------------------
+
+Application:
+ * Option to remember video playback speed
+ * Add "Append to playlist" feature for audio media
+ * Enlarge login dialog
+ * Disable username for manual SMB server adding
+ * Store login credentials by default & remember choice
+ * Hide media length in playlist when we don't know it
+ * Fix play/pause from notification
+ * Fix external calls for VLC to play videos not handled
+ * Fix EqualizerFragment empty after being paused
+ * Misc. fixes
+
+
 Changes between 1.9.1 and 1.9.2:
 --------------------------------
 
