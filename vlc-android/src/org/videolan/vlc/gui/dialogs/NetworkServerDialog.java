@@ -215,6 +215,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
             case "SMB":
                 addressHint = R.string.server_share_hint;
                 portEnabled = false;
+                userEnabled = false;
                 break;
             case "NFS":
                 addressHint = R.string.server_share_hint;
@@ -226,7 +227,9 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         mPortTitle.setVisibility(portEnabled ? View.VISIBLE : View.INVISIBLE);
         mEditPort.setVisibility(portEnabled ? View.VISIBLE : View.INVISIBLE);
         mEditPort.setText(port);
+        mEditPort.setEnabled(portEnabled);
         mEditUsername.setVisibility(userEnabled ? View.VISIBLE : View.GONE);
+        mEditUsername.setEnabled(userEnabled);
         updateUrl();
     }
 
