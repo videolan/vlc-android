@@ -4,8 +4,8 @@
         <item>FTP</item>
         <item>FTPS</item>
         <item>SFTP</item>
-        <item>HTTP</item>
-        <item>HTTPS</item>
+        <!--<item>HTTP</item>-->
+        <!--<item>HTTPS</item>-->
         <item>SMB</item>
         <item>NFS</item>
     </string-array>
