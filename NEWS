@@ -13,6 +13,10 @@ Application:
  * Fix EqualizerFragment empty after being paused
  * Misc. fixes
 
+Core:
+ * Improve network browsing
+ * Improve streaming of large files
+
 
 Changes between 1.9.1 and 1.9.2:
 --------------------------------
