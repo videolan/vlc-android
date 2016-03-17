@@ -42,4 +42,13 @@
         android:scaleType="center"
         android:focusable="true"
         android:visibility="gone" />
+    <!-- Useless views to fix Chrome OS build -->
+    <view
+        android:id="@+id/player_overlay_systime"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+    <view
+        android:id="@+id/player_overlay_battery"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 </LinearLayout>
