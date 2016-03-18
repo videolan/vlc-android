@@ -1,3 +1,15 @@
+Changes between 1.9.3 and 1.9.4:
+--------------------------------
+
+Application:
+ * Feature to set a song as ringtone from current playlist
+ * Fix video resume from background playback or apps switching
+ * Remember paused state in Video player
+ * Improve randomization for playback
+ * Fix notification being briefly displayed for network videos
+ * Fix potential crash when launched by a 3rd party app
+
+
 Changes between 1.9.2 and 1.9.3:
 --------------------------------
 
