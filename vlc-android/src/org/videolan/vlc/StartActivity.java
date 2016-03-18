@@ -57,7 +57,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
-            if (intent.getType().startsWith("video")) {
+            if (intent.getType() != null && intent.getType().startsWith("video")) {
                 intent.setClass(this, VideoPlayerActivity.class);
                 startActivity(intent);
             } else {
