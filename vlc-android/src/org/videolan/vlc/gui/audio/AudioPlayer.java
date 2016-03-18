@@ -39,6 +39,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
+import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -68,6 +70,7 @@ import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.gui.view.CoverMediaSwitcher;
 import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
@@ -266,8 +269,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void onPopupMenu(View anchor, final int position) {
-        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+        final Activity activity = getActivity();
+        if (activity == null || position >= mPlaylistAdapter.getItemCount())
+            return;
+        final MediaWrapper mw = mPlaylistAdapter.getItem(position);
+        final PopupMenu popupMenu = new PopupMenu(activity, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audio_player, popupMenu.getMenu());
+
+        popupMenu.getMenu().setGroupVisible(R.id.phone_only, mw.getType() != MediaWrapper.TYPE_VIDEO
+                && TextUtils.equals(mw.getUri().getScheme(), "file")
+                && AndroidDevices.isPhone());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -277,6 +288,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                         mService.remove(position);
                         return true;
                     }
+                } else if (item.getItemId() == R.id.audio_player_set_song) {
+                    AudioUtil.setRingtone(mw, activity);
+                    return true;
                 }
                 return false;
             }
