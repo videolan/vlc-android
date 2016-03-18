@@ -503,6 +503,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             return;
         mBrowserAdapter.clear();
         List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
+        if (!AndroidDevices.showInternalStorage())
+            directories.remove(0);
         for (MediaWrapper directory : directories)
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_network_big, directory.getUri()));
 

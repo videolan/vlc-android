@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
@@ -57,7 +58,7 @@ public class AndroidDevices {
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
 
     final static boolean hasNavBar;
-    final static boolean hasTsp, isTv;
+    final static boolean hasTsp, isTv, showInternalStorage;
 
     static {
         HashSet<String> devicesWithoutNavBar = new HashSet<String>();
@@ -69,6 +70,7 @@ public class AndroidDevices {
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
         hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
         isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
+        showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
     }
 
     public static boolean hasExternalStorage() {
@@ -99,6 +101,10 @@ public class AndroidDevices {
 
     public static boolean isAndroidTv() {
         return isTv;
+    }
+
+    public static boolean showInternalStorage() {
+        return showInternalStorage;
     }
 
     public static ArrayList<String> getStorageDirectories() {
