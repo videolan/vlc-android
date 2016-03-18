@@ -634,11 +634,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
-        if (!isFinishing() && mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
+        if (!isFinishing() && mService != null && mService.isPlaying() &&
+                mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
             switchToAudioMode(false);
         }
-
-        mWasPaused = !mService.isPlaying();
         stopPlayback();
 
 
@@ -812,6 +811,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void stopPlayback() {
         if (!mPlaybackStarted)
             return;
+
+        mWasPaused = !mService.isPlaying();
 
         if (mMute)
             mute(false);
