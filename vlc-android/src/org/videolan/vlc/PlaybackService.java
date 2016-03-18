@@ -538,6 +538,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private final Media.EventListener mMediaListener = new Media.EventListener() {
         @Override
         public void onEvent(Media.Event event) {
+            boolean update = true;
             switch (event.type) {
                 case Media.Event.MetaChanged:
                     /* Update Meta if file is already parsed */
@@ -550,10 +551,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     updateCurrentMeta(-1);
                     mParsed = true;
                     break;
+                default:
+                    update = false;
 
             }
-            for (Callback callback : mCallbacks)
-                callback.onMediaEvent(event);
+            if (update) {
+                for (Callback callback : mCallbacks)
+                    callback.onMediaEvent(event);
+                if (mParsed)
+                    showNotification();
+            }
         }
     };
 
@@ -615,6 +622,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     executeUpdate();
                     publishState(event.type);
                     executeUpdateProgress();
+                    showNotification();
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
                     break;
@@ -1132,7 +1140,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             i.putExtra("track", media.getTitle());
             sendBroadcast(i);
         }
-        showNotification();
     }
 
     protected void publishState(int state) {
