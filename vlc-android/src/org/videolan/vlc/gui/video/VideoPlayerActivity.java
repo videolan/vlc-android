@@ -371,8 +371,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
 
         mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
-        mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
-        mBattery = (TextView) findViewById(R.id.player_overlay_battery);
+        if (!AndroidUtil.isJellyBeanOrLater()) {
+            mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
+            mBattery = (TextView) findViewById(R.id.player_overlay_battery);
+        }
 
         mPlaylistToggle = (ImageView) findViewById(R.id.playlist_toggle);
         mPlaylist = (RecyclerView) findViewById(R.id.video_playlist);
