@@ -36,6 +36,7 @@ import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -144,7 +145,9 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
         if (media.getType() == MediaWrapper.TYPE_DIR) {
             mDb = MediaDatabase.getInstance();
-            detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_network_big));
+            detailsOverview.setImageDrawable(getResources().getDrawable(TextUtils.equals(media.getUri().getScheme(),"file")
+                    ? R.drawable.ic_menu_folder_big
+                    : R.drawable.ic_menu_network_big));
             detailsOverview.setImageScaleUpAllowed(true);
             detailsOverview.addAction(new Action(ID_BROWSE, "Browse folder"));
             if (mDb.networkFavExists(Uri.parse(mMedia.getLocation())))

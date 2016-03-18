@@ -506,7 +506,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         if (!AndroidDevices.showInternalStorage())
             directories.remove(0);
         for (MediaWrapper directory : directories)
-            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_network_big, directory.getUri()));
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_folder_big, directory.getUri()));
 
         if (AndroidDevices.hasLANConnection()) {
             final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();

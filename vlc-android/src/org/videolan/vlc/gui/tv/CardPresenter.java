@@ -236,8 +236,12 @@ public class CardPresenter extends Presenter {
                 picture = BitmapUtil.getPicture(mediaWrapper);
                 if (picture == null)
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
-            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)
-                picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR) {
+                if (TextUtils.equals(mediaWrapper.getUri().getScheme(),"file"))
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
+                else
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+            }
             else
                 picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_big_normal);
             return picture;
