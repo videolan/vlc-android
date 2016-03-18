@@ -293,7 +293,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * It is possible to have multiple custom subs in one session
      * (just like desktop VLC allows you as well.)
      */
-    private final volatile ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
+    private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -730,14 +730,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
         if (ratePref == 2)
             mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
-
-        // Add any selected subtitle file from the file picker
-        if(mSubtitleSelectedFiles.size() > 0) {
-            for(String file : mSubtitleSelectedFiles) {
-                Log.i(TAG, "Adding user-selected subtitle " + file);
-                mService.addSubtitleTrack(file);
-            }
-        }
 
         if (mService.getMediaListSize() > 1) {
             mPlaylistAdapter = new PlaylistAdapter(this);
@@ -2836,7 +2828,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void getSubtitles() {
         String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
-        ArrayList<String> prefsList = new ArrayList<String>();
+        ArrayList<String> prefsList = new ArrayList<>();
         if(subtitleList_serialized != null) {
             ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
             try {
@@ -2849,6 +2841,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         for(String x : prefsList){
             if(!mSubtitleSelectedFiles.contains(x))
                 mSubtitleSelectedFiles.add(x);
+        }
+
+        // Add any selected subtitle file from the file picker
+        if(mSubtitleSelectedFiles.size() > 0) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    for(String file : mSubtitleSelectedFiles) {
+                        Log.i(TAG, "Adding user-selected subtitle " + file);
+                        mService.addSubtitleTrack(file);
+                    }
+                }
+            });
         }
     }
 
