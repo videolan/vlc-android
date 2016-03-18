@@ -244,6 +244,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mLastSpuTrack = -2;
     private int mOverlayTimeout = 0;
     private boolean mLockBackButton = false;
+    boolean mWasPaused = false;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -636,6 +637,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!isFinishing() && mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
             switchToAudioMode(false);
         }
+
+        mWasPaused = !mService.isPlaying();
         stopPlayback();
 
 
@@ -2698,8 +2701,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         Intent intent = getIntent();
         String action = intent.getAction();
         Bundle extras = getIntent().getExtras();
-
-        boolean wasPaused = false;
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -2709,8 +2710,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          */
         final KeyguardManager km = (KeyguardManager) VLCApplication.getAppContext().getSystemService(KEYGUARD_SERVICE);
         if (km.inKeyguardRestrictedInputMode())
-            wasPaused = true;
-        if (wasPaused)
+            mWasPaused = true;
+        if (mWasPaused)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
         if (intent.getData() != null)
@@ -2788,7 +2789,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 /* prepare playback */
                 mService.stop();
                 final MediaWrapper mw = new MediaWrapper(mUri);
-                if (wasPaused)
+                if (mWasPaused)
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
                     mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
