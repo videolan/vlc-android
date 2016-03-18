@@ -293,7 +293,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * It is possible to have multiple custom subs in one session
      * (just like desktop VLC allows you as well.)
      */
-    private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
+    private final volatile ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -2813,21 +2813,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 seek(resumeTime);
 
             // Get possible subtitles
-            String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
-            ArrayList<String> prefsList = new ArrayList<String>();
-            if(subtitleList_serialized != null) {
-                ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
-                try {
-                    ObjectInputStream ois = new ObjectInputStream(bis);
-                    prefsList = (ArrayList<String>)ois.readObject();
-                } catch(ClassNotFoundException e) {}
-                  catch (StreamCorruptedException e) {}
-                  catch (IOException e) {}
-            }
-            for(String x : prefsList){
-                if(!mSubtitleSelectedFiles.contains(x))
-                    mSubtitleSelectedFiles.add(x);
-             }
+            getSubtitles();
 
             // Get the title
             if (itemTitle == null)
@@ -2845,6 +2831,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);
+    }
+
+    private void getSubtitles() {
+        String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+        ArrayList<String> prefsList = new ArrayList<String>();
+        if(subtitleList_serialized != null) {
+            ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+            try {
+                ObjectInputStream ois = new ObjectInputStream(bis);
+                prefsList = (ArrayList<String>)ois.readObject();
+            } catch(ClassNotFoundException e) {}
+              catch (StreamCorruptedException e) {}
+              catch (IOException e) {}
+        }
+        for(String x : prefsList){
+            if(!mSubtitleSelectedFiles.contains(x))
+                mSubtitleSelectedFiles.add(x);
+        }
     }
 
     @SuppressWarnings("deprecation")
