@@ -1018,9 +1018,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                             return;
                         } else {
                             mPrevious.clear();
+                            mRandom = new Random(System.currentTimeMillis());
                         }
                     }
-                    if(mRandom == null) mRandom = new Random();
+                    if(mRandom == null) mRandom = new Random(System.currentTimeMillis());
                     // Find a new index not in mPrevious.
                     do
                     {
