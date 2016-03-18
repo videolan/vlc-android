@@ -2785,7 +2785,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
 
             // Start playback & seek
-            if (openedPosition == -1) {
+            mService.addCallback(this);
+            if (mService.isPlaying() && mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_VIDEO)) {
+                onPlaying();
+            } else if (openedPosition == -1) {
                 /* prepare playback */
                 mService.stop();
                 final MediaWrapper mw = new MediaWrapper(mUri);
@@ -2795,11 +2798,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 mw.addFlags(MediaWrapper.MEDIA_VIDEO);
-                mService.addCallback(this);
                 mService.load(mw);
             } else {
                 mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
-                mService.addCallback(this);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mService.isPlaying())
                     mService.playIndex(openedPosition);
