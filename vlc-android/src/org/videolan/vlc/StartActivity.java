@@ -57,11 +57,11 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
+            intent.setData(getUri(intent));
             if (intent.getType() != null && intent.getType().startsWith("video")) {
                 intent.setClass(this, VideoPlayerActivity.class);
                 startActivity(intent);
             } else {
-                intent.setData(getUri(intent));
                 MediaUtils.openUri(this, intent.getData());
             }
         } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
@@ -116,11 +116,8 @@ public class StartActivity extends Activity {
                         if (cursor.moveToFirst())
                             mUri = AndroidUtil.PathToUri(cursor.getString(column_index));
                         cursor.close();
-                    }
-                    // other content-based URI (probably file pickers)
-                    else {
+                    } else // other content-based URI (probably file pickers)
                         mUri = data;
-                    }
                 } catch (Exception e) {
                     mUri = data;
                     if (mUri.getScheme() == null)
