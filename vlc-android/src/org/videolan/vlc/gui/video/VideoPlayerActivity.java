@@ -2781,21 +2781,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.addCallback(this);
             if (mService.isPlaying() && mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_VIDEO)) {
                 onPlaying();
-            } else if (positionInPlaylist == -1) {
+            } else {
                 /* prepare playback */
-                mService.stop();
-                final MediaWrapper mw = new MediaWrapper(mUri);
+                boolean hasMedia = mService.hasMedia();
+                final MediaWrapper mw = hasMedia ? mService.getCurrentMediaWrapper() :new MediaWrapper(mUri);
                 if (mWasPaused)
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
                     mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 mw.addFlags(MediaWrapper.MEDIA_VIDEO);
-                mService.load(mw);
-            } else {
-                mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
-                // AudioService-transitioned playback for item after sleep and resume
-                if(!mService.isPlaying())
+                // PlaybackService-transitioned playback for item after sleep and resume
+                if (!hasMedia)
+                    mService.load(mw);
+                else if (!mService.isPlaying())
                     mService.playIndex(positionInPlaylist);
                 else
                     onPlaying();
