@@ -2687,7 +2687,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mUri = null;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
-        int openedPosition = -1;
+        int positionInPlaylist = mService.getCurrentMediaPosition();
         Uri data;
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
@@ -2722,9 +2722,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
-        if (openedPosition != -1) {
+        if (positionInPlaylist != -1) {
             // Provided externally from AudioService
-            Log.d(TAG, "Continuing playback from AudioService at index " + openedPosition);
+            Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
             MediaWrapper openedMedia = mService.getCurrentMediaWrapper();
             if (openedMedia == null) {
                 encounteredError();
@@ -2741,7 +2741,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
             if(media != null) {
                 // in media library
-                if(media.getTime() > 0 && !fromStart && openedPosition == -1) {
+                if(media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
                     if (mAskResume) {
                         showConfirmResumeDialog();
                         return;
@@ -2755,7 +2755,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
-            } else if (openedPosition == -1) {
+            } else if (positionInPlaylist == -1) {
                 // not in media library
 
                 if (intentPosition > 0 && mAskResume) {
@@ -2781,7 +2781,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.addCallback(this);
             if (mService.isPlaying() && mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_VIDEO)) {
                 onPlaying();
-            } else if (openedPosition == -1) {
+            } else if (positionInPlaylist == -1) {
                 /* prepare playback */
                 mService.stop();
                 final MediaWrapper mw = new MediaWrapper(mUri);
@@ -2796,7 +2796,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_VIDEO);
                 // AudioService-transitioned playback for item after sleep and resume
                 if(!mService.isPlaying())
-                    mService.playIndex(openedPosition);
+                    mService.playIndex(positionInPlaylist);
                 else
                     onPlaying();
             }
