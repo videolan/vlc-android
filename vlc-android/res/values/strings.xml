@@ -266,6 +266,7 @@
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_gui">Display</string>
     <string name="interface_controls">Controls</string>
+    <string name="interface_secondary_display_category_title">Secondary display</string>
     <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
