@@ -442,6 +442,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     } : null;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        private boolean wasPlaying = false;
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -505,11 +506,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             else if (mDetectHeadset && !mHasHdmiAudio) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
-                    if (hasCurrentMedia())
+                    wasPlaying = isPlaying();
+                    if (wasPlaying && hasCurrentMedia())
                         pause();
                 } else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
                     Log.i(TAG, "Headset Inserted.");
-                    if (hasCurrentMedia())
+                    if (wasPlaying && hasCurrentMedia())
                         play();
                 }
             }
