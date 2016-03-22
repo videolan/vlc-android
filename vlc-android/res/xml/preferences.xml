@@ -30,7 +30,7 @@
         android:title="@string/subtitle_text_encoding" />
 
     <ListPreference
-        android:defaultValue="4"
+        android:defaultValue="99"
         android:entries="@array/screen_orientation_list"
         android:entryValues="@array/screen_orientation_values"
         android:key="screen_orientation"
