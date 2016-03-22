@@ -402,7 +402,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
         mScreenOrientation = Integer.valueOf(
-                mSettings.getString("screen_orientation_value", "99" /*SCREEN ORIENTATION USER*/));
+                mSettings.getString("screen_orientation_value", "99" /*SCREEN ORIENTATION SENSOR*/));
 
         mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
 
@@ -1298,12 +1298,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Lock screen rotation
      */
     private void lockScreen() {
-        if(mScreenOrientation == 99) {
+        if(mScreenOrientation != 100) {
+            mScreenOrientationLock = getRequestedOrientation();
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
             else
                 setRequestedOrientation(getScreenOrientation(100));
-            mScreenOrientationLock = getScreenOrientation(mScreenOrientation);
         }
         showInfo(R.string.locked, 1000);
         mLock.setImageResource(R.drawable.ic_locked_circle);
@@ -1320,10 +1320,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Remove screen lock
      */
     private void unlockScreen() {
-        if(mScreenOrientation == 99)
-            setRequestedOrientation(AndroidUtil.isJellyBeanMR2OrLater() ?
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_USER :
-                    ActivityInfo.SCREEN_ORIENTATION_USER);
+        if(mScreenOrientation != 100)
+            setRequestedOrientation(mScreenOrientationLock);
         showInfo(R.string.unlocked, 1000);
         mLock.setImageResource(R.drawable.ic_lock_circle);
         mTime.setEnabled(true);
