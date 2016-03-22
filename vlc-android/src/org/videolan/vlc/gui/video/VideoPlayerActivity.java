@@ -464,11 +464,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // 100 is the value for screen_orientation_start_lock
+        setRequestedOrientation(getScreenOrientation(mScreenOrientation));
         // Extra initialization when no secondary display is detected
         if (mPresentation == null) {
             // Orientation
-            // 100 is the value for screen_orientation_start_lock
-            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
             if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
@@ -492,8 +492,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 titleParams.setMargins(0, vm, 0, 0);
                 mTitle.setLayoutParams(titleParams);
             }
-        } else
-            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
+        }
 
         resetHudLayout();
     }
@@ -2878,19 +2877,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         switch(mode) {
             case 99: //screen orientation user
                 return AndroidUtil.isJellyBeanMR2OrLater() ?
-                        ActivityInfo.SCREEN_ORIENTATION_FULL_USER :
-                        ActivityInfo.SCREEN_ORIENTATION_USER;
+                        ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR :
+                        ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             case 101: //screen orientation landscape
-                if (AndroidUtil.isJellyBeanMR2OrLater())
-                    return ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE;
-                else if (AndroidUtil.isGingerbreadOrLater())
+                if (AndroidUtil.isGingerbreadOrLater())
                     return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
                 else
                     return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             case 102: //screen orientation portrait
-                if (AndroidUtil.isJellyBeanMR2OrLater())
-                    return ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
-                else if (AndroidUtil.isGingerbreadOrLater())
+                if (AndroidUtil.isGingerbreadOrLater())
                     return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
                 else
                     return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
