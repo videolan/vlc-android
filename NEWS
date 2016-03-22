@@ -2,6 +2,17 @@ Changes between 1.9.3 and 1.9.4:
 --------------------------------
 
 Application:
+ * Restore video playlist playback
+ * Remember playback state after a call or headset unplug/replug
+ * Force video player orientation on sensor instead of user preference
+ * Fix media launch from gallery app
+ * Fix lock not restoring video orientation
+
+
+Changes between 1.9.3 and 1.9.4:
+--------------------------------
+
+Application:
  * Feature to set a song as ringtone from current playlist
  * Fix video resume from background playback or apps switching
  * Remember paused state in Video player
