@@ -1310,7 +1310,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (rate < 0.25f || rate > 4f)
             return;
         mService.setRate(rate);
-        mInfo.setText(getString(R.string.spu_delay) + "\n" +rate + " x");
+        mInfo.setText(getString(R.string.playback_speed) + "\n" +rate + " x");
         if (mPlaybackSetting == DelayState.OFF) {
             mPlaybackSetting = DelayState.SPEED;
             initPlaybackSettingInfo();
