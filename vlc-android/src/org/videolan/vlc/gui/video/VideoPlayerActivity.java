@@ -2711,9 +2711,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mUri = null;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
-        int positionInPlaylist = mService.getCurrentMediaPosition();
-        Uri data;
         String itemTitle = null;
+        int positionInPlaylist = -1;
         long intentPosition = -1; // position passed in by intent (ms)
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -2738,7 +2737,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, true);
             mAskResume &= !fromStart;
-            intentPosition = extras.getLong(PLAY_EXTRA_OPENED_POSITION, -1);
+            positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
 
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
@@ -2761,6 +2760,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         if (mUri != null) {
+            if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
+                mService.stop();
             // restore last position
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
             if(media != null) {
