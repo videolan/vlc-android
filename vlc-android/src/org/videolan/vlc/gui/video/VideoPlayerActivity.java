@@ -111,7 +111,7 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.interfaces.IDelayController;
+import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
@@ -133,7 +133,7 @@ import java.util.Date;
 import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
-        GestureDetector.OnDoubleTapListener, IDelayController,
+        GestureDetector.OnDoubleTapListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
@@ -208,7 +208,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private boolean mDragging;
     private boolean mShowing;
-    private DelayState mDelay = DelayState.OFF;
+    private DelayState mPlaybackSetting = DelayState.OFF;
     private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
@@ -228,8 +228,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mRewind;
     private ImageView mForward;
     private ImageView mAdvOptions;
-    private ImageView mDelayPlus;
-    private ImageView mDelayMinus;
+    private ImageView mPlaybackSettingPlus;
+    private ImageView mPlaybackSettingMinus;
     private View mObjectFocused;
     private boolean mEnableBrightnessGesture;
     private boolean mEnableCloneMode;
@@ -417,8 +417,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mSettings.getBoolean("enable_seek_buttons", false))
             initSeekButton();
 
-        mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
-        mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
+        mPlaybackSettingPlus = (ImageView) findViewById(R.id.player_delay_plus);
+        mPlaybackSettingMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
@@ -1065,8 +1065,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
         } else if(mPlaylist.getVisibility() == View.VISIBLE) {
             togglePlaylist();
-        } else if (mDelay != DelayState.OFF){
-            endDelaySetting();
+        } else if (mPlaybackSetting != DelayState.OFF){
+            endPlaybackSetting();
         } else if (VLCApplication.showTvUi() && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else {
@@ -1221,54 +1221,65 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void showAudioDelaySetting() {
-        mDelay = DelayState.AUDIO;
+        mPlaybackSetting = DelayState.AUDIO;
         showDelayControls();
     }
 
     @Override
     public void showSubsDelaySetting() {
-        mDelay = DelayState.SUBS;
+        mPlaybackSetting = DelayState.SUBS;
+        showDelayControls();
+    }
+
+    @Override
+    public void showPlaybackSpeedSetting() {
+        mPlaybackSetting = DelayState.SPEED;
         showDelayControls();
     }
 
     public void showDelayControls(){
         mTouchAction = TOUCH_NONE;
         showOverlayTimeout(OVERLAY_INFINITE);
-        mDelayMinus.setOnClickListener(this);
-        mDelayPlus.setOnClickListener(this);
-        mDelayMinus.setOnTouchListener(new OnRepeatListener(this));
-        mDelayPlus.setOnTouchListener(new OnRepeatListener(this));
-        mDelayMinus.setVisibility(View.VISIBLE);
-        mDelayPlus.setVisibility(View.VISIBLE);
-        mDelayPlus.requestFocus();
-        initDelayInfo();
+        mPlaybackSettingMinus.setOnClickListener(this);
+        mPlaybackSettingPlus.setOnClickListener(this);
+        mPlaybackSettingMinus.setOnTouchListener(new OnRepeatListener(this));
+        mPlaybackSettingPlus.setOnTouchListener(new OnRepeatListener(this));
+        mPlaybackSettingMinus.setVisibility(View.VISIBLE);
+        mPlaybackSettingPlus.setVisibility(View.VISIBLE);
+        mPlaybackSettingPlus.requestFocus();
+        initPlaybackSettingInfo();
     }
 
-    private void initDelayInfo() {
+    private void initPlaybackSettingInfo() {
         if (mPresentation == null)
             mVerticalBar.setVisibility(View.GONE);
         mInfo.setVisibility(View.VISIBLE);
         String text = "";
-        if (mDelay == DelayState.AUDIO) {
+        if (mPlaybackSetting == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
             text += mService.getAudioDelay() / 1000l;
-        } else if (mDelay == DelayState.SUBS) {
+            text += " ms";
+        } else if (mPlaybackSetting == DelayState.SUBS) {
             text += getString(R.string.spu_delay)+"\n";
             text += mService.getSpuDelay() / 1000l;
+            text += " ms";
+        } else if (mPlaybackSetting == DelayState.SPEED) {
+            text += getString(R.string.playback_speed)+"\n";
+            text += mService.getRate();
+            text += " x";
         } else
             text += "0";
-        text += " ms";
         mInfo.setText(text);
     }
 
     @Override
-    public void endDelaySetting() {
+    public void endPlaybackSetting() {
         mTouchAction = TOUCH_NONE;
-        mDelay = DelayState.OFF;
-        mDelayMinus.setOnClickListener(null);
-        mDelayPlus.setOnClickListener(null);
-        mDelayMinus.setVisibility(View.INVISIBLE);
-        mDelayPlus.setVisibility(View.INVISIBLE);
+        mPlaybackSetting = DelayState.OFF;
+        mPlaybackSettingMinus.setOnClickListener(null);
+        mPlaybackSettingPlus.setOnClickListener(null);
+        mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
+        mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
         mPlayPause.requestFocus();
@@ -1278,9 +1289,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long delay = mService.getAudioDelay()+delta;
         mService.setAudioDelay(delay);
         mInfo.setText(getString(R.string.audio_delay)+"\n"+(delay/1000l)+" ms");
-        if (mDelay == DelayState.OFF) {
-            mDelay = DelayState.AUDIO;
-            initDelayInfo();
+        if (mPlaybackSetting == DelayState.OFF) {
+            mPlaybackSetting = DelayState.AUDIO;
+            initPlaybackSettingInfo();
         }
     }
 
@@ -1288,9 +1299,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long delay = mService.getSpuDelay()+delta;
         mService.setSpuDelay(delay);
         mInfo.setText(getString(R.string.spu_delay) + "\n" + (delay / 1000l) + " ms");
-        if (mDelay == DelayState.OFF) {
-            mDelay = DelayState.SUBS;
-            initDelayInfo();
+        if (mPlaybackSetting == DelayState.OFF) {
+            mPlaybackSetting = DelayState.SUBS;
+            initPlaybackSettingInfo();
+        }
+    }
+
+    public void changeSpeed(float delta){
+        float rate = Math.round((mService.getRate()+delta)*100f)/100f;
+        if (rate < 0.25f || rate > 4f)
+            return;
+        mService.setRate(rate);
+        mInfo.setText(getString(R.string.spu_delay) + "\n" +rate + " x");
+        if (mPlaybackSetting == DelayState.OFF) {
+            mPlaybackSetting = DelayState.SPEED;
+            initPlaybackSettingInfo();
         }
     }
 
@@ -1783,8 +1806,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public boolean onTouchEvent(MotionEvent event) {
         if (mService == null || mIsLoading)
             return false;
-        if (mDelay != DelayState.OFF){
-            endDelaySetting();
+        if (mPlaybackSetting != DelayState.OFF){
+            endPlaybackSetting();
             return true;
         } else if(mPlaylist.getVisibility() == View.VISIBLE) {
             togglePlaylist();
@@ -2164,16 +2187,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 showOverlay();
                 break;
             case R.id.player_delay_minus:
-                if (mDelay == DelayState.AUDIO)
+                if (mPlaybackSetting == DelayState.AUDIO)
                     delayAudio(-50000);
-                else if (mDelay == DelayState.SUBS)
+                else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(-50000);
+                else if (mPlaybackSetting == DelayState.SPEED)
+                    changeSpeed(-0.05f);
                 break;
             case R.id.player_delay_plus:
-                if (mDelay == DelayState.AUDIO)
+                if (mPlaybackSetting == DelayState.AUDIO)
                     delayAudio(50000);
-                else if (mDelay == DelayState.SUBS)
+                else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(50000);
+                else if (mPlaybackSetting == DelayState.SPEED)
+                    changeSpeed(0.05f);
                 break;
         }
     }

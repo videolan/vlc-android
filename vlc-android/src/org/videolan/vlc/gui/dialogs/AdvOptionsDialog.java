@@ -53,7 +53,7 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.interfaces.IDelayController;
+import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
@@ -73,6 +73,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     public static final int ACTION_AUDIO_DELAY = 2 ;
     public static final int ACTION_SPU_DELAY = 3 ;
+    public static final int ACTION_PLAYBACK_SPEED = 4 ;
 
     private static final int ID_PLAY_AS_AUDIO = 0 ;
     private static final int ID_SLEEP = 1 ;
@@ -103,7 +104,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private int mTextColor;
     private PlaybackService mService;
 
-    private IDelayController mDelayController;
+    private IPlaybackSettingsController mPlaybackController;
 
     public AdvOptionsDialog() {}
 
@@ -127,7 +128,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (mMode == MODE_VIDEO) {
-            mDelayController = (IDelayController) activity;
+            mPlaybackController = (IPlaybackSettingsController) activity;
         }
         mActivity = activity;
     }
@@ -135,7 +136,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onDetach() {
         super.onDetach();
-        mDelayController = null;
+        mPlaybackController = null;
         mActivity = null;
     }
 
@@ -219,17 +220,21 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         dismiss();
     }
 
-    private void showAudioSpuDelayControls(int action) {
-        if (mDelayController == null && getActivity() instanceof IDelayController)
-            mDelayController = (IDelayController) getActivity();
+    private void showValueControls(int action) {
+        if (mPlaybackController == null && getActivity() instanceof IPlaybackSettingsController)
+            mPlaybackController = (IPlaybackSettingsController) getActivity();
         switch (action){
             case ACTION_AUDIO_DELAY:
-                if (mDelayController != null)
-                    mDelayController.showAudioDelaySetting();
+                if (mPlaybackController != null)
+                    mPlaybackController.showAudioDelaySetting();
                 break;
             case ACTION_SPU_DELAY:
-                if (mDelayController != null)
-                    mDelayController.showSubsDelaySetting();
+                if (mPlaybackController != null)
+                    mPlaybackController.showSubsDelaySetting();
+                break;
+            case ACTION_PLAYBACK_SPEED:
+                if (mPlaybackController != null)
+                    mPlaybackController.showPlaybackSpeedSetting();
                 break;
             default:
                 return;
@@ -374,16 +379,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 }
                 break;
             case ID_PLAYBACK_SPEED:
-                showFragment(ID_PLAYBACK_SPEED);
+                if (mMode == MODE_AUDIO)
+                    showFragment(ID_PLAYBACK_SPEED);
+                else
+                    showValueControls(ACTION_PLAYBACK_SPEED);
                 break;
             case ID_CHAPTER_TITLE:
                 showFragment(ID_CHAPTER_TITLE);
                 break;
             case ID_AUDIO_DELAY:
-                showAudioSpuDelayControls(ACTION_AUDIO_DELAY);
+                showValueControls(ACTION_AUDIO_DELAY);
                 break;
             case ID_SPU_DELAY:
-                showAudioSpuDelayControls(ACTION_SPU_DELAY);
+                showValueControls(ACTION_SPU_DELAY);
                 break;
             case ID_JUMP_TO:
                 showFragment(ID_JUMP_TO);

@@ -22,10 +22,11 @@
 
 package org.videolan.vlc.interfaces;
 
-public interface IDelayController {
-    public enum DelayState {OFF, AUDIO, SUBS};
+public interface IPlaybackSettingsController {
+    enum DelayState {OFF, AUDIO, SUBS, SPEED};
 
-    public void showAudioDelaySetting();
-    public void showSubsDelaySetting();
-    public void endDelaySetting();
+    void showAudioDelaySetting();
+    void showSubsDelaySetting();
+    void showPlaybackSpeedSetting();
+    void endPlaybackSetting();
 }
