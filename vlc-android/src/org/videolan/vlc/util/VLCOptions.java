@@ -95,7 +95,7 @@ public class VLCOptions {
         options.add(chroma != null ? chroma : "RV32");
         options.add("--audio-resampler");
         options.add(getResampler());
-        
+
         /* Configure keystore */
         options.add("--keystore");
         if (AndroidUtil.isMarshMallowOrLater())
