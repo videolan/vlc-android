@@ -66,9 +66,6 @@
     <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA" />
     <uses-permission android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER" />
 
-    <!-- permission for Samsung multiwindows mode -->
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
-
     <uses-feature android:name="android.software.leanback"
         android:required="false" />
     <uses-feature
