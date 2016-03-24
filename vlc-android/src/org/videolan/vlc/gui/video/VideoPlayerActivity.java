@@ -209,7 +209,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mPlaybackSetting = DelayState.OFF;
-    private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
     private TextView mSysTime;
@@ -554,6 +553,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                 mPlaylist.setVisibility(View.GONE);
             }
+            setActionBarVisibility(true);
+            dimStatusBar(false);
         }
     }
 
@@ -757,22 +758,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return true;
             }
         });
-
-        if (AndroidUtil.isICSOrLater())
-            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(
-                    new OnSystemUiVisibilityChangeListener() {
-                        @Override
-                        public void onSystemUiVisibilityChange(int visibility) {
-                            if (visibility == mUiVisibility)
-                                return;
-                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing &&
-                                    !isFinishing() && mPlaylist.getVisibility() != View.VISIBLE) {
-                                showOverlay();
-                            }
-                            mUiVisibility = visibility;
-                        }
-                    }
-            );
 
         if (AndroidUtil.isHoneycombOrLater()) {
             if (mOnLayoutChangeListener == null) {
@@ -1570,7 +1555,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void onPlaying() {
         stopLoading();
         updateNavStatus();
-        showOverlay(true);
+        mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         setESTracks();
     }
 
@@ -3121,7 +3106,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void startLoading() {
         mIsLoading = true;
-        mOverlayProgress.setVisibility(View.INVISIBLE);
         AnimationSet anim = new AnimationSet(true);
         RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(800);
@@ -3136,7 +3120,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void stopLoading() {
         mIsLoading = false;
-        mOverlayProgress.setVisibility(View.VISIBLE);
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
         if (mPresentation != null) {

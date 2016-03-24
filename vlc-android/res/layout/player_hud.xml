@@ -9,7 +9,8 @@
     android:paddingBottom="@dimen/overlay_padding_bottom"
     android:layout_marginBottom="@dimen/overlay_margin"
     android:layout_marginRight="@dimen/overlay_margin"
-    android:layout_marginLeft="@dimen/overlay_margin">
+    android:layout_marginLeft="@dimen/overlay_margin"
+    android:visibility="invisible" >
 
     <SeekBar
         android:id="@+id/player_overlay_seekbar"
