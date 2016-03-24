@@ -67,6 +67,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     List<String> mCustomDirsLocation;
     String mEmptyDirectoryString;
     private int mTop = 0;
+    private int mMediaCount = 0;
 
     public BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -245,6 +246,9 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
             return;
 
+        if (item instanceof MediaWrapper && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+            mMediaCount++;
+
         mMediaList.add(position, item);
         if (notify)
             notifyItemInserted(position);
@@ -281,23 +285,33 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
         mMediaList.clear();
-        for (MediaWrapper mw : mediaList)
+        boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
+        for (MediaWrapper mw : mediaList) {
             mMediaList.add(mw);
+            if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
+                mMediaCount++;
+        }
     }
 
     public void removeItem(int position, boolean notify){
+        Object item = mMediaList.get(position);
         mMediaList.remove(position);
         if (notify) {
             notifyItemRemoved(position);
         }
+        if (item instanceof MediaWrapper && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+            mMediaCount--;
     }
 
     public void removeItem(String path, boolean notify){
         int position = -1;
         for (int i = 0; i< getItemCount(); ++i) {
             Object item = mMediaList.get(i);
-            if (item instanceof MediaWrapper && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString()))
+            if (item instanceof MediaWrapper && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
                 position = i;
+                if (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO)
+                    mMediaCount--;
+            }
         }
         if (position == -1)
             return;
@@ -322,6 +336,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             return TYPE_STORAGE;
         else
             return TYPE_SEPARATOR;
+    }
+
+    public int getMediaCount() {
+        return mMediaCount;
     }
 
     public void sortList(){

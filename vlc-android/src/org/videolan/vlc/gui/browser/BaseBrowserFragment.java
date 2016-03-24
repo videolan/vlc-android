@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static String ROOT = "smb";
@@ -139,6 +139,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         View v = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
+        mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -317,6 +318,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.notifyDataSetChanged();
         parseSubDirectories();
         focusHelper();
+        if (mAdapter.getMediaCount() > 0) {
+            mAddDirectoryFAB.setVisibility(View.VISIBLE);
+            mAddDirectoryFAB.setOnClickListener(this);
+        } else {
+            mAddDirectoryFAB.setVisibility(View.GONE);
+            mAddDirectoryFAB.setOnClickListener(null);
+        }
     }
 
     @Override
@@ -343,6 +351,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 MediaDatabase.getInstance().removeMedia(mw.getUri());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_add_custom_dir:
+                playAll(null);
+        }
     }
 
     protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
@@ -455,21 +471,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         switch (id){
             case R.id.directory_view_play_all:
-                boolean isHoneycombOrLater = AndroidUtil.isHoneycombOrLater();
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                int positionInPlaylist = 0;
-                LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
-                MediaWrapper media;
-                for (Object file : mAdapter.getAll())
-                    if (file instanceof MediaWrapper) {
-                        media = (MediaWrapper) file;
-                        if ((isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
-                            mediaLocations.add(media);
-                            if (media.equals(mw))
-                                positionInPlaylist = mediaLocations.size() - 1;
-                        }
-                    }
-                MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
+                playAll(mw);
                 return true;
             case R.id.directory_view_append: {
                 if (mService != null)
@@ -534,6 +537,23 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         }
         return false;
+    }
+
+    private void playAll(MediaWrapper mw) {
+        boolean isHoneycombOrLater = AndroidUtil.isHoneycombOrLater();
+        int positionInPlaylist = 0;
+        LinkedList<MediaWrapper> mediaLocations = new LinkedList<>();
+        MediaWrapper media;
+        for (Object file : mAdapter.getAll())
+            if (file instanceof MediaWrapper) {
+                media = (MediaWrapper) file;
+                if ((isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
+                    mediaLocations.add(media);
+                    if (mw != null && media.equals(mw))
+                        positionInPlaylist = mediaLocations.size() - 1;
+                }
+            }
+        MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
     }
 
     protected void parseSubDirectories() {

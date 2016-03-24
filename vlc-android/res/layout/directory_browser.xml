@@ -33,7 +33,7 @@
         android:id="@+id/fab_add_custom_dir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_fab_add"
+        android:src="@drawable/ic_fab_play"
         android:tint="@color/grey50"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

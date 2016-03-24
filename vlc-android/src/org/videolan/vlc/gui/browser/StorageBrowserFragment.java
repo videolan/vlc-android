@@ -43,7 +43,7 @@ import org.videolan.vlc.util.CustomDirectories;
 
 import java.io.File;
 
-public class StorageBrowserFragment extends FileBrowserFragment implements View.OnClickListener {
+public class StorageBrowserFragment extends FileBrowserFragment {
 
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
@@ -75,6 +75,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements View.
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (mRoot) {
             mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+            mAddDirectoryFAB.setImageResource(R.drawable.ic_fab_add);
             mAddDirectoryFAB.setVisibility(View.VISIBLE);
             mAddDirectoryFAB.setOnClickListener(this);
         }

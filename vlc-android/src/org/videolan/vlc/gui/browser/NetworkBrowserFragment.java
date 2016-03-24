@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment implements View.OnClickListener {
+public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public NetworkBrowserFragment() {
         ROOT = "smb";
@@ -70,6 +70,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (mRoot) {
             mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+            mAddDirectoryFAB.setImageResource(R.drawable.ic_fab_add);
             mAddDirectoryFAB.setVisibility(View.VISIBLE);
             mAddDirectoryFAB.setOnClickListener(this);
         }
@@ -242,7 +243,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements View.
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fab_add_custom_dir){
+        if (!isRootDirectory())
+            super.onClick(v);
+        else if (v.getId() == R.id.fab_add_custom_dir){
             showAddServerDialog(null);
         }
     }
