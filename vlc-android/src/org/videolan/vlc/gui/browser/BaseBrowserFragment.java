@@ -440,9 +440,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             }
         } else {
             inflater.inflate(R.menu.directory_view_file, menu);
-            menu.findItem(R.id.directory_view_play_all).setVisible(
-                    mw.getType() == MediaWrapper.TYPE_AUDIO ||
-                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater()));
+            boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
+                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater());
+            menu.findItem(R.id.directory_view_play_all).setVisible(canPlayInList);
+            menu.findItem(R.id.directory_view_append).setVisible(canPlayInList);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
             menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_AUDIO);
             menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);

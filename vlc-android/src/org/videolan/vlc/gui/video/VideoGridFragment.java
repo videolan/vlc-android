@@ -360,8 +360,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(
                 FileUtils.canWrite(mediaWrapper.getLocation()));
-        if (!AndroidUtil.isHoneycombOrLater())
+        if (!AndroidUtil.isHoneycombOrLater()) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
+            menu.findItem(R.id.video_list_append).setVisible(false);
+        }
     }
 
     @Override
