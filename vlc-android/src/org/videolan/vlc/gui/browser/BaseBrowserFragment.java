@@ -66,6 +66,7 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -423,6 +424,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             }
         } else {
             inflater.inflate(R.menu.directory_view_file, menu);
+            menu.findItem(R.id.directory_view_play_all).setVisible(
+                    mw.getType() == MediaWrapper.TYPE_AUDIO ||
+                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater()));
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
             menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_AUDIO);
             menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);
@@ -450,9 +454,22 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             return super.onContextItemSelected(item);
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         switch (id){
-            case R.id.directory_view_play:
+            case R.id.directory_view_play_all:
+                boolean isHoneycombOrLater = AndroidUtil.isHoneycombOrLater();
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openMedia(getActivity(), mw);
+                int positionInPlaylist = 0;
+                LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
+                MediaWrapper media;
+                for (Object file : mAdapter.getAll())
+                    if (file instanceof MediaWrapper) {
+                        media = (MediaWrapper) file;
+                        if ((isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
+                            mediaLocations.add(media);
+                            if (media.equals(mw))
+                                positionInPlaylist = mediaLocations.size() - 1;
+                        }
+                    }
+                MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
                 return true;
             case R.id.directory_view_append: {
                 if (mService != null)

@@ -307,6 +307,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public ArrayList<Object> getAll(){
+        return mMediaList;
+    }
+
     public Object getItem(int position){
         return mMediaList.get(position);
     }
@@ -376,23 +380,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         if (mw.getType() == MediaWrapper.TYPE_DIR)
             fragment.browse(mw, holder.getAdapterPosition(), true);
         else  if (mw.getType() == MediaWrapper.TYPE_AUDIO || mw.getType() == MediaWrapper.TYPE_VIDEO) {
-            if (mw.getType() == MediaWrapper.TYPE_VIDEO && !AndroidUtil.isHoneycombOrLater()) {
-                MediaUtils.openMedia(holder.itemView.getContext(), mw);
-                return;
-            }
-            int position = 0;
-            LinkedList<MediaWrapper> mediaLocations = new LinkedList<MediaWrapper>();
-            MediaWrapper mediaItem;
-            for (Object item : mMediaList)
-                if (item instanceof MediaWrapper) {
-                    mediaItem = (MediaWrapper) item;
-                    if (mediaItem.getType() == MediaWrapper.TYPE_VIDEO || mediaItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                        mediaLocations.add(mediaItem);
-                        if (mediaItem.equals(mw))
-                            position = mediaLocations.size() - 1;
-                    }
-                }
-            MediaUtils.openList(holder.itemView.getContext(), mediaLocations, position);
+                MediaUtils.openMedia(v.getContext(), mw);
+
         } else {
             MediaUtils.openStream(holder.itemView.getContext(), mw.getLocation());
         }
