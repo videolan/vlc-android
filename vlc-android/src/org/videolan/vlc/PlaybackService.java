@@ -757,7 +757,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
                             getCurrentMediaWrapper(), false, mCurrentIndex));
         } else if (!mSwitchingToVideo) {//Start the video player
-            Log.e(TAG, "startOpened", new Exception());
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     getCurrentMediaWrapper().getUri(), mCurrentIndex);
             mSwitchingToVideo = true;
