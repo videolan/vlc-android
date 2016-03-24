@@ -2717,7 +2717,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (intent.getData() != null)
             mUri = intent.getData();
-        if(extras != null) {
+        if (extras != null) {
             if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                 mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, true);
@@ -2730,10 +2730,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
-        if (positionInPlaylist != -1) {
+        if (positionInPlaylist != -1 && mService.hasMedia()) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
-            MediaWrapper openedMedia = mService.getCurrentMediaWrapper();
+            MediaWrapper openedMedia = mService.getMedias().get(positionInPlaylist);
             if (openedMedia == null) {
                 encounteredError();
                 return;
@@ -2749,7 +2749,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.stop();
             // restore last position
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
-            if(media != null) {
+            if (media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
                     if (mAskResume) {
