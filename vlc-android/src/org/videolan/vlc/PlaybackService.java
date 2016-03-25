@@ -1676,17 +1676,18 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
         if (mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying())
             mw.addFlags(MediaWrapper.MEDIA_VIDEO);
+        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying()) {
 
         /* Pausable and seekable are true by default */
-        mParsed = false;
-        mSwitchingToVideo = false;
-        mPausable = mSeekable = true;
-        final Media media = new Media(VLCInstance.get(), mw.getUri());
-        VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
-        media.setEventListener(mMediaListener);
-        mMediaPlayer.setMedia(media);
-        media.release();
-        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying()) {
+            mParsed = false;
+            mSwitchingToVideo = false;
+            mPausable = mSeekable = true;
+            final Media media = new Media(VLCInstance.get(), mw.getUri());
+            VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
+            media.setEventListener(mMediaListener);
+            mMediaPlayer.setMedia(media);
+            media.release();
+
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
