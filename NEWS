@@ -1,4 +1,15 @@
-Changes between 1.9.3 and 1.9.4:
+Changes between 1.9.5 and 1.9.6:
+--------------------------------
+
+Application:
+ * Activate multi windows mode for Samsung devices
+ * Display a FAB to play all media of a folder in browsers views
+ * Simple click in a folder now just plays the media, not all of them
+ * Fix video load while playing audio
+ * Use '+' and '-' buttons to set video playback speed, instead of progressbar
+
+
+Changes between 1.9.4 and 1.9.5:
 --------------------------------
 
 Application:
