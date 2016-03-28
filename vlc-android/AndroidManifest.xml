@@ -87,6 +87,8 @@
 
         <!-- Enable VLC in Samsung multiwindow mode -->
         <meta-data android:name="com.samsung.android.sdk.multiwindow.enable" android:value="true" />
+        <!-- Enable VLC in LG split window mode -->
+        <meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
         <activity
             android:name="org.videolan.vlc.StartActivity">
