@@ -318,12 +318,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.notifyDataSetChanged();
         parseSubDirectories();
         focusHelper();
-        if (mAdapter.getMediaCount() > 0) {
-            mAddDirectoryFAB.setVisibility(View.VISIBLE);
-            mAddDirectoryFAB.setOnClickListener(this);
-        } else {
-            mAddDirectoryFAB.setVisibility(View.GONE);
-            mAddDirectoryFAB.setOnClickListener(null);
+        if (mAddDirectoryFAB != null) {
+            if (mAdapter.getMediaCount() > 0) {
+                mAddDirectoryFAB.setVisibility(View.VISIBLE);
+                mAddDirectoryFAB.setOnClickListener(this);
+            } else {
+                mAddDirectoryFAB.setVisibility(View.GONE);
+                mAddDirectoryFAB.setOnClickListener(null);
+            }
         }
     }
 
