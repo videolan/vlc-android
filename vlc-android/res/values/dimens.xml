@@ -31,6 +31,10 @@
     <dimen name="tv_overscan_vertical">27dp</dimen>
     <dimen name="tv_overscan_horizontal">48dp</dimen>
 
+
+    <dimen name="video_pip_width">240dp</dimen>
+    <dimen name="video_pip_heigth">135dp</dimen>
+
     <!-- Adv options -->
     <dimen name="option_width">64dp</dimen>
     <dimen name="option_height">72dp</dimen>
