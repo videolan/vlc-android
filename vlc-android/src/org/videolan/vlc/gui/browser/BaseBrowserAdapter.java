@@ -326,6 +326,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public Object getItem(int position){
+        if (position < 0 || position >= mMediaList.size())
+            return null;
         return mMediaList.get(position);
     }
 
@@ -393,6 +395,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
 
     protected void openMediaFromView(MediaViewHolder holder, View v) {
         final MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
+        if (mw == null)
+            return;
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
 
         if (mw.getType() == MediaWrapper.TYPE_DIR)
