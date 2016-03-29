@@ -61,6 +61,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     private void focusHelper(boolean idIsEmpty) {
         MainActivity main = (MainActivity)getActivity();
+        if (main == null)
+            return;
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
         main.setSearchAsFocusDown(idIsEmpty, getView(),
                 android.R.id.list);
