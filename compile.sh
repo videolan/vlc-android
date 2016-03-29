@@ -77,7 +77,7 @@ checkfail()
 if [ ! -d "gradle/wrapper" ]; then
     echo "Downloading gradle"
     GRADLE_VERSION=2.10
-    GRADLE_URL=http://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
+    GRADLE_URL=http://download.videolan.org/pub/contrib/gradle-${GRADLE_VERSION}-all.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
 
