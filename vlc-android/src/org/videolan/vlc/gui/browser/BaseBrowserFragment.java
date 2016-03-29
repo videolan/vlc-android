@@ -79,7 +79,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static final String KEY_CONTENT_LIST = "key_content_list";
     public static final String KEY_POSITION = "key_list";
 
-    protected FloatingActionButton mAddDirectoryFAB;
+    protected FloatingActionButton mFAB;
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
@@ -139,7 +139,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         View v = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
-        mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+        mFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -318,13 +318,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.notifyDataSetChanged();
         parseSubDirectories();
         focusHelper();
-        if (mAddDirectoryFAB != null) {
+        if (mFAB != null) {
             if (mAdapter.getMediaCount() > 0) {
-                mAddDirectoryFAB.setVisibility(View.VISIBLE);
-                mAddDirectoryFAB.setOnClickListener(this);
+                mFAB.setVisibility(View.VISIBLE);
+                mFAB.setOnClickListener(this);
             } else {
-                mAddDirectoryFAB.setVisibility(View.GONE);
-                mAddDirectoryFAB.setOnClickListener(null);
+                mFAB.setVisibility(View.GONE);
+                mFAB.setOnClickListener(null);
             }
         }
     }

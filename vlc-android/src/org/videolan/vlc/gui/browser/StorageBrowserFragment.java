@@ -74,10 +74,10 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (mRoot) {
-            mAddDirectoryFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
-            mAddDirectoryFAB.setImageResource(R.drawable.ic_fab_add);
-            mAddDirectoryFAB.setVisibility(View.VISIBLE);
-            mAddDirectoryFAB.setOnClickListener(this);
+            mFAB = (FloatingActionButton) v.findViewById(R.id.fab_add_custom_dir);
+            mFAB.setImageResource(R.drawable.ic_fab_add);
+            mFAB.setVisibility(View.VISIBLE);
+            mFAB.setOnClickListener(this);
         }
         return v;
     }
