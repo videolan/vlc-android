@@ -69,6 +69,7 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
+import org.videolan.vlc.gui.video.PopupManager;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -186,6 +187,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
      */
     private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
     private ComponentName mRemoteControlClientReceiverComponent;
+    private PopupManager mPopupManager;
 
     private static LibVLC LibVLC() {
         return VLCInstance.get();
@@ -964,6 +966,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mMediaSession.release();
             mMediaSession = null;
         }
+        removePopup();
         if (mMediaPlayer == null)
             return;
         savePosition();
@@ -1729,16 +1732,43 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
      */
     @MainThread
     public void showWithoutParse(int index) {
-        String URI = mMediaList.getMRL(index);
-        Log.v(TAG, "Showing index " + index + " with playing URI " + URI);
-        // Show an URI without interrupting/losing the current stream
+        setVideoTrackEnabled(false);
+        setSpuTrack(-1);
+        MediaWrapper media = mMediaList.getMedia(index);
 
-        if(URI == null || !mMediaPlayer.isPlaying())
+        if(media == null || !mMediaPlayer.isPlaying())
             return;
+        // Show an URI without interrupting/losing the current stream
+        Log.v(TAG, "Showing index " + index + " with playing URI " + media.getUri());
         mCurrentIndex = index;
 
         notifyTrackChanged();
         showNotification();
+    }
+
+    @MainThread
+    public void switchToPopup(int index) {
+        showWithoutParse(index);
+        showPopup();
+    }
+
+    @MainThread
+    public void removePopup() {
+        if (mPopupManager != null) {
+            mPopupManager.removePopup();
+        }
+        mPopupManager = null;
+    }
+
+    @MainThread
+    public void showPopup() {
+        if (mPopupManager == null)
+            mPopupManager = new PopupManager(this);
+        mPopupManager.showPopup();
+    }
+
+    public void setVideoTrackEnabled(boolean enabled) {
+        mMediaPlayer.setVideoTrackEnabled(enabled);
     }
 
     /**
