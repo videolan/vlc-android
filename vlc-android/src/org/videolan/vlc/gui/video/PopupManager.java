@@ -35,8 +35,10 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -50,7 +52,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
-public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener {
+public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, ScaleGestureDetector.OnScaleGestureListener {
 
     private static final String TAG ="VLC/PopupManager";
     private static final int FLING_STOP_VELOCITY = 3000;
@@ -61,6 +63,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     private PlaybackService mService;
     private GestureDetectorCompat mGestureDetector = null;
+    private ScaleGestureDetector mScaleGestureDetector;
+    private double mScaleFactor = 1.d;
 
     private WindowManager windowManager;
     private RelativeLayout mRootView;
@@ -110,6 +114,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         params.y = 50;
 
         mGestureDetector = new GestureDetectorCompat(mService, mGestureListener);
+        mScaleGestureDetector = new ScaleGestureDetector(VLCApplication.getAppContext(), this);
         mGestureDetector.setOnDoubleTapListener(this);
         mRootView.setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
@@ -121,6 +126,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             public boolean onTouch(View v, MotionEvent event) {
                 if (mRootView == null)
                     return false;
+                mScaleGestureDetector.onTouchEvent(event);
                 if (mGestureDetector != null && mGestureDetector.onTouchEvent(event))
                     return true;
                 switch (event.getAction()) {
@@ -133,10 +139,12 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                     case MotionEvent.ACTION_UP:
                         return true;
                     case MotionEvent.ACTION_MOVE:
-                        params.x = initialX + (int) (event.getRawX() - initialTouchX);
-                        params.y = initialY - (int) (event.getRawY() - initialTouchY);
-                        windowManager.updateViewLayout(mRootView, params);
-                        return true;
+                        if (!mScaleGestureDetector.isInProgress()) {
+                            params.x = initialX + (int) (event.getRawX() - initialTouchX);
+                            params.y = initialY - (int) (event.getRawY() - initialTouchY);
+                            windowManager.updateViewLayout(mRootView, params);
+                            return true;
+                        }
                 }
                 return false;
             }
@@ -242,16 +250,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             else
                 dw = dh * ar;
 
-            LayoutParams lp = mSurfaceView.getLayoutParams();
-            lp.width = (int) Math.ceil(dw);
-            lp.height = (int) Math.ceil(dh);
-            mSurfaceView.setLayoutParams(lp);
-
-            lp = mRootView.getLayoutParams();
-            lp.width = (int) Math.floor(dw);
-            lp.height = (int) Math.floor(dh);
-            mRootView.setLayoutParams(lp);
-            mRootView.invalidate();
+            setViewSize(dw, dh);
         }
 
         @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
@@ -260,6 +259,19 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         @Override public void onHardwareAccelerationError(IVLCVout vlcVout) {}
     };
+
+    private void setViewSize(double dw, double dh) {
+        LayoutParams lp = mSurfaceView.getLayoutParams();
+        lp.width = (int) Math.ceil(dw);
+        lp.height = (int) Math.ceil(dh);
+        mSurfaceView.setLayoutParams(lp);
+
+        lp = mRootView.getLayoutParams();
+        lp.width = (int) Math.floor(dw);
+        lp.height = (int) Math.floor(dh);
+        mRootView.setLayoutParams(lp);
+        mRootView.invalidate();
+    }
 
     @Override
     public void update() {}
@@ -324,5 +336,31 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 mService.switchToVideo();
                 break;
         }
+    }
+
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        mScaleFactor *= detector.getScaleFactor();
+
+        mScaleFactor = Math.max(0.1d, Math.min(mScaleFactor, 5.0d));
+        int width = (int) (mRootView.getWidth()*mScaleFactor);
+        int height = (int) (mRootView.getHeight()*mScaleFactor);
+        LayoutParams lp = mRootView.getLayoutParams();
+        lp.width *= mScaleFactor;
+        lp.height *= mScaleFactor;
+        setViewSize(width, height);
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        mHandler.sendEmptyMessage(HIDE_BUTTONS);
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        mScaleFactor = 1.0d;
+        windowManager.updateViewLayout(mRootView, mRootView.getLayoutParams());
     }
 }
