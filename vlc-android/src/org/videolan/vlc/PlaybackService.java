@@ -754,7 +754,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
             return false;
         if (isVideoPlaying()) {//Player is already running, just send it an intent
-            mMediaPlayer.setVideoTrackEnabled(true);
+            setVideoTrackEnabled(true);
             LocalBroadcastManager.getInstance(this).sendBroadcast(
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
                             getCurrentMediaWrapper(), false, mCurrentIndex));
@@ -1733,7 +1733,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void showWithoutParse(int index) {
         setVideoTrackEnabled(false);
-        setSpuTrack(-1);
         MediaWrapper media = mMediaList.getMedia(index);
 
         if(media == null || !mMediaPlayer.isPlaying())
@@ -1768,6 +1767,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     public void setVideoTrackEnabled(boolean enabled) {
+        if (!hasMedia() || !isPlaying())
+            return;
+        if (enabled)
+            getCurrentMedia().addFlags(MediaWrapper.MEDIA_VIDEO);
+        else
+            getCurrentMedia().removeFlags(MediaWrapper.MEDIA_VIDEO);
         mMediaPlayer.setVideoTrackEnabled(enabled);
     }
 

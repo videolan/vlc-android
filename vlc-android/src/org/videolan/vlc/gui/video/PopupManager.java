@@ -26,14 +26,22 @@ package org.videolan.vlc.gui.video;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
@@ -42,16 +50,24 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
-public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener {
+public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener {
 
     private static final String TAG ="VLC/PopupManager";
     private static final int FLING_STOP_VELOCITY = 3000;
+    private static final int MSG_DELAY = 3000;
+
+    private static final int SHOW_BUTTONS = 0;
+    private static final int HIDE_BUTTONS = 1;
 
     private PlaybackService mService;
     private GestureDetectorCompat mGestureDetector = null;
 
     private WindowManager windowManager;
-    private SurfaceView mPopupView;
+    private RelativeLayout mRootView;
+    private SurfaceView mSurfaceView;
+    private ImageView mExpandButton;
+    private ImageView mCloseButton;
+    private ImageButton mPlayPauseButton;
 
     public PopupManager(PlaybackService service) {
         mService = service;
@@ -59,19 +75,28 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     }
 
     public void removePopup() {
-        if (mPopupView == null)
+        if (mRootView == null)
             return;
+        mService.setVideoTrackEnabled(false);
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
-        windowManager.removeView(mPopupView);
+        windowManager.removeView(mRootView);
         vlcVout.detachViews();
         vlcVout.removeCallback(mVoutCallBack);
-        mPopupView = null;
+        mRootView = null;
     }
 
     public void showPopup() {
         mService.addCallback(this);
-        mPopupView = new SurfaceView(mService);
+        LayoutInflater li = (LayoutInflater) VLCApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mRootView = (RelativeLayout) li.inflate(R.layout.video_popup, null);
+        mSurfaceView = (SurfaceView) mRootView.findViewById(R.id.player_surface);
+        mPlayPauseButton = (ImageButton) mRootView.findViewById(R.id.video_play_pause);
+        mCloseButton = (ImageView) mRootView.findViewById(R.id.popup_close);
+        mExpandButton = (ImageView) mRootView.findViewById(R.id.popup_expand);
+        mPlayPauseButton.setOnClickListener(this);
+        mCloseButton.setOnClickListener(this);
+        mExpandButton.setOnClickListener(this);
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width),
@@ -86,7 +111,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         mGestureDetector = new GestureDetectorCompat(mService, mGestureListener);
         mGestureDetector.setOnDoubleTapListener(this);
-        mPopupView.setOnTouchListener(new View.OnTouchListener() {
+        mRootView.setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
             private int initialY;
             private float initialTouchX;
@@ -94,7 +119,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (mPopupView == null)
+                if (mRootView == null)
                     return false;
                 if (mGestureDetector != null && mGestureDetector.onTouchEvent(event))
                     return true;
@@ -110,19 +135,19 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                     case MotionEvent.ACTION_MOVE:
                         params.x = initialX + (int) (event.getRawX() - initialTouchX);
                         params.y = initialY - (int) (event.getRawY() - initialTouchY);
-                        windowManager.updateViewLayout(mPopupView, params);
+                        windowManager.updateViewLayout(mRootView, params);
                         return true;
                 }
                 return false;
             }
         });
 
-        windowManager.addView(mPopupView, params);
+        windowManager.addView(mRootView, params);
 
-        mService.setVideoTrackEnabled(true);
         final IVLCVout vlcVout = mService.getVLCVout();
-        vlcVout.setVideoView(mPopupView);
+        vlcVout.setVideoView(mSurfaceView);
         vlcVout.attachViews();
+        mService.setVideoTrackEnabled(true);
         vlcVout.addCallback(mVoutCallBack);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
@@ -130,12 +155,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        if (mService.hasMedia()) {
-            if (mService.isPlaying())
-                mService.pause();
-            else
-                mService.play();
-        }
+        if (mPlayPauseButton.getVisibility() == View.VISIBLE)
+            return false;
+        mHandler.sendEmptyMessage(SHOW_BUTTONS);
+        mHandler.sendEmptyMessageDelayed(HIDE_BUTTONS, MSG_DELAY);
         return true;
     }
 
@@ -154,32 +177,24 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private GestureDetector.OnGestureListener mGestureListener = new GestureDetector.OnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.d(TAG, "onDown: ");
             return false;
         }
 
         @Override
-        public void onShowPress(MotionEvent e) {
-            Log.d(TAG, "onShowPress: ");
-        }
+        public void onShowPress(MotionEvent e) {}
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            Log.d(TAG, "onSingleTapUp: ");
-            //TODO switch to VideoplayerActivity
             return false;
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.d(TAG, "onScroll: X "+distanceX+", Y "+distanceY);
             return false;
         }
 
         @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d(TAG, "onLongPress: ");
-        }
+        public void onLongPress(MotionEvent e) {}
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -194,11 +209,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     IVLCVout.Callback mVoutCallBack = new IVLCVout.Callback() {
         @Override
         public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-            Log.d(TAG, "onNewLayout: "+(width * height));
             if (width * height == 0)
                 return;
-            int sw = mPopupView.getWidth();
-            int sh = mPopupView.getHeight();
+            int sw = mRootView.getWidth();
+            int sh = mRootView.getHeight();
             vlcVout.setWindowSize(sw, sh);
 
             double dw = sw, dh = sh;
@@ -228,11 +242,16 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             else
                 dw = dh * ar;
 
-            WindowManager.LayoutParams lp = (WindowManager.LayoutParams) mPopupView.getLayoutParams();
+            LayoutParams lp = mSurfaceView.getLayoutParams();
+            lp.width = (int) Math.ceil(dw);
+            lp.height = (int) Math.ceil(dh);
+            mSurfaceView.setLayoutParams(lp);
+
+            lp = mRootView.getLayoutParams();
             lp.width = (int) Math.floor(dw);
             lp.height = (int) Math.floor(dh);
-            mPopupView.setLayoutParams(lp);
-            mPopupView.invalidate();
+            mRootView.setLayoutParams(lp);
+            mRootView.invalidate();
         }
 
         @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
@@ -243,18 +262,13 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     };
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
-    public void updateProgress() {
-
-    }
+    public void updateProgress() {}
 
     @Override
-    public void onMediaEvent(Media.Event event) {
-    }
+    public void onMediaEvent(Media.Event event) {}
 
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
@@ -262,6 +276,52 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             case MediaPlayer.Event.Stopped:
             case MediaPlayer.Event.EndReached:
                 mService.removePopup();
+                break;
+            case MediaPlayer.Event.Playing:
+                mPlayPauseButton.setImageResource(R.drawable.ic_pause);
+                break;
+            case MediaPlayer.Event.Paused:
+                mPlayPauseButton.setImageResource(R.drawable.ic_play);
+                break;
+        }
+    }
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SHOW_BUTTONS:
+                    mPlayPauseButton.setVisibility(View.VISIBLE);
+                    mCloseButton.setVisibility(View.VISIBLE);
+                    mExpandButton.setVisibility(View.VISIBLE);
+                    break;
+                case HIDE_BUTTONS:
+                    mPlayPauseButton.setVisibility(View.GONE);
+                    mCloseButton.setVisibility(View.GONE);
+                    mExpandButton.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.video_play_pause:
+                if (mService.hasMedia()) {
+                    boolean isPLaying = mService.isPlaying();
+                    if (isPLaying)
+                        mService.pause();
+                    else
+                        mService.play();
+                }
+                break;
+            case R.id.popup_close:
+                mService.stop();
+                break;
+            case R.id.popup_expand:
+                mService.removePopup();
+                mService.switchToVideo();
                 break;
         }
     }

@@ -804,6 +804,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mPlaybackStarted = false;
 
+        mService.setVideoTrackEnabled(false);
         mService.removeCallback(this);
 
         mHandler.removeCallbacksAndMessages(null);
