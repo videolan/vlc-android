@@ -72,6 +72,7 @@ public class MediaInfoFragment extends ListFragment {
     private TextView mLengthView;
     private TextView mSizeView;
     private TextView mPathView;
+    private View mProgress;
     private FloatingActionButton mPlayButton;
     private ImageButton mDelete;
     private ImageView mSubtitles;
@@ -102,6 +103,7 @@ public class MediaInfoFragment extends ListFragment {
         mPlayButton = (FloatingActionButton) v.findViewById(R.id.play);
         mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
+        mProgress = v.findViewById(R.id.image_progress);
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,8 +269,6 @@ public class MediaInfoFragment extends ListFragment {
                 mImage = BitmapUtil.cropBorders(mImage, width, height);
             } else if (mItem.getType() == MediaWrapper.TYPE_AUDIO) {
                 mImage = AudioUtil.getCover(getActivity(), mItem, width);
-                if (mImage == null)
-                    return;
             } else
                 return;
 
@@ -282,6 +282,9 @@ public class MediaInfoFragment extends ListFragment {
 
     private void updateImage() {
         if (getView() == null)
+            return;
+        mProgress.setVisibility(View.GONE);
+        if (mImage == null)
             return;
         ImageView imageView = (ImageView) getView().findViewById(R.id.image);
         imageView.setImageBitmap(mImage);
@@ -361,8 +364,7 @@ public class MediaInfoFragment extends ListFragment {
                     fragment.mSubtitles.setVisibility(View.VISIBLE);
                     break;
             }
-        };
-
-    };
+        }
+    }
 
 }
