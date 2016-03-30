@@ -249,6 +249,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * For uninterrupted switching between audio and video mode
      */
     private boolean mSwitchingView;
+    private boolean mSwitchToPopup;
     private boolean mHardwareAccelerationError;
     private boolean mHasSubItems = false;
 
@@ -813,7 +814,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
-            mService.showWithoutParse(mService.getCurrentMediaPosition());
+            if (mSwitchToPopup)
+                mService.switchToPopup(mService.getCurrentMediaPosition());
+            else
+                mService.showWithoutParse(mService.getCurrentMediaPosition());
             return;
         }
 
@@ -1638,6 +1642,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSwitchingView = true;
             exit(RESULT_VIDEO_TRACK_LOST);
         }
+    }
+
+    public void switchToPopupMode() {
+        if (mHardwareAccelerationError || mService == null)
+            return;
+        mSwitchingView = true;
+        mSwitchToPopup = true;
+        exitOK();
     }
 
     public void switchToAudioMode(boolean showUI) {

@@ -84,6 +84,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_PLAYBACK_SPEED = 6 ;
     private static final int ID_EQUALIZER = 7 ;
     private static final int ID_SAVE_PLAYLIST = 8 ;
+    private static final int ID_POPUP_VIDEO = 9 ;
 
     private Activity mActivity;
     private int mTheme;
@@ -399,6 +400,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_PLAY_AS_AUDIO:
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
+            case ID_POPUP_VIDEO:
+                ((VideoPlayerActivity)getActivity()).switchToPopupMode();
+                break;
             case ID_EQUALIZER:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
                 i.putExtra("fragment", SecondaryActivity.EQUALIZER);
@@ -467,16 +471,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mService = service;
         int large_items = 0;
+        boolean tvUi = VLCApplication.showTvUi();
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style));
         mAdapter.addOption(new Option(ID_JUMP_TO, R.attr.ic_jumpto_normal_style));
 
         if (mMode == MODE_VIDEO) {
-            if (!VLCApplication.showTvUi())
+            if (!tvUi)
                 mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay));
+            if (!tvUi)
+                mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_playasaudio_on));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
