@@ -6,4 +6,16 @@
 
     <uses-permission android:name="android.permission.READ_LOGS" tools:node="remove" />
 
+    <!-- Extensions API permissions -->
+    <permission
+        android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA"
+        android:protectionLevel="normal" />
+
+    <permission
+        android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA" />
+    <uses-permission android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER" />
+
 </manifest>
