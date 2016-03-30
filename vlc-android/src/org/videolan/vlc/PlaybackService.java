@@ -960,7 +960,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public void stop() {
+    public void stopPlayback() {
         if (mMediaSession != null) {
             mMediaSession.setActive(false);
             mMediaSession.release();
@@ -987,7 +987,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         executeUpdate();
         executeUpdateProgress();
         changeAudioFocus(false);
+    }
 
+    @MainThread
+    public void stop() {
+        stopPlayback();
         stopSelf();
     }
 
