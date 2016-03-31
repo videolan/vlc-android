@@ -24,11 +24,16 @@
 
 package org.videolan.vlc.gui.video;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -38,7 +43,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -79,6 +83,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     }
 
     public void removePopup() {
+        hideNotification();
         if (mRootView == null)
             return;
         mService.setVideoTrackEnabled(false);
@@ -159,6 +164,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         vlcVout.addCallback(mVoutCallBack);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
+        showNotification();
     }
 
     @Override
@@ -291,9 +297,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 break;
             case MediaPlayer.Event.Playing:
                 mPlayPauseButton.setImageResource(R.drawable.ic_pause);
+                showNotification();
                 break;
             case MediaPlayer.Event.Paused:
                 mPlayPauseButton.setImageResource(R.drawable.ic_play);
+                showNotification();
                 break;
         }
     }
@@ -362,5 +370,38 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void onScaleEnd(ScaleGestureDetector detector) {
         mScaleFactor = 1.0d;
         windowManager.updateViewLayout(mRootView, mRootView.getLayoutParams());
+    }
+
+    private void showNotification() {
+        PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
+                    new Intent(PlaybackService.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
+                .setSmallIcon(R.drawable.ic_stat_vlc)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(mService.getTitle())
+                .setContentText(mService.getString(R.string.popup_playback))
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setDeleteIntent(piStop);
+
+        //Switch
+        final Intent notificationIntent = new Intent(PlaybackService.ACTION_REMOTE_SWITCH_VIDEO);
+        PendingIntent piExpand = PendingIntent.getBroadcast(mService, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PLay Pause
+        PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (mService.isPlaying())
+            builder.addAction(R.drawable.ic_pause_w, mService.getString(R.string.pause), piPlay);
+        else
+            builder.addAction(R.drawable.ic_play_w, mService.getString(R.string.play), piPlay);
+        builder.addAction(android.R.drawable.ic_menu_set_as, mService.getString(R.string.popup_expand), piExpand);
+
+        Notification notification = builder.build();
+        mService.startService(new Intent(mService, PlaybackService.class));
+        NotificationManagerCompat.from(mService).notify(42, notification);
+    }
+
+    private void hideNotification() {
+        NotificationManagerCompat.from(mService).cancel(42);
     }
 }
