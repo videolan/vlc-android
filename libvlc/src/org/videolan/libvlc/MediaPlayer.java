@@ -560,7 +560,11 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public boolean setVideoTrack(int index) {
-        return nativeSetVideoTrack(index);
+        /* Don't activate a video track is surfaces are not ready */
+        if (index == -1 || (mWindow.areViewsAttached() && !mWindow.areSurfacesWaiting())) {
+            return nativeSetVideoTrack(index);
+        } else
+            return false;
     }
 
     /**
