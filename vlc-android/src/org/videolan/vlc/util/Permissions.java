@@ -53,10 +53,16 @@ public class Permissions {
 
     public static final int PERMISSION_SYSTEM_RINGTONE = 42;
     public static final int PERMISSION_SYSTEM_BRIGHTNESS = 43;
+    public static final int PERMISSION_SYSTEM_DRAW_OVRLAYS = 44;
 
     /*
      * Marshmallow permission system management
      */
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean canDrawOverlays(Context context) {
+        return !AndroidUtil.isMarshMallowOrLater() || Settings.canDrawOverlays(context);
+    }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canWriteSettings(Context context) {
@@ -79,6 +85,12 @@ public class Permissions {
             } else {
                 requestStoragePermission(activity);
             }
+        }
+    }
+
+    public static void checkDrawOverlaysPermission(Activity activity) {
+        if (AndroidUtil.isMarshMallowOrLater() && !canDrawOverlays(activity)) {
+            showSettingsPermissionDialog(activity, PERMISSION_SYSTEM_DRAW_OVRLAYS);
         }
     }
 
@@ -183,6 +195,7 @@ public class Permissions {
 
     private static Dialog createSettingsDialogCompat(final Activity activity, int mode) {
         int titleId = 0, textId = 0;
+        String action = Settings.ACTION_MANAGE_WRITE_SETTINGS;
         switch (mode) {
             case PERMISSION_SYSTEM_RINGTONE:
                 titleId = R.string.allow_settings_access_ringtone_title;
@@ -192,7 +205,13 @@ public class Permissions {
                 titleId = R.string.allow_settings_access_brightness_title;
                 textId = R.string.allow_settings_access_brightness_description;
                 break;
+            case PERMISSION_SYSTEM_DRAW_OVRLAYS:
+                titleId = R.string.allow_draw_overlays_title;
+                textId = R.string.allow_sdraw_overlays_description;
+                action = Settings.ACTION_MANAGE_OVERLAY_PERMISSION;
+                break;
         }
+        final String finalAction = action;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(titleId))
                 .setMessage(activity.getString(textId))
@@ -201,7 +220,7 @@ public class Permissions {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
-                        Intent i = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                        Intent i = new Intent(finalAction);
                         i.setData(Uri.parse("package:" + activity.getPackageName()));
                         try {
                             activity.startActivity(i);
