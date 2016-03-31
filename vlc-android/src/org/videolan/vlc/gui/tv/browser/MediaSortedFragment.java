@@ -39,6 +39,7 @@ import org.videolan.vlc.util.VLCInstance;
 public abstract class MediaSortedFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
     protected Uri mUri;
     protected MediaBrowser mMediaBrowser;
+    boolean goBack = false;
 
     abstract protected void browseRoot();
 
@@ -65,15 +66,30 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (goBack)
+            getActivity().finish();
+    }
+
     public void onPause(){
         super.onPause();
+        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+    }
+
+    private void releaseBrowser() {
         if (mMediaBrowser != null) {
             mMediaBrowser.release();
             mMediaBrowser = null;
         }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        releaseBrowser();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -95,7 +111,11 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     public void onMediaRemoved(int index, Media media) {}
 
     public void onBrowseEnd() {
-        sort();
-        mHandler.sendEmptyMessage(HIDE_LOADING);
+        releaseBrowser();
+        if (isResumed()) {
+            sort();
+            mHandler.sendEmptyMessage(HIDE_LOADING);
+        } else
+            goBack = true;
     }
 }
