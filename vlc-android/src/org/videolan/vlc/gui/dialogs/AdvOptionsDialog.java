@@ -56,6 +56,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.view.AutoFitRecyclerView;
 
@@ -401,7 +402,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case ID_POPUP_VIDEO:
-                ((VideoPlayerActivity)getActivity()).switchToPopupMode();
+                if (Permissions.canDrawOverlays(mActivity))
+                    ((VideoPlayerActivity)getActivity()).switchToPopupMode();
+                else
+                    Permissions.checkDrawOverlaysPermission(mActivity);
                 break;
             case ID_EQUALIZER:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
