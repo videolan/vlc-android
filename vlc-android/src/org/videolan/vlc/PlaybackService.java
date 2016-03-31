@@ -932,7 +932,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
      */
     private void hideNotification(boolean stopPlayback) {
         stopForeground(true);
-        NotificationManagerCompat.from(this).cancelAll();
+        NotificationManagerCompat.from(this).cancel(3);
         if(stopPlayback)
             stopSelf();
     }
