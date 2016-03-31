@@ -202,7 +202,12 @@ if [ "$BUILD_LIBVLC" = 1 ];then
     RUN=0
     CHROME_OS=0
 else
-    TARGET="assemble${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
+    if [ "$RUN" = 1 ]; then
+        ACTION="install"
+    else
+        ACTION="assemble"
+    fi
+    TARGET="${ACTION}${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
     PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
 fi
 
@@ -213,11 +218,9 @@ if [ "$RUN" = 1 ]; then
     export PATH=${ANDROID_SDK}/platform-tools/:$PATH
     adb wait-for-device
     if [ "$RELEASE" = 1 ]; then
-        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-release.apk
-        adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
+        adb shell am start -n org.videolan.vlc/org.videolan.vlc.StartActivity
     else
-        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-debug.apk
-        adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.gui.MainActivity
+        adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.StartActivity
     fi
 fi
 
