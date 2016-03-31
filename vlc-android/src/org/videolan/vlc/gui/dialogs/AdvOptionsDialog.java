@@ -473,6 +473,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     @Override
     public void onConnected(PlaybackService service) {
+        mAdapter.clear();
         mService = service;
         int large_items = 0;
         boolean tvUi = VLCApplication.showTvUi();
@@ -586,6 +587,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         @Override
         public int getItemCount() {
             return mList.size();
+        }
+
+        public void clear() {
+            mList.clear();
         }
 
         @Override
