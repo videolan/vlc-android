@@ -1,3 +1,14 @@
+Changes between 1.9.6 and 1.9.7:
+--------------------------------
+
+Application:
+ * Overlay popup view for video playback
+ * Enable split window mode on LG devices
+ * Fix Media Information infinite loading
+ * TV: Close folder if login dialog is canceled
+ * Misc fixes
+
+
 Changes between 1.9.5 and 1.9.6:
 --------------------------------
 
