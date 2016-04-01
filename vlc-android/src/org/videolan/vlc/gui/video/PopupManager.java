@@ -50,6 +50,7 @@ import android.widget.RelativeLayout;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -119,8 +120,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         params.y = 50;
 
         mGestureDetector = new GestureDetectorCompat(mService, mGestureListener);
-        mScaleGestureDetector = new ScaleGestureDetector(VLCApplication.getAppContext(), this);
         mGestureDetector.setOnDoubleTapListener(this);
+        if (AndroidUtil.isHoneycombOrLater()) {
+            mScaleGestureDetector = new ScaleGestureDetector(VLCApplication.getAppContext(), this);
+        }
         mRootView.setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
             private int initialY;
@@ -131,7 +134,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             public boolean onTouch(View v, MotionEvent event) {
                 if (mRootView == null)
                     return false;
-                mScaleGestureDetector.onTouchEvent(event);
+                if (mScaleGestureDetector != null)
+                    mScaleGestureDetector.onTouchEvent(event);
                 if (mGestureDetector != null && mGestureDetector.onTouchEvent(event))
                     return true;
                 switch (event.getAction()) {
@@ -144,7 +148,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                     case MotionEvent.ACTION_UP:
                         return true;
                     case MotionEvent.ACTION_MOVE:
-                        if (!mScaleGestureDetector.isInProgress()) {
+                        if (mScaleGestureDetector == null || !mScaleGestureDetector.isInProgress()) {
                             params.x = initialX + (int) (event.getRawX() - initialTouchX);
                             params.y = initialY - (int) (event.getRawY() - initialTouchY);
                             windowManager.updateViewLayout(mRootView, params);
