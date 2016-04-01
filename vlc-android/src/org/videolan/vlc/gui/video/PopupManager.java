@@ -68,6 +68,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private GestureDetectorCompat mGestureDetector = null;
     private ScaleGestureDetector mScaleGestureDetector;
     private double mScaleFactor = 1.d;
+    private int mPopupWidth, mPopupHeight;
 
     private WindowManager windowManager;
     private RelativeLayout mRootView;
@@ -350,15 +351,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mScaleFactor *= detector.getScaleFactor();
 
         mScaleFactor = Math.max(0.1d, Math.min(mScaleFactor, 5.0d));
-        int width = (int) (mRootView.getWidth()*mScaleFactor);
-        int height = (int) (mRootView.getHeight()*mScaleFactor);
-        LayoutParams lp = mRootView.getLayoutParams();
-        lp.width *= mScaleFactor;
-        lp.height *= mScaleFactor;
-        setViewSize(width, height);
+        mPopupWidth = (int) (mRootView.getWidth()*mScaleFactor);
+        mPopupHeight = (int) (mRootView.getHeight()*mScaleFactor);
         return true;
     }
-
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
         mHandler.sendEmptyMessage(HIDE_BUTTONS);
@@ -367,8 +363,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
+        WindowManager.LayoutParams lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
+        lp.width *= mScaleFactor;
+        lp.height *= mScaleFactor;
+        setViewSize(mPopupWidth, mPopupHeight);
         mScaleFactor = 1.0d;
-        windowManager.updateViewLayout(mRootView, mRootView.getLayoutParams());
     }
 
     private void showNotification() {
