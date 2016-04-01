@@ -45,7 +45,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -75,7 +74,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private SurfaceView mSurfaceView;
     private ImageView mExpandButton;
     private ImageView mCloseButton;
-    private ImageButton mPlayPauseButton;
+    private ImageView mPlayPauseButton;
 
     public PopupManager(PlaybackService service) {
         mService = service;
@@ -100,7 +99,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         LayoutInflater li = (LayoutInflater) VLCApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRootView = (RelativeLayout) li.inflate(R.layout.video_popup, null);
         mSurfaceView = (SurfaceView) mRootView.findViewById(R.id.player_surface);
-        mPlayPauseButton = (ImageButton) mRootView.findViewById(R.id.video_play_pause);
+        mPlayPauseButton = (ImageView) mRootView.findViewById(R.id.video_play_pause);
         mCloseButton = (ImageView) mRootView.findViewById(R.id.popup_close);
         mExpandButton = (ImageView) mRootView.findViewById(R.id.popup_expand);
         mPlayPauseButton.setOnClickListener(this);
@@ -296,11 +295,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 mService.removePopup();
                 break;
             case MediaPlayer.Event.Playing:
-                mPlayPauseButton.setImageResource(R.drawable.ic_pause);
+                mPlayPauseButton.setImageResource(R.drawable.ic_popup_pause);
                 showNotification();
                 break;
             case MediaPlayer.Event.Paused:
-                mPlayPauseButton.setImageResource(R.drawable.ic_play);
+                mPlayPauseButton.setImageResource(R.drawable.ic_popup_play);
                 showNotification();
                 break;
         }
@@ -391,10 +390,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (mService.isPlaying())
-            builder.addAction(R.drawable.ic_pause_w, mService.getString(R.string.pause), piPlay);
+            builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay);
         else
-            builder.addAction(R.drawable.ic_play_w, mService.getString(R.string.play), piPlay);
-        builder.addAction(android.R.drawable.ic_menu_set_as, mService.getString(R.string.popup_expand), piExpand);
+            builder.addAction(R.drawable.ic_popup_play, mService.getString(R.string.play), piPlay);
+        builder.addAction(R.drawable.ic_popup_expand, mService.getString(R.string.popup_expand), piExpand);
 
         Notification notification = builder.build();
         mService.startService(new Intent(mService, PlaybackService.class));

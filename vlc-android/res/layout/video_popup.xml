@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:src="@drawable/ic_close"
         android:visibility="gone" />
 
     <ImageView
@@ -25,17 +25,17 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/popup_close"
         android:layout_marginRight="5dp"
-        android:src="@android:drawable/ic_menu_set_as"
+        android:src="@drawable/ic_popup_expand"
         android:visibility="gone" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/video_play_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_below="@id/popup_expand"
-        android:src="@drawable/ic_pause"
+        android:src="@drawable/ic_popup_pause"
         android:visibility="gone" />
 
 </RelativeLayout>

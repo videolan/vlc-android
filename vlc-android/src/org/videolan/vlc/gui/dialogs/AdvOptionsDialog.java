@@ -488,7 +488,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay));
             if (!tvUi)
-                mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_playasaudio_on));
+                mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.drawable.ic_popup_dim));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
