@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -41,6 +42,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -192,6 +194,19 @@ public class UiTools {
                 rotate.setInterpolator(new DecelerateInterpolator());
                 anim.addAnimation(rotate);
                 logo.startAnimation(anim);
+            }
+        });
+    }
+
+    public static void setKeyboardVisibility(final View v, final boolean show) {
+        final InputMethodManager inputMethodManager = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        sHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (show)
+                    inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+                else
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
     }
