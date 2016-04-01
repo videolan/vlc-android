@@ -79,7 +79,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="onAudioSubClick"
             android:src="@drawable/ic_audiosub_circle"
             android:scaleType="center"
             android:focusable="true"/>
@@ -124,7 +123,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:onClick="showAdvancedOptions"
             android:src="@drawable/ic_more_circle"
             android:scaleType="center"
             android:focusable="true"/>

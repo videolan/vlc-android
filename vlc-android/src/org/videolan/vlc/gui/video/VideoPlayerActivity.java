@@ -407,7 +407,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
 
         mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
+        mTracks.setOnClickListener(this);
         mAdvOptions = (ImageView) findViewById(R.id.player_overlay_adv_function);
+        mAdvOptions.setOnClickListener(this);
         mLock = (ImageView) findViewById(R.id.lock_overlay_button);
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
@@ -1132,7 +1134,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         case KeyEvent.KEYCODE_O:
         case KeyEvent.KEYCODE_BUTTON_Y:
         case KeyEvent.KEYCODE_MENU:
-            showAdvancedOptions(mAdvOptions);
+            showAdvancedOptions();
             return true;
         case KeyEvent.KEYCODE_V:
         case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
@@ -2202,6 +2204,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else if (mPlaybackSetting == DelayState.SPEED)
                     changeSpeed(0.05f);
                 break;
+            case R.id.player_overlay_adv_function:
+                showAdvancedOptions();
+                break;
+            case R.id.player_overlay_tracks:
+                onAudioSubClick(v);
         }
     }
 
@@ -2995,7 +3002,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mAlertDialog.show();
     }
 
-    public void showAdvancedOptions(View v) {
+    public void showAdvancedOptions() {
         FragmentManager fm = getSupportFragmentManager();
         AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
         advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
