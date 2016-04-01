@@ -342,7 +342,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
-        if (!(media instanceof MediaGroup))
+        if (media instanceof MediaGroup && !AndroidUtil.isHoneycombOrLater()) {
+            menu.findItem(R.id.video_list_append).setVisible(false);
+            menu.findItem(R.id.video_group_play).setVisible(false);
+        } else
             setContextMenuItems(menu, media);
     }
 
