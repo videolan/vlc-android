@@ -677,8 +677,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSearchText.getEditText().removeTextChangedListener(this);
         mPlaylistSearchText.getEditText().setText("");
         mPlaylistSearchText.getEditText().addTextChangedListener(this);
-        ((InputMethodManager) VLCApplication.getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+        UiTools.setKeyboardVisibility(mPlaylistSearchText, false);
         mPlaylistSearchButton.setVisibility(View.VISIBLE);
         mPlaylistSearchText.setVisibility(View.GONE);
         return true;

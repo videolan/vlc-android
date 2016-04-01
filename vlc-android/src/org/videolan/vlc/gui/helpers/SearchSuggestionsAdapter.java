@@ -45,15 +45,9 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
     private static int backgroundColor;
 
     MediaLibrary mMediaLibrary = MediaLibrary.getInstance();
-    SuggestionDisplay activity;
-
-    public interface SuggestionDisplay {
-        public void hideKeyboard();
-    }
 
     public SearchSuggestionsAdapter(Context context, Cursor cursor){
         super(context, cursor, false);
-        activity = (SuggestionDisplay) context;
         backgroundColor = UiTools.getColorFromAttribute(context, R.attr.background_menu);
     }
 
@@ -109,7 +103,7 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    activity.hideKeyboard();
+                    UiTools.setKeyboardVisibility(v, false);
                 return false;
             }
         });

@@ -55,7 +55,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FilterQueryProvider;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -97,7 +96,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -857,11 +856,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Search
                     break;
             }
         }
-    }
-
-    public void hideKeyboard(){
-        ((InputMethodManager) VLCApplication.getAppContext().getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
 
     public void showProgressBar() {
