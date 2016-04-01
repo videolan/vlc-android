@@ -63,7 +63,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Activity context){
         mContext = context;
         mRes = mContext.getResources();
-        sDefaultCardImage = mRes.getDrawable(R.drawable.background_cone);
+        sDefaultCardImage = mRes.getDrawable(R.drawable.ic_no_thumbnail_big);
         CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
         CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     }
@@ -81,17 +81,16 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(MediaWrapper mediaWrapper) {
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
             if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http")) {
-                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), mCardView);
             } else {
-                mCardView.getMainImageView().setScaleType(mediaWrapper.getType() == MediaWrapper.TYPE_DIR ? ImageView.ScaleType.CENTER : ImageView.ScaleType.CENTER_CROP);
                 AsyncImageLoader.LoadImage(new CoverFetcher(mContext, mediaWrapper), mCardView);
             }
         }
 
         protected void updateCardViewImage(Drawable image) {
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
             mCardView.setMainImage(image);
         }
     }
