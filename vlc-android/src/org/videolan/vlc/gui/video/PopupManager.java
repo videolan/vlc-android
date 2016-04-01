@@ -43,7 +43,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -227,7 +226,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 return;
             int sw = mRootView.getWidth();
             int sh = mRootView.getHeight();
-            vlcVout.setWindowSize(sw, sh);
 
             double dw = sw, dh = sh;
 
@@ -256,7 +254,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             else
                 dw = dh * ar;
 
-            setViewSize(dw, dh);
+            width = (int) Math.floor(dw);
+            height = (int) Math.floor(dh);
+            vlcVout.setWindowSize(width, height);
+            setViewSize(width, height);
         }
 
         @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
@@ -266,17 +267,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         @Override public void onHardwareAccelerationError(IVLCVout vlcVout) {}
     };
 
-    private void setViewSize(double dw, double dh) {
-        LayoutParams lp = mSurfaceView.getLayoutParams();
-        lp.width = (int) Math.ceil(dw);
-        lp.height = (int) Math.ceil(dh);
-        mSurfaceView.setLayoutParams(lp);
-
-        lp = mRootView.getLayoutParams();
-        lp.width = (int) Math.floor(dw);
-        lp.height = (int) Math.floor(dh);
-        mRootView.setLayoutParams(lp);
-        mRootView.invalidate();
+    private void setViewSize(int width, int height) {
+        WindowManager.LayoutParams lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
+        lp.width = width;
+        lp.height = height;
+        windowManager.updateViewLayout(mRootView, lp);
     }
 
     @Override
