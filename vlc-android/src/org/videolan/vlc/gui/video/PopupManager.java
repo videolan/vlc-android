@@ -88,6 +88,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.setVideoTrackEnabled(false);
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
+        mRootView.setKeepScreenOn(false);
         windowManager.removeView(mRootView);
         vlcVout.detachViews();
         vlcVout.removeCallback(mVoutCallBack);
@@ -291,10 +292,12 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 mService.removePopup();
                 break;
             case MediaPlayer.Event.Playing:
+                mRootView.setKeepScreenOn(true);
                 mPlayPauseButton.setImageResource(R.drawable.ic_popup_pause);
                 showNotification();
                 break;
             case MediaPlayer.Event.Paused:
+                mRootView.setKeepScreenOn(false);
                 mPlayPauseButton.setImageResource(R.drawable.ic_popup_play);
                 showNotification();
                 break;
