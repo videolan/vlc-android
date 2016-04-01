@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_w"
         android:visibility="gone" />
 
     <ImageView
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/popup_close"
         android:layout_marginRight="5dp"
-        android:src="@drawable/ic_popup_expand"
+        android:src="@drawable/ic_popup_expand_normal_w"
         android:visibility="gone" />
 
     <ImageView

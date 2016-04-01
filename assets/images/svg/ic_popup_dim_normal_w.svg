@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="11.46491"
+     inkscape:cx="8.7185578"
      inkscape:cy="20.749633"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -79,19 +79,20 @@
        transform="translate(-64,740.00002)" />
     <g
        id="g8420"
-       transform="translate(-540,553.00002)">
+       transform="translate(-540,553.00002)"
+       style="fill:#fafafa;fill-opacity:1">
       <rect
          y="486.36218"
          x="547"
          height="5"
          width="7"
          id="rect8370"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
       <path
          inkscape:connector-curvature="0"
          id="path7904-2"
          d="m 545.5,480.36218 c -0.831,0 -1.5,0.669 -1.5,1.5 l 1.5,0 0,-1.5 z m 1.44336,0 0,1.5 1.4453,0 0,-1.5 -1.4453,0 z m 2.88867,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.89063,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.88867,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.88867,0 0,1.5 1.5,0 c 0,-0.831 -0.669,-1.5 -1.5,-1.5 z m -14.5,3.07031 0,1.57227 1.5,0 0,-1.57227 -1.5,0 z m 14.5,0 0,1.57227 1.5,0 0,-1.57227 -1.5,0 z m -14.5,3.14258 0,1.57422 1.5,0 0,-1.57422 -1.5,0 z m 14.5,0 0,1.57422 1.5,0 0,-1.57422 -1.5,0 z m -14.5,3.14453 0,1.57227 1.5,0 0,-1.57227 -1.5,0 z m 14.5,0 0,1.57227 1.5,0 0,-1.57227 -1.5,0 z m -14.5,3.14258 c 0,0.831 0.669,1.5 1.5,1.5 l 0,-1.5 -1.5,0 z m 2.94336,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.88867,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.89063,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.88867,0 0,1.5 1.44531,0 0,-1.5 -1.44531,0 z m 2.88867,0 0,1.5 c 0.831,0 1.5,-0.669 1.5,-1.5 l -1.5,0 z"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
     </g>
   </g>
 </svg>

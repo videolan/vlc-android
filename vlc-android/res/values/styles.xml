@@ -68,6 +68,8 @@
         <item name="rounded_bg">@drawable/rounded_corners_light</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
+        <item name="ic_popup_expand">@drawable/ic_popup_expand</item>
+        <item name="ic_popup_dim">@drawable/ic_popup_dim</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto</item>
@@ -155,6 +157,8 @@
         <item name="rounded_bg">@drawable/rounded_corners</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_popup_expand">@drawable/ic_popup_expand_w</item>
+        <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>
@@ -201,6 +205,7 @@
         <item name="rounded_bg">@drawable/rounded_corners</item>
         <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
+        <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_w</item>

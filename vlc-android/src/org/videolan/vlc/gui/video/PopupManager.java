@@ -392,7 +392,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay);
         else
             builder.addAction(R.drawable.ic_popup_play, mService.getString(R.string.play), piPlay);
-        builder.addAction(R.drawable.ic_popup_expand, mService.getString(R.string.popup_expand), piExpand);
+        builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand);
 
         Notification notification = builder.build();
         mService.startService(new Intent(mService, PlaybackService.class));
