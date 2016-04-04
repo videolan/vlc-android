@@ -79,6 +79,11 @@ public class HWDecoderUtil {
         new DecoderBySOC("ro.board.platform", "msm7627", Decoder.NONE), // QCOM S1
 
         /*
+         * Even if omap, old Amazon devices don't work with OMX, so either use MediaCodec or SW.
+         */
+        new DecoderBySOC("ro.product.brand", "Amazon", Decoder.MEDIACODEC),
+
+        /*
          * Devices working on OMX
          */
         new DecoderBySOC("ro.board.platform", "omap3", Decoder.OMX), // Omap 3
