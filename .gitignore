@@ -38,7 +38,7 @@ java-libs/appcompat/.project
 gradle.properties
 gradlew.bat
 gradlew
-gradle/wrapper/
+gradle/
 .gradle/
 build/
 vlc-android/build/
