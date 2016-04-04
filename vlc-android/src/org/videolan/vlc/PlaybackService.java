@@ -1691,7 +1691,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
         media.setEventListener(mMediaListener);
-        mMediaPlayer.setMedia(media);
+        if (mMediaPlayer.getMedia() == null || !mw.getUri().equals(mMediaPlayer.getMedia().getUri()))
+            mMediaPlayer.setMedia(media);
         media.release();
         if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying()) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
