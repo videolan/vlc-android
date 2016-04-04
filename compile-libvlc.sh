@@ -281,34 +281,19 @@ else
 fi
 
 # try to detect NDK version
-REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
+GCCVER=4.9
+REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 case "$REL" in
-    10*)
+    11*)
         if [ "${HAVE_64}" = 1 ];then
             ANDROID_API=android-21
-            GCCVER=4.9
         else
             ANDROID_API=android-9
-            GCCVER=4.8
         fi
     ;;
     *)
-        REL2=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
-        case "$REL2" in
-            11*)
-                if [ "${HAVE_64}" = 1 ];then
-                    ANDROID_API=android-21
-                    GCCVER=4.9
-                else
-                    ANDROID_API=android-9
-                    GCCVER=4.9
-                fi
-            ;;
-            *)
-            echo "You need the NDKv10 or later"
-            exit 1
-            ;;
-         esac
+    echo "You need the NDKv11 or later"
+    exit 1
     ;;
 esac
 
