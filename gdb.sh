@@ -87,4 +87,3 @@ echo "APP_ABI := all" > "$TMP_PATH"/jni/Application.mk
 cp "$ANDROID_MANIFEST" "$TMP_PATH"
 
 (cd "$TMP_PATH" && bash $ANDROID_NDK/ndk-gdb $NDK_GDB_ARGS)
-#(cd "$TMP_PATH" && bash $ANDROID_NDK/ndk-gdb-py $NDK_GDB_ARGS)
