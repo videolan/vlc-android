@@ -224,11 +224,16 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Show the audio player.
      */
     public void showAudioPlayer() {
-        mActionBar.collapseActionView();
-        // Open the pane only if is entirely opened.
-        if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
-            mSlidingPane.openPane();
-        mAudioPlayerFilling.setVisibility(View.VISIBLE);
+        mActivityHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mActionBar.collapseActionView();
+                // Open the pane only if is entirely opened.
+                if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
+                    mSlidingPane.openPane();
+                mAudioPlayerFilling.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     public int  getSlidingPaneState() {
@@ -337,14 +342,14 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             String action = intent.getAction();
 
             if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
+                mActivityHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100);
+                mActivityHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100);
             }
         }
     };
 
-    Handler mStorageHandlerHandler = new StorageHandler(this);
+    Handler mActivityHandler = new StorageHandler(this);
 
     private static final int ACTION_MEDIA_MOUNTED = 1337;
     private static final int ACTION_MEDIA_UNMOUNTED = 1338;
