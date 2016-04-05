@@ -140,6 +140,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private boolean mIsAudioTrack = false;
     private boolean mHasHdmiAudio = false;
     private boolean mSwitchingToVideo = false;
+    private boolean mVideoBackground = false;
 
     final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
     private boolean mDetectHeadset = true;
@@ -620,10 +621,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
-                    if (switchToVideo())
+                    if (!mVideoBackground && switchToVideo())
                         hideNotification();
                     else
                         showNotification();
+                    mVideoBackground = false;
                     break;
                 case MediaPlayer.Event.Paused:
                     Log.i(TAG, "MediaPlayer.Event.Paused");
@@ -670,7 +672,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 case MediaPlayer.Event.Vout:
                     break;
                 case MediaPlayer.Event.ESAdded:
-                    if (event.getEsChangedType() == Media.Track.Type.Video && !switchToVideo()) {
+                    if (event.getEsChangedType() == Media.Track.Type.Video && (mVideoBackground || !switchToVideo())) {
                         /* Update notification content intent: resume video or resume audio activity */
                         updateMetadata();
                     }
@@ -753,6 +755,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public boolean switchToVideo() {
         if (mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
             return false;
+        mVideoBackground = false;
         if (isVideoPlaying()) {//Player is already running, just send it an intent
             setVideoTrackEnabled(true);
             LocalBroadcastManager.getInstance(this).sendBroadcast(
@@ -871,7 +874,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
 
             PendingIntent pendingIntent;
-            if (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) ) {
+            if (mVideoBackground || (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) {
                 /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
                 final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
                 pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -1210,6 +1213,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             stop();
             return;
         }
+        mVideoBackground = !isVideoPlaying() && canSwitchToVideo();
         playIndex(mCurrentIndex, 0);
         saveCurrentMedia();
     }
@@ -1681,8 +1685,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         final MediaWrapper mw = mMediaList.getMedia(index);
         if (mw == null)
             return;
-        if (mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying())
+        if (!mVideoBackground && mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying())
             mw.addFlags(MediaWrapper.MEDIA_VIDEO);
+
+        if (mVideoBackground)
+            mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
 
         /* Pausable and seekable are true by default */
         mParsed = false;
@@ -1694,7 +1701,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mMediaPlayer.getMedia() == null || !mw.getUri().equals(mMediaPlayer.getMedia().getUri()))
             mMediaPlayer.setMedia(media);
         media.release();
-        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || isVideoPlaying()) {
+
+        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
+                || isVideoPlaying()) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
