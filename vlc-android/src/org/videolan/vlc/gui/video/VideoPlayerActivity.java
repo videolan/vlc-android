@@ -726,6 +726,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSurfacesAttached = true;
         vlcVout.addCallback(this);
         vlcVout.attachViews();
+        mService.setVideoTrackEnabled(true);
 
         initUI();
 
