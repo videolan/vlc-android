@@ -60,7 +60,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String uri = mDataset.get(position);
         holder.uriTv.setText(uri);
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
@@ -73,11 +73,25 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getPosition();
-                if (pos > -1) {
-                    MediaDatabase.getInstance().deleteMrlUri(mDataset.get(pos));
-                    mDataset.remove(pos);
-                    notifyItemRemoved(pos);
+                UiTools.setKeyboardVisibility(holder.itemView, false);
+                if (holder.getAdapterPosition() > -1) {
+                    final String mrl = mDataset.get(position);
+                    mDataset.remove(position);
+                    notifyItemRemoved(position);
+                    UiTools.snackerWithCancel(holder.itemView,
+                            holder.itemView.getContext().getString(R.string.file_deleted),
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    MediaDatabase.getInstance().deleteMrlUri(mrl);
+                                }
+                            }, new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDataset.add(position, mrl);
+                                    notifyItemInserted(position);
+                                }
+                            });
                 }
             }
         });
