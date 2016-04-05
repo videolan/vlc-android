@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 
@@ -65,6 +66,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UiTools.setKeyboardVisibility(holder.itemView, false);
                 MediaUtils.openStream(v.getContext(), uri);
             }
         });

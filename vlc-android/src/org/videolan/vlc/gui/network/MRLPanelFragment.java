@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -103,6 +104,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
 
     private boolean processUri() {
         if (!TextUtils.isEmpty(mEditText.getEditText().getText().toString())){
+            UiTools.setKeyboardVisibility(mEditText, false);
             MediaUtils.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
             MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getEditText().getText().toString().trim());
             updateHistory();
