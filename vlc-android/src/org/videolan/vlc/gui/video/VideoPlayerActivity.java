@@ -2811,26 +2811,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             // Start playback & seek
             mService.addCallback(this);
-            if (mService.isPlaying() && mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_VIDEO)) {
+            /* prepare playback */
+            boolean hasMedia = mService.hasMedia();
+            final MediaWrapper mw = hasMedia ? mService.getCurrentMediaWrapper() :new MediaWrapper(mUri);
+            if (mWasPaused)
+                mw.addFlags(MediaWrapper.MEDIA_PAUSED);
+            if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
+                mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
+            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            mw.addFlags(MediaWrapper.MEDIA_VIDEO);
+
+            // Handle playback
+            if (!hasMedia)
+                mService.load(mw);
+            else if (!mService.isPlaying())
+                mService.playIndex(positionInPlaylist);
+            else
                 onPlaying();
-            } else {
-                /* prepare playback */
-                boolean hasMedia = mService.hasMedia();
-                final MediaWrapper mw = hasMedia ? mService.getCurrentMediaWrapper() :new MediaWrapper(mUri);
-                if (mWasPaused)
-                    mw.addFlags(MediaWrapper.MEDIA_PAUSED);
-                if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
-                    mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
-                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                mw.addFlags(MediaWrapper.MEDIA_VIDEO);
-                // PlaybackService-transitioned playback for item after sleep and resume
-                if (!hasMedia)
-                    mService.load(mw);
-                else if (!mService.isPlaying())
-                    mService.playIndex(positionInPlaylist);
-                else
-                    onPlaying();
-            }
+
+            // Set time
             long resumeTime = intentPosition;
             if (intentPosition <= 0 && media != null && media.getTime() > 0l)
                 resumeTime = media.getTime();
