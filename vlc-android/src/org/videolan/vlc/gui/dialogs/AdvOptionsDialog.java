@@ -259,6 +259,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     public void initPlaybackSpeed () {
+        if (!mService.isSeekable()) {
+            mPlaybackSpeed.setEnabled(false);
+            mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_speed_disable, 0, 0);
+            return;
+        }
         if (mService.getRate() == 1.0f) {
             mPlaybackSpeed.setText(null);
             mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
@@ -268,12 +273,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mPlaybackSpeed.setText(Strings.formatRateString(mService.getRate()));
             mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_speed_on, 0, 0);
         }
-        mPlaybackSpeed.setEnabled(mService.isSeekable());
-        mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0,
-                mService.isSeekable()
-                        ? UiTools.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style)
-                        : R.drawable.ic_speed_disable,
-                0, 0);
     }
 
     public void initSleep () {
