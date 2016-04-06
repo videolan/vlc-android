@@ -44,7 +44,7 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

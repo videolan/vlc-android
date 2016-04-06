@@ -16,7 +16,7 @@ import org.videolan.vlc.databinding.ExtensionItemViewBinding;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
 
 import java.util.ArrayList;

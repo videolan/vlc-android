@@ -38,21 +38,21 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.util.WeakHandler;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
-    protected MediaLibrary mMediaLibrary;
+    protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
     }
 

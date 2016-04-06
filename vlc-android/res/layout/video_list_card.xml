@@ -8,7 +8,7 @@
 
         <variable
             name="media"
-            type="org.videolan.vlc.media.MediaWrapper" />
+            type="org.videolan.medialibrary.media.MediaWrapper" />
 
         <variable
             name="time"

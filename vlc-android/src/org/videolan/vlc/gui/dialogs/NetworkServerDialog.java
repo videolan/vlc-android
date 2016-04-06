@@ -24,7 +24,7 @@ import android.widget.TextView;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 public class NetworkServerDialog extends DialogFragment implements AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 

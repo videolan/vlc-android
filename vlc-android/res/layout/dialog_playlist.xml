@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/half_default_margin"
         android:layout_below="@+id/dialog_playlist_cancel">
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

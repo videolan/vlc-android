@@ -73,6 +73,10 @@ public class Util {
         return false;
     }
 
+    public static boolean isArrayEmpty(@Nullable Object[] array) {
+        return array == null || array.length == 0;
+    }
+
     public static boolean isListEmpty(@Nullable Collection collection) {
         return collection == null || collection.isEmpty();
     }

@@ -43,6 +43,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
@@ -54,8 +55,6 @@ import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
-import org.videolan.vlc.interfaces.IVideoBrowser;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, IVideoBrowser, DetailsFragment {
+public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     public static final String TAG = "VLC/SortedBrowserFragment";
 
@@ -206,8 +205,12 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
             return;
         String letter = mw.getTitle().substring(0, 1).toUpperCase();
-        if (mMediaItemMap.containsKey(letter)){
-            mMediaItemMap.get(letter).mediaList.add(mw);
+        if (mMediaItemMap.containsKey(letter)) {
+            int position = mMediaItemMap.get(letter).mediaList.indexOf(mw);
+            if (position != -1) {
+                mMediaItemMap.get(letter).mediaList.set(position, mw);
+            } else
+                mMediaItemMap.get(letter).mediaList.add(mw);
         } else {
             ListItem item = new ListItem(letter, mw);
             mMediaItemMap.put(letter, item);
@@ -221,28 +224,11 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         return mMediaItemMap.isEmpty();
     }
 
-    @Override
-    public void setItemToUpdate(MediaWrapper item) {
-        mHandler.obtainMessage(UPDATE_ITEM, item).sendToTarget();
-    }
-
     public void updateItem(MediaWrapper item) {
         if (mAdapter != null && mMediaIndex != null && item != null
                 && mMediaIndex.containsKey(item.getLocation()))
             mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(item.getLocation()).intValue(), 1);
     }
-
-    @Override
-    public void showProgressBar() {}
-
-    @Override
-    public void hideProgressBar() {}
-
-    @Override
-    public void clearTextInfo() {}
-
-    @Override
-    public void sendTextInfo(String info, int progress, int max) {}
 
     public static class ListItem {
         public String Letter;

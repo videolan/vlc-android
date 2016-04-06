@@ -44,9 +44,8 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,7 +84,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setOnFocusChangeListener(this);
         if (mMediaList == null)
-            mMediaList = new ArrayList<MediaWrapper>();
+            mMediaList = new ArrayList<>();
 //        if (getIntent().getData() != null)
 //            mMediaList.add(getIntent().getDataString());
         mAdapter = new PlaylistAdapter(this, mMediaList);
@@ -163,8 +162,8 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mTitleTv.setText(mService.getTitle());
             mArtistTv.setText(mService.getArtist());
             mProgressBar.setMax((int) mService.getLength());
-            MediaWrapper MediaWrapper = MediaLibrary.getInstance().getMediaItem(mService.getCurrentMediaLocation());
-            Bitmap cover = AudioUtil.getCover(this, MediaWrapper, mCover.getWidth());
+            MediaWrapper mw = mService.getCurrentMediaWrapper();
+            Bitmap cover = AudioUtil.getCover(this, mw, mCover.getWidth());
             if (cover == null)
                 cover = mService.getCover();
             if (cover == null)

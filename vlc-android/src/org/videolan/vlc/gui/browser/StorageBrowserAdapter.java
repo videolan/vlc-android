@@ -33,7 +33,7 @@ import android.widget.CheckBox;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.Util;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {

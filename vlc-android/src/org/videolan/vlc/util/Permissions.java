@@ -70,7 +70,7 @@ public class Permissions {
     }
 
     public static boolean canReadStorage() {
-        return ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+        return !AndroidUtil.isMarshMallowOrLater() ||ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 

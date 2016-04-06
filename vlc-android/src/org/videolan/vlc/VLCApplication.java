@@ -29,15 +29,18 @@ import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.util.SimpleArrayMap;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -126,6 +129,9 @@ public class VLCApplication extends Application {
         // Disable remote control receiver on Fire TV.
         if (!AndroidDevices.hasTsp())
             AndroidDevices.setRemoteControlReceiverEnabled(false);
+
+        if (Permissions.canReadStorage())
+            discoverStorages(getMLInstance());
     }
 
     /**
@@ -224,5 +230,16 @@ public class VLCApplication extends Application {
         storeData(key, dialog);
         startActivity(new Intent(instance, DialogActivity.class).setAction(key)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public static synchronized Medialibrary getMLInstance() {
+        return Medialibrary.getInstance(instance);
+    }
+
+    public void discoverStorages(final Medialibrary ml) {
+        for (String storage : AndroidDevices.getMediaDirectories()) {
+            ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+            ml.discover(storage);
+        }
     }
 }

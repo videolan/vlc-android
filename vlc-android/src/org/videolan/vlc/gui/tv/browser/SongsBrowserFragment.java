@@ -32,20 +32,18 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.TvUtil;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SongsBrowserFragment extends SortedBrowserFragment {
 
-    private ArrayList<MediaWrapper> mSongs;
+    private MediaWrapper[] mSongs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,12 +52,10 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
 
     @Override
     protected void browse() {
-        mSongs = MediaLibrary.getInstance().getAudioItems();
-        MediaWrapper media;
-        for (int i = 0 ; i < mSongs.size() ; ++i) {
-            media = mSongs.get(i);
-            addMedia(media);
-            mMediaIndex.put(media.getLocation(), i);
+        mSongs = VLCApplication.getMLInstance().getAudio();
+        for (int i = 0 ; i < mSongs.length ; ++i) {
+            addMedia(mSongs[i]);
+            mMediaIndex.put(mSongs[i].getLocation(), i);
         }
         sort();
     }
@@ -68,7 +64,6 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                Collections.sort(mSongs, MediaComparators.byName);
                 mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
                 for (ListItem item : mMediaItemMap.values()) {
                     Collections.sort(item.mediaList, MediaComparators.byName);
@@ -85,8 +80,8 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
             public void run() {
                 int position = 0;
                 String location = ((MediaWrapper)item).getLocation();
-                for (int i = 0; i < mSongs.size(); ++i) {
-                    if (TextUtils.equals(location, mSongs.get(i).getLocation())) {
+                for (int i = 0; i < mSongs.length; ++i) {
+                    if (TextUtils.equals(location, mSongs[i].getLocation())) {
                         position = i;
                         break;
                     }

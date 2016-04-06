@@ -23,8 +23,8 @@
 package org.videolan.vlc.interfaces;
 
 public interface IBrowser {
-    public void showProgressBar();
-    public void hideProgressBar();
-    public void clearTextInfo();
-    public void sendTextInfo(String info, int progress, int max);
+    void showProgressBar();
+    void hideProgressBar();
+    void clearTextInfo();
+    void sendTextInfo(String info, int progress, int max);
 }

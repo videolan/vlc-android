@@ -39,7 +39,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -125,6 +125,7 @@ public class AndroidDevices {
                 "/mnt/secure",
                 "/mnt/shell",
                 "/mnt/asec",
+                "/mnt/runtime",
                 "/mnt/obb",
                 "/mnt/media_rw/extSdCard",
                 "/mnt/media_rw/sdcard",

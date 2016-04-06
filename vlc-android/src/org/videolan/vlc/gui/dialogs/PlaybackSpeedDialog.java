@@ -37,7 +37,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
 public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {

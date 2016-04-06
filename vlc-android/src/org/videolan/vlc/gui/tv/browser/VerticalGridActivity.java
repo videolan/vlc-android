@@ -31,11 +31,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
-import org.videolan.vlc.media.MediaLibrary;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
@@ -46,7 +46,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     TextView mEmptyView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_vertical_grid);
         mContentLoadingProgressBar = (ProgressBar) findViewById(R.id.tv_fragment_progress);
@@ -57,10 +57,11 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             mFragment = new VideoBrowserFragment();
         else if (type == MainTvActivity.HEADER_CATEGORIES)
             if (getIntent().getLongExtra(MusicFragment.AUDIO_CATEGORY, MusicFragment.CATEGORY_SONGS) == MusicFragment.CATEGORY_SONGS &&
-                    MediaLibrary.getInstance().getAudioItems().size() > GRID_LIMIT)
+                VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
                 mFragment = new SongsBrowserFragment();
-            else
+            } else {
                 mFragment = new MusicFragment();
+            }
         else if (type == MainTvActivity.HEADER_NETWORK) {
             Uri uri = getIntent().getData();
             if (uri == null)

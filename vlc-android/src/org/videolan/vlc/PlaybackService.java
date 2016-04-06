@@ -53,7 +53,6 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
-import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -65,6 +64,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -73,12 +73,11 @@ import org.videolan.vlc.gui.video.PopupManager;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.WeakHandler;
@@ -88,6 +87,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -133,6 +133,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private SharedPreferences mSettings;
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
+    private Medialibrary mMedialibrary;
     private MediaPlayer mMediaPlayer;
     private boolean mParsed = false;
     private boolean mSeekable = false;
@@ -220,6 +221,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             return;
         }
 
+        mMedialibrary = VLCApplication.getMLInstance();
         if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
             AndroidDevices.setRemoteControlReceiverEnabled(true);
 
@@ -614,6 +616,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     break;
                 case MediaPlayer.Event.Stopped:
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
+                    mMedialibrary.updateProgress(getCurrentMediaWrapper(), getTime());
                     executeUpdate();
                     publishState(event.type);
                     executeUpdateProgress();
@@ -622,7 +625,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EndReached:
-                    Log.i(TAG, "MediaPlayer.Event.EndReached");
                     executeUpdateProgress();
                     determinePrevAndNextIndices(true);
                     next();
@@ -953,6 +955,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
+            mMedialibrary.updateProgress(getCurrentMedia(), getTime());
             media.setEventListener(null);
             mMediaPlayer.setEventListener(null);
             mMediaPlayer.stop();
@@ -1194,7 +1197,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             Log.w(TAG, "Warning: invalid next index, aborted !");
             //Close video player if started
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(VideoPlayerActivity.EXIT_PLAYER));
-            stop();
             return;
         }
         mVideoBackground = !isVideoPlaying() && canSwitchToVideo();
@@ -1312,18 +1314,22 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (locations.length == 0)
             return;
 
-        List<String> mediaPathList = new ArrayList<String>(locations.length);
-        for (int i = 0 ; i < locations.length ; ++i)
-            mediaPathList.add(Uri.decode(locations[i]));
+        List<MediaWrapper> playList = new ArrayList<>(locations.length);
+        for (int i = 0 ; i < locations.length ; ++i) {
+            String mrl = Uri.decode(locations[i]);
+            MediaWrapper mw = mMedialibrary.getMedia(Strings.removeFileProtocole(mrl));
+            if (mw == null)
+                mw = new MediaWrapper(Uri.parse(mrl));
+            playList.add(mw);
+        }
 
         mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
         mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
-        int position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list",
-                Math.max(0, mediaPathList.indexOf(currentMedia)));
+        int position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
         long time = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
         mSavedTime = time;
         // load playlist
-        loadLocations(mediaPathList, position);
+        load(playList, position);
         if (time > 0)
             seek(time);
         if (!audio) {
@@ -1614,6 +1620,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
+    public void load(MediaWrapper[] mediaList, int position) {
+        load(Arrays.asList(mediaList), position);
+    }
+
+    @MainThread
     public void load(List<MediaWrapper> mediaList, int position) {
         Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
 
@@ -1651,7 +1662,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public void load(MediaWrapper media) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
         arrayList.add(media);
         load(arrayList, 0);
     }
@@ -1733,7 +1744,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        MediaDatabase.getInstance().addHistoryItem(mw);
+                        mMedialibrary.increasePlayCount(mw .getId());
                     }
                 });
         } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.
@@ -1812,6 +1823,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     /**
      * Append to the current existing playlist
      */
+
+    @MainThread
+    public void append(MediaWrapper[] mediaList) {
+        append(Arrays.asList(mediaList));
+    }
+
     @MainThread
     public void append(List<MediaWrapper> mediaList) {
         if (!hasCurrentMedia())

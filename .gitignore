@@ -3,7 +3,13 @@
 /toolchains/
 
 #medialibrary
-medialibrary/
+medialibrary/medialibrary
+medialibrary/sqlite*
+medialibrary/libvlcpp
+medialibrary/build
+medialibrary/jni/obj
+medialibrary/jni/libs
+medialibrary/.libs
 
 # Android .so
 /android-libs/**/*.so

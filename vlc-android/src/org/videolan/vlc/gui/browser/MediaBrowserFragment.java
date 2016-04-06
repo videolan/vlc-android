@@ -24,21 +24,27 @@ package org.videolan.vlc.gui.browser;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
-import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 
 public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
-    protected MediaLibrary mMediaLibrary;
+    protected Medialibrary mMediaLibrary;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary = VLCApplication.getMLInstance();
     }
 
     public void onStart(){
@@ -58,9 +64,33 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
             mReadyToDisplay = ready;
     }
 
-    protected abstract void display();
 
     protected abstract String getTitle();
+
     protected String getSubTitle() { return null; }
-    public abstract void clear();
+    public void clear() {}
+    protected void display() {}
+
+    protected void inflate(Menu menu, int position) {}
+    protected void setContextMenuItems(Menu menu, int position) {}
+    protected boolean handleContextItemSelected(MenuItem menu, int position) { return false;}
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (menuInfo == null)
+            return;
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
+        inflate(menu, info.position);
+
+        setContextMenuItems(menu, info.position);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menu) {
+        if(!getUserVisibleHint())
+            return false;
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
+
+        return info != null && handleContextItemSelected(menu, info.position);
+    }
 }

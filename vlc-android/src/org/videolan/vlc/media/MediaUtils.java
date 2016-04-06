@@ -12,16 +12,17 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MediaUtils {
@@ -100,16 +101,17 @@ public class MediaUtils {
     public static void openMediaNoUi(final Context context, final MediaWrapper media){
         if (media == null)
             return;
-        if (media.getType() == MediaWrapper.TYPE_VIDEO)
-            VideoPlayerActivity.start(context, media.getUri(), media.getTitle());
-        else
-            new BaseCallBack(context) {
-                @Override
-                public void onConnected(PlaybackService service) {
-                    service.load(media);
-                    mClient.disconnect();
-                }
-            };
+        new BaseCallBack(context) {
+            @Override
+            public void onConnected(PlaybackService service) {
+                service.load(media);
+                mClient.disconnect();
+            }
+        };
+    }
+
+    public static void openArray(final Context context, final MediaWrapper[] array, final int position){
+        openList(context, Arrays.asList(array), position);
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){

@@ -30,27 +30,28 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 
 import java.util.ArrayList;
 
-public class SavePlaylistDialog extends DialogFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
+public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, AudioBrowserAdapter.ClickHandler {
 
     public final static String TAG = "VLC/SavePlaylistDialog";
 
@@ -58,22 +59,25 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     public static final String KEY_NEW_TRACKS = "PLAYLIST_TRACKS";
 
     EditText mEditText;
-    ListView mListView;
+    RecyclerView mListView;
     TextView mEmptyView;
     Button mSaveButton;
     Button mCancelButton;
-    AudioBrowserListAdapter mAdapter;
+    AudioBrowserAdapter mAdapter;
     ArrayList<MediaWrapper> mTracks;
     ArrayList<MediaWrapper> mNewTrack;
     Runnable mCallBack;
+    Medialibrary mMedialibrary;
+    long mPlaylistId;
 
     public SavePlaylistDialog(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
-        mAdapter.addAllDBPlaylists(MediaLibrary.getInstance().getPlaylistDbItems());
+        mMedialibrary = VLCApplication.getMLInstance();
+        mAdapter = new AudioBrowserAdapter(getActivity(), this, false);
+        mAdapter.addAll(mMedialibrary.getPlaylists());
         mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
         mNewTrack = getArguments().getParcelableArrayList(KEY_NEW_TRACKS);
     }
@@ -95,14 +99,12 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_playlist, container);
 
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView = (RecyclerView) view.findViewById(android.R.id.list);
         mSaveButton = (Button) view.findViewById(R.id.dialog_playlist_save);
         mCancelButton = (Button) view.findViewById(R.id.dialog_playlist_cancel);
         mEmptyView = (TextView) view.findViewById(android.R.id.empty);
         TextInputLayout mLayout = (TextInputLayout)view.findViewById(R.id.dialog_playlist_name);
-        mLayout.setHint(getString(R.string.playlist_name_hint));
         mEditText = mLayout.getEditText();
-        mListView.setOnItemClickListener(this);
         mSaveButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,14 +114,10 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
         });
 
         mEditText.setOnEditorActionListener(this);
-        mListView.setEmptyView(mEmptyView);
+        mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
+        mEmptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
         return view;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mEditText.setText(mAdapter.getItem(position).mTitle);
     }
 
     @Override
@@ -129,41 +127,47 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_SEND) {
+        if (actionId == EditorInfo.IME_ACTION_SEND)
             savePlaylist();
-        }
         return false;
     }
 
     private void savePlaylist() {
         VLCApplication.runBackground(new Runnable() {
             public void run() {
-                final MediaDatabase db = MediaDatabase.getInstance();
                 final String name = mEditText.getText().toString().trim();
                 boolean addTracks = mNewTrack != null;
-                boolean exists = db.playlistExists(name);
+                Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
+                boolean exists = playlist != null;
+                long[] ids;
                 if (addTracks) {
-                    int position = 0;
                     if (!exists)
-                        db.playlistAdd(name);
-                    else
-                        position = db.playlistGetItems(name).length;
+                        playlist = mMedialibrary.createPlaylist(name);
+                    ids = new long[mTracks.size()];
                     for (int i = 0 ; i < mNewTrack.size(); ++i)
-                        db.playlistInsertItem(name, position+i, mNewTrack.get(i).getLocation());
+                        ids[i] = mNewTrack.get(i).getId();
                 } else { //Save a playlist
                     if (exists)
-                        db.playlistDelete(name);
-                    db.playlistAdd(name);
-                    MediaWrapper mw;
-                    for (int i = 0; i < mTracks.size(); ++i) {
-                        mw = mTracks.get(i);
-                        db.playlistInsertItem(name, i, mw.getLocation());
-                    }
+                        playlist.delete(mMedialibrary);
+                    playlist = mMedialibrary.createPlaylist(name);
+                    ids = new long[mTracks.size()];
+                    for (int i = 0; i < mTracks.size(); ++i)
+                        ids[i] = mTracks.get(i).getId();
                 }
+                playlist.append(mMedialibrary, ids);
                 if (mCallBack != null)
                     mCallBack.run();
             }
         });
         dismiss();
     }
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        mPlaylistId = item.getId();
+        mEditText.setText(item.getTitle());
+    }
+
+    @Override
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {}
 }

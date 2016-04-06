@@ -50,6 +50,9 @@ import android.widget.ProgressBar;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RecommendationsService;
@@ -62,13 +65,8 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
-import org.videolan.vlc.gui.video.VideoListHandler;
-import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
@@ -78,8 +76,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnItemViewSelectedListener,
-        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback {
+public class MainTvActivity extends BaseTvActivity implements OnItemViewSelectedListener,
+        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback, MediaUpdatedCb {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -100,9 +98,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     public static final String TAG = "VLC/MainTvActivity";
 
+    private Handler mHandler = new Handler();
     protected BrowseFragment mBrowseFragment;
     private ProgressBar mProgressBar;
-    private static Thumbnailer sThumbnailer;
     ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     ArrayObjectAdapter mVideoAdapter, mCategoriesAdapter, mHistoryAdapter, mBrowserAdapter, mOtherAdapter;
     View mRootContainer;
@@ -116,13 +114,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean rescan = mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true);
-        if (rescan || mMediaLibrary.getMediaItems().isEmpty()) {
-            if (rescan)
-                mMediaLibrary.scanMediaItems(false);
-            else
-                mMediaLibrary.loadMediaItems();
-        }
+        if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true) && Permissions.canReadStorage())
+            mMediaLibrary.reload();
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
@@ -166,7 +159,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (mRowsAdapter.size() == 0)
+        if (mRowsAdapter.size() == 0 && Permissions.canReadStorage())
             update();
         else {
             updateBrowsers();
@@ -174,7 +167,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final ArrayList<MediaWrapper> history = MediaDatabase.getInstance().getHistory();
+                    final MediaWrapper[] history = VLCApplication.getMLInstance().lastMediaPlayed();
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -200,27 +193,13 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     protected void onResume() {
         super.onResume();
-        mMediaLibrary.addUpdateHandler(mHandler);
-        if (sThumbnailer != null)
-            sThumbnailer.setVideoBrowser(this);
-
+        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
         mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
     }
 
     protected void onPause() {
         super.onPause();
-        mMediaLibrary.removeUpdateHandler(mHandler);
-
-        /* Stop the thumbnailer */
-        if (sThumbnailer != null)
-            sThumbnailer.setVideoBrowser(null);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (sThumbnailer != null)
-            sThumbnailer.clearJobs();
+        mMediaLibrary.removeMediaUpdatedCb();
     }
 
     @Override
@@ -231,7 +210,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    refresh();
+                    mMediaLibrary.init();
+                    ((VLCApplication) VLCApplication.getAppContext()).discoverStorages(mMediaLibrary);
                 } else {
                     Permissions.showStoragePermissionDialog(this, false);
                 }
@@ -247,7 +227,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                MediaLibrary.getInstance().scanMediaItems(true);
+                VLCApplication.getMLInstance().reload();
                 update();
             } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
@@ -290,56 +270,30 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         } else {
             mUpdateTask.AskRefresh();
         }
-        checkThumbs();
-    }
-
-    public void updateList() {
-        if (mVideoAdapter != null) {
-            if (mVideoAdapter.size() == 0)
-                mVideoAdapter.addAll(0, MediaLibrary.getInstance().getVideoItems());
-            mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
-        }
-        checkThumbs();
     }
 
     @Override
-    public void showProgressBar() {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mProgressBar.setVisibility(View.VISIBLE);
-//            }
-//        });
-    }
-
-    @Override
-    public void hideProgressBar() {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mProgressBar.setVisibility(View.GONE);
-//            }
-//        });
-    }
-
-    @Override
-    public void clearTextInfo() {
-        //TODO
-    }
-
-    @Override
-    public void sendTextInfo(String info, int progress, int max) {
-    }
-
-    @Override
-    public void setItemToUpdate(MediaWrapper item) {
-        mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
+    public void onMediaUpdated(final MediaWrapper[] mediaList) {
+        if (mVideoAdapter.size() > NUM_ITEMS_PREVIEW)
+            return;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (MediaWrapper media : mediaList)
+                    if (media != null)
+                        updateItem(media);
+            }
+        });
     }
 
     public void updateItem(MediaWrapper item) {
         if (mVideoAdapter != null && mVideoIndex != null && item != null) {
             if (mVideoIndex.containsKey(item.getLocation())) {
                 mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(item.getLocation()).intValue(), 1);
+            } else {
+                int position = mVideoAdapter.size();
+                mVideoAdapter.add(position, item);
+                mVideoIndex.put(item.getLocation(), Integer.valueOf(position));
             }
         }
         if (mHistoryAdapter != null && mHistoryIndex != null && item != null) {
@@ -349,7 +303,6 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         }
     }
 
-    private Handler mHandler = new VideoListHandler(this);
 
     @Override
     public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
@@ -390,7 +343,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
         private boolean askRefresh = false;
         boolean showHistory;
-        ArrayList<MediaWrapper> videoList, history;
+        MediaWrapper[] history, videoList;
 
         public AsyncUpdate() {
         }
@@ -413,9 +366,9 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
         @Override
         protected Void doInBackground(Void... params) {
-            videoList = mMediaLibrary.getVideoItems();
+            videoList = mMediaLibrary.getVideos();
             if (showHistory)
-                history = MediaDatabase.getInstance().getHistory();
+                history = VLCApplication.getMLInstance().lastMediaPlayed();
             return null;
         }
 
@@ -427,14 +380,14 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
             // Update video section
-            if (!videoList.isEmpty()) {
-                final int size = Math.min(NUM_ITEMS_PREVIEW, videoList.size());
+            if (!Util.isArrayEmpty(videoList)) {
+                final int size = Math.min(NUM_ITEMS_PREVIEW, videoList.length);
                 mRootContainer.post(new Runnable() {
                     @Override
                     public void run() {
                         MediaWrapper item;
                         for (int i = 0; i < size; ++i) {
-                            item = videoList.get(i);
+                            item = videoList[i];
                             mVideoAdapter.add(item);
                             mVideoIndex.put(item.getLocation(), Integer.valueOf(i));
                         }
@@ -455,7 +408,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             //History
-            if (showHistory && !history.isEmpty()){
+            if (showHistory && !Util.isArrayEmpty(history)){
                 mHistoryAdapter = new ArrayObjectAdapter(
                         new CardPresenter(mContext));
                 final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
@@ -490,15 +443,15 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         }
     }
 
-    private void updateHistory(ArrayList<MediaWrapper> history) {
+    private void updateHistory(MediaWrapper[] history) {
         if (mHistoryAdapter == null || history == null)
             return;
         mHistoryAdapter.clear();
         if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
             return;
         MediaWrapper item;
-        for (int i = 0; i < history.size(); ++i) {
-            item = history.get(i);
+        for (int i = 0; i < history.length; ++i) {
+            item = history[i];
             mHistoryAdapter.add(item);
             mHistoryIndex.put(item.getLocation(), Integer.valueOf(i));
         }
@@ -528,33 +481,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         mBrowserAdapter.notifyArrayItemRangeChanged(0, mBrowserAdapter.size());
     }
 
-    private void checkThumbs() {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                sThumbnailer = new Thumbnailer();
-                Bitmap picture;
-                ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
-                MediaDatabase mediaDatabase = MediaDatabase.getInstance();
-                if (sThumbnailer != null && !Util.isListEmpty(videoList)) {
-                    for (MediaWrapper MediaWrapper : videoList) {
-                        picture = mediaDatabase.getPicture(MediaWrapper.getUri());
-                        if (picture == null)
-                            sThumbnailer.addJob(MediaWrapper);
-                    }
-                    if (sThumbnailer.getJobsCount() > 0)
-                        sThumbnailer.start((IVideoBrowser) mContext);
-                }
-            }
-        });
-    }
-
-    public static Thumbnailer getThumbnailer() {
-        return sThumbnailer;
-    }
-
     protected void refresh() {
-        mMediaLibrary.scanMediaItems(true);
+        mMediaLibrary.reload();
     }
 
     @Override

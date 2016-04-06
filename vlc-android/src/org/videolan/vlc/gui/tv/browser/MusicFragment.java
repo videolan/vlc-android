@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
@@ -36,16 +35,16 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -91,7 +90,6 @@ public class MusicFragment extends MediaLibBrowserFragment {
             mUpdater = new AsyncAudioUpdate();
             mUpdater.execute();
         }
-        mMediaLibrary.addUpdateHandler(mHandler);
     }
 
     @Override
@@ -116,8 +114,8 @@ public class MusicFragment extends MediaLibBrowserFragment {
         protected void onPreExecute() {
             setTitle(getString(R.string.app_name_full));
             mAdapter.clear();
-            mMediaItemMap = new SimpleArrayMap<String, ListItem>();
-            mMediaItemList = new ArrayList<ListItem>();
+            mMediaItemMap = new SimpleArrayMap<>();
+            mMediaItemList = new ArrayList<>();
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
 
@@ -126,7 +124,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
             String title;
             ListItem item;
 
-            audioList = MediaLibrary.getInstance().getAudioItems();
+            audioList = new ArrayList<>(Arrays.asList(VLCApplication.getMLInstance().getAudio()));
             if (CATEGORY_ARTISTS == mCategory){
                 Collections.sort(audioList, MediaComparators.byArtist);
                 title = getString(R.string.artists);
@@ -234,10 +232,10 @@ public class MusicFragment extends MediaLibBrowserFragment {
         public String mSubTitle;
         public ArrayList<MediaWrapper> mediaList;
 
-        public ListItem(String title, String subTitle, MediaWrapper MediaWrapper) {
-            mediaList = new ArrayList<MediaWrapper>();
-            if (MediaWrapper != null)
-                mediaList.add(MediaWrapper);
+        public ListItem(String title, String subTitle, MediaWrapper mediaWrapper) {
+            mediaList = new ArrayList<>();
+            if (mediaWrapper != null)
+                mediaList.add(mediaWrapper);
             mTitle = title;
             mSubTitle = subTitle;
         }
@@ -263,26 +261,6 @@ public class MusicFragment extends MediaLibBrowserFragment {
         if (mUpdater == null) {
             mUpdater = new AsyncAudioUpdate();
             mUpdater.execute();
-        }
-    }
-
-    private MediaLibHandler mHandler = new MediaLibHandler(this);
-
-    private static class MediaLibHandler extends WeakHandler<MusicFragment> {
-
-        public MediaLibHandler(MusicFragment owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                    if (getOwner() != null)
-                        getOwner().updateList();
-                    break;
-            }
         }
     }
 }

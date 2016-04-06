@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,15 +46,14 @@ import android.widget.TextView;
 
 import com.android.widget.SlidingPaneLayout;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
@@ -161,7 +161,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     }
 
     public void updateLib() {
-        if (mPreventRescan){
+        if (mPreventRescan) {
             mPreventRescan = false;
             return;
         }
@@ -169,16 +169,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
         if (current != null && current instanceof IRefreshable)
             ((IRefreshable) current).refresh();
-        else
-            MediaLibrary.getInstance().scanMediaItems();
-        Fragment fragment = fm.findFragmentByTag(ID_AUDIO);
-        if (fragment != null && !fragment.equals(current)) {
-            ((MediaBrowserFragment)fragment).clear();
-        }
-        fragment = fm.findFragmentByTag(ID_VIDEO);
-        if (fragment != null && !fragment.equals(current)) {
-            ((MediaBrowserFragment)fragment).clear();
-        }
     }
 
     /**
@@ -337,21 +327,15 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     protected void onPanelOpenedUiSet() {}
 
-    private void stopBackgroundTasks() {
-        MediaLibrary ml = MediaLibrary.getInstance();
-        if (ml.isWorking())
-            ml.stop();
-    }
-
     private final BroadcastReceiver storageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
             if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                mActivityHandler.sendEmptyMessage(ACTION_MEDIA_MOUNTED);
+                mActivityHandler.obtainMessage(ACTION_MEDIA_MOUNTED, intent.getData()).sendToTarget();
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
-                mActivityHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 100);
+                mActivityHandler.sendMessageDelayed(mActivityHandler.obtainMessage(ACTION_MEDIA_UNMOUNTED, intent.getData()), 100);
             }
         }
     };
@@ -370,14 +354,19 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
+            Medialibrary ml = VLCApplication.getMLInstance();
             switch (msg.what){
                 case ACTION_MEDIA_MOUNTED:
+                    String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
+                    ml.addDevice(path, path, true);
+                    ml.discover(path);
                     getOwner().updateLib();
+                    ml.reload();
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().stopBackgroundTasks();
+                    ml.removeDevice(((Uri) msg.obj).getPath());
+                    ml.reload();
                     getOwner().updateLib();
                     break;
             }

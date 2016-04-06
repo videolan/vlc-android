@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto" >
     <data>
-        <import type="org.videolan.vlc.media.MediaWrapper"/>
+        <import type="org.videolan.medialibrary.media.MediaWrapper"/>
         <import type="android.view.View"/>
         <variable
             name="holder"

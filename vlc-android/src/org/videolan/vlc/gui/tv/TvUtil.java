@@ -31,9 +31,10 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TvUtil {
 
@@ -77,8 +78,7 @@ public class TvUtil {
     }
 
     public static void showMediaDetail(Context activity, MediaWrapper mediaWrapper) {
-        Intent intent = new Intent(activity,
-                DetailsActivity.class);
+        Intent intent = new Intent(activity, DetailsActivity.class);
         intent.putExtra("media", mediaWrapper);
         intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
         activity.startActivity(intent);
@@ -89,6 +89,10 @@ public class TvUtil {
         intent.putExtra(MainTvActivity.BROWSER_TYPE, type);
         intent.setData(uri);
         activity.startActivity(intent);
+    }
+
+    public static void playAudioList(Activity activity, MediaWrapper[] array, int position) {
+        playAudioList(activity, new ArrayList<>(Arrays.asList(array)), position);
     }
 
     public static void playAudioList(Activity activity, ArrayList<MediaWrapper> list, int position) {

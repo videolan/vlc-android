@@ -27,7 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 

@@ -26,10 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     private AudioPlayerActivity mAudioPlayerActivity;
     private ArrayList<MediaWrapper> mDataset;
-    private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
     private int mSelectedItem = -1;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

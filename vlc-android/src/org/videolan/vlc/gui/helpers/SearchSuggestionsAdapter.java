@@ -37,7 +37,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 public class SearchSuggestionsAdapter extends CursorAdapter {
 

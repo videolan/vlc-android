@@ -3,6 +3,15 @@ apply plugin: 'com.android.application'
 import com.android.builder.core.DefaultManifestParser
 
 android {
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/mips/libc++_shared.so'
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -198,6 +207,7 @@ dependencies {
     compile 'com.android.support:leanback-v17:24.2.0'
     compile 'com.android.support:preference-leanback-v17:24.2.0'
     testCompile 'junit:junit:4.12'
+    compile project(':medialibrary')
 }
 
 def buildTime() {

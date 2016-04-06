@@ -10,7 +10,7 @@
             type="org.videolan.vlc.gui.audio.PlaylistAdapter.ViewHolder"/>
         <variable
             name="media"
-            type="org.videolan.vlc.media.MediaWrapper"/>
+            type="org.videolan.medialibrary.media.MediaWrapper"/>
         <variable
             name="subTitle"
             type="String"/>

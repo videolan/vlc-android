@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.media;
+package org.videolan.medialibrary.media;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -32,11 +32,11 @@ import org.videolan.libvlc.Media.Meta;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.medialibrary.Medialibrary;
 
 import java.util.Locale;
 
-public class MediaWrapper implements Parcelable {
+public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static String TAG = "VLC/MediaWrapper";
 
     public final static int TYPE_ALL = -1;
@@ -52,7 +52,8 @@ public class MediaWrapper implements Parcelable {
     public final static int MEDIA_PAUSED = 0x4;
     public final static int MEDIA_FORCE_AUDIO = 0x8;
 
-    protected String mTitle;
+    private static final StringBuilder sb = new StringBuilder();
+
     protected String mDisplayTitle;
     private String mArtist;
     private String mGenre;
@@ -89,9 +90,40 @@ public class MediaWrapper implements Parcelable {
 
     /**
      * Create a new MediaWrapper
+     * @param mrl Should not be null.
+     */
+    public MediaWrapper(long id, String mrl, long time, long length, int type,
+                      String title, String artist, String genre, String album, String albumArtist, int width,
+                      int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
+        super();
+        if (TextUtils.isEmpty(mrl))
+            throw new IllegalArgumentException("uri was empty");
+
+        if (mrl.charAt(0) == '/')
+            mrl = "file://"+mrl;
+        mUri = Uri.parse(mrl);
+        mId = id;
+        init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
+        String artistMeta = getReferenceArtist();
+        boolean hasArtistMeta = !TextUtils.isEmpty(artistMeta);
+        sb.setLength(0);
+        if (!TextUtils.isEmpty(album)) {
+            sb.append(album);
+            if (hasArtistMeta)
+                sb.append(" - ");
+        }
+        if (hasArtistMeta)
+            sb.append(artistMeta);
+        if (sb.length() > 0)
+            mDescription = sb.toString();
+    }
+
+    /**
+     * Create a new MediaWrapper
      * @param uri Should not be null.
      */
     public MediaWrapper(Uri uri) {
+        super();
         if (uri == null)
             throw new NullPointerException("uri was null");
 
@@ -104,6 +136,7 @@ public class MediaWrapper implements Parcelable {
      * @param media should be parsed and not NULL
      */
     public MediaWrapper(Media media) {
+        super();
         if (media == null)
             throw new NullPointerException("media was null");
 
@@ -113,6 +146,11 @@ public class MediaWrapper implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        long otherId = ((MediaWrapper)obj).getId();
+        if (otherId != 0 && getId() != 0 && otherId == getId())
+            return true;
         Uri otherUri = ((MediaWrapper)obj).getUri();
         if (mUri == null || otherUri == null)
             return false;
@@ -202,11 +240,11 @@ public class MediaWrapper implements Parcelable {
         mWidth = width;
         mHeight = height;
 
-        mTitle = title;
-        mArtist = artist;
-        mGenre = genre;
-        mAlbum = album;
-        mAlbumArtist = albumArtist;
+        mTitle = title != null ? title.trim() : null;
+        mArtist = artist != null ? artist.trim() : null;
+        mGenre = genre != null ? genre.trim() : null;
+        mAlbum = album != null ? album.trim() : null;
+        mAlbumArtist = albumArtist != null ? albumArtist.trim() : null;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
         mDiscNumber = discNumber;
@@ -220,6 +258,15 @@ public class MediaWrapper implements Parcelable {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
              width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
+    }
+
+    @Override
+    public MediaWrapper[] getTracks(Medialibrary ml) {
+        return new MediaWrapper[] {this};
+    }
+
+    public long getId() {
+        return mId;
     }
 
     public String getLocation() {
@@ -322,8 +369,6 @@ public class MediaWrapper implements Parcelable {
      * Returns the raw picture object. Likely to be NULL in VLC for Android
      * due to lazy-loading.
      *
-     * Use {@link BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
-     *
      * @return The raw picture or NULL
      */
     public Bitmap getPicture() {
@@ -333,9 +378,7 @@ public class MediaWrapper implements Parcelable {
     /**
      * Sets the raw picture object.
      *
-     * In VLC for Android, use {@link MediaDatabase#setPicture(MediaWrapper, Bitmap)} instead.
-     *
-     * @param p
+     * @param p Bitmap picture
      */
     public void setPicture(Bitmap p) {
         mPicture = p;
@@ -456,6 +499,10 @@ public class MediaWrapper implements Parcelable {
         return mArtworkURL;
     }
 
+    public String getArtworkMrl() {
+        return mArtworkURL;
+    }
+
     public void setArtworkURL(String url) {
         mArtworkURL = url;
     }
@@ -495,12 +542,13 @@ public class MediaWrapper implements Parcelable {
     }
 
     public MediaWrapper(Parcel in) {
+        super(in);
         mUri = in.readParcelable(Uri.class.getClassLoader());
         init(in.readLong(),
                 in.readLong(),
                 in.readInt(),
                 (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
-                in.readString(),
+                mTitle,
                 in.readString(),
                 in.readString(),
                 in.readString(),
@@ -518,12 +566,12 @@ public class MediaWrapper implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeParcelable(mUri, flags);
         dest.writeLong(getTime());
         dest.writeLong(getLength());
         dest.writeInt(getType());
         dest.writeParcelable(getPicture(), flags);
-        dest.writeString(getTitle());
         dest.writeString(getArtist());
         dest.writeString(getGenre());
         dest.writeString(getAlbum());

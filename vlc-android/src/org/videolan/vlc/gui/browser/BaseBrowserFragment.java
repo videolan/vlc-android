@@ -36,7 +36,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,18 +47,19 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -362,7 +362,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             @Override
             public void run() {
                 FileUtils.deleteFile(mw.getUri().getPath());
-                MediaDatabase.getInstance().removeMedia(mw.getUri());
+                mMediaLibrary.remove(mw);
             }
         });
     }
@@ -415,20 +415,19 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
-                .RecyclerContextMenuInfo) menuInfo;
-        if (info != null)
-            setContextMenu(getActivity().getMenuInflater(), menu, info.position);
+    protected void inflate(Menu menu, int position) {
+        MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        int type = mw.getType();
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(type == MediaWrapper.TYPE_DIR ? R.menu.directory_view_dir : R.menu.directory_view_file, menu);
     }
 
-    protected void setContextMenu(MenuInflater inflater, Menu menu, int position) {
+    protected void setContextMenuItems(Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
             boolean isEmpty = Util.isListEmpty(mFoldersContentLists.get(position));
-                inflater.inflate(R.menu.directory_view_dir, menu);
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
 //                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
@@ -437,8 +436,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 //                    menu.findItem(R.id.directory_view_hide_media).setVisible(false);
 //                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
 //                }
-                menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
-                menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
+            menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
+            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
             if (this instanceof NetworkBrowserFragment) {
                 MediaDatabase db = MediaDatabase.getInstance();
                 if (db.networkFavExists(mw.getUri())) {
@@ -448,7 +447,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     menu.findItem(R.id.network_add_favorite).setVisible(true);
             }
         } else {
-            inflater.inflate(R.menu.directory_view_file, menu);
             boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
                     (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater());
             menu.findItem(R.id.directory_view_play_all).setVisible(canPlayInList);
@@ -461,15 +459,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
-                .RecyclerContextMenuInfo) item.getMenuInfo();
-        if (info != null && handleContextItemSelected(item, info.position))
-            return true;
-        return super.onContextItemSelected(item);
-    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void openContextMenu(final int position) {
         mRecyclerView.openContextMenu(position);
@@ -479,7 +468,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         int id = item.getItemId();
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
-        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
+        MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri.getPath()) : null;
+        final MediaWrapper mw = mwFromMl != null ? mwFromMl : (MediaWrapper) mAdapter.getItem(position);
         switch (id){
             case R.id.directory_view_play_all:
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -506,8 +497,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             case  R.id.directory_view_info:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
-                i.putExtra("fragment", "mediaInfo");
-                i.putExtra("param", mw.getUri().toString());
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.MEDIA_INFO);
+                i.putExtra(MediaInfoFragment.ITEM_KEY, mw);
                 getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
                 return true;
             case R.id.directory_view_play_audio:

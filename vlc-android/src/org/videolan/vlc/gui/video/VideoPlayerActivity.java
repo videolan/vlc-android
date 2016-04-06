@@ -99,7 +99,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.HWDecoderUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -117,13 +117,12 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.io.ByteArrayInputStream;
@@ -135,7 +134,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
@@ -648,6 +646,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStart() {
         super.onStart();
+        VLCApplication.getMLInstance().pauseBackgroundOperations();
         mHelper.onStart();
         if (mSettings.getBoolean("save_brightness", false)) {
             float brightness = mSettings.getFloat("brightness_value", -1f);
@@ -669,6 +668,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStop() {
         super.onStop();
+        VLCApplication.getMLInstance().resumeBackgroundOperations();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mServiceReceiver);
 
         if (mBtReceiver != null)
@@ -683,18 +683,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         stopPlayback();
 
         SharedPreferences.Editor editor = mSettings.edit();
-        if (mSavedTime != -1) {
-            // Save position
-            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
-                MediaDatabase.getInstance().updateMedia(
-                        mUri,
-                        MediaDatabase.INDEX_MEDIA_TIME,
-                        mSavedTime);
-            } else {
-                // Video file not in media library, store time just for onResume()
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime);
-            }
-        }
+        if (mSavedTime != -1)
+            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime);
 
         editor.putFloat(PreferencesActivity.VIDEO_RATE, mSavedRate);
 
@@ -888,6 +878,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             toggleBtDelay(true);
         mService.setSpuDelay(mSpuDelay);
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void stopPlayback() {
         if (!mPlaybackStarted)
@@ -2928,11 +2919,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
                 mService.stop();
             // restore last position
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
+            Medialibrary ml = VLCApplication.getMLInstance();
+            MediaWrapper media = ml.getMedia(mUri.getPath());
             if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                     mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
                 mUri = FileUtils.convertLocalUri(mUri);
-                media = MediaDatabase.getInstance().getMedia(mUri);
+                media = ml.getMedia(mUri.getPath());
             }
             if (media != null) {
                 // in media library

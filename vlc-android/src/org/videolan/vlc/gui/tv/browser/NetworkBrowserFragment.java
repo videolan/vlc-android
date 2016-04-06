@@ -27,8 +27,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.util.Util;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class NetworkBrowserFragment extends MediaSortedFragment {

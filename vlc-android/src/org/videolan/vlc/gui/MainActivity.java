@@ -64,6 +64,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -89,7 +91,6 @@ import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
@@ -98,7 +99,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends AudioPlayerContainerActivity implements DevicesDiscoveryCb, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -107,12 +108,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private static final int ACTIVITY_RESULT_OPEN = 2;
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
     private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
-    private static final int ACTIVITY_SHOW_PROGRESSBAR = 3;
-    private static final int ACTIVITY_HIDE_PROGRESSBAR = 4;
-    private static final int ACTIVITY_SHOW_TEXTINFO = 5;
+    private static final int ACTIVITY_HIDE_INFOLAYOUT = 3;
+    private static final int ACTIVITY_SHOW_PROGRESSBAR = 4;
+    private static final int ACTIVITY_HIDE_PROGRESSBAR = 5;
+    private static final int ACTIVITY_SHOW_TEXTINFO = 6;
+    private static final int ACTIVITY_UPDATE_PROGRESS = 7;
 
 
-    MediaLibrary mMediaLibrary;
+    Medialibrary mMediaLibrary;
 
     private HackyDrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -123,10 +126,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private TextView mInfoText;
     private int mCurrentFragmentId;
 
-
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
     private boolean mScanNeeded = false;
+    private boolean mParsing = false;
 
     private Handler mHandler = new MainActivityHandler(this);
     private int mActionBarIconId = -1;
@@ -162,13 +165,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         Permissions.checkReadStoragePermission(this, false);
 
-        mMediaLibrary = MediaLibrary.getInstance();
-        if (!mMediaLibrary.isWorking() && mMediaLibrary.getMediaItems().isEmpty()) {
-            if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
-                mMediaLibrary.scanMediaItems();
-            else
-                mMediaLibrary.loadMediaItems();
-        }
+        mMediaLibrary = VLCApplication.getMLInstance();
 
         /*** Start initializing the UI ***/
 
@@ -179,7 +176,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         initAudioPlayerContainerActivity();
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mCurrentFragmentId = savedInstanceState.getInt("current");
             if (mCurrentFragmentId > 0)
                 mNavigationView.setCheckedItem(mCurrentFragmentId);
@@ -196,7 +193,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         /* Set up the sidebar click listener
          * no need to invalidate menu for now */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -210,8 +207,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if(mNavigationView.requestFocus())
-                    ((NavigationMenuView)mNavigationView.getFocusedChild()).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+                if (mNavigationView.requestFocus())
+                    ((NavigationMenuView) mNavigationView.getFocusedChild()).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
             }
         };
 
@@ -236,6 +233,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         /* Reload the latest preferences */
         reloadPreferences();
+        mScanNeeded = mSettings.getBoolean("auto_rescan", true);
     }
 
     private void setupNavigationView() {
@@ -255,9 +253,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             case Permissions.PERMISSION_STORAGE_TAG:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
-                else
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mMediaLibrary.init();
+                    ((VLCApplication) VLCApplication.getAppContext()).discoverStorages(mMediaLibrary);
+                } else
                     Permissions.showStoragePermissionDialog(this, false);
                 break;
             // other 'case' lines to check for other
@@ -286,14 +285,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
           //Deactivated for now
 //        createExtensionServiceConnection();
 
-        mNavigationView.setNavigationItemSelectedListener(this);
         clearBackstackFromClass(ExtensionBrowser.class);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mNavigationView.setNavigationItemSelectedListener(null);
         if (mExtensionServiceConnection != null) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
@@ -358,10 +355,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     @Override
     protected void onResume() {
         super.onResume();
+        mMediaLibrary.addDeviceDiscoveryCb(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         /* Load media items from database and storage */
-        if (mScanNeeded)
-            mMediaLibrary.scanMediaItems();
+        if (mScanNeeded && Permissions.canReadStorage())
+            mMediaLibrary.reload();
         if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
             mActionBar.hide();
         mNavigationView.setCheckedItem(mCurrentFragmentId);
@@ -403,11 +402,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     @Override
     protected void onPause() {
         super.onPause();
+        mMediaLibrary.removeDeviceDiscoveryCb(this);
+        mNavigationView.setNavigationItemSelectedListener(null);
         if (getChangingConfigurations() == 0) {
             /* Check for an ongoing scan that needs to be resumed during onResume */
             mScanNeeded = mMediaLibrary.isWorking();
-            /* Stop scanning for files */
-            mMediaLibrary.stop();
         }
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
@@ -673,7 +672,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             if(current != null && current instanceof IRefreshable)
                 ((IRefreshable) current).refresh();
             else
-                mMediaLibrary.scanMediaItems(true);
+                mMediaLibrary.reload();
         }
     }
 
@@ -685,7 +684,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 for (Fragment fragment : getSupportFragmentManager().getFragments())
                     if (fragment instanceof MediaBrowserFragment)
                         ((MediaBrowserFragment) fragment).clear();
-                mMediaLibrary.scanMediaItems(true);
+                mMediaLibrary.reload();
             } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 finish();
@@ -772,6 +771,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 case ACTIVITY_SHOW_INFOLAYOUT:
                     ma.mInfoLayout.setVisibility(View.VISIBLE);
                     break;
+                case ACTIVITY_HIDE_INFOLAYOUT:
+                    removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
+                    ma.mInfoLayout.setVisibility(View.GONE);
+                    break;
                 case ACTIVITY_SHOW_PROGRESSBAR:
                     ma.mInfoProgress.setVisibility(View.VISIBLE);
                     ma.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -780,13 +783,18 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     ma.mInfoProgress.setVisibility(View.GONE);
                     ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     break;
-                case ACTIVITY_SHOW_TEXTINFO:
-                    String info = (String) msg.obj;
+                case ACTIVITY_UPDATE_PROGRESS:
+                    ma.mInfoProgress.setVisibility(View.VISIBLE);
+                    ma.mInfoLayout.setVisibility(View.VISIBLE);
                     int max = msg.arg1;
                     int progress = msg.arg2;
-                    ma.mInfoText.setText(info);
                     ma.mInfoProgress.setMax(max);
                     ma.mInfoProgress.setProgress(progress);
+                    ma.mInfoText.setText("");
+                    break;
+                case ACTIVITY_SHOW_TEXTINFO:
+                    String info = (String) msg.obj;
+                    ma.mInfoText.setText(info);
 
                     if (info == null) {
                     /* Cancel any upcoming visibility change */
@@ -816,6 +824,29 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     public void clearTextInfo() {
         mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, 0, 100, null).sendToTarget();
+    }
+
+    @Override
+    public void onDiscoveryStarted(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryProgress(String entryPoint) {
+        mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, entryPoint).sendToTarget();
+    }
+
+    @Override
+    public void onDiscoveryCompleted(String entryPoint) {
+        if (!mParsing)
+            mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
+    }
+
+    @Override
+    public void onParsingStatsUpdated(int percent) {
+        mParsing = percent < 100;
+        if (mParsing)
+            mHandler.obtainMessage(ACTIVITY_UPDATE_PROGRESS, 100, percent).sendToTarget();
+        else
+            mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
     }
 
     protected void onPanelClosedUiSet() {
@@ -888,8 +919,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
                 /* Switch the fragment */
                     Fragment fragment = getFragment(id);
-                    if (fragment instanceof MediaBrowserFragment)
-                        ((MediaBrowserFragment)fragment).setReadyToDisplay(false);
                     FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.fragment_placeholder, fragment, tag);
                     ft.addToBackStack(getTag(mCurrentFragmentId));

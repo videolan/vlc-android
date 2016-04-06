@@ -21,5 +21,5 @@
 package org.videolan.vlc.interfaces;
 
 public interface IRefreshable {
-    public void refresh();
+    void refresh();
 }

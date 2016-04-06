@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
         android:src="@drawable/background_cone"/>
-    <ListView
+    <org.videolan.vlc.gui.view.ContextMenuRecyclerView
         android:id="@+id/songs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

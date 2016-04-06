@@ -34,7 +34,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -73,7 +73,7 @@ public class FileUtils {
     }
 
     public static String getParent(String path){
-        if (TextUtils.equals("/", path))
+        if (path == null || TextUtils.equals("/", path))
             return path;
         String parentPath = path;
         if (parentPath.endsWith("/"))

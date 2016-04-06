@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="android.view.View"/>
-        <variable name="item" type="org.videolan.vlc.gui.audio.AudioBrowserListAdapter.ListItem"/>
+        <variable name="item" type="org.videolan.medialibrary.media.DummyItem"/>
     </data>
     <LinearLayout
         android:id="@+id/layout_item"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="15dip"
+        android:layout_marginBottom="10dip" >
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:layout_marginTop="10dip"
             android:singleLine="true"
-            android:text="@{item.mTitle}"
+            android:text="@{item.title}"
             android:textColor="?attr/audio_browser_separator"
             android:textSize="20sp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:background="?attr/audio_browser_separator" />
+        <!--<View-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="2dip"-->
+            <!--android:background="?attr/audio_browser_separator" />-->
 
     </LinearLayout>
 </layout>

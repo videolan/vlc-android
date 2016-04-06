@@ -36,6 +36,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
 
@@ -1162,7 +1163,7 @@ public class MediaDatabase {
     }
 
     public synchronized ArrayList<String> getMrlhistory() {
-        ArrayList<String> history = new ArrayList<String>();
+        ArrayList<String> history = new ArrayList<>();
 
         Cursor cursor = mDb.query(MRL_TABLE_NAME,
                 new String[] { MRL_URI },
@@ -1186,55 +1187,6 @@ public class MediaDatabase {
 
     public synchronized void clearMrlHistory() {
         mDb.delete(MRL_TABLE_NAME, null, null);
-    }
-
-    /**
-     * Playback history management
-     */
-
-    public synchronized void addHistoryItem(MediaWrapper mw) {
-        // set the format to sql date time
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        Date date = new Date();
-        ContentValues values = new ContentValues();
-        values.put(HISTORY_URI, mw.getUri().toString());
-        values.put(HISTORY_TITLE, mw.getTitle());
-        values.put(HISTORY_ARTIST, mw.getArtist());
-        values.put(HISTORY_TYPE, mw.getType());
-        values.put(HISTORY_DATE, dateFormat.format(date));
-
-        mDb.replace(HISTORY_TABLE_NAME, null, values);
-    }
-
-    public synchronized ArrayList<MediaWrapper> getHistory() {
-        ArrayList<MediaWrapper> history = new ArrayList<>();
-
-        Cursor cursor = mDb.query(HISTORY_TABLE_NAME,
-                new String[] { HISTORY_URI , HISTORY_TITLE, HISTORY_ARTIST, HISTORY_TYPE, HISTORY_DATE},
-                null, null, null, null,
-                HISTORY_DATE + " DESC",
-                HISTORY_TABLE_SIZE);
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                MediaWrapper mw = new MediaWrapper(Uri.parse(cursor.getString(0)));
-                mw.setDisplayTitle(cursor.getString(1));
-                mw.setArtist(cursor.getString(2));
-                mw.setType(cursor.getInt(3));
-                history.add(mw);
-            }
-            cursor.close();
-        }
-
-        return history;
-    }
-
-    public synchronized void deleteHistoryUri(String uri) {
-        mDb.delete(HISTORY_TABLE_NAME, HISTORY_URI + "=?", new String[]{uri});
-    }
-
-    public synchronized void clearHistory() {
-        mDb.delete(HISTORY_TABLE_NAME, null, null);
     }
 
 

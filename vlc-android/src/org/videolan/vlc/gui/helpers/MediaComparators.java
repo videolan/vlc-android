@@ -19,7 +19,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.helpers;
 
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.util.Comparator;
 

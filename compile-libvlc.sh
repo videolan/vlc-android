@@ -732,6 +732,158 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
 
 checkfail "ndk-build failed for private libs"
 
+################
+# MEDIALIBRARY #
+################
+
+if [ ! -d "${SRC_DIR}/medialibrary" ]; then
+    mkdir "${SRC_DIR}/medialibrary"
+fi
+
+##########
+# SQLITE #
+##########
+
+MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
+MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
+OUT_LIB_DIR=$MEDIALIBRARY_MODULE_DIR/jni/libs/${ANDROID_ABI}
+SQLITE_RELEASE="sqlite-autoconf-3120200"
+
+if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
+    echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
+    cd ${MEDIALIBRARY_MODULE_DIR}
+    wget https://www.sqlite.org/2016/${SQLITE_RELEASE}.tar.gz
+    tar -xzf ${SQLITE_RELEASE}.tar.gz
+fi
+cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
+if [ ! -d build ]; then
+    mkdir build;
+fi;
+cd build;
+if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
+../bootstrap
+../configure \
+    --host=$TARGET_TUPLE \
+    --disable-shared \
+    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
+    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CC="clang" \
+    CXX="clang++"
+fi
+
+make $MAKEFLAGS
+
+cd ${SRC_DIR}
+checkfail "sqlite build failed"
+
+##############################
+# FETCH MEDIALIBRARY SOURCES #
+##############################
+
+if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
+    echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
+    git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
+    checkfail "medialibrary source: git clone failed"
+fi
+
+if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/libvlcpp" ]; then
+    echo -e "\e[1m\e[32mlibvlcpp source not found, cloning\e[0m"
+    git clone http://code.videolan.org/videolan/libvlcpp.git "${MEDIALIBRARY_MODULE_DIR}/libvlcpp"
+    checkfail "libvlcpp source: git clone failed"
+fi
+
+echo -e "\e[1m\e[36mCFLAGS:            ${CFLAGS}\e[0m"
+echo -e "\e[1m\e[36mEXTRA_CFLAGS:      ${EXTRA_CFLAGS}\e[0m"
+
+#################
+# Setup folders #
+#################
+
+
+#############
+# CONFIGURE #
+#############
+
+cd ${MEDIALIBRARY_BUILD_DIR}
+
+sed "s#@prefix@#${MEDIALIBRARY_MODULE_DIR}/libvlcpp#g" $SRC_DIR/pkgs/libvlcpp.pc.in > \
+    $SRC_DIR/pkgs/libvlcpp.pc;
+sed "s#@libdir@#$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI#g" $SRC_DIR/pkgs/libvlc.pc.in > \
+    $SRC_DIR/pkgs/libvlc.pc;
+sed -i "s#@includedirs@#-I${SRC_DIR}/vlc/include \
+-I${SRC_DIR}/vlc/build-android-$TARGET_TUPLE/include#g" $SRC_DIR/pkgs/libvlc.pc;
+
+if [ ! -d build-android ]; then
+    mkdir build-android;
+fi;
+cd build-android;
+
+if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
+../bootstrap
+../configure \
+    --host=$TARGET_TUPLE \
+    --disable-shared \
+    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
+    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CC="clang" \
+    CXX="clang++" \
+    NM="${CROSS_TOOLS}nm" \
+    STRIP="${CROSS_TOOLS}strip" \
+    RANLIB="${CROSS_TOOLS}ranlib" \
+    PKG_CONFIG_LIBDIR="$SRC_DIR/pkgs/" \
+    LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
+    LIBJPEG_CFLAGS="-I$SRC_DIR/vlc/contrib/$TARGET_TUPLE/include/" \
+    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build/.libs -lsqlite3" \
+    SQLITE_CFLAGS="-I$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE" \
+    AR="${CROSS_TOOLS}ar"
+checkfail "medialibrary: autoconf failed"
+fi
+
+############
+# BUILDING #
+############
+
+echo -e "\e[1m\e[32mBuilding medialibrary\e[0m"
+make $MAKEFLAGS
+
+checkfail "medialibrary: make failed"
+
+cd ${SRC_DIR}
+
+echo -e "ndk-build medialibrary"
+
+$ANDROID_NDK/ndk-build -C medialibrary \
+    APP_STL="c++_shared" \
+    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
+    APP_BUILD_SCRIPT=jni/Android.mk \
+    APP_PLATFORM=android-${ANDROID_API} \
+    APP_ABI=${ANDROID_ABI} \
+    LOCAL_CPP_FEATURES="exceptions" \
+    TARGET_TUPLE=$TARGET_TUPLE \
+    NDK_PROJECT_PATH=jni \
+    NDK_TOOLCHAIN_VERSION=clang \
+    NDK_DEBUG=${NDK_DEBUG} \
+    VLC_LIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc" \
+    MEDIALIBRARY_LIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android/.libs -lmedialibrary" \
+    LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
+    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build/.libs -lsqlite3" \
+    MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
+    SQLITE3_DIR=${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}/build/.libs
+
+checkfail "ndk-build failed"
+
+cd ${SRC_DIR}
+
+if [ ! -d $OUT_LIB_DIR ]; then
+    mkdir -p $OUT_LIB_DIR
+fi
+
+if [ "$RELEASE" = 1 ]; then
+    echo -e "\e[1m\e[32mStripping\e[0m"
+    ${CROSS_TOOLS}strip ${OUT_LIB_DIR}/*.so
+    checkfail "stripping"
+fi
+
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
 
@@ -740,3 +892,4 @@ echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 mkdir -p $OUT_DBG_DIR
 cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 cp -a libvlc/private_libs/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}

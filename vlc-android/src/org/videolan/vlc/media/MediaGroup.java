@@ -23,6 +23,7 @@ package org.videolan.vlc.media;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 
@@ -86,8 +87,15 @@ public class MediaGroup extends MediaWrapper {
         this.mTitle = title;
     }
 
+    public static List<MediaGroup> group(MediaWrapper[] mediaList) {
+        ArrayList<MediaGroup> groups = new ArrayList<>();
+        for (MediaWrapper media : mediaList)
+            insertInto(groups, media);
+        return groups;
+    }
+
     public static List<MediaGroup> group(List<MediaWrapper> mediaList) {
-        ArrayList<MediaGroup> groups = new ArrayList<MediaGroup>();
+        ArrayList<MediaGroup> groups = new ArrayList<>();
         for (MediaWrapper media : mediaList)
             insertInto(groups, media);
         return groups;

@@ -27,7 +27,6 @@ import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -43,13 +43,13 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Map;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> {
 
@@ -94,6 +94,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         MediaWrapper media = getItem(position);
         if (media == null)
             return;
+        holder.binding.setVariable(BR.cover, null);
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
         fillView(holder, media);
 
@@ -102,19 +103,24 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     @MainThread
-    public void setTimes(ArrayMap<String, Long> times) {
-        boolean notify = false;
+    public void setTimes( Map<Long, Long> times) {
         // update times
         for (int i = 0; i < getItemCount(); ++i) {
             MediaWrapper media = mVideos.get(i);
-            Long time = times.get(media.getLocation());
-            if (time != null) {
+            Long time = times.get(media.getId());
+            if (time != null && time != media.getTime()) {
                 media.setTime(time);
-                notify = true;
+                notifyItemChanged(getPosition(media));
             }
         }
-        if (notify)
-            notifyDataSetChanged();
+    }
+
+    private int getPosition(MediaWrapper media) {
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (media.equals(getItem(i)))
+                return i;
+        }
+        return -1;
     }
 
     public void sort() {
@@ -262,7 +268,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
             } else {
                 media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                VideoPlayerActivity.start(v.getContext(), media.getUri(), media.getTitle());
+                MediaUtils.openMedia(itemView.getContext(), media);
             }
         }
 

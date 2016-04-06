@@ -33,23 +33,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
-import org.videolan.vlc.interfaces.IAudioClickHandler;
-import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
-public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
+public class AlbumAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<MediaWrapper> mMediaList;
 
     private ContextPopupMenuListener mContextPopupMenuListener;
 
-    public AlbumAdapter(Context context, ArrayList<MediaWrapper> tracks) {
+    public AlbumAdapter(Context context, MediaWrapper[] tracks) {
         mContext = context;
         addAll(tracks);
     }
@@ -68,12 +68,7 @@ public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
             v.setTag(R.layout.audio_browser_item, holder);
         } else
             holder = (ViewHolder) v.getTag(R.layout.audio_browser_item);
-
-        holder.binding.setPosition(position);
-        holder.binding.setMedia(mw);
-        holder.binding.setHasFooter(position != mMediaList.size() - 1);
-        holder.binding.setClickable(mContextPopupMenuListener != null);
-        holder.binding.setHandler(this);
+        holder.binding.setItem(mw);
         holder.binding.executePendingBindings();
         return v;
     }
@@ -111,10 +106,10 @@ public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
             return null;
     }
 
-    public void addAll(ArrayList<MediaWrapper> tracks){
+    public void addAll(MediaWrapper[] tracks){
         if (tracks != null) {
-            Collections.sort(tracks, MediaComparators.byTrackNumber);
-            mMediaList = new ArrayList<>(tracks);
+            mMediaList = new ArrayList<>(Arrays.asList(tracks));
+            Collections.sort(mMediaList, MediaComparators.byTrackNumber);
             notifyDataSetChanged();
         }
     }
@@ -123,12 +118,6 @@ public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
     public void unregisterDataSetObserver(DataSetObserver observer) {
         if (observer != null)
             super.unregisterDataSetObserver(observer);
-    }
-
-    @Override
-    public void onMoreClick(View v) {
-        if (mContextPopupMenuListener != null)
-                mContextPopupMenuListener.onPopupMenu(v, ((Integer) v.getTag()).intValue());
     }
 
     public void clear() {

@@ -23,6 +23,8 @@ package org.videolan.vlc.media;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import org.videolan.medialibrary.media.MediaWrapper;
+
 import java.util.ArrayList;
 
 public class MediaWrapperList {

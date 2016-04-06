@@ -25,27 +25,23 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.os.Bundle;
 
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.vlc.VLCApplication;
 
 import java.util.concurrent.CyclicBarrier;
 
 public abstract class MediaLibBrowserFragment extends GridFragment {
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
-    protected MediaWrapper mItemToUpdate;
-    protected MediaLibrary mMediaLibrary;
+    protected Medialibrary mMediaLibrary;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary = VLCApplication.getMLInstance();
     }
 
     public void onResume() {
         super.onResume();
-        if (mMediaLibrary.isWorking())
-            MediaUtils.actionScanStart();
     }
 
     public void onPause() {
@@ -55,7 +51,7 @@ public abstract class MediaLibBrowserFragment extends GridFragment {
 
     public void refresh() {
         if (!mMediaLibrary.isWorking())
-            mMediaLibrary.scanMediaItems(true);
+            mMediaLibrary.reload();
     }
 
     public void updateList() {}

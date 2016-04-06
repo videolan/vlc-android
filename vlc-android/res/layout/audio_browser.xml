@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/artists_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -48,7 +48,7 @@
                 android:nextFocusLeft="@id/artists_list"
                 android:nextFocusRight="@+id/albums_list"
                 style="@style/Theme.VLC.List" />
-            <ListView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/albums_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -63,7 +63,7 @@
                 android:nextFocusLeft="@id/artists_list"
                 android:nextFocusRight="@+id/songs_list"
                 style="@style/Theme.VLC.List" />
-            <ListView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/songs_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -78,7 +78,7 @@
                 android:nextFocusLeft="@id/albums_list"
                 android:nextFocusRight="@+id/genres_list"
                 style="@style/Theme.VLC.List" />
-            <ListView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/genres_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -93,7 +93,7 @@
                 android:nextFocusLeft="@id/songs_list"
                 android:nextFocusRight="@+id/playlists_list"
                 style="@style/Theme.VLC.List" />
-            <ListView
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/playlists_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"

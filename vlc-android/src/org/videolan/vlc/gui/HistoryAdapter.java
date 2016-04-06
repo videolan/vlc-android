@@ -25,14 +25,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.ListItemBinding;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
@@ -61,8 +60,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
     }
 
-    public void setList(ArrayList<MediaWrapper> list) {
-        mMediaList = list;
+    public void setList(MediaWrapper[] list) {
+        mMediaList = new ArrayList<>(Arrays.asList(list));
         notifyDataSetChanged();
     }
 
@@ -95,23 +94,25 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public void clear() {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                MediaDatabase.getInstance().clearHistory();
-            }
-        });
+//        VLCApplication.runBackground(new Runnable() {
+//            @Override
+//            public void run() {
+                //TODO
+                //MediaDatabase.getInstance().clearHistory();
+//            }
+//        });
         mMediaList.clear();
         notifyDataSetChanged();
     }
 
     public void remove(final int position) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                MediaDatabase.getInstance().deleteHistoryUri(mMediaList.get(position).getUri().toString());
-            }
-        });
+//        VLCApplication.runBackground(new Runnable() {
+//            @Override
+//            public void run() {
+                //TODO
+                //MediaDatabase.getInstance().deleteHistoryUri(mMediaList.get(position).getUri().toString());
+//            }
+//        });
         mMediaList.remove(position);
         notifyItemRemoved(position);
     }

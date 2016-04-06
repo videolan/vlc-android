@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,9 +29,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -48,30 +46,31 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
+import org.videolan.medialibrary.interfaces.MediaAddedCb;
+import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.interfaces.IVideoBrowser;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.media.MediaWrapper;
-import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class VideoGridFragment extends MediaBrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -83,11 +82,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     protected View mViewNomedia;
     protected String mGroup;
 
+    private Handler mHandler = new Handler();
     private VideoListAdapter mVideoAdapter;
-    private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
-
-    private MainActivity mMainActivity;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
@@ -100,10 +97,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
         if (savedInstanceState != null)
             setGroup(savedInstanceState.getString(KEY_GROUP));
-        /* Load the thumbnailer */
-        FragmentActivity activity = getActivity();
-        if (activity != null)
-            mThumbnailer = new Thumbnailer();
     }
 
     @Override
@@ -126,20 +119,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         return v;
     }
 
-    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            int topRowVerticalPosition =
-                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
-        }
-    };
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -158,38 +137,35 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mMediaLibrary.setBrowser(null);
-        mMediaLibrary.removeUpdateHandler(mHandler);
-
-        /* Stop the thumbnailer */
-        if (mThumbnailer != null)
-            mThumbnailer.stop();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() instanceof MainActivity)
-            mMainActivity = (MainActivity) getActivity();
-        mMediaLibrary.setBrowser(this);
-        mMediaLibrary.addUpdateHandler(mHandler);
-        final boolean refresh = mVideoAdapter.isEmpty() && !mMediaLibrary.isWorking();
+        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
+        mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
+        final boolean isWorking = mMediaLibrary.isWorking();
+        mMediaLibrary.addDeviceDiscoveryCb(this);
+        final boolean refresh = mVideoAdapter.isEmpty();
         // We don't animate while medialib is scanning. Because gridview is being populated.
         // That would lead to graphical glitches
-        final boolean animate = mGroup == null && refresh;
+        final boolean animate = mGroup == null && refresh && !mMediaLibrary.isWorking();
         if (refresh)
             updateList();
         else {
-            mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+            mViewNomedia.setVisibility(mVideoAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+            if (!isWorking)
+                updateTimes();
         }
-        //Get & set times
-        ArrayMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
-        mVideoAdapter.setTimes(times);
+
         updateViewMode();
         if (animate)
             mAnimator.animate();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMediaLibrary.removeDeviceDiscoveryCb(this);
+        mMediaLibrary.removeMediaUpdatedCb();
+        mMediaLibrary.removeMediaAddedCb();
     }
 
     @Override
@@ -207,8 +183,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mThumbnailer != null)
-            mThumbnailer.clearJobs();
         mVideoAdapter.clear();
     }
 
@@ -217,6 +191,24 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             return getString(R.string.video);
         else
             return mGroup + "\u2026";
+    }
+
+    private void updateTimes() {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                MediaWrapper[] videos = mMediaLibrary.getVideos();
+                final Map<Long, Long> times = new HashMap<>(videos.length);
+                for (MediaWrapper mw : videos)
+                    times.put(mw.getId(), mw.getTime());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.setTimes(times);
+                    }
+                });
+            }
+        });
     }
 
     private void updateViewMode() {
@@ -240,7 +232,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         } else {
             mGridView.setNumColumns(1);
         }
-        mVideoAdapter.setListMode(listMode);
+        if (mVideoAdapter.isListMode() != listMode)
+            mVideoAdapter.setListMode(listMode);
     }
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
@@ -255,7 +248,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         }
     }
 
-    private boolean handleContextItemSelected(MenuItem menu, final int position) {
+    protected boolean handleContextItemSelected(MenuItem menu, final int position) {
         if (position >= mVideoAdapter.getItemCount())
             return false;
         final MediaWrapper media = mVideoAdapter.getItem(position);
@@ -286,15 +279,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 MediaUtils.openList(getActivity(), playList, position+offset);
                 return true;
             case R.id.video_list_info:
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity)
-                    ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.MEDIA_INFO, media.getLocation());
-                else {
-                    Intent i = new Intent(activity, SecondaryActivity.class);
-                    i.putExtra("fragment", "mediaInfo");
-                    i.putExtra("param", media.getLocation());
-                    startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
-                }
+                Intent i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.MEDIA_INFO);
+                i.putExtra(MediaInfoFragment.ITEM_KEY, media);
+                startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
                 return true;
             case R.id.video_list_delete:
                 mVideoAdapter.remove(position);
@@ -368,93 +356,59 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem menu) {
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-        return info != null && handleContextItemSelected(menu, info.position);
+    public void onMediaUpdated(final MediaWrapper[] mediaList) {
+        updateItems(mediaList);
     }
 
-    /**
-     * Handle changes on the list
-     */
-    private Handler mHandler = new VideoListHandler(this);
-
-    public void updateItem(MediaWrapper item) {
-        if (item.getType() != MediaWrapper.TYPE_VIDEO)
-            return;
-        mVideoAdapter.update(item);
-        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+    @Override
+    public void onMediaAdded(final MediaWrapper[] mediaList) {
+        updateItems(mediaList);
     }
 
+    public void updateItems(final MediaWrapper[] mediaList) {
+        for (final MediaWrapper mw : mediaList)
+            if (mw != null && mw.getType() == MediaWrapper.TYPE_VIDEO)
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.update(mw);
+                        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+                    }
+                });
+    }
+
+    @MainThread
     public void updateList() {
         if (!mSwipeRefreshLayout.isRefreshing())
             mSwipeRefreshLayout.setRefreshing(true);
-        final List<MediaWrapper> itemList = mMediaLibrary.getVideoItems();
 
-        if (itemList.size() > 0) {
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    final ArrayList<MediaWrapper> displayList = new ArrayList<>();
-                    final ArrayList<MediaWrapper> jobsList = new ArrayList<>();
-                    if (mGroup != null || itemList.size() <= 10) {
-                        for (MediaWrapper item : itemList) {
-                            String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                            if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
-                                displayList.add(item);
-                                jobsList.add(item);
-                        }
-                    } else {
-                        List<MediaGroup> groups = MediaGroup.group(itemList);
-                        for (MediaGroup item : groups) {
-                            displayList.add(item.getMedia());
-                            for (MediaWrapper media : item.getAll())
-                                jobsList.add(media);
-                        }
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final MediaWrapper[] itemList = mMediaLibrary.getVideos();
+                final ArrayList<MediaWrapper> displayList = new ArrayList<>();
+                if (mGroup != null || itemList.length <= 10) {
+                    for (MediaWrapper item : itemList) {
+                        String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+                        if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
+                            displayList.add(item);
                     }
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mVideoAdapter.clear();
-                            mVideoAdapter.addAll(displayList);
-                            if (mReadyToDisplay)
-                                display();
-                        }
-                    });
-                    if (mThumbnailer != null && !jobsList.isEmpty()) {
-                        mThumbnailer.clearJobs();
-                        mThumbnailer.start(VideoGridFragment.this);
-                        for (MediaWrapper item : jobsList)
-                            mThumbnailer.addJob(item);
-                    }
+                } else {
+                    for (MediaGroup item : MediaGroup.group(itemList))
+                        displayList.add(item.getMedia());
                 }
-            });
-        }
-        stopRefresh();
-    }
 
-    @Override
-    public void showProgressBar() {
-        if (mMainActivity != null)
-            mMainActivity.showProgressBar();
-    }
-
-    @Override
-    public void hideProgressBar() {
-        if (mMainActivity != null)
-            mMainActivity.hideProgressBar();
-    }
-
-    @Override
-    public void clearTextInfo() {
-        if (mMainActivity != null)
-            mMainActivity.clearTextInfo();
-    }
-
-    @Override
-    public void sendTextInfo(String info, int progress, int max) {
-        if (mMainActivity != null)
-            mMainActivity.sendTextInfo(info, progress, max);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.clear();
+                        mVideoAdapter.addAll(displayList);
+                        if (mReadyToDisplay)
+                            display();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -467,28 +421,23 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         return mVideoAdapter.sortDirection(sortby);
     }
 
-    public void setItemToUpdate(MediaWrapper item) {
-        if (mVideoAdapter.contains(item))
-            mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
-        else // Update group item when its first element is updated
-            for (int i = 0; i < mVideoAdapter.getItemCount(); ++i) {
-                if (mVideoAdapter.getItem(i) instanceof MediaGroup &&
-                        ((MediaGroup)mVideoAdapter.getItem(i)).getFirstMedia().equals(item)) {
-                    final int position = i;
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mVideoAdapter.notifyItemChanged(position);
-                        }
-                    });
-                    return;
-                }
-            }
-    }
-
     public void setGroup(String prefix) {
         mGroup = prefix;
     }
+
+    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            int topRowVerticalPosition =
+                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+        }
+    };
 
     private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {
         @Override
@@ -509,8 +458,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
     @Override
     public void onRefresh() {
-        if (getActivity()!=null && !MediaLibrary.getInstance().isWorking())
-            MediaLibrary.getInstance().scanMediaItems(true);
+        if (getActivity() != null && !VLCApplication.getMLInstance().isWorking()) {
+            VLCApplication.getMLInstance().reload();
+        }
     }
 
     @Override
@@ -519,6 +469,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    stopRefresh();
                     mVideoAdapter.notifyDataSetChanged();
                     mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                     mReadyToDisplay = true;
@@ -535,16 +486,52 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
+                mMediaLibrary.remove(media);
                 FileUtils.deleteFile(media.getUri().getPath());
-                MediaDatabase.getInstance().removeMedia(media.getUri());
             }
         });
-        mMediaLibrary.getMediaItems().remove(media);
         if (mService != null) {
             final List<String> list = mService.getMediaLocations();
             if (list != null && list.contains(media.getLocation())) {
                 mService.removeLocation(media.getLocation());
             }
         }
+    }
+
+    boolean mParsing = false;
+    @Override
+    public void onDiscoveryStarted(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryProgress(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryCompleted(String entryPoint) {
+        if (!mParsing && mSwipeRefreshLayout.isRefreshing())
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateList();
+                }
+            });
+    }
+
+    @Override
+    public void onParsingStatsUpdated(int percent) {
+        mParsing = percent < 100;
+        if (percent == 100)
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateList();
+                }
+            });
+        else if (!mSwipeRefreshLayout.isRefreshing())
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
     }
 }

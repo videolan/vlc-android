@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
@@ -41,10 +42,6 @@ import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.vlc.media.MediaWrapper;
-
-import java.util.ArrayList;
 
 public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -106,7 +103,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                MediaLibrary.getInstance().scanMediaItems(true);
+                VLCApplication.getMLInstance().reload();
             }
         }
     }
@@ -137,8 +134,9 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
                 : VideoListAdapter.SORT_BY_LENGTH);
                 break;
             case R.id.ml_menu_refresh:
-                if (!MediaLibrary.getInstance().isWorking())
-                    MediaLibrary.getInstance().scanMediaItems(true);
+                Medialibrary ml = VLCApplication.getMLInstance();
+                if (!ml.isWorking())
+                    ml.reload();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -146,22 +144,24 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
     public void fetchSecondaryFragment(String id) {
         if (id.equals(ALBUMS_SONGS)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUMS_SONGS);
-            String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumsSongsFragment();
-            ((AudioAlbumsSongsFragment) mFragment).setMediaList(mediaList, filter);
+            Bundle args = new Bundle();
+            args.putParcelable(AudioAlbumsSongsFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioAlbumsSongsFragment.TAG_ITEM));
+            mFragment.setArguments(args);
         } else if(id.equals(ALBUM)) {
-            ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(ALBUM);
-            String filter = getIntent().getStringExtra(KEY_FILTER);
             mFragment = new AudioAlbumFragment();
-            ((AudioAlbumFragment) mFragment).setMediaList(mediaList, filter);
+            Bundle args = new Bundle();
+            args.putParcelable(AudioAlbumFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioAlbumFragment.TAG_ITEM));
+            mFragment.setArguments(args);
         } else if(id.equals(EQUALIZER)) {
             mFragment = new EqualizerFragment();
         } else if(id.equals(ABOUT)) {
             mFragment = new AboutFragment();
         } else if(id.equals(MEDIA_INFO)) {
             mFragment = new MediaInfoFragment();
-            ((MediaInfoFragment)mFragment).setMediaLocation(getIntent().getStringExtra("param"));
+            Bundle args = new Bundle();
+            args.putParcelable(MediaInfoFragment.ITEM_KEY, getIntent().getParcelableExtra(MediaInfoFragment.ITEM_KEY));
+            mFragment.setArguments(args);
         } else if(id.equals(VIDEO_GROUP_LIST)) {
             mFragment = new VideoGridFragment();
             ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
