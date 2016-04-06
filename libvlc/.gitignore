@@ -5,10 +5,4 @@ obj/
 jni/libvlcjni-modules.c
 jni/libvlcjni-symbols.c
 .settings
-#QtCreator
-*.config
-*.creator
-*.creator.user
-*.files
-*.includes
 

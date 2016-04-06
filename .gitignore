@@ -2,6 +2,9 @@
 /vlc/
 /toolchains/
 
+#medialibrary
+medialibrary/
+
 # Android .so
 /android-libs/**/*.so
 .modules/
@@ -35,6 +38,13 @@ java-libs/appcompat/.project
 .idea
 *.iml
 
+#Qt Creator
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
+
 #gradle
 gradle.properties
 gradlew.bat
@@ -45,3 +55,8 @@ build/
 vlc-android/build/
 java-libs/WheelView/build/
 libVLC/build/
+
+#medialibrary build
+libvlc.pc
+libvlcpp.pc
+lib/
