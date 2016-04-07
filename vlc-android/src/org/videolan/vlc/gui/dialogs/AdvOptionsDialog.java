@@ -86,6 +86,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_EQUALIZER = 7 ;
     private static final int ID_SAVE_PLAYLIST = 8 ;
     private static final int ID_POPUP_VIDEO = 9 ;
+    private static final int ID_REPEAT = 10 ;
 
     private Activity mActivity;
     private int mTheme;
@@ -101,6 +102,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private TextView mAudioDelay;
     private TextView mSpuDelay;
+
+    private TextView mRepeat;
 
     private TextView mChaptersTitle;
     private int mTextColor;
@@ -318,6 +321,41 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     }
 
+    public void initRepeat() {
+        switch (mService.getRepeatType()) {
+            case PlaybackService.REPEAT_NONE:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
+                        UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
+                        0, 0);
+                break;
+            case PlaybackService.REPEAT_ALL:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
+                break;
+            case PlaybackService.REPEAT_ONE:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
+                    break;
+        }
+    }
+
+    public void setRepeatMode() {
+        switch (mService.getRepeatType()) {
+            case PlaybackService.REPEAT_NONE:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
+                mService.setRepeatType(PlaybackService.REPEAT_ONE);
+                break;
+            case PlaybackService.REPEAT_ONE:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
+                mService.setRepeatType(PlaybackService.REPEAT_ALL);
+                break;
+            case PlaybackService.REPEAT_ALL:
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
+                        UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
+                        0, 0);
+                mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                break;
+        }
+    }
+
     private void initChapters() {
         final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
 
@@ -362,6 +400,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_SPU_DELAY:
                 mSpuDelay = tv;
                 initSpuDelay();
+                break;
+            case ID_REPEAT:
+                mRepeat = tv;
+                initRepeat();
                 break;
         }
     }
@@ -415,6 +457,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_SAVE_PLAYLIST:
                 showFragment(ID_SAVE_PLAYLIST);
                 break;
+            case ID_REPEAT:
+                setRepeatMode();
+                break;
         }
     }
 
@@ -431,6 +476,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_AUDIO_DELAY:
                 mService.setAudioDelay(0l);
                 initAudioDelay();
+                return true;
+            case ID_REPEAT:
+                mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                initRepeat();
                 return true;
         }
         return false;
@@ -488,6 +537,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay));
             if (!tvUi)
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim));
+            mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;

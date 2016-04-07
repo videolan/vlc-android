@@ -213,6 +213,7 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
+        <item name="ic_repeat">@drawable/ic_repeat_w</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
