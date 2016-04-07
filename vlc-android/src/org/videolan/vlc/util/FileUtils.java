@@ -75,6 +75,17 @@ public class FileUtils {
         return parentPath;
     }
 
+    /*
+     * Convert file:// uri from real path to emulated FS path.
+     */
+    public static Uri convertLocalUri(Uri uri) {
+        if (!TextUtils.equals(uri.getScheme(), "file") || !uri.getPath().startsWith("/sdcard"))
+            return uri;
+        String path = uri.getPath();
+        path = path.replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+        return Uri.parse("file://"+path);
+    }
+
     public static String getPathFromURI(Uri contentUri) {
         Cursor cursor = null;
         try {
