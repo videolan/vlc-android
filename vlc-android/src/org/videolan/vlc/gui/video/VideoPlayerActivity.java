@@ -545,6 +545,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     (Uri) intent.getExtras().getParcelable(PLAY_EXTRA_ITEM_LOCATION) : intent.getData();
             if (uri == null || uri.equals(mUri))
                 return;
+            if (TextUtils.equals("file", uri.getScheme()) && uri.getPath().startsWith("/sdcard")) {
+                Uri convertedUri = FileUtils.convertLocalUri(uri);
+                if (convertedUri == null || convertedUri.equals(mUri))
+                    return;
+                else
+                    uri = convertedUri;
+            }
             mUri = uri;
             initUI();
             setOverlayProgress();
