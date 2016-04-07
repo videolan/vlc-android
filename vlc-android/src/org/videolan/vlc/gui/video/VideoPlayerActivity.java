@@ -73,7 +73,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLayoutChangeListener;
-import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -2772,9 +2771,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.stop();
             // restore last position
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
+            if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
+                    mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
+                mUri = FileUtils.convertLocalUri(mUri);
+                media = MediaDatabase.getInstance().getMedia(mUri);
+            }
             if (media != null) {
                 // in media library
-                if(media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
+                if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
                     if (mAskResume) {
                         showConfirmResumeDialog();
                         return;
@@ -2814,17 +2818,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.addCallback(this);
             /* prepare playback */
             boolean hasMedia = mService.hasMedia();
-            final MediaWrapper mw = hasMedia ? mService.getCurrentMediaWrapper() :new MediaWrapper(mUri);
+            if (media == null)
+                media = hasMedia ? mService.getCurrentMediaWrapper() : new MediaWrapper(mUri);
             if (mWasPaused)
-                mw.addFlags(MediaWrapper.MEDIA_PAUSED);
+                media.addFlags(MediaWrapper.MEDIA_PAUSED);
             if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
-                mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
-            mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            mw.addFlags(MediaWrapper.MEDIA_VIDEO);
+                media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
+            media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
             // Handle playback
             if (!hasMedia)
-                mService.load(mw);
+                mService.load(media);
             else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
             else
