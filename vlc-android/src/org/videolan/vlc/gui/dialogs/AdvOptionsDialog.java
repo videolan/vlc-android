@@ -557,7 +557,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             if (!tvUi)
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim));
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat));
-            if (mService.getMediaListSize() > 2)
+            if (mService.canShuffle())
                 mAdapter.addOption(new Option(ID_SHUFFLE, R.attr.ic_shuffle));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);

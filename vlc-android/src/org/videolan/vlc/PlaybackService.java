@@ -1455,6 +1455,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
+    public boolean canShuffle()  {
+        return (getMediaListSize() > 2) ? true : false;
+    }
+
+    @MainThread
     public int getRepeatType() {
         return mRepeating;
     }
@@ -1462,6 +1467,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public boolean hasMedia()  {
         return hasCurrentMedia();
+    }
+
+    @MainThread
+    public boolean hasPlaylist()  {
+        return (getMediaListSize() > 1) ? true : false;
     }
 
     @MainThread

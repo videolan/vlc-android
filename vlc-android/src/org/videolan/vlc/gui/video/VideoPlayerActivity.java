@@ -742,7 +742,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (ratePref == 2)
             mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
 
-        if (mService.getMediaListSize() > 1) {
+        if (mService.hasPlaylist()) {
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistAdapter.setService(mService);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);

@@ -366,7 +366,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             break;
         }
 
-        mShuffle.setVisibility(mService.getMediaListSize() > 2 ? View.VISIBLE : View.INVISIBLE);
+        mShuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
         if (playlistDiffer())
