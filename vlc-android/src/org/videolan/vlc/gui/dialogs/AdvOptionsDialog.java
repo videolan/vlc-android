@@ -346,8 +346,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mService.setRepeatType(PlaybackService.REPEAT_ONE);
                 break;
             case PlaybackService.REPEAT_ONE:
-                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
-                mService.setRepeatType(PlaybackService.REPEAT_ALL);
+                if (mService.hasPlaylist()){
+                    mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
+                    mService.setRepeatType(PlaybackService.REPEAT_ALL);
+                } else {
+                    mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
+                            UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
+                            0, 0);
+                    mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                }
                 break;
             case PlaybackService.REPEAT_ALL:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
