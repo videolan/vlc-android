@@ -87,6 +87,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_SAVE_PLAYLIST = 8 ;
     private static final int ID_POPUP_VIDEO = 9 ;
     private static final int ID_REPEAT = 10 ;
+    private static final int ID_SHUFFLE = 11 ;
 
     private Activity mActivity;
     private int mTheme;
@@ -104,6 +105,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private TextView mSpuDelay;
 
     private TextView mRepeat;
+    private TextView mShuffle;
 
     private TextView mChaptersTitle;
     private int mTextColor;
@@ -356,6 +358,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
     }
 
+    public void initShuffle(){
+        mShuffle.setCompoundDrawablesWithIntrinsicBounds(0,
+                mService.isShuffling()
+                        ? R.drawable.ic_shuffle_on
+                        : UiTools.getResourceFromAttribute(mActivity, R.attr.ic_shuffle),
+                0, 0);
+
+    }
+
     private void initChapters() {
         final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
 
@@ -404,6 +415,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_REPEAT:
                 mRepeat = tv;
                 initRepeat();
+                break;
+            case ID_SHUFFLE:
+                mShuffle = tv;
+                initShuffle();
                 break;
         }
     }
@@ -459,6 +474,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
             case ID_REPEAT:
                 setRepeatMode();
+                break;
+            case ID_SHUFFLE:
+                mService.shuffle();
+                initShuffle();
                 break;
         }
     }
@@ -538,6 +557,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             if (!tvUi)
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim));
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat));
+            if (mService.getMediaListSize() > 2)
+                mAdapter.addOption(new Option(ID_SHUFFLE, R.attr.ic_shuffle));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
