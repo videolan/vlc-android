@@ -292,7 +292,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Stopped:
-            case MediaPlayer.Event.EndReached:
                 mService.removePopup();
                 break;
             case MediaPlayer.Event.Playing:
