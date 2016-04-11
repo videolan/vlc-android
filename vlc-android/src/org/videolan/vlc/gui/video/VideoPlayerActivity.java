@@ -175,6 +175,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mPlaylistToggle;
     private RecyclerView mPlaylist;
     private PlaylistAdapter mPlaylistAdapter;
+    private ImageView mPlaylistNext;
+    private ImageView mPlaylistPrevious;
 
     private static final int SURFACE_BEST_FIT = 0;
     private static final int SURFACE_FIT_HORIZONTAL = 1;

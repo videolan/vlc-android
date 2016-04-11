@@ -361,7 +361,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             break;
         default:
         case PlaybackService.REPEAT_ALL:
-            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_on));
+            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
             mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
             break;
         }

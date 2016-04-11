@@ -331,7 +331,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                         0, 0);
                 break;
             case PlaybackService.REPEAT_ALL:
-                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
+                mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_all, 0, 0);
                 break;
             case PlaybackService.REPEAT_ONE:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
@@ -347,7 +347,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
             case PlaybackService.REPEAT_ONE:
                 if (mService.hasPlaylist()){
-                    mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_on, 0, 0);
+                    mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_all, 0, 0);
                     mService.setRepeatType(PlaybackService.REPEAT_ALL);
                 } else {
                     mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,

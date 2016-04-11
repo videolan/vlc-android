@@ -345,7 +345,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         int type = mService.getRepeatType();
         if (type == PlaybackService.REPEAT_NONE){
             mService.setRepeatType(PlaybackService.REPEAT_ALL);
-            mRepeat.setImageResource(R.drawable.ic_repeat_on);
+            mRepeat.setImageResource(R.drawable.ic_repeat_all);
         } else if (type == PlaybackService.REPEAT_ALL) {
             mService.setRepeatType(PlaybackService.REPEAT_ONE);
             mRepeat.setImageResource(R.drawable.ic_repeat_one);
