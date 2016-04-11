@@ -59,15 +59,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mHistoryAdapter = new HistoryAdapter();
     }
 
-    private void focusHelper(boolean idIsEmpty) {
-        MainActivity main = (MainActivity)getActivity();
-        if (main == null)
-            return;
-        main.setMenuFocusDown(idIsEmpty, android.R.id.list);
-        main.setSearchAsFocusDown(idIsEmpty, getView(),
-                android.R.id.list);
-    }
-
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -84,7 +75,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mRecyclerView.setNextFocusRightId(android.R.id.list);
         if (AndroidUtil.isHoneycombOrLater())
             mRecyclerView.setNextFocusForwardId(android.R.id.list);
-        focusHelper(mHistoryAdapter.getItemCount() == 0);
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
 
@@ -151,14 +141,11 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case UPDATE_LIST:
-                    focusHelper(mHistoryAdapter.isEmpty());
                     mHistoryAdapter.setList((ArrayList<MediaWrapper>) msg.obj);
                     updateEmptyView();
                     if( mHistoryAdapter != null ) {
                         mHistoryAdapter.notifyDataSetChanged();
-                        focusHelper(mHistoryAdapter.getItemCount() == 0);
-                    } else
-                        focusHelper(true);
+                    }
                     mSwipeRefreshLayout.setRefreshing(false);
                     getActivity().supportInvalidateOptionsMenu();
             }

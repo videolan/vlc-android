@@ -317,7 +317,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
         mAdapter.notifyDataSetChanged();
         parseSubDirectories();
-        focusHelper();
         if (mFAB != null) {
             if (mAdapter.getMediaCount() > 0) {
                 mFAB.setVisibility(View.VISIBLE);
@@ -392,15 +391,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         getOwner().refresh();
             }
         }
-    }
-
-    protected void focusHelper() {
-        if (getActivity() == null || !(getActivity() instanceof MainActivity))
-            return;
-        boolean isEmpty = mAdapter.isEmpty();
-        MainActivity main = (MainActivity) getActivity();
-        main.setMenuFocusDown(isEmpty, R.id.network_list);
-        main.setSearchAsFocusDown(isEmpty, getView(), R.id.network_list);
     }
 
     public void clear(){

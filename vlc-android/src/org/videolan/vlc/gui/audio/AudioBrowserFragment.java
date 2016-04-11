@@ -268,7 +268,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             updateLists();
         else {
             updateEmptyView(mViewPager.getCurrentItem());
-            focusHelper(false, mLists.get(mViewPager.getCurrentItem()).getId());
         }
         mMediaLibrary.addUpdateHandler(mHandler);
         mMediaLibrary.setBrowser(this);
@@ -280,20 +279,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             }
         });
         updatePlaylists();
-    }
-
-    private void focusHelper(final boolean idIsEmpty, final int listId) {
-        final View parent = getView();
-        final MainActivity main = (MainActivity)getActivity();
-        if (main == null)
-            return;
-        main.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                main.setMenuFocusDown(false, R.id.header);
-                main.setSearchAsFocusDown(idIsEmpty, parent, listId);
-            }
-        });
     }
 
     // Focus support. Start.
@@ -324,10 +309,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                     ListView vList = (ListView) mLists.get(newPosition);
 
                     mViewPager.setCurrentItem(newPosition);
-
-                    ((MainActivity)getActivity()).setSearchAsFocusDown(
-                            vList.getCount() == 0, getView(),
-                            vList.getId());
                 }
             }
 
@@ -647,7 +628,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                         for (View v : mLists)
                             ((ListView)v).setFastScrollEnabled(true);
                     }
-                    focusHelper(false, R.id.artists_list);
                     mHandler.removeMessages(MSG_LOADING);
                     mSwipeRefreshLayout.setRefreshing(false);
                     mDisplaying = false;
@@ -809,7 +789,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             updateEmptyView(mViewPager.getCurrentItem());
             mSwipeRefreshLayout.setRefreshing(false);
             mTabLayout.setVisibility(View.GONE);
-            focusHelper(true, R.id.artists_list);
         } else {
             mTabLayout.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);

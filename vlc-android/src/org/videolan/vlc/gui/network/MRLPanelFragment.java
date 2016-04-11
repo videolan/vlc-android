@@ -36,7 +36,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaDatabase;
@@ -83,7 +82,6 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     public void onStart(){
         super.onStart();
         getActivity().supportInvalidateOptionsMenu();
-        focusHelper(mAdapter.isEmpty());
     }
 
     private void updateHistory() {
@@ -125,12 +123,6 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
         return false;
-    }
-
-    private void focusHelper(boolean idIsEmpty) {
-        MainActivity main = (MainActivity)getActivity();
-        main.setMenuFocusDown(idIsEmpty, R.id.mrl_list);
-        main.setSearchAsFocusDown(idIsEmpty, mRootView, R.id.mrl_list);
     }
 
     public boolean isEmpty(){

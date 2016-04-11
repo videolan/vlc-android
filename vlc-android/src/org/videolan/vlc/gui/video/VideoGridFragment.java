@@ -183,7 +183,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             updateList();
         else {
             mViewNomedia.setVisibility(View.GONE);
-            focusHelper(false);
         }
         //Get & set times
         ArrayMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
@@ -388,16 +387,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         mVideoAdapter.update(item);
     }
 
-    private void focusHelper(boolean idIsEmpty) {
-        View parent = getView();
-        if (getActivity() == null || !(getActivity() instanceof MainActivity))
-            return;
-        MainActivity activity = (MainActivity)getActivity();
-        activity.setMenuFocusDown(idIsEmpty, android.R.id.list);
-        activity.setSearchAsFocusDown(idIsEmpty, parent,
-                android.R.id.list);
-    }
-
     public void updateList() {
         if (!mSwipeRefreshLayout.isRefreshing())
             mSwipeRefreshLayout.setRefreshing(true);
@@ -438,8 +427,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         display();
                 }
             });
-        } else
-            focusHelper(true);
+        }
         stopRefresh();
     }
 
@@ -520,7 +508,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                     mReadyToDisplay = true;
                     mGridView.requestFocus();
-                    focusHelper(false);
                 }
             });
     }
