@@ -58,6 +58,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FilterQueryProvider;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -277,6 +278,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+        setActionBarFocus();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -705,94 +707,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         }
     }
 
-    public void setMenuFocusDown(boolean idIsEmpty, int id) {
-        if (mMenu == null)
+    private void setActionBarFocus() {
+        View v = ((ViewGroup)findViewById(R.id.main_toolbar)).getChildAt(0);
+        if (v == null || ! (v instanceof ImageButton))
             return;
-        //Save menu items ids for focus control
-        final int[] menu_controls = new int[mMenu.size()+1];
-        for (int i = 0 ; i < mMenu.size() ; i++){
-            menu_controls[i] = mMenu.getItem(i).getItemId();
-        }
-        menu_controls[mMenu.size()] = mActionBarIconId;
-        /*menu_controls = new int[]{R.id.ml_menu_search,
-            R.id.ml_menu_open_mrl, R.id.ml_menu_sortby,
-            R.id.ml_menu_last_playlist, R.id.ml_menu_refresh,
-            mActionBarIconId};*/
-        int pane = mSlidingPane.getState();
-        for(int r : menu_controls) {
-            View v = findViewById(r);
-            if (v != null) {
-                if (!idIsEmpty)
-                    v.setNextFocusDownId(id);
-                else {
-                    if (pane ==  mSlidingPane.STATE_CLOSED) {
-                        v.setNextFocusDownId(R.id.play_pause);
-                    } else if (pane == mSlidingPane.STATE_OPENED) {
-                        v.setNextFocusDownId(R.id.header_play_pause);
-                    } else if (pane ==
-                            mSlidingPane.STATE_OPENED_ENTIRELY) {
-                        v.setNextFocusDownId(r);
-                    }
-                }
-            }
-        }
-    }
-
-    public void setSearchAsFocusDown(boolean idIsEmpty, View parentView, int id) {
-        View playPause = findViewById(R.id.header_play_pause);
-
-        if (!idIsEmpty) {
-            View list;
-            int pane = mSlidingPane.getState();
-
-            if (parentView == null)
-                list = findViewById(id);
-            else
-                list = parentView.findViewById(id);
-
-            if (list != null) {
-                if (pane == mSlidingPane.STATE_OPENED_ENTIRELY) {
-                    list.setNextFocusDownId(id);
-                } else if (pane == mSlidingPane.STATE_OPENED) {
-                    list.setNextFocusDownId(R.id.header_play_pause);
-                    playPause.setNextFocusUpId(id);
-                }
-            }
-        } else {
-            playPause.setNextFocusUpId(R.id.ml_menu_search);
-        }
-    }
-
-    // Note. onKeyDown will not occur while moving within a list
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
-        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
-                (Build.VERSION.SDK_INT <= 16) &&
-                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
-            return true;
-        }
-        if (mFocusedPrior == 0)
-            setMenuFocusDown(true, 0);
-        if (getCurrentFocus() != null)
-            mFocusedPrior = getCurrentFocus().getId();
-        return super.onKeyDown(keyCode, event);
-    }
-
-    // Note. onKeyDown will not occur while moving within a list
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
-        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
-                (Build.VERSION.SDK_INT <= 16) &&
-                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
-            openOptionsMenu();
-            return true;
-        }
-        View v = getCurrentFocus();
-        if (v == null)
-            return super.onKeyUp(keyCode, event);
         if ((mActionBarIconId == -1) &&
                 (v.getId() == -1)  &&
                 (v.getNextFocusDownId() == -1) &&
@@ -809,6 +727,33 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 v.setNextFocusForwardId(mActionBarIconId);
             if (findViewById(R.id.ml_menu_search) != null)
                 findViewById(R.id.ml_menu_search).setNextFocusLeftId(mActionBarIconId);
+        }
+    }
+
+    // Note. onKeyDown will not occur while moving within a list
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
+        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
+                (Build.VERSION.SDK_INT <= 16) &&
+                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
+            return true;
+        }
+        if (getCurrentFocus() != null)
+            mFocusedPrior = getCurrentFocus().getId();
+        return super.onKeyDown(keyCode, event);
+    }
+
+    // Note. onKeyDown will not occur while moving within a list
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
+        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
+                (Build.VERSION.SDK_INT <= 16) &&
+                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
+            openOptionsMenu();
+            return true;
         }
         return super.onKeyUp(keyCode, event);
     }
