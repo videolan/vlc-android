@@ -379,6 +379,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         mPlaylistToggle = (ImageView) findViewById(R.id.playlist_toggle);
+        mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
+        mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
         mPlaylist = (RecyclerView) findViewById(R.id.video_playlist);
 
         mOverlayProgress = findViewById(R.id.progress_overlay);
@@ -751,7 +753,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mPlaylist.setLayoutManager(layoutManager);
             mPlaylistToggle.setVisibility(View.VISIBLE);
+            mPlaylistPrevious.setVisibility(View.VISIBLE);
+            mPlaylistNext.setVisibility(View.VISIBLE);
             mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
+            mPlaylistPrevious.setOnClickListener(VideoPlayerActivity.this);
+            mPlaylistNext.setOnClickListener(VideoPlayerActivity.this);
             mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
 
             ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
@@ -2173,6 +2179,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case R.id.playlist_toggle:
                 togglePlaylist();
+                break;
+            case R.id.playlist_next:
+                mService.next();
+                break;
+            case R.id.playlist_previous:
+                mService.previous();
                 break;
             case R.id.player_overlay_forward:
                 seekDelta(10000);

@@ -84,6 +84,18 @@
             android:focusable="true"/>
 
         <ImageView
+            android:id="@+id/playlist_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_playlist_previous_circle"
+            android:visibility="gone" />
+
+        <ImageView
             android:id="@+id/player_overlay_rewind"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -113,6 +125,18 @@
             android:clickable="true"
             android:longClickable="true"
             android:src="@drawable/ic_forward_circle"
+            android:scaleType="center"
+            android:focusable="true"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/playlist_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:longClickable="true"
+            android:src="@drawable/ic_playlist_next_circle"
             android:scaleType="center"
             android:focusable="true"
             android:visibility="gone" />
