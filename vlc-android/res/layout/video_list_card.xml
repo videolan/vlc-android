@@ -48,6 +48,7 @@
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true"
         android:clickable="true"
+        android:focusable="true"
         android:onClick="@{holder.onClick}"
         android:longClickable="true">
 
