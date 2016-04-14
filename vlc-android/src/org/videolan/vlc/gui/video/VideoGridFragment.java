@@ -321,11 +321,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 return true;
             case R.id.video_group_play:
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+                return true;
             case R.id.video_list_append:
                 if (media instanceof MediaGroup)
                     mService.append(((MediaGroup)media).getAll());
                 else
                     mService.append(media);
+                return true;
+            case R.id.video_download_subtitles:
+                MediaUtils.getSubs(getActivity(), media);
+                return true;
         }
         return false;
     }
@@ -358,12 +363,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         boolean hasInfo = false;
         final Media media = new Media(VLCInstance.get(), mediaWrapper.getUri());
         media.parse();
+        boolean canWrite = FileUtils.canWrite(mediaWrapper.getLocation());
         if (media.getMeta(Media.Meta.Title) != null)
             hasInfo = true;
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
-        menu.findItem(R.id.video_list_delete).setVisible(
-                FileUtils.canWrite(mediaWrapper.getLocation()));
+        menu.findItem(R.id.video_list_delete).setVisible(canWrite);
+        menu.findItem(R.id.video_download_subtitles).setVisible(canWrite);
         if (!AndroidUtil.isHoneycombOrLater()) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
             menu.findItem(R.id.video_list_append).setVisible(false);
