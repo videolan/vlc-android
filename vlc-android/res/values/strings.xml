@@ -617,6 +617,17 @@
     <string name="add_to_playlist">Add to playlist</string>
     <string name="popup_playback">Playing in a Pop-Up window</string>
     <string name="popup_expand">Expand video</string>
+    <string name="snack_subloader_sub_found">Subtitles downloaded</string>
+    <string name="snack_subloader_sub_not_found">Subtitles not found</string>
+    <string name="dialog_subloader_success">Subtitles found for:</string>
+    <string name="dialog_subloader_fails">Subtitles not found for:</string>
+    <string name="dialog_subloader_sumup">Download finished</string>
+    <string name="download_subtitles">Download subtitles</string>
+    <string name="preferences_languages_download">Subtitles languages</string>
+    <string name="list_languages_download_summary">Languages to download when fetching subtitles</string>
+    <string name="list_languages_download_title">Subtitles download languages</string>
+    <string name="service_unavailable">Service unavailable</string>
+    <string name="downloading_subtitles">Downloading subtitles</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
