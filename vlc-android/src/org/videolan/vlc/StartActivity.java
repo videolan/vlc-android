@@ -108,22 +108,7 @@ public class StartActivity extends Activity {
             }
             // Media or MMS URI
             else if (TextUtils.equals(data.getAuthority(), "media")){
-                try {
-                    Cursor cursor = getContentResolver().query(data,
-                            new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
-                    if (cursor != null) {
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                        if (cursor.moveToFirst())
-                            mUri = AndroidUtil.PathToUri(cursor.getString(column_index));
-                        cursor.close();
-                    } else // other content-based URI (probably file pickers)
-                        mUri = data;
-                } catch (Exception e) {
-                    mUri = data;
-                    if (mUri.getScheme() == null)
-                        mUri = AndroidUtil.PathToUri(mUri.getPath());
-                    Log.e(TAG, "Couldn't read the file from media or MMS");
-                }
+                mUri = MediaUtils.getContentMediaUri(data);
             } else {
                 ParcelFileDescriptor inputPFD;
                 try {

@@ -4,9 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -144,6 +147,25 @@ public class MediaUtils {
         return title;
     }
 
+    public static Uri getContentMediaUri(Uri data) {
+        Uri uri = null;
+        try {
+            Cursor cursor = VLCApplication.getAppContext().getContentResolver().query(data,
+                    new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
+            if (cursor != null) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                if (cursor.moveToFirst())
+                    uri = AndroidUtil.PathToUri(cursor.getString(column_index));
+                cursor.close();
+            } else // other content-based URI (probably file pickers)
+                uri = data;
+        } catch (Exception e) {
+            uri = data;
+            if (uri.getScheme() == null)
+                uri = AndroidUtil.PathToUri(uri.getPath());
+        }
+        return uri != null ? uri : data;
+    }
     private static String getMediaString(Context ctx, int id) {
         if (ctx != null)
             return ctx.getResources().getString(id);
