@@ -44,8 +44,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.LongBuffer;
+import java.nio.channels.FileChannel;
 
 public class FileUtils {
+
+    /**
+     * Size of the chunks that will be hashed in bytes (64 KB)
+     */
+    private static final int HASH_CHUNK_SIZE = 64 * 1024;
 
     public interface Callback {
         void onResult(boolean success);
@@ -239,5 +248,49 @@ public class FileUtils {
             return false;
         File file = new File(path);
         return (file.exists() && file.canWrite());
+    }
+
+    public static String computeHash(File file) {
+        long size = file.length();
+        long chunkSizeForFile = Math.min(HASH_CHUNK_SIZE, size);
+        long head = 0;
+        long tail = 0;
+        FileInputStream fis = null;
+        FileChannel fileChannel = null;
+        try {
+            fis = new FileInputStream(file);
+            fileChannel = fis.getChannel();
+            head = computeHashForChunk(fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, chunkSizeForFile));
+
+            //Alternate way to calculate tail hash for files over 4GB.
+            ByteBuffer bb = ByteBuffer.allocateDirect((int)chunkSizeForFile);
+            int read;
+            long position = Math.max(size - HASH_CHUNK_SIZE, 0);
+            while ((read = fileChannel.read(bb, position)) > 0) {
+                position += read;
+            }
+            bb.flip();
+            tail = computeHashForChunk(bb);
+
+            return String.format("%016x", size + head + tail);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            Util.close(fileChannel);
+            Util.close(fis);
+        }
+    }
+
+    private static long computeHashForChunk(ByteBuffer buffer) {
+        LongBuffer longBuffer = buffer.order(ByteOrder.LITTLE_ENDIAN).asLongBuffer();
+        long hash = 0;
+        while (longBuffer.hasRemaining())
+            hash += longBuffer.get();
+        return hash;
     }
 }
