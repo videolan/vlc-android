@@ -1,5 +1,6 @@
 package org.videolan.vlc.media;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,17 +17,39 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.SubtitlesDownloader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MediaUtils {
     public static final String ACTION_SCAN_START = Strings.buildPkgString("gui.ScanStart");
     public static final String ACTION_SCAN_STOP = Strings.buildPkgString("gui.ScanStop");
 
+    private static SubtitlesDownloader sSubtitlesDownloader;
+
     public static void actionScanStart() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_START);
         LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
+    }
+
+    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
+        if (sSubtitlesDownloader == null)
+            sSubtitlesDownloader = new SubtitlesDownloader();
+        sSubtitlesDownloader.setActivity(activity);
+        sSubtitlesDownloader.downloadSubs(mediaList);
+    }
+
+    public static void getSubs(Activity activity, MediaWrapper media) {
+        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+        mediaList.add(media);
+        getSubs(activity, mediaList);
+    }
+
+    public static void updateSubsDownloaderActivity(Activity activity) {
+        if (sSubtitlesDownloader != null)
+            sSubtitlesDownloader.setActivity(activity);
     }
 
     public static void actionScanStop() {
