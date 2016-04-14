@@ -53,6 +53,7 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
@@ -91,6 +92,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
         /* Set up the audio player */
         mAudioPlayer = new AudioPlayer();
+
+        MediaUtils.updateSubsDownloaderActivity(this);
 
         super.onCreate(savedInstanceState);
     }
