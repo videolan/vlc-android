@@ -98,6 +98,9 @@ public class MediaGroup extends MediaWrapper {
             String group = mediaGroup.getTitle();
             String item = media.getTitle();
 
+            if (item.length() > 4 && (item.startsWith("The") || item.startsWith("the")))
+                item = item.substring(4);
+
             // find common prefix
             int commonLength = 0;
             int minLength = Math.min(group.length(), item.length());
