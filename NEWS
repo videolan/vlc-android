@@ -1,3 +1,16 @@
+Changes between 1.9.7 and 1.9.8:
+--------------------------------
+
+Application:
+ * Subtitles download
+ * Fix resume point for video launch from 3rd party app
+ * Fix repeat with only one media
+ * Add repeat and shuffle modes in video player
+ * Batter DPAD navigation in tablet UI
+ * Fill artist tag for session metadata
+ * Prevent grouping videos starting with "The"
+
+
 Changes between 1.9.6 and 1.9.7:
 --------------------------------
 
