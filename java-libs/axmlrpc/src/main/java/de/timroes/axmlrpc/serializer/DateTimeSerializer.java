@@ -1,13 +1,14 @@
 package de.timroes.axmlrpc.serializer;
 
-import java.text.SimpleDateFormat;
-
 import org.w3c.dom.Element;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLUtil;
 import de.timroes.axmlrpc.xmlcreator.XmlElement;
-import fr.turri.jiso8601.Iso8601Deserializer;
 
 /**
  *
@@ -24,10 +25,12 @@ public class DateTimeSerializer implements Serializer {
 	}
 
 	public Object deserialize(String dateStr) throws XMLRPCException {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		String format = "2001-07-04T12:08:56.235-0700";
 		try {
-			return Iso8601Deserializer.toDate(dateStr);
-		} catch (Exception ex) {
-			throw new XMLRPCException("Unable to parse given date.", ex);
+			return df.parse(format);
+		} catch (ParseException e) {
+			throw new XMLRPCException("Unable to parse given date.", e);
 		}
 	}
 
