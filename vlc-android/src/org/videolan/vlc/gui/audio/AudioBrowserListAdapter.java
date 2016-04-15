@@ -98,7 +98,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         final public boolean mIsSeparator;
 
         public ListItem(String title, String subTitle, MediaWrapper media, boolean isSeparator) {
-            mMediaList = new ArrayList<MediaWrapper>();
+            mMediaList = new ArrayList<>();
             if (media != null)
                 mMediaList.add(media);
             mTitle = title;
@@ -108,10 +108,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     }
 
     public AudioBrowserListAdapter(Activity context, int itemType) {
-        mMediaItemMap = new ArrayMap<String, ListItem>();
-        mSeparatorItemMap = new ArrayMap<String, ListItem>();
-        mItems = new ArrayList<ListItem>();
-        mSections = new SparseArray<String>();
+        mMediaItemMap = new ArrayMap<>();
+        mSeparatorItemMap = new ArrayMap<>();
+        mItems = new ArrayList<>();
+        mSections = new SparseArray<>();
         mContext = context;
         if (itemType != ITEM_WITHOUT_COVER && itemType != ITEM_WITH_COVER)
             throw new IllegalArgumentException();
@@ -260,8 +260,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                     firstSeparator = false;
                     sections.add(firstCharInString);
                 }
-            }
-            else if (firstSeparator) {
+            } else if (firstSeparator) {
                 ListItem item = new ListItem("#", null, null, true);
                 mItems.add(i, item);
                 mSections.put(i, "#");
