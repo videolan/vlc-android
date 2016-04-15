@@ -26,9 +26,11 @@ package org.videolan.vlc.gui.preferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.preferences.hack.PreferenceFragmentCompatHack;
 
 public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 
@@ -53,5 +55,12 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, fragment)
                 .addToBackStack("main")
                 .commit();
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (!PreferenceFragmentCompatHack.onDisplayPreferenceDialog(this, preference)) {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 }

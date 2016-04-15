@@ -50,6 +50,7 @@ public class PreferencesUi extends BasePreferenceFragment {
         super.onCreate(savedInstanceState);
 
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
+        findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater());
     }
 
     @Override

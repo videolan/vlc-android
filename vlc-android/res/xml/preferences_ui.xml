@@ -33,13 +33,13 @@
             android:title="@string/audio_title_alignment" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/interface_controls" >
-        <!--android.support.v14.preference.MultiSelectListPreference
+        <android.support.v14.preference.MultiSelectListPreference
             android:dialogTitle="@string/preferences_languages_download"
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values"
             android:key="languages_download_list"
             android:summary="@string/list_languages_download_summary"
-            android:title="@string/list_languages_download_title" /-->
+            android:title="@string/list_languages_download_title" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="save_brightness"
