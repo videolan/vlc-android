@@ -440,6 +440,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_AUDIO);
             menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);
             menu.findItem(R.id.directory_view_add_playlist).setVisible(type == MediaWrapper.TYPE_AUDIO);
+            menu.findItem(R.id.directory_subtitles_download).setVisible(type == MediaWrapper.TYPE_VIDEO  && canWrite);
         }
     }
 
@@ -516,6 +517,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
                 savePlaylistDialog.setArguments(args);
                 savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+                return true;
+            case R.id.directory_subtitles_download:
+                MediaUtils.getSubs(getActivity(), mw);
                 return true;
 //            case R.id.directory_view_hide_media:
 //                try {

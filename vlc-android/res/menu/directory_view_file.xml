@@ -18,4 +18,7 @@
     <item
         android:id="@+id/directory_view_add_playlist"
         android:title="@string/add_to_playlist" />
+    <item
+        android:id="@+id/directory_subtitles_download"
+        android:title="@string/download_subtitles" />
 </menu>
