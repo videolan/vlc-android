@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.preferences;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v14.preference.MultiSelectListPreference;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +31,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.preferences.hack.MultiSelectListPreferenceDialogFragmentCompat;
 
@@ -64,8 +64,7 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH
-                && preference instanceof MultiSelectListPreference) {
+        if (AndroidUtil.isHoneycombOrLater() && preference instanceof MultiSelectListPreference) {
             DialogFragment dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), DIALOG_FRAGMENT_TAG);
