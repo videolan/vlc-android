@@ -103,6 +103,7 @@ public class SubtitlesDownloader {
                 if (logIn()){
                     getSubtitles(mediaList, finalLanguages);
                 }
+                mHandler.sendEmptyMessage(DIALOG_HIDE);
             }
         });
     }
@@ -113,6 +114,7 @@ public class SubtitlesDownloader {
 
     @SuppressWarnings("unchecked")
     private boolean logIn() {
+        mHandler.sendEmptyMessage(DIALOG_SHOW);
         try {
             mClient = new XMLRPCClient(new URL(OpenSubtitlesAPIUrl));
             map = ((HashMap<String, Object>) mClient.call("LogIn","","","fre",USER_AGENT));
@@ -132,13 +134,11 @@ public class SubtitlesDownloader {
             return false;
         }
         map = null;
-        mHandler.sendEmptyMessage(DIALOG_SHOW);
         return true;
     }
 
     @SuppressWarnings("unchecked")
     private void logOut() {
-        mHandler.sendEmptyMessage(DIALOG_HIDE);
         if (mToken == null)
             return;
         try {
