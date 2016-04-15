@@ -26,9 +26,8 @@ public class DateTimeSerializer implements Serializer {
 
 	public Object deserialize(String dateStr) throws XMLRPCException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		String format = "2001-07-04T12:08:56.235-0700";
 		try {
-			return df.parse(format);
+			return df.parse(dateStr);
 		} catch (ParseException e) {
 			throw new XMLRPCException("Unable to parse given date.", e);
 		}
