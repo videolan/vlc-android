@@ -107,7 +107,7 @@ public class CardPresenter extends Presenter {
     }
 
     @Override
-    public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
+    public void onBindViewHolder(Presenter.ViewHolder viewHolder, final Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
@@ -118,6 +118,13 @@ public class CardPresenter extends Presenter {
                         R.drawable.ic_video_collection_big));
             else
                 holder.updateCardViewImage(mediaWrapper);
+            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    TvUtil.showMediaDetail(v.getContext(), (MediaWrapper) item);
+                    return true;
+                }
+            });
         } else if (item instanceof MusicFragment.ListItem) {
             MusicFragment.ListItem listItem = (MusicFragment.ListItem) item;
             MediaWrapper MediaWrapper = listItem.mediaList.get(0);
