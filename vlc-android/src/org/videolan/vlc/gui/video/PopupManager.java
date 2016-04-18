@@ -29,6 +29,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -70,7 +71,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private double mScaleFactor = 1.d;
     private int mPopupWidth, mPopupHeight;
 
-    private WindowManager windowManager;
+    private WindowManager mWindowManager;
     private RelativeLayout mRootView;
     private SurfaceView mSurfaceView;
     private ImageView mExpandButton;
@@ -79,7 +80,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public PopupManager(PlaybackService service) {
         mService = service;
-        windowManager = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
     }
 
     public void removePopup() {
@@ -90,7 +91,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         mRootView.setKeepScreenOn(false);
-        windowManager.removeView(mRootView);
+        mWindowManager.removeView(mRootView);
         vlcVout.detachViews();
         vlcVout.removeCallback(mVoutCallBack);
         mRootView = null;
@@ -151,7 +152,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                         if (mScaleGestureDetector == null || !mScaleGestureDetector.isInProgress()) {
                             params.x = initialX + (int) (event.getRawX() - initialTouchX);
                             params.y = initialY - (int) (event.getRawY() - initialTouchY);
-                            windowManager.updateViewLayout(mRootView, params);
+                            mWindowManager.updateViewLayout(mRootView, params);
                             return true;
                         }
                 }
@@ -159,7 +160,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             }
         });
 
-        windowManager.addView(mRootView, params);
+        mWindowManager.addView(mRootView, params);
 
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.setVideoView(mSurfaceView);
@@ -273,10 +274,24 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     };
 
     private void setViewSize(int width, int height) {
-        WindowManager.LayoutParams lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
+        Point size = new Point();
+        WindowManager.LayoutParams lp = null;
+        if (AndroidUtil.isHoneycombOrLater()) {
+            mWindowManager.getDefaultDisplay().getSize(size);
+            lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
+            if (width > size.x) {
+                height = height * size.x / width;
+                width = size.x;
+            } else if (height > size.y){
+                width = width * size.y / height;
+                height = size.y;
+            }
+        }
         lp.width = width;
         lp.height = height;
-        windowManager.updateViewLayout(mRootView, lp);
+        lp.x = Math.max(lp.x, 0);
+        lp.y = Math.max(lp.y, 0);
+        mWindowManager.updateViewLayout(mRootView, lp);
     }
 
     @Override
