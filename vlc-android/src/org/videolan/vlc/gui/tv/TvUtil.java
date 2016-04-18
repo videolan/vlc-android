@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.tv;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v17.leanback.widget.Row;
@@ -42,15 +43,10 @@ public class TvUtil {
             if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
                 VideoPlayerActivity.start(activity, mediaWrapper.getUri(), MediaUtils.getMediaTitle(mediaWrapper));
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
-                Intent intent = new Intent(activity,
-                        DetailsActivity.class);
-                // pass the item information
-                intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
-                activity.startActivity(intent);
+                showMediaDetail(activity, mediaWrapper);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
-//                intent.putExtra(SortedBrowserFragment.KEY_URI, mediaWrapper.getLocation());
                 intent.setData(mediaWrapper.getUri());
                 activity.startActivity(intent);
             }
@@ -62,11 +58,18 @@ public class TvUtil {
         }
     }
 
+    public static void showMediaDetail(Context activity, MediaWrapper mediaWrapper) {
+        Intent intent = new Intent(activity,
+                DetailsActivity.class);
+        intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
+        activity.startActivity(intent);
+    }
+
     public static void browseFolder(Activity activity, long type, Uri uri) {
-                Intent intent = new Intent(activity, VerticalGridActivity.class);
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, type);
-                intent.setData(uri);
-                activity.startActivity(intent);
+        Intent intent = new Intent(activity, VerticalGridActivity.class);
+        intent.putExtra(MainTvActivity.BROWSER_TYPE, type);
+        intent.setData(uri);
+        activity.startActivity(intent);
     }
 
     public static void playAudioList(Activity activity, ArrayList<MediaWrapper> list, int position) {
