@@ -169,6 +169,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         vlcVout.addCallback(mVoutCallBack);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
+        mService.startService(new Intent(mService, PlaybackService.class));
         showNotification();
     }
 
@@ -411,10 +412,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand);
 
         Notification notification = builder.build();
-        mService.startService(new Intent(mService, PlaybackService.class));
-        NotificationManagerCompat.from(mService).notify(42, notification);
         if (!AndroidUtil.isLolliPopOrLater() || mService.isPlaying())
-            mService.startForeground(3, notification);
+            mService.startForeground(42, notification);
         else {
             NotificationManagerCompat.from(mService).notify(42, notification);
         }
