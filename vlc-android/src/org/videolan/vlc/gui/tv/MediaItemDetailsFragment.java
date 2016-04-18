@@ -180,7 +180,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             else
                 detailsOverview.setImageBitmap(getActivity(), cover);
 
-            detailsOverview.addAction(new Action(ID_PLAY, "Play"));
+            detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
             if (FileUtils.canWrite(media.getUri()))
                 detailsOverview.addAction(new Action(ID_DL_SUBS, getString(R.string.download_subtitles)));
         }
