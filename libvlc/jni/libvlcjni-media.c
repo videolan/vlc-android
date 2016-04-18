@@ -39,6 +39,7 @@ static const libvlc_event_type_t m_events[] = {
     libvlc_MediaDurationChanged,
     libvlc_MediaStateChanged,
     libvlc_MediaParsedChanged,
+    libvlc_MediaParsedStatus,
     libvlc_MediaSubItemTreeAdded,
     -1,
 };
@@ -52,11 +53,12 @@ Media_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
 
     pthread_mutex_lock(&p_sys->lock);
 
-    if (p_ev->type == libvlc_MediaParsedChanged)
+    if (p_ev->type == libvlc_MediaParsedStatus)
     {
-        /* no need to send libvlc_MediaParsedChanged when parsing is synchronous */
+        /* no need to send libvlc_MediaParsedStatus when parsing is synchronous */
         if (p_sys->b_parsing_sync)
             b_dispatch = false;
+
         p_sys->b_parsing_sync = false;
         p_sys->b_parsing_async = false;
         pthread_cond_signal(&p_sys->wait);
@@ -87,6 +89,8 @@ Media_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
             break;
         case libvlc_MediaStateChanged:
             p_java_event->arg1 = p_ev->u.media_state_changed.new_state;
+        case libvlc_MediaParsedStatus:
+            p_java_event->arg1 = p_ev->u.media_parsed_status.new_status;
     }
     p_java_event->type = p_ev->type;
     return true;

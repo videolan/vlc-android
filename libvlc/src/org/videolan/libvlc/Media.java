@@ -39,6 +39,7 @@ public class Media extends VLCObject<Media.Event> {
         //public static final int Freed                      = 4;
         public static final int StateChanged = 5;
         public static final int SubItemTreeAdded = 6;
+        public static final int ParsedStatus = 7;
 
         protected Event(int type) {
             super(type);
@@ -387,6 +388,9 @@ public class Media extends VLCObject<Media.Event> {
         case Event.ParsedChanged:
             postParse();
             break;
+        case Event.ParsedStatus:
+            postParse();
+            return new Event(eventType, arg1);
         case Event.StateChanged:
             mState = -1;
             break;
@@ -459,6 +463,8 @@ public class Media extends VLCObject<Media.Event> {
 
     private synchronized void postParse() {
         // fetch if parsed and not fetched
+        if ((mParseStatus & PARSE_STATUS_PARSED) != 0)
+            return;
         mParseStatus &= ~PARSE_STATUS_PARSING;
         mParseStatus |= PARSE_STATUS_PARSED;
         mNativeTracks = null;
