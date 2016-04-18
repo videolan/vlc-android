@@ -413,6 +413,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         Notification notification = builder.build();
         mService.startService(new Intent(mService, PlaybackService.class));
         NotificationManagerCompat.from(mService).notify(42, notification);
+        if (!AndroidUtil.isLolliPopOrLater() || mService.isPlaying())
+            mService.startForeground(3, notification);
+        else {
+            NotificationManagerCompat.from(mService).notify(42, notification);
+        }
     }
 
     private void hideNotification() {
