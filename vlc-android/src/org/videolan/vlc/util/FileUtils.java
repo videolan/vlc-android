@@ -235,6 +235,17 @@ public class FileUtils {
         });
     }
 
+    public static boolean canWrite(Uri uri){
+        if (uri == null)
+            return false;
+        if (TextUtils.equals("file", uri.getScheme()))
+            return canWrite(uri.toString());
+        if (TextUtils.equals("content", uri.getScheme()))
+            return canWrite(getPathFromURI(uri));
+        return false;
+
+    }
+
     public static boolean canWrite(String path){
         if (path == null)
             return false;
