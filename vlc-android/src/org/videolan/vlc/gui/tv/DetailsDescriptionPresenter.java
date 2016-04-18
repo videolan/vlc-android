@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.net.Uri;
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 
 public class DetailsDescriptionPresenter extends
@@ -33,9 +34,11 @@ public class DetailsDescriptionPresenter extends
         // viewHolder.getTitle().setText(details.getShortTitle());
 
         // Here we provide static data for testing purposes:
+        String body = details.getBody() == null ? Uri.decode(details.getLocation()) :
+                details.getBody()+"\n"+Uri.decode(details.getLocation());
         viewHolder.getTitle().setText(details.getTitle());
         viewHolder.getSubtitle().setText(details.getSubTitle());
-        viewHolder.getBody().setText(details.getBody());
+        viewHolder.getBody().setText(body);
     }
 
 
