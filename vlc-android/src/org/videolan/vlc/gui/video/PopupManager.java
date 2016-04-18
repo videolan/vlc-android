@@ -277,9 +277,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private void setViewSize(int width, int height) {
         Point size = new Point();
         WindowManager.LayoutParams lp = null;
+        lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
         if (AndroidUtil.isHoneycombOrLater()) {
             mWindowManager.getDefaultDisplay().getSize(size);
-            lp = (WindowManager.LayoutParams) mRootView.getLayoutParams();
             if (width > size.x) {
                 height = height * size.x / width;
                 width = size.x;
@@ -412,11 +412,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand);
 
         Notification notification = builder.build();
-        if (!AndroidUtil.isLolliPopOrLater() || mService.isPlaying())
-            mService.startForeground(42, notification);
-        else {
-            NotificationManagerCompat.from(mService).notify(42, notification);
-        }
+        NotificationManagerCompat.from(mService).notify(42, notification);
     }
 
     private void hideNotification() {
