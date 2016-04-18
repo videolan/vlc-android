@@ -33,11 +33,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
@@ -484,15 +486,24 @@ public class SubtitlesDownloader {
     private void showSnackBar(final String text) {
         if (mContext == null)
             return;
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                View v = mContext.findViewById(R.id.fragment_placeholder);
-                if (v == null)
-                    v = mContext.getWindow().getDecorView();
-                UiTools.snacker(v, text);
-            }
-        });
+        if (mContext instanceof AppCompatActivity) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    View v = mContext.findViewById(R.id.fragment_placeholder);
+                    if (v == null)
+                        v = mContext.getWindow().getDecorView();
+                    UiTools.snacker(v, text);
+                }
+            });
+        } else {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
