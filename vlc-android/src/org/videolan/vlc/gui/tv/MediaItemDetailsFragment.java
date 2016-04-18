@@ -44,10 +44,13 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.FileUtils;
 
 import java.util.ArrayList;
 
@@ -59,17 +62,12 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_FAVORITE_ADD = 3;
     private static final int ID_FAVORITE_DELETE = 4;
     private static final int ID_BROWSE = 5;
+    private static final int ID_DL_SUBS = 6;
     private ArrayObjectAdapter mRowsAdapter;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
     private MediaDatabase mDb;
     private PlaybackService mService;
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        PlaybackServiceFragment.unregisterPlaybackService(this, this);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,12 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         if (mService != null && mService.isPlaying()) {
             mService.stop();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PlaybackServiceFragment.unregisterPlaybackService(this, this);
     }
 
     private void buildDetails() {
@@ -135,6 +139,10 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         break;
                     case ID_BROWSE:
                         TvUtil.openMedia(getActivity(), media, null);
+                        break;
+                    case ID_DL_SUBS:
+                        MediaUtils.getSubs(getActivity(), media);
+                        break;
                 }
             }
         });
@@ -142,8 +150,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         selector.addClassPresenter(ListRow.class,
                 new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(selector);
-
-        if (media.getType() == MediaWrapper.TYPE_DIR) {
+        if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
             mDb = MediaDatabase.getInstance();
             detailsOverview.setImageDrawable(getResources().getDrawable(TextUtils.equals(media.getUri().getScheme(),"file")
                     ? R.drawable.ic_menu_folder_big
@@ -155,7 +162,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             else
                 detailsOverview.addAction(actionAdd);
 
-        } else {
+        } else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
             // Add images and action buttons to the details view
             Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
             if (cover == null)
@@ -165,6 +172,17 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
             detailsOverview.addAction(new Action(ID_PLAY, "Play"));
             detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
+        } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
+            // Add images and action buttons to the details view
+            Bitmap cover = BitmapUtil.getPicture(media);
+            if (cover == null)
+                detailsOverview.setImageDrawable(res.getDrawable(R.drawable.background_cone));
+            else
+                detailsOverview.setImageBitmap(getActivity(), cover);
+
+            detailsOverview.addAction(new Action(ID_PLAY, "Play"));
+            if (FileUtils.canWrite(media.getUri()))
+                detailsOverview.addAction(new Action(ID_DL_SUBS, "Download Subtitles"));
         }
         mRowsAdapter.add(detailsOverview);
 
