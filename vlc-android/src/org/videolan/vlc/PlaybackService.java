@@ -622,7 +622,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
                     if (!mVideoBackground && switchToVideo())
-                        hideNotification();
+                        hideNotification(false);
                     else
                         showNotification();
                     mVideoBackground = false;
