@@ -156,7 +156,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                     ? R.drawable.ic_menu_folder_big
                     : R.drawable.ic_menu_network_big));
             detailsOverview.setImageScaleUpAllowed(true);
-            detailsOverview.addAction(new Action(ID_BROWSE, "Browse folder"));
+            detailsOverview.addAction(new Action(ID_BROWSE, getString(R.string.browse_folder)));
             if (mDb.networkFavExists(Uri.parse(mMedia.getLocation())))
                 detailsOverview.addAction(actionDelete);
             else
@@ -170,8 +170,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             else
                 detailsOverview.setImageBitmap(getActivity(), cover);
 
-            detailsOverview.addAction(new Action(ID_PLAY, "Play"));
-            detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
+            detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
+            detailsOverview.addAction(new Action(ID_LISTEN, getString(R.string.listen)));
         } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
             // Add images and action buttons to the details view
             Bitmap cover = BitmapUtil.getPicture(media);
@@ -182,7 +182,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
             detailsOverview.addAction(new Action(ID_PLAY, "Play"));
             if (FileUtils.canWrite(media.getUri()))
-                detailsOverview.addAction(new Action(ID_DL_SUBS, "Download Subtitles"));
+                detailsOverview.addAction(new Action(ID_DL_SUBS, getString(R.string.download_subtitles)));
         }
         mRowsAdapter.add(detailsOverview);
 

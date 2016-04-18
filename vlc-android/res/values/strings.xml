@@ -628,6 +628,8 @@
     <string name="list_languages_download_title">Subtitles download languages</string>
     <string name="service_unavailable">Service unavailable</string>
     <string name="downloading_subtitles">Downloading subtitles</string>
+    <string name="browse_folder">Browse folder</string>
+    <string name="listen">Listen</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
