@@ -1784,6 +1784,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
+    public boolean isPlayingPopup() {
+        return mPopupManager != null;
+    }
+
+    @MainThread
     public void showPopup() {
         if (mPopupManager == null)
             mPopupManager = new PopupManager(this);
