@@ -232,7 +232,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.addItem(media, mReadyToDisplay && mRoot, false);
         if (empty && mReadyToDisplay)
             updateEmptyView();
-        if (mRoot && mSwipeRefreshLayout.isRefreshing())
+        if (mRoot && (empty || mSwipeRefreshLayout.isRefreshing()))
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
