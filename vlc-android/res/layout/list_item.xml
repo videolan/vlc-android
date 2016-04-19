@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto" >
     <data>
         <import type="org.videolan.vlc.media.MediaWrapper"/>
         <import type="android.view.View"/>
@@ -13,55 +14,69 @@
             name="position"
             type="int"/>
     </data>
-    <LinearLayout
-        android:id="@+id/layout_item"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        card_view:cardElevation="1sp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true"
         android:clickable="true"
         android:onClick="@{holder.onClick}">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
-
         <LinearLayout
+            android:id="@+id/layout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:minHeight="70dp"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="@{holder.onClick}">
 
-            <TextView
-                android:id="@+id/title"
+            <ImageView
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:layout_marginTop="5dip"
-                android:text="@{media.title}"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_title"
-                android:textSize="16sp"
-                android:singleLine="true"
-                android:scrollHorizontally="true"/>
+                android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
 
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:text="@{media.artist}"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_subtitle"
-                android:singleLine="true"
-                android:ellipsize="start"
-                android:visibility="@{media.artist == null ? View.GONE : View.VISIBLE}"/>
-        </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical" >
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:text="@{media.title}"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="?attr/list_title"
+                    android:textSize="16sp"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"/>
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:text="@{media.artist}"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="?attr/list_subtitle"
+                    android:singleLine="true"
+                    android:ellipsize="start"
+                    android:visibility="@{media.artist == null ? View.INVISIBLE : View.VISIBLE}"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </layout>
