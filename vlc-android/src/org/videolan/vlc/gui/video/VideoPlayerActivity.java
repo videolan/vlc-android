@@ -2848,20 +2848,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
+            boolean seek = true;
             // Handle playback
             if (!hasMedia)
                 mService.load(media);
             else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
-            else
+            else {
+                seek = false;
                 onPlaying();
+            }
 
-            // Set time
-            long resumeTime = intentPosition;
-            if (intentPosition <= 0 && media != null && media.getTime() > 0l)
-                resumeTime = media.getTime();
-            if (resumeTime > 0)
-                seek(resumeTime);
+            if (seek) {
+                // Set time
+                long resumeTime = intentPosition;
+                if (intentPosition <= 0 && media != null && media.getTime() > 0l)
+                    resumeTime = media.getTime();
+                if (resumeTime > 0)
+                    seek(resumeTime);
+            }
 
             // Get possible subtitles
             getSubtitles();
