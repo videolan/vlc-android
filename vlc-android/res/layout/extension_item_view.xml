@@ -9,7 +9,7 @@
             name="item"
             type="org.videolan.vlc.extensions.api.VLCExtensionItem"/>
         <variable
-            name="image"
+            name="imageDrawable"
             type="android.graphics.drawable.BitmapDrawable"/>
     </data>
 
@@ -25,7 +25,7 @@
             android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
-            android:src="@{image}"/>
+            android:src="@{imageDrawable}"/>
 
         <TextView
             android:id="@+id/title"

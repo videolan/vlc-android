@@ -88,7 +88,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         vh.binding.setItem(item);
         vh.binding.executePendingBindings();
         Resources res = holder.itemView.getContext().getResources();
-        vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
+        vh.binding.setImageDrawable(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
         if (item.imageUri != null) {
             if (TextUtils.equals("http", item.imageUri.getScheme()))
                 AsyncImageLoader.LoadImage(new HttpImageLoader(item.getImageUri().toString(), holder.binding), null);

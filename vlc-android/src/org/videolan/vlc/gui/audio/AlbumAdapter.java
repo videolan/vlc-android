@@ -71,7 +71,7 @@ public class AlbumAdapter extends BaseAdapter implements IAudioClickHandler{
 
         holder.binding.setPosition(position);
         holder.binding.setMedia(mw);
-        holder.binding.setFooter(position != mMediaList.size() - 1);
+        holder.binding.setHasFooter(position != mMediaList.size() - 1);
         holder.binding.setClickable(mContextPopupMenuListener != null);
         holder.binding.setHandler(this);
         holder.binding.executePendingBindings();

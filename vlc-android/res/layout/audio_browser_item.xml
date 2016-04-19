@@ -16,7 +16,7 @@
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
         <variable
-            name="footer"
+            name="hasFooter"
             type="boolean"/>
         <variable
             name="handler"
@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp" >
 
             <ImageView
-                android:id="@+id/cover"
+                android:id="@+id/media_cover"
                 android:layout_width="@dimen/audio_browser_item_size"
                 android:layout_height="@dimen/audio_browser_item_size"
                 android:src="@{cover}"
@@ -48,7 +48,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cover"
+                android:layout_toRightOf="@+id/media_cover"
                 android:layout_toLeftOf="@+id/item_more"
                 android:paddingLeft="15dp"
                 android:layout_centerVertical="true"
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?attr/item_footer"
-            android:visibility="@{footer ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{hasFooter ? View.VISIBLE : View.GONE}"/>
 
     </LinearLayout>
 </layout>
