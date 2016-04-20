@@ -2838,7 +2838,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
-            } else if (positionInPlaylist == -1) {
+            } else {
                 // not in media library
 
                 if (intentPosition > 0 && mAskResume) {
