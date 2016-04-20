@@ -2131,6 +2131,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         });
         popupMenu.show();
+        showOverlay();
     }
 
     @Override
