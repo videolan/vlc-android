@@ -1171,10 +1171,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         case KeyEvent.KEYCODE_MEDIA_STOP:
             exitOK();
             return true;
+        case KeyEvent.KEYCODE_DPAD_LEFT:
+            if (!mShowing) {
+                seekDelta(-10000);
+                return true;
+            }
+        case KeyEvent.KEYCODE_DPAD_RIGHT:
+            if (!mShowing) {
+                seekDelta(10000);
+                return true;
+            }
         case KeyEvent.KEYCODE_DPAD_UP:
         case KeyEvent.KEYCODE_DPAD_DOWN:
-        case KeyEvent.KEYCODE_DPAD_LEFT:
-        case KeyEvent.KEYCODE_DPAD_RIGHT:
         case KeyEvent.KEYCODE_DPAD_CENTER:
         case KeyEvent.KEYCODE_ENTER:
             if (mIsNavMenu)
@@ -2424,8 +2432,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         long position = getTime() + delta;
         if (position < 0) position = 0;
-        seek(position);
-        showOverlay();
+            seek(position);
+        showInfo(Strings.millisToString(mService.getTime())+"/"+Strings.millisToString(mService.getLength()), 1000);
     }
 
     private void initSeekButton() {
