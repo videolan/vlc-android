@@ -1182,6 +1182,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return true;
             }
         case KeyEvent.KEYCODE_DPAD_UP:
+            if (!mShowing) {
+                showAdvancedOptions();
+                return true;
+            }
         case KeyEvent.KEYCODE_DPAD_DOWN:
         case KeyEvent.KEYCODE_DPAD_CENTER:
         case KeyEvent.KEYCODE_ENTER:
