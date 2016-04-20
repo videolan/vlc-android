@@ -130,6 +130,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IPlaybackSettingsController,
@@ -713,7 +714,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mMediaRouter.removeCallback(mMediaRouterCallback);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
         if (mPlaybackStarted || mService == null)
@@ -763,7 +764,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
             touchHelper.attachToRecyclerView(mPlaylist);
+            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+                mPlaylistPrevious.setImageResource(R.drawable.ic_playlist_next_circle);
+                mPlaylistNext.setImageResource(R.drawable.ic_playlist_previous_circle);
+            }
         }
+
     }
 
     private void initUI() {
