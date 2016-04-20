@@ -175,7 +175,7 @@ public class UiTools {
         TextView link = (TextView) v.findViewById(R.id.main_link);
         link.setText(Html.fromHtml(VLCApplication.getAppResources().getString(R.string.about_link)));
 
-        String revision = VLCApplication.getAppResources().getString(R.string.build_revision);
+        String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
         String builddate = VLCApplication.getAppResources().getString(R.string.build_time);
         String builder = VLCApplication.getAppResources().getString(R.string.build_host);
 

@@ -33,6 +33,7 @@ android {
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
+        resValue "string", "build_vlc_revision", vlcRevision()
 
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('assemble')) {
@@ -225,15 +226,20 @@ def hostName() {
 
 def revision() {
     def code = new ByteArrayOutputStream()
-    def vlc = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'rev-parse', '--short', 'HEAD'
         standardOutput = code
     }
+    return code.toString()
+}
+
+def vlcRevision() {
+    def code = new ByteArrayOutputStream()
+    def vlc = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'rev-parse', '--short', 'HEAD'
         workingDir '../vlc'
         standardOutput = vlc
     }
-    return code.toString()+"VLC: "+vlc.toString()
+    return vlc.toString()
 }
