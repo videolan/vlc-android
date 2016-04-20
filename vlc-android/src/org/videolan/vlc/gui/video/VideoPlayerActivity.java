@@ -1343,6 +1343,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
         mSize.setEnabled(false);
+        mPlaylistNext.setEnabled(false);
+        mPlaylistPrevious.setEnabled(false);
         hideOverlay(true);
         mLockBackButton = true;
         mIsLocked = true;
@@ -1360,6 +1362,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setEnabled(mService == null || mService.isSeekable());
         mLength.setEnabled(true);
         mSize.setEnabled(true);
+        mPlaylistNext.setEnabled(true);
+        mPlaylistPrevious.setEnabled(true);
         mShowing = false;
         mIsLocked = false;
         showOverlay();
@@ -2521,6 +2525,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.setVisibility(View.VISIBLE);
                 if (mForward != null)
                     mForward.setVisibility(View.VISIBLE);
+                mPlaylistNext.setVisibility(View.VISIBLE);
+                mPlaylistPrevious.setVisibility(View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2559,6 +2565,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mForward != null)
                     mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mPlaylistNext.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mPlaylistPrevious.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mSize.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
@@ -2576,6 +2584,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mRewind.setVisibility(View.INVISIBLE);
             if (mForward != null)
                 mForward.setVisibility(View.INVISIBLE);
+            mPlaylistNext.setVisibility(View.INVISIBLE);
+            mPlaylistPrevious.setVisibility(View.INVISIBLE);
             mSize.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
