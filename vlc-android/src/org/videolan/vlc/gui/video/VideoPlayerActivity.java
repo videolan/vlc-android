@@ -380,8 +380,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         mPlaylistToggle = (ImageView) findViewById(R.id.playlist_toggle);
-        mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
-        mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
         mPlaylist = (RecyclerView) findViewById(R.id.video_playlist);
 
         mOverlayProgress = findViewById(R.id.progress_overlay);
@@ -748,6 +746,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
 
         if (mService.hasPlaylist()) {
+            mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
+            mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistAdapter.setService(mService);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -1363,8 +1363,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
         mSize.setEnabled(false);
-        mPlaylistNext.setEnabled(false);
-        mPlaylistPrevious.setEnabled(false);
+        if (mPlaylistNext != null)
+            mPlaylistNext.setEnabled(false);
+        if (mPlaylistPrevious != null)
+            mPlaylistPrevious.setEnabled(false);
         hideOverlay(true);
         mLockBackButton = true;
         mIsLocked = true;
@@ -1382,8 +1384,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setEnabled(mService == null || mService.isSeekable());
         mLength.setEnabled(true);
         mSize.setEnabled(true);
-        mPlaylistNext.setEnabled(true);
-        mPlaylistPrevious.setEnabled(true);
+        if (mPlaylistNext != null)
+            mPlaylistNext.setEnabled(true);
+        if (mPlaylistPrevious != null)
+            mPlaylistPrevious.setEnabled(true);
         mShowing = false;
         mIsLocked = false;
         showOverlay();
@@ -2546,8 +2550,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.setVisibility(View.VISIBLE);
                 if (mForward != null)
                     mForward.setVisibility(View.VISIBLE);
-                mPlaylistNext.setVisibility(View.VISIBLE);
-                mPlaylistPrevious.setVisibility(View.VISIBLE);
+                if (mPlaylistNext != null)
+                    mPlaylistNext.setVisibility(View.VISIBLE);
+                if (mPlaylistPrevious != null)
+                    mPlaylistPrevious.setVisibility(View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2586,8 +2592,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mRewind.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mForward != null)
                     mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                mPlaylistNext.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                mPlaylistPrevious.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mPlaylistNext != null)
+                    mPlaylistNext.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mPlaylistPrevious != null)
+                    mPlaylistPrevious.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mSize.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
@@ -2605,8 +2613,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mRewind.setVisibility(View.INVISIBLE);
             if (mForward != null)
                 mForward.setVisibility(View.INVISIBLE);
-            mPlaylistNext.setVisibility(View.INVISIBLE);
-            mPlaylistPrevious.setVisibility(View.INVISIBLE);
+            if (mPlaylistNext != null)
+                mPlaylistNext.setVisibility(View.INVISIBLE);
+            if (mPlaylistPrevious != null)
+                mPlaylistPrevious.setVisibility(View.INVISIBLE);
             mSize.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
