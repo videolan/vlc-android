@@ -56,7 +56,7 @@
                     android:layout_marginRight="5dip"
                     android:layout_marginTop="5dip"
                     android:text="@{media.title}"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|start"
                     android:fontFamily="sans-serif-light"
                     android:textColor="?attr/list_title"
                     android:textSize="16sp"
