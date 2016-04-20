@@ -627,7 +627,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
         private ArrayList<Option> mList = new ArrayList<>();
-        private int mSelection = -1;
+        private int mSelection = 0;
 
         public AdvOptionsAdapter() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
