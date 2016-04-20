@@ -56,14 +56,14 @@ public class AboutFragment extends Fragment {
         View v = inflater.inflate(R.layout.about, container, false);
 
         View aboutMain = v.findViewById(R.id.about_main);
-        WebView t = (WebView)v.findViewById(R.id.webview);
+        WebView webView = (WebView)v.findViewById(R.id.webview);
         String revision = getString(R.string.build_revision);
-        t.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
+        webView.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
 
 
         UiTools.fillAboutView(v);
 
-        List<View> lists = Arrays.asList(aboutMain, t);
+        List<View> lists = Arrays.asList(aboutMain, webView);
         String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
