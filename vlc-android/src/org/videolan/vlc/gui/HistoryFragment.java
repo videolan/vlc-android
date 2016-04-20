@@ -34,7 +34,6 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -67,7 +66,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mRecyclerView = (RecyclerView)v.findViewById(android.R.id.list);
         mEmptyView = v.findViewById(android.R.id.empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mHistoryAdapter);
         mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
