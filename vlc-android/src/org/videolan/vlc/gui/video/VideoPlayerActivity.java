@@ -1196,6 +1196,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         case KeyEvent.KEYCODE_DPAD_DOWN:
         case KeyEvent.KEYCODE_DPAD_CENTER:
+            if (!mShowing) {
+                doPlayPause();
+                return true;
+            }
         case KeyEvent.KEYCODE_ENTER:
             if (mIsNavMenu)
                 return navigateDvdMenu(keyCode);
@@ -2407,6 +2411,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             play();
             showOverlayTimeout(OVERLAY_TIMEOUT);
         }
+        mPlayPause.requestFocus();
     }
 
     private long getTime() {
