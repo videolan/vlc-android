@@ -49,8 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/media_cover"
+                android:layout_toEndOf="@+id/media_cover"
                 android:layout_toLeftOf="@+id/item_more"
+                android:layout_toStartOf="@+id/item_more"
                 android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:layout_centerVertical="true"
                 android:orientation="vertical" >
 
@@ -85,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/ic_more"
                 android:contentDescription="@string/more_actions"
                 android:tag="@{position}"
