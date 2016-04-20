@@ -29,6 +29,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -37,6 +39,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.Strings;
+
+import java.util.Locale;
 
 abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
@@ -66,7 +70,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         context.sendBroadcast(i);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -98,6 +102,11 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.forward, piForward);
             views.setOnClickPendingIntent(R.id.cover, piVlc);
             partial = false;
+            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+                boolean black = this instanceof VLCAppWidgetProviderBlack;
+                views.setImageViewResource(R.id.forward, black ? R.drawable.ic_widget_previous_w : R.drawable.ic_widget_previous);
+                views.setImageViewResource(R.id.backward, black ? R.drawable.ic_widget_next_w : R.drawable.ic_widget_next);
+            }
         }
 
         if (ACTION_WIDGET_UPDATE.equals(action)) {
