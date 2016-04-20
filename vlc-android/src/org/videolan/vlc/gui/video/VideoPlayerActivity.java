@@ -1116,7 +1116,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return true;
         }
-        showOverlayTimeout(OVERLAY_TIMEOUT);
+        if (mShowing || keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
+            showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
