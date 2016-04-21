@@ -85,15 +85,15 @@ public class MediaLibrary {
                 "/android/media",
         };
 
-        FOLDER_BLACKLIST = new HashSet<String>();
+        FOLDER_BLACKLIST = new HashSet<>();
         for (String item : folder_blacklist)
             FOLDER_BLACKLIST.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + item);
     }
 
     private MediaLibrary() {
         mInstance = this;
-        mItemList = new ArrayList<MediaWrapper>();
-        mUpdateHandler = new ArrayList<Handler>();
+        mItemList = new ArrayList<>();
+        mUpdateHandler = new ArrayList<>();
         mItemListLock = new ReentrantReadWriteLock();
     }
 
@@ -135,12 +135,10 @@ public class MediaLibrary {
     }
 
     public boolean isWorking() {
-        if (mLoadingThread != null &&
-            mLoadingThread.isAlive() &&
-            mLoadingThread.getState() != State.TERMINATED &&
-            mLoadingThread.getState() != State.NEW)
-            return true;
-        return false;
+        return mLoadingThread != null &&
+                mLoadingThread.isAlive() &&
+                mLoadingThread.getState() != State.TERMINATED &&
+                mLoadingThread.getState() != State.NEW;
     }
 
     public synchronized static MediaLibrary getInstance() {
@@ -158,7 +156,7 @@ public class MediaLibrary {
     }
 
     public ArrayList<MediaWrapper> searchMedia(String query){
-        ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
         ArrayList<String> pathList = MediaDatabase.getInstance().searchMedia(query);
         if (!pathList.isEmpty()){
             for (String path : pathList) {
@@ -169,7 +167,7 @@ public class MediaLibrary {
     }
 
     public ArrayList<MediaWrapper> getVideoItems() {
-        ArrayList<MediaWrapper> videoItems = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> videoItems = new ArrayList<>();
         mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             MediaWrapper item = mItemList.get(i);
@@ -182,7 +180,7 @@ public class MediaLibrary {
     }
 
     public ArrayList<MediaWrapper> getAudioItems() {
-        ArrayList<MediaWrapper> audioItems = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> audioItems = new ArrayList<>();
         mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             MediaWrapper item = mItemList.get(i);
@@ -195,7 +193,7 @@ public class MediaLibrary {
     }
 
     public ArrayList<MediaWrapper> getPlaylistFilesItems() {
-        ArrayList<MediaWrapper> playlistItems = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> playlistItems = new ArrayList<>();
         mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             MediaWrapper item = mItemList.get(i);
@@ -208,7 +206,7 @@ public class MediaLibrary {
     }
 
     public ArrayList<AudioBrowserListAdapter.ListItem> getPlaylistDbItems() {
-        ArrayList<AudioBrowserListAdapter.ListItem> playlistItems = new ArrayList<AudioBrowserListAdapter.ListItem>();
+        ArrayList<AudioBrowserListAdapter.ListItem> playlistItems = new ArrayList<>();
         AudioBrowserListAdapter.ListItem playList;
         MediaDatabase db = MediaDatabase.getInstance();
         String[] items, playlistNames = db.getPlaylists();
@@ -242,19 +240,10 @@ public class MediaLibrary {
         return null;
     }
 
-    public ArrayList<MediaWrapper> getMediaItems(List<String> pathList) {
-        ArrayList<MediaWrapper> items = new ArrayList<MediaWrapper>();
-        for (int i = 0; i < pathList.size(); i++) {
-            MediaWrapper item = getMediaItem(pathList.get(i));
-            items.add(item);
-        }
-        return items;
-    }
-
     private class GetMediaItemsRunnable implements Runnable {
 
-        private final Stack<File> directories = new Stack<File>();
-        private final HashSet<String> directoriesScanned = new HashSet<String>();
+        private final Stack<File> directories = new Stack<>();
+        private final HashSet<String> directoriesScanned = new HashSet<>();
 
         public GetMediaItemsRunnable() {
         }
@@ -286,7 +275,7 @@ public class MediaLibrary {
             ArrayMap<String, MediaWrapper> existingMedias = getStoredMedias(mediaDatabase);
 
             // list of all added files
-            HashSet<String> addedLocations = new HashSet<String>();
+            HashSet<String> addedLocations = new HashSet<>();
 
             // clear all old items
             mItemListLock.writeLock().lock();
@@ -297,9 +286,9 @@ public class MediaLibrary {
 
             int count = 0;
 
-            LinkedList<File> mediaToScan = new LinkedList<File>();
+            LinkedList<File> mediaToScan = new LinkedList<>();
             try {
-                LinkedList<String> dirsToIgnore = new LinkedList<String>();
+                LinkedList<String> dirsToIgnore = new LinkedList<>();
                 // Count total files, and stack them
                 while (!directories.isEmpty()) {
                     File dir = directories.pop();
@@ -352,7 +341,7 @@ public class MediaLibrary {
                 }
 
                 //Remove ignored files
-                HashSet<Uri> mediasToRemove = new HashSet<Uri>();
+                HashSet<Uri> mediasToRemove = new HashSet<>();
                 String path;
                 outloop:
                 for (Map.Entry<String, MediaWrapper> entry : existingMedias.entrySet()){
@@ -503,7 +492,7 @@ public class MediaLibrary {
 
     public void setBrowser(IBrowser browser) {
         if (browser != null)
-            mBrowser = new WeakReference<IBrowser>(browser);
+            mBrowser = new WeakReference<>(browser);
         else
             mBrowser.clear();
     }
