@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
@@ -85,7 +86,7 @@ public class CardPresenter extends Presenter {
             if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http")) {
                 AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), mCardView);
             } else {
-                AsyncImageLoader.LoadImage(new CoverFetcher(mContext, mediaWrapper), mCardView);
+                AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), mCardView);
             }
         }
 
@@ -222,20 +223,18 @@ public class CardPresenter extends Presenter {
 
     public static class CoverFetcher implements AsyncImageLoader.Callbacks{
         MediaWrapper mediaWrapper;
-        private static Activity context;
         private static Resources res;
 
-        CoverFetcher(Activity context, MediaWrapper mediaWrapper){
+        CoverFetcher(MediaWrapper mediaWrapper){
             this.mediaWrapper = mediaWrapper;
-            this.context = context;
-            res = context.getResources();
+            res = VLCApplication.getAppResources();
         }
 
         @Override
         public Bitmap getImage() {
-            Bitmap picture = null;
+            Bitmap picture;
             if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
-                picture = AudioUtil.getCover(context, mediaWrapper, 320);
+                picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
                 if (picture == null)
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
             } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
