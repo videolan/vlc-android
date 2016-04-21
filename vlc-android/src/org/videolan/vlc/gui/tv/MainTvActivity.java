@@ -526,7 +526,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                sThumbnailer = new Thumbnailer(mContext, getWindowManager().getDefaultDisplay());
+                sThumbnailer = new Thumbnailer();
                 Bitmap picture;
                 ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
                 MediaDatabase mediaDatabase = MediaDatabase.getInstance();

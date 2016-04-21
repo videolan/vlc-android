@@ -103,7 +103,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         /* Load the thumbnailer */
         FragmentActivity activity = getActivity();
         if (activity != null)
-            mThumbnailer = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
+            mThumbnailer = new Thumbnailer();
     }
 
     @Override
@@ -307,17 +307,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 return true;
             case R.id.video_list_delete:
                 mVideoAdapter.remove(position);
-                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(media);
-                    }
-                }, new Runnable() {
-                    @Override
-                    public void run() {
-                        mVideoAdapter.add(position, media);
-                    }
-                });
+                if (getView() != null)
+                    UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteMedia(media);
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+                            mVideoAdapter.add(position, media);
+                        }
+                    });
                 return true;
             case R.id.video_group_play:
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
@@ -379,9 +380,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-        if (info != null && handleContextItemSelected(menu, info.position))
-            return true;
-        return super.onContextItemSelected(menu);
+        return info != null && handleContextItemSelected(menu, info.position);
     }
 
     /**
@@ -407,7 +406,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final ArrayList<MediaWrapper> displayList = new ArrayList<MediaWrapper>();
+                    final ArrayList<MediaWrapper> displayList = new ArrayList<>();
 
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {

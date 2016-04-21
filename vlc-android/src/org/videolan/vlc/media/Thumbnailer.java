@@ -36,20 +36,17 @@ import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Process;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 
 public class Thumbnailer implements Runnable {
     public final static String TAG = "VLC/Thumbnailer";
 
     private WeakReference<IVideoBrowser> mVideoBrowser;
 
-    private final Queue<MediaWrapper> mItems = new LinkedList<MediaWrapper>();
+    private final Queue<MediaWrapper> mItems = new LinkedList<>();
 
     private boolean isStopping = false;
     private final Lock lock = new ReentrantLock();
@@ -59,10 +56,8 @@ public class Thumbnailer implements Runnable {
     private int mTotalCount;
     private final String mPrefix;
 
-    public Thumbnailer(Context context, Display display) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        mPrefix = context.getResources().getString(R.string.thumbnail);
+    public Thumbnailer() {
+        mPrefix = VLCApplication.getAppResources().getString(R.string.thumbnail);
     }
 
     public void start(IVideoBrowser videoBrowser) {
@@ -129,11 +124,10 @@ public class Thumbnailer implements Runnable {
      */
     @Override
     public void run() {
-        int count = 0;
-        int total = 0;
+        int total, count = 0;
 
         Log.d(TAG, "Thumbnailer started");
-mainloop:
+        mainloop:
         while (!isStopping) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
@@ -197,6 +191,6 @@ mainloop:
     }
 
     public void setVideoBrowser(IVideoBrowser browser){
-        mVideoBrowser = new WeakReference<IVideoBrowser>(browser);
+        mVideoBrowser = new WeakReference<>(browser);
     }
 }
