@@ -57,7 +57,6 @@ public class CardPresenter extends Presenter {
     private Resources mRes;
     private static int CARD_WIDTH;
     private static int CARD_HEIGHT = 0;
-    private static MediaDatabase sMediaDatabase = MediaDatabase.getInstance();
     private static Drawable sDefaultCardImage;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
@@ -75,10 +74,6 @@ public class CardPresenter extends Presenter {
         public ViewHolder(View view) {
             super(view);
             mCardView = (ImageCardView) view;
-        }
-
-        public ImageCardView getCardView() {
-            return mCardView;
         }
 
         protected void updateCardViewImage(MediaWrapper mediaWrapper) {
