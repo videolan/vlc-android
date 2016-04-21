@@ -801,14 +801,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     /* Cancel any upcoming visibility change */
                         removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
                         ma.mInfoLayout.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                     /* Slightly delay the appearance of the progress bar to avoid unnecessary flickering */
-                        if (!hasMessages(ACTIVITY_SHOW_INFOLAYOUT)) {
-                            Message m = new Message();
-                            m.what = ACTIVITY_SHOW_INFOLAYOUT;
-                            sendMessageDelayed(m, 300);
-                        }
+                        if (!hasMessages(ACTIVITY_SHOW_INFOLAYOUT))
+                            sendEmptyMessageDelayed(ACTIVITY_SHOW_INFOLAYOUT, 300);
                     }
                     break;
             }
