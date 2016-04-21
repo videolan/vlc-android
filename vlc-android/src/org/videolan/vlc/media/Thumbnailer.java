@@ -39,6 +39,7 @@ import org.videolan.vlc.util.VLCInstance;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.os.Process;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -67,8 +68,9 @@ public class Thumbnailer implements Runnable {
     public void start(IVideoBrowser videoBrowser) {
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
-            mVideoBrowser = new WeakReference<IVideoBrowser>(videoBrowser);
+            mVideoBrowser = new WeakReference<>(videoBrowser);
             mThread = new Thread(this);
+            mThread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             mThread.start();
         }
     }

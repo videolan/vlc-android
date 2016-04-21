@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
@@ -111,6 +112,7 @@ public class MediaLibrary {
             isStopping = false;
             MediaUtils.actionScanStart();
             mLoadingThread = new Thread(new GetMediaItemsRunnable());
+            mLoadingThread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             mLoadingThread.start();
         }
     }

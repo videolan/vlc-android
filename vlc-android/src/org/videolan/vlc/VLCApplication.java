@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.util.SimpleArrayMap;
@@ -43,6 +44,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +63,15 @@ public class VLCApplication extends Application {
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 2, 2, TimeUnit.SECONDS,
-                                                                    new LinkedBlockingQueue<Runnable>());
+            new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
+    public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable runnable) {
+            Thread thread = new Thread(runnable);
+            thread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            return thread;
+        }
+    };
 
     private static int sDialogCounter = 0;
 
