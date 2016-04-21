@@ -353,12 +353,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             holder = new ViewHolder();
             holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
             v = holder.binding.getRoot();
-            UiTools.setAlignModeByPref(mAlignMode, (TextView) v.findViewById(R.id.title));
             holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
         }
 
         ListItem item = getItem(position);
+        holder.binding.setVariable(BR.alignMode, mAlignMode);
         holder.binding.setVariable(BR.item, item);
         holder.binding.setVariable(BR.position, position);
 

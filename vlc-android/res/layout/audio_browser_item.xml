@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
         <variable
             name="position"
+            type="int" />
+        <variable
+            name="alignMode"
             type="int" />
         <variable
             name="item"
@@ -63,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="false"
                     android:ellipsize="end"
+                    vlc:alignMode="@{alignMode}"
                     android:maxLines="2"
                     android:text="@{media.title ?? item.mTitle}"
                     android:fontFamily="sans-serif-light"

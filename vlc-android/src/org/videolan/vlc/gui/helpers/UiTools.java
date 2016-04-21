@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.databinding.BindingAdapter;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -136,15 +137,22 @@ public class UiTools {
      * @param alignMode Align mode as read from preferences
      * @param t Reference to the textview
      */
-    public static void setAlignModeByPref(int alignMode, TextView t) {
-        if(alignMode == 1)
-            t.setEllipsize(TextUtils.TruncateAt.END);
-        else if(alignMode == 2)
-            t.setEllipsize(TextUtils.TruncateAt.START);
-        else if(alignMode == 3) {
-            t.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            t.setMarqueeRepeatLimit(-1);
-            t.setSelected(true);
+    @BindingAdapter({"bind:alignMode"})
+    public static void setAlignModeByPref(TextView t, int alignMode) {
+        switch (alignMode) {
+            case 0:
+                break;
+            case 1:
+                t.setEllipsize(TextUtils.TruncateAt.END);
+                break;
+            case 2:
+                t.setEllipsize(TextUtils.TruncateAt.START);
+                break;
+            case 3:
+                t.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                t.setMarqueeRepeatLimit(-1);
+                t.setSelected(true);
+                break;
         }
     }
 
