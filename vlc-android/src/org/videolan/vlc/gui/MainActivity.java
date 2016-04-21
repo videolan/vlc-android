@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -257,17 +258,16 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Permissions.PERMISSION_STORAGE_TAG:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
-                } else {
+                else
                     Permissions.showStoragePermissionDialog(this, false);
-                }
-                return;
+                break;
             // other 'case' lines to check for other
             // permissions this app might request
         }
@@ -592,7 +592,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         if (current instanceof NetworkBrowserFragment &&
                 !((NetworkBrowserFragment)current).isRootDirectory()) {
-            MenuItemCompat.setShowAsAction(menu.findItem(R.id.ml_menu_search), MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setShowAsAction(menu.findItem(R.id.ml_menu_search), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
             item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
@@ -782,11 +782,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     ma.mInfoLayout.setVisibility(View.VISIBLE);
                     break;
                 case ACTIVITY_SHOW_PROGRESSBAR:
-                    ma.setSupportProgressBarIndeterminateVisibility(true);
+                    ma.mInfoProgress.setVisibility(View.VISIBLE);
                     ma.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     break;
                 case ACTIVITY_HIDE_PROGRESSBAR:
-                    ma.setSupportProgressBarIndeterminateVisibility(false);
+                    ma.mInfoProgress.setVisibility(View.GONE);
                     ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     break;
                 case ACTIVITY_SHOW_TEXTINFO:
