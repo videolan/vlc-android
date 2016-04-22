@@ -41,12 +41,14 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
 
+            <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
             <ImageView
                 android:id="@+id/media_cover"
                 android:layout_width="@dimen/audio_browser_item_size"
                 android:layout_height="@dimen/audio_browser_item_size"
                 android:src="@{cover}"
                 android:layout_gravity="center"
+                vlc:item="@{item}"
                 android:visibility="@{cover != null ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout

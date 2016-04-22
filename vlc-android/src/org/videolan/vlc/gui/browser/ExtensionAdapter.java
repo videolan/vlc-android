@@ -2,7 +2,6 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -30,11 +29,11 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
-        ExtensionItemViewBinding binding;
+        public ExtensionItemViewBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            binding = DataBindingUtil.bind(itemView);
+        public ViewHolder(ExtensionItemViewBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
             itemView.setOnLongClickListener(this);
             binding.setHolder(this);
         }
@@ -75,10 +74,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
-        v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.extension_item_view, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder((ExtensionItemViewBinding) DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.extension_item_view, parent, false));
     }
 
     @Override
@@ -88,11 +84,9 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         vh.binding.setItem(item);
         vh.binding.executePendingBindings();
         Resources res = holder.itemView.getContext().getResources();
-        vh.binding.setImageDrawable(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
-        if (item.imageUri != null) {
-            if (TextUtils.equals("http", item.imageUri.getScheme()))
+        vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
+        if (item.imageUri != null && (TextUtils.equals("http", item.imageUri.getScheme())))
                 AsyncImageLoader.LoadImage(new HttpImageLoader(item.getImageUri().toString(), holder.binding), null);
-        }
     }
 
     private int getIconResId(VLCExtensionItem item) {

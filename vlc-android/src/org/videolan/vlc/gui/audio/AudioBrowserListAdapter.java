@@ -37,7 +37,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
-import android.widget.TextView;
 
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
@@ -45,7 +44,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IAudioClickHandler;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
@@ -362,17 +360,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.item, item);
         holder.binding.setVariable(BR.position, position);
 
-        final ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
-        boolean asyncLoad = true;
-
         if (mItemType == ITEM_WITH_COVER) {
-            Bitmap bitmap = AudioUtil.getCoverFromMemCache(mContext, mediaList, 64);
-            if (bitmap != null) {
-                asyncLoad = false;
-                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            } else {
-                holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
-            }
+            //Tagging the binding to the ImageView will trigger async image loading with:
+            // org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture(ImageView , AudioBrowserListAdapter.ListItem)
+            holder.binding.getRoot().findViewById(R.id.media_cover).setTag(holder.binding);
         } else
             holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
 
@@ -380,8 +371,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
         holder.binding.setVariable(BR.handler, this);
         holder.binding.executePendingBindings();
-        if (asyncLoad)
-            AsyncImageLoader.LoadImage(new AudioCoverFetcher(holder.binding, mContext, mediaList), null);
 
         return v;
     }
@@ -597,29 +586,5 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public void onMoreClick(View v) {
         if (mContextPopupMenuListener != null)
             mContextPopupMenuListener.onPopupMenu(v, ((Integer)v.getTag()).intValue());
-    }
-
-    private static class AudioCoverFetcher extends AsyncImageLoader.CoverFetcher {
-        final ArrayList<MediaWrapper> list;
-        final Context context;
-
-        AudioCoverFetcher(ViewDataBinding binding, Context context, ArrayList<MediaWrapper> list) {
-            super(binding);
-            this.context = context;
-            this.list = list;
-        }
-
-        @Override
-        public Bitmap getImage() {
-            return AudioUtil.getCover(context, list, 64);
-        }
-
-        @Override
-        public void updateBindImage(Bitmap bitmap, View target) {
-            if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-                binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            }
-        }
     }
 }

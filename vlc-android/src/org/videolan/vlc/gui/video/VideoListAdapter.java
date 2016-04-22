@@ -23,8 +23,6 @@ package org.videolan.vlc.gui.video;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
@@ -39,9 +37,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader;
-import org.videolan.vlc.gui.helpers.BitmapCache;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
@@ -70,8 +65,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private VideoGridFragment mFragment;
     private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
 
-    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_cone_o));
-
     public VideoListAdapter(VideoGridFragment fragment) {
         super();
         mFragment = fragment;
@@ -88,27 +81,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MediaWrapper media = mVideos.get(position);
-        boolean asyncLoad = true;
-
-        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER);
-        final Bitmap bitmap = BitmapUtil.getPictureFromCache(media);
-        if (bitmap != null) {
-            if (bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
-                asyncLoad = false;
-                holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                holder.binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            } else
-                holder.binding.setVariable(BR.cover, DEFAULT_COVER);
-        } else {
-            holder.binding.setVariable(BR.cover, DEFAULT_COVER);
-        }
-
+        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
         fillView(holder, media);
 
         holder.binding.setVariable(BR.media, media);
-        holder.binding.executePendingBindings();
-        if (asyncLoad)
-            AsyncImageLoader.LoadImage(new VideoCoverFetcher(holder.binding, media), null);
     }
 
     @MainThread
@@ -303,31 +279,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return mListMode;
     }
 
-    private static class VideoCoverFetcher extends AsyncImageLoader.CoverFetcher {
-        final MediaWrapper media;
-
-        VideoCoverFetcher(ViewDataBinding binding, MediaWrapper media) {
-            super(binding);
-            this.media = media;
-        }
-
-        @Override
-        public Bitmap getImage() {
-            return BitmapUtil.fetchPicture(media);
-        }
-
-        @Override
-        public void updateBindImage(Bitmap bitmap, View target) {
-            if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-                binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                binding.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            }
-        }
-    }
-
     @Override
     public long getItemId(int position) {
-        return 0l;
+        return 0L;
     }
 
     @Override
@@ -342,7 +296,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         boolean listmode;
-        ViewDataBinding binding;
+        public ViewDataBinding binding;
 
         public ViewHolder(View itemView, boolean listMode) {
             super(itemView);

@@ -31,6 +31,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
@@ -90,21 +91,26 @@ public class HttpImageLoader implements Callbacks {
 
     @Override
     public Bitmap getImage() {
-        if (iconsMap.containsKey(mImageLink)) {
-            Bitmap bd = iconsMap.get(mImageLink).get();
+        return downloadBitmap(mImageLink);
+    }
+
+    @Nullable
+    public static Bitmap downloadBitmap(String imageUrl) {
+        if (iconsMap.containsKey(imageUrl)) {
+            Bitmap bd = iconsMap.get(imageUrl).get();
             if (bd != null) {
                 return bd;
             } else
-                iconsMap.remove(mImageLink);
+                iconsMap.remove(imageUrl);
         }
         HttpURLConnection urlConnection = null;
         Bitmap icon = null;
         try {
-            URL url = new URL(mImageLink);
+            URL url = new URL(imageUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             icon = BitmapFactory.decodeStream(in);
-            iconsMap.put(mImageLink, new SoftReference<>(icon));
+            iconsMap.put(imageUrl, new SoftReference<>(icon));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -118,18 +124,16 @@ public class HttpImageLoader implements Callbacks {
 
     @Override
     public void updateImage(final Bitmap bitmap, final View target) {
+        if (bitmap == null || bitmap.getWidth() == 1 || bitmap.getHeight() == 1)
+            return;
         if (mBinding != null) {
             mBinding.removeOnRebindCallback(rebindCallbacks);
-            if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-                if (mBinding != null) {
-                    if (bindChanged)
-                        return;
-                    mBinding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                    mBinding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                    mBinding.setVariable(BR.protocol, null);
-                }
-            }
-        } else if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
+            if (bindChanged)
+                return;
+            mBinding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+            mBinding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            mBinding.setVariable(BR.protocol, null);
+        } else {
             sHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -142,6 +146,5 @@ public class HttpImageLoader implements Callbacks {
                 }
             });
         }
-
     }
 }

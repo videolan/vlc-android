@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <variable
@@ -52,6 +53,7 @@
             android:checked="@{checked}"
             android:onClick="@{holder.onCheckBoxClick}"/>
 
+        <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.downloadIcon() -->
         <TextView
             android:id="@+id/dvi_icon"
             android:layout_width="@dimen/directory_browser_item_size"
@@ -64,7 +66,8 @@
             android:text="@{protocol}"
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"
-            android:background="@{image}"/>
+            android:background="@{image}"
+            vlc:mediaWithArt="@{media}" />
 
         <LinearLayout
             android:layout_width="0dp"

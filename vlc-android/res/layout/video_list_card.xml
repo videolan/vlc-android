@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:vlc="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -44,9 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        card_view:cardElevation="1sp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true"
+        vlc:cardElevation="1sp"
+        vlc:cardPreventCornerOverlap="false"
+        vlc:cardUseCompatPadding="true"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{holder.onClick}"
@@ -59,11 +59,14 @@
             android:padding="10dp"
             android:orientation="horizontal">
 
+            <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
             <ImageView
                 android:id="@+id/ml_item_thumbnail"
                 android:layout_width="120dip"
                 android:layout_height="76dip"
                 android:background="?attr/background_default_darker"
+                vlc:media="@{media}"
+                vlc:binding="@{holder.binding}"
                 android:scaleType="@{scaleType}"
                 android:src="@{cover}" />
 
