@@ -56,8 +56,7 @@
             android:id="@+id/layout_item"
             android:layout_width="@dimen/grid_card_width"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="10dp"
             android:layout_gravity="center"
             android:background="?attr/background_default"
             android:gravity="center_vertical"
@@ -78,15 +77,6 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-light"
-                    android:lines="2"
-                    android:text=""
-                    android:textSize="@dimen/grid_card_title_text_size" />
 
                 <TextView
                     android:id="@+id/ml_item_title"
