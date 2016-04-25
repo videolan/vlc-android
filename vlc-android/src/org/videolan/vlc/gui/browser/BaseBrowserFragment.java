@@ -60,7 +60,9 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -190,6 +192,18 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             return getCategoryTitle();
         else
             return mCurrentMedia != null ? mCurrentMedia.getTitle() : mMrl;
+    }
+
+    public String getSubTitle(){
+        if (mRoot)
+            return null;
+        String mrl = Strings.removeFileProtocole(mMrl);
+        if (!TextUtils.isEmpty(mrl)) {
+            if (this instanceof FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
+                mrl = getString(R.string.internal_memory)+mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length());
+            mrl = mrl.replaceAll("://", " ").replaceAll("/", " > ");
+        }
+        return mCurrentMedia != null ? mrl : null;
     }
 
     @Override

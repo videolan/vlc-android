@@ -41,6 +41,16 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
         mMediaLibrary = MediaLibrary.getInstance();
     }
 
+    public void onStart(){
+        super.onStart();
+        final AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if (activity != null && activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setTitle(getTitle());
+            activity.getSupportActionBar().setSubtitle(getSubTitle());
+            getActivity().supportInvalidateOptionsMenu();
+        }
+    }
+
     public void setReadyToDisplay(boolean ready) {
         if (ready && !mReadyToDisplay)
             display();
@@ -51,13 +61,6 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
     protected abstract void display();
 
     protected abstract String getTitle();
+    protected String getSubTitle() { return null; }
     public abstract void clear();
-    public void onStart(){
-        super.onStart();
-        final AppCompatActivity activity = (AppCompatActivity)getActivity();
-        if (activity != null && activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setTitle(getTitle());
-            getActivity().supportInvalidateOptionsMenu();
-        }
-    }
 }

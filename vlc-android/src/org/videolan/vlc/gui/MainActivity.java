@@ -847,6 +847,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if(item == null)
             return false;
 
+        getSupportActionBar().setTitle(null); //clear title
+        getSupportActionBar().setSubtitle(null); //clear subtitle
+
         int id = item.getItemId();
         FragmentManager fm = getSupportFragmentManager();
         Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
