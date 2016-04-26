@@ -98,8 +98,10 @@
     <string name="validation">Are you sure?</string>
 
     <string name="cover_art">Cover art</string>
+    <string name="shuffle_title">Shuffle mode</string>
     <string name="shuffle">Shuffle Off</string>
     <string name="shuffle_on">Shuffle On</string>
+    <string name="repeat_title">Repeat mode</string>
     <string name="repeat">Repeat none</string>
     <string name="repeat_single">Repeat single</string>
     <string name="repeat_all">Repeat all</string>
@@ -615,6 +617,7 @@
     <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>
     <string name="store_password">Remember password</string>
     <string name="add_to_playlist">Add to playlist</string>
+    <string name="popup_playback_title">Play video in a Pop-Up window</string>
     <string name="popup_playback">Playing in a Pop-Up window</string>
     <string name="popup_expand">Expand video</string>
     <string name="snack_subloader_sub_found">Subtitles downloaded</string>
