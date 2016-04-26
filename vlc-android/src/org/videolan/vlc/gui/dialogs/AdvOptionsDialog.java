@@ -297,14 +297,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initSpuDelay() {
-        long spudelay = mService.getSpuDelay() / 1000l;
-        if (spudelay == 0l) {
+        long spudelay = mService.getSpuDelay() / 1000L;
+        if (spudelay == 0L) {
             mSpuDelay.setText(null);
             mSpuDelay.setCompoundDrawablesWithIntrinsicBounds(0,
                     UiTools.getResourceFromAttribute(mActivity, R.attr.ic_subtitledelay),
                     0, 0);
         } else {
-            mSpuDelay.setText(Long.toString(spudelay) + " ms");
+            mSpuDelay.setText(String.format("%s ms", Long.toString(spudelay)));
             mSpuDelay.setCompoundDrawablesWithIntrinsicBounds(0,
                     R.drawable.ic_subtitledelay_on,
                     0, 0);
@@ -312,14 +312,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initAudioDelay() {
-        long audiodelay = mService.getAudioDelay() / 1000l;
-        if (audiodelay == 0l) {
+        long audiodelay = mService.getAudioDelay() / 1000L;
+        if (audiodelay == 0L) {
             mAudioDelay.setText(null);
             mAudioDelay.setCompoundDrawablesWithIntrinsicBounds(0,
                     UiTools.getResourceFromAttribute(mActivity, R.attr.ic_audiodelay),
                     0, 0);
         } else {
-            mAudioDelay.setText(Long.toString(audiodelay) + " ms");
+            mAudioDelay.setText(String.format("%s ms", Long.toString(audiodelay)));
             mAudioDelay.setCompoundDrawablesWithIntrinsicBounds(0,
                     R.drawable.ic_audiodelay_on,
                     0, 0);
@@ -382,7 +382,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         int index = mService.getChapterIdx();
         if (chapters[index].name == null || chapters[index].name.equals(""))
-            mChaptersTitle.setText(getResources().getString(R.string.chapter) + " " + index);
+            mChaptersTitle.setText(String.format("%s %d", getResources().getString(R.string.chapter), index));
         else
             mChaptersTitle.setText(chapters[index].name);
     }
