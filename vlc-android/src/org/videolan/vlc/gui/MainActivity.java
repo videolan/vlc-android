@@ -291,7 +291,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     protected void onStart() {
         super.onStart();
 
-        createExtensionServiceConnection();
+          //Deactivated for now
+//        createExtensionServiceConnection();
 
         cleatBackstackFromExtension();
     }
