@@ -201,7 +201,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (!TextUtils.isEmpty(mrl)) {
             if (this instanceof FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
                 mrl = getString(R.string.internal_memory)+mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length());
-            mrl = mrl.replaceAll("://", " ").replaceAll("/", " > ");
+            mrl = Uri.decode(mrl).replaceAll("://", " ").replaceAll("/", " > ");
         }
         return mCurrentMedia != null ? mrl : null;
     }
