@@ -131,7 +131,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private boolean mScanNeeded = false;
 
     private Handler mHandler = new MainActivityHandler(this);
-    private int mFocusedPrior = 0;
     private int mActionBarIconId = -1;
     Menu mMenu;
     private SearchView mSearchView;
@@ -417,8 +416,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt("fragment_id", mCurrentFragmentId);
         Util.commitPreferences(editor);
-
-        mFocusedPrior = 0;
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -437,8 +434,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     public void onBackPressed() {
         /* Close the menu first */
         if(mDrawerLayout.isDrawerOpen(mNavigationView)) {
-            if (mFocusedPrior != 0)
-                requestFocusOnSearch();
             mDrawerLayout.closeDrawer(mNavigationView);
             return;
         }
@@ -741,8 +736,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 (Build.MANUFACTURER.compareTo("LGE") == 0)) {
             return true;
         }
-        if (getCurrentFocus() != null)
-            mFocusedPrior = getCurrentFocus().getId();
         return super.onKeyDown(keyCode, event);
     }
 
@@ -906,9 +899,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     ft.addToBackStack(getTag(mCurrentFragmentId));
                     ft.commit();
                     mCurrentFragmentId = id;
-
-                    if (mFocusedPrior != 0)
-                        requestFocusOnSearch();
             }
         }
         mNavigationView.setCheckedItem(mCurrentFragmentId);
@@ -946,11 +936,5 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             default:
                 return ID_VIDEO;
         }
-    }
-
-    private void requestFocusOnSearch() {
-        View search = findViewById(R.id.ml_menu_search);
-        if (search != null)
-            search.requestFocus();
     }
 }
