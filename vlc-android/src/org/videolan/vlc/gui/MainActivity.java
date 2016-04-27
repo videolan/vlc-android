@@ -294,7 +294,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
           //Deactivated for now
 //        createExtensionServiceConnection();
 
-        cleatBackstackFromExtension();
+        clearBackstackFromClass(ExtensionBrowser.class);
     }
 
     @Override
@@ -862,11 +862,19 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             if (mExtensionServiceConnection != null)
                 mExtensionManagerService.disconnect();
 
-            if(current == null || (item != null && mCurrentFragmentId == id)) { /* Already selected */
-                if (mFocusedPrior != 0)
-                    requestFocusOnSearch();
+            if (current == null) {
                 mDrawerLayout.closeDrawer(mNavigationView);
                 return false;
+            }
+
+            if(mCurrentFragmentId == id) { /* Already selected */
+                // Go back at root level of current browser
+                if (current instanceof BaseBrowserFragment && !((BaseBrowserFragment) current).isRootDirectory()) {
+                    clearBackstackFromClass(current.getClass());
+                } else {
+                    mDrawerLayout.closeDrawer(mNavigationView);
+                    return false;
+                }
             }
 
             String tag = getTag(id);
@@ -908,11 +916,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         return true;
     }
 
-    private void cleatBackstackFromExtension() {
+    private void clearBackstackFromClass(Class clazz) {
         FragmentManager fm = getSupportFragmentManager();
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
-        while (current instanceof ExtensionBrowser) {
+        while (clazz.isInstance(current)) {
             fm.popBackStackImmediate();
             current = getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_placeholder);
