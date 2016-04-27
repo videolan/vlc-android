@@ -911,7 +911,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
         while (clazz.isInstance(current)) {
-            fm.popBackStackImmediate();
+            if (!fm.popBackStackImmediate())
+                break;
             current = getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_placeholder);
         }
