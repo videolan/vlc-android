@@ -616,6 +616,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        UiTools.setKeyboardVisibility(mDrawerLayout, false);
 
         // Current fragment loaded
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
