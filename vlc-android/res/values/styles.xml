@@ -256,4 +256,10 @@
     <style name="TipsFontStyle.Small" parent="TipsFontStyle">
       <item name="android:textSize">10sp</item>
     </style>
+
+    <!-- Playlist-->
+
+    <style name="PlaylistStyle">
+      <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>

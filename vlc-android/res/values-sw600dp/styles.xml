@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Playlist-->
+
+    <style name="PlaylistStyle">
+        <item name="android:layout_width">800dp</item>
+    </style>
+</resources>

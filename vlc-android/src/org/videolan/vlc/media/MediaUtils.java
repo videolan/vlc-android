@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
@@ -154,13 +155,17 @@ public class MediaUtils {
         return genre != null ? genre : getMediaString(ctx, R.string.unknown_genre);
     }
 
-    public static String getMediaSubtitle(Context ctx, MediaWrapper media) {
-        if (media.getType() == MediaWrapper.TYPE_AUDIO)
-            return media.getNowPlaying() != null
-                    ? media.getNowPlaying()
-                    : getMediaArtist(ctx, media) + " - " + getMediaAlbum(ctx, media);
-        else
-            return "";
+    public static String getMediaSubtitle(MediaWrapper media) {
+        String subtitle = media.getNowPlaying() != null
+                ? media.getNowPlaying()
+                : media.getArtist();
+        if (media.getLength() > 0L) {
+            if (TextUtils.isEmpty(subtitle))
+                subtitle = Strings.millisToString(media.getLength());
+            else
+                subtitle = subtitle + "  -  " +  Strings.millisToString(media.getLength());
+        }
+        return subtitle;
     }
 
     public static String getMediaTitle(MediaWrapper mediaWrapper){

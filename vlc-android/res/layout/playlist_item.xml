@@ -14,7 +14,6 @@
         <variable
             name="subTitle"
             type="String"/>
-            type="int"/>
         <variable
             name="titleColor"
             type="int"/>
@@ -24,9 +23,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="3dip"
-        android:layout_marginBottom="3dip"
-        android:layout_marginLeft="5dip"
+        android:layout_margin="5dip"
         android:clickable="true"
         android:onClick="@{holder.onClick}" >
         <TextView
@@ -36,14 +33,15 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/length"
+            android:layout_toLeftOf="@+id/item_more"
+            android:layout_toStartOf="@+id/item_more"
             android:layout_above="@+id/audio_item_subtitle"
             android:maxLines="@{TextUtils.isEmpty(subTitle) ? 2 : 1}"
             android:ellipsize="middle"
             android:text="@{media.title}"
             android:textColor="@{titleColor}"
-            android:fontFamily="sans-serif-light"
             android:gravity="center_vertical"
             android:textSize="16sp" />
         <TextView
@@ -54,23 +52,16 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/length"
+            android:layout_toLeftOf="@+id/item_more"
+            android:layout_toStartOf="@+id/item_more"
             android:singleLine="true"
             android:ellipsize="middle"
             android:textColor="?attr/list_subtitle"
             android:fontFamily="sans-serif-light"
             android:textSize="12sp"
             android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"/>
-        <TextView
-            android:id="@+id/length"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/item_more"
-            android:layout_marginRight="5dip"
-            android:gravity="center_vertical"
-            android:text="@{Strings.millisToString(media.length)}"
-            android:visibility="@{media.length > 0 ? View.VISIBLE : View.GONE}"/>
 
         <ImageView
             android:id="@+id/item_more"
@@ -80,6 +71,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@id/audio_item_subtitle"
             android:layout_alignTop="@id/audio_item_title"
             android:scaleType="center"

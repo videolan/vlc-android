@@ -139,9 +139,10 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/songs_list"
-            android:layout_width="match_parent"
+            style="@style/PlaylistStyle"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
