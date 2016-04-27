@@ -37,6 +37,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
@@ -294,7 +295,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
         boolean listmode;
         public ViewDataBinding binding;
 
@@ -304,6 +305,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             this.listmode = listMode;
             binding.setVariable(BR.holder, this);
             itemView.setOnLongClickListener(this);
+            itemView.setOnFocusChangeListener(this);
         }
 
         public void onClick(View v){
@@ -329,6 +331,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 return false;
             mFragment.mGridView.openContextMenu(getLayoutPosition());
             return true;
+        }
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus)
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
+            else
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
         }
     }
 }

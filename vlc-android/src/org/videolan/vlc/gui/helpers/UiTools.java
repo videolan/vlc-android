@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -54,6 +55,9 @@ import org.videolan.vlc.VLCApplication;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
+
+    public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange800);
+    public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
