@@ -441,7 +441,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
         if (mPresentation != null)
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
-        dimStatusBar(false);
+        dimStatusBar(true);
         startLoading();
 
         mSwitchingView = false;
@@ -565,8 +565,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                 mPlaylist.setVisibility(View.GONE);
             }
-            setActionBarVisibility(true);
-            dimStatusBar(false);
+            showTitle();
         }
     }
 
@@ -2518,14 +2517,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showOverlay(false);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setActionBarVisibility(boolean show) {
-        if (show)
-            mActionBar.show();
-        else
-            mActionBar.hide();
-    }
-
     /**
      * show overlay
      */
@@ -2544,7 +2535,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!mShowing) {
             mShowing = true;
             if (!mIsLocked) {
-                setActionBarVisibility(true);
                 mPlayPause.setVisibility(View.VISIBLE);
                 if (mTracks != null)
                     mTracks.setVisibility(View.VISIBLE);
@@ -2607,7 +2597,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
             }
-            setActionBarVisibility(false);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
             if (mTracks != null)
@@ -2674,6 +2663,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (AndroidDevices.hasNavBar())
             visibility |= navbar;
         getWindow().getDecorView().setSystemUiVisibility(visibility);
+    }
+
+    private void showTitle() {
+        if (!AndroidUtil.isHoneycombOrLater() || mIsNavMenu)
+            return;
+        int visibility = 0;
+        int navbar = 0;
+
+        if (AndroidUtil.isJellyBeanOrLater()) {
+            visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        }
+        if (AndroidUtil.isICSOrLater())
+            navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+
+        if (AndroidDevices.hasNavBar())
+            visibility |= navbar;
+        getWindow().getDecorView().setSystemUiVisibility(visibility);
+
     }
 
     private void updateOverlayPausePlay() {
