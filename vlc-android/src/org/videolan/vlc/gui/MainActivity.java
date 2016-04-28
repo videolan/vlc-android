@@ -242,7 +242,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private void setupNavigationView() {
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        mNavigationView.setNavigationItemSelectedListener(this);
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
@@ -293,12 +292,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
           //Deactivated for now
 //        createExtensionServiceConnection();
 
+        mNavigationView.setNavigationItemSelectedListener(this);
         clearBackstackFromClass(ExtensionBrowser.class);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mNavigationView.setNavigationItemSelectedListener(null);
         if (mExtensionServiceConnection != null) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
