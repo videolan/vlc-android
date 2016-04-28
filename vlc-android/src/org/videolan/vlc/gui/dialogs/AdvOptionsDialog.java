@@ -135,6 +135,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        dismiss();
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (mMode == MODE_VIDEO) {
