@@ -537,6 +537,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void showAdvancedOptions(View v) {
+        if (!isResumed())
+            return;
         FragmentManager fm = getActivity().getSupportFragmentManager();
         AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
         Bundle args = new Bundle();
