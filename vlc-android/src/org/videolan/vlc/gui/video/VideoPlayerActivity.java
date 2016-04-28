@@ -556,8 +556,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     uri = convertedUri;
             }
             mUri = uri;
-            initUI();
-            setOverlayProgress();
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
@@ -566,6 +564,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mPlaylist.setVisibility(View.GONE);
             }
             showTitle();
+            initUI();
+            setOverlayProgress();
         }
     }
 
