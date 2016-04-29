@@ -106,7 +106,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mWindowManager.addView(this, params);
         mLayoutParams = (WindowManager.LayoutParams)getLayoutParams();
 
-        if (AndroidUtil.isHoneycombOrLater()) {
+        if (AndroidUtil.isHoneycombMr2OrLater()) {
             Point size = new Point();
             mWindowManager.getDefaultDisplay().getSize(size);
             mScreenWidth = size.x;

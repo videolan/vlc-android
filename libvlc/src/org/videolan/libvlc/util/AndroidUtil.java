@@ -22,7 +22,6 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import java.io.File;
 
@@ -41,6 +40,10 @@ public class AndroidUtil {
 
     public static boolean isHoneycombMr1OrLater() {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
+    }
+
+    public static boolean isHoneycombMr2OrLater() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2;
     }
 
     public static boolean isICSOrLater() {
