@@ -2630,6 +2630,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void dimStatusBar(boolean dim) {
+        if (dim || mIsLocked)
+            mActionBar.hide();
+        else
+            mActionBar.show();
         if (!AndroidUtil.isHoneycombOrLater() || mIsNavMenu)
             return;
         int visibility = 0;
@@ -2653,6 +2657,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             }
         } else {
+            mActionBar.show();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             if (AndroidUtil.isICSOrLater())
                 visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
@@ -2670,6 +2675,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         int visibility = 0;
         int navbar = 0;
+        mActionBar.show();
 
         if (AndroidUtil.isJellyBeanOrLater()) {
             visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
