@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="grid_card_width">200dp</dimen>
+    <dimen name="grid_card_width">210dp</dimen>
     <dimen name="grid_card_height">200dp</dimen>
     <dimen name="grid_card_thumb_width">200dp</dimen>
     <dimen name="grid_card_thumb_height">125dp</dimen>
