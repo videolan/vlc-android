@@ -1,3 +1,21 @@
+Changes between 1.9.8 and 1.9.9:
+--------------------------------
+
+Application:
+ * Fix navigation with DPAD
+ * Improved RTL support
+ * Browsers: go back at root level on navigation menu category click
+ * Fix position in video not restored when launched from an external app
+ * Improved design in playlist, history and browsers
+ * Misc. fixes
+
+TV:
+ * Changed video player controls:
+    - ↓ shows control panel
+    - ↑ shows advanced options
+    - ← and → seek in video
+    - OK/Select button toggles play/pays when control panel is not displayed
+
 Changes between 1.9.7 and 1.9.8:
 --------------------------------
 
