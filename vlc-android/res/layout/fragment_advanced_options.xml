@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<org.videolan.vlc.view.AutoFitRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<org.videolan.vlc.gui.view.AutoFitRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/adv_options_margin"/>

@@ -21,14 +21,12 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.view;
+package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.AttributeSet;
-
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 
 public class AutoFitRecyclerView extends ContextMenuRecyclerView {
 

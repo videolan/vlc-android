@@ -66,7 +66,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.view.AutoFitRecyclerView;
+import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
