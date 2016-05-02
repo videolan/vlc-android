@@ -31,7 +31,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -39,12 +38,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
-public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener, IVLCVout.Callback, View.OnTouchListener {
+public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
     private static final String TAG = "VLC/PopupView";
 
     private WindowManager mWindowManager;
@@ -73,11 +71,9 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         init(context);
     }
 
-    public PopupLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
+    /*
+     * Remove layout from window manager
+     */
     public void close() {
         setKeepScreenOn(false);
         mWindowManager.removeView(this);
@@ -88,8 +84,28 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mGestureDetector = gdc;
     }
 
+    /*
+     * Update layout dimensions and apply layout params to window manager
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void setViewSize(int width, int height) {
+        if (width > mScreenWidth) {
+            height = height * mScreenWidth / width;
+            width = mScreenWidth;
+        }
+        if (height > mScreenHeight){
+            width = width * mScreenHeight / height;
+            height = mScreenHeight;
+        }
+        containInScreen(width, height);
+        mLayoutParams.width = width;
+        mLayoutParams.height = height;
+        mWindowManager.updateViewLayout(this, mLayoutParams);
+    }
+
+    @SuppressWarnings("deprecation")
     private void init(Context context) {
-        mWindowManager = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width),
@@ -98,7 +114,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.OPAQUE);
 
-        params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        params.gravity = Gravity.BOTTOM | Gravity.START;
         params.x = 50;
         params.y = 50;
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
@@ -165,65 +181,6 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         lp.height *= mScaleFactor;
         setViewSize(mPopupWidth, mPopupHeight);
         mScaleFactor = 1.0d;
-    }
-
-    @Override
-    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0)
-            return;
-
-        double dw = getWidth(), dh = getHeight();
-
-        // sanity check
-        if (dw * dh == 0) {
-            Log.e(TAG, "Invalid surface size");
-            return;
-        }
-
-        // compute the aspect ratio
-        double ar;
-        if (sarDen == sarNum) {
-            /* No indication about the density, assuming 1:1 */
-            ar = (double)visibleWidth / (double)visibleHeight;
-        } else {
-            /* Use the specified aspect ratio */
-            double vw = visibleWidth * (double)sarNum / sarDen;
-            ar = vw / visibleHeight;
-        }
-
-        // compute the display aspect ratio
-        double dar = dw / dh;
-        if (dar < ar)
-            dh = dw / ar;
-        else
-            dw = dh * ar;
-
-        width = (int) Math.floor(dw);
-        height = (int) Math.floor(dh);
-        vlcVout.setWindowSize(width, height);
-        setViewSize(width, height);
-    }
-
-    @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
-
-    @Override public void onSurfacesDestroyed(IVLCVout vlcVout) {}
-
-    @Override public void onHardwareAccelerationError(IVLCVout vlcVout) {}
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void setViewSize(int width, int height) {
-        if (width > mScreenWidth) {
-            height = height * mScreenWidth / width;
-            width = mScreenWidth;
-        }
-        if (height > mScreenHeight){
-            width = width * mScreenHeight / height;
-            height = mScreenHeight;
-        }
-        containInScreen(width, height);
-        mLayoutParams.width = width;
-        mLayoutParams.height = height;
-        mWindowManager.updateViewLayout(this, mLayoutParams);
     }
 
     private void containInScreen(int width, int height) {

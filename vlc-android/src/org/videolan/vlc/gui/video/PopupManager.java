@@ -34,6 +34,7 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GestureDetectorCompat;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -49,7 +50,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.view.PopupLayout;
 
-public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener {
+public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.Callback {
 
     private static final String TAG ="VLC/PopupManager";
 
@@ -78,7 +79,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.detachViews();
-        vlcVout.removeCallback(mRootView);
+        vlcVout.removeCallback(this);
         mRootView.close();
         mRootView = null;
     }
@@ -102,7 +103,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
         vlcVout.attachViews();
         mService.setVideoTrackEnabled(true);
-        vlcVout.addCallback(mRootView);
+        vlcVout.addCallback(this);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
         mService.startService(new Intent(mService, PlaybackService.class));
@@ -159,6 +160,49 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         }
         return false;
     }
+
+    @Override
+    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+        if (width * height == 0)
+            return;
+
+        double dw = mRootView.getWidth(), dh = mRootView.getHeight();
+
+        // sanity check
+        if (dw * dh == 0) {
+            Log.e(TAG, "Invalid surface size");
+            return;
+        }
+
+        // compute the aspect ratio
+        double ar;
+        if (sarDen == sarNum) {
+            /* No indication about the density, assuming 1:1 */
+            ar = (double)visibleWidth / (double)visibleHeight;
+        } else {
+            /* Use the specified aspect ratio */
+            double vw = visibleWidth * (double)sarNum / sarDen;
+            ar = vw / visibleHeight;
+        }
+
+        // compute the display aspect ratio
+        double dar = dw / dh;
+        if (dar < ar)
+            dh = dw / ar;
+        else
+            dw = dh * ar;
+
+        width = (int) Math.floor(dw);
+        height = (int) Math.floor(dh);
+        vlcVout.setWindowSize(width, height);
+        mRootView.setViewSize(width, height);
+    }
+
+    @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
+
+    @Override public void onSurfacesDestroyed(IVLCVout vlcVout) {}
+
+    @Override public void onHardwareAccelerationError(IVLCVout vlcVout) {}
 
     @Override
     public void update() {}
