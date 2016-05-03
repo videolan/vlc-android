@@ -85,6 +85,11 @@
         <meta-data android:name="com.samsung.android.sdk.multiwindow.enable" android:value="true" />
         <!-- Enable VLC in LG split window mode -->
         <meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
+        <!-- Android auto -->
+        <meta-data android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc"/>
+        <meta-data android:name="com.google.android.gms.car.notification.SmallIcon"
+            android:resource="@drawable/icon" />
 
         <activity
             android:name=".StartActivity">
@@ -480,7 +485,12 @@
             android:theme="@style/TransparentTheme" />
 
         <service android:name=".extensions.ExtensionManagerService" />
-        <service android:name=".PlaybackService" />
+        <service android:name=".PlaybackService"
+            android:exported="true">
+             <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+             </intent-filter>
+        </service>
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
             android:exported="false"
