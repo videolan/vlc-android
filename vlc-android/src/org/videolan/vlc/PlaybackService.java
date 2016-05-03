@@ -24,7 +24,6 @@ import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -46,9 +45,12 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -65,15 +67,16 @@ import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.PopupManager;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.media.BrowserProvider;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.media.MediaWrapperList;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
@@ -96,7 +99,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PlaybackService extends Service implements IVLCVout.Callback {
+public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
 
@@ -161,7 +164,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     // Playback management
 
-    MediaSessionCompat mMediaSession;
+    private MediaSessionCompat mMediaSession;
     protected MediaSessionCallback mSessionCallback;
     private static final long PLAYBACK_ACTIONS = PlaybackStateCompat.ACTION_PAUSE
             | PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP
@@ -230,7 +233,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         mCurrentIndex = -1;
         mPrevIndex = -1;
         mNextIndex = -1;
-        mPrevious = new Stack<Integer>();
+        mPrevious = new Stack<>();
         mRemoteControlClientReceiverComponent = new ComponentName(BuildConfig.APPLICATION_ID,
                 RemoteControlClientReceiver.class.getName());
 
@@ -238,6 +241,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
         PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+
+        initMediaSession();
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
@@ -293,6 +298,11 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void onDestroy() {
         super.onDestroy();
         stop();
+        if (mMediaSession != null) {
+            mMediaSession.setActive(false);
+            mMediaSession.release();
+            mMediaSession = null;
+        }
 
         if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
             AndroidDevices.setRemoteControlReceiverEnabled(false);
@@ -311,7 +321,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return mBinder;
+        return SERVICE_INTERFACE.equals(intent.getAction()) ? super.onBind(intent) : mBinder;
     }
 
     @Override
@@ -1031,6 +1041,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         mMediaSession.setCallback(mSessionCallback);
         try {
             mMediaSession.setActive(true);
+            setSessionToken(mMediaSession.getSessionToken());
         } catch (NullPointerException e) {
             // Some versions of KitKat do not support AudioManager.registerMediaButtonIntent
             // with a PendingIntent. They will throw a NullPointerException, in which case
@@ -1048,6 +1059,26 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         public void onPlay() {
             play();
         }
+
+        @Override
+        public void onPlayFromMediaId(String mediaId, Bundle extras) {
+            if (mediaId.startsWith(BrowserProvider.ALBUM_PREFIX)) {
+                load(mMedialibrary.getAlbum(Long.parseLong(mediaId.split("_")[1])).getTracks(mMedialibrary), 0);
+            } else if (mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX)) {
+                load(mMedialibrary.getPlaylist(Long.parseLong(mediaId.split("_")[1])).getTracks(mMedialibrary), 0);
+            } else
+                try {
+                    load(mMedialibrary.getMedia(Long.parseLong(mediaId)));
+                } catch (NumberFormatException e) {
+                    loadLocation(mediaId);
+                }
+        }
+
+        @Override
+        public void onPlayFromUri(Uri uri, Bundle extras) {
+            loadUri(uri);
+        }
+
         @Override
         public void onPause() {
             pause();
@@ -1065,7 +1096,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         @Override
         public void onSkipToPrevious() {
-            previous(true);
+            previous(false);
         }
 
         @Override
@@ -2183,5 +2214,26 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             stopService(context);
             startService(context);
         }
+    }
+
+    /*
+     * Browsing
+     */
+
+    @Nullable
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
+        return new BrowserRoot(BrowserProvider.ID_ROOT, null);
+    }
+
+    @Override
+    public void onLoadChildren(@NonNull final String parentId, @NonNull final Result<List<MediaBrowserCompat.MediaItem>> result) {
+        result.detach();
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                result.sendResult(BrowserProvider.browse(parentId));
+            }
+        });
     }
 }
