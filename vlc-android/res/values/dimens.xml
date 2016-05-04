@@ -46,6 +46,8 @@
     <!-- -1px is fill/match_parent -->
     <dimen name="file_picker_height">-1px</dimen>
 
+    <dimen name="playlist_width">-1px</dimen>
+
 
     <!-- Default -->
     <dimen name="default_margin">16dp</dimen>
