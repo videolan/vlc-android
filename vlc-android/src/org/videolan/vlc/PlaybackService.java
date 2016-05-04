@@ -916,11 +916,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 stopForeground(false);
                 NotificationManagerCompat.from(this).notify(3, notification);
             }
-        }
-        catch (NoSuchMethodError e){
-            // Compat library is wrong on 3.2
-            // http://code.google.com/p/android/issues/detail?id=36359
-            // http://code.google.com/p/android/issues/detail?id=36502
+        } catch (IllegalArgumentException e){
+            // On somme crappy firmwares, shit can happen
+            Log.e(TAG, "Failed to display notification", e);
         }
     }
 
