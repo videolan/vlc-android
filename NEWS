@@ -1,3 +1,14 @@
+Changes between 1.9.9 and 2.9.10:
+--------------------------------
+
+Application:
+ * Fix crash while searching
+ * Fix crash in settings -> Directories
+ * Fix delay/spped controls invisible with hdmi/screencast
+ * Fix loading video from 3rd party app with space in its name
+ * Added Tamil language for subtitles download
+
+
 Changes between 1.9.8 and 1.9.9:
 --------------------------------
 
