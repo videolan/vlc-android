@@ -91,9 +91,8 @@ public class FileUtils {
     public static Uri convertLocalUri(Uri uri) {
         if (!TextUtils.equals(uri.getScheme(), "file") || !uri.getPath().startsWith("/sdcard"))
             return uri;
-        String path = uri.getPath();
-        path = path.replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-        return Uri.parse("file://"+path);
+        String path = uri.toString();
+        return Uri.parse(path.replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
     }
 
     public static String getPathFromURI(Uri contentUri) {
