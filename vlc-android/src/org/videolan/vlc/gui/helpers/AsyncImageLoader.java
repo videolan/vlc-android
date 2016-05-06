@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.helpers;
 
-import android.app.Activity;
 import android.databinding.BindingAdapter;
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
@@ -43,8 +42,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
-
-import java.util.concurrent.Callable;
 
 public class AsyncImageLoader {
 
@@ -145,6 +142,8 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"bind:mediaWithArt"})
     public static void downloadIcon(View v, MediaWrapper mw) {
+        if (mw == null)
+            return;
         ViewDataBinding vdb = (ViewDataBinding) v.getTag();
         if (TextUtils.isEmpty(mw.getArtworkURL()) || !mw.getArtworkURL().startsWith("http"))
             return;
