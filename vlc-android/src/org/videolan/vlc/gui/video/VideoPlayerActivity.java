@@ -1272,6 +1272,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     public void showDelayControls(){
         mTouchAction = TOUCH_NONE;
+        if (mPresentation != null)
+            showOverlayTimeout(OVERLAY_INFINITE);
         mPlaybackSettingMinus.setOnClickListener(this);
         mPlaybackSettingPlus.setOnClickListener(this);
         mPlaybackSettingMinus.setOnTouchListener(new OnRepeatListener(this));
