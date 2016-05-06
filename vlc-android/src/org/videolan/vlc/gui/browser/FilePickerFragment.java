@@ -34,11 +34,14 @@ import android.view.View;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.R;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
 public class FilePickerFragment extends FileBrowserFragment {
+
+    private static String[] rootDirectories = AndroidDevices.getMediaDirectories();
 
     @Override
     protected Fragment createFragment() {
@@ -51,6 +54,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         mAdapter = new FilePickerAdapter(this);
+        mRoot = defineIsRoot();
     }
 
     @Override
@@ -84,6 +88,15 @@ public class FilePickerFragment extends FileBrowserFragment {
             MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
             browse(mw, 0, false);
         }
+    }
+
+    public boolean defineIsRoot() {
+        String path = Strings.removeFileProtocole(mMrl);
+        for (int i = 0; i < rootDirectories.length; ++i) {
+            if (TextUtils.equals(path, rootDirectories[i]))
+                return true;
+        }
+        return false;
     }
 
     @Override
