@@ -79,7 +79,7 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
             view.findViewById(R.id.subtitle).setVisibility(View.GONE);
 
         Bitmap artwork;
-        ImageView coverView = (ImageView) view.findViewById(R.id.cover);
+        ImageView coverView = (ImageView) view.findViewById(R.id.media_cover);
         if (mw.getType() == MediaWrapper.TYPE_AUDIO)
             artwork = AudioUtil.getCover(context, mw, context.getResources().getDimensionPixelSize(R.dimen.audio_browser_item_size));
         else if (mw.getType() == MediaWrapper.TYPE_VIDEO)
