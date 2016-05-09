@@ -2388,7 +2388,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     ? R.drawable.ic_forward_circle
                     : R.drawable.ic_forward_circle_disable_o);
         }
-        mSeekbar.setEnabled(seekable);
+        if (!mIsLocked)
+            mSeekbar.setEnabled(seekable);
     }
 
     private void updatePausable(boolean pausable) {
