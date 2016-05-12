@@ -43,24 +43,21 @@
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        vlc:cardElevation="1sp"
+        vlc:cardElevation="4sp"
         vlc:cardPreventCornerOverlap="false"
         vlc:cardUseCompatPadding="true"
-        android:layout_marginBottom="10dip"
+        android:layout_marginBottom="@dimen/half_default_margin"
         android:longClickable="true"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{holder.onClick}" >
 
         <LinearLayout
-            android:id="@+id/layout_item"
-            android:layout_width="@dimen/grid_card_width"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_gravity="center"
             android:background="?attr/background_default"
-            android:gravity="center_vertical"
+            android:id="@+id/layout_item"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
@@ -70,16 +67,14 @@
                 android:layout_height="@dimen/grid_card_thumb_height"
                 android:background="?attr/background_default_darker"
                 android:scaleType="@{scaleType}"
-                android:layout_gravity="center_horizontal"
                 vlc:media="@{media}"
                 vlc:binding="@{holder.binding}"
                 android:src="@{cover}"/>
 
             <LinearLayout
-                android:layout_width="@dimen/grid_card_thumb_width"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_gravity="center_horizontal"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -88,9 +83,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingLeft="@dimen/very_small_margin"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-light"
-                    android:gravity="top"
                     android:maxLines="2"
                     android:text="@{media.title}"
                     android:textColor="?attr/list_title"
@@ -109,52 +104,65 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="@dimen/grid_card_thumb_width"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ml_item_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:singleLine="true"
-                    android:text="@{time}"
-                    android:textColor="?attr/list_subtitle"
-                    android:textSize="@dimen/grid_card_subtitle_text_size" />
-
-                <TextView
-                    android:id="@+id/ml_item_resolution"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:text="@{resolution}"
-                    android:textColor="?attr/list_subtitle"
-                    android:textSize="@dimen/grid_card_subtitle_text_size" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/ml_item_progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:focusable="false"
-                android:indeterminate="false"
-                android:max="@{max}"
-                android:maxHeight="2dip"
-                android:minHeight="2dip"
-                android:progress="@{progress}"
-                android:progressDrawable="?attr/gridview_progressbar"
-                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/very_small_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/ml_item_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="left"
+                        android:paddingLeft="@dimen/very_small_margin"
+                        android:singleLine="true"
+                        android:text="@{time}"
+                        android:textColor="?attr/list_subtitle"
+                        android:textSize="@dimen/grid_card_subtitle_text_size" />
+
+                    <TextView
+                        android:id="@+id/ml_item_resolution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="right"
+                        android:paddingRight="@dimen/very_small_margin"
+                        android:singleLine="true"
+                        android:text="@{resolution}"
+                        android:textColor="?attr/list_subtitle"
+                        android:textSize="@dimen/grid_card_subtitle_text_size" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/ml_item_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="@dimen/very_small_margin"
+                    android:layout_marginRight="@dimen/very_small_margin"
+                    android:layout_marginTop="1dp"
+                    android:focusable="false"
+                    android:indeterminate="false"
+                    android:max="@{max}"
+                    android:maxHeight="2dip"
+                    android:minHeight="2dip"
+                    android:progress="@{progress}"
+                    android:progressDrawable="?attr/gridview_progressbar"
+                    android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
+            </LinearLayout>
 
         </LinearLayout>
 

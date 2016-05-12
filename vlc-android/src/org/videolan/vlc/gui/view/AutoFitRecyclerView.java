@@ -27,6 +27,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.AttributeSet;
+import android.view.Display;
+import android.view.WindowManager;
+
+import org.videolan.vlc.VLCApplication;
 
 public class AutoFitRecyclerView extends ContextMenuRecyclerView {
 
@@ -67,15 +71,33 @@ public class AutoFitRecyclerView extends ContextMenuRecyclerView {
     protected void onMeasure(int widthSpec, int heightSpec) {
         super.onMeasure(widthSpec, heightSpec);
         if (mSpanCount == -1 && mColumnWidth > 0) {
-            int ratio = (int) (getMeasuredWidth() / (mColumnWidth*1.1));
+            int ratio = (int) (getMeasuredWidth() / (mColumnWidth));
             int spanCount = Math.max(1, ratio);
             mGridLayoutManager.setSpanCount(spanCount);
         } else
             mGridLayoutManager.setSpanCount(mSpanCount);
+
     }
 
     public void setColumnWidth(int width) {
         mColumnWidth = width;
+    }
+
+    public int getPerfectColumnWidth(int columnWidth, int margin) {
+
+        WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int displayWidth = display.getWidth() - margin;
+
+        int remainingSpace = displayWidth % columnWidth;
+        int ratio = displayWidth / columnWidth;
+        int spanCount = Math.max(1, ratio);
+
+        return (columnWidth + (remainingSpace / spanCount));
+    }
+
+    public int getColumnWidth() {
+        return mColumnWidth;
     }
 
     public void setNumColumns(int spanCount) {

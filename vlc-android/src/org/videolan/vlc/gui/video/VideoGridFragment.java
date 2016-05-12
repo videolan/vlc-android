@@ -235,21 +235,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         // Compute the left/right padding dynamically
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        int sidePadding;
 
         // Select between grid or list
         if (!listMode) {
-            sidePadding = (int) ((float)outMetrics.widthPixels / 100f * (float)Math.pow(outMetrics.density, 3) / 2f);
             mGridView.setNumColumns(-1);
-            mGridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.grid_card_width));
+            int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
+            mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, res.getDimensionPixelSize(R.dimen.default_margin)));
         } else {
-            sidePadding = res.getDimensionPixelSize(R.dimen.listview_side_padding);
             mGridView.setNumColumns(1);
         }
         mVideoAdapter.setListMode(listMode);
-        sidePadding = Math.max(0, Math.min(100, sidePadding));
-        mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
-                sidePadding, mGridView.getPaddingBottom());
     }
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {

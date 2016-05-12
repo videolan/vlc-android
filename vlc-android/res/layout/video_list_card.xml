@@ -44,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        vlc:cardElevation="1sp"
+        android:layout_marginBottom="@dimen/very_small_margin"
+        vlc:cardElevation="2sp"
         vlc:cardPreventCornerOverlap="false"
         vlc:cardUseCompatPadding="true"
         android:clickable="true"
@@ -56,14 +57,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/background_default"
-            android:padding="10dp"
             android:orientation="horizontal">
 
             <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
             <ImageView
                 android:id="@+id/ml_item_thumbnail"
-                android:layout_width="120dip"
-                android:layout_height="76dip"
+                android:layout_width="120dp"
+                android:layout_height="75dp"
                 android:background="?attr/background_default_darker"
                 vlc:media="@{media}"
                 vlc:binding="@{holder.binding}"
@@ -147,6 +147,7 @@
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dip"
                         android:layout_marginLeft="@dimen/half_default_margin"
                         android:layout_marginRight="@dimen/half_default_margin"
                         android:layout_marginTop="1dp"
@@ -155,7 +156,6 @@
                         android:max="@{max}"
                         android:maxHeight="2dip"
                         android:minHeight="2dip"
-                        android:paddingBottom="2dip"
                         android:progress="@{progress}"
                         android:progressDrawable="?attr/gridview_progressbar"
                         android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
