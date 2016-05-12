@@ -53,7 +53,7 @@ public class AsyncImageLoader {
     public final static String TAG = "VLC/AsyncImageLoader";
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public static final BitmapDrawable DEFAULT_COVER_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_cone_o));
+    public static final BitmapDrawable DEFAULT_COVER_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
 
     public static void LoadImage(final Callbacks cbs, final View target){
         VLCApplication.runBackground(new Runnable() {
