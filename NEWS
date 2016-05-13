@@ -1,3 +1,14 @@
+Changes between 1.9.10 and 1.9.11:
+----------------------------------
+
+Application:
+ * Fix thumbnails look
+ * Fix seeking state when lock
+
+Core:
+ * Update codecs and demuxers
+
+
 Changes between 1.9.9 and 1.9.10:
 --------------------------------
 
@@ -26,6 +37,7 @@ TV:
     - ↑ shows advanced options
     - ← and → seek in video
     - OK/Select button toggles play/pays when control panel is not displayed
+
 
 Changes between 1.9.7 and 1.9.8:
 --------------------------------
