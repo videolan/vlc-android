@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -85,6 +86,7 @@ public class MediaWrapper implements Parcelable {
     private boolean mIsPictureParsed;
     private int mFlags = 0;
     private long mLastModified = 0l;
+    private Media.Slave mSlaves[] = null;
 
     /**
      * Create a new MediaWrapper
@@ -141,6 +143,7 @@ public class MediaWrapper implements Parcelable {
             updateMeta(media);
             if (mType == TYPE_ALL && media.getType() == Media.Type.Directory)
                 mType = TYPE_DIR;
+            mSlaves = media.getSlaves();
         }
         defineType();
     }
@@ -473,6 +476,11 @@ public class MediaWrapper implements Parcelable {
     }
     public void removeFlags(int flags) {
         mFlags &= ~flags;
+    }
+
+    @Nullable
+    public Media.Slave[] getSlaves() {
+        return mSlaves;
     }
 
     @Override
