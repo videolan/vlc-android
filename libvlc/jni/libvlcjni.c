@@ -169,6 +169,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/Media", true);
     GET_CLASS(fields.Media.Track.clazz,
               "org/videolan/libvlc/Media$Track", true);
+    GET_CLASS(fields.Media.Slave.clazz,
+              "org/videolan/libvlc/Media$Slave", true);
     GET_CLASS(fields.MediaPlayer.clazz,
               "org/videolan/libvlc/MediaPlayer", true);
     GET_CLASS(fields.MediaPlayer.Title.clazz,
@@ -250,6 +252,13 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            "createUnknownTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;)"
            "Lorg/videolan/libvlc/Media$Track;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Media.createSlaveFromNativeID,
+           fields.Media.clazz,
+           "createSlaveFromNative",
+           "(IILjava/lang/String;)"
+           "Lorg/videolan/libvlc/Media$Slave;");
 
     GET_ID(GetStaticMethodID,
            fields.MediaPlayer.createTitleFromNativeID,

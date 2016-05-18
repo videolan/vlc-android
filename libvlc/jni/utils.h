@@ -56,11 +56,16 @@ struct fields {
             jclass clazz;
         } Track;
 
+        struct {
+            jclass clazz;
+        } Slave;
+
         jclass clazz;
         jmethodID createAudioTrackFromNativeID;
         jmethodID createVideoTrackFromNativeID;
         jmethodID createSubtitleTrackFromNativeID;
         jmethodID createUnknownTrackFromNativeID;
+        jmethodID createSlaveFromNativeID;
     } Media;
     struct {
         struct {

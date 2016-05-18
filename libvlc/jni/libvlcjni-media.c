@@ -478,3 +478,80 @@ Java_org_videolan_libvlc_Media_nativeAddOption(JNIEnv *env, jobject thiz,
 
     (*env)->ReleaseStringUTFChars(env, joption, p_option);
 }
+
+void
+Java_org_videolan_libvlc_Media_nativeAddSlave(JNIEnv *env, jobject thiz,
+                                              jint type, jint priority,
+                                              jstring juri)
+{
+    const char *psz_uri;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    if (!juri || !(psz_uri = (*env)->GetStringUTFChars(env, juri, 0)))
+    {
+        throw_IllegalArgumentException(env, "uri invalid");
+        return;
+    }
+
+    int i_ret = libvlc_media_slaves_add(p_obj->u.p_m, type, priority, psz_uri);
+
+    (*env)->ReleaseStringUTFChars(env, juri, psz_uri);
+    if (i_ret != 0)
+        throw_IllegalStateException(env, "can't add slaves to libvlc_media");
+}
+
+void
+Java_org_videolan_libvlc_Media_nativeClearSlaves(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    libvlc_media_slaves_clear(p_obj->u.p_m);
+}
+
+unsigned int libvlc_media_slaves_get( libvlc_media_t *p_md,
+                                      libvlc_media_slave_t ***ppp_slaves );
+void libvlc_media_slaves_release( libvlc_media_slave_t **pp_slaves,
+                                  unsigned int i_count );
+jobject
+Java_org_videolan_libvlc_Media_nativeGetSlaves(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    libvlc_media_slave_t **pp_slaves;
+    unsigned int i_slaves;
+    jobjectArray array;
+
+    if (!p_obj)
+        return NULL;
+
+    i_slaves = libvlc_media_slaves_get(p_obj->u.p_m, &pp_slaves);
+    if (i_slaves == 0)
+        return NULL;
+
+    array = (*env)->NewObjectArray(env, i_slaves, fields.Media.Slave.clazz, NULL);
+    if (array == NULL)
+        goto error;
+
+    for (unsigned int i = 0; i < i_slaves; ++i)
+    {
+        libvlc_media_slave_t *p_slave = pp_slaves[i];
+        jstring juri = (*env)->NewStringUTF(env, p_slave->psz_uri);
+
+        jobject jslave =
+            (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+                                           fields.Media.createSlaveFromNativeID,
+                                           p_slave->i_type, p_slave->i_priority,
+                                           juri);
+        (*env)->SetObjectArrayElement(env, array, i, jslave);
+    }
+
+error:
+    if (pp_slaves)
+        libvlc_media_slaves_release(pp_slaves, i_slaves);
+    return array;
+}

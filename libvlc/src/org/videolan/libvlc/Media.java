@@ -21,6 +21,7 @@
 package org.videolan.libvlc;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
@@ -256,6 +257,33 @@ public class Media extends VLCObject<Media.Event> {
                                                       int level, int bitrate, String language, String description) {
         return new UnknownTrack(codec, originalCodec, id, profile,
                 level, bitrate, language, description);
+    }
+
+    /**
+     * see libvlc_media_slave_t
+     */
+    public static class Slave {
+        public static class Type {
+            public static final int Subtitle = 0;
+            public static final int Audio = 1;
+        }
+
+        /** @see Type */
+        public final int type;
+        /** From 0 (low priority) to 4 (high priority) */
+        public final int priority;
+        public final String uri;
+
+        public Slave(int type, int priority, String uri) {
+            this.type = type;
+            this.priority = priority;
+            this.uri = uri;
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static Slave createSlaveFromNative(int type, int priority, String uri) {
+        return new Slave(type, priority, uri);
     }
 
     private static final int PARSE_STATUS_INIT = 0x00;
@@ -691,6 +719,39 @@ public class Media extends VLCObject<Media.Event> {
         nativeAddOption(option);
     }
 
+
+    /**
+     * Add a slave to the current media.
+     *
+     * A slave is an external input source that may contains an additional subtitle
+     * track (like a .srt) or an additional audio track (like a .ac3).
+     *
+     * This function must be called before the media is parsed (via {@link #parseAsync(int)}} or
+     * before the media is played (via {@link MediaPlayer#play()})
+     */
+    public void addSlave(Slave slave) {
+        nativeAddSlave(slave.type, slave.priority, slave.uri);
+    }
+
+    /**
+     * Clear all slaves previously added by {@link #addSlave(Slave)} or internally.
+     */
+    public void clearSlaves() {
+        nativeClearSlaves();
+    }
+
+    /**
+     * Get a media's slave list
+     *
+     * The list will contain slaves parsed by VLC or previously added by
+     * {@link #addSlave(Slave)}. The typical use case of this function is to save
+     * a list of slave in a database for a later use.
+     */
+    @Nullable
+    public Slave[] getSlaves() {
+        return nativeGetSlaves();
+    }
+
     @Override
     protected void onReleaseNative() {
         if (mSubItems != null)
@@ -713,4 +774,7 @@ public class Media extends VLCObject<Media.Event> {
     private native long nativeGetDuration();
     private native int nativeGetType();
     private native void nativeAddOption(String option);
+    private native void nativeAddSlave(int type, int priority, String uri);
+    private native void nativeClearSlaves();
+    private native Slave[] nativeGetSlaves();
 }
