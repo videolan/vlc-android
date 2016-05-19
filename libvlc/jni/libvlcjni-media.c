@@ -359,8 +359,6 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 (jint)p_tracks->i_bitrate,
                                 jlanguage,
                                 jdescription);
-        default:
-            return NULL;
     }
 }
 
