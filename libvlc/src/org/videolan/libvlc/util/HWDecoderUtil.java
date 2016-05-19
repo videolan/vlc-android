@@ -65,7 +65,6 @@ public class HWDecoderUtil {
         /*
          * FIXME: Theses cpu crash in MediaCodec. We need to get hands on these devices in order to debug it.
          */
-        new DecoderBySOC("ro.product.board", "msm8916", Decoder.NONE), //Samsung Galaxy Core Prime
         new DecoderBySOC("ro.product.board", "MSM8225", Decoder.NONE), //Samsung Galaxy Core
         new DecoderBySOC("ro.product.board", "hawaii", Decoder.NONE), // Samsung Galaxy Ace 4
     };
