@@ -52,6 +52,7 @@ import java.nio.channels.FileChannel;
 
 public class FileUtils {
 
+    public static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
     /**
      * Size of the chunks that will be hashed in bytes (64 KB)
      */

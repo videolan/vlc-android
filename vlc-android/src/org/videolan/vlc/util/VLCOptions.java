@@ -28,12 +28,12 @@ import android.util.Log;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
-import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -106,6 +106,11 @@ public class VLCOptions {
         options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
         options.add(verboseMode ? "-vvv" : "-vv");
+
+        //Subs directory
+        FileUtils.SUBTITLES_DIRECTORY.mkdirs();
+        options.add("--sub-autodetect-path");
+        options.add("./Subtitles, ./subtitles, ./Subs, ./subs, "+FileUtils.SUBTITLES_DIRECTORY.getPath());
 
         return options;
     }
