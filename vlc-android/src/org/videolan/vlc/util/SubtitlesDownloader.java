@@ -297,17 +297,12 @@ public class SubtitlesDownloader {
         if (mToken == null || path == null)
             return;
 
-        final File parent = new File(path).getParentFile();
-        boolean canWrite = !path.startsWith("smb://") && !path.startsWith("http://") && parent != null && parent.canWrite();
-        String fileUrl;
+        boolean canWrite = FileUtils.canWrite(path);
         StringBuilder sb = new StringBuilder();
-        if (canWrite){
-            fileUrl = path;
-            sb.append(fileUrl.substring(0,fileUrl.lastIndexOf('.')+1)).append(language).append('.').append(subFormat);
-        } else{
-            fileUrl = name;
-            sb.append(VLCApplication.getAppContext().getFilesDir().getPath()).append('/').append(fileUrl).append('.').append(language).append('.').append(subFormat);
-        }
+        if (canWrite)
+            sb.append(path.substring(0,path.lastIndexOf('.')+1)).append(language).append('.').append(subFormat);
+        else
+            sb.append(FileUtils.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
         String srtURl = sb.toString();
         FileOutputStream f = null;
         InputStream in = null;
