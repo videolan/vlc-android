@@ -59,17 +59,17 @@
         <LinearLayout
             android:id="@+id/player_overlay_info"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_above="@+id/progress_overlay"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/default_margin">
+                android:background="@drawable/video_list_length_bg"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:visibility="invisible">
             <FrameLayout
                 android:id="@+id/verticalbar"
                 android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/video_list_length_bg"
-                android:visibility="gone">
+                android:layout_height="100dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,12 +89,11 @@
                 android:id="@+id/player_overlay_textinfo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/video_list_length_bg"
-                android:layout_marginLeft="@dimen/half_default_margin"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="36sp"
-                android:visibility="gone" />
+                android:textSize="36sp" />
         </LinearLayout>
 
         <ImageView

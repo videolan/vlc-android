@@ -218,6 +218,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
+    private View mOverlayInfo;
     private View mVerticalBar;
     private View mVerticalBarProgress;
     private boolean mIsLoading;
@@ -400,6 +401,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_textinfo);
+        mOverlayInfo = findViewById(R.id.player_overlay_info);
         mVerticalBar = findViewById(R.id.verticalbar);
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
@@ -1287,7 +1289,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void initPlaybackSettingInfo() {
         if (mPresentation == null)
             mVerticalBar.setVisibility(View.GONE);
-        mInfo.setVisibility(View.VISIBLE);
+        mOverlayInfo.setVisibility(View.VISIBLE);
         String text = "";
         if (mPlaybackSetting == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
@@ -1314,7 +1316,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackSettingPlus.setOnClickListener(null);
         mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
         mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
-        mInfo.setVisibility(View.INVISIBLE);
+        mOverlayInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
         mPlayPause.requestFocus();
     }
@@ -1421,7 +1423,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void showInfo(String text, int duration) {
         if (mPresentation == null && mVerticalBar != null)
             mVerticalBar.setVisibility(View.GONE);
-        mInfo.setVisibility(View.VISIBLE);
+        mOverlayInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
@@ -1430,7 +1432,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void showInfo(int textid, int duration) {
         if (mPresentation == null && mVerticalBar != null)
             mVerticalBar.setVisibility(View.GONE);
-        mInfo.setVisibility(View.VISIBLE);
+        mOverlayInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
@@ -1452,18 +1454,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void fadeOutInfo() {
-        if (mInfo.getVisibility() == View.VISIBLE)
-            mInfo.startAnimation(AnimationUtils.loadAnimation(
+        if (mOverlayInfo.getVisibility() == View.VISIBLE)
+            mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
                     VideoPlayerActivity.this, android.R.anim.fade_out));
-        mInfo.setVisibility(View.INVISIBLE);
-
-        if (mPresentation == null && mVerticalBar != null) {
-            if (mVerticalBar.getVisibility() == View.VISIBLE) {
-                mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
-                        VideoPlayerActivity.this, android.R.anim.fade_out));
-                mVerticalBar.setVisibility(View.INVISIBLE);
-            }
-        }
+        mOverlayInfo.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -1998,7 +1992,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     jump >= 0 ? "+" : "",
                     Strings.millisToString(jump),
                     Strings.millisToString(time + jump),
-                    coef > 1 ? String.format(" x%.1g", 1.0/coef) : ""), 1000);
+                    coef > 1 ? String.format(" x%.1g", 1.0/coef) : ""), 50);
         else
             showInfo(R.string.unseekable_stream, 1000);
     }
