@@ -358,17 +358,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             }
             if (disableVideo)
                 setVideoTrackEnabled(false);
-            synchronized (MediaPlayer.this) {
-                /* Wait for Vout destruction (mVoutCount = 0) in order to be sure that the surface is not
-                 * used after leaving this callback. This shouldn't be needed when using MediaCodec or
-                 * AndroidWindow (i.e. after Android 2.3) since the surface is ref-counted */
-                while (mVoutCount > 0) {
-                    try {
-                        MediaPlayer.this.wait();
-                    } catch (InterruptedException ignored) {
-                    }
-                }
-            }
         }
     });
 
