@@ -107,11 +107,6 @@ public class VLCOptions {
 
         options.add(verboseMode ? "-vvv" : "-vv");
 
-        //Subs directory
-        FileUtils.SUBTITLES_DIRECTORY.mkdirs();
-        options.add("--sub-autodetect-path");
-        options.add("./Subtitles, ./subtitles, ./Subs, ./subs, "+FileUtils.SUBTITLES_DIRECTORY.getPath());
-
         return options;
     }
 
