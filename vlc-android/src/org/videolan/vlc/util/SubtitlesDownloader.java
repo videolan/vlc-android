@@ -108,6 +108,7 @@ public class SubtitlesDownloader {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
+                FileUtils.SUBTITLES_DIRECTORY.mkdirs();
                 if (logIn()){
                     getSubtitles(mediaList, finalLanguages);
                 }
@@ -164,10 +165,10 @@ public class SubtitlesDownloader {
         for (String language : languages)
             language = getCompliantLanguageID(language);
         final boolean single = mediaList.size() == 1;
-        ArrayList<MediaWrapper> notFoundFiles = new ArrayList<>();
-        HashMap<String, String> index = new HashMap<>();
-        HashMap<String, ArrayList<String>> success = new HashMap<>();
-        HashMap<String, ArrayList<String>> fails = new HashMap<>();
+        final ArrayList<MediaWrapper> notFoundFiles = new ArrayList<>();
+        final HashMap<String, String> index = new HashMap<>();
+        final HashMap<String, ArrayList<String>> success = new HashMap<>();
+        final HashMap<String, ArrayList<String>> fails = new HashMap<>();
         ArrayList<HashMap<String, String>> videoSearchList = prepareRequestList(mediaList, languages, index, true);
         Object[] subtitleMaps;
         if (!videoSearchList.isEmpty()) {
@@ -312,13 +313,9 @@ public class SubtitlesDownloader {
         if (mToken == null || path == null)
             return;
 
-        boolean canWrite = FileUtils.canWrite(path);
         StringBuilder sb = new StringBuilder();
-        if (canWrite)
-            sb.append(path.substring(0,path.lastIndexOf('.')+1)).append(language).append('.').append(subFormat);
-        else
-            sb.append(FileUtils.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
-        String srtURl = sb.toString();
+        sb.append(FileUtils.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
+        String srtUrl = sb.toString();
         FileOutputStream f = null;
         InputStream in = null;
         GZIPInputStream gzIS = null;
@@ -328,7 +325,7 @@ public class SubtitlesDownloader {
             url  = new URL(subUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
             // We get the first matching subtitle
-            f = new FileOutputStream(new File(srtURl));
+            f = new FileOutputStream(new File(srtUrl));
             //Base64 then gunzip uncompression
             gzIS = new GZIPInputStream(urlConnection.getInputStream());
             int length;
@@ -336,8 +333,7 @@ public class SubtitlesDownloader {
             while ((length = gzIS.read(buffer)) != -1) {
                 f.write(buffer, 0, length);
             }
-            if (!canWrite)
-                MediaDatabase.getInstance().saveSubtitle(srtURl, path);
+            MediaDatabase.getInstance().saveSubtitle(srtUrl, path);
         } catch (IOException e) {
             if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
         } catch (Throwable e) { //for various service outages
