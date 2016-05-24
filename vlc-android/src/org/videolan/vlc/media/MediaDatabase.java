@@ -55,7 +55,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private static final String DB_NAME = "vlc_database";
-    private static final int DB_VERSION = 24;
+    private static final int DB_VERSION = 25;
     private static final int CHUNK_SIZE = 50;
 
     private static final String DIR_TABLE_NAME = "directories_table";
@@ -99,6 +99,10 @@ public class MediaDatabase {
     private static final String MRL_DATE = "date";
     private static final String MRL_URI = "uri";
     private static final String MRL_TABLE_SIZE = "100";
+
+    private static final String EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table";
+    private static final String EXTERNAL_SUBTITLES_MEDIA_URI = "media_uri";
+    private static final String EXTERNAL_SUBTITLES_URI = "uri";
 
     private static final String HISTORY_TABLE_NAME = "history_table";
     private static final String HISTORY_DATE = MEDIA_LAST_MODIFIED;
@@ -337,6 +341,24 @@ public class MediaDatabase {
             }
         }
 
+        private void createExtSubsTableQuery(SQLiteDatabase db) {
+            String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
+                    EXTERNAL_SUBTITLES_TABLE_NAME + " (" +
+                    EXTERNAL_SUBTITLES_URI + " TEXT PRIMARY KEY NOT NULL, " +
+                    EXTERNAL_SUBTITLES_MEDIA_URI + " TEXT NOT NULL" +
+                    ");";
+            db.execSQL(createMrlTableQuery);
+        }
+
+        public void dropExtSubsTableQuery(SQLiteDatabase db) {
+            try {
+                String query = "DROP TABLE " + EXTERNAL_SUBTITLES_TABLE_NAME + ";";
+                db.execSQL(query);
+            } catch(SQLiteException e) {
+                Log.w(TAG, "SQLite table "+EXTERNAL_SUBTITLES_TABLE_NAME+" could not be dropped! Maybe they were missing...");
+            }
+        }
+
         @Override
         public void onCreate(SQLiteDatabase db) {
 
@@ -369,6 +391,8 @@ public class MediaDatabase {
                 createNetworkFavTableQuery(db);
 
                 createHistoryTableQuery(db);
+
+                createExtSubsTableQuery(db);
             }
         }
 
@@ -407,6 +431,10 @@ public class MediaDatabase {
                         case 24:
                             dropNetworkFavTableQuery(db);
                             createNetworkFavTableQuery(db);
+                            break;
+                        case 25:
+                            createExtSubsTableQuery(db);
+                            break;
                         default:
                             break;
                     }
@@ -1252,9 +1280,53 @@ public class MediaDatabase {
     public synchronized void clearNetworkFavTable() {
         mDb.delete(NETWORK_FAV_TABLE_NAME, null, null);
     }
+
+    /**
+     * External subtitles management
+     */
+
+    public synchronized void saveSubtitle(String path, String mediaPath) {
+        ContentValues values = new ContentValues();
+        values.put(EXTERNAL_SUBTITLES_URI, path);
+        values.put(EXTERNAL_SUBTITLES_MEDIA_URI, mediaPath);
+        mDb.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null, values);
+    }
+
+    public synchronized ArrayList<String> getSubtitles(String mediaPath) {
+        Cursor cursor = mDb.query(EXTERNAL_SUBTITLES_TABLE_NAME,
+                new String[] { EXTERNAL_SUBTITLES_MEDIA_URI, EXTERNAL_SUBTITLES_URI },
+                EXTERNAL_SUBTITLES_MEDIA_URI + "=?",
+                new String[] { mediaPath },
+                null, null, null);
+        ArrayList<String> list = new ArrayList<>(cursor.getCount());
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String url = cursor.getString(1);
+                if (!TextUtils.isEmpty(url)) {
+                    String fileUrl = Uri.decode(url);
+                    if (new File(fileUrl).exists())
+                        list.add(Uri.decode(url));
+                    else
+                        deleteSubtitle(Uri.parse(url));
+                }
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    public synchronized void deleteSubtitle(Uri uri) {
+        mDb.delete(EXTERNAL_SUBTITLES_TABLE_NAME, EXTERNAL_SUBTITLES_URI + "=?", new String[] { uri.toString() });
+    }
+
+    public synchronized void clearExternalSubtitlesTable() {
+        mDb.delete(EXTERNAL_SUBTITLES_TABLE_NAME, null, null);
+    }
+
     /**
      * Empty the database for debugging purposes
      */
+
     public synchronized void emptyDatabase() {
         mDb.delete(MEDIA_TABLE_NAME, null, null);
     }
