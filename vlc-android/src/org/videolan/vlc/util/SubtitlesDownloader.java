@@ -86,13 +86,19 @@ public class SubtitlesDownloader {
     private volatile boolean stop = false;
 
     private AlertDialog mSumUpDialog;
+    private Callback mCallback;
+
+    public interface Callback {
+        void onRequestEnded(boolean success);
+    }
 
     public void setActivity(Activity activity) {
         mContext = activity;
     }
 
-    public void downloadSubs(final List<MediaWrapper> mediaList) {
+    public void downloadSubs(final List<MediaWrapper> mediaList, Callback cb) {
         stop = false;
+        mCallback = cb;
         Set<String> languages =  Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
         if (AndroidUtil.isHoneycombOrLater()) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -284,6 +290,13 @@ public class SubtitlesDownloader {
                     fails.put(fileName, langs);
             }
         }
+        if (mCallback != null)
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.onRequestEnded(!success.isEmpty());
+                }
+            });
         if (!stop) {
             if (single){
                 stop = true;
@@ -414,18 +427,22 @@ public class SubtitlesDownloader {
     private String buildSumup(HashMap<String, ArrayList<String>> success, HashMap<String, ArrayList<String>> fails, boolean single) {
         StringBuilder textToDisplay = new StringBuilder();
         if (single){ // Text for the toast
-            for (Entry<String, ArrayList<String>> entry : success.entrySet()) {
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_found));
-                if (entry.getValue().size() > 1)
-                    textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
+            if (!success.isEmpty()) {
+                for (Entry<String, ArrayList<String>> entry : success.entrySet()) {
+                    textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_found));
+                    if (entry.getValue().size() > 1)
+                        textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
+                }
             }
-            for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
-                textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_not_found));
-                if (entry.getValue().size() > 1)
-                    textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
+            if (!fails.isEmpty()) {
+                for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
+                    textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_not_found));
+                    if (entry.getValue().size() > 1)
+                        textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
+                }
             }
         } else { // Text for the dialog box
-            if (success.size()>0){
+            if (!success.isEmpty()){
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_success)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : success.entrySet()){
@@ -438,7 +455,7 @@ public class SubtitlesDownloader {
                     textToDisplay.append("\n\n");
             }
 
-            if (fails.size()>0){
+            if (!fails.isEmpty()){
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_fails)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
