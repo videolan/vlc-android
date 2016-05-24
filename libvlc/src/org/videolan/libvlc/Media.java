@@ -40,7 +40,6 @@ public class Media extends VLCObject<Media.Event> {
         //public static final int Freed                      = 4;
         public static final int StateChanged = 5;
         public static final int SubItemTreeAdded = 6;
-        public static final int ParsedStatus = 7;
 
         protected Event(int type) {
             super(type);
@@ -414,9 +413,6 @@ public class Media extends VLCObject<Media.Event> {
             mDuration = -1;
             break;
         case Event.ParsedChanged:
-            postParse();
-            break;
-        case Event.ParsedStatus:
             postParse();
             return new Event(eventType, arg1);
         case Event.StateChanged:
