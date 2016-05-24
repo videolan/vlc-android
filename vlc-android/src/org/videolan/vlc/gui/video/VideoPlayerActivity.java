@@ -112,11 +112,13 @@ import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -2140,6 +2142,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
+                } else if (item.getItemId() == R.id.video_menu_subtitles_download) {
+                    if (mUri == null)
+                        return false;
+                    MediaUtils.getSubs(VideoPlayerActivity.this, mService.getCurrentMediaWrapper(), new SubtitlesDownloader.Callback() {
+                        @Override
+                        public void onRequestEnded(boolean success) {
+                            if (success)
+                                getSubtitles();
+                        }
+                    });
                 }
                 return false;
             }
@@ -2946,7 +2958,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mTitle.setText(title);
     }
 
-    private void getSubtitles() {
+    public void getSubtitles() {
         final String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         VLCApplication.runBackground(new Runnable() {
             @Override

@@ -45,6 +45,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 
@@ -101,7 +102,7 @@ public class SubtitlesDownloader {
         mCallback = cb;
         Set<String> languages =  Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
         if (AndroidUtil.isHoneycombOrLater()) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             languages =  pref.getStringSet("languages_download_list", languages);
         }
         final ArrayList<String> finalLanguages = new ArrayList<>(languages);
@@ -497,7 +498,7 @@ public class SubtitlesDownloader {
     private void showSnackBar(final String text) {
         if (mContext == null)
             return;
-        if (mContext instanceof AppCompatActivity) {
+        if (mContext instanceof AppCompatActivity && !(mContext instanceof VideoPlayerActivity)) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -522,6 +523,11 @@ public class SubtitlesDownloader {
         public void handleMessage(Message msg) {
             if (mContext == null || mContext.isFinishing())
                 return;
+            if (mContext instanceof VideoPlayerActivity) {
+                if (msg.what == DIALOG_SHOW)
+                    showSnackBar(R.string.downloading_subtitles);
+                return;
+            }
             switch (msg.what) {
                 case DIALOG_SHOW:
                     mDialog = ProgressDialog.show(mContext, "Subs download", "Connecting...", true);

@@ -9,4 +9,7 @@
     <item
         android:id="@+id/video_menu_subtitles_picker"
         android:title="@string/subtitle_select" />
+    <item
+        android:id="@+id/video_menu_subtitles_download"
+        android:title="@string/download_subtitles" />
 </menu>

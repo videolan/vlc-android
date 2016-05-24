@@ -56,12 +56,12 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
