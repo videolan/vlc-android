@@ -46,6 +46,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 
 import java.io.File;
@@ -321,7 +322,8 @@ public class SubtitlesDownloader {
             while ((length = gzIS.read(buffer)) != -1) {
                 f.write(buffer, 0, length);
             }
-            // TODO Update the media database
+            if (!canWrite)
+                MediaDatabase.getInstance().saveSubtitle(srtURl, path);
         } catch (IOException e) {
             if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
         } catch (Throwable e) { //for various service outages
