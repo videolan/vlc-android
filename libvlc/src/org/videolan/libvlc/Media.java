@@ -105,7 +105,7 @@ public class Media extends VLCObject<Media.Event> {
     public static class State {
         public static final int NothingSpecial = 0;
         public static final int Opening = 1;
-        public static final int Buffering = 2;
+        /* deprecated public static final int Buffering = 2; */
         public static final int Playing = 3;
         public static final int Paused = 4;
         public static final int Stopped = 5;
