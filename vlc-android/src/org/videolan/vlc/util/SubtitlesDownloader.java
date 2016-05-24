@@ -35,7 +35,6 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -165,49 +164,51 @@ public class SubtitlesDownloader {
         HashMap<String, ArrayList<String>> fails = new HashMap<>();
         ArrayList<HashMap<String, String>> videoSearchList = prepareRequestList(mediaList, languages, index, true);
         Object[] subtitleMaps;
-        try {
-            map = (HashMap<String, Object>) mClient.call("SearchSubtitles", mToken, videoSearchList);
-        } catch (Throwable e) { //for various service outages
-            stop = true;
-            showSnackBar(R.string.service_unavailable);
-            return;
-        }
-        if(!stop && map.get("data") instanceof Object[]) {
-            subtitleMaps = ((Object[]) map.get("data"));
-            if (!single)
-                mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), 0).sendToTarget();
-            if (subtitleMaps.length > 0){
-                String srtFormat, movieHash, fileUrl, fileName, subLanguageID, subDownloadLink;
-                for (Object map : subtitleMaps){
-                    if (stop)
-                        break;
-                    srtFormat = ((HashMap<String, String>) map).get("SubFormat");
-                    movieHash = ((HashMap<String, String>) map).get("MovieHash");
-                    subLanguageID = ((HashMap<String, String>) map).get("SubLanguageID");
-                    subDownloadLink = ((HashMap<String, String>) map).get("SubDownloadLink");
-                    fileUrl = index.get(movieHash);
+        if (!videoSearchList.isEmpty()) {
+            try {
+                map = (HashMap<String, Object>) mClient.call("SearchSubtitles", mToken, videoSearchList);
+            } catch (Throwable e) { //for various service outages
+                stop = true;
+                showSnackBar(R.string.service_unavailable);
+                return;
+            }
+            if(!stop && map.get("data") instanceof Object[]) {
+                subtitleMaps = ((Object[]) map.get("data"));
+                if (!single)
+                    mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), 0).sendToTarget();
+                if (subtitleMaps.length > 0){
+                    String srtFormat, movieHash, fileUrl, fileName, subLanguageID, subDownloadLink;
+                    for (Object map : subtitleMaps){
+                        if (stop)
+                            break;
+                        srtFormat = ((HashMap<String, String>) map).get("SubFormat");
+                        movieHash = ((HashMap<String, String>) map).get("MovieHash");
+                        subLanguageID = ((HashMap<String, String>) map).get("SubLanguageID");
+                        subDownloadLink = ((HashMap<String, String>) map).get("SubDownloadLink");
+                        fileUrl = index.get(movieHash);
 
-                    fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                    if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
-                        continue;
-                    } else {
-                        if (success.containsKey(fileName))
-                            success.get(fileName).add(subLanguageID);
-                        else {
-                            ArrayList<String> newLanguage = new ArrayList<>();
-                            newLanguage.add(subLanguageID);
-                            success.put(fileName, newLanguage);
+                        fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                        if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
+                            continue;
+                        } else {
+                            if (success.containsKey(fileName))
+                                success.get(fileName).add(subLanguageID);
+                            else {
+                                ArrayList<String> newLanguage = new ArrayList<>();
+                                newLanguage.add(subLanguageID);
+                                success.put(fileName, newLanguage);
+                            }
                         }
+                        downloadSubtitles(subDownloadLink, fileUrl, fileName, srtFormat, subLanguageID);
+                        if (!single)
+                            mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), success.size()).sendToTarget();
                     }
-                    downloadSubtitles(subDownloadLink, fileUrl, fileName, srtFormat, subLanguageID);
-                    if (!single)
-                        mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), success.size()).sendToTarget();
                 }
             }
+            if (videoSearchList != null)
+                videoSearchList.clear();
+            index.clear();
         }
-        if (videoSearchList != null)
-            videoSearchList.clear();
-        index.clear();
 
         //Second pass
         for (MediaWrapper media : mediaList){
