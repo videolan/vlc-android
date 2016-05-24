@@ -2947,35 +2947,40 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void getSubtitles() {
-        String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
-        ArrayList<String> prefsList = new ArrayList<>();
-        if(subtitleList_serialized != null) {
-            ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
-            try {
-                ObjectInputStream ois = new ObjectInputStream(bis);
-                prefsList = (ArrayList<String>)ois.readObject();
-            } catch(ClassNotFoundException e) {}
-              catch (StreamCorruptedException e) {}
-              catch (IOException e) {}
-        }
-        prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getPath()));
-        for(String x : prefsList){
-            if(!mSubtitleSelectedFiles.contains(x))
-                mSubtitleSelectedFiles.add(x);
-        }
-
-        // Add any selected subtitle file from the file picker
-        if(mSubtitleSelectedFiles.size() > 0) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    for(String file : mSubtitleSelectedFiles) {
-                        Log.i(TAG, "Adding user-selected subtitle " + file);
-                        mService.addSubtitleTrack(file);
-                    }
+        final String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> prefsList = new ArrayList<>();
+                if(subtitleList_serialized != null) {
+                    ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(bis);
+                        prefsList = (ArrayList<String>)ois.readObject();
+                    } catch(ClassNotFoundException e) {}
+                    catch (StreamCorruptedException e) {}
+                    catch (IOException e) {}
                 }
-            });
-        }
+                prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getPath()));
+                for(String x : prefsList){
+                    if(!mSubtitleSelectedFiles.contains(x))
+                        mSubtitleSelectedFiles.add(x);
+                }
+
+                // Add any selected subtitle file from the file picker
+                if(mSubtitleSelectedFiles.size() > 0) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(String file : mSubtitleSelectedFiles) {
+                                Log.i(TAG, "Adding user-selected subtitle " + file);
+                                mService.addSubtitleTrack(file);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @SuppressWarnings("deprecation")
