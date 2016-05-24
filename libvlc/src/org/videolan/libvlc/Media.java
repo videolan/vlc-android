@@ -51,6 +51,14 @@ public class Media extends VLCObject<Media.Event> {
         public int getMetaId() {
             return (int) arg1;
         }
+
+        /**
+         * Get the ParsedStatus in case of {@link Event#ParsedChanged} event
+         * @return {@link Media.ParsedStatus}
+         */
+        public int getParsedStatus() {
+            return (int) arg1;
+        }
     }
 
     public interface EventListener extends VLCEvent.Listener<Media.Event> {}
@@ -123,6 +131,15 @@ public class Media extends VLCObject<Media.Event> {
         public static final int FetchLocal   = 0x02;
         public static final int FetchNetwork = 0x04;
         public static final int DoInteract   = 0x08;
+    }
+
+    /*
+     * see libvlc_media_parsed_status_t
+     */
+    public static class ParsedStatus {
+        public static final int Skipped = 1;
+        public static final int Failed = 2;
+        public static final int Done = 3;
     }
 
     /**
