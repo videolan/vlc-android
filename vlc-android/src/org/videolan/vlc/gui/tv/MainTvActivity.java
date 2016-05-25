@@ -327,7 +327,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
 
     @Override
     public void setItemToUpdate(MediaWrapper item) {
-        mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
+        mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
     }
 
     public void updateItem(MediaWrapper item) {

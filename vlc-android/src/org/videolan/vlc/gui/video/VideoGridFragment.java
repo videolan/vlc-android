@@ -174,7 +174,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if ((getActivity() instanceof MainActivity))
             mMainActivity = (MainActivity) getActivity();
         mMediaLibrary.setBrowser(this);
-        mMediaLibrary.addUpdateHandler(mHandler);
         final boolean refresh = mVideoAdapter.isEmpty();
         // We don't animate while medialib is scanning. Because gridview is being populated.
         // That would lead to graphical glitches
@@ -190,6 +189,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         updateViewMode();
         if (animate)
             mAnimator.animate();
+        mMediaLibrary.addUpdateHandler(mHandler);
 
         /* Start the thumbnailer */
         if (mThumbnailer != null)
@@ -384,7 +384,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     private Handler mHandler = new VideoListHandler(this);
 
     public void updateItem(MediaWrapper item) {
+        if (item.getType() != MediaWrapper.TYPE_VIDEO)
+            return;
         mVideoAdapter.update(item);
+        mViewNomedia.setVisibility(View.GONE);
     }
 
     public void updateList() {
@@ -466,7 +469,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void setItemToUpdate(MediaWrapper item) {
-        mHandler.sendMessage(mHandler.obtainMessage(VideoListHandler.UPDATE_ITEM, item));
+        mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
     }
 
     public void setGroup(String prefix) {

@@ -58,6 +58,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
 
+    public static final int UPDATE_ITEM = 0;
     public static final int MEDIA_ITEMS_UPDATED = 100;
 
     private static MediaLibrary mInstance;
@@ -188,14 +189,12 @@ public class MediaLibrary {
 
     public ArrayList<MediaWrapper> getPlaylistFilesItems() {
         ArrayList<MediaWrapper> playlistItems = new ArrayList<>();
-        mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             MediaWrapper item = mItemList.get(i);
             if (item.getType() == MediaWrapper.TYPE_PLAYLIST) {
                 playlistItems.add(item);
             }
         }
-        mItemListLock.readLock().unlock();
         return playlistItems;
     }
 
@@ -369,27 +368,28 @@ public class MediaLibrary {
                             // get existing media item from database
                             mItemList.add(existingMedias.get(fileURI));
                             mItemListLock.writeLock().unlock();
+                            notifyMediaUpdated(existingMedias.get(fileURI));
                             addedLocations.add(fileURI);
                         }
                     } else {
-                        mItemListLock.writeLock().lock();
                         // create new media item
                         final Media media = new Media(libVlcInstance, Uri.parse(fileURI));
                         media.parse();
                         /* skip files with .mod extension and no duration */
                         if ((media.getDuration() == 0 || (media.getTrackCount() != 0 && TextUtils.isEmpty(media.getTrack(0).codec))) &&
                             fileURI.endsWith(".mod")) {
-                            mItemListLock.writeLock().unlock();
                             media.release();
                             continue;
                         }
                         MediaWrapper mw = new MediaWrapper(media);
                         media.release();
                         mw.setLastModified(file.lastModified());
+                        mItemListLock.writeLock().lock();
                         mItemList.add(mw);
+                        mItemListLock.writeLock().unlock();
+                        notifyMediaUpdated(mw);
                         // Add this item to database
                         mediaDatabase.addMedia(mw);
-                        mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {
                         Log.d(TAG, "Stopping scan");
@@ -428,6 +428,14 @@ public class MediaLibrary {
                     restartHandler.sendEmptyMessageDelayed(1, 200);
                 }
             }
+        }
+    }
+
+    private void notifyMediaUpdated(MediaWrapper mw) {
+        // update the video and audio activities
+        for (int i = 0; i < mUpdateHandler.size(); i++) {
+            Handler h = mUpdateHandler.get(i);
+            h.obtainMessage(UPDATE_ITEM, mw).sendToTarget();
         }
     }
 

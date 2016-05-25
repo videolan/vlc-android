@@ -240,6 +240,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         int position = mVideos.indexOf(item);
         if (position != -1) {
             mVideos.set(position, item);
+        } else {
+            position = mVideos.size();
+            mVideos.add(item);
         }
         notifyItemChanged(position);
     }
