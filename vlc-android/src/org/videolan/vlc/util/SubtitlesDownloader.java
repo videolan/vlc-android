@@ -530,7 +530,7 @@ public class SubtitlesDownloader {
             }
             switch (msg.what) {
                 case DIALOG_SHOW:
-                    mDialog = ProgressDialog.show(mContext, "Subs download", "Connecting...", true);
+                    mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.subtitles_download_title), mContext.getString(R.string.connecting), true);
                     mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {

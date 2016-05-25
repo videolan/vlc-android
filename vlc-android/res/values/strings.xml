@@ -633,6 +633,8 @@
     <string name="downloading_subtitles">Downloading subtitles</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
+    <string name="subtitles_download_title">Subs download</string>
+    <string name="connecting">Connecting...</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
