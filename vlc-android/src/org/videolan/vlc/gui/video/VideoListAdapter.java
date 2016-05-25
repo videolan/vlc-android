@@ -38,6 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
@@ -241,8 +242,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (position != -1) {
             mVideos.set(position, item);
         } else {
-            position = mVideos.size();
-            mVideos.add(item);
+            MediaWrapper mw;
+            for (int i = 0; i < mVideos.size(); ++i) {
+                mw = mVideos.get(i);
+                if (MediaComparators.byName.compare(item, mw) < 0) {
+                    position = i;
+                    break;
+                }
+            }
+            if (position == -1) {
+                position = mVideos.size();
+                mVideos.add(item);
+                notifyItemChanged(position);
+            } else {
+                mVideos.add(position, item);
+                notifyItemRangeChanged(position, mVideos.size());
+            }
         }
         notifyItemChanged(position);
     }
