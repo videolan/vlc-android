@@ -405,29 +405,26 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 @Override
                 public void run() {
                     final ArrayList<MediaWrapper> displayList = new ArrayList<>();
-
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {
-                            if (mGroup == null || item.getTitle().startsWith(mGroup)) {
+                            if (mGroup == null || item.getTitle().startsWith(mGroup))
                                 displayList.add(item);
-                                if (mThumbnailer != null)
-                                    mThumbnailer.addJob(item);
-                            }
                         }
-                    }
-                    else {
+                    } else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
-                        for (MediaGroup item : groups) {
+                        for (MediaGroup item : groups)
                             displayList.add(item.getMedia());
-                            if (mThumbnailer != null)
-                                mThumbnailer.addJob(item.getMedia());
-                        }
                     }
 
+                    final ArrayList<MediaWrapper> jobsList = new ArrayList<>(displayList);
                     mVideoAdapter.addAll(displayList);
                     mVideoAdapter.sort();
                     if (mReadyToDisplay)
                         display();
+                    if (mThumbnailer != null) {
+                        for (MediaWrapper item : jobsList)
+                            mThumbnailer.addJob(item);
+                    }
                 }
             });
         }
