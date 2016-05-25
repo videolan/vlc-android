@@ -174,6 +174,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if ((getActivity() instanceof MainActivity))
             mMainActivity = (MainActivity) getActivity();
         mMediaLibrary.setBrowser(this);
+        mMediaLibrary.addUpdateHandler(mHandler);
         final boolean refresh = mVideoAdapter.isEmpty();
         // We don't animate while medialib is scanning. Because gridview is being populated.
         // That would lead to graphical glitches
@@ -189,7 +190,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         updateViewMode();
         if (animate)
             mAnimator.animate();
-        mMediaLibrary.addUpdateHandler(mHandler);
 
         /* Start the thumbnailer */
         if (mThumbnailer != null)
@@ -405,23 +405,27 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                 @Override
                 public void run() {
                     final ArrayList<MediaWrapper> displayList = new ArrayList<>();
+                    final ArrayList<MediaWrapper> jobsList = new ArrayList<>();
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup))
                                 displayList.add(item);
+                                jobsList.add(item);
                         }
                     } else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
-                        for (MediaGroup item : groups)
+                        for (MediaGroup item : groups) {
                             displayList.add(item.getMedia());
+                            for (MediaWrapper media : item.getAll())
+                                jobsList.add(media);
+                        }
                     }
 
-                    final ArrayList<MediaWrapper> jobsList = new ArrayList<>(displayList);
                     mVideoAdapter.addAll(displayList);
                     mVideoAdapter.sort();
                     if (mReadyToDisplay)
                         display();
-                    if (mThumbnailer != null) {
+                    if (mThumbnailer != null && !jobsList.isEmpty()) {
                         for (MediaWrapper item : jobsList)
                             mThumbnailer.addJob(item);
                     }
