@@ -168,27 +168,21 @@ public class MediaLibrary {
 
     public ArrayList<MediaWrapper> getVideoItems() {
         ArrayList<MediaWrapper> videoItems = new ArrayList<>();
-        mItemListLock.readLock().lock();
-        for (int i = 0; i < mItemList.size(); i++) {
-            MediaWrapper item = mItemList.get(i);
+        for (MediaWrapper item : mItemList) {
             if (item != null && item.getType() == MediaWrapper.TYPE_VIDEO) {
                 videoItems.add(item);
             }
         }
-        mItemListLock.readLock().unlock();
         return videoItems;
     }
 
     public ArrayList<MediaWrapper> getAudioItems() {
         ArrayList<MediaWrapper> audioItems = new ArrayList<>();
-        mItemListLock.readLock().lock();
-        for (int i = 0; i < mItemList.size(); i++) {
-            MediaWrapper item = mItemList.get(i);
+        for (MediaWrapper item : mItemList) {
             if (item.getType() == MediaWrapper.TYPE_AUDIO) {
                 audioItems.add(item);
             }
         }
-        mItemListLock.readLock().unlock();
         return audioItems;
     }
 
