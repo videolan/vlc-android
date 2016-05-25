@@ -310,11 +310,12 @@ public class SubtitlesDownloader {
         logOut();
     }
 
-    private void downloadSubtitles(String subUrl, String path, String name, String subFormat, String language){
+    private void downloadSubtitles(String subUrl, String path, String fileName, String subFormat, String language){
         if (mToken == null || path == null)
             return;
 
         StringBuilder sb = new StringBuilder();
+        String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
         sb.append(FileUtils.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
         String srtUrl = sb.toString();
         FileOutputStream f = null;
@@ -334,7 +335,7 @@ public class SubtitlesDownloader {
             while ((length = gzIS.read(buffer)) != -1) {
                 f.write(buffer, 0, length);
             }
-            MediaDatabase.getInstance().saveSubtitle(srtUrl, path);
+            MediaDatabase.getInstance().saveSubtitle(srtUrl, fileName);
         } catch (IOException e) {
             if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
         } catch (Throwable e) { //for various service outages

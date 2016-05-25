@@ -101,7 +101,7 @@ public class MediaDatabase {
     private static final String MRL_TABLE_SIZE = "100";
 
     private static final String EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table";
-    private static final String EXTERNAL_SUBTITLES_MEDIA_URI = "media_uri";
+    private static final String EXTERNAL_SUBTITLES_MEDIA_NAME = "media_name";
     private static final String EXTERNAL_SUBTITLES_URI = "uri";
 
     private static final String HISTORY_TABLE_NAME = "history_table";
@@ -345,7 +345,7 @@ public class MediaDatabase {
             String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
                     EXTERNAL_SUBTITLES_TABLE_NAME + " (" +
                     EXTERNAL_SUBTITLES_URI + " TEXT PRIMARY KEY NOT NULL, " +
-                    EXTERNAL_SUBTITLES_MEDIA_URI + " TEXT NOT NULL" +
+                    EXTERNAL_SUBTITLES_MEDIA_NAME + " TEXT NOT NULL" +
                     ");";
             db.execSQL(createMrlTableQuery);
         }
@@ -1285,18 +1285,18 @@ public class MediaDatabase {
      * External subtitles management
      */
 
-    public synchronized void saveSubtitle(String path, String mediaPath) {
+    public synchronized void saveSubtitle(String path, String mediaName) {
         ContentValues values = new ContentValues();
         values.put(EXTERNAL_SUBTITLES_URI, path);
-        values.put(EXTERNAL_SUBTITLES_MEDIA_URI, mediaPath);
+        values.put(EXTERNAL_SUBTITLES_MEDIA_NAME, mediaName);
         mDb.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null, values);
     }
 
-    public synchronized ArrayList<String> getSubtitles(String mediaPath) {
+    public synchronized ArrayList<String> getSubtitles(String mediaName) {
         Cursor cursor = mDb.query(EXTERNAL_SUBTITLES_TABLE_NAME,
-                new String[] { EXTERNAL_SUBTITLES_MEDIA_URI, EXTERNAL_SUBTITLES_URI },
-                EXTERNAL_SUBTITLES_MEDIA_URI + "=?",
-                new String[] { mediaPath },
+                new String[] {EXTERNAL_SUBTITLES_MEDIA_NAME, EXTERNAL_SUBTITLES_URI },
+                EXTERNAL_SUBTITLES_MEDIA_NAME + "=?",
+                new String[] { mediaName },
                 null, null, null);
         ArrayList<String> list = new ArrayList<>(cursor.getCount());
         if (cursor != null) {
@@ -1305,9 +1305,9 @@ public class MediaDatabase {
                 if (!TextUtils.isEmpty(url)) {
                     String fileUrl = Uri.decode(url);
                     if (new File(fileUrl).exists())
-                        list.add(Uri.decode(url));
+                        list.add(fileUrl);
                     else
-                        deleteSubtitle(Uri.parse(url));
+                        deleteSubtitle(url);
                 }
             }
             cursor.close();
@@ -1315,8 +1315,8 @@ public class MediaDatabase {
         return list;
     }
 
-    public synchronized void deleteSubtitle(Uri uri) {
-        mDb.delete(EXTERNAL_SUBTITLES_TABLE_NAME, EXTERNAL_SUBTITLES_URI + "=?", new String[] { uri.toString() });
+    public synchronized void deleteSubtitle(String path) {
+        mDb.delete(EXTERNAL_SUBTITLES_TABLE_NAME, EXTERNAL_SUBTITLES_URI + "=?", new String[] { path });
     }
 
     public synchronized void clearExternalSubtitlesTable() {
