@@ -2,6 +2,14 @@ LOCAL_PATH := $(call my-dir)
 ANDROID_PRIVATE_LIBDIR := $(LOCAL_PATH)/../../android-libs
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := demuxdump2_plugin
+LOCAL_SRC_FILES += modules/demuxdump2.c
+LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
+LOCAL_CFLAGS := -std=gnu99 -DMODULE_NAME=demuxdump2 -Wall
+
+include $(BUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := libvlc
 ARCH=$(APP_ABI)
 ifeq ($(ARCH), armeabi)
@@ -39,6 +47,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(EXTRA_LDFLAGS)
 
 LOCAL_SHARED_LIBRARIES:= libcompat.7
+LOCAL_STATIC_LIBRARIES:= libdemuxdump2_plugin
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
