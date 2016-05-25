@@ -2153,6 +2153,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         }
                     });
                 }
+                hideOverlay(true);
                 return false;
             }
         });
