@@ -33,8 +33,7 @@ public class MediaGroup extends MediaWrapper {
 
     private ArrayList<MediaWrapper> mMedias;
 
-    public MediaGroup(MediaWrapper media)
-    {
+    public MediaGroup(MediaWrapper media) {
         super(media.getUri(),
                 media.getTime(),
                 media.getLength(),
@@ -92,19 +91,18 @@ public class MediaGroup extends MediaWrapper {
         return groups;
     }
 
-    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media)
-    {
+    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media) {
         for (MediaGroup mediaGroup : groups) {
             String group = mediaGroup.getTitle();
-            String item = media.getTitle();
+            String title = media.getTitle();
 
-            if (item.length() > 4 && (item.startsWith("The") || item.startsWith("the")))
-                item = item.substring(4);
+            if (title.length() > 4 && (title.substring(0, 3).toLowerCase().startsWith("the")))
+                title = title.substring(4);
 
             // find common prefix
             int commonLength = 0;
-            int minLength = Math.min(group.length(), item.length());
-            while (commonLength < minLength && group.charAt(commonLength) == item.charAt(commonLength))
+            int minLength = Math.min(group.length(), title.length());
+            while (commonLength < minLength && group.charAt(commonLength) == title.charAt(commonLength))
                 ++commonLength;
 
             if (commonLength >= MIN_GROUP_LENGTH) {
