@@ -169,7 +169,10 @@ public class MediaLibrary {
 
     public ArrayList<MediaWrapper> getVideoItems() {
         ArrayList<MediaWrapper> videoItems = new ArrayList<>();
-        for (MediaWrapper item : mItemList) {
+        MediaWrapper item;
+        int count = mItemList.size();
+        for (int i = 0; i < count; ++i) {
+            item = mItemList.get(i);
             if (item != null && item.getType() == MediaWrapper.TYPE_VIDEO) {
                 videoItems.add(item);
             }
@@ -179,7 +182,10 @@ public class MediaLibrary {
 
     public ArrayList<MediaWrapper> getAudioItems() {
         ArrayList<MediaWrapper> audioItems = new ArrayList<>();
-        for (MediaWrapper item : mItemList) {
+        MediaWrapper item;
+        int count = mItemList.size();
+        for (int i = 0; i < count; ++i) {
+            item = mItemList.get(i);
             if (item.getType() == MediaWrapper.TYPE_AUDIO) {
                 audioItems.add(item);
             }
@@ -189,11 +195,12 @@ public class MediaLibrary {
 
     public ArrayList<MediaWrapper> getPlaylistFilesItems() {
         ArrayList<MediaWrapper> playlistItems = new ArrayList<>();
-        for (int i = 0; i < mItemList.size(); i++) {
-            MediaWrapper item = mItemList.get(i);
-            if (item.getType() == MediaWrapper.TYPE_PLAYLIST) {
+        MediaWrapper item;
+        int count = mItemList.size();
+        for (int i = 0; i < count; ++i) {
+            item = mItemList.get(i);
+            if (item.getType() == MediaWrapper.TYPE_PLAYLIST)
                 playlistItems.add(item);
-            }
         }
         return playlistItems;
     }
