@@ -30,6 +30,7 @@ JNIEnv *jni_get_env(const char *name);
 static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerMediaChanged,
     libvlc_MediaPlayerOpening,
+    libvlc_MediaPlayerBuffering,
     libvlc_MediaPlayerPlaying,
     libvlc_MediaPlayerPaused,
     libvlc_MediaPlayerStopped,
@@ -75,6 +76,9 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
 {
     switch (p_ev->type)
     {
+        case libvlc_MediaPlayerBuffering:
+            p_java_event->arg2 = p_ev->u.media_player_buffering.new_cache;
+            break;
         case libvlc_MediaPlayerPositionChanged:
             p_java_event->arg2 = p_ev->u.media_player_position_changed.new_position;
             break;
