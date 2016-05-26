@@ -184,7 +184,8 @@ public class MediaWrapper implements Parcelable {
 
     private void init(long time, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                      int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
+                      int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
+                      Media.Slave[] slaves) {
         mFilename = null;
         mTime = time;
         mAudioTrack = audio;
@@ -204,6 +205,7 @@ public class MediaWrapper implements Parcelable {
         mTrackNumber = trackNumber;
         mDiscNumber = discNumber;
         mLastModified = lastModified;
+        mSlaves = slaves;
     }
 
     public MediaWrapper(Uri uri, long time, long length, int type,
@@ -211,7 +213,7 @@ public class MediaWrapper implements Parcelable {
                  int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
-             width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified);
+             width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
     }
 
     public String getLocation() {
@@ -506,7 +508,8 @@ public class MediaWrapper implements Parcelable {
                 in.readInt(),
                 in.readInt(),
                 in.readInt(),
-                in.readLong());
+                in.readLong(),
+                in.createTypedArray(PSlave.CREATOR));
     }
 
     @Override
@@ -529,6 +532,16 @@ public class MediaWrapper implements Parcelable {
         dest.writeInt(getTrackNumber());
         dest.writeInt(getDiscNumber());
         dest.writeLong(getLastModified());
+
+        if (mSlaves != null) {
+            PSlave pslaves[] = new PSlave[mSlaves.length];
+            for (int i = 0; i < mSlaves.length; ++i) {
+                pslaves[i] = new PSlave(mSlaves[i]);
+            }
+            dest.writeTypedArray(pslaves, flags);
+        }
+        else
+            dest.writeTypedArray(null, flags);
     }
 
     public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
@@ -539,4 +552,39 @@ public class MediaWrapper implements Parcelable {
             return new MediaWrapper[size];
         }
     };
+
+    private static class PSlave extends Media.Slave implements Parcelable {
+
+        protected PSlave(Media.Slave slave) {
+            super(slave.type, slave.priority, slave.uri);
+        }
+
+        protected PSlave(Parcel in) {
+            super(in.readInt(), in.readInt(), in.readString());
+        }
+
+        public static final Creator<PSlave> CREATOR = new Creator<PSlave>() {
+            @Override
+            public PSlave createFromParcel(Parcel in) {
+                return new PSlave(in);
+            }
+
+            @Override
+            public PSlave[] newArray(int size) {
+                return new PSlave[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int flags) {
+            parcel.writeInt(type);
+            parcel.writeInt(priority);
+            parcel.writeString(uri);
+        }
+    }
 }
