@@ -91,11 +91,17 @@ public class FilePickerFragment extends FileBrowserFragment {
     }
 
     public boolean defineIsRoot() {
-        String path = Strings.removeFileProtocole(mMrl);
-        for (int i = 0; i < rootDirectories.length; ++i) {
-            if (TextUtils.equals(path, rootDirectories[i]))
-                return true;
-        }
+        if (mMrl == null)
+            return true;
+        if (mMrl.startsWith("file")) {
+            String path = Strings.removeFileProtocole(mMrl);
+            for (int i = 0; i < rootDirectories.length; ++i) {
+                if (path.startsWith(rootDirectories[i]))
+                    return false;
+            }
+            return true;
+        } else if (TextUtils.isEmpty(Uri.parse(mMrl).getPath()))
+            return true;
         return false;
     }
 
