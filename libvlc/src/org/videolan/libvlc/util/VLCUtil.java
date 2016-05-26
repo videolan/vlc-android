@@ -547,6 +547,7 @@ public class VLCUtil {
         media.addOption(":no-audio");
         media.addOption(":no-spu");
         media.addOption(":no-osd");
+        media.addOption(":input-fast-seek");
         return nativeGetThumbnail(media, i_width, i_height);
     }
 
