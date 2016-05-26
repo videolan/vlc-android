@@ -224,6 +224,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private View mVerticalBar;
     private View mVerticalBarProgress;
     private boolean mIsLoading;
+    private long mStartBufferingTime = 0;
     private ImageView mLoading;
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
@@ -242,6 +243,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mScreenOrientationLock;
     private ImageView mLock;
     private ImageView mSize;
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        return super.onGenericMotionEvent(event);
+    }
+
     private boolean mIsLocked = false;
     /* -1 is a valid track (Disable) */
     private int mLastAudioTrack = -2;
@@ -1532,6 +1539,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 encounteredError();
                 break;
             case MediaPlayer.Event.TimeChanged:
+                mStartBufferingTime = 0;
                 break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
@@ -1551,6 +1559,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.PausableChanged:
                 updatePausable(event.getPausable());
+                break;
+            case MediaPlayer.Event.Buffering:
+                if (event.getBuffering() == 100f){
+                    mStartBufferingTime = 0;
+                    if (mIsLoading)
+                        stopLoading();
+                }
+                else
+                    startLoadingDelayed();
                 break;
         }
     }
@@ -1850,7 +1867,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mService == null || mIsLoading)
+        if (mService == null)
             return false;
         if (mPlaybackSetting != DelayState.OFF){
             endPlaybackSetting();
@@ -3234,6 +3251,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Start the video loading animation.
      */
     private void startLoading() {
+        if (mIsLoading)
+            return;
         mIsLoading = true;
         AnimationSet anim = new AnimationSet(true);
         RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -3253,6 +3272,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLoading.clearAnimation();
         if (mPresentation != null) {
             mTipsBackground.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * If VLC is buffering since 1 second, start the video loading animation
+     */
+    private void startLoadingDelayed() {
+        if (mIsLoading || mTouchAction == TOUCH_SEEK || mDragging)
+            return;
+        if (mStartBufferingTime == 0) {
+            mStartBufferingTime = System.currentTimeMillis();
+            return;
+        }
+        if (System.currentTimeMillis() - mStartBufferingTime > 1000) {
+            startLoading();
         }
     }
 
