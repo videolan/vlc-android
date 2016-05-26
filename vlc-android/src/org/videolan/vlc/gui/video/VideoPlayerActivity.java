@@ -2138,7 +2138,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     if (mUri == null)
                         return false;
                     Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    if (TextUtils.equals(mUri.getScheme(), "file"))
+                    if (!TextUtils.equals(mUri.getScheme(), "http"))
                         filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
