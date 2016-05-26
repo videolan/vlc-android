@@ -83,9 +83,9 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.removeFileProtocole(mMrl)))
                     title = getString(R.string.internal_memory);
                 else
-                    title = mCurrentMedia.getTitle();
+                    title = this instanceof FilePickerFragment ? mCurrentMedia.getUri().toString() : mCurrentMedia.getTitle();
             } else
-                title = FileUtils.getFileNameFromPath(mMrl);
+                title = this instanceof FilePickerFragment ? mMrl : FileUtils.getFileNameFromPath(mMrl);
             return title;
         }
     }
