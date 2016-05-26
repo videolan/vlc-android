@@ -1,0 +1,8 @@
+libdir=@libdir@
+
+Name: LibVLC control API
+Description: VLC media player external control library
+Version: 3.0.0-git
+Cflags: @includedirs@
+Libs: -L${libdir} -lvlc
+Libs.private: -lvlccore 
