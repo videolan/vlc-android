@@ -338,10 +338,10 @@ public class AWindow implements IVLCVout {
                 surfaceHelper.release();
             mSurfaceHelpers[id] = null;
         }
-        if (mSurfaceCallback != null)
-            mSurfaceCallback.onSurfacesDestroyed(this);
         for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
             cb.onSurfacesDestroyed(this);
+        if (mSurfaceCallback != null)
+            mSurfaceCallback.onSurfacesDestroyed(this);
     }
 
     @Override
@@ -362,10 +362,10 @@ public class AWindow implements IVLCVout {
 
         if (videoHelper.isReady() && (subtitlesHelper == null || subtitlesHelper.isReady())) {
             mSurfacesState.set(SURFACE_STATE_READY);
-            if (mSurfaceCallback != null)
-                mSurfaceCallback.onSurfacesCreated(this);
             for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
                 cb.onSurfacesCreated(this);
+            if (mSurfaceCallback != null)
+                mSurfaceCallback.onSurfacesCreated(this);
         }
     }
 
