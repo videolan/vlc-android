@@ -208,7 +208,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 5;
     private static final int RESET_BACK_LOCK = 6;
     private static final int CHECK_VIDEO_TRACKS = 7;
+    private static final int LOADING_ANIMATION = 8;
     private static final int HW_ERROR = 1000; // TODO REMOVE
+
+    private static final int LOADING_ANIMATION_DELAY = 1000;
 
     private boolean mDragging;
     private boolean mShowing;
@@ -224,7 +227,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private View mVerticalBar;
     private View mVerticalBarProgress;
     private boolean mIsLoading;
-    private long mStartBufferingTime = 0;
+    private boolean mIsPlaying = false;
     private ImageView mLoading;
     private ImageView mTipsBackground;
     private ImageView mPlayPause;
@@ -453,7 +456,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPresentation != null)
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
         dimStatusBar(true);
-        startLoading();
+        mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
 
         mSwitchingView = false;
         mHardwareAccelerationError = false;
@@ -1539,7 +1542,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 encounteredError();
                 break;
             case MediaPlayer.Event.TimeChanged:
-                mStartBufferingTime = 0;
                 break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
@@ -1561,13 +1563,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 updatePausable(event.getPausable());
                 break;
             case MediaPlayer.Event.Buffering:
-                if (event.getBuffering() == 100f){
-                    mStartBufferingTime = 0;
-                    if (mIsLoading)
-                        stopLoading();
-                }
-                else
-                    startLoadingDelayed();
+                if (!mIsPlaying)
+                    break;
+                if (event.getBuffering() == 100f)
+                    stopLoading();
+                else if (!mHandler.hasMessages(LOADING_ANIMATION) && !mIsLoading
+                        && mTouchAction != TOUCH_SEEK && !mDragging)
+                    mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
                 break;
         }
     }
@@ -1610,6 +1612,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         switchToAudioMode(true);
                     }
                     break;
+                case LOADING_ANIMATION:
+                    startLoading();
+                    break;
                 case HW_ERROR:
                     handleHardwareAccelerationError();
                     break;
@@ -1623,6 +1628,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void onPlaying() {
+        mIsPlaying = true;
         stopLoading();
         updateNavStatus();
         mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
@@ -1637,7 +1643,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         }
         if(mService.expand() == 0) {
-            startLoading();
+            mHandler.removeMessages(LOADING_ANIMATION);
+            mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
             Log.d(TAG, "Found a video playlist, expanding it");
             mHandler.post(new Runnable() {
                 @Override
@@ -2824,6 +2831,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mService == null)
             return;
         mUri = null;
+        mIsPlaying = false;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
         String itemTitle = null;
@@ -3267,26 +3275,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Stop the video loading animation.
      */
     private void stopLoading() {
+        mHandler.removeMessages(LOADING_ANIMATION);
+        if (!mIsLoading)
+            return;
         mIsLoading = false;
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
         if (mPresentation != null) {
             mTipsBackground.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * If VLC is buffering since 1 second, start the video loading animation
-     */
-    private void startLoadingDelayed() {
-        if (mIsLoading || mTouchAction == TOUCH_SEEK || mDragging)
-            return;
-        if (mStartBufferingTime == 0) {
-            mStartBufferingTime = System.currentTimeMillis();
-            return;
-        }
-        if (System.currentTimeMillis() - mStartBufferingTime > 1000) {
-            startLoading();
         }
     }
 

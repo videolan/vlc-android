@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_cone_o"
+                android:visibility="invisible"
                 android:top="40dp" />
 
         </RelativeLayout>
