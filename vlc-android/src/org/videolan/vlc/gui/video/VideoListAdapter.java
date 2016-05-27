@@ -92,7 +92,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MediaWrapper media = mVideos.get(position);
+        MediaWrapper media = getItem(position);
+        if (media == null)
+            return;
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
         fillView(holder, media);
 
