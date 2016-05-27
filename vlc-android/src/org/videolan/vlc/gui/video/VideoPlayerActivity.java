@@ -869,7 +869,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             time = 0;
         else
             time -= 2000; // go back 2 seconds, to compensate loading time
-        mService.stop();
+        if (isFinishing())
+            mService.stop();
+        else
+            mService.pause();
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -2935,8 +2938,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.addCallback(this);
             /* prepare playback */
             boolean hasMedia = mService.hasMedia();
-            if (media == null)
-                media = hasMedia ? mService.getCurrentMediaWrapper() : new MediaWrapper(mUri);
+            if (hasMedia)
+                media = mService.getCurrentMediaWrapper();
+            else if (media == null)
+                media = new MediaWrapper(mUri);
             if (mWasPaused)
                 media.addFlags(MediaWrapper.MEDIA_PAUSED);
             if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
