@@ -292,8 +292,11 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     }
 
     public void updateList() {
-        if (mVideoAdapter != null)
+        if (mVideoAdapter != null) {
+            if (mVideoAdapter.size() == 0)
+                mVideoAdapter.addAll(0, MediaLibrary.getInstance().getVideoItems());
             mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
+        }
     }
 
     @Override
