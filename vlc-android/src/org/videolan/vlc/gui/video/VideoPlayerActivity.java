@@ -3269,6 +3269,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         rotate.setInterpolator(new DecelerateInterpolator());
         rotate.setRepeatCount(RotateAnimation.INFINITE);
         anim.addAnimation(rotate);
+        mLoading.setVisibility(View.VISIBLE);
         mLoading.startAnimation(anim);
     }
 
