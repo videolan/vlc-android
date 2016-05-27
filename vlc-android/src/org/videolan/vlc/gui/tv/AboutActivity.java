@@ -12,5 +12,6 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_main);
         UiTools.fillAboutView(getWindow().getDecorView().getRootView());
+        TvUtil.applyOverscanMargin(this);
     }
 }

@@ -1,7 +1,9 @@
 package org.videolan.vlc.gui.tv;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 import org.videolan.vlc.R;
@@ -16,5 +18,7 @@ public class LicenceActivity extends Activity {
         WebView licence = new WebView(this);
         licence.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!", revision), "text/html", "UTF8");
         setContentView(licence);
+        ((View)licence.getParent()).setBackgroundColor(Color.LTGRAY);
+        TvUtil.applyOverscanMargin(this);
     }
 }
