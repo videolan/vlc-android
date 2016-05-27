@@ -1630,6 +1630,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void onPlaying() {
         mIsPlaying = true;
         stopLoading();
+        updateOverlayPausePlay();
         updateNavStatus();
         mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         setESTracks();
