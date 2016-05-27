@@ -2153,6 +2153,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
         popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
         popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
+        //FIXME network subs cannot be enabled & screen cast display is broken with picker
+        popupMenu.getMenu().findItem(R.id.video_menu_subtitles_picker).setEnabled(TextUtils.equals(mUri.getScheme(), "file") && mPresentation == null);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
