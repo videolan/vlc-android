@@ -40,6 +40,7 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
+import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
 
@@ -191,6 +192,8 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"bind:media", "bind:binding"})
     public static void loadPicture(ImageView v, MediaWrapper mw, ViewDataBinding vdb) {
+        if (mw instanceof MediaGroup)
+            mw = ((MediaGroup) mw).getFirstMedia();
         final Bitmap bitmap = mw.getType() == MediaWrapper.TYPE_VIDEO ?
                 BitmapUtil.getPictureFromCache(mw) :
                 AudioUtil.getCoverFromMemCache(v.getContext(), mw, 64);
