@@ -96,13 +96,16 @@ public class MediaGroup extends MediaWrapper {
             String group = mediaGroup.getTitle();
             String title = media.getTitle();
 
-            if (title.length() > 4 && (title.substring(0, 3).toLowerCase().startsWith("the")))
+            //Handle titles starting with "The"
+            int groupOffset = group.toLowerCase().startsWith("the") ? 4 : 0;
+            if (title.toLowerCase().startsWith("the"))
                 title = title.substring(4);
 
             // find common prefix
             int commonLength = 0;
-            int minLength = Math.min(group.length(), title.length());
-            while (commonLength < minLength && group.charAt(commonLength) == title.charAt(commonLength))
+            String groupTitle = group.substring(groupOffset);
+            int minLength = Math.min(groupTitle.length(), title.length());
+            while (commonLength < minLength && groupTitle.charAt(commonLength) == title.charAt(commonLength))
                 ++commonLength;
 
             if (commonLength >= MIN_GROUP_LENGTH) {
@@ -111,7 +114,7 @@ public class MediaGroup extends MediaWrapper {
                     mediaGroup.add(media);
                 } else {
                     // not the same prefix, but close : merge
-                    mediaGroup.merge(media, group.substring(0, commonLength));
+                    mediaGroup.merge(media, group.substring(0, commonLength+groupOffset));
                 }
                 return;
             }
