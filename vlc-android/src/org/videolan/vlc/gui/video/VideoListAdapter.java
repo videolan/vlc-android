@@ -243,6 +243,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         int position = mVideos.indexOf(item);
         if (position != -1) {
             mVideos.set(position, item);
+            notifyItemChanged(position);
         } else {
             MediaWrapper mw;
             for (int i = 0; i < mVideos.size(); ++i) {
@@ -254,14 +255,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             }
             if (position == -1) {
                 position = mVideos.size();
-                mVideos.add(item);
-                notifyItemChanged(position);
+                mVideos.add(position, item);
+                notifyItemInserted(position);
             } else {
                 mVideos.add(position, item);
                 notifyItemRangeChanged(position, mVideos.size());
             }
         }
-        notifyItemChanged(position);
     }
 
     public void clear() {
