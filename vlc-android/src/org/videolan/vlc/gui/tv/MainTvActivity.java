@@ -470,8 +470,8 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
 
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
-            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), R.drawable.background_cone));
-            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.background_cone));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), R.drawable.ic_tv_icon_small));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_tv_icon_small));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
 
