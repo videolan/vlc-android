@@ -34,6 +34,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
@@ -439,6 +440,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackSettingMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
+        mSurfaceView.getHolder().setFixedSize(1, 1);
+        mSurfaceView.getHolder().setFormat(PixelFormat.RGB_565);
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
 
         if (HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
@@ -3394,6 +3397,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onSurfacesCreated(IVLCVout vlcVout) {
+        /* Initialize the surface to black in order to avoid a glitch when a displaying
+         * an old or uninitialized frame */
+        final Canvas c = mSurfaceView.getHolder().lockCanvas();
+        c.drawRGB(0, 0, 0);
+        mSurfaceView.getHolder().unlockCanvasAndPost(c);
     }
 
     @Override
