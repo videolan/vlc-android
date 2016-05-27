@@ -66,6 +66,7 @@ import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
@@ -1711,6 +1712,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (mw.getSlaves() != null) {
             for (Media.Slave slave : mw.getSlaves())
                 media.addSlave(slave);
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    MediaDatabase.getInstance().saveSlaves(mw);
+                }
+            });
         }
 
         media.setEventListener(mMediaListener);
