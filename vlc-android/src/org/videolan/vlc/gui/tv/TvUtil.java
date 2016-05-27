@@ -61,6 +61,7 @@ public class TvUtil {
     public static void showMediaDetail(Context activity, MediaWrapper mediaWrapper) {
         Intent intent = new Intent(activity,
                 DetailsActivity.class);
+        intent.putExtra("media", mediaWrapper);
         intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
         activity.startActivity(intent);
     }
