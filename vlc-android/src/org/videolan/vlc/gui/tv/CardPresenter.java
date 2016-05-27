@@ -44,7 +44,6 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
 
@@ -106,7 +105,7 @@ public class CardPresenter extends Presenter {
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, final Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
-            MediaWrapper mediaWrapper = (MediaWrapper) item;
+            final MediaWrapper mediaWrapper = (MediaWrapper) item;
             holder.mCardView.setTitleText(mediaWrapper.getTitle());
             holder.mCardView.setContentText(mediaWrapper.getDescription());
             if (mediaWrapper.getType() == mediaWrapper.TYPE_GROUP)
@@ -117,7 +116,7 @@ public class CardPresenter extends Presenter {
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    TvUtil.showMediaDetail(v.getContext(), (MediaWrapper) item);
+                    TvUtil.showMediaDetail(v.getContext(), mediaWrapper);
                     return true;
                 }
             });
