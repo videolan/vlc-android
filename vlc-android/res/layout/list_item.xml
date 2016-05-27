@@ -25,6 +25,7 @@
         android:clickable="true"
         android:onClick="@{holder.onClick}">
         <LinearLayout
+            android:background="?attr/background_default"
             android:id="@+id/layout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
