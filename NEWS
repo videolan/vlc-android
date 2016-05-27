@@ -1,3 +1,25 @@
+Changes between 1.9.11 and 1.9.12:
+----------------------------------
+
+Application:
+ * Allow subtitles download for any video
+ * Add subtitles downloader in video player
+ * Improve UI update while scanning device for media
+ * Show loading animation when video player is buffering
+ * Fix grouping videos starting with "The"
+ * Fix some UI glitch whel 'large fonts' accessibility setting is activated
+
+TV:
+ * Improve Audio Player view
+ * Fix network folders details view
+
+Core:
+ * Fix some deadlock in mkv files playback
+ * Detect subtitles on network
+ * Update codecs and demuxers
+ * Improve thumbnail generation speed
+
+
 Changes between 1.9.10 and 1.9.11:
 ----------------------------------
 
