@@ -8,46 +8,30 @@
     android:layout_marginTop="@dimen/tv_overscan_vertical"
     android:orientation="horizontal">
 
-    <!-- Cover -->
-    <ImageView
-        android:id="@+id/album_cover"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:scaleType="fitCenter"
-        android:src="@drawable/icon" />
-
+    <!-- Cover & HUD -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:gravity="center_horizontal"
+        android:layout_weight="1"
         android:orientation="vertical">
-
-        <!-- Playlist -->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/playlist"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/album_cover"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:nextFocusDown="@+id/media_progress"
-            android:nextFocusLeft="@+id/media_progress"
-            android:nextFocusRight="@+id/media_progress"
-            android:scrollbars="vertical" />
-
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon" />
         <!-- Media HUD -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="5dip"
             android:paddingLeft="30dip"
             android:paddingRight="30dip"
-            android:paddingTop="10dip">
+            android:layout_gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/media_title"
@@ -96,7 +80,6 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:nextFocusDown="@+id/playlist"
-                    android:nextFocusLeft="@+id/button_shuffle"
                     android:nextFocusUp="@+id/media_progress"
                     android:onClick="onClick"
                     android:src="@drawable/ic_repeat_w" />
@@ -125,7 +108,9 @@
                     android:nextFocusDown="@+id/playlist"
                     android:nextFocusUp="@+id/media_progress"
                     android:onClick="onClick"
-                    android:src="@drawable/ic_play_w" />
+                    android:src="@drawable/ic_play_w" >
+                    <requestFocus/>
+                </ImageView>
 
                 <ImageView
                     android:id="@+id/button_next"
@@ -149,7 +134,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:nextFocusDown="@+id/playlist"
-                    android:nextFocusRight="@id/button_repeat"
+                    android:nextFocusRight="@id/playlist"
                     android:nextFocusUp="@+id/media_progress"
                     android:onClick="onClick"
                     android:src="@drawable/ic_shuffle_w" />
@@ -157,5 +142,16 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <!-- Playlist -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/playlist"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusUp="@+id/button_play"
+        android:nextFocusLeft="@+id/button_shuffle"
+        android:nextFocusRight="@+id/button_play"
+        android:scrollbars="vertical" />
 </LinearLayout>
