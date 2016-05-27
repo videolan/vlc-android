@@ -470,7 +470,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void setItemToUpdate(MediaWrapper item) {
-        mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
+        if (mVideoAdapter.getAll().contains(item))
+            mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
     }
 
     public void setGroup(String prefix) {

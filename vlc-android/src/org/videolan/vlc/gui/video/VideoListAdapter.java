@@ -242,7 +242,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public void update(MediaWrapper item) {
         int position = mVideos.indexOf(item);
         if (position != -1) {
-            mVideos.set(position, item);
+            if (!(mVideos.get(position) instanceof MediaGroup))
+                mVideos.set(position, item);
             notifyItemChanged(position);
         } else {
             MediaWrapper mw;
