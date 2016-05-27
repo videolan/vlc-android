@@ -175,10 +175,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             mMainActivity = (MainActivity) getActivity();
         mMediaLibrary.setBrowser(this);
         mMediaLibrary.addUpdateHandler(mHandler);
-        final boolean refresh = mVideoAdapter.isEmpty();
+        final boolean refresh = mVideoAdapter.isEmpty() && !mMediaLibrary.isWorking();
         // We don't animate while medialib is scanning. Because gridview is being populated.
         // That would lead to graphical glitches
-        final boolean animate = mGroup == null && refresh && !mMediaLibrary.isWorking();
+        final boolean animate = mGroup == null && refresh;
         if (refresh)
             updateList();
         else {
