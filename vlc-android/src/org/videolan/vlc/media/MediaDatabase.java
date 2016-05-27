@@ -20,16 +20,6 @@
 
 package org.videolan.vlc.media;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -45,8 +35,19 @@ import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 public class MediaDatabase {
     public final static String TAG = "VLC/MediaDatabase";
@@ -55,7 +56,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private static final String DB_NAME = "vlc_database";
-    private static final int DB_VERSION = 25;
+    private static final int DB_VERSION = 26;
     private static final int CHUNK_SIZE = 50;
 
     private static final String DIR_TABLE_NAME = "directories_table";
@@ -103,6 +104,12 @@ public class MediaDatabase {
     private static final String EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table";
     private static final String EXTERNAL_SUBTITLES_MEDIA_NAME = "media_name";
     private static final String EXTERNAL_SUBTITLES_URI = "uri";
+
+    private static final String SLAVES_TABLE_NAME = "SLAVES_table";
+    private static final String SLAVES_MEDIA_PATH = "slave_media_mrl";
+    private static final String SLAVES_TYPE = "slave_type";
+    private static final String SLAVES_PRIORITY = "slave_priority";
+    private static final String SLAVES_URI = "slave_uri";
 
     private static final String HISTORY_TABLE_NAME = "history_table";
     private static final String HISTORY_DATE = MEDIA_LAST_MODIFIED;
@@ -350,13 +357,15 @@ public class MediaDatabase {
             db.execSQL(createMrlTableQuery);
         }
 
-        public void dropExtSubsTableQuery(SQLiteDatabase db) {
-            try {
-                String query = "DROP TABLE " + EXTERNAL_SUBTITLES_TABLE_NAME + ";";
-                db.execSQL(query);
-            } catch(SQLiteException e) {
-                Log.w(TAG, "SQLite table "+EXTERNAL_SUBTITLES_TABLE_NAME+" could not be dropped! Maybe they were missing...");
-            }
+        private void createSlavesTableQuery(SQLiteDatabase db) {
+            String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
+                    SLAVES_TABLE_NAME + " (" +
+                    SLAVES_MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, " +
+                    SLAVES_TYPE + " INTEGER NOT NULL, " +
+                    SLAVES_PRIORITY + " INTEGER, " +
+                    SLAVES_URI + " TEXT NOT NULL" +
+                    ");";
+            db.execSQL(createMrlTableQuery);
         }
 
         @Override
@@ -393,6 +402,8 @@ public class MediaDatabase {
                 createHistoryTableQuery(db);
 
                 createExtSubsTableQuery(db);
+
+                createSlavesTableQuery(db);
             }
         }
 
@@ -434,6 +445,9 @@ public class MediaDatabase {
                             break;
                         case 25:
                             createExtSubsTableQuery(db);
+                            break;
+                        case 26:
+                            createSlavesTableQuery(db);
                             break;
                         default:
                             break;
@@ -1321,6 +1335,49 @@ public class MediaDatabase {
 
     public synchronized void clearExternalSubtitlesTable() {
         mDb.delete(EXTERNAL_SUBTITLES_TABLE_NAME, null, null);
+    }
+
+    /**
+     * slaves management
+     */
+
+    public synchronized void saveSlaves(MediaWrapper mw) {
+        for (Media.Slave slave : mw.getSlaves()) {
+            ContentValues values = new ContentValues();
+            values.put(SLAVES_MEDIA_PATH, mw.getLocation());
+            values.put(SLAVES_TYPE, slave.type);
+            values.put(SLAVES_PRIORITY, slave.priority);
+            values.put(SLAVES_URI, slave.uri);
+            mDb.replace(SLAVES_TABLE_NAME, null, values);
+        }
+    }
+
+    public synchronized ArrayList<Media.Slave> getSlaves(String mrl) {
+        Cursor cursor = mDb.query(SLAVES_TABLE_NAME,
+                new String[] {SLAVES_MEDIA_PATH, SLAVES_TYPE, SLAVES_PRIORITY, SLAVES_URI },
+                SLAVES_MEDIA_PATH + "=?",
+                new String[] { mrl },
+                null, null, null);
+        ArrayList<Media.Slave> list = new ArrayList<>(cursor.getCount());
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String uri = cursor.getString(3);
+                if (!TextUtils.isEmpty(uri)) {
+                    uri = Uri.decode(uri);
+                list.add(new Media.Slave(cursor.getInt(1), cursor.getInt(2), uri));
+                }
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    public synchronized void deleteSlaves(String mrl) {
+        mDb.delete(SLAVES_TABLE_NAME, SLAVES_MEDIA_PATH + "=?", new String[] { mrl });
+    }
+
+    public synchronized void clearSlavesTable() {
+        mDb.delete(SLAVES_TABLE_NAME, null, null);
     }
 
     /**
