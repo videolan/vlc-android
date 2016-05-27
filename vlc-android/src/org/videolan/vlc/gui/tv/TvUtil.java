@@ -25,7 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v17.leanback.widget.Row;
+import android.view.View;
 
+import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -36,6 +38,12 @@ import java.util.ArrayList;
 
 public class TvUtil {
 
+    public static void applyOverscanMargin(Activity activity) {
+        View content = activity.findViewById(android.R.id.content);
+        int hm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
+        int vm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
+        content.setPadding(hm, vm, hm, vm);
+    }
 
     public static void openMedia(Activity activity, Object item , Row row){
         if (item instanceof MediaWrapper) {
