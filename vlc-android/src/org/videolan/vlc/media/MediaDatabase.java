@@ -1300,6 +1300,8 @@ public class MediaDatabase {
      */
 
     public synchronized void saveSubtitle(String path, String mediaName) {
+        if (TextUtils.isEmpty(path) || TextUtils.isEmpty(mediaName))
+            return;
         ContentValues values = new ContentValues();
         values.put(EXTERNAL_SUBTITLES_URI, path);
         values.put(EXTERNAL_SUBTITLES_MEDIA_NAME, mediaName);
