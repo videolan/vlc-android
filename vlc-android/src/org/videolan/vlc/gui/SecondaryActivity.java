@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
@@ -82,6 +83,9 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             .add(R.id.fragment_placeholder, mFragment)
             .commit();
         }
+
+        if (VLCApplication.showTvUi())
+            TvUtil.applyOverscanMargin(this);
     }
 
     @Override
