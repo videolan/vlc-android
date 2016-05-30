@@ -30,7 +30,6 @@ import android.view.View;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 
@@ -49,7 +48,7 @@ public class TvUtil {
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
             if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
-                VideoPlayerActivity.start(activity, mediaWrapper.getUri(), MediaUtils.getMediaTitle(mediaWrapper));
+                MediaUtils.openMedia(activity, mediaWrapper);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 showMediaDetail(activity, mediaWrapper);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
