@@ -2164,11 +2164,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         public void disconnect() {
             if (mBound) {
                 mBound = false;
-                try {
-                    mContext.unbindService(mServiceConnection);
-                } catch (IllegalArgumentException e) {
-                    //Safety catch
-                }
+                mContext.unbindService(mServiceConnection);
             }
         }
 
