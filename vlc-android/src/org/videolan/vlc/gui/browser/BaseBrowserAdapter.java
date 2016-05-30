@@ -140,6 +140,13 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
             binding.setHolder(this);
             v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
             v.setTag(binding);
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    binding.browserCheckbox.toggle();
+                    return true;
+                }
+            });
         }
 
         public void setContextMenuListener() {

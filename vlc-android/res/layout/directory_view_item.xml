@@ -38,7 +38,7 @@
         android:orientation="horizontal"
         android:focusable="true"
         android:clickable="@{holder != null}"
-        android:longClickable="@{hasContextMenu}"
+        android:longClickable="@{hasContextMenu || storage != null}"
         android:onClick="@{holder.onClick}"
         android:background="@drawable/background_item">
 
@@ -49,6 +49,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
+            android:focusable="false"
             android:enabled="@{checkEnabled}"
             android:checked="@{checked}"
             android:onClick="@{holder.onCheckBoxClick}"/>

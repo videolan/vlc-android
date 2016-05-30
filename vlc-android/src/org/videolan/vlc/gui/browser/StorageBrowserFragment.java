@@ -36,8 +36,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
@@ -80,6 +81,17 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             mFAB.setOnClickListener(this);
         }
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (VLCApplication.showTvUi()) {
+            if (mRoot)
+                mFAB.requestFocus();
+            else
+                mRecyclerView.requestFocus();
+        }
     }
 
     @Override
