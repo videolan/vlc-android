@@ -298,6 +298,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 mVideoAdapter.addAll(0, MediaLibrary.getInstance().getVideoItems());
             mVideoAdapter.notifyArrayItemRangeChanged(0, mVideoAdapter.size());
         }
+        checkThumbs();
     }
 
     @Override
