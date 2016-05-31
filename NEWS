@@ -1,3 +1,13 @@
+Changes between 1.9.12 and 1.9.13:
+----------------------------------
+
+Application:
+ * Allow subtitles on network (except UPnP)
+ * Remember subs chosen via this picker
+ * Support CC button on remotes
+ * Fixes
+
+
 Changes between 1.9.11 and 1.9.12:
 ----------------------------------
 
