@@ -64,7 +64,7 @@
             android:orientation="horizontal"
             android:layout_above="@+id/progress_overlay"
             android:layout_centerHorizontal="true"
-                android:background="@drawable/video_list_length_bg"
+            android:background="@drawable/video_list_length_bg"
             android:layout_marginBottom="@dimen/default_margin"
             android:visibility="invisible">
             <FrameLayout
