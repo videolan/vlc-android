@@ -933,15 +933,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if(data == null) return;
 
         if(data.getData() == null)
             Log.d(TAG, "Subtitle selection dialog was cancelled");
-
-        String subtitlesPath = data.getData().getPath();
-        mSubtitleSelectedFiles.add(subtitlesPath);
-        mService.addSubtitleTrack(subtitlesPath);
+        else {
+            mService.addSubtitleTrack(data.getData());
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getDataString());
+                }
+            });
+        }
     }
 
     public static void start(Context context, Uri uri) {
