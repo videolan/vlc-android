@@ -41,7 +41,6 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -122,7 +121,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
         setLocalePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                UiTools.snacker(getView(), R.string.set_locale_popup);
+                Toast.makeText(getActivity(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
