@@ -1343,15 +1343,18 @@ public class MediaDatabase {
      * slaves management
      */
 
+    public synchronized void saveSlave(String mediaPath, int type, int priority, String uriString) {
+        ContentValues values = new ContentValues();
+        values.put(SLAVES_MEDIA_PATH, mediaPath);
+        values.put(SLAVES_TYPE, type);
+        values.put(SLAVES_PRIORITY, priority);
+        values.put(SLAVES_URI, uriString);
+        mDb.replace(SLAVES_TABLE_NAME, null, values);
+    }
+
     public synchronized void saveSlaves(MediaWrapper mw) {
-        for (Media.Slave slave : mw.getSlaves()) {
-            ContentValues values = new ContentValues();
-            values.put(SLAVES_MEDIA_PATH, mw.getLocation());
-            values.put(SLAVES_TYPE, slave.type);
-            values.put(SLAVES_PRIORITY, slave.priority);
-            values.put(SLAVES_URI, slave.uri);
-            mDb.replace(SLAVES_TABLE_NAME, null, values);
-        }
+        for (Media.Slave slave : mw.getSlaves())
+            saveSlave(mw.getLocation(), slave.type, slave.priority, slave.uri);
     }
 
     public synchronized ArrayList<Media.Slave> getSlaves(String mrl) {
