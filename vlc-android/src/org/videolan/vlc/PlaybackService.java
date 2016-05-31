@@ -2018,7 +2018,12 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public boolean addSubtitleTrack(String path) {
-        return mMediaPlayer.setSubtitleFile(path);
+        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path);
+    }
+
+    @MainThread
+    public boolean addSubtitleTrack(Uri uri) {
+        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri);
     }
 
     @MainThread

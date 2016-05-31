@@ -882,25 +882,25 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetSpuDelay(JNIEnv *env,
 }
 
 jboolean
-Java_org_videolan_libvlc_MediaPlayer_nativeSetSubtitleFile(JNIEnv *env,
-                                                           jobject thiz,
-                                                           jstring jpath)
+Java_org_videolan_libvlc_MediaPlayer_nativeAddSlave(JNIEnv *env,
+                                                    jobject thiz, jint type,
+                                                    jstring jmrl)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-    const char* psz_path;
-
-    if (!jpath || !(psz_path = (*env)->GetStringUTFChars(env, jpath, 0)))
-    {
-        throw_IllegalArgumentException(env, "path invalid");
-        return false;
-    }
+    const char* psz_mrl;
 
     if (!p_obj)
         return false;
 
-    jboolean ret = libvlc_video_set_subtitle_file(p_obj->u.p_mp, psz_path);
+    if (!jmrl || !(psz_mrl = (*env)->GetStringUTFChars(env, jmrl, 0)))
+    {
+        throw_IllegalArgumentException(env, "mrl invalid");
+        return false;
+    }
 
-    (*env)->ReleaseStringUTFChars(env, jpath, psz_path);
+    jboolean ret = libvlc_media_player_add_slave(p_obj->u.p_mp, type, psz_mrl) == 0;
+
+    (*env)->ReleaseStringUTFChars(env, jmrl, psz_mrl);
     return ret;
 }
 

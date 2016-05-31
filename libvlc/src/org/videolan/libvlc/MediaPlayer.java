@@ -22,6 +22,10 @@
 
 package org.videolan.libvlc;
 
+import android.net.Uri;
+
+import java.io.File;
+
 @SuppressWarnings("unused, JniMissingFunction")
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
@@ -709,13 +713,25 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
-     * Set a new video subtitle file.
+     * Add a slave (or subtitle) to the current media player.
      *
-     * @param path local path.
+     * @param type see {@link org.videolan.libvlc.Media.Slave.Type}
+     * @param uri a valid RFC 2396 Uri
      * @return true on success.
      */
-    public boolean setSubtitleFile(String path) {
-        return nativeSetSubtitleFile(path);
+    public boolean addSlave(int type, Uri uri) {
+        return nativeAddSlave(type, Media.locationFromUri(uri));
+    }
+
+    /**
+     * Add a slave (or subtitle) to the current media player.
+     *
+     * @param type see {@link org.videolan.libvlc.Media.Slave.Type}
+     * @param path a local path
+     * @return true on success.
+     */
+    public boolean addSlave(int type, String path) {
+        return addSlave(type, Uri.fromFile(new File(path)));
     }
 
     /**
@@ -871,6 +887,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native boolean nativeSetSpuTrack(int index);
     private native long nativeGetSpuDelay();
     private native boolean nativeSetSpuDelay(long delay);
-    private native boolean nativeSetSubtitleFile(String path);
+    private native boolean nativeAddSlave(int type, String location);
     private native boolean nativeSetEqualizer(Equalizer equalizer);
 }

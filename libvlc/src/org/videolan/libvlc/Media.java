@@ -399,7 +399,7 @@ public class Media extends VLCObject<Media.Event> {
      * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
      * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
      */
-    private static String locationFromUri(Uri uri) {
+    protected static String locationFromUri(Uri uri) {
         final char array[] = uri.toString().toCharArray();
         final StringBuilder sb = new StringBuilder(array.length * 2);
 
