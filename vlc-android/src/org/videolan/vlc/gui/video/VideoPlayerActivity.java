@@ -1310,9 +1310,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void initPlaybackSettingInfo() {
-        if (mPresentation == null)
+        if (mPresentation == null) {
             mVerticalBar.setVisibility(View.GONE);
-        mOverlayInfo.setVisibility(View.VISIBLE);
+            mOverlayInfo.setVisibility(View.VISIBLE);
+        } else
+            mInfo.setVisibility(View.VISIBLE);
         String text = "";
         if (mPlaybackSetting == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
@@ -1339,7 +1341,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackSettingPlus.setOnClickListener(null);
         mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
         mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
-        mOverlayInfo.setVisibility(View.INVISIBLE);
+        if (mPresentation == null)
+            mOverlayInfo.setVisibility(View.INVISIBLE);
+        else
+            mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
         mPlayPause.requestFocus();
     }
@@ -1444,18 +1449,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * @param duration
      */
     private void showInfo(String text, int duration) {
-        if (mPresentation == null && mVerticalBar != null)
-            mVerticalBar.setVisibility(View.GONE);
-        mOverlayInfo.setVisibility(View.VISIBLE);
+        if (mPresentation == null) {
+            if (mVerticalBar != null)
+                mVerticalBar.setVisibility(View.GONE);
+            mOverlayInfo.setVisibility(View.VISIBLE);
+        } else
+            mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
     }
 
     private void showInfo(int textid, int duration) {
-        if (mPresentation == null && mVerticalBar != null)
-            mVerticalBar.setVisibility(View.GONE);
-        mOverlayInfo.setVisibility(View.VISIBLE);
+        if (mPresentation == null) {
+            if (mVerticalBar != null)
+                mVerticalBar.setVisibility(View.GONE);
+            mOverlayInfo.setVisibility(View.VISIBLE);
+        } else
+            mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
@@ -1477,10 +1488,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void fadeOutInfo() {
-        if (mOverlayInfo.getVisibility() == View.VISIBLE)
-            mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
-                    VideoPlayerActivity.this, android.R.anim.fade_out));
-        mOverlayInfo.setVisibility(View.INVISIBLE);
+        if (mPresentation == null) {
+            if (mOverlayInfo.getVisibility() == View.VISIBLE)
+                mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
+                        VideoPlayerActivity.this, android.R.anim.fade_out));
+        } else if (mInfo.getVisibility() == View.VISIBLE)
+                mInfo.startAnimation(AnimationUtils.loadAnimation(
+                        VideoPlayerActivity.this, android.R.anim.fade_out));
     }
 
     @Override
