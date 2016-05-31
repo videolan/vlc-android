@@ -245,9 +245,10 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN)
+            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
                 MediaLibrary.getInstance().scanMediaItems(true);
-            else if (resultCode == PreferencesActivity.RESULT_RESTART) {
+                update();
+            } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 intent.setClass(this, StartActivity.class);
                 finish();

@@ -689,9 +689,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN)
+            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
+                for (Fragment fragment : getSupportFragmentManager().getFragments())
+                    if (fragment instanceof MediaBrowserFragment)
+                        ((MediaBrowserFragment) fragment).clear();
                 mMediaLibrary.scanMediaItems(true);
-            else if (resultCode == PreferencesActivity.RESULT_RESTART) {
+            } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = new Intent(MainActivity.this, StartActivity.class);
                 finish();
                 startActivity(intent);
