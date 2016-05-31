@@ -1489,12 +1489,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void fadeOutInfo() {
         if (mPresentation == null) {
-            if (mOverlayInfo.getVisibility() == View.VISIBLE)
+            if (mOverlayInfo.getVisibility() == View.VISIBLE) {
                 mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
                         VideoPlayerActivity.this, android.R.anim.fade_out));
-        } else if (mInfo.getVisibility() == View.VISIBLE)
-                mInfo.startAnimation(AnimationUtils.loadAnimation(
-                        VideoPlayerActivity.this, android.R.anim.fade_out));
+                mOverlayInfo.setVisibility(View.INVISIBLE);
+            }
+        } else if (mInfo.getVisibility() == View.VISIBLE) {
+            mInfo.startAnimation(AnimationUtils.loadAnimation(
+                    VideoPlayerActivity.this, android.R.anim.fade_out));
+            mInfo.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
