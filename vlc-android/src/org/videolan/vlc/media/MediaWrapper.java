@@ -231,26 +231,26 @@ public class MediaWrapper implements Parcelable {
         return mUri;
     }
 
-    private static String getMetaId(Media media, int id, boolean trim) {
+    private static String getMetaId(Media media, String defaultMeta, int id, boolean trim) {
         String meta = media.getMeta(id);
-        return meta != null ? trim ? meta.trim() : meta : null;
+        return meta != null ? trim ? meta.trim() : meta : defaultMeta;
     }
 
     public void updateMeta(Media media) {
-        mTitle = getMetaId(media, Meta.Title, true);
-        mArtist = getMetaId(media, Meta.Artist, true);
-        mAlbum = getMetaId(media, Meta.Album, true);
-        mGenre = getMetaId(media, Meta.Genre, true);
-        mAlbumArtist = getMetaId(media, Meta.AlbumArtist, true);
-        mArtworkURL = getMetaId(media, Meta.ArtworkURL, false);
-        mNowPlaying = getMetaId(media, Meta.NowPlaying, false);
-        final String trackNumber = getMetaId(media, Meta.TrackNumber, false);
+        mTitle = getMetaId(media, mTitle, Meta.Title, true);
+        mArtist = getMetaId(media, mArtist, Meta.Artist, true);
+        mAlbum = getMetaId(media, mAlbum, Meta.Album, true);
+        mGenre = getMetaId(media, mGenre, Meta.Genre, true);
+        mAlbumArtist = getMetaId(media, mAlbumArtist, Meta.AlbumArtist, true);
+        mArtworkURL = getMetaId(media, mArtworkURL, Meta.ArtworkURL, false);
+        mNowPlaying = getMetaId(media, mNowPlaying, Meta.NowPlaying, false);
+        final String trackNumber = getMetaId(media, null, Meta.TrackNumber, false);
         if (!TextUtils.isEmpty(trackNumber)) {
             try {
                 mTrackNumber = Integer.parseInt(trackNumber);
             } catch (NumberFormatException ignored) {}
         }
-        final String discNumber = getMetaId(media, Meta.DiscNumber, false);
+        final String discNumber = getMetaId(media, null, Meta.DiscNumber, false);
         if (!TextUtils.isEmpty(discNumber)) {
             try {
                 mDiscNumber = Integer.parseInt(discNumber);
