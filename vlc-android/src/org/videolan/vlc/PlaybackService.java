@@ -1719,6 +1719,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 }
             });
         }
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final ArrayList<Media.Slave> list = MediaDatabase.getInstance().getSlaves(mw.getLocation());
+                for (Media.Slave slave : list)
+                    mMediaPlayer.addSlave(slave.type, Uri.parse(slave.uri));
+            }
+        });
 
         media.setEventListener(mMediaListener);
         mMediaPlayer.setMedia(media);
