@@ -1240,6 +1240,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return true;
             } else
                 return false;
+        case KeyEvent.KEYCODE_CAPTIONS:
+            selectSubtitles();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
