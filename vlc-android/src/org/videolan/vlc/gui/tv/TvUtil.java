@@ -44,6 +44,17 @@ public class TvUtil {
         content.setPadding(hm, vm, hm, vm);
     }
 
+    public static void playMedia(Activity activity, MediaWrapper media){
+        if (media.getType() == MediaWrapper.TYPE_AUDIO) {
+            ArrayList<MediaWrapper> tracks = new ArrayList<>();
+            tracks.add(media);
+            Intent intent = new Intent(activity, AudioPlayerActivity.class);
+            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, tracks);
+            activity.startActivity(intent);
+        } else
+            MediaUtils.openMedia(activity, media);
+    }
+
     public static void openMedia(Activity activity, Object item , Row row){
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
