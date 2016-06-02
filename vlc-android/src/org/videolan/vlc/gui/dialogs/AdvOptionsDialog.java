@@ -117,6 +117,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private IPlaybackSettingsController mPlaybackController;
 
+    private Toast mToast;
+
     public AdvOptionsDialog() {}
 
     @Override
@@ -169,6 +171,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mRecyclerView.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.option_width));
         mAdapter = new AdvOptionsAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        mToast = Toast.makeText(VLCApplication.getAppContext(), "", Toast.LENGTH_SHORT);
+        mToast.setGravity(Gravity.TOP,0,100);
 
         //Get default color
         int[] attrs = new int[] { android.R.attr.textColorSecondary };
@@ -504,6 +509,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (v instanceof TextView)
             ((TextView) v).setTextColor(v.hasFocus() ?
                     FOCUSED_TEXT_COLOR : mTextColor);
+        mToast.setText(mAdapter.getSelectedAdvOptionHelp());
+        mToast.show();
     }
 
 
@@ -664,6 +671,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void addOption(Option opt) {
             mList.add(opt);
             notifyItemInserted(mList.size()-1);
+        }
+
+        public String getSelectedAdvOptionHelp () {
+            return mList.get(getSelection()).text;
         }
 
         public void setSelection(int position) {
