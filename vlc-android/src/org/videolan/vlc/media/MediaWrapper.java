@@ -26,7 +26,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.Meta;
@@ -256,13 +255,11 @@ public class MediaWrapper implements Parcelable {
                 mDiscNumber = Integer.parseInt(discNumber);
             } catch (NumberFormatException ignored) {}
         }
-        Log.d(TAG, "Title " + mTitle);
-        Log.d(TAG, "Artist " + mArtist);
-        Log.d(TAG, "Genre " + mGenre);
-        Log.d(TAG, "Album " + mAlbum);
     }
 
     public void updateMeta(MediaPlayer mediaPlayer) {
+        if (!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle))
+            mDisplayTitle = mTitle;
         final Media media = mediaPlayer.getMedia();
         if (media == null)
             return;
