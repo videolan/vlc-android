@@ -8,7 +8,7 @@
     <dimen name="grid_card_thumb_width">160dp</dimen>
     <dimen name="grid_card_thumb_height">100dp</dimen>
     <dimen name="tv_grid_card_thumb_width">192dp</dimen>
-    <dimen name="tv_grid_card_thumb_height">108dp</dimen>
+    <dimen name="tv_grid_card_thumb_height">120dp</dimen>
     <dimen name="grid_card_title_text_size">12sp</dimen>
     <dimen name="grid_card_subtitle_text_size">10sp</dimen>
     <dimen name="grid_card_vertical_spacing">0dp</dimen>
