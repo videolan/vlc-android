@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -45,14 +44,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
-
-import java.util.ArrayList;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackService.Client.Callback {
@@ -117,11 +113,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         PlaybackServiceFragment.registerPlaybackService(MediaItemDetailsFragment.this, MediaItemDetailsFragment.this);
                         break;
                     case ID_PLAY:
-                        ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>();
-                        tracks.add(media);
-                        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-                        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, tracks);
-                        startActivity(intent);
+                        TvUtil.playMedia(getActivity(), media);
                         break;
                     case ID_FAVORITE_ADD:
                         mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
