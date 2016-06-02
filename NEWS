@@ -1,3 +1,12 @@
+Changes between 1.9.13 and 2.0.0:
+----------------------------------
+
+Application:
+ * Fix UPnP media display name
+
+Core:
+ * Fix UPnP browsing
+
 Changes between 1.9.12 and 1.9.13:
 ----------------------------------
 
