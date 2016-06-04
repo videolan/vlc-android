@@ -2866,7 +2866,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mIsPlaying = false;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
-        boolean hasMedia = mService.hasMedia();
         String itemTitle = null;
         int positionInPlaylist = -1;
         long intentPosition = -1; // position passed in by intent (ms)
@@ -2901,7 +2900,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
-        if (positionInPlaylist != -1 && hasMedia) {
+        if (positionInPlaylist != -1 && mService.hasMedia()) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
             MediaWrapper openedMedia = mService.getMedias().get(positionInPlaylist);
@@ -2916,7 +2915,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         if (mUri != null) {
-            if (hasMedia && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
+            if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
                 mService.stop();
             // restore last position
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
@@ -2966,6 +2965,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Start playback & seek
             mService.addCallback(this);
             /* prepare playback */
+            boolean hasMedia = mService.hasMedia();
             if (hasMedia)
                 media = mService.getCurrentMediaWrapper();
             else if (media == null)
@@ -2981,13 +2981,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Handle playback
             if (!hasMedia)
                 mService.load(media);
-            else if (!mService.isPlaying()) {
-                if (mService.getTime() > 0) {
-                    seek = false;
-                    mService.play();
-                } else
-                    mService.playIndex(positionInPlaylist);
-            } else {
+            else if (!mService.isPlaying())
+                mService.playIndex(positionInPlaylist);
+            else {
                 seek = false;
                 onPlaying();
             }
