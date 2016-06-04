@@ -2868,7 +2868,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean fromStart = false;
         String itemTitle = null;
         int positionInPlaylist = -1;
-        long intentPosition = -1; // position passed in by intent (ms)
+        long savedTime = -1; // position passed in by intent (ms)
         Intent intent = getIntent();
         String action = intent.getAction();
         Bundle extras = getIntent().getExtras();
@@ -2937,13 +2937,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 intent.putExtra(PLAY_EXTRA_FROM_START, false);
                 if (fromStart || mService.isPlaying())
                     media.setTime(0l);
+                else
+                    savedTime = media.getTime();
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
             } else {
                 // not in media library
 
-                if (intentPosition > 0 && mAskResume) {
+                if (savedTime > 0 && mAskResume) {
                     showConfirmResumeDialog();
                     return;
                 } else {
@@ -2956,7 +2958,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                             Editor editor = mSettings.edit();
                             editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                             Util.commitPreferences(editor);
-                            intentPosition = rTime;
+                            savedTime = rTime;
                         }
                     }
                 }
@@ -2990,11 +2992,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             if (seek) {
                 // Set time
-                long resumeTime = intentPosition;
-                if (intentPosition <= 0 && media != null && media.getTime() > 0l)
-                    resumeTime = media.getTime();
-                if (resumeTime > 0)
-                    seek(resumeTime);
+                if (savedTime <= 0 && media != null && media.getTime() > 0l)
+                    savedTime = media.getTime();
+                if (savedTime > 0)
+                    seek(savedTime);
             }
 
             // Get possible subtitles
