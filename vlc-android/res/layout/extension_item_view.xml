@@ -19,7 +19,7 @@
         android:layout_height="60dp"
         android:layout_margin="5dp"
         android:clickable="true"
-        android:onClick="@{holder.onClick}" >
+        android:onClick="@{holder::onClick}" >
         <ImageView
             android:id="@+id/extension_image"
             android:layout_width="wrap_content"

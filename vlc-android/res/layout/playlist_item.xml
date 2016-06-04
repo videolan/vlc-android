@@ -26,7 +26,7 @@
         android:minHeight="40dp"
         android:layout_margin="5dip"
         android:clickable="true"
-        android:onClick="@{holder.onClick}" >
+        android:onClick="@{holder::onClick}" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:layout_centerVertical="true"
             android:scaleType="center"
             android:background="@drawable/ic_more"
-            android:onClick="@{holder.onMoreClick}"
+            android:onClick="@{holder::onMoreClick}"
             android:clickable="true" />
     </RelativeLayout>
 </layout>

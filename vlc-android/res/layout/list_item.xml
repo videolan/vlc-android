@@ -23,7 +23,7 @@
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true"
         android:clickable="true"
-        android:onClick="@{holder.onClick}">
+        android:onClick="@{holder::onClick}">
         <LinearLayout
             android:background="?attr/background_default"
             android:id="@+id/layout_item"
@@ -32,9 +32,7 @@
             android:minHeight="70dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:onClick="@{holder.onClick}">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/icon"

@@ -50,7 +50,7 @@
         vlc:cardUseCompatPadding="true"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{holder.onClick}"
+        android:onClick="@{holder::onClick}"
         android:longClickable="true">
 
         <LinearLayout
@@ -99,7 +99,7 @@
                     android:layout_above="@+id/info_layout"
                     android:clickable="true"
                     android:contentDescription="@string/more_actions"
-                    android:onClick="@{holder.onMoreClick}"
+                    android:onClick="@{holder::onMoreClick}"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_more" />
 

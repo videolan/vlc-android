@@ -33,7 +33,7 @@
                 android:layout_below="@+id/progress"
                 android:text="@android:string/cancel"
                 android:layout_alignParentRight="true"
-                android:onClick="@{handler.onCancel}"
+                android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle"
                 android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}"/>

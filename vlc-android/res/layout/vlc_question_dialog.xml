@@ -27,7 +27,7 @@
                 android:layout_below="@+id/text"
                 android:text="@android:string/cancel"
                 android:layout_toLeftOf="@+id/action1"
-                android:onClick="@{handler.onCancel}"
+                android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
             <Button
@@ -38,7 +38,7 @@
                 android:layout_below="@+id/text"
                 android:text="@{dialog.action1Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
-                android:onClick="@{handler.onAction1}"
+                android:onClick="@{handler::onAction1}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
             <Button
@@ -49,7 +49,7 @@
                 android:layout_below="@+id/text"
                 android:text="@{dialog.action2Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
-                android:onClick="@{handler.onAction2}"
+                android:onClick="@{handler::onAction2}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
         </RelativeLayout>
