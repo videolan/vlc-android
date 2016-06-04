@@ -39,7 +39,7 @@
         android:focusable="true"
         android:clickable="@{holder != null}"
         android:longClickable="@{hasContextMenu || storage != null}"
-        android:onClick="@{holder.onClick}"
+        android:onClick="@{holder::onClick}"
         android:background="@drawable/background_item">
 
         <CheckBox
@@ -52,7 +52,7 @@
             android:focusable="false"
             android:enabled="@{checkEnabled}"
             android:checked="@{checked}"
-            android:onClick="@{holder.onCheckBoxClick}"/>
+            android:onClick="@{holder::onCheckBoxClick}"/>
 
         <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.downloadIcon() -->
         <TextView
@@ -114,7 +114,7 @@
             android:paddingLeft="10dp"
             android:background="@drawable/ic_more"
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE}"
-            android:onClick="@{holder.onMoreClick}"
+            android:onClick="@{holder::onMoreClick}"
             android:clickable="@{hasContextMenu}" />
 
     </LinearLayout>

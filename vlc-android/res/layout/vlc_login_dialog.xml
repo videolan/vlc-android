@@ -77,7 +77,7 @@
                 android:layout_below="@+id/warning"
                 android:layout_toLeftOf="@+id/action"
                 android:text="@android:string/cancel"
-                android:onClick="@{handler.onCancel}"
+                android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
             <Button
@@ -87,7 +87,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/warning"
                 android:text="@android:string/ok"
-                android:onClick="@{handler.onLogin}"
+                android:onClick="@{handler::onLogin}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
         </RelativeLayout>

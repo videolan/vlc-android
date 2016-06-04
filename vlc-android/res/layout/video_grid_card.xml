@@ -50,7 +50,7 @@
         android:longClickable="true"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{holder.onClick}" >
+        android:onClick="@{holder::onClick}" >
 
         <LinearLayout
             android:background="?attr/background_default"
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:contentDescription="@string/more_actions"
-                    android:onClick="@{holder.onMoreClick}"
+                    android:onClick="@{holder::onMoreClick}"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_more" />
 

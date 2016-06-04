@@ -100,7 +100,7 @@
                 android:contentDescription="@string/more_actions"
                 android:tag="@{position}"
                 android:visibility="@{clickable ? View.VISIBLE : View.GONE}"
-                android:onClick="@{handler.onMoreClick}"
+                android:onClick="@{handler::onMoreClick}"
                 android:clickable="@{clickable}" />
         </RelativeLayout>
 
