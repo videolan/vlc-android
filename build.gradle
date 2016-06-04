@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.jakewharton.sdkmanager:sdk-manager-plugin:1.5.0-SNAPSHOT'
     }
 }
