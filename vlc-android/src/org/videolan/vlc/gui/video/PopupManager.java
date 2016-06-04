@@ -28,9 +28,12 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GestureDetectorCompat;
@@ -48,7 +51,9 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
+import org.videolan.vlc.media.MediaDatabase;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.Callback {
 
@@ -155,7 +160,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if (Math.abs(velocityX) > FLING_STOP_VELOCITY || velocityY > FLING_STOP_VELOCITY) {
-            mService.stop();
+            stopPlayback();
             return true;
         }
         return false;
@@ -263,12 +268,38 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 }
                 break;
             case R.id.popup_close:
-                mService.stop();
+                stopPlayback();
                 break;
             case R.id.popup_expand:
                 mService.removePopup();
                 mService.switchToVideo();
                 break;
+        }
+    }
+
+    private void stopPlayback() {
+        long time = mService.getTime();
+        long length = mService.getLength();
+        Uri uri = mService.getCurrentMediaWrapper().getUri();
+        //remove saved position if in the last 5 seconds
+        if (length - time < 5000)
+            time = 0;
+        else
+            time -= 2000; // go back 2 seconds, to compensate loading time
+        mService.stop();
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mService).edit();
+        // Save position
+        if (mService.isSeekable()) {
+            if(MediaDatabase.getInstance().mediaItemExists(uri)) {
+                MediaDatabase.getInstance().updateMedia(
+                        uri,
+                        MediaDatabase.INDEX_MEDIA_TIME,
+                        time);
+            } else {
+                // Video file not in media library, store time just for onResume()
+                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
+            }
         }
     }
 
