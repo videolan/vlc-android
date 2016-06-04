@@ -1661,7 +1661,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         stopLoading();
         updateOverlayPausePlay();
         updateNavStatus();
-        mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
+        if (!mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_PAUSED))
+            mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         setESTracks();
     }
 
@@ -3017,6 +3018,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (itemTitle != null)
             title = itemTitle;
         mTitle.setText(title);
+
+        if (mWasPaused)
+            showOverlay(true);
     }
 
     public void getSubtitles() {
