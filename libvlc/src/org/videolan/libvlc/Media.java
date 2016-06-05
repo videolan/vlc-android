@@ -139,7 +139,8 @@ public class Media extends VLCObject<Media.Event> {
     public static class ParsedStatus {
         public static final int Skipped = 1;
         public static final int Failed = 2;
-        public static final int Done = 3;
+        public static final int Timeout = 3;
+        public static final int Done = 4;
     }
 
     /**
@@ -551,9 +552,12 @@ public class Media extends VLCObject<Media.Event> {
      * event (only if this methods returned true).
      *
      * @param flags see {@link Parse}
+     * @param imeout maximum time allowed to preparse the media. If -1, the
+     * default "preparse-timeout" option will be used as a timeout. If 0, it will
+     * wait indefinitely. If > 0, the timeout will be used (in milliseconds).
      * @return true in case of success, false otherwise.
      */
-    public boolean parseAsync(int flags) {
+    public boolean parseAsync(int flags, int timeout) {
         boolean parse = false;
         synchronized (this) {
             if ((mParseStatus & (PARSE_STATUS_PARSED | PARSE_STATUS_PARSING)) == 0) {
@@ -562,6 +566,10 @@ public class Media extends VLCObject<Media.Event> {
             }
         }
         return parse && nativeParseAsync(flags);
+    }
+
+    public boolean parseAsync(int flags) {
+        return parseAsync(flags, -1);
     }
 
     /**
@@ -778,7 +786,7 @@ public class Media extends VLCObject<Media.Event> {
     private native void nativeNewFromFd(LibVLC libVLC, FileDescriptor fd);
     private native void nativeNewFromMediaList(MediaList ml, int index);
     private native void nativeRelease();
-    private native boolean nativeParseAsync(int flags);
+    private native boolean nativeParseAsync(int flags, int timeout);
     private native boolean nativeParse(int flags);
     private native String nativeGetMrl();
     private native int nativeGetState();

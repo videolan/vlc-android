@@ -396,7 +396,7 @@ error:
 
 jboolean
 Java_org_videolan_libvlc_Media_nativeParseAsync(JNIEnv *env, jobject thiz,
-                                                jint flags)
+                                                jint flags, jint timeout)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
 
@@ -407,7 +407,7 @@ Java_org_videolan_libvlc_Media_nativeParseAsync(JNIEnv *env, jobject thiz,
     p_obj->p_sys->b_parsing_async = true;
     pthread_mutex_unlock(&p_obj->p_sys->lock);
 
-    return libvlc_media_parse_with_options(p_obj->u.p_m, flags) == 0 ? true : false;
+    return libvlc_media_parse_with_options(p_obj->u.p_m, flags, timeout) == 0 ? true : false;
 }
 
 jboolean
@@ -422,7 +422,7 @@ Java_org_videolan_libvlc_Media_nativeParse(JNIEnv *env, jobject thiz, jint flags
     p_obj->p_sys->b_parsing_sync = true;
     pthread_mutex_unlock(&p_obj->p_sys->lock);
 
-    if (libvlc_media_parse_with_options(p_obj->u.p_m, flags) != 0)
+    if (libvlc_media_parse_with_options(p_obj->u.p_m, flags, -1) != 0)
         return false;
 
     pthread_mutex_lock(&p_obj->p_sys->lock);
