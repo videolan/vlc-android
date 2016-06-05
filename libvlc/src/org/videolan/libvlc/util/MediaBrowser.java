@@ -195,7 +195,7 @@ public class MediaBrowser {
         reset();
         mBrowserMediaList = media.subItems();
         mBrowserMediaList.setEventListener(mBrowserMediaListEventListener);
-        media.parseAsync(flags);
+        media.parseAsync(flags, 0);
         mMedia = media;
     }
 
