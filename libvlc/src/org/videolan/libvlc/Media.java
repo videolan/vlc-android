@@ -565,7 +565,7 @@ public class Media extends VLCObject<Media.Event> {
                 parse = true;
             }
         }
-        return parse && nativeParseAsync(flags);
+        return parse && nativeParseAsync(flags, timeout);
     }
 
     public boolean parseAsync(int flags) {
