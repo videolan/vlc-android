@@ -16,6 +16,7 @@
             android:scrollbarStyle="outsideInset"
             android:numColumns="auto_fit"
             android:fastScrollEnabled="true"
+            android:scrollbars="vertical"
             android:fadingEdge="none"
             android:stretchMode="none"
             android:gravity="center"
