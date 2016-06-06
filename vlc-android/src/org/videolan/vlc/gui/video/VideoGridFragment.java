@@ -365,7 +365,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(canWrite);
-        menu.findItem(R.id.video_download_subtitles).setVisible(canWrite);
         if (!AndroidUtil.isHoneycombOrLater()) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
             menu.findItem(R.id.video_list_append).setVisible(false);
