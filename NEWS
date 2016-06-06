@@ -1,4 +1,17 @@
-Changes between 1.9.13 and 2.0.0:
+Changes between 2.0.0 RC1 and RC2:
+----------------------------------
+
+Application:
+ * Fix video resume from apps switch
+ * Fix notification volume after a notification
+ * Fix position in video not saved on popup close
+ * Set video grid scrollbar
+ * Misc. fixes
+
+Core:
+ * Fix UPnP frozen when server did not respond
+
+Changes between 1.9.13 and 2.0.0 RC1:
 ----------------------------------
 
 Application:
