@@ -140,6 +140,8 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (mWindowManager == null)
+            return false;
         if (mScaleGestureDetector != null)
             mScaleGestureDetector.onTouchEvent(event);
         if (mGestureDetector != null && mGestureDetector.onTouchEvent(event))
