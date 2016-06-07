@@ -939,7 +939,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if(data.getData() == null)
             Log.d(TAG, "Subtitle selection dialog was cancelled");
         else {
-            mService.addSubtitleTrack(data.getData());
+            mService.addSubtitleTrack(data.getData(), true);
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
@@ -3044,7 +3044,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         public void run() {
                             for(String file : mSubtitleSelectedFiles) {
                                 Log.i(TAG, "Adding user-selected subtitle " + file);
-                                mService.addSubtitleTrack(file);
+                                mService.addSubtitleTrack(file, true);
                             }
                         }
                     });
