@@ -35,8 +35,8 @@ public class OnRepeatListener implements View.OnTouchListener {
     private static final int ACTION_ONCLICK = 0;
 
     //Default values in milliseconds
-    private static final int DEFAULT_INITIAL_DELAY = 1000;
-    private static final int DEFAULT_NORMAL_DELAY = 300;
+    private static final int DEFAULT_INITIAL_DELAY = 500;
+    private static final int DEFAULT_NORMAL_DELAY = 150;
 
     private int mInitialInterval;
     private final int mNormalInterval;
