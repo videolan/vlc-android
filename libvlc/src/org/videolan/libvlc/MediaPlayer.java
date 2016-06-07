@@ -719,8 +719,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param uri a valid RFC 2396 Uri
      * @return true on success.
      */
-    public boolean addSlave(int type, Uri uri) {
-        return nativeAddSlave(type, Media.locationFromUri(uri));
+    public boolean addSlave(int type, Uri uri, boolean select) {
+        return nativeAddSlave(type, Media.locationFromUri(uri), select);
     }
 
     /**
@@ -730,8 +730,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param path a local path
      * @return true on success.
      */
-    public boolean addSlave(int type, String path) {
-        return addSlave(type, Uri.fromFile(new File(path)));
+    public boolean addSlave(int type, String path, boolean select) {
+        return addSlave(type, Uri.fromFile(new File(path)), select);
     }
 
     /**
@@ -887,6 +887,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native boolean nativeSetSpuTrack(int index);
     private native long nativeGetSpuDelay();
     private native boolean nativeSetSpuDelay(long delay);
-    private native boolean nativeAddSlave(int type, String location);
+    private native boolean nativeAddSlave(int type, String location, boolean select);
     private native boolean nativeSetEqualizer(Equalizer equalizer);
 }
