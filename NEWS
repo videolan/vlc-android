@@ -1,3 +1,10 @@
+Changes between 2.0.0 RC2 and RC3:
+----------------------------------
+
+Core:
+ * Fix crash in preparser
+
+
 Changes between 2.0.0 RC1 and RC2:
 ----------------------------------
 
