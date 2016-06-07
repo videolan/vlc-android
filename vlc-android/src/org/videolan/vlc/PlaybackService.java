@@ -1728,7 +1728,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             public void run() {
                 final ArrayList<Media.Slave> list = MediaDatabase.getInstance().getSlaves(mw.getLocation());
                 for (Media.Slave slave : list)
-                    mMediaPlayer.addSlave(slave.type, Uri.parse(slave.uri));
+                    mMediaPlayer.addSlave(slave.type, Uri.parse(slave.uri), false);
             }
         });
 
@@ -2044,13 +2044,23 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
+    public boolean addSubtitleTrack(String path, boolean select) {
+        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path, select);
+    }
+
+    @MainThread
+    public boolean addSubtitleTrack(Uri uri,boolean select) {
+        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri, select);
+    }
+
+    @MainThread
     public boolean addSubtitleTrack(String path) {
-        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path);
+        return addSubtitleTrack(path, false);
     }
 
     @MainThread
     public boolean addSubtitleTrack(Uri uri) {
-        return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri);
+        return addSubtitleTrack(uri, false);
     }
 
     @MainThread

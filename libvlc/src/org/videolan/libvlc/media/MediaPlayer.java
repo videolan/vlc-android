@@ -279,12 +279,11 @@ public class MediaPlayer
     public static final String MEDIA_MIMETYPE_TEXT_SUBRIP = "application/x-subrip";
 
     public void addTimedTextSource(String path, String mimeType) {
-        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path);
+        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path, false);
     }
 
-    // FIXME: This is incorrect, since libVLC can only add local subtitles
     public void addTimedTextSource(Context context, Uri uri, String mimeType) {
-        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri);
+        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri, false);
     }
 
     public void addTimedTextSource(FileDescriptor fd, String mimeType)

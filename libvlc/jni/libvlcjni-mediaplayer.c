@@ -884,7 +884,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetSpuDelay(JNIEnv *env,
 jboolean
 Java_org_videolan_libvlc_MediaPlayer_nativeAddSlave(JNIEnv *env,
                                                     jobject thiz, jint type,
-                                                    jstring jmrl)
+                                                    jstring jmrl, jboolean select)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
     const char* psz_mrl;
@@ -898,7 +898,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeAddSlave(JNIEnv *env,
         return false;
     }
 
-    jboolean ret = libvlc_media_player_add_slave(p_obj->u.p_mp, type, psz_mrl) == 0;
+    jboolean ret = libvlc_media_player_add_slave(p_obj->u.p_mp, type, psz_mrl, select) == 0;
 
     (*env)->ReleaseStringUTFChars(env, jmrl, psz_mrl);
     return ret;
