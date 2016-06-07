@@ -17,7 +17,6 @@ checkfail()
 #############
 
 RELEASE=0
-GDB_FILE=""
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
@@ -34,10 +33,6 @@ while [ $# -gt 0 ]; do
             ;;
         release|--release)
             RELEASE=1
-            ;;
-        --gdb)
-            GDB_FILE="$2"
-            shift
             ;;
     esac
     shift
@@ -303,11 +298,6 @@ SRC_DIR=$PWD
 # stub libraries
 NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
 CROSS_COMPILE=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
-
-if [ ! -z "$GDB_FILE" ];then
-    ${CROSS_COMPILE}gdb "$GDB_FILE"
-    exit 0
-fi
 
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 

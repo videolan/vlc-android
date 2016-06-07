@@ -47,11 +47,11 @@ if [ ! -z "$APK_PATH" ]; then
         exit 1
     fi
 
-    arch=$($aapt l -a "$APK_PATH"|grep "libvlcjni.so"|cut -d"/" -f 2)
+    arch=$($aapt l -a "$APK_PATH"|grep "libvlc.so"|cut -d"/" -f 2)
 
     if [ -z "$DBGFILE_PATH" ];then
         version=$($aapt l -a "$APK_PATH"|grep versionName|cut -d\" -f 2)
-        dbgfile_path="$SCRIPT_PATH/.dbg/$arch/$version/libvlcjni.so.dbg"
+        dbgfile_path="$SCRIPT_PATH/.dbg/$arch/$version/libvlc.so.dbg"
     else
         dbgfile_path="$DBGFILE_PATH"
     fi
@@ -64,7 +64,7 @@ if [ ! -z "$APK_PATH" ]; then
     echo "\"list *0x<pc_address>\" to know where the specified apk crashed"
     echo ""
 
-    ./compile-libvlc.sh -a $arch --gdb "$dbgfile_path"
+    ${ANDROID_NDK}/prebuilt/linux-x86_64/bin/gdb "$dbgfile_path"
     exit 0
 fi
 
