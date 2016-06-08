@@ -568,7 +568,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             if (update) {
                 for (Callback callback : mCallbacks)
                     callback.onMediaEvent(event);
-                if (mParsed)
+                if (mParsed && mMediaSession != null)
                     showNotification();
             }
         }
@@ -1083,6 +1083,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
+
         @Override
         public void onPlay() {
             play();
