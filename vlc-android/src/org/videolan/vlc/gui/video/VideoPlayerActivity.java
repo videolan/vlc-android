@@ -3038,7 +3038,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     catch (StreamCorruptedException e) {}
                     catch (IOException e) {}
                 }
-                prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
+                if (!TextUtils.equals(mUri.getScheme(), "fd"))
+                    prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
                 for(String x : prefsList){
                     if(!mSubtitleSelectedFiles.contains(x))
                         mSubtitleSelectedFiles.add(x);
