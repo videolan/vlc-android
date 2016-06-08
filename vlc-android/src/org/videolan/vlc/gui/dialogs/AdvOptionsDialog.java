@@ -459,10 +459,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 }
                 break;
             case ID_PLAYBACK_SPEED:
-                if (mMode == MODE_AUDIO)
                     showFragment(ID_PLAYBACK_SPEED);
-                else
-                    showValueControls(ACTION_PLAYBACK_SPEED);
                 break;
             case ID_CHAPTER_TITLE:
                 showFragment(ID_CHAPTER_TITLE);

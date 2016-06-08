@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="72dp"
-    android:layout_marginRight="72dp"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/default_margin"
+    android:layout_marginRight="@dimen/default_margin"
+    android:orientation="horizontal"
     android:padding="@dimen/half_default_margin">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -26,63 +27,93 @@
                 android:src="?attr/ic_speed_normal_style" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/half_default_margin"
+                android:layout_marginRight="@dimen/half_default_margin"
+                android:layout_weight="1"
                 android:text="@string/playback_speed"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-    </RelativeLayout>
-
-    <SeekBar
-        android:id="@+id/playback_speed_seek"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:indeterminate="false"
-        android:max="200"
-        android:maxHeight="@dimen/seekbar_height"
-        android:minHeight="@dimen/seekbar_height"
-        android:nextFocusUp="@+id/playback_speed_reset"
-        android:progress="100"
-        android:progressDrawable="@drawable/po_seekbar"
-        android:splitTrack="false"
-        android:thumb="@drawable/seekbar_thumb" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/playback_speed_value"
-            android:layout_alignParentLeft="true"
             android:gravity="bottom"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:text="0.25" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/playback_speed_value"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:paddingLeft="@dimen/default_margin"
+                android:text="0.25"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/playback_speed_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1.00x"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom|right"
+                android:paddingRight="@dimen/default_margin"
+                android:text="4.00"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/playback_speed_seek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:indeterminate="false"
+            android:max="200"
+            android:maxHeight="@dimen/seekbar_height"
+            android:minHeight="@dimen/seekbar_height"
+            android:nextFocusUp="@+id/playback_speed_reset"
+            android:progress="100"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:splitTrack="false"
+            android:thumb="@drawable/seekbar_thumb" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/playback_speed_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="1.00x"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_plus_circle" />
 
-        <TextView
+        <ImageView
+            android:id="@+id/playback_speed_minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/playback_speed_value"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/half_default_margin"
-            android:text="4.00" />
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_minus_circle" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
