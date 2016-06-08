@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
+   width="20"
+   height="20"
    id="svg3428"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -24,15 +24,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="4.72144"
-     inkscape:cy="15.76004"
+     inkscape:zoom="15.839192"
+     inkscape:cx="-11.529985"
+     inkscape:cy="14.854299"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="1920"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
@@ -63,7 +63,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -71,28 +71,28 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1028.3622)">
+     transform="translate(0,-1032.3622)">
     <circle
        transform="scale(-1,-1)"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff8800;fill-opacity:0.85098039;fill-rule:nonzero;stroke:none;stroke-width:0.1;marker:none;enable-background:accumulate"
        id="path5679"
-       cx="-12"
-       cy="-1040.3622"
-       r="10" />
+       cx="-10"
+       cy="-1042.3622"
+       r="8" />
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"
        id="rect5709"
-       width="12"
-       height="2.0000253"
-       x="6"
-       y="1039.3622"
+       width="10"
+       height="1.5"
+       x="5"
+       y="1041.6122"
        ry="0" />
     <rect
        ry="0"
-       y="10.999988"
-       x="-1046.3622"
-       height="2.0000253"
-       width="12"
+       y="9.25"
+       x="-1047.3622"
+       height="1.5"
+       width="10"
        id="rect3899"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"
        transform="matrix(0,-1,1,0,0,0)" />
