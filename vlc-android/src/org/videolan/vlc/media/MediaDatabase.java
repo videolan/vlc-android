@@ -1309,6 +1309,8 @@ public class MediaDatabase {
     }
 
     public synchronized ArrayList<String> getSubtitles(String mediaName) {
+        if (TextUtils.isEmpty(mediaName))
+            return new ArrayList<>();
         Cursor cursor = mDb.query(EXTERNAL_SUBTITLES_TABLE_NAME,
                 new String[] {EXTERNAL_SUBTITLES_MEDIA_NAME, EXTERNAL_SUBTITLES_URI },
                 EXTERNAL_SUBTITLES_MEDIA_NAME + "=?",
