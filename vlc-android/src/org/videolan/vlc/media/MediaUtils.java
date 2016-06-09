@@ -238,7 +238,6 @@ public class MediaUtils {
     private static class DialogCallback extends BaseCallBack {
         private final ProgressDialog dialog;
         private final Runnable mRunnable;
-        private boolean performAction = true;
 
         private interface Runnable {
             void run(PlaybackService service);
@@ -256,23 +255,19 @@ public class MediaUtils {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     synchronized (this) {
-                        if (performAction)
-                            performAction = false;
-                        else
-                            mClient.disconnect();
+                        mClient.disconnect();
                     }
                 }
             });
-            mClient.connect();
+            synchronized (this) {
+                mClient.connect();
+            }
         }
 
         @Override
         public void onConnected(PlaybackService service) {
             synchronized (this) {
-                if (performAction) {
-                    performAction = false;
-                    mRunnable.run(service);
-                }
+                mRunnable.run(service);
             }
             dialog.cancel();
         }
