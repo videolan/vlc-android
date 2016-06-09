@@ -2504,7 +2504,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         seek(position, mService.getLength());
     }
 
-    private void seek(long position, float length) {
+    private void seek(long position, long length) {
         mForcedTime = position;
         mLastTime = mService.getTime();
         mService.seek(position, length);
@@ -2977,23 +2977,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
-            boolean seek = true;
+            if (savedTime <= 0 && media != null && media.getTime() > 0l)
+                savedTime = media.getTime();
+            if (savedTime > 0L && !mService.isPlaying())
+                mService.saveTimeToSeek(savedTime);
+
             // Handle playback
             if (!hasMedia)
                 mService.load(media);
             else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
             else {
-                seek = false;
                 onPlaying();
-            }
-
-            if (seek) {
-                // Set time
-                if (savedTime <= 0 && media != null && media.getTime() > 0l)
-                    savedTime = media.getTime();
-                if (savedTime > 0)
-                    seek(savedTime);
             }
 
             // Get possible subtitles
