@@ -87,6 +87,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.binding.setTitleColor(mCurrentIndex == position
                 ? UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
                 : UiTools.getColorFromAttribute(ctx, R.attr.list_title));
+        holder.binding.executePendingBindings();
     }
 
     @Override
