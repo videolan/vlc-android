@@ -1110,7 +1110,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         @Override
         public void onSeekTo(long pos) {
-            setTime(pos);
+            seek(pos);
         }
 
         @Override
@@ -1342,7 +1342,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         // load playlist
         loadLocations(mediaPathList, position);
         if (time > 0)
-            setTime(time);
+            seek(time);
         if(!audio) {
             boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
@@ -1741,7 +1741,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mMediaPlayer.setEventListener(mMediaPlayerListener);
             mMediaPlayer.play();
             if(mSavedTime != 0l)
-                mMediaPlayer.setTime(mSavedTime);
+                seek(mSavedTime);
             mSavedTime = 0l;
 
             determinePrevAndNextIndices();
@@ -1992,6 +1992,19 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public int setVolume(int volume) {
         return mMediaPlayer.setVolume(volume);
+    }
+
+    @MainThread
+    public void seek(long position) {
+        seek(position, getLength());
+    }
+
+    @MainThread
+    public void seek(long position, long length) {
+        if (length > 0)
+            setPosition(position/length);
+        else
+            setTime(position);
     }
 
     @MainThread
