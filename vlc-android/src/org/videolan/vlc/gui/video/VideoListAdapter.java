@@ -101,6 +101,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         fillView(holder, media);
 
         holder.binding.setVariable(BR.media, media);
+        holder.binding.executePendingBindings();
     }
 
     @MainThread
