@@ -2000,11 +2000,16 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public void seek(long position, long length) {
-        if (length > 0)
-            setPosition(position/length);
+    public void seek(long position, double length) {
+        if (length > 0.0D)
+            setPosition((float) (position/length));
         else
             setTime(position);
+    }
+
+    @MainThread
+    public void saveTimeToSeek(long time) {
+        mSavedTime = time;
     }
 
     @MainThread
