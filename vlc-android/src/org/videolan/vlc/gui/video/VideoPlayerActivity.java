@@ -2136,7 +2136,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         float brightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1f);
         setWindowBrightness(brightness);
         brightness = Math.round(brightness * 100);
-        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + brightness + '%', 1000, (int) brightness);
+        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + (int) brightness + '%', 1000, (int) brightness);
     }
 
     private void setWindowBrightness(float brightness) {
