@@ -141,7 +141,7 @@ public class UiTools {
      * @param alignMode Align mode as read from preferences
      * @param t Reference to the textview
      */
-    @BindingAdapter({"bind:alignMode"})
+    @BindingAdapter({"alignMode"})
     public static void setAlignModeByPref(TextView t, int alignMode) {
         switch (alignMode) {
             case 0:
