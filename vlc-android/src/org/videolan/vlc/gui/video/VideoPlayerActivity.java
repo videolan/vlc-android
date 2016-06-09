@@ -2507,10 +2507,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void seek(long position, float length) {
         mForcedTime = position;
         mLastTime = mService.getTime();
-        if (length <= 0f)
-            mService.setTime(position);
-        else
-            mService.setPosition(position / length);
+        mService.seek(position, length);
     }
 
     private void seekDelta(int delta) {
