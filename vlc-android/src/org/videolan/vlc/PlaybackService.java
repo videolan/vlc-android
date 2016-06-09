@@ -595,6 +595,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
+                    if(mSavedTime != 0l)
+                        seek(mSavedTime);
+                    mSavedTime = 0l;
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
@@ -1740,9 +1743,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);
             mMediaPlayer.play();
-            if(mSavedTime != 0l)
-                seek(mSavedTime);
-            mSavedTime = 0l;
 
             determinePrevAndNextIndices();
             if (mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
