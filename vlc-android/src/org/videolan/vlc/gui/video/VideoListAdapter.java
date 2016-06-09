@@ -26,6 +26,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private boolean mListMode = false;
     private VideoGridFragment mFragment;
     private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
+    private volatile SimpleArrayMap<String, Integer> mVideosIndex = new SimpleArrayMap<>();
     private ImageView mThumbnail;
 
     public VideoListAdapter(VideoGridFragment fragment) {
@@ -198,22 +200,26 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public void add(MediaWrapper item) {
         mVideos.add(item);
+        mVideosIndex.put(item.getLocation(), mVideos.size()-1);
     }
 
     public void add(int position, MediaWrapper item) {
         mVideos.add(position, item);
+        mVideosIndex.put(item.getLocation(), position);
         notifyItemInserted(position);
     }
 
     @MainThread
     public void remove(MediaWrapper item) {
         remove(getItemPosition(item));
+        mVideosIndex.remove(item.getLocation());
     }
 
     @MainThread
     public void remove(int position) {
         if (position == -1)
             return;
+        mVideosIndex.remove(mVideos.get(position).getLocation());
         mVideos.remove(position);
         notifyItemRemoved(position);
     }
@@ -221,16 +227,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private int getItemPosition(MediaWrapper mw) {
         if (mw == null || mVideos.isEmpty())
             return -1;
-        for (int i = 0 ; i < mVideos.size(); ++i){
-            if (mw.equals(mVideos.get(i)))
-                return i;
-        }
-        return -1;
+        Integer position =  mVideosIndex.get(mw.getLocation());
+        return position == null ? -1 : position.intValue();
     }
 
     public void addAll(Collection<MediaWrapper> items) {
         mVideos.clear();
         mVideos.addAll(items);
+        MediaWrapper mw;
+        Object[] array = items.toArray();
+        for (int i = 0; i < array.length; ++i) {
+            mw = (MediaWrapper) array[i];
+            mVideosIndex.put(mw.getLocation(), i);
+        }
 
     }
 
@@ -262,11 +271,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 mVideos.add(position, item);
                 notifyItemRangeChanged(position, mVideos.size());
             }
+            mVideosIndex.put(item.getLocation(), position);
         }
     }
 
     public void clear() {
         mVideos.clear();
+        mVideosIndex.clear();
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
