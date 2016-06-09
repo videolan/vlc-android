@@ -45,7 +45,10 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     private TextView mSpeedValue;
     private SeekBar mSeekSpeed;
     private ImageView mPlaybackSpeedIcon;
+    private ImageView mPlaybackSpeedPlus;
+    private ImageView mPlaybackSpeedMinus;
 
+    private boolean mSeekBarAction = false;
     protected PlaybackService mService;
     protected int mTextColor;
 
@@ -75,9 +78,13 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         mSpeedValue = (TextView) view.findViewById(R.id.playback_speed_value);
         mSeekSpeed = (SeekBar) view.findViewById(R.id.playback_speed_seek);
         mPlaybackSpeedIcon = (ImageView) view.findViewById(R.id.playback_speed_icon);
+        mPlaybackSpeedPlus = (ImageView) view.findViewById(R.id.playback_speed_plus);
+        mPlaybackSpeedMinus = (ImageView) view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
         mPlaybackSpeedIcon.setOnClickListener(mResetListener);
+        mPlaybackSpeedPlus.setOnClickListener(mSpeedUpListener);
+        mPlaybackSpeedMinus.setOnClickListener(mSpeedDownListener);
         mSpeedValue.setOnClickListener(mResetListener);
 
         mTextColor = mSpeedValue.getCurrentTextColor();
@@ -94,10 +101,8 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
 
     private void setRateProgress() {
         double speed = mService.getRate();
-        if (speed != 1.0d) {
-            speed = 100 * (1 + Math.log(speed) / Math.log(4));
-            mSeekSpeed.setProgress((int) speed);
-        }
+        speed = 100 * (1 + Math.log(speed) / Math.log(4));
+        mSeekSpeed.setProgress((int) speed);
         updateInterface();
     }
 
@@ -106,17 +111,19 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (mService == null)
                 return;
-
-            float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
-            mSpeedValue.setText(Strings.formatRateString(rate));
-            mService.setRate(rate);
-            updateInterface();
+            if (mSeekBarAction == true) {
+                float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
+                mService.setRate(rate);
+                updateInterface();
+            }
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
+            mSeekBarAction = true;
         }
 
         public void onStopTrackingTouch(SeekBar seekBar) {
+            mSeekBarAction = false;
         }
     };
 
@@ -129,13 +136,47 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             if (mService.getRate() == 1.0d)
                 return;
 
-            mSeekSpeed.setProgress(100);
             mService.setRate(1);
+            setRateProgress();
         }
     };
 
+    private View.OnClickListener mSpeedUpListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mService == null)
+                return;
+            changeSpeed(0.05f);
+            setRateProgress();
+        }
+    };
+
+    private View.OnClickListener mSpeedDownListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mService == null)
+                return;
+            changeSpeed(-0.05f);
+            setRateProgress();
+        }
+    };
+
+    public void changeSpeed(float delta){
+        double initialRate = Math.round(mService.getRate() * 100d) / 100d;
+        if (delta>0)
+            initialRate = Math.floor((initialRate + 0.005d) / 0.05d) * 0.05d;
+        else
+            initialRate = Math.ceil((initialRate - 0.005d) / 0.05d) * 0.05d;
+        float rate = Math.round((initialRate + delta) * 100f) / 100f;
+        if (rate < 0.25f || rate > 4f)
+            return;
+        mService.setRate(rate);
+    }
+
     private void updateInterface() {
-        if (mService.getRate() != 1.0d) {
+        float rate = mService.getRate();
+        mSpeedValue.setText(Strings.formatRateString(rate));
+        if (rate != 1.0f) {
             mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
             mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));
         } else {

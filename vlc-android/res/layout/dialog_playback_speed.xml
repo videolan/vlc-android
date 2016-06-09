@@ -83,7 +83,8 @@
             android:max="200"
             android:maxHeight="@dimen/seekbar_height"
             android:minHeight="@dimen/seekbar_height"
-            android:nextFocusUp="@+id/playback_speed_reset"
+            android:nextFocusUp="@+id/playback_speed_icon"
+            android:nextFocusDown="@+id/playback_speed_plus"
             android:progress="100"
             android:progressDrawable="@drawable/po_seekbar"
             android:splitTrack="false"
@@ -104,6 +105,8 @@
             android:layout_marginBottom="@dimen/half_default_margin"
             android:clickable="true"
             android:focusable="true"
+            android:nextFocusUp="@+id/playback_speed_seek"
+            android:nextFocusDown="@+id/playback_speed_minus"
             android:src="@drawable/ic_plus_circle" />
 
         <ImageView
@@ -112,6 +115,8 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:nextFocusUp="@+id/playback_speed_plus"
+            android:nextFocusDown="@+id/playback_speed_icon"
             android:src="@drawable/ic_minus_circle" />
 
     </LinearLayout>
