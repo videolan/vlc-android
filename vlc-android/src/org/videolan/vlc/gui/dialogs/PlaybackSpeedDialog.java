@@ -38,7 +38,7 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
-public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {
+public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback, View.OnFocusChangeListener {
 
     public final static String TAG = "VLC/PlaybackSpeedDialog";
 
@@ -82,6 +82,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         mPlaybackSpeedMinus = (ImageView) view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
+        mSeekSpeed.setOnFocusChangeListener(this);
         mPlaybackSpeedIcon.setOnClickListener(mResetListener);
         mPlaybackSpeedPlus.setOnClickListener(mSpeedUpListener);
         mPlaybackSpeedMinus.setOnClickListener(mSpeedDownListener);
@@ -209,4 +210,10 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         mService = null;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.playback_speed_seek) {
+            mSeekBarAction = hasFocus;
+        }
+    }
 }
