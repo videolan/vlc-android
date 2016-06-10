@@ -420,7 +420,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         }
                     }
 
-                    mGridView.post(new Runnable() {
+                    mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             mVideoAdapter.clear();
