@@ -233,7 +233,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public void addAll(Collection<MediaWrapper> items) {
-        mVideos.clear();
         mVideos.addAll(items);
         MediaWrapper mw;
         Object[] array = items.toArray();

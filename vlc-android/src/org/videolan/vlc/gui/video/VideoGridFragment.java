@@ -420,10 +420,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         }
                     }
 
-                    mVideoAdapter.addAll(displayList);
-                    mVideoAdapter.sort();
-                    if (mReadyToDisplay)
-                        display();
+                    mGridView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mVideoAdapter.clear();
+                            mVideoAdapter.addAll(displayList);
+                            mVideoAdapter.sort();
+                            if (mReadyToDisplay)
+                                display();
+                        }
+                    });
                     if (mThumbnailer != null && !jobsList.isEmpty()) {
                         for (MediaWrapper item : jobsList)
                             mThumbnailer.addJob(item);
