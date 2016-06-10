@@ -38,7 +38,7 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
-public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback, View.OnFocusChangeListener {
+public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/PlaybackSpeedDialog";
 
@@ -48,7 +48,6 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     private ImageView mPlaybackSpeedPlus;
     private ImageView mPlaybackSpeedMinus;
 
-    private boolean mSeekBarAction = false;
     protected PlaybackService mService;
     protected int mTextColor;
 
@@ -82,7 +81,6 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         mPlaybackSpeedMinus = (ImageView) view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
-        mSeekSpeed.setOnFocusChangeListener(this);
         mPlaybackSpeedIcon.setOnClickListener(mResetListener);
         mPlaybackSpeedPlus.setOnClickListener(mSpeedUpListener);
         mPlaybackSpeedMinus.setOnClickListener(mSpeedDownListener);
@@ -112,20 +110,18 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (mService == null)
                 return;
-            if (mSeekBarAction == true) {
+            if (fromUser) {
                 float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
                 mService.setRate(rate);
                 updateInterface();
             }
         }
 
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            mSeekBarAction = true;
-        }
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
 
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            mSeekBarAction = false;
-        }
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     };
 
     private View.OnClickListener mResetListener = new View.OnClickListener() {
@@ -208,12 +204,5 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     @Override
     public void onDisconnected() {
         mService = null;
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (v.getId() == R.id.playback_speed_seek) {
-            mSeekBarAction = hasFocus;
-        }
     }
 }
