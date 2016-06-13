@@ -173,10 +173,11 @@ public class MediaInfoFragment extends ListFragment {
         @Override
         public void run() {
             File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
-            if (!itemFile.canWrite())
+            if (!itemFile.canWrite() && mHandler != null)
                 mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
             long length = itemFile.length();
-            mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
+            if (mHandler != null)
+                mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
             if (mItem.getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
         }
@@ -214,10 +215,8 @@ public class MediaInfoFragment extends ListFragment {
             if (!Extensions.SUBTITLES.contains(extension))
                 continue;
 
-            if (mHandler == null || Thread.interrupted()) {
+            if (mHandler == null || Thread.interrupted())
                 return;
-            }
-
             if (filename.startsWith(videoName)) {
                 mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
                 return;
@@ -245,7 +244,8 @@ public class MediaInfoFragment extends ListFragment {
             mMedia = new Media(libVlc, mItem.getUri());
             mMedia.parse();
 
-            mHandler.sendEmptyMessage(NEW_TEXT);
+            if (mHandler != null)
+                mHandler.sendEmptyMessage(NEW_TEXT);
 
             DisplayMetrics screen = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -272,10 +272,8 @@ public class MediaInfoFragment extends ListFragment {
             } else
                 return;
 
-            if (mHandler == null || Thread.interrupted()) {
+            if (mHandler == null || Thread.interrupted())
                 return;
-            }
-
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }
     };
@@ -308,7 +306,7 @@ public class MediaInfoFragment extends ListFragment {
             mAdapter.add(track);
         }
 
-        if (hasSubs)
+        if (hasSubs && mHandler != null)
             mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
     }
 
@@ -324,7 +322,8 @@ public class MediaInfoFragment extends ListFragment {
                 public void run() {
                     FileUtils.deleteFile(mItem.getUri().getPath());
                     MediaDatabase.getInstance().removeMedia(mItem.getUri());
-                    mHandler.sendEmptyMessage(EXIT);
+                    if (mHandler != null)
+                        mHandler.sendEmptyMessage(EXIT);
                 }
             });
         }
