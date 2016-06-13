@@ -41,14 +41,18 @@ import android.widget.Toast;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
+
+import java.util.ArrayList;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackService.Client.Callback {
@@ -59,6 +63,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_FAVORITE_DELETE = 4;
     private static final int ID_BROWSE = 5;
     private static final int ID_DL_SUBS = 6;
+    private static final int ID_PLAY_ALL = 7;
     private ArrayObjectAdapter mRowsAdapter;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
@@ -95,6 +100,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             media.setDisplayTitle(mMedia.getTitle());
         }
         mMediaWrapper = media;
+
+        final ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(SortedBrowserFragment.CURRENT_BROWSER_LIST);
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
@@ -135,6 +142,13 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                     case ID_DL_SUBS:
                         MediaUtils.getSubs(getActivity(), media);
                         break;
+                    case ID_PLAY_ALL:
+                        int position = -1;
+                        for (int i= 0; i < mediaList.size(); ++i)
+                            if (media.equals(mediaList.get(i)))
+                                position = i;
+                        MediaUtils.openList(getActivity(), mediaList, position);
+                        break;
                 }
             }
         });
@@ -164,6 +178,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
             detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
             detailsOverview.addAction(new Action(ID_LISTEN, getString(R.string.listen)));
+            if (mediaList != null && mediaList.contains(media))
+                detailsOverview.addAction(new Action(ID_PLAY_ALL, getString(R.string.play_all)));
         } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
             // Add images and action buttons to the details view
             Bitmap cover = BitmapUtil.getPicture(media);
@@ -175,6 +191,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
             if (FileUtils.canWrite(media.getUri()))
                 detailsOverview.addAction(new Action(ID_DL_SUBS, getString(R.string.download_subtitles)));
+            if (mediaList != null && mediaList.contains(media))
+                detailsOverview.addAction(new Action(ID_PLAY_ALL, getString(R.string.play_all)));
         }
         mRowsAdapter.add(detailsOverview);
 

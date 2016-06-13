@@ -69,6 +69,8 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
 
     public static final String KEY_URI = "uri";
     public static final String SELECTED_ITEM = "selected";
+    public static final String CURRENT_BROWSER_LIST = "CURRENT_BROWSER_LIST";
+
     public static final int UPDATE_DISPLAY = 1;
     public static final int UPDATE_ITEM = 2;
     public static final int HIDE_LOADING = 3;
@@ -78,6 +80,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     protected MediaWrapper mItemSelected;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>();
     SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
+    ArrayList<MediaWrapper> mVideosList = new ArrayList();
     protected BrowserHandler mHandler = new BrowserHandler(this);
 
     abstract protected void browse();
@@ -105,6 +108,11 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
             browse();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -163,8 +171,10 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
                 mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
                 for (ListItem item : mMediaItemMap.values()) {
                     Collections.sort(item.mediaList, MediaComparators.byFileType);
+                    mVideosList.addAll(item.mediaList);
                 }
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
+                VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
             }
         });
     }
