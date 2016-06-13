@@ -113,9 +113,12 @@ public class MediaWrapper implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (mUri == ((MediaWrapper)obj).getUri())
+        Uri otherUri = ((MediaWrapper)obj).getUri();
+        if (mUri == null || otherUri == null)
+            return false;
+        if (mUri == otherUri)
             return true;
-        return false;
+        return mUri.equals(otherUri);
     }
 
     private void init(Media media) {
