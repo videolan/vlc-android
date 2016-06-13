@@ -46,7 +46,9 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lmicrodns \
 	$(EXTRA_LDFLAGS)
 
+ifeq ($(HAVE_LIBCOMPAT), 1)
 LOCAL_SHARED_LIBRARIES:= libcompat.7
+endif
 LOCAL_STATIC_LIBRARIES:= libdemuxdump2_plugin
 include $(BUILD_SHARED_LIBRARY)
 
@@ -85,9 +87,11 @@ include $(BUILD_SHARED_LIBRARY)
 # DUMMY COMPAT LIB #
 ####################
 
+ifeq ($(HAVE_LIBCOMPAT), 1)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libcompat.7
 include $(BUILD_SHARED_LIBRARY)
+endif
 
 ################
 # PRIVATE LIBS #
