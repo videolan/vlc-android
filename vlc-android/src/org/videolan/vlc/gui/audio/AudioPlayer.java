@@ -187,7 +187,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mResumeToVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mService != null) {
+                if (mService != null && mService.hasMedia()) {
                     mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                     mService.switchToVideo();
                 }
