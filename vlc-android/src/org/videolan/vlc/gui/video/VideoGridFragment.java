@@ -311,7 +311,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     }, new Runnable() {
                         @Override
                         public void run() {
-                            mVideoAdapter.add(position, media);
+                            mVideoAdapter.add(media);
                         }
                     });
                 return true;
@@ -425,7 +425,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         public void run() {
                             mVideoAdapter.clear();
                             mVideoAdapter.addAll(displayList);
-                            mVideoAdapter.sort();
                             if (mReadyToDisplay)
                                 display();
                         }
@@ -475,7 +474,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     }
 
     public void setItemToUpdate(MediaWrapper item) {
-        if (mVideoAdapter.getAll().contains(item))
+        if (mVideoAdapter.contains(item))
             mHandler.sendMessage(mHandler.obtainMessage(MediaLibrary.UPDATE_ITEM, item));
     }
 

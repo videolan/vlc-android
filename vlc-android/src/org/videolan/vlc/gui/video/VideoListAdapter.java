@@ -26,7 +26,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
-import android.support.v4.util.SimpleArrayMap;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +39,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
@@ -47,12 +46,9 @@ import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder>
-        implements Comparator<MediaWrapper> {
+public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -63,12 +59,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public final static int TYPE_GRID = 1;
 
     public final static int SORT_BY_DATE = 2;
-    private int mSortDirection = 1;
-    private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
     private VideoGridFragment mFragment;
-    private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
-    private volatile SimpleArrayMap<String, Integer> mVideosIndex = new SimpleArrayMap<>();
+    private VideoComparator mVideoComparator = new VideoComparator();
+    private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
     private ImageView mThumbnail;
 
     public VideoListAdapter(VideoGridFragment fragment) {
@@ -120,75 +114,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             notifyDataSetChanged();
     }
 
-    public int sortDirection(int sortby) {
-        if (sortby == mSortBy)
-            return  mSortDirection;
-        else
-            return -1;
-    }
-
-    public void sortBy(int sortby) {
-        switch (sortby) {
-            case SORT_BY_TITLE:
-                if (mSortBy == SORT_BY_TITLE)
-                    mSortDirection *= -1;
-                else {
-                    mSortBy = SORT_BY_TITLE;
-                    mSortDirection = 1;
-                }
-                break;
-            case SORT_BY_LENGTH:
-                if (mSortBy == SORT_BY_LENGTH)
-                    mSortDirection *= -1;
-                else {
-                    mSortBy = SORT_BY_LENGTH;
-                    mSortDirection *= 1;
-                }
-                break;
-            case SORT_BY_DATE:
-                if (mSortBy == SORT_BY_DATE)
-                    mSortDirection *= -1;
-                else {
-                    mSortBy = SORT_BY_DATE;
-                    mSortDirection *= 1;
-                }
-                break;
-            default:
-                mSortBy = SORT_BY_TITLE;
-                mSortDirection = 1;
-                break;
-        }
-        sort();
-    }
-
     public void sort() {
         if (!isEmpty())
             try {
-                Collections.sort(mVideos, this);
+                resetSorting();
             } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
     }
 
     public boolean isEmpty()
     {
-        return mVideos.isEmpty();
-    }
-
-    @Override
-    public int compare(MediaWrapper item1, MediaWrapper item2) {
-        int compare = 0;
-        switch (mSortBy) {
-            case SORT_BY_TITLE:
-                compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(
-                        item2.getTitle().toUpperCase(Locale.ENGLISH));
-                break;
-            case SORT_BY_LENGTH:
-                compare = ((Long) item1.getLength()).compareTo(item2.getLength());
-                break;
-            case SORT_BY_DATE:
-                compare = ((Long) item1.getLastModified()).compareTo(item2.getLastModified());
-                break;
-        }
-        return mSortDirection * compare;
+        return mVideos.size() == 0;
     }
 
     @Nullable
@@ -200,51 +135,31 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public void add(MediaWrapper item) {
-        mVideos.add(item);
-        mVideosIndex.put(item.getLocation(), mVideos.size()-1);
-    }
-
-    public void add(int position, MediaWrapper item) {
-        mVideos.add(position, item);
-        mVideosIndex.put(item.getLocation(), position);
-        notifyItemInserted(position);
-    }
-
-    @MainThread
-    public void remove(MediaWrapper item) {
-        remove(getItemPosition(item));
-        mVideosIndex.remove(item.getLocation());
+        notifyItemInserted(mVideos.add(item));
     }
 
     @MainThread
     public void remove(int position) {
         if (position == -1)
             return;
-        mVideosIndex.remove(mVideos.get(position).getLocation());
-        mVideos.remove(position);
+        mVideos.removeItemAt(position);
         notifyItemRemoved(position);
-    }
-
-    private int getItemPosition(MediaWrapper mw) {
-        if (mw == null || mVideos.isEmpty())
-            return -1;
-        Integer position =  mVideosIndex.get(mw.getLocation());
-        return position == null ? -1 : position.intValue();
     }
 
     public void addAll(Collection<MediaWrapper> items) {
         mVideos.addAll(items);
-        MediaWrapper mw;
-        Object[] array = items.toArray();
-        for (int i = 0; i < array.length; ++i) {
-            mw = (MediaWrapper) array[i];
-            mVideosIndex.put(mw.getLocation(), i);
-        }
+    }
 
+    public boolean contains(MediaWrapper mw) {
+        return mVideos.indexOf(mw) != -1;
     }
 
     public ArrayList<MediaWrapper> getAll() {
-        return mVideos;
+        int size = mVideos.size();
+        ArrayList<MediaWrapper> list = new ArrayList<>(size);
+        for (int i = 0; i < size; ++i)
+            list.add(mVideos.get(i));
+        return list;
     }
 
     @MainThread
@@ -252,32 +167,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         int position = mVideos.indexOf(item);
         if (position != -1) {
             if (!(mVideos.get(position) instanceof MediaGroup))
-                mVideos.set(position, item);
+                mVideos.updateItemAt(position, item);
             notifyItemChanged(position);
         } else {
-            MediaWrapper mw;
-            for (int i = 0; i < mVideos.size(); ++i) {
-                mw = mVideos.get(i);
-                if (MediaComparators.byName.compare(item, mw) < 0) {
-                    position = i;
-                    break;
-                }
-            }
-            if (position == -1) {
-                position = mVideos.size();
-                mVideos.add(position, item);
-                notifyItemInserted(position);
-            } else {
-                mVideos.add(position, item);
-                notifyItemRangeChanged(position, mVideos.size());
-            }
-            mVideosIndex.put(item.getLocation(), position);
+            position = mVideos.add(item);
+            notifyItemRangeChanged(position, mVideos.size()-position);
         }
     }
 
     public void clear() {
         mVideos.clear();
-        mVideosIndex.clear();
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
@@ -381,6 +280,111 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
             else
                 itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
+        }
+    }
+    public int sortDirection(int sortDirection) {
+        return mVideoComparator.sortDirection(sortDirection);
+    }
+
+    public void sortBy(int sortby) {
+        mVideoComparator.sortBy(sortby);
+    }
+
+    private void resetSorting() {
+        ArrayList<MediaWrapper> list = getAll();
+        mVideos.clear();
+        mVideos.addAll(list);
+        notifyItemRangeChanged(0, mVideos.size());
+    }
+
+    public class VideoComparator extends SortedList.Callback<MediaWrapper> {
+
+        private int mSortDirection = 1;
+        private int mSortBy = SORT_BY_TITLE;
+
+        public int sortDirection(int sortby) {
+            if (sortby == mSortBy)
+                return  mSortDirection;
+            else
+                return -1;
+        }
+
+        public void sortBy(int sortby) {
+            switch (sortby) {
+                case SORT_BY_TITLE:
+                    if (mSortBy == SORT_BY_TITLE)
+                        mSortDirection *= -1;
+                    else {
+                        mSortBy = SORT_BY_TITLE;
+                        mSortDirection = 1;
+                    }
+                    break;
+                case SORT_BY_LENGTH:
+                    if (mSortBy == SORT_BY_LENGTH)
+                        mSortDirection *= -1;
+                    else {
+                        mSortBy = SORT_BY_LENGTH;
+                        mSortDirection *= 1;
+                    }
+                    break;
+                case SORT_BY_DATE:
+                    if (mSortBy == SORT_BY_DATE)
+                        mSortDirection *= -1;
+                    else {
+                        mSortBy = SORT_BY_DATE;
+                        mSortDirection *= 1;
+                    }
+                    break;
+                default:
+                    mSortBy = SORT_BY_TITLE;
+                    mSortDirection = 1;
+                    break;
+            }
+            resetSorting();
+        }
+
+        @Override
+        public int compare(MediaWrapper item1, MediaWrapper item2) {
+            int compare = 0;
+            switch (mSortBy) {
+                case SORT_BY_TITLE:
+                    compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(
+                            item2.getTitle().toUpperCase(Locale.ENGLISH));
+                    break;
+                case SORT_BY_LENGTH:
+                    compare = ((Long) item1.getLength()).compareTo(item2.getLength());
+                    break;
+                case SORT_BY_DATE:
+                    compare = ((Long) item1.getLastModified()).compareTo(item2.getLastModified());
+                    break;
+            }
+            return mSortDirection * compare;
+        }
+
+        @Override
+        public void onInserted(int position, int count) {}
+
+        @Override
+        public void onRemoved(int position, int count) {}
+
+        @Override
+        public void onMoved(int fromPosition, int toPosition) {}
+
+        @Override
+        public void onChanged(int position, int count) {}
+
+        @Override
+        public boolean areContentsTheSame(MediaWrapper oldItem, MediaWrapper newItem) {
+            return areItemsTheSame(oldItem, newItem);
+        }
+
+        @Override
+        public boolean areItemsTheSame(MediaWrapper item1, MediaWrapper item2) {
+            if (item1 == item2)
+                return true;
+            if (item1 == null ^ item2 == null)
+                return false;
+            return item1.equals(item2);
         }
     }
 }
