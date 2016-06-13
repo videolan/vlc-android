@@ -653,6 +653,11 @@ fi
 
 echo "Building NDK"
 
+HAVE_LIBCOMPAT=
+if [ "${ANDROID_API}" = "android-9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+    HAVE_LIBCOMPAT=1
+fi
+
 $ANDROID_NDK/ndk-build -C libvlc \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
@@ -672,11 +677,12 @@ $ANDROID_NDK/ndk-build -C libvlc \
     HAVE_64=${HAVE_64} \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=${GCCVER} \
-    NDK_DEBUG=${NDK_DEBUG}
+    NDK_DEBUG=${NDK_DEBUG} \
+    HAVE_LIBCOMPAT=${HAVE_LIBCOMPAT}
 
 checkfail "ndk-build failed"
 
-if [ "${ANDROID_API}" = "android-9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+if [ "${HAVE_LIBCOMPAT}" = "1" ];then
     $ANDROID_NDK/ndk-build -C libvlc \
         APP_BUILD_SCRIPT=libcompat/Android.mk \
         APP_PLATFORM=${ANDROID_API} \
