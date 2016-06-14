@@ -25,9 +25,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.annotation.Nullable;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -35,6 +35,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.AbstractCollection;
 import java.util.List;
 
 public class Util {
@@ -81,6 +82,10 @@ public class Util {
                 return true;
             } catch (IOException e) {}
         return false;
+    }
+
+    public static boolean isListEmpty(@Nullable AbstractCollection collection) {
+        return collection == null || collection.isEmpty();
     }
 
     public static boolean isCallable(Intent intent) {
