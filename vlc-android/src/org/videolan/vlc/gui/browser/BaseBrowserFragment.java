@@ -63,6 +63,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -228,7 +229,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         Fragment next = createFragment();
         Bundle args = new Bundle();
         ArrayList<MediaWrapper> list = mFoldersContentLists != null ? mFoldersContentLists.get(position) : null;
-        if(list != null && !list.isEmpty())
+        if (!Util.isListEmpty(list))
             VLCApplication.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
@@ -422,7 +423,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
-            boolean isEmpty = mFoldersContentLists.get(position) == null || mFoldersContentLists.get(position).isEmpty();
+            boolean isEmpty = Util.isListEmpty(mFoldersContentLists.get(position));
                 inflater.inflate(R.menu.directory_view_dir, menu);
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();

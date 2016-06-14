@@ -71,6 +71,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.media.Thumbnailer;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -535,7 +536,7 @@ public class MainTvActivity extends BaseTvActivity implements IVideoBrowser, OnI
                 Bitmap picture;
                 ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
                 MediaDatabase mediaDatabase = MediaDatabase.getInstance();
-                if (sThumbnailer != null && videoList != null && !videoList.isEmpty()) {
+                if (sThumbnailer != null && !Util.isListEmpty(videoList)) {
                     for (MediaWrapper MediaWrapper : videoList) {
                         picture = mediaDatabase.getPicture(MediaWrapper.getUri());
                         if (picture == null)

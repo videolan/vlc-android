@@ -39,6 +39,7 @@ import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class RecommendationsService extends IntentService {
         mNotificationManager.cancelAll();
         int id = 0;
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
-        if (videoList == null || videoList.isEmpty())
+        if (Util.isListEmpty(videoList))
             return false;
         Bitmap pic;
         Collections.shuffle(videoList);

@@ -34,6 +34,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaWrapper;
+import org.videolan.vlc.util.Util;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
@@ -64,8 +65,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         vh.binding.setHasContextMenu(hasContextMenu);
         vh.binding.setType(TYPE_STORAGE);
         vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
-                (isRoot && (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())) ||
-                mMediaDirsLocation.contains(storagePath));
+                (isRoot && Util.isListEmpty(mMediaDirsLocation)) || mMediaDirsLocation.contains(storagePath));
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         if (hasContextMenu)
             vh.setContextMenuListener();
@@ -127,7 +127,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         fragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mMediaDirsLocation == null || mMediaDirsLocation.isEmpty())
+                if (Util.isListEmpty(mMediaDirsLocation))
                     fragment.refresh();
             }
         });

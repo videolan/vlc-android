@@ -19,6 +19,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,7 @@ public class MediaUtils {
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){
-        if (list == null || list.isEmpty())
+        if (Util.isListEmpty(list))
             return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override

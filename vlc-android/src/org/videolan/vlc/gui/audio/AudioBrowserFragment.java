@@ -71,6 +71,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -461,7 +462,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
         if (id == R.id.audio_list_browser_delete) {
             List<MediaWrapper> mediaList = adapter.getMedias(position);
-            if (mediaList == null || mediaList.isEmpty())
+            if (Util.isListEmpty(mediaList))
                 return false;
             final MediaWrapper media = mediaList.get(0);
             final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
@@ -603,7 +604,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        if (mAdaptersToNotify == null || mAdaptersToNotify.isEmpty())
+        if (Util.isListEmpty(mAdaptersToNotify))
             mReadyToDisplay = ready;
         else
             display();
