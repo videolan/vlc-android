@@ -145,7 +145,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
     private boolean mDetectHeadset = true;
-    private boolean mPebbleEnabled;
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
 
@@ -271,12 +270,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
-        }
-        try {
-            getPackageManager().getPackageInfo("com.getpebble.android", PackageManager.GET_ACTIVITIES);
-            mPebbleEnabled = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            mPebbleEnabled = false;
         }
 
         if (readPhoneState()) {
@@ -1151,15 +1144,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
         }
         mMediaSession.setMetadata(bob.build());
-
-        //Send metadata to Pebble watch
-        if (mPebbleEnabled) {
-            final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
-            i.putExtra("artist", MediaUtils.getMediaArtist(this, media));
-            i.putExtra("album", MediaUtils.getMediaAlbum(this, media));
-            i.putExtra("track", media.getTitle());
-            sendBroadcast(i);
-        }
     }
 
     protected void publishState(int state) {
