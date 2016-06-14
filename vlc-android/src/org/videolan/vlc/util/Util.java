@@ -35,7 +35,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.AbstractCollection;
+import java.util.Collection;
 import java.util.List;
 
 public class Util {
@@ -84,7 +84,7 @@ public class Util {
         return false;
     }
 
-    public static boolean isListEmpty(@Nullable AbstractCollection collection) {
+    public static boolean isListEmpty(@Nullable Collection collection) {
         return collection == null || collection.isEmpty();
     }
 
