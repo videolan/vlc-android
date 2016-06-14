@@ -21,6 +21,8 @@
 package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -45,6 +47,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
@@ -147,7 +150,10 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         for (int i= 0; i < mediaList.size(); ++i)
                             if (media.equals(mediaList.get(i)))
                                 position = i;
-                        MediaUtils.openList(getActivity(), mediaList, position);
+                        Activity activity = getActivity();
+                        MediaUtils.openList(activity, mediaList, position);
+                        if (media.getType() == MediaWrapper.TYPE_AUDIO)
+                            getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
                         break;
                 }
             }
