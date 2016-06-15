@@ -1235,11 +1235,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 stop();
                 return;
             }
+            playIndex(mCurrentIndex, 0);
+            saveCurrentMedia();
         } else
             setPosition(0f);
-
-        playIndex(mCurrentIndex, 0);
-        saveCurrentMedia();
     }
 
     @MainThread
