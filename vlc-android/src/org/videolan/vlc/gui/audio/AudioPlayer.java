@@ -505,7 +505,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onPreviousClick(View view) {
         if (mService == null)
             return;
-        if (mService.hasPrevious())
+        if (mService.hasPrevious() || mService.isSeekable())
             mService.previous();
         else
             Snackbar.make(getView(), R.string.firstsong, Snackbar.LENGTH_SHORT).show();
