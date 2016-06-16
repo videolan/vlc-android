@@ -171,7 +171,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
     @Override
     public void onResume() {
         super.onResume();
-        if ((getActivity() instanceof MainActivity))
+        if (getActivity() instanceof MainActivity)
             mMainActivity = (MainActivity) getActivity();
         mMediaLibrary.setBrowser(this);
         mMediaLibrary.addUpdateHandler(mHandler);
@@ -190,10 +190,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         updateViewMode();
         if (animate)
             mAnimator.animate();
-
-        /* Start the thumbnailer */
-        if (mThumbnailer != null)
-            mThumbnailer.start(this);
     }
 
     @Override
@@ -394,11 +390,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
             mSwipeRefreshLayout.setRefreshing(true);
         final List<MediaWrapper> itemList = mMediaLibrary.getVideoItems();
 
-        if (mThumbnailer != null)
-            mThumbnailer.clearJobs();
-        else
-            Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
-
         if (itemList.size() > 0) {
             VLCApplication.runBackground(new Runnable() {
                 @Override
@@ -430,6 +421,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                         }
                     });
                     if (mThumbnailer != null && !jobsList.isEmpty()) {
+                        mThumbnailer.clearJobs();
+                        mThumbnailer.start(VideoGridFragment.this);
                         for (MediaWrapper item : jobsList)
                             mThumbnailer.addJob(item);
                     }
