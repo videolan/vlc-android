@@ -47,7 +47,8 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:progressDrawable="@drawable/progress" />
+                        android:progressDrawable="@drawable/progress"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/info_text"
