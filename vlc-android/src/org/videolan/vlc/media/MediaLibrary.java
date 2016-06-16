@@ -500,9 +500,11 @@ public class MediaLibrary {
     }
 
     public void setBrowser(IBrowser browser) {
-        if (browser != null)
+        if (browser != null) {
             mBrowser = new WeakReference<>(browser);
-        else
+            if (isWorking() && mBrowser.get() != null)
+                mBrowser.get().showProgressBar();
+        } else
             mBrowser.clear();
     }
 }
