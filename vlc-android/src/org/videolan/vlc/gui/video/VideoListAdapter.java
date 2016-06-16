@@ -250,7 +250,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         }
 
         public void onClick(View v){
-            MediaWrapper media = mVideos.get(getAdapterPosition());
+            MediaWrapper media = getItem(getAdapterPosition());
+            if (media == null)
+                return;
             if (media instanceof MediaGroup) {
                 MainActivity activity = (MainActivity) mFragment.getActivity();
                 activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
