@@ -28,24 +28,27 @@
 
     <LinearLayout
         android:id="@id/android:empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingTop="20dip"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <TextView
+    <TextView
             android:id="@+id/textview_nomedia"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:drawableBottom="@drawable/ic_no_media"
+            android:drawablePadding="@dimen/default_margin"
             android:gravity="center"
             android:text="@string/nomedia"
             android:textSize="20sp"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/layout_flipper_loading"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="invisible" >
 
@@ -66,28 +69,28 @@
                 android:flipInterval="1000" >
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/empty"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_1_period"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_2_period"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_3_period"
