@@ -30,20 +30,21 @@
         android:id="@id/android:empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="vertical">
 
-    <TextView
+        <TextView
             android:id="@+id/textview_nomedia"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:drawableBottom="@drawable/ic_no_media"
             android:drawablePadding="@dimen/default_margin"
             android:gravity="center"
+            android:maxWidth="600dp"
             android:text="@string/nomedia"
             android:textSize="20sp"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/layout_flipper_loading"
