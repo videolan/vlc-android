@@ -1,12 +1,28 @@
-Changes between 2.0.0 RC2 and RC3:
-----------------------------------
+Changes between 2.0.0-RC4 and 2.0.0:
+------------------------------------
+Application:
+ * Fix progressbar display when scanning
+ * Fix crashes in video list view
 
+
+Changes between 2.0.0-RC3 and 2.0.0-RC4:
+----------------------------------------
+Application:
+ * Improve the speed actions and buttons
+ * Fix seeking at opening times and buffering times
+ * Fix subtitles saving when opening from a fd
+ * Fix crashes
+ * Improve advanced options navigation
+
+
+Changes between 2.0.0-RC2 and 2.0.0-RC3:
+----------------------------------------
 Core:
  * Fix crash in preparser
 
 
-Changes between 2.0.0 RC1 and RC2:
-----------------------------------
+Changes between 2.0.0-RC1 and 2.0.0-RC2:
+----------------------------------------
 
 Application:
  * Fix video resume from apps switch
@@ -18,14 +34,16 @@ Application:
 Core:
  * Fix UPnP frozen when server did not respond
 
-Changes between 1.9.13 and 2.0.0 RC1:
-----------------------------------
+
+Changes between 1.9.13 and 2.0.0-RC1:
+-------------------------------------
 
 Application:
  * Fix UPnP media display name
 
 Core:
  * Fix UPnP browsing
+
 
 Changes between 1.9.12 and 1.9.13:
 ----------------------------------
