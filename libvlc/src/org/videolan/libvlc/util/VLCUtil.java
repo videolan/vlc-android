@@ -132,29 +132,27 @@ public class VLCUtil {
             br = new BufferedReader(fileReader);
             String line;
             while ((line = br.readLine()) != null) {
-                if (!hasArmV7 && line.contains("AArch64")) {
+                if (line.contains("AArch64")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv8 is backwards compatible to < v7 */
-                }
-                if (!hasArmV7 && line.contains("ARMv7")) {
+                } else if (line.contains("ARMv7")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-                }
-                if (!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
+                } else if (line.contains("ARMv6"))
                     hasArmV6 = true;
                 // "clflush size" is a x86-specific cpuinfo tag.
                 // (see kernel sources arch/x86/kernel/cpu/proc.c)
-                if (line.contains("clflush size"))
+                else if (line.contains("clflush size"))
                     hasX86 = true;
-                if (line.contains("GenuineIntel"))
+                else if (line.contains("GenuineIntel"))
                     hasX86 = true;
                 // "microsecond timers" is specific to MIPS.
                 // see arch/mips/kernel/proc.c
-                if (line.contains("microsecond timers"))
+                else if (line.contains("microsecond timers"))
                     hasMips = true;
-                if (!hasNeon && (line.contains("neon") || line.contains("asimd")))
+                if (line.contains("neon") || line.contains("asimd"))
                     hasNeon = true;
-                if (!hasFpu && (line.contains("vfp") || (line.contains("Features") && line.contains("fp"))))
+                if (line.contains("vfp") || (line.contains("Features") && line.contains("fp")))
                     hasFpu = true;
                 if (line.startsWith("processor"))
                     processors++;
@@ -168,23 +166,18 @@ public class VLCUtil {
                 }
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
             errorMsg = "IOException whilst reading cpuinfo flags";
+            Log.e(TAG, errorMsg, ex);
             isCompatible = false;
-            return false;
         } finally {
-            if (br != null) {
+            if (br != null)
                 try {
                     br.close();
-                } catch (IOException e) {
-                }
-            }
-            if (fileReader != null) {
+                } catch (IOException e) {}
+            if (fileReader != null)
                 try {
                     fileReader.close();
-                } catch (IOException e) {
-                }
-            }
+                } catch (IOException e) {}
         }
         if (processors == 0)
             processors = 1; // possibly borked cpuinfo?
@@ -193,37 +186,30 @@ public class VLCUtil {
         if (elfHasX86 && !hasX86) {
             errorMsg = "x86 build on non-x86 device";
             isCompatible = false;
-            return false;
         } else if (elfHasArm && !hasArmV6) {
             errorMsg = "ARM build on non ARM device";
             isCompatible = false;
-            return false;
         }
 
         if (elfHasMips && !hasMips) {
             errorMsg = "MIPS build on non-MIPS device";
             isCompatible = false;
-            return false;
         } else if (elfHasArm && hasMips) {
             errorMsg = "ARM build on MIPS device";
             isCompatible = false;
-            return false;
         }
 
         if (elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
             errorMsg = "ARMv7 build on non-ARMv7 device";
             isCompatible = false;
-            return false;
         }
         if (elf.e_machine == EM_ARM) {
             if (elf.att_arch.startsWith("v6") && !hasArmV6) {
                 errorMsg = "ARMv6 build on non-ARMv6 device";
                 isCompatible = false;
-                return false;
             } else if (elf.att_fpu && !hasFpu) {
                 errorMsg = "FPU-enabled build on non-FPU device";
                 isCompatible = false;
-                return false;
             }
         }
         if (elfIs64bits && !is64bits) {
@@ -247,22 +233,17 @@ public class VLCUtil {
             Log.w(TAG, "Could not parse maximum CPU frequency!");
             Log.w(TAG, "Failed to parse: " + line);
         } finally {
-            if (br != null) {
+            if (br != null)
                 try {
                     br.close();
-                } catch (IOException e) {
-                }
-            }
-            if (fileReader != null) {
+                } catch (IOException e) {}
+            if (fileReader != null)
                 try {
                     fileReader.close();
-                } catch (IOException e) {
-                }
-            }
+                } catch (IOException e) {}
         }
 
-        errorMsg = null;
-        isCompatible = true;
+        isCompatible = errorMsg == null;
         // Store into MachineSpecs
         machineSpecs = new MachineSpecs();
         machineSpecs.hasArmV6 = hasArmV6;
@@ -275,7 +256,7 @@ public class VLCUtil {
         machineSpecs.bogoMIPS = bogoMIPS;
         machineSpecs.processors = processors;
         machineSpecs.frequency = frequency;
-        return true;
+        return isCompatible;
     }
 
     public static MachineSpecs getMachineSpecs() {
