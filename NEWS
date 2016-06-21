@@ -1,4 +1,7 @@
-Changes between 2.0.0-RC4 and 2.0.0:
+Changes between 2.0.0 and 2.0.1:
+--------------------------------
+
+Changes between 2.0.0-rc4 and 2.0.0:
 ------------------------------------
 Application:
  * Fix progressbar display when scanning
