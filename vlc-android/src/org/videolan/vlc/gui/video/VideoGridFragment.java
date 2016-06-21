@@ -182,7 +182,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if (refresh)
             updateList();
         else {
-            mViewNomedia.setVisibility(View.GONE);
+            mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
         }
         //Get & set times
         ArrayMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes();
@@ -382,7 +382,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
         if (item.getType() != MediaWrapper.TYPE_VIDEO)
             return;
         mVideoAdapter.update(item);
-        mViewNomedia.setVisibility(View.GONE);
+        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     public void updateList() {
@@ -496,10 +496,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
 
             if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_START)) {
                 mLayoutFlipperLoading.setVisibility(View.VISIBLE);
-                mTextViewNomedia.setVisibility(View.INVISIBLE);
             } else if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_STOP)) {
                 mLayoutFlipperLoading.setVisibility(View.INVISIBLE);
-                mTextViewNomedia.setVisibility(View.VISIBLE);
             }
         }
     };
