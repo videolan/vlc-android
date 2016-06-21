@@ -245,10 +245,10 @@ public class SubtitlesDownloader {
                             break;
                         resultMap = (HashMap<String, Object>) subtitleMaps[i];
                         srtFormat = (String) resultMap.get("SubFormat");
-                        Integer queryNumber = (Integer) resultMap.get("QueryNumber");
+                        String queryNumber = (String) resultMap.get("QueryNumber");
                         subLanguageID = (String) resultMap.get("SubLanguageID");
                         subDownloadLink = (String) resultMap.get("SubDownloadLink");
-                        fileUrl = (String) paths[queryNumber.intValue()/languages.size()];
+                        fileUrl = (String) paths[Integer.getInteger(queryNumber, 0).intValue()/languages.size()];
                         if (fileUrl == null) //we keep only result for exact matching name
                             continue;
                         fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
