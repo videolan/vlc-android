@@ -409,10 +409,12 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     @Override
     protected void onPause() {
         super.onPause();
-        /* Check for an ongoing scan that needs to be resumed during onResume */
-        mScanNeeded = mMediaLibrary.isWorking();
-        /* Stop scanning for files */
-        mMediaLibrary.stop();
+        if (getChangingConfigurations() == 0) {
+            /* Check for an ongoing scan that needs to be resumed during onResume */
+            mScanNeeded = mMediaLibrary.isWorking();
+            /* Stop scanning for files */
+            mMediaLibrary.stop();
+        }
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt("fragment_id", mCurrentFragmentId);
