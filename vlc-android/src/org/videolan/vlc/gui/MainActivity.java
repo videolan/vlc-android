@@ -165,7 +165,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Permissions.checkReadStoragePermission(this, false);
 
         mMediaLibrary = MediaLibrary.getInstance();
-        if (mMediaLibrary.getMediaItems().isEmpty()) {
+        if (!mMediaLibrary.isWorking() && mMediaLibrary.getMediaItems().isEmpty()) {
             if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true))
                 mMediaLibrary.scanMediaItems();
             else
