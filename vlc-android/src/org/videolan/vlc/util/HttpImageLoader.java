@@ -107,6 +107,8 @@ public class HttpImageLoader implements Callbacks {
         Bitmap icon = null;
         try {
             URL url = new URL(imageUrl);
+            if (url.getPort() <= 0)
+                return null;
             urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             icon = BitmapFactory.decodeStream(in);
