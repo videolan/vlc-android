@@ -453,7 +453,7 @@ public abstract class Dialog {
             public void run() {
                 if (dialog instanceof IdDialog)
                     ((IdDialog) dialog).dismiss();
-                if (sCallbacks != null)
+                if (sCallbacks != null && dialog != null)
                     sCallbacks.onCanceled(dialog);
             }
         });
