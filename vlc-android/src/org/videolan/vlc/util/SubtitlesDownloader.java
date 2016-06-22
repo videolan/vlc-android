@@ -35,6 +35,7 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -379,7 +380,7 @@ public class SubtitlesDownloader {
                     index.put(hash, mediaUri.getPath());
                     video.put("moviehash", hash);
                     video.put("moviebytesize", String.valueOf(fileLength));
-                } else {
+                } else if (!TextUtils.isEmpty(tag)) {
                     video.put("tag", tag);
                     int dotPos = tag.lastIndexOf('.');
                     if (dotPos > -1)
