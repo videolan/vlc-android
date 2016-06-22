@@ -148,11 +148,14 @@ public class MusicFragment extends MediaLibBrowserFragment {
                     }
                 }
                 //Customize title for artist/genre browsing
-                if (mType == FILTER_ARTIST){
-                    title = title + " " + mMediaItemList.get(0).mediaList.get(0).getArtist();
-                } else if (mType == FILTER_GENRE){
-                    title = title + " " + mMediaItemList.get(0).mediaList.get(0).getGenre();
-                }
+                if (!mMediaItemList.isEmpty()) {
+                    if (mType == FILTER_ARTIST){
+                        title = title + " " + mMediaItemList.get(0).mediaList.get(0).getArtist();
+                    } else if (mType == FILTER_GENRE){
+                        title = title + " " + mMediaItemList.get(0).mediaList.get(0).getGenre();
+                    }
+                } else
+                    title = getString(R.string.app_name_full);
             } else if (CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
                 Collections.sort(audioList, MediaComparators.byGenre);
