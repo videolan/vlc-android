@@ -3042,10 +3042,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            for(String file : mSubtitleSelectedFiles) {
-                                Log.i(TAG, "Adding user-selected subtitle " + file);
-                                mService.addSubtitleTrack(file, true);
-                            }
+                            if (mService != null)
+                                for(String file : mSubtitleSelectedFiles) {
+                                    Log.i(TAG, "Adding user-selected subtitle " + file);
+                                    mService.addSubtitleTrack(file, true);
+                                }
                         }
                     });
                 }
