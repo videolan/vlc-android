@@ -39,6 +39,7 @@ import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.media.MediaRouter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,6 +126,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
@@ -665,8 +667,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         stopPlayback();
 
-
         restoreBrightness();
+
+        if (mSubtitlesGetTask != null)
+            mSubtitlesGetTask.cancel(true);
+
         if (mService != null)
             mService.removeCallback(this);
         mHelper.onStop();
@@ -885,6 +890,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
             }
         }
+
         // Save selected subtitles
         String subtitleList_serialized = null;
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -3015,43 +3021,57 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             showOverlay(true);
     }
 
-    public void getSubtitles() {
-        final String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> prefsList = new ArrayList<>();
-                if(subtitleList_serialized != null) {
-                    ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
-                    try {
-                        ObjectInputStream ois = new ObjectInputStream(bis);
-                        prefsList = (ArrayList<String>)ois.readObject();
-                    } catch(ClassNotFoundException e) {}
-                    catch (StreamCorruptedException e) {}
-                    catch (IOException e) {}
-                }
-                if (!TextUtils.equals(mUri.getScheme(), "fd"))
-                    prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
-                for(String x : prefsList){
-                    if(!mSubtitleSelectedFiles.contains(x))
-                        mSubtitleSelectedFiles.add(x);
-                }
+    private SubtitlesGetTask mSubtitlesGetTask = null;
+    private class SubtitlesGetTask extends AsyncTask<String, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(String... strings) {
+            final String subtitleList_serialized = strings[0];
+            ArrayList<String> prefsList = new ArrayList<>();
 
-                // Add any selected subtitle file from the file picker
-                if(mSubtitleSelectedFiles.size() > 0) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mService != null)
-                                for(String file : mSubtitleSelectedFiles) {
-                                    Log.i(TAG, "Adding user-selected subtitle " + file);
-                                    mService.addSubtitleTrack(file, true);
-                                }
-                        }
-                    });
+            if (subtitleList_serialized != null) {
+                ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(bis);
+                    prefsList = (ArrayList<String>) ois.readObject();
+                } catch (InterruptedIOException ignored) {
+                    return prefsList; /* Task is cancelled */
+                } catch (ClassNotFoundException | IOException ignored) {}
+            }
+
+            if (!TextUtils.equals(mUri.getScheme(), "fd"))
+                prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
+
+            return prefsList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> prefsList) {
+            // Add any selected subtitle file from the file picker
+            if (prefsList.size() > 0) {
+                for (String file : prefsList) {
+                    if (!mSubtitleSelectedFiles.contains(file)) {
+                        mSubtitleSelectedFiles.add(file);
+                        Log.i(TAG, "Adding user-selected subtitle " + file);
+                        mService.addSubtitleTrack(file, true);
+                    }
                 }
             }
-        });
+            mSubtitlesGetTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSubtitlesGetTask = null;
+        }
+    }
+
+    public void getSubtitles() {
+        if (mSubtitlesGetTask != null || mService == null)
+            return;
+        final String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+
+        mSubtitlesGetTask = new SubtitlesGetTask();
+        mSubtitlesGetTask.execute(subtitleList_serialized);
     }
 
     @SuppressWarnings("deprecation")
