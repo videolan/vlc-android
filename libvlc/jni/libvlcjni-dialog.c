@@ -128,8 +128,6 @@ cancel_cb(void *p_data, libvlc_dialog_id *p_id)
 
     (*env)->CallStaticVoidMethod(env, fields.Dialog.clazz,
         fields.Dialog.cancelFromNativeID, jdialog);
-
-    (*env)->DeleteGlobalRef(env, jdialog);
 }
 
 static void
