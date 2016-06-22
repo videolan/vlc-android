@@ -757,17 +757,18 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     @MainThread
     public boolean switchToVideo() {
-        if (mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
+        MediaWrapper media = mMediaList.getMedia(mCurrentIndex);
+        if (media == null || media.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
             return false;
         mVideoBackground = false;
         if (isVideoPlaying()) {//Player is already running, just send it an intent
             setVideoTrackEnabled(true);
             LocalBroadcastManager.getInstance(this).sendBroadcast(
                     VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
-                            getCurrentMediaWrapper(), false, mCurrentIndex));
+                            media, false, mCurrentIndex));
         } else if (!mSwitchingToVideo) {//Start the video player
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-                    getCurrentMediaWrapper().getUri(), mCurrentIndex);
+                    media.getUri(), mCurrentIndex);
             mSwitchingToVideo = true;
         }
         return true;
