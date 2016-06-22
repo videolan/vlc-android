@@ -60,24 +60,26 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final String uri = mDataset.get(position);
-        holder.uriTv.setText(uri);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.uriTv.setText(mDataset.get(position));
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UiTools.setKeyboardVisibility(holder.itemView, false);
-                MediaUtils.openStream(v.getContext(), uri);
+                MediaUtils.openStream(v.getContext(), getItem(holder.getAdapterPosition()));
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UiTools.setKeyboardVisibility(holder.itemView, false);
-                if (holder.getAdapterPosition() > -1) {
-                    final String mrl = mDataset.get(position);
-                    mDataset.remove(position);
-                    notifyItemRemoved(position);
+                final int currentPosition = holder.getAdapterPosition();
+                if (currentPosition > -1) {
+                    final String mrl = getItem(currentPosition);
+                    if (mrl == null)
+                        return;
+                    mDataset.remove(currentPosition);
+                    notifyItemRemoved(currentPosition);
                     UiTools.snackerWithCancel(holder.itemView,
                             holder.itemView.getContext().getString(R.string.file_deleted),
                             new Runnable() {
@@ -88,8 +90,8 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
                             }, new Runnable() {
                                 @Override
                                 public void run() {
-                                    mDataset.add(position, mrl);
-                                    notifyItemInserted(position);
+                                    mDataset.add(currentPosition, mrl);
+                                    notifyItemInserted(currentPosition);
                                 }
                             });
                 }
@@ -101,6 +103,13 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         mDataset = list;
         notifyDataSetChanged();
     }
+
+    public String getItem(int position) {
+        if (position >= getItemCount() || position < 0)
+            return null;
+        return mDataset.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mDataset.size();
