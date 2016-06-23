@@ -245,7 +245,7 @@ public class MediaDatabase {
                     + MEDIA_ALBUMARTIST
                     + ");";
             db.execSQL(query);
-            query = " CREATE TRIGGER media_insert_trigger AFTER INSERT ON "+
+            query = " CREATE TRIGGER IF NOT EXISTS media_insert_trigger AFTER INSERT ON "+
                     MEDIA_TABLE_NAME+ " BEGIN "+
                     "INSERT INTO "+MEDIA_VIRTUAL_TABLE_NAME+" ("+MEDIA_LOCATION+", "+MEDIA_TITLE+
                     ", "+MEDIA_ARTIST+", "+MEDIA_GENRE+", "+MEDIA_ALBUM+", "+MEDIA_ALBUMARTIST+" )"+
@@ -253,7 +253,7 @@ public class MediaDatabase {
                     ", new."+MEDIA_GENRE+", new."+MEDIA_ALBUM+", new."+MEDIA_ALBUMARTIST+
                     "); END;";
             db.execSQL(query);
-            query = " CREATE TRIGGER media_delete_trigger AFTER DELETE ON "+MEDIA_TABLE_NAME+ " BEGIN "+
+            query = " CREATE TRIGGER IF NOT EXISTS media_delete_trigger AFTER DELETE ON "+MEDIA_TABLE_NAME+ " BEGIN "+
                     "DELETE FROM "+MEDIA_VIRTUAL_TABLE_NAME+" WHERE "+MEDIA_LOCATION+" = old."+MEDIA_LOCATION+";"+
                     " END;";
             db.execSQL(query);
@@ -283,7 +283,7 @@ public class MediaDatabase {
                     MRL_DATE + " DATETIME NOT NULL"
                     +");";
             db.execSQL(createMrlTableQuery);
-            createMrlTableQuery = " CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
+            createMrlTableQuery = " CREATE TRIGGER IF NOT EXISTS mrl_history_trigger AFTER INSERT ON "+
                     MRL_TABLE_NAME+ " BEGIN "+
                     " DELETE FROM "+MRL_TABLE_NAME+" where "+MRL_URI+" NOT IN (SELECT "+MRL_URI+
                     " from "+MRL_TABLE_NAME+" ORDER BY "+MRL_DATE+" DESC LIMIT "+MRL_TABLE_SIZE+");"+
@@ -311,7 +311,7 @@ public class MediaDatabase {
                     HISTORY_DATE + " DATETIME NOT NULL"
                     +");";
             db.execSQL(createHistoryTableQuery);
-            createHistoryTableQuery = " CREATE TRIGGER history_trigger AFTER INSERT ON "+
+            createHistoryTableQuery = " CREATE TRIGGER IF NOT EXISTS history_trigger AFTER INSERT ON "+
                     HISTORY_TABLE_NAME+ " BEGIN "+
                     " DELETE FROM "+HISTORY_TABLE_NAME+" where "+HISTORY_URI+" NOT IN (SELECT "+HISTORY_URI+
                     " from "+HISTORY_TABLE_NAME+" ORDER BY "+HISTORY_DATE+" DESC LIMIT "+HISTORY_TABLE_SIZE+");"+
