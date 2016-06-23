@@ -370,7 +370,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.hasFooter, !isMediaItemAboveASeparator(position));
         holder.binding.setVariable(BR.clickable, mContextPopupMenuListener != null);
         holder.binding.setVariable(BR.handler, this);
-        holder.binding.executePendingBindings();
 
         return v;
     }
