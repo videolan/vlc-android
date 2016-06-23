@@ -308,7 +308,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * It is possible to have multiple custom subs in one session
      * (just like desktop VLC allows you as well.)
      */
-    private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
+    private volatile ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
 
     /**
      * Flag to indicate whether the media should be paused once loaded
