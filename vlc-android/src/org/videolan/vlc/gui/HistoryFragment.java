@@ -139,11 +139,12 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case UPDATE_LIST:
+                    if (getActivity() == null)
+                        return;
                     mHistoryAdapter.setList((ArrayList<MediaWrapper>) msg.obj);
                     updateEmptyView();
-                    if( mHistoryAdapter != null ) {
+                    if (mHistoryAdapter != null)
                         mHistoryAdapter.notifyDataSetChanged();
-                    }
                     mSwipeRefreshLayout.setRefreshing(false);
                     getActivity().supportInvalidateOptionsMenu();
             }
