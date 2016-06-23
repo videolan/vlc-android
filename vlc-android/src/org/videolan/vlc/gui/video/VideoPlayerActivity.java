@@ -891,28 +891,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         }
 
-        // Save selected subtitles
-        String subtitleList_serialized = null;
-        if(mSubtitleSelectedFiles.size() > 0) {
-            Log.d(TAG, "Saving selected subtitle files");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            try {
-                ObjectOutputStream oos = new ObjectOutputStream(bos);
-                oos.writeObject(mSubtitleSelectedFiles);
-                subtitleList_serialized = bos.toString();
-            } catch(IOException e) {}
-        }
-        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
+        if (isFinishing()) {
+            // Save selected subtitles
+            String subtitleList_serialized = null;
+            if(mSubtitleSelectedFiles.size() > 0) {
+                Log.d(TAG, "Saving selected subtitle files");
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(bos);
+                    oos.writeObject(mSubtitleSelectedFiles);
+                    subtitleList_serialized = bos.toString();
+                } catch(IOException e) {}
+            }
+            editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-        int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
-        if (ratePref == 2)
-            editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
-        else if (ratePref == 0)
-            mService.setRate(1.0f);
-
-        Util.commitPreferences(editor);
-        if (isFinishing())
+            int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
+            if (ratePref == 2)
+                editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
+            else if (ratePref == 0)
+                mService.setRate(1.0f);
             mService.stop();
+        }
+        Util.commitPreferences(editor);
     }
 
     private void cleanUI() {
