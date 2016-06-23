@@ -859,6 +859,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.showWithoutParse(mService.getCurrentMediaPosition());
             return;
         }
+        if (!mWasPaused)
+            mService.pause();
 
         cleanUI();
 
@@ -869,10 +871,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             time = 0;
         else
             time -= 2000; // go back 2 seconds, to compensate loading time
-        if (isFinishing())
-            mService.stop();
-        else
-            mService.pause();
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -907,6 +905,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.setRate(1.0f);
 
         Util.commitPreferences(editor);
+        if (isFinishing())
+            mService.stop();
     }
 
     private void cleanUI() {
