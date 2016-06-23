@@ -347,6 +347,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         public int compare(MediaWrapper item1, MediaWrapper item2) {
+            if (item1 == null)
+                return item2 == null ? 0 : -1;
+            else if (item2 == null)
+                return 1;
+
             int compare = 0;
             switch (mSortBy) {
                 case SORT_BY_TITLE:
