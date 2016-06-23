@@ -1,5 +1,12 @@
 Changes between 2.0.0 and 2.0.1:
 --------------------------------
+Application:
+ * Fix numerous crashes in the Java code
+ * Improve video transition time in popup-view
+
+Core:
+ * Fix black screen in some MPEG-4 videos when hw accelerated
+
 
 Changes between 2.0.0-rc4 and 2.0.0:
 ------------------------------------
