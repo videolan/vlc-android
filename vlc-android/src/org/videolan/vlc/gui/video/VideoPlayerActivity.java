@@ -579,6 +579,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             showTitle();
             initUI();
+            mForcedTime = mLastTime = -1;
             setOverlayProgress();
         }
     }
