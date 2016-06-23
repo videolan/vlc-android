@@ -129,7 +129,8 @@ VLC_CONFIGURE_ARGS="\
     --disable-sid \
     --disable-gme \
     --disable-tremor \
-    --enable-mad \
+    --disable-mad \
+    --enable-mpg123 \
     --disable-dca \
     --disable-sdl-image \
     --enable-zvbi \

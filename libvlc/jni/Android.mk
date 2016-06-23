@@ -35,7 +35,6 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lEGL -lGLESv2 -ljpeg \
 	-ldvdnav -ldvdread -ldvdcss \
 	-ldsm -ltasn1 \
-	-lmad \
 	-lzvbi \
 	-lssh2 -lnfs \
 	-lmodplug \
