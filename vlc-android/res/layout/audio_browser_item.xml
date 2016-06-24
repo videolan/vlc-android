@@ -63,14 +63,15 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical" >
 
+                <!-- TextView must be set to singleLine
+                    see https://code.google.com/p/android/issues/detail?id=33868 -->
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="false"
+                    android:singleLine="true"
                     android:ellipsize="end"
                     vlc:alignMode="@{alignMode}"
-                    android:maxLines="2"
                     android:text="@{media.title ?? item.mTitle}"
                     android:fontFamily="sans-serif-light"
                     android:textColor="?attr/list_title"
@@ -82,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:ellipsize="middle"
-                    android:maxLines="1"
                     android:text="@{media.artist ?? item.mSubTitle}"
                     android:visibility="@{TextUtils.isEmpty(item.mSubTitle) &amp;&amp; TextUtils.isEmpty(media.artist)  ? View.GONE : View.VISIBLE}"
                     android:fontFamily="sans-serif-light"

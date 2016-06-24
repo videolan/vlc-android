@@ -36,13 +36,15 @@
             android:layout_toLeftOf="@+id/item_more"
             android:layout_toStartOf="@+id/item_more"
             android:orientation="vertical">
+            <!-- TextView must be set to singleLine
+                    see https://code.google.com/p/android/issues/detail?id=33868 -->
             <TextView
                 android:id="@+id/audio_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:maxLines="@{TextUtils.isEmpty(subTitle) ? 2 : 1}"
+                android:singleLine="true"
                 android:ellipsize="middle"
                 android:text="@{media.title}"
                 android:textColor="@{titleColor}"
