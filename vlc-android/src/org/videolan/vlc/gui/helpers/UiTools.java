@@ -178,6 +178,11 @@ public class UiTools {
         }
     }
 
+    public static void setViewVisibility(View v, int visibility) {
+        if (v != null)
+            v.setVisibility(visibility);
+    }
+
     public static boolean isBlackThemeEnabled() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return pref.getBoolean("enable_black_theme", false);
