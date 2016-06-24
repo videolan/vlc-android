@@ -340,7 +340,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
          * if it does not correspond to a media view. */
         boolean b_createView = true;
         if (v != null) {
-            holder = (ViewHolder) v.getTag();
+            holder = (ViewHolder) v.getTag(R.layout.audio_browser_item);
             if (holder.viewType == VIEW_MEDIA)
                 b_createView = false;
         }
@@ -352,7 +352,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_item, parent, false);
             v = holder.binding.getRoot();
             holder.viewType = VIEW_MEDIA;
-            v.setTag(holder);
+            v.setTag(R.layout.audio_browser_item, holder);
         }
 
         ListItem item = getItem(position);
@@ -361,9 +361,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.binding.setVariable(BR.position, position);
 
         if (mItemType == ITEM_WITH_COVER) {
+            holder.binding.setVariable(BR.cover, null);
             //Tagging the binding to the ImageView will trigger async image loading with:
             // org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture(ImageView , AudioBrowserListAdapter.ListItem)
-            holder.binding.getRoot().findViewById(R.id.media_cover).setTag(holder.binding);
+            holder.binding.getRoot().findViewById(R.id.media_cover).setTag(R.id.media_cover, holder.binding);
         } else
             holder.binding.setVariable(BR.cover, AudioUtil.DEFAULT_COVER);
 
@@ -382,7 +383,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
          * if it does not correspond to a separator view. */
         boolean b_createView = true;
         if (v != null) {
-            holder = (ViewHolder) v.getTag();
+            holder = (ViewHolder) v.getTag(R.layout.audio_browser_item);
             if (holder.viewType == VIEW_SEPARATOR)
                 b_createView = false;
         }
@@ -393,12 +394,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             holder.binding = DataBindingUtil.inflate(inflater, R.layout.audio_browser_separator, parent, false);
             v = holder.binding.getRoot();
             holder.viewType = VIEW_SEPARATOR;
-            v.setTag(holder);
+            v.setTag(R.layout.audio_browser_item, holder);
         }
 
         ListItem item = getItem(position);
+        holder.binding.setVariable(BR.cover, null);
         holder.binding.setVariable(BR.item, item);
-        holder.binding.executePendingBindings();
 
         return v;
     }

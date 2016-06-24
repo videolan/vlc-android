@@ -164,7 +164,7 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"item"})
     public static void loadPicture(final ImageView v, final AudioBrowserListAdapter.ListItem item) {
-        final Object tag = v.getTag();
+        final Object tag = v.getTag(R.id.media_cover);
         if (tag == null || !(tag instanceof ViewDataBinding))
             return;
         Bitmap bitmap = AudioUtil.getCoverFromMemCache(VLCApplication.getAppContext(), item.mMediaList, 64);
