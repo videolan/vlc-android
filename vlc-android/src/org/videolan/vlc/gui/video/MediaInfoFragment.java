@@ -24,13 +24,16 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.support.v4.os.AsyncTaskCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,7 +71,6 @@ public class MediaInfoFragment extends ListFragment {
     public final static String ITEM_KEY = "key_item";
 
     private MediaWrapper mItem;
-    private Bitmap mImage;
     private TextView mLengthView;
     private TextView mSizeView;
     private TextView mPathView;
@@ -78,9 +80,8 @@ public class MediaInfoFragment extends ListFragment {
     private ImageView mSubtitles;
     private Media mMedia;
     private MediaInfoAdapter mAdapter;
-    private final static int NEW_IMAGE = 0;
+    private LoadImageTask mLoadImageTask = null;
     private final static int NEW_TEXT = 1;
-    private final static int NEW_SIZE = 2;
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
     private final static int SHOW_SUBTITLES = 5;
@@ -134,8 +135,8 @@ public class MediaInfoFragment extends ListFragment {
             return;
         }
 
-        VLCApplication.runBackground(mCheckFile);
-        VLCApplication.runBackground(mLoadImage);
+        mCheckFileTask = (CheckFileTask) new CheckFileTask().execute();
+        mLoadImageTask = (LoadImageTask) new LoadImageTask().execute();
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
@@ -145,8 +146,10 @@ public class MediaInfoFragment extends ListFragment {
 
     public void onStop(){
         super.onStop();
-        VLCApplication.removeTask(mCheckFile);
-        VLCApplication.removeTask(mLoadImage);
+        if (mCheckFileTask != null && !mCheckFileTask.isCancelled())
+            mCheckFileTask.cancel(true);
+        if (mLoadImageTask != null && !mLoadImageTask.isCancelled())
+            mLoadImageTask.cancel(true);
         if (mMedia != null)
             mMedia.release();
     }
@@ -169,67 +172,81 @@ public class MediaInfoFragment extends ListFragment {
         mItem = MediaLibrary.getInstance().getMediaItem(MRL);
     }
 
-    Runnable mCheckFile = new Runnable() {
+    CheckFileTask mCheckFileTask = null;
+    private class CheckFileTask extends AsyncTask<Void, Void, File> {
+
+        private void checkSubtitles(File itemFile) {
+            String extension, filename, videoName = Uri.decode(itemFile.getName()), parentPath = Uri.decode(itemFile.getParent());
+            videoName = videoName.substring(0, videoName.lastIndexOf('.'));
+            String[] subFolders = {"/Subtitles", "/subtitles", "/Subs", "/subs"};
+            String[] files = itemFile.getParentFile().list();
+            int filesLength = files == null ? 0 : files.length;
+            for (int i = 0 ; i < subFolders.length ; ++i){
+                File subFolder = new File(parentPath+subFolders[i]);
+                if (!subFolder.exists())
+                    continue;
+                String[] subFiles = subFolder.list();
+                int subFilesLength = 0;
+                String[] newFiles = new String[0];
+                if (subFiles != null) {
+                    subFilesLength = subFiles.length;
+                    newFiles = new String[filesLength+subFilesLength];
+                    System.arraycopy(subFiles, 0, newFiles, 0, subFilesLength);
+                }
+                if (files != null)
+                    System.arraycopy(files, 0, newFiles, subFilesLength, filesLength);
+                files = newFiles;
+                filesLength = files.length;
+            }
+            for (int i = 0; i<filesLength ; ++i){
+                filename = Uri.decode(files[i]);
+                int index = filename.lastIndexOf('.');
+                if (index <= 0)
+                    continue;
+                extension = filename.substring(index);
+                if (!Extensions.SUBTITLES.contains(extension))
+                    continue;
+
+                if (mHandler == null || isCancelled())
+                    return;
+                if (filename.startsWith(videoName)) {
+                    mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
+                    return;
+                }
+            }
+        }
+
         @Override
-        public void run() {
+        protected File doInBackground(Void... params) {
             File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
             if (!itemFile.canWrite() && mHandler != null)
                 mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
-            long length = itemFile.length();
-            if (mHandler != null)
-                mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
+
             if (mItem.getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
+            return itemFile;
         }
-    };
 
-    private void checkSubtitles(File itemFile) {
-        String extension, filename, videoName = Uri.decode(itemFile.getName()), parentPath = Uri.decode(itemFile.getParent());
-        videoName = videoName.substring(0, videoName.lastIndexOf('.'));
-        String[] subFolders = {"/Subtitles", "/subtitles", "/Subs", "/subs"};
-        String[] files = itemFile.getParentFile().list();
-        int filesLength = files == null ? 0 : files.length;
-        for (int i = 0 ; i < subFolders.length ; ++i){
-            File subFolder = new File(parentPath+subFolders[i]);
-            if (!subFolder.exists())
-                continue;
-            String[] subFiles = subFolder.list();
-            int subFilesLength = 0;
-            String[] newFiles = new String[0];
-            if (subFiles != null) {
-                subFilesLength = subFiles.length;
-                newFiles = new String[filesLength+subFilesLength];
-                System.arraycopy(subFiles, 0, newFiles, 0, subFilesLength);
-            }
-            if (files != null)
-                System.arraycopy(files, 0, newFiles, subFilesLength, filesLength);
-            files = newFiles;
-            filesLength = files.length;
+        @Override
+        protected void onPostExecute(File file) {
+            mSizeView.setText(Strings.readableFileSize(file.length()));
+            mCheckFileTask = null;
         }
-        for (int i = 0; i<filesLength ; ++i){
-            filename = Uri.decode(files[i]);
-            int index = filename.lastIndexOf('.');
-            if (index <= 0)
-                continue;
-            extension = filename.substring(index);
-            if (!Extensions.SUBTITLES.contains(extension))
-                continue;
 
-            if (mHandler == null || Thread.interrupted())
-                return;
-            if (filename.startsWith(videoName)) {
-                mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
-                return;
-            }
+        @Override
+        protected void onCancelled() {
+            mCheckFileTask = null;
         }
     }
 
-    Runnable mLoadImage = new Runnable() {
+    private class LoadImageTask extends AsyncTask<Void, Void, Bitmap> {
+
         @Override
-        public void run() {
+        protected Bitmap doInBackground(Void... params) {
+
             final LibVLC libVlc = VLCInstance.get();
             if (libVlc == null)
-                return;
+                return null;
             int videoHeight = mItem.getHeight();
             int videoWidth = mItem.getWidth();
             if (videoWidth <= 0 || videoHeight <= 0) {
@@ -238,9 +255,9 @@ public class MediaInfoFragment extends ListFragment {
                 videoHeight = 9;
             }
 
-            if (mHandler == null || Thread.interrupted()) {
-                return;
-            }
+            if (isCancelled())
+                return null;
+
             mMedia = new Media(libVlc, mItem.getUri());
             mMedia.parse();
 
@@ -257,41 +274,44 @@ public class MediaInfoFragment extends ListFragment {
             }
             height = width * videoHeight/videoWidth;
 
-            if (mItem.getType() == MediaWrapper.TYPE_VIDEO) {
-                // Get the thumbnail.
-                mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+            Bitmap image = null;
+            if (!isCancelled()) {
+                if (mItem.getType() == MediaWrapper.TYPE_VIDEO) {
+                    // Get the thumbnail.
+                    image = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-                byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
+                    byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
 
-                if (b == null) // We were not able to create a thumbnail for this item.
-                    return;
-                mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-                mImage = BitmapUtil.cropBorders(mImage, width, height);
-            } else if (mItem.getType() == MediaWrapper.TYPE_AUDIO) {
-                mImage = AudioUtil.getCover(getActivity(), mItem, width);
-            } else
-                return;
-
-            if (mHandler == null || Thread.interrupted())
-                return;
-            mHandler.sendEmptyMessage(NEW_IMAGE);
+                    if (b == null || isCancelled()) // We were not able to create a thumbnail for this item.
+                        return null;
+                    image.copyPixelsFromBuffer(ByteBuffer.wrap(b));
+                    image = BitmapUtil.cropBorders(image, width, height);
+                } else if (mItem.getType() == MediaWrapper.TYPE_AUDIO)
+                    image = AudioUtil.getCover(getActivity(), mItem, width);
+            }
+            return image;
         }
-    };
 
-    private void updateImage() {
-        if (getView() == null)
-            return;
-        mProgress.setVisibility(View.GONE);
-        if (mImage == null)
-            return;
-        ImageView imageView = (ImageView) getView().findViewById(R.id.image);
-        imageView.setImageBitmap(mImage);
-        ViewGroup.LayoutParams lp = imageView.getLayoutParams();
-        lp.height = mImage.getHeight();
-        lp.width = mImage.getWidth();
-        imageView.setLayoutParams(lp);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mLengthView.setVisibility(View.VISIBLE);
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            mProgress.setVisibility(View.GONE);
+            if (bitmap == null)
+                return;
+            ImageView imageView = (ImageView) getView().findViewById(R.id.image);
+            imageView.setImageBitmap(bitmap);
+            ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+            lp.height = bitmap.getHeight();
+            lp.width = bitmap.getWidth();
+            imageView.setLayoutParams(lp);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mLengthView.setVisibility(View.VISIBLE);
+            mLoadImageTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLoadImageTask = null;
+        }
     }
 
     private void updateText() {
@@ -342,14 +362,8 @@ public class MediaInfoFragment extends ListFragment {
             if(fragment == null) return;
 
             switch (msg.what) {
-                case NEW_IMAGE:
-                    fragment.updateImage();
-                    break;
                 case NEW_TEXT:
                     fragment.updateText();
-                    break;
-                case NEW_SIZE:
-                    fragment.updateSize((Long) msg.obj);
                     break;
                 case HIDE_DELETE:
                     fragment.mDelete.setClickable(false);
