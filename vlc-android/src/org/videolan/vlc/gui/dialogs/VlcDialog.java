@@ -76,7 +76,12 @@ public abstract class VlcDialog<T extends Dialog, B extends android.databinding.
     }
 
     public void onCancel(View v) {
+        dismiss();
+    }
+
+    @Override
+    public void dismiss() {
         if (isResumed())
-            dismiss();
+            super.dismiss();
     }
 }
