@@ -108,6 +108,7 @@ import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -1349,7 +1350,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
         mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
         if (mPresentation == null)
-            mOverlayInfo.setVisibility(View.INVISIBLE);
+            UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         else
             mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
@@ -1457,9 +1458,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void showInfo(String text, int duration) {
         if (mPresentation == null) {
-            if (mVerticalBar != null)
-                mVerticalBar.setVisibility(View.GONE);
-            mOverlayInfo.setVisibility(View.VISIBLE);
+            UiTools.setViewVisibility(mVerticalBar, View.GONE);
+            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         } else
             mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
@@ -1469,9 +1469,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void showInfo(int textid, int duration) {
         if (mPresentation == null) {
-            if (mVerticalBar != null)
-                mVerticalBar.setVisibility(View.GONE);
-            mOverlayInfo.setVisibility(View.VISIBLE);
+            UiTools.setViewVisibility(mVerticalBar, View.GONE);
+            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         } else
             mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
@@ -1496,10 +1495,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void fadeOutInfo() {
         if (mPresentation == null) {
-            if (mOverlayInfo.getVisibility() == View.VISIBLE) {
+            if (mOverlayInfo != null && mOverlayInfo.getVisibility() == View.VISIBLE) {
                 mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
                         VideoPlayerActivity.this, android.R.anim.fade_out));
-                mOverlayInfo.setVisibility(View.INVISIBLE);
+                UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
             }
         } else if (mInfo.getVisibility() == View.VISIBLE) {
             mInfo.startAnimation(AnimationUtils.loadAnimation(
@@ -2607,19 +2606,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mShowing = true;
             if (!mIsLocked) {
                 mPlayPause.setVisibility(View.VISIBLE);
-                if (mTracks != null)
-                    mTracks.setVisibility(View.VISIBLE);
-                if (mAdvOptions !=null)
-                    mAdvOptions.setVisibility(View.VISIBLE);
-                mSize.setVisibility(View.VISIBLE);
-                if (mRewind != null)
-                    mRewind.setVisibility(View.VISIBLE);
-                if (mForward != null)
-                    mForward.setVisibility(View.VISIBLE);
-                if (mPlaylistNext != null)
-                    mPlaylistNext.setVisibility(View.VISIBLE);
-                if (mPlaylistPrevious != null)
-                    mPlaylistPrevious.setVisibility(View.VISIBLE);
+                UiTools.setViewVisibility(mTracks, View.VISIBLE);
+                UiTools.setViewVisibility(mAdvOptions, View.VISIBLE);
+                UiTools.setViewVisibility(mSize, View.VISIBLE);
+                UiTools.setViewVisibility(mRewind, View.VISIBLE);
+                UiTools.setViewVisibility(mForward, View.VISIBLE);
+                UiTools.setViewVisibility(mPlaylistNext, View.VISIBLE);
+                UiTools.setViewVisibility(mPlaylistPrevious, View.VISIBLE);
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2670,19 +2663,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
-            if (mTracks != null)
-                mTracks.setVisibility(View.INVISIBLE);
-            if (mAdvOptions !=null)
-                mAdvOptions.setVisibility(View.INVISIBLE);
-            if (mRewind != null)
-                mRewind.setVisibility(View.INVISIBLE);
-            if (mForward != null)
-                mForward.setVisibility(View.INVISIBLE);
-            if (mPlaylistNext != null)
-                mPlaylistNext.setVisibility(View.INVISIBLE);
-            if (mPlaylistPrevious != null)
-                mPlaylistPrevious.setVisibility(View.INVISIBLE);
-            mSize.setVisibility(View.INVISIBLE);
+                UiTools.setViewVisibility(mTracks, View.INVISIBLE);
+                UiTools.setViewVisibility(mAdvOptions, View.INVISIBLE);
+                UiTools.setViewVisibility(mSize, View.INVISIBLE);
+                UiTools.setViewVisibility(mRewind, View.INVISIBLE);
+                UiTools.setViewVisibility(mForward, View.INVISIBLE);
+                UiTools.setViewVisibility(mPlaylistNext, View.INVISIBLE);
+                UiTools.setViewVisibility(mPlaylistPrevious, View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
