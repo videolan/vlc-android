@@ -220,7 +220,6 @@
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="extra_prefs_category">Доп. настройки</string>
     <string name="interface_prefs_screen">Интерфейс</string>
-    <string name="interface_secondary_display_category">Интерфейс — вторичный дисплей</string>
     <string name="interface_secondary_display_category_summary">Параметры при подключении вторичного дисплея (HDMI/Miracast)</string>
     <string name="enable_clone_mode">Клонирование</string>
     <string name="enable_clone_mode_summary">Клонировать экран устройства без удалённого управления.</string>
@@ -294,7 +293,6 @@
     <string name="drawer_close">Закрыть панель навигации</string>
     <string name="network_browsing">Локальная сеть</string>
     <string name="file_size">Размер файла:</string>
-    <string name="file_other">Закрыть панель навигации</string>
     <string name="audio_delay">Задержка звука</string>
     <string name="spu_delay">Задержка субтитров</string>
     <string name="sleep_time_not_set">не задано</string>
@@ -328,9 +326,8 @@
     <string name="widget_name_b">VLC в тёмном оформлении</string>
     <string name="allow_storage_access_title">Разрешить VLC обращаться к аудио- и видеофайлам</string>
     <string name="allow_storage_access_description">VLC требуется это разрешение, чтобы обращаться к медиафайлам на вашем устройстве.</string>
-    <string name="allow_settings_access_title">Разрешить VLC устанавливать мелодию звонка</string>
-    <string name="allow_settings_access_description">VLC требуется это разрешение, чтобы устанавливать текущий звуковой файл в качестве мелодии звонка.</string>
     <string name="permission_ask_again">Дать разрешение</string>
     <string name="exit_app">Закрыть VLC</string>
     <string name="hardware_acceleration_error">ошибка аппаратного ускорение, переключение на программное декодирование</string>
+    <!--PLugins-->
 </resources>
