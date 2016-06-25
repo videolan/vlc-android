@@ -213,7 +213,6 @@
     <string name="subtitle_text_encoding">Subtitrų koduotė</string>
     <string name="extra_prefs_category">Papildomos nuostatos</string>
     <string name="interface_prefs_screen">Sąsaja</string>
-    <string name="interface_secondary_display_category">Sąsaja - antras ekranas</string>
     <string name="interface_secondary_display_category_summary">Nuostatos, naudotinos antrąjį ekraną prijungus (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Pageidatinas klonavimas</string>
     <string name="enable_clone_mode_summary">Klonuoti įrenginio ekraną be nuotolinio valdymo.</string>
@@ -287,7 +286,6 @@
     <string name="drawer_close">Užverti navigacijos stalčių</string>
     <string name="network_browsing">Vietinis tinklas</string>
     <string name="file_size">Rinkmenos dydis:</string>
-    <string name="file_other">Užverti navigacijos stalčių</string>
     <string name="audio_delay">Garso vėlinimas</string>
     <string name="spu_delay">Subtitrų vėlinimas</string>
     <string name="sleep_time_not_set">nenustatytas</string>
@@ -319,9 +317,8 @@
     <string name="widget_name_b">VLC valdiklis, tamsus</string>
     <string name="allow_storage_access_title">Leisti prieiti prie garso ir vaizdo kūrinių</string>
     <string name="allow_storage_access_description">VLC prašo leisti prieiti prie šiame įrenginyje esančių įvairialypės terpės rinkmenų.</string>
-    <string name="allow_settings_access_title">Leisti priskirti skambučio melodiją</string>
-    <string name="allow_settings_access_description">VLC prašo leisti pakeisti skambučio melodiją.</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="exit_app">Užverti VLC</string>
     <string name="hardware_acceleration_error">aparatinio iškodavimo nepavyksta naudoti, naudosime programinį iškodavimą</string>
+    <!--PLugins-->
 </resources>
