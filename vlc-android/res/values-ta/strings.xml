@@ -90,14 +90,18 @@
     <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
     <string name="validation">கண்டிப்பாக?</string>
     <string name="cover_art">அட்டைப் படம்</string>
+    <string name="shuffle_title">கலக்கு முறை</string>
     <string name="shuffle">கலக்கு அணை</string>
     <string name="shuffle_on">கலக்கு இயக்க</string>
+    <string name="repeat_title">மீள் இயக்க முறை</string>
     <string name="repeat">மறுமுறை வேண்டாம்</string>
     <string name="repeat_single">மறுமுறை ஒன்று</string>
     <string name="repeat_all">மறுமுறை அனைத்தும்</string>
     <string name="previous">முந்தைய</string>
     <string name="stop">நிறுத்து</string>
     <string name="next">அடுத்து</string>
+    <string name="firstsong">பட்டியலின் முதல் பாடல்</string>
+    <string name="lastsong">பட்டியலின் கடைசிப் பாடல்</string>
     <string name="locked">பூட்டியது</string>
     <string name="unlocked">திறந்து</string>
     <string name="surface_best_fit">சிறந்தப் பொருத்தம்</string>
@@ -136,6 +140,14 @@
     <string name="subtitle_label">துணைத்தலைப்பு கோப்பைச் சேர்</string>
     <string name="subtitle_select">துணைத்தலைப்பு கோப்பை தேர்</string>
     <string name="no_file_picker_found">கணினியில் எந்த ஒரு தேர்வுப் கருவியும் இல்லை.</string>
+    <string name="server_domain_hint">சேவையகத்தின் முகவரி (Domain பெயர் அல்லது IP)</string>
+    <string name="server_username_hint">பயனர்பெயர்</string>
+    <string name="server_servername_hint">சேவையகத்தின் பெயர்,  உங்கள் வசதிக்காக</string>
+    <string name="server_port">வாசல்</string>
+    <string name="login">நுழை</string>
+    <string name="password">கடவுச்சொல்</string>
+    <string name="search_results">தேடல் முடிவுகள்</string>
+    <string name="favorites_edit">தொகு</string>
     <string name="open">திற</string>
     <string name="open_mrl">MRLஐ திற</string>
     <string name="open_mrl_dialog_title">பிணைய ஓடத்தைத் திற</string>
@@ -148,6 +160,7 @@
     <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
     <string name="search">தேடு</string>
     <string name="search_history">தேடல் வரலாறு</string>
+    <string name="playback_history_title">இயக்க வரலாறு</string>
     <!--Tips-->
     <string name="video_player_tips">ஊடக இயக்கி உதவிக்குறிப்புகள்:</string>
     <string name="seek">நாடுங்கள்</string>
@@ -159,6 +172,7 @@
     <string name="ok_got_it">கிடைத்தது, இதைத் தவிர்</string>
     <string name="playlist_tips">பட்டியல் உதவிக்குறிப்புகள்</string>
     <string name="remove_song">பாடலை நீக்கு</string>
+    <string name="remove_playlist_item">%1$s இயக்கப்பட்டியலிருந்து நீக்கப்பட்டது</string>
     <string name="rearrange_order">மறுசீரமைக்க</string>
     <string name="hold_to_seek">நாட அழுத்திப் பிடி</string>
     <string name="audio_player_tips">ஒலி இயக்கி உதவிக்குறிப்புகள்:</string>
@@ -204,13 +218,16 @@
     <string name="subtitle_text_encoding">துணைத்தலைப்பு உரை குறியாக்கம்</string>
     <string name="extra_prefs_category">கூடுதல் அமைவுகள்</string>
     <string name="interface_prefs_screen">இடைமுகம்</string>
-    <string name="interface_secondary_display_category">இடைமுகம் - துணைக் காட்சி</string>
+    <string name="interface_gui">காட்சி</string>
+    <string name="interface_controls">அமைப்புகள்</string>
+    <string name="interface_secondary_display_category_title">இடைமுகம் - துணைக் காட்சி</string>
     <string name="interface_secondary_display_category_summary">துணைக் காட்சிகள் இணைக்கப்படும் பொதுள்ள அமைவுகள் (HDMI/Miracast).</string>
     <string name="enable_clone_mode">குளோனை விரும்பு</string>
     <string name="enable_clone_mode_summary">தொலைநிலை கட்டுபாடில்லாமலே திரைகளை நகலெடு.</string>
     <string name="interface_other_category">இடைமுகப்பு - பிற</string>
     <string name="enable_brightness_gesture">வெளிச்ச சைகையை செயல்படுத்து</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
+    <string name="enable_seek_buttons_summary">முன்னும் பின்னும் இயக்க தேவையான பொத்தான்களை காணொளி இடைமுகத்தில் காண்பி</string>
     <string name="force_list_portrait">உருவப்படம் முறையில் கட்டம் தேவையில்லை</string>
     <string name="force_list_portrait_summary">உருவப்படம் முறையில் கட்டம் பதிலாக பட்டியலில் காண்பி வீடியோக்களை</string>
     <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
@@ -239,6 +256,8 @@
     <string name="advanced_prefs_category">அறிவாளி</string>
     <string name="aout">ஒலி வெளியீடு</string>
     <string name="aout_summary">ஒலியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
+    <string name="save_video_speed_title">காணொளி இயக்க வேகத்தை நினைவிற்கொள்</string>
+    <string name="save_video_none">இயக்க வேகத்தை நினைவிற்கொள்ள வேண்டாம்</string>
     <string name="vout">காணொளி வெளியீடு</string>
     <string name="vout_summary">காணொளியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
     <string name="vout_android_surface">ஆண்ட்ராய்டு மேற்பரப்பு</string>
@@ -252,6 +271,7 @@
     <string name="network_caching_summary">பிணைய ஊடகத்தை பப்பர்(buffer) செய்ய ஆகும் நேரம்(மில்லிவிநாடியில்).வன்பொருள் குறிவிலக்கத்தில் வேலைச் செய்யாது. மீட்டமைக்க வெற்றாக விடு.</string>
     <string name="developer_prefs_category">உருவாக்குநர்</string>
     <string name="auto_rescan">தானாக மறுசோதனை</string>
+    <string name="auto_rescan_summary">ஒவ்வொரு முறையும் செயலியை இயக்கும் பொழுது புதிதாக சேர்க்கப் பட்ட அல்லது நீக்கப்பட்ட ஊடக கோப்புகளுக்காக சாதனத்தை சோதனையிடவும்</string>
     <string name="enable_verbose_mode">வெளித்தள்ளுதல்</string>
     <string name="enable_verbose_mode_summary">வெளித்தள்ளுதலை அதிகரி(logcat)</string>
     <string name="debug_logs">வழு பதிவுகள்</string>
@@ -274,8 +294,8 @@
     <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="network_browsing">உள் வலையமைப்பு</string>
+    <string name="browsing">கண்டெடுக்க</string>
     <string name="file_size">கோப்பின் அளவு</string>
-    <string name="file_other">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="audio_delay">ஒலித் தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
     <string name="sleep_time_not_set">ஒன்றுமில்லை</string>
@@ -303,4 +323,5 @@
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை </string>
     <string name="music_now_playing">இப்போ ஒடுவது </string>
     <!--Widget-->
+    <!--PLugins-->
 </resources>
