@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
-    <string name="cancel">Annuller</string>
+    <string name="cancel">Annullér</string>
     <string name="other">Andet</string>
     <string name="sortby">Sortér efter…</string>
     <string name="sortby_name">Navn</string>
@@ -37,7 +37,7 @@
     <string name="ringtone_set">Filen \'%1$s\' blev angivet som ringetone.</string>
     <string name="ringtone_error">Der opstod en fejl under indstilling af ringetone.</string>
     <string name="pause">Pause</string>
-    <string name="not_show_again">Vis ikke denne besked igen.</string>
+    <string name="not_show_again">Vis ikke denne meddelelse igen.</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">Ukendt kunstner</string>
     <string name="unknown_album">Ukendt album</string>
@@ -89,9 +89,11 @@
     <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
     <string name="nohistory">Du har endnu ingen afspilningshistorik.</string>
     <string name="validation">Er du sikker?</string>
-    <string name="cover_art">Cover</string>
+    <string name="cover_art">Coverbillede</string>
+    <string name="shuffle_title">Blandtilstand</string>
     <string name="shuffle">Bland fra</string>
     <string name="shuffle_on">Bland til</string>
+    <string name="repeat_title">Gentagtilstand</string>
     <string name="repeat">Gentag ingen</string>
     <string name="repeat_single">Gentag én</string>
     <string name="repeat_all">Gentag alle</string>
@@ -108,12 +110,13 @@
     <string name="surface_fill">Udfyld</string>
     <string name="surface_original">Center</string>
     <string name="thumbnail">Miniature</string>
-    <string name="unseekable_stream">Kan ikke søge i strøm</string>
+    <string name="unseekable_stream">Kan ikke springe i stream</string>
     <string name="refresh">Genopfrisk</string>
     <string name="track_audio">Lydspor</string>
     <string name="track_video">Videospor</string>
     <string name="track_text">Undertekstspor</string>
     <string name="track_unknown">Ukendt spor</string>
+    <string name="track_bitrate_info">Bithastighed: %1$s/s\n</string>
     <string name="track_codec_info">Kodning: %1$s\n</string>
     <string name="track_language_info">Sprog: %1$s\n</string>
     <string name="volume">Lydstyrke</string>
@@ -138,6 +141,21 @@
     <string name="subtitle_label">Tilføj undertekstfil</string>
     <string name="subtitle_select">Vælg undertekstfil</string>
     <string name="no_file_picker_found">Der blev ikke fundet nogen filvælger på systemet.</string>
+    <string name="server_add_title">Tilføj en ny server til farvoritter </string>
+    <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
+    <string name="server_share_hint">Netværkdelingsnavn (eller IP-adresse)</string>
+    <string name="server_folder_hint">Mappesti (valgfri)</string>
+    <string name="server_username_hint">Brugernavn</string>
+    <string name="server_servername_hint">Servernavn, for at gøre det let</string>
+    <string name="server_port">Port:</string>
+    <string name="login">Log ind</string>
+    <string name="password">Adgangskode</string>
+    <string name="search_results">Søgeresultater</string>
+    <string name="favorites_add">Tilføj til favoritter</string>
+    <string name="favorites_remove">Fjern fra favoritter</string>
+    <string name="favorites_edit">Redigér</string>
+    <string name="favorite_added">Gemt til favoritter</string>
+    <string name="favorite_removed">Fjernet fra favoritter</string>
     <string name="open">Åbn</string>
     <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Åbn netværksstream</string>
@@ -150,6 +168,8 @@
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
     <string name="search">Søg</string>
     <string name="search_history">Søg historik</string>
+    <string name="playback_history_title">Afspilningshistorik</string>
+    <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
     <!--Tips-->
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>
@@ -161,6 +181,7 @@
     <string name="ok_got_it">Forstået - skjul beskeden</string>
     <string name="playlist_tips">Tips til spillelisten</string>
     <string name="remove_song">Fjern sang</string>
+    <string name="remove_playlist_item">%1$s er blevet fjernet fra spillelisten</string>
     <string name="rearrange_order">Tilpas rækkefølgen</string>
     <string name="hold_to_seek">Hold nede for at søge</string>
     <string name="audio_player_tips">Tips til lydafspilning</string>
@@ -206,7 +227,9 @@
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="extra_prefs_category">Ekstra indstillinger</string>
     <string name="interface_prefs_screen">Brugerflade</string>
-    <string name="interface_secondary_display_category">Brugerflade - sekundær skærm</string>
+    <string name="interface_gui">Skærm</string>
+    <string name="interface_controls">Kontrolelementer</string>
+    <string name="interface_secondary_display_category_title">Sekundær skærm</string>
     <string name="interface_secondary_display_category_summary">Indstillinger når sekundære skærme er sluttet til (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Foretræk klon</string>
     <string name="enable_clone_mode_summary">Klon enhedsskærmen uden fjernbetjening.</string>
@@ -243,6 +266,11 @@
     <string name="advanced_prefs_category">Avanceret</string>
     <string name="aout">Lyd-output</string>
     <string name="aout_summary">Udskift den metode som VLC anvender til at udsende lyd med.</string>
+    <string name="save_video_speed_title">Gem videoens afspilningshastighed</string>
+    <string name="save_video_speed_summary">Husk videoens afspilningshastighed for alle videoer</string>
+    <string name="save_video_none">Gem ikke hastighed</string>
+    <string name="save_video_session">Gem hastighed under session</string>
+    <string name="save_video_always">Gem hastighed mellem sessioner</string>
     <string name="vout">Video-output</string>
     <string name="vout_summary">Udskift metoden som VLC bruger til at udsende lyd.</string>
     <string name="vout_android_surface">Android-overflade</string>
@@ -279,8 +307,8 @@
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
     <string name="network_browsing">Lokalt netværk</string>
+    <string name="browsing">Gennemser</string>
     <string name="file_size">Filstørrelse:</string>
-    <string name="file_other">Luk navigationsskuffe</string>
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstforsinkelse</string>
     <string name="sleep_time_not_set">ingen angivet</string>
@@ -301,6 +329,14 @@
     <string name="directory_empty">Mappen er tom</string>
     <string name="save_brightness_summary">Husk niveau for lysstyrke i videoafspilleren </string>
     <string name="save_brightness_title">Gem niveau for lysstyrke for video</string>
+    <string name="player_touch_title">Berøringskontrolelementer for Video</string>
+    <string name="player_touch_enable_all">Aktivér berøringskontolelementer</string>
+    <string name="player_touch_disable_brightness">Deaktivér lysstyrkekontrolelement</string>
+    <string name="player_touch_disable_all">Deaktivér alle berøringskontrolelementer</string>
+    <string name="tv_ui_title">Android TV-grænseflade</string>
+    <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
+    <string name="lockscreen_cover_title">Mediecover på Låsskærm</string>
+    <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecoverbillede som låsskærmens tapet</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
@@ -314,9 +350,40 @@
     <string name="widget_name_b">VLC sort widget</string>
     <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
     <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
-    <string name="allow_settings_access_title">Tillad at VLC angiver ringetonen</string>
-    <string name="allow_settings_access_description">VLC kræver at du giver rettigheder til at angive denne sang som din ringetone.</string>
+    <string name="allow_settings_access_ringtone_title">Tillad at VLC indstiller ringetonen</string>
+    <string name="allow_settings_access_ringtone_description">VLC har brug for at du giver denne tilladelse for at indstille denne sang som din ringetone.</string>
+    <string name="allow_settings_access_brightness_title">Tillad at VLC ændre lysstyrketilstand</string>
+    <string name="allow_settings_access_brightness_description">VLC har brug for at du giver denne tilladelse for at ændre din lysstyrketilstand.</string>
+    <string name="allow_draw_overlays_title">Tillad VLC-afspiller-pop-op over andre apps</string>
+    <string name="allow_sdraw_overlays_description">VLC har brug for at du giver denne tilladelse for at vise din video i en pop-op over andre applikationer.</string>
     <string name="permission_ask_again">Tildel rettighed</string>
     <string name="exit_app">Luk VLC</string>
     <string name="hardware_acceleration_error">fejl i hardwareacceleration, skifter til software-afkodning</string>
+    <!--PLugins-->
+    <string name="plugins">Plugins</string>
+    <string name="download_on_device">Download</string>
+    <string name="extension_empty">Intet at vise, gå til dine udvidelsesindstillinger for at hente noget.</string>
+    <string name="network_favorites">Netværksfavoritter</string>
+    <string name="network_shared_folders">Delte mapper</string>
+    <string name="encryption_warning">Advarsel! Kryptering er ikke tilgængelig i denne version af Android, adgangskode bliver gemt i et privatområde, men ikke krypteret</string>
+    <string name="store_password">Husk adgangskode</string>
+    <string name="add_to_playlist">Tilføj til spilleliste</string>
+    <string name="popup_playback_title">Afspil video i et pop-op-vindue</string>
+    <string name="popup_playback">Afspiller i et pop-op-vindue</string>
+    <string name="popup_expand">Udvid video</string>
+    <string name="snack_subloader_sub_found">Undertekster downloadet</string>
+    <string name="snack_subloader_sub_not_found">Undertekster ikke fundet</string>
+    <string name="dialog_subloader_success">Undertekster fundet til:</string>
+    <string name="dialog_subloader_fails">Undertekster ikke fundet til:</string>
+    <string name="dialog_subloader_sumup">Download fuldført</string>
+    <string name="download_subtitles">Download undertekster</string>
+    <string name="preferences_languages_download">Undertekster sprog</string>
+    <string name="list_languages_download_summary">Sprog som skal downloades når der hentes undertekster</string>
+    <string name="list_languages_download_title">Undertekster download sprog</string>
+    <string name="service_unavailable">Tjeneste utilgængelig</string>
+    <string name="downloading_subtitles">Downloader undertekster</string>
+    <string name="browse_folder">Gennemse mappe</string>
+    <string name="listen">Lyt</string>
+    <string name="subtitles_download_title">Untertekster download</string>
+    <string name="connecting">Opretter forbindelse...</string>
 </resources>
