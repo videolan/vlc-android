@@ -98,6 +98,8 @@
     <string name="previous">मागील</string>
     <string name="stop">थांबा</string>
     <string name="next">पुढील</string>
+    <string name="firstsong">प्लेलिस्टमधील प्रथम गाणे</string>
+    <string name="lastsong">प्लेलिस्ट मधील अंतिम गाणे</string>
     <string name="locked">लॉक केलेले</string>
     <string name="unlocked">लॉक उघडले</string>
     <string name="surface_best_fit">योग्य फिट</string>
@@ -204,13 +206,14 @@
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
     <string name="interface_prefs_screen">इंटरफेस</string>
-    <string name="interface_secondary_display_category">इंटरफेस - दुय्यम डिस्प्ले</string>
     <string name="interface_secondary_display_category_summary">दुय्यम डिस्प्ले (HDMI Miracast) जोडलेले असतानाच्या सेटिंग्ज.</string>
     <string name="enable_clone_mode">क्लोनला प्राधान्य</string>
     <string name="enable_clone_mode_summary">दूरस्थ नियंत्रणाशिवाय उपकरणाचे स्क्रीन क्लोन करा.</string>
     <string name="interface_other_category">इंटरफेस - इतर</string>
     <string name="enable_brightness_gesture">तेजस्वीपणा जेस्चर सक्रीय करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
+    <string name="enable_seek_buttons">सीक बटन सुरु करा</string>
+    <string name="enable_seek_buttons_summary">विडीयो इंटरफेस साठी मागे व पुढे बटन दाखवा</string>
     <string name="force_list_portrait">उभ्या मोडमध्ये ग्रीड नाही</string>
     <string name="force_list_portrait_summary">उभ्या मोडमध्ये ग्रीड ऐवजी यादीमध्ये चित्रफीती दाखवा</string>
     <string name="audio_title_alignment">ऑडिओ शीर्षक संरेखन</string>
@@ -276,7 +279,6 @@
     <string name="drawer_close">नेव्हिगेशन ड्रॉवर बंद करा</string>
     <string name="network_browsing">लोकल नेटवर्क</string>
     <string name="file_size">फाईल आकार:</string>
-    <string name="file_other">नेव्हिगेशन ड्रॉवर बंद करा</string>
     <string name="audio_delay">ध्वनी विलंब</string>
     <string name="spu_delay">उपशीर्षक विलंब</string>
     <string name="sleep_time_not_set">काहिहि सॆट नाही</string>
@@ -295,6 +297,8 @@
     <string name="confirm_resume_title">सुरू करण्यासाठी पुष्टीकरण मागा</string>
     <string name="confirm_resume_summary">सक्षम केल्यास जर चित्रफीत मागील स्थानापासून सुरू केली जाऊ शकत असल्यास आपणास पुष्टीकरण विचारले जाईल</string>
     <string name="directory_empty">ही डिरेक्टरी मोकळी आहे.</string>
+    <string name="save_brightness_summary">विडीयो प्लेयर साठी प्रखरता पातळी लक्षात ठेवा</string>
+    <string name="save_brightness_title">विडीयो साठी प्रखरता पातळी जतन करा</string>
     <!--Accessibility-->
     <string name="more_actions">उप्लब्ध कृत्या</string>
     <string name="move">स्थलांतरित करा</string>
@@ -306,4 +310,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC चॆ पांढरॆ विजेट/widget</string>
     <string name="widget_name_b">VLC चॆ गडद विजेट/widget</string>
+    <string name="allow_storage_access_title">विडीयो आणि ऑडियो मिळवण्याची  VLC ला  अनुमती द्या</string>
+    <string name="allow_storage_access_description">तुमची विडीयो आणि ऑडियो मिळवण्यासाठी VLC ला तुमची अनुमती हवी आहे.</string>
+    <string name="permission_ask_again">परवानगी द्या</string>
+    <string name="exit_app">VLC बंद करा</string>
+    <string name="hardware_acceleration_error">हार्डवेअर अॅक्सलरेशन समस्या,सोफ्टवेअर डिकोडिंग कडे जात आहे</string>
+    <!--PLugins-->
 </resources>
