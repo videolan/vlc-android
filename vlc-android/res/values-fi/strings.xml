@@ -206,7 +206,6 @@
     <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
     <string name="extra_prefs_category">Lisäasetukset</string>
     <string name="interface_prefs_screen">Käyttöliittymä</string>
-    <string name="interface_secondary_display_category">Käyttöliittymä - Toinen näyttö</string>
     <string name="interface_secondary_display_category_summary">Asetukset kun toissijaiset näytöt on kytketty (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
     <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman etähallintaa.</string>
@@ -280,7 +279,6 @@
     <string name="drawer_close">Sulje navigointilaatikko</string>
     <string name="network_browsing">Paikallinen verkko</string>
     <string name="file_size">Tiedostokoko:</string>
-    <string name="file_other">Sulje navigointilaatikko</string>
     <string name="audio_delay">Äänen viive</string>
     <string name="spu_delay">Tekstityksen viive</string>
     <string name="sleep_time_not_set">ei asetettu</string>
@@ -314,9 +312,8 @@
     <string name="widget_name_b">VLC tumma pienoisohjelma</string>
     <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja äänitiedostoihin</string>
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
-    <string name="allow_settings_access_title">Salli VLC:n asettaa soittoääni</string>
-    <string name="allow_settings_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle asettaa tämä kappale soittoääneksi.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="exit_app">Sulje VLC</string>
     <string name="hardware_acceleration_error">Laitteistokiihdytys virhe, vaihdetaan ohjelmistopurkuun</string>
+    <!--PLugins-->
 </resources>
