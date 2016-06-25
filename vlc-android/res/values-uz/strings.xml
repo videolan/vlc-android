@@ -6,7 +6,11 @@
     <string name="other">Boshqa</string>
     <string name="sortby">Saralash…</string>
     <string name="sortby_name">nomi bo‘yicha</string>
+    <string name="sortby_name_desc">nomi bo‘yicha (kamayuvchi)</string>
     <string name="sortby_length">uzunligi bo‘yicha</string>
+    <string name="sortby_length_desc">uzunligi bo‘yicha (kamayuvchi)</string>
+    <string name="sortby_date">sana bo‘yicha</string>
+    <string name="sortby_date_desc">sana bo‘yicha (kamayuvchi)</string>
     <string name="searchable_hint">Qidirish...</string>
     <string name="history">Tarix</string>
     <plurals name="search_found_results_quantity">
@@ -16,6 +20,8 @@
     <string name="play_from_start">Boshidan ijro etish</string>
     <string name="play_as_audio">Audio sifatida ijro etish</string>
     <string name="play_as_video">Video sifatida ijro etish</string>
+    <string name="play_as_audio_background">Videolarni orqa fonda ijro etish</string>
+    <string name="play_as_audio_background_summary">Qurilma ekrani o‘chirilganda yoki uy (HOME) tugmasi bosilganda videoni orqa fonda ijro etishda davom etish.</string>
     <string name="append">Qo‘shish</string>
     <string name="play_all">Barchasini ijro etish</string>
     <string name="append_all">Barchasini qo‘shish</string>
@@ -98,6 +104,7 @@
     <string name="sound_on">Ovoz yoqiq</string>
     <string name="sound_off">Ovoz o\'chiq</string>
     <string name="brightness">Yorqinlik</string>
+    <string name="advanced">ilgʻor moslamalar</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ta kanallar\n</item>
     </plurals>
@@ -128,6 +135,7 @@
     <string name="video_player_tips">Video pleyerga oid maslahatlar:</string>
     <string name="seek">Qidirish</string>
     <string name="subtitles">Subtitrlar</string>
+    <string name="audio_sub">Audio treklar\nva subtitrlar</string>
     <string name="resize">O‘lchamini o‘zgartirish</string>
     <string name="options">Tanlamalar</string>
     <string name="lock">Qulflash</string>
@@ -173,7 +181,6 @@
     <string name="subtitle_text_encoding">Subtitr matnini kodlash</string>
     <string name="extra_prefs_category">Qo‘shimcha sozlamalar</string>
     <string name="interface_prefs_screen">Interfeys</string>
-    <string name="interface_secondary_display_category">Interfeys – Ikkilamchi ekran</string>
     <string name="interface_secondary_display_category_summary">Ikkinchi ekran ulangan hlatdagi sozlamalar (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Nusxasini afzal ko‘rish</string>
     <string name="enable_clone_mode_summary">Qurilma ekranini masofadan boshqaruvsiz nusxalash</string>
@@ -237,6 +244,11 @@
     <string name="sending_log">Jurnal yuborilmoqda</string>
     <string name="drawer_open">Navigatsiya tortmasini ochish</string>
     <string name="drawer_close">Navigatsiya tortmasini yopish</string>
+    <string name="network_browsing">Mahalliy tarmoq</string>
+    <string name="file_size">Fayli hajmi:</string>
+    <string name="network_empty">Ushbu jild boʻsh.</string>
+    <string name="search_hint">Media izlash</string>
     <!--Accessibility-->
     <!--Widget-->
+    <!--PLugins-->
 </resources>
