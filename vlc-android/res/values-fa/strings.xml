@@ -199,7 +199,6 @@
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="extra_prefs_category">تنظیمات اضافی</string>
     <string name="interface_prefs_screen">رابط</string>
-    <string name="interface_secondary_display_category">رابط - صفحه نمایش ثانویه</string>
     <string name="interface_secondary_display_category_summary">تنظیمات زمانی نشان داده میشود که به (HDMI/Miracast) متصل باشید.</string>
     <string name="enable_clone_mode">ترجیحات شبیه‌سازی</string>
     <string name="enable_clone_mode_summary">شبیه‌سازی صفحه نمایش دستگاه بدون اتصال به کنترل از راه دور.</string>
@@ -273,7 +272,6 @@
     <string name="drawer_close">بستن کشو ناوبری</string>
     <string name="network_browsing">شبکه‌ی محلی</string>
     <string name="file_size">حجم فایل:</string>
-    <string name="file_other">بستن کشو ناوبری</string>
     <string name="audio_delay">تاخیر زمانی صدا</string>
     <string name="spu_delay">تاخیر زمانی زیرنویس</string>
     <string name="sleep_time_not_set">هیچ مجموعه</string>
@@ -307,9 +305,8 @@
     <string name="widget_name_b">ویجت تاریک VLC</string>
     <string name="allow_storage_access_title">اجازه دهید به VLC تا به فایل های صوتی و تصویری شما دسترسی داشته باشد.</string>
     <string name="allow_storage_access_description">VLC نیاز به اجازه دادن شما برای دسترسی به فایل های رسانه ی در این دستگاه نیاز دارد.</string>
-    <string name="allow_settings_access_title">اجازه دهید به Vlc تا آهنگ زنگ قرار دهد.</string>
-    <string name="allow_settings_access_description">برنامه نیاز به اجازه دادن شما برای قرار دادن این ترانه برای آهنگ زنگ نیاز دارد.</string>
     <string name="permission_ask_again">اجازه دسترسی</string>
     <string name="exit_app">بستن VLC</string>
     <string name="hardware_acceleration_error">خطای شتاب سخت افزاری، به رمزگشایی نرم افزاری تعویض کتید.</string>
+    <!--PLugins-->
 </resources>
