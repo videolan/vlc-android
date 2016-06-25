@@ -220,7 +220,6 @@
     <string name="subtitle_text_encoding">Amgodiad testun isdeitlau</string>
     <string name="extra_prefs_category">Gosodiadau ychwanegol</string>
     <string name="interface_prefs_screen">Rhyngwyneb</string>
-    <string name="interface_secondary_display_category">Rhyngwyneb - Ail Ddangosydd</string>
     <string name="interface_secondary_display_category_summary">Gosodiadau pan mae ail ddangosyddion wedi\'u cysylltu (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Ffafrio clôn</string>
     <string name="enable_clone_mode_summary">Clonio sgrin y ddyfais heb remote control.</string>
@@ -294,7 +293,6 @@
     <string name="drawer_close">Cau blwch llywio</string>
     <string name="network_browsing">Rhwydwaith Lleol</string>
     <string name="file_size">Maint ffeil:</string>
-    <string name="file_other">Cau\'r blwch llywio</string>
     <string name="audio_delay">Oediad sain</string>
     <string name="spu_delay">Oediad isdeitlau</string>
     <string name="sleep_time_not_set">dim wedi\'i gosod</string>
@@ -328,9 +326,8 @@
     <string name="widget_name_b">Teclyn Tywyll VLC</string>
     <string name="allow_storage_access_title">Caniatáu VLC i gael at ffeiliau fideo a sain</string>
     <string name="allow_storage_access_description">Mae eich caniatâd ar VLC i gael at ffeiliau cyfryngau ar y ddyfais hon.</string>
-    <string name="allow_settings_access_title">Caniatáu VLC i osod y sain canu</string>
-    <string name="allow_settings_access_description">Mae angen eich caniatâd ar VLC i osod y trac hwn fel sain canu eich ffôn.</string>
     <string name="permission_ask_again">Caniatáu</string>
     <string name="exit_app">Cau VLC</string>
     <string name="hardware_acceleration_error">Gwall cyflymiad caledwedd; yn newid i datgodiad meddalwedd</string>
+    <!--PLugins-->
 </resources>
