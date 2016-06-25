@@ -98,6 +98,8 @@
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
+    <string name="firstsong">Primera canción de la lista de reproducción </string>
+    <string name="lastsong">Última canción de la lista de reproducción</string>
     <string name="locked">Bloqueado</string>
     <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Mejor ajuste</string>
@@ -130,6 +132,7 @@
     <string name="tools">Herramientas</string>
     <string name="playback_speed">Velocidad de reproducción</string>
     <string name="sleep_title">Temporizador de apagado</string>
+    <string name="sleep_in">Apagar en</string>
     <string name="sleep_cancel">Cancelar temporizador de apagado</string>
     <string name="jump_to_time">Ir al tiempo</string>
     <string name="subtitle_label">Añadir subtítulo</string>
@@ -151,6 +154,7 @@
     <string name="video_player_tips">Consejos acerca del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtitulos</string>
+    <string name="audio_sub">Subtitulos de pistas audio</string>
     <string name="resize">Cambiar el tamaño</string>
     <string name="options">Opciones</string>
     <string name="lock">Bloquear</string>
@@ -168,7 +172,7 @@
     <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión para Android™ puede leer la mayoría de archivos y flujos de red.</string>
+    <string name="about_text">VLC para Android™ es un port del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión para Android™ puede leer la mayoría de archivos y flujos de red.</string>
     <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="vlc_authors">Autores de VLC.</string>
     <!-- Preferences -->
@@ -185,6 +189,10 @@
     <string name="hardware_acceleration_full">Aceleración completa</string>
     <string name="dev_hardware_decoder">Codificador avanzado de hardware</string>
     <string name="dev_hardware_decoder_summary">Forzar codificador de hardware, para usuarioa avanzados solamente</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec"> Códec multimedia</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">Códec multimedia dr</string>
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
@@ -198,13 +206,14 @@
     <string name="subtitle_text_encoding">Codificador textual de subtítulos</string>
     <string name="extra_prefs_category">Ajustes extras</string>
     <string name="interface_prefs_screen">Interfase</string>
-    <string name="interface_secondary_display_category">Interfase - Pantalla Secundaria</string>
     <string name="interface_secondary_display_category_summary">Ajustes cuando pantallas secundarias están conectadas (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferir clonar</string>
     <string name="enable_clone_mode_summary">Clonar la pantalla del dispositivo sin control remoto.</string>
     <string name="interface_other_category">Interfase - Otros</string>
     <string name="enable_brightness_gesture">Habilitar gestos de brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
+    <string name="enable_seek_buttons">Habilitar botones de rebobinación</string>
+    <string name="enable_seek_buttons_summary">Mostrar botones rebobinar y adelantar en la interfaz de video</string>
     <string name="force_list_portrait">No hay cuadro en modo retrato</string>
     <string name="force_list_portrait_summary">Mostrar videos en lista en lugar de cuadro en modo retrato</string>
     <string name="audio_title_alignment">Alineacion del titulo de audio</string>
@@ -245,6 +254,8 @@
     <string name="network_caching">Valor de cache de red</string>
     <string name="network_caching_summary">La cantidad de tiempo para almacenar multimedia de la red en memoria (en ms). No funciona con hardware de decodificación. Dejar en blanco para restablecer.</string>
     <string name="developer_prefs_category">Desarrollador</string>
+    <string name="auto_rescan">Auto reescanear</string>
+    <string name="auto_rescan_summary">Escanear automáticamente el disposiivo por nuevos o eliminados archivos al iniciar VLC</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
     <string name="debug_logs">Registros de depuración</string>
@@ -268,7 +279,6 @@
     <string name="drawer_close">Cerrar caja de navegacion</string>
     <string name="network_browsing">Red local</string>
     <string name="file_size">Tamaño del archivo</string>
-    <string name="file_other">Cerrar caja de navegacion</string>
     <string name="audio_delay">Retraso de audio</string>
     <string name="spu_delay">Retraso de subtítulo</string>
     <string name="sleep_time_not_set">Ninguno seleccionado</string>
@@ -281,11 +291,14 @@
     <string name="playlist_save">Guardar lista de reproducción</string>
     <string name="playlist_name_hint">Nombre de lista de reproducción</string>
     <string name="go_to_chapter">Ir a capítulo...</string>
+    <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde la ultima posición</string>
     <string name="confirm_resume">¿Continuar desde la ultima posición?</string>
     <string name="confirm_resume_title">Pedir confirmación para continuar</string>
     <string name="confirm_resume_summary">si está activado se pedirá confirmación cuando un video pueda ser continuado desde la ultima posición</string>
     <string name="directory_empty">La carpeta está vacía</string>
+    <string name="save_brightness_summary">Recordar nivel brillo en el reproductor de video</string>
+    <string name="save_brightness_title">Guardar nivel de brillo para video</string>
     <!--Accessibility-->
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
@@ -295,4 +308,12 @@
     <string name="no_subs_found">No hay subtitulos en esta carpeta</string>
     <string name="music_now_playing">Reproduciendo ahora</string>
     <!--Widget-->
+    <string name="widget_name_w">Widget Blanco de VLC</string>
+    <string name="widget_name_b">Widget Oscuro de VLC</string>
+    <string name="allow_storage_access_title">Permitir a VLC acceder a archivos de audio y video</string>
+    <string name="allow_storage_access_description">VLC necesita permiso para acceder a los archivos multimedia del dispositivo</string>
+    <string name="permission_ask_again">Permiso del usuario</string>
+    <string name="exit_app">Cerrar VLC</string>
+    <string name="hardware_acceleration_error">Error de decodificación de hardware, cambiando a decodificación de software</string>
+    <!--PLugins-->
 </resources>
