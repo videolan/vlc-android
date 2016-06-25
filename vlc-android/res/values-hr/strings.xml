@@ -213,7 +213,6 @@
     <string name="subtitle_text_encoding">Kôdiranje teksta podnaslova</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
     <string name="interface_prefs_screen">Sučelje</string>
-    <string name="interface_secondary_display_category">Sučelje - Pomoćni zaslon</string>
     <string name="interface_secondary_display_category_summary">Postavke kada su pomoćni zasloni povezani (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferiraj klonirano</string>
     <string name="enable_clone_mode_summary">Kloniraj zaslon uređaja bez kontrola daljinskog upravljanja.</string>
@@ -287,7 +286,6 @@
     <string name="drawer_close">Zatvori pretinac navigacije</string>
     <string name="network_browsing">Lokalna mreža</string>
     <string name="file_size">Veličina datoteke:</string>
-    <string name="file_other">Zatvori površinu upravljanja</string>
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje podnaslova</string>
     <string name="sleep_time_not_set">Ništa postavljeno</string>
@@ -321,9 +319,8 @@
     <string name="widget_name_b">VLC tamni widget</string>
     <string name="allow_storage_access_title">Dopusti VLC-u pristup glazbenim i video datotekama</string>
     <string name="allow_storage_access_description">Vlc treba dozvolu za pristup medijskim datotekama na ovom uređaju.</string>
-    <string name="allow_settings_access_title">Dopusti VLC-u postavljanje melodije zvona</string>
-    <string name="allow_settings_access_description">Vlc treba dozvolu za postavljanje ove pjesme kao melodije zvona.</string>
     <string name="permission_ask_again">Odobri dozvolu </string>
     <string name="exit_app">Zatvori VLC</string>
     <string name="hardware_acceleration_error">greška hardverskog ubrzanja, prebacivanje na softversko dekôdiranje</string>
+    <!--PLugins-->
 </resources>
