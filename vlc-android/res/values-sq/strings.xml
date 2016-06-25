@@ -201,7 +201,6 @@
     <string name="subtitle_text_encoding">Dekodimi i titrave</string>
     <string name="extra_prefs_category">Konfigurime shtesë</string>
     <string name="interface_prefs_screen">Ndërfaqja</string>
-    <string name="interface_secondary_display_category">Ndërfaqja - Display Sekondar</string>
     <string name="interface_secondary_display_category_summary">Konfigurimet kur kemi të lidhur display sekondar (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Prefero klon</string>
     <string name="enable_clone_mode_summary">Klono ekranin e pajisjes pa telekomandë.</string>
@@ -271,7 +270,6 @@
     <string name="drawer_close">Mbyllë tërheqësin e navigimit</string>
     <string name="network_browsing">Rrjeti Lokal</string>
     <string name="file_size">Madhësia e skedarit:</string>
-    <string name="file_other">Mbyllë tërheqësin e navigimit</string>
     <string name="audio_delay">Vonimi i zërit</string>
     <string name="spu_delay">Vonimi i titres</string>
     <string name="network_shares_discovery">Duke kërkuar për ndarje në rrjet...</string>
@@ -293,4 +291,5 @@
     <string name="move">Lëvize</string>
     <string name="back_quit_lock">Shtypni prapa eshe një here për të dalë nga videoja</string>
     <!--Widget-->
+    <!--PLugins-->
 </resources>
