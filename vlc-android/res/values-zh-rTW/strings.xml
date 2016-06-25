@@ -84,8 +84,10 @@
     <string name="nohistory">目前並無播放記錄。</string>
     <string name="validation">你確定？</string>
     <string name="cover_art">專輯封面</string>
+    <string name="shuffle_title">隨機模式</string>
     <string name="shuffle">隨機關閉</string>
     <string name="shuffle_on">隨機開啟</string>
+    <string name="repeat_title">重複模式</string>
     <string name="repeat">重複播放關閉</string>
     <string name="repeat_single">單曲重複</string>
     <string name="repeat_all">全部重複</string>
@@ -108,6 +110,7 @@
     <string name="track_video">視訊軌</string>
     <string name="track_text">字幕軌</string>
     <string name="track_unknown">未知軌</string>
+    <string name="track_bitrate_info">位元率: %1$s/s\n</string>
     <string name="track_codec_info">編解碼器：%1$s\n</string>
     <string name="track_language_info">語言：%1$s\n</string>
     <string name="volume">音量</string>
@@ -131,6 +134,21 @@
     <string name="subtitle_label">加入字幕檔</string>
     <string name="subtitle_select">選擇字幕檔</string>
     <string name="no_file_picker_found">在系統中找不到檔案選擇器。</string>
+    <string name="server_add_title">新增伺服器至收藏</string>
+    <string name="server_domain_hint">伺服器地址(網域名稱或IP位址)</string>
+    <string name="server_share_hint">網路共享名稱(或IP位址)</string>
+    <string name="server_folder_hint">資料夾路徑(可選)</string>
+    <string name="server_username_hint">使用者名稱</string>
+    <string name="server_servername_hint">伺服器名稱(方便日後使用)</string>
+    <string name="server_port">連接埠:</string>
+    <string name="login">登入</string>
+    <string name="password">密碼</string>
+    <string name="search_results">搜尋結果</string>
+    <string name="favorites_add">加入至收藏</string>
+    <string name="favorites_remove">從收藏中移除</string>
+    <string name="favorites_edit">編輯</string>
+    <string name="favorite_added">加入至收藏</string>
+    <string name="favorite_removed">從收藏中移除</string>
     <string name="open">開啟</string>
     <string name="open_mrl">開啟串流</string>
     <string name="open_mrl_dialog_title">開啟網路串流</string>
@@ -143,6 +161,7 @@
     <string name="invalid_location">位置 %1$s 無法被播放。</string>
     <string name="search">搜尋</string>
     <string name="search_history">清除歷史</string>
+    <string name="playback_history_title">播放記錄</string>
     <!--Tips-->
     <string name="video_player_tips">影片播放器說明：</string>
     <string name="seek">尋找</string>
@@ -199,7 +218,9 @@
     <string name="subtitle_text_encoding">字幕編碼</string>
     <string name="extra_prefs_category">額外設定</string>
     <string name="interface_prefs_screen">介面</string>
-    <string name="interface_secondary_display_category">介面 - 第二顯示器</string>
+    <string name="interface_gui">顯示</string>
+    <string name="interface_controls">控制</string>
+    <string name="interface_secondary_display_category_title">次要顯示器</string>
     <string name="interface_secondary_display_category_summary">設定當第二顯示器連接時 (HDMI/Miracast).</string>
     <string name="enable_clone_mode">偏好完全複製</string>
     <string name="enable_clone_mode_summary">完整複製裝置上的畫面，不要遠端控制介面。</string>
@@ -236,6 +257,9 @@
     <string name="advanced_prefs_category">進階</string>
     <string name="aout">音訊輸出</string>
     <string name="aout_summary">改變 VLC 音訊輸出方式。</string>
+    <string name="save_video_speed_title">儲存播放速度</string>
+    <string name="save_video_speed_summary">儲存播放速度至所有影片</string>
+    <string name="save_video_none">不要儲存速度</string>
     <string name="vout">視訊輸出</string>
     <string name="vout_summary">改變 VLC 視訊輸出方式。</string>
     <string name="vout_android_surface">Android surface</string>
@@ -272,8 +296,8 @@
     <string name="drawer_open">開啟側邊欄</string>
     <string name="drawer_close">關閉側邊欄</string>
     <string name="network_browsing">區域網路</string>
+    <string name="browsing">瀏覽中</string>
     <string name="file_size">檔案大小：</string>
-    <string name="file_other">關閉導覽</string>
     <string name="audio_delay">音效延遲</string>
     <string name="spu_delay">字幕延遲</string>
     <string name="sleep_time_not_set">未設定</string>
@@ -294,6 +318,7 @@
     <string name="directory_empty">資料夾為空</string>
     <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
     <string name="save_brightness_title">儲存視訊的亮度值</string>
+    <string name="tv_ui_title">Android TV 介面</string>
     <!--Accessibility-->
     <string name="more_actions">更多動作</string>
     <string name="move">移動</string>
@@ -307,9 +332,16 @@
     <string name="widget_name_b">VLC 暗色小工具</string>
     <string name="allow_storage_access_title">允許 VLC 存取視訊與音訊檔案</string>
     <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
-    <string name="allow_settings_access_title">允許 VLC 設定鈴聲</string>
-    <string name="allow_settings_access_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
     <string name="permission_ask_again">授予權限</string>
     <string name="exit_app">關閉 VLC</string>
     <string name="hardware_acceleration_error">硬體加速發生錯誤，已切換到軟體解碼</string>
+    <!--PLugins-->
+    <string name="plugins">外掛</string>
+    <string name="download_on_device">下載</string>
+    <string name="store_password">記住密碼</string>
+    <string name="add_to_playlist">加入至播放清單</string>
+    <string name="download_subtitles">下載字幕</string>
+    <string name="preferences_languages_download">字幕語言</string>
+    <string name="browse_folder">瀏覽資料夾</string>
+    <string name="connecting">連接中…</string>
 </resources>
