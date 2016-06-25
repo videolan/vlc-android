@@ -206,7 +206,6 @@
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="extra_prefs_category">הגדרות נוספות</string>
     <string name="interface_prefs_screen">מנשק</string>
-    <string name="interface_secondary_display_category">מנשק - תצוגה משנית</string>
     <string name="interface_secondary_display_category_summary">הגדרות כאשר מחוברת תצוגה משנית (HDMI/Miracast).</string>
     <string name="enable_clone_mode">העדפת שכפול</string>
     <string name="enable_clone_mode_summary">שכפול מסך ההתקן ללא שליטה מרחוק.</string>
@@ -280,7 +279,6 @@
     <string name="drawer_close">סגירת מגירת הניווט</string>
     <string name="network_browsing">רשת מקומית</string>
     <string name="file_size">גודל הקובץ:</string>
-    <string name="file_other">סגירת מגירת העיון</string>
     <string name="audio_delay">השהיית שמע</string>
     <string name="spu_delay">השהיית כתוביות</string>
     <string name="sleep_time_not_set">לא הוגדר</string>
@@ -314,9 +312,8 @@
     <string name="widget_name_b">וידג׳ט כהה ל־VLC</string>
     <string name="allow_storage_access_title">לאפשר ל־VLC לגשת לקובצי וידאו ושמע</string>
     <string name="allow_storage_access_description">ל־VLC נדרשת גישה למדיה בהתקן זה.</string>
-    <string name="allow_settings_access_title">לאפשר ל־VLC להגדיר את הצלצול</string>
-    <string name="allow_settings_access_description">ל־VLC נדרשת הרשאה זו כדי להגדיר שיר זה בתור הצלצול שלך.</string>
     <string name="permission_ask_again">הענקת הרשאות</string>
     <string name="exit_app">סגירת VLC</string>
     <string name="hardware_acceleration_error">שגיאה האצת חומרה, עוברים לקידוד תכנה</string>
+    <!--PLugins-->
 </resources>
