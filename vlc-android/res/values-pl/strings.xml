@@ -5,7 +5,7 @@
     <string name="cancel">Anuluj</string>
     <string name="other">Inne</string>
     <string name="sortby">Sortuj według…</string>
-    <string name="sortby_name">Nazwy</string>
+    <string name="sortby_name">Nazwa</string>
     <string name="sortby_name_desc">Nazwa (malejąco)</string>
     <string name="sortby_length">Długości</string>
     <string name="sortby_length_desc">Długość (malejąco)</string>
@@ -96,8 +96,10 @@
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
     <string name="validation">Czy jesteś pewny?</string>
     <string name="cover_art">Okładka</string>
+    <string name="shuffle_title">Tryb Losowo</string>
     <string name="shuffle">Losowo wyłączone</string>
     <string name="shuffle_on">Losowo włączone</string>
+    <string name="repeat_title">Tryb Powtórz</string>
     <string name="repeat">Nie powtarzaj żadnych</string>
     <string name="repeat_single">Powtórz pojedynczy</string>
     <string name="repeat_all">Powtórz wszystkie</string>
@@ -120,6 +122,7 @@
     <string name="track_video">Ścieżka wideo</string>
     <string name="track_text">Ścieżka napisów</string>
     <string name="track_unknown">Nieznana ścieżka</string>
+    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Język: %1$s\n</string>
     <string name="volume">Głośność</string>
@@ -145,6 +148,21 @@
     <string name="subtitle_label">Dodaj plik z napisami</string>
     <string name="subtitle_select">Wybierz plik z napisami</string>
     <string name="no_file_picker_found">System nie posiada menedżera plików.</string>
+    <string name="server_add_title">Dodaj nowy serwer do ulubionych</string>
+    <string name="server_domain_hint">Adres serwera (nazwa domeny lub adres IP)</string>
+    <string name="server_share_hint">Nazwa udziału sieciowego (lub adres IP)</string>
+    <string name="server_folder_hint">Ścieżka folderu (opcjonalnie)</string>
+    <string name="server_username_hint">Nazwa użytkownika</string>
+    <string name="server_servername_hint">Nazwa serwera, dla wygody</string>
+    <string name="server_port">Port: </string>
+    <string name="login">Nazwa użytkownika</string>
+    <string name="password">Hasło</string>
+    <string name="search_results">Wyniki wyszukiwania</string>
+    <string name="favorites_add">Dodaj do ulubionych</string>
+    <string name="favorites_remove">Usuń z ulubionych</string>
+    <string name="favorites_edit">Edytuj</string>
+    <string name="favorite_added">Zapisane do ulubionych</string>
+    <string name="favorite_removed">Usunięto z ulubionych</string>
     <string name="open">Otwórz</string>
     <string name="open_mrl">Otwórz adres MRL</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
@@ -157,6 +175,8 @@
     <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
     <string name="search">Szukaj</string>
     <string name="search_history">Historia wyszukiwania</string>
+    <string name="playback_history_title">Historia odtwarzania</string>
+    <string name="playback_history_summary">Zapisz wszystkie media odtwarzane w sekcji Historia</string>
     <!--Tips-->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
@@ -168,6 +188,7 @@
     <string name="ok_got_it">Rozumiem, zamknij okno</string>
     <string name="playlist_tips">Porady listy odtwarzania</string>
     <string name="remove_song">Usuń utwór</string>
+    <string name="remove_playlist_item">%1$s zostało usunięte z listy</string>
     <string name="rearrange_order">Zmień kolejność</string>
     <string name="hold_to_seek">Przytrzymaj, aby szukać</string>
     <string name="audio_player_tips">Porady odtwarzacza audio</string>
@@ -213,7 +234,9 @@
     <string name="subtitle_text_encoding">Kodowanie tekstu napisów</string>
     <string name="extra_prefs_category">Dodatkowe ustawienia</string>
     <string name="interface_prefs_screen">Interfejs</string>
-    <string name="interface_secondary_display_category">Interfejs - drugi wyświetlacz</string>
+    <string name="interface_gui">Wyświetlacz</string>
+    <string name="interface_controls">Kontrole</string>
+    <string name="interface_secondary_display_category_title">Drugi wyświetlacz</string>
     <string name="interface_secondary_display_category_summary">Ustawienia w przypadku połączonego drugiego wyświetlacza (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Włącz powielanie</string>
     <string name="enable_clone_mode_summary">Powiel wyświetlacz urządzenia bez pilota.</string>
@@ -250,6 +273,11 @@
     <string name="advanced_prefs_category">Zaawansowane</string>
     <string name="aout">Wyjście dźwiękowe</string>
     <string name="aout_summary">Zmiana metody, której VLC używa do wyjścia dźwięku.</string>
+    <string name="save_video_speed_title">Zapisz prędkość odtwarzania widea</string>
+    <string name="save_video_speed_summary">Zapamiętaj szybkość odtwarzania dla każdego widea</string>
+    <string name="save_video_none">Nie zapisuj prędkości</string>
+    <string name="save_video_session">Zapisz prędkość podczas sesji</string>
+    <string name="save_video_always">Zapisz prędkość między sesjami</string>
     <string name="vout">Wyjście wideo</string>
     <string name="vout_summary">Zmiana metody, której VLC używa do wyjścia wideo.</string>
     <string name="vout_android_surface">Powierzchnia Androida</string>
@@ -286,8 +314,8 @@
     <string name="drawer_open">Otwórz listwę nawigacyjną</string>
     <string name="drawer_close">Zamknij listwę nawigacyjną</string>
     <string name="network_browsing">Sieć lokalna</string>
+    <string name="browsing">Przeglądanie</string>
     <string name="file_size">Rozmiar pliku:</string>
-    <string name="file_other">Zamknij listwę nawigacyjną</string>
     <string name="audio_delay">Opóźnienie dźwięku</string>
     <string name="spu_delay">Opóźnienie napisów</string>
     <string name="sleep_time_not_set">nic nie ustawione</string>
@@ -308,6 +336,14 @@
     <string name="directory_empty">Katalog jest pusty</string>
     <string name="save_brightness_summary">Zapamiętaj poziom jasności w odtwarzaczu</string>
     <string name="save_brightness_title">Zapisz poziomu jasności widea</string>
+    <string name="player_touch_title">Sterowanie dotykowe dla widea</string>
+    <string name="player_touch_enable_all">Włącz sterowanie dotykowe</string>
+    <string name="player_touch_disable_brightness">Wyłącz regulację jasności</string>
+    <string name="player_touch_disable_all">Wyłącz wszystkie przyciski dotykowe</string>
+    <string name="tv_ui_title">Interfejs Android TV</string>
+    <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
+    <string name="lockscreen_cover_title">Okładka albumu na ekranie blokady</string>
+    <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
     <!--Accessibility-->
     <string name="more_actions">Więcej operacji</string>
     <string name="move">Przenieś</string>
@@ -321,9 +357,40 @@
     <string name="widget_name_b">Ciemny widżet VLC</string>
     <string name="allow_storage_access_title">Zezwól VLC na dostęp do plików audio i wideo</string>
     <string name="allow_storage_access_description">VLC potrzebuje udzielenia pozwolenia na dostęp do plików multimedialnych na tym urządzeniu.</string>
-    <string name="allow_settings_access_title">Zezwól VLC na ustawienie dzwonka</string>
-    <string name="allow_settings_access_description">VLC potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonek.</string>
+    <string name="allow_settings_access_ringtone_title">Zezwól VLC na ustawienie dzwonka</string>
+    <string name="allow_settings_access_ringtone_description">VLC potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonek.</string>
+    <string name="allow_settings_access_brightness_title">Zezwól VLC na zmianę jasności</string>
+    <string name="allow_settings_access_brightness_description">VLC potrzebuje udzielenia pozwolenia do zmiany trybu jasności.</string>
+    <string name="allow_draw_overlays_title">Zezwól VLC na wyświetlanie okna nad innymi aplikacjami</string>
+    <string name="allow_sdraw_overlays_description">VLC potrzebuje udzielenia pozwolenia do wyświetlania widea w oknie nad innymi aplikacjami.</string>
     <string name="permission_ask_again">Udzielenie pozwolenia</string>
     <string name="exit_app">Zamknij VLC</string>
     <string name="hardware_acceleration_error">błąd akceleracji sprzętowej, przejście do dekodowania programowego</string>
+    <!--PLugins-->
+    <string name="plugins">Wtyczki</string>
+    <string name="download_on_device">Pobieranie</string>
+    <string name="extension_empty">Brak elementu do wyświetlenia, przejdź do ustawień rozszerzeń, aby je pobrać.</string>
+    <string name="network_favorites">Ulubione w sieci</string>
+    <string name="network_shared_folders">Foldery udostępnione</string>
+    <string name="encryption_warning">Uwaga, szyfrowanie jest niedostępne dla tej wersji Androida, hasło zostanie zapisane w miejscu prywatnym, ale nie zaszyfrowane</string>
+    <string name="store_password">Zapamiętaj hasło</string>
+    <string name="add_to_playlist">Dodaj do listy odtwarzania</string>
+    <string name="popup_playback_title">Odtwórz wideo w oknie pop-up</string>
+    <string name="popup_playback">Odtwarzanie widea w oknie pop-up</string>
+    <string name="popup_expand">Rozszerz wideo</string>
+    <string name="snack_subloader_sub_found">Pobrane napisy</string>
+    <string name="snack_subloader_sub_not_found">Nie znaleziono napisów</string>
+    <string name="dialog_subloader_success">Znalezione napisy dla:</string>
+    <string name="dialog_subloader_fails">Nie znaleziono napisów dla:</string>
+    <string name="dialog_subloader_sumup">Pobranie gotowe</string>
+    <string name="download_subtitles">Pobierz napisy</string>
+    <string name="preferences_languages_download">Język napisów</string>
+    <string name="list_languages_download_summary">Wybrane języki, podczas pobierania napisów</string>
+    <string name="list_languages_download_title">Pobierane języki napisów</string>
+    <string name="service_unavailable">Usługa jest niedostępna</string>
+    <string name="downloading_subtitles">Pobieranie napisów</string>
+    <string name="browse_folder">Przeglądaj folder</string>
+    <string name="listen">Posłuchaj</string>
+    <string name="subtitles_download_title">Pobierz napisy</string>
+    <string name="connecting">Łączenie...</string>
 </resources>
