@@ -197,7 +197,6 @@
     <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
     <string name="extra_prefs_category">Pengaturan ekstra</string>
     <string name="interface_prefs_screen">Antarmuka</string>
-    <string name="interface_secondary_display_category">Antarmuka - Layar Sekunder</string>
     <string name="interface_secondary_display_category_summary">Pengaturan ketika layar sekunder terhubung (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Pilih klon</string>
     <string name="enable_clone_mode_summary">Klon layar perangkat tampa pengendali jarak jauh.</string>
@@ -269,7 +268,6 @@
     <string name="drawer_close">Tutup laci navigasi</string>
     <string name="network_browsing">Jaringan Lokal</string>
     <string name="file_size">Ukuran berkas:</string>
-    <string name="file_other">Tutup laci navigasi</string>
     <string name="audio_delay">Penundaan audio</string>
     <string name="spu_delay">Penundaan terjemahan</string>
     <string name="sleep_time_not_set">tidak diset</string>
@@ -299,4 +297,5 @@
     <!--Widget-->
     <string name="widget_name_w">VLC Widget Putih</string>
     <string name="widget_name_b">VLC Widget Gelap</string>
+    <!--PLugins-->
 </resources>
