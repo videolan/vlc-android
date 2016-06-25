@@ -122,6 +122,8 @@
     <string name="previous">السّابق</string>
     <string name="stop">أوقِف</string>
     <string name="next">التّالي</string>
+    <string name="firstsong">اول أغنية في قائمة التشغيل</string>
+    <string name="lastsong">أخر أغنية في قائمة التشغيل</string>
     <string name="locked">مُقفل</string>
     <string name="unlocked">غير مُقفل</string>
     <string name="surface_best_fit">أفضل تمدّد</string>
@@ -232,13 +234,14 @@
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="extra_prefs_category">إعدادات إضافية</string>
     <string name="interface_prefs_screen">الواجهة</string>
-    <string name="interface_secondary_display_category">الواجهة - العرض الثانوي</string>
     <string name="interface_secondary_display_category_summary">وضع الإعدادات عند الربط بعارضات ثانوية (HDMI/Miracast).</string>
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
     <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
     <string name="interface_other_category">الواجهة - أخرى</string>
     <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
+    <string name="enable_seek_buttons">فعّل أزرار البحث</string>
+    <string name="enable_seek_buttons_summary">إظهر أزرار الإرجاع و التقديم في شاشة عرض الفيديو</string>
     <string name="force_list_portrait">لا توجد شبكة في الوضع العمودي</string>
     <string name="force_list_portrait_summary">عرض الفيديو في القائمة بدلا من الشبكة في وضع عمودي</string>
     <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
@@ -304,7 +307,6 @@
     <string name="drawer_close">أغلق ساحب التصفح</string>
     <string name="network_browsing">الشبكة المحلية</string>
     <string name="file_size">حجم الملف:</string>
-    <string name="file_other">إغلاق درج شريط التنقل</string>
     <string name="audio_delay">تأخير الصوت</string>
     <string name="spu_delay">تأخير الترجمة النصية</string>
     <string name="sleep_time_not_set">لا شيء مدخل</string>
@@ -323,6 +325,8 @@
     <string name="confirm_resume_title">السؤال عند الموافقة على الإستئناف</string>
     <string name="confirm_resume_summary">إذا تم التفعيل, سوف يتم سؤالك للموافقة أنه بإمكان إستئناف من آخر موقع له</string>
     <string name="directory_empty">المجلد فارغ</string>
+    <string name="save_brightness_summary">تذكر درجة سطوع الفيديو في مشغل الفيديو</string>
+    <string name="save_brightness_title">حفظ درجة سطوع الفيديو لهذا الفيديو</string>
     <!--Accessibility-->
     <string name="more_actions">المزيد من الإجراءات</string>
     <string name="move">تحريك</string>
@@ -332,4 +336,12 @@
     <string name="no_subs_found">لا يوجد ملفات الترجمة في هذا المجلد</string>
     <string name="music_now_playing">يشتغل الآن</string>
     <!--Widget-->
+    <string name="widget_name_w">تطبيق مصغر VLC أبيض</string>
+    <string name="widget_name_b">تطبيق مصغر VLC اسود</string>
+    <string name="allow_storage_access_title">السماح ل VLC بالدخول إلى الملفات السمعية و الفيديو</string>
+    <string name="allow_storage_access_description">VLC يحتاج إلى الحصول على تصريح للدخول إلى ملفات الوسائط هذه في هذا الجهاز</string>
+    <string name="permission_ask_again">الحصول على تصريح</string>
+    <string name="exit_app">أغلق VLC</string>
+    <string name="hardware_acceleration_error">خطأ في تسريع الفيديو من العتاد. تحويل إلى مفك التشفير من البرنامج</string>
+    <!--PLugins-->
 </resources>
