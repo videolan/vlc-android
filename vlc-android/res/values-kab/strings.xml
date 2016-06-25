@@ -205,7 +205,6 @@
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="extra_prefs_category">Iɣewwaren n zzyada</string>
     <string name="interface_prefs_screen">Agrudem</string>
-    <string name="interface_secondary_display_category">Agrudem - abeqqaḍ wis sin</string>
     <string name="interface_secondary_display_category_summary">Iɣewwaren mi ara yeqqen ubeqqaḍ wis sin  (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Préférer le mode clone</string>
     <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécommande</string>
@@ -277,7 +276,6 @@
     <string name="drawer_close">Fermer le volet de navigation</string>
     <string name="network_browsing">Réseau local</string>
     <string name="file_size">Tiddi n ufaylu</string>
-    <string name="file_other">Fermer le tiroir de navigation</string>
     <string name="audio_delay">Délai audio</string>
     <string name="spu_delay">Délai du sous-titrage</string>
     <string name="sleep_time_not_set">Ur yettusbadu ara</string>
@@ -308,4 +306,5 @@
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
     <string name="exit_app">Mdel VLC</string>
+    <!--PLugins-->
 </resources>
