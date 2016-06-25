@@ -138,6 +138,16 @@
     <string name="subtitle_label">Προσθήκη αρχείου υποτίτλων</string>
     <string name="subtitle_select">Επιλογή αρχείου υποτίτλων</string>
     <string name="no_file_picker_found">Κανένας επιλογέας αρχείων δεν βρέθηκε στο σύστημα.</string>
+    <string name="server_username_hint">Όνομα χρήστη</string>
+    <string name="server_port">Θύρα:</string>
+    <string name="login">Σύνδεση</string>
+    <string name="password">Κωδικός</string>
+    <string name="search_results">Αποτελέσματα αναζήτησης</string>
+    <string name="favorites_add">Προσθήκη στα αγαπημένα</string>
+    <string name="favorites_remove">Αφαίρεση από τα αγαπημένα</string>
+    <string name="favorites_edit">Επεξεργασία</string>
+    <string name="favorite_added">Αποθηκεύθηκε στα αγαπημένα</string>
+    <string name="favorite_removed">Αφαιρέθηκε από τα αγαπημένα</string>
     <string name="open">Άνοιγμα</string>
     <string name="open_mrl">Άνοιγμα MRL</string>
     <string name="open_mrl_dialog_title">Άνοιγμα δικτυακής ροής</string>
@@ -206,7 +216,9 @@
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="extra_prefs_category">Έξτρα επιλογές</string>
     <string name="interface_prefs_screen">Διεπαφή</string>
-    <string name="interface_secondary_display_category">Διεπαφή - Δευτερεύουσα Οθόνη</string>
+    <string name="interface_gui">Εμφάνιση</string>
+    <string name="interface_controls">Στοιχεία ελέγχου</string>
+    <string name="interface_secondary_display_category_title">Δευτερεύουσα Οθόνη</string>
     <string name="interface_secondary_display_category_summary">Επιλογές για όταν οι δευτερεύουσες οθόνες είναι συνδεμένες (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Προτίμηση του κλώνου</string>
     <string name="enable_clone_mode_summary">Κλωνοποίηση της οθόνης της συσκευής χωρίς τηλεχειριστήριο.</string>
@@ -279,8 +291,8 @@
     <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
     <string name="network_browsing">Τοπικό Δίκτυο</string>
+    <string name="browsing">Περιήγηση</string>
     <string name="file_size">Μέγεθος αρχείου:</string>
-    <string name="file_other">Κλείστε το συρτάρι πλοήγησης</string>
     <string name="audio_delay">Καθυστέρηση ήχου</string>
     <string name="spu_delay">Καθυστέρηση υπότιτλου</string>
     <string name="sleep_time_not_set">κανένα ορισμένο</string>
@@ -314,9 +326,14 @@
     <string name="widget_name_b">Σκοτεινό γραφικό στοιχείο VLC </string>
     <string name="allow_storage_access_title">Δώστε πρόσβαση στο VLC στα αρχεία βίντεο και ήχου</string>
     <string name="allow_storage_access_description">Το VLC  σας ζητάει να του δώσετε πρόσβαση στα αρχεία μέσων σε αυτή τη συσκευή.</string>
-    <string name="allow_settings_access_title">Επιτρέψτε στο VLC να ορίσει τον ήχο κλήσης</string>
-    <string name="allow_settings_access_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
     <string name="permission_ask_again">Δώστε άδεια</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <string name="hardware_acceleration_error">σφάλμα με την επιτάχυνση υλικού, αλλαγή σε αποκωδικοποίηση με λογισμικό</string>
+    <!--PLugins-->
+    <string name="plugins">Εμφυτεύματα</string>
+    <string name="download_on_device">Λήψη</string>
+    <string name="add_to_playlist">Προσθήκη στη λίστα αναπαραγωγής</string>
+    <string name="popup_expand">Επέκταση βίντεο</string>
+    <string name="browse_folder">Περιήγηση φακέλου</string>
+    <string name="connecting">Σύνδεση...</string>
 </resources>
