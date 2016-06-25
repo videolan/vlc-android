@@ -6,7 +6,11 @@
     <string name="other">Annað</string>
     <string name="sortby">Flokka eftir...</string>
     <string name="sortby_name">Navn</string>
+    <string name="sortby_name_desc">Navn (lækkandi)</string>
     <string name="sortby_length">Longd</string>
+    <string name="sortby_length_desc">Longd (lækkandi)</string>
+    <string name="sortby_date">Dato</string>
+    <string name="sortby_date_desc">Dato (lækkandi)</string>
     <string name="searchable_hint">Leita...</string>
     <string name="history">Søga</string>
     <plurals name="search_found_results_quantity">
@@ -17,6 +21,8 @@
     <string name="play_from_start">Spæl frá byrjan</string>
     <string name="play_as_audio">Spæl sum ljóð</string>
     <string name="play_as_video">Spæl sum video</string>
+    <string name="play_as_audio_background">Spæl sjónband í baksýni</string>
+    <string name="play_as_audio_background_summary">Spæl víðari sjónband í baksýni, tá ið skermurin verður sløktur ella tú trýstur á HEIM knøttin.</string>
     <string name="append">Ískoyt</string>
     <string name="play_all">Spæl alt</string>
     <string name="append_all">Ískoyt alt</string>
@@ -26,6 +32,8 @@
     <string name="set_song">Sum sum ringitóni</string>
     <string name="info">Upplýsing</string>
     <string name="confirm_delete">Strika fíluna \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Strika mappuna \'%1$s\' og alt innihald?</string>
+    <string name="confirm_delete_playlist">Strika spællistan \'%1$s\'?</string>
     <string name="ringtone_set">Fílan \'%1$s\' var sett sum ringitóni.</string>
     <string name="ringtone_error">Ein villa stóðst av at seta ringitónan.</string>
     <string name="pause">Steðga</string>
@@ -74,6 +82,7 @@
     <string name="loading">Lesur inn</string>
     <string name="please_wait">Vinaliga bíða...</string>
     <string name="nomedia">Eingin miðlafíla funnin, vinaliga flyt onkrar fílur inn á eina eind ella broyt stillingarnar.</string>
+    <string name="noplaylist">Eingin spælilisti funnin</string>
     <string name="mediafiles">Miðlafílur</string>
     <string name="notavailable">ikki tøkt</string>
     <string name="nosubdirectory">Ongar undirskráir</string>
@@ -81,9 +90,16 @@
     <string name="nohistory">Tú hevur onga avspælingarsøgu enn.</string>
     <string name="validation">Ert tú vis/ur?</string>
     <string name="cover_art">Húsasnið</string>
+    <string name="shuffle">Blanda sløkt</string>
+    <string name="shuffle_on">Blanda tendra</string>
+    <string name="repeat">Endurtak einki</string>
+    <string name="repeat_single">Endurtak einkult</string>
+    <string name="repeat_all">Endurtak alt</string>
     <string name="previous">Undanfarna</string>
     <string name="stop">Steðga</string>
     <string name="next">Næsta</string>
+    <string name="firstsong">Fyrsti sangur av spælilista</string>
+    <string name="lastsong">Síðsti sangur av spælilista</string>
     <string name="locked">Stongt</string>
     <string name="unlocked">Læst upp</string>
     <string name="surface_best_fit">Hóskar best</string>
@@ -180,7 +196,6 @@
     <string name="subtitle_text_encoding">Kota undirtekstir inn</string>
     <string name="extra_prefs_category">Eyka stillingar</string>
     <string name="interface_prefs_screen">Takførisflati</string>
-    <string name="interface_secondary_display_category">Takførisflati - Hjáskíggi</string>
     <string name="interface_secondary_display_category_summary">Stillingar, tá ið hjáskíggjar er bundnir til (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Vel hels kloning</string>
     <string name="enable_clone_mode_summary">Klona skíggjan á eindini við ongari fjarstýring.</string>
@@ -244,6 +259,34 @@
     <string name="sending_log">Sendir loggin...</string>
     <string name="drawer_open">Lat navigatiónsskuffuna upp</string>
     <string name="drawer_close">Lat navigatiónsskuffuna aftur</string>
+    <string name="file_size">Fíla stødd:</string>
+    <string name="sleep_time_not_set">einki sett</string>
+    <string name="network_empty">Hendan mappan er tóm</string>
+    <string name="network_connection_needed">Einki samband við lokal net</string>
+    <string name="search_hint">Leita eftir media</string>
+    <string name="directory_show_medialib">Vís í MediaLib</string>
+    <string name="directory_hide_medialib">Goym frá MediaLib</string>
+    <string name="playlist_save">Goym spælilista</string>
+    <string name="playlist_name_hint">spælilista navn</string>
+    <string name="go_to_chapter">Far til kapittul...</string>
+    <string name="chapter">Kapittul</string>
+    <string name="resume_from_position">Halt á fram frá seinasta staðið</string>
+    <string name="confirm_resume">Halt á fram frá seinasta staðið?</string>
+    <string name="confirm_resume_title">Spyr um vátting fyri at halda á fram</string>
+    <string name="confirm_resume_summary">um tað er tendra, so verður tú spurdur um sjónbandi skal halda á fram, frá seinasta staðið</string>
+    <string name="directory_empty">Mappan er tóm</string>
+    <string name="save_brightness_summary">Minnst til ljós styrki í sjónbanda spælara</string>
+    <string name="save_brightness_title">Goym ljós styrki fyri sjónband</string>
     <!--Accessibility-->
+    <string name="more_actions">Fleiri gerðir</string>
+    <string name="move">Flyt</string>
+    <string name="back_quit_lock">Trýst aftur umaftur fyri at fara úr sjónbandi</string>
+    <string name="playlist_deleted">Spælilisti strikaður</string>
+    <string name="file_deleted">Fílur strikaður</string>
+    <string name="no_subs_found">Eingin undirtekstir í hesari mappu</string>
+    <string name="music_now_playing">Nú spælur</string>
     <!--Widget-->
+    <string name="permission_ask_again">Gev heimild</string>
+    <string name="exit_app">Sløkk VLC</string>
+    <!--PLugins-->
 </resources>
