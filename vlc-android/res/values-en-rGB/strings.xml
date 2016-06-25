@@ -206,7 +206,6 @@
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="extra_prefs_category">Extra settings</string>
     <string name="interface_prefs_screen">Interface</string>
-    <string name="interface_secondary_display_category">Interface - Secondary Display</string>
     <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
@@ -280,7 +279,6 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="network_browsing">Local Network</string>
     <string name="file_size">File size:</string>
-    <string name="file_other">Close navigation drawer</string>
     <string name="audio_delay">Audio delay</string>
     <string name="spu_delay">Subtitle delay</string>
     <string name="sleep_time_not_set">none set</string>
@@ -314,9 +312,8 @@
     <string name="widget_name_b">VLC Dark Widget</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
-    <string name="allow_settings_access_title">Allow VLC to set the ringtone</string>
-    <string name="allow_settings_access_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
     <string name="hardware_acceleration_error">hardware acceleration error, switching to software decoding</string>
+    <!--PLugins-->
 </resources>
