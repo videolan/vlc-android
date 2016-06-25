@@ -191,7 +191,6 @@
     <string name="subtitle_text_encoding">Codificación do texto dos subtítulos</string>
     <string name="extra_prefs_category">Configuracións extra</string>
     <string name="interface_prefs_screen">Interface</string>
-    <string name="interface_secondary_display_category">Interface - Pantalla secundaria</string>
     <string name="interface_secondary_display_category_summary">Configuracións para cando haxa conectadas pantallas secundarias (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferir a clonación</string>
     <string name="enable_clone_mode_summary">Clonar a pantalla do dispositivo sen control remoto.</string>
@@ -258,7 +257,6 @@
     <string name="drawer_close">Pechar a gabeta de navegación</string>
     <string name="network_browsing">Rede local</string>
     <string name="file_size">Tamaño do ficheiro:</string>
-    <string name="file_other">Pechar a gabeta de navegación</string>
     <string name="audio_delay">Atraso no son</string>
     <string name="spu_delay">Atraso dos subtítulos</string>
     <string name="network_shares_discovery">A buscar comparticións de rede...</string>
@@ -279,4 +277,5 @@
     <string name="move">Mover</string>
     <string name="music_now_playing">A reproducir</string>
     <!--Widget-->
+    <!--PLugins-->
 </resources>
