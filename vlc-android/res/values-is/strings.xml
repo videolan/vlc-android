@@ -131,6 +131,7 @@
     <string name="tools">Áhöld</string>
     <string name="playback_speed">Afspilunarhraði</string>
     <string name="sleep_title">Vekjari</string>
+    <string name="sleep_in">Sofa lengur</string>
     <string name="sleep_cancel">Hætta við vekjara</string>
     <string name="jump_to_time">Hoppa að tíma</string>
     <string name="subtitle_label">Bæta við skjátextaskrá</string>
@@ -152,6 +153,7 @@
     <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>
     <string name="subtitles">Skjátextar</string>
+    <string name="audio_sub">Hljóðspor\nog skjátextar</string>
     <string name="resize">Breyta stærð</string>
     <string name="options">Valkostir</string>
     <string name="lock">Læsa</string>
@@ -184,6 +186,7 @@
     <string name="hardware_acceleration_disabled">Óvirkt</string>
     <string name="hardware_acceleration_decoding">Hröðun afkóðunar</string>
     <string name="hardware_acceleration_full">Full hröðun</string>
+    <string name="dev_hardware_decoder">Þróuð vélbúnaðarafkóðun</string>
     <string name="dev_hardware_decoder_omx">iomx</string>
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
@@ -201,11 +204,12 @@
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="extra_prefs_category">Aukastillingar</string>
     <string name="interface_prefs_screen">Viðmót</string>
-    <string name="interface_secondary_display_category">Viðmót - Aukaskjár</string>
     <string name="interface_secondary_display_category_summary">Stillingar þegar aukaskjáir eru tengdir (HDMI/Miracast).</string>
     <string name="interface_other_category">Viðmót - Annað</string>
     <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
+    <string name="enable_seek_buttons">Virkja leitarhnappa</string>
+    <string name="enable_seek_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
     <string name="audio_title_alignment">Jöfnun titils fyrir hljóð</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
@@ -242,12 +246,14 @@
     <string name="set_locale_popup">Hætta og endurræsa VLC svo breytingar taki gildi.</string>
     <string name="network_caching">Gildi skyndiminnis fyrir net</string>
     <string name="developer_prefs_category">Forritari</string>
+    <string name="auto_rescan">Sjálfvirk endurskönnun</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
     <string name="enable_verbose_mode_summary"> Auktu magn upplýsinga (verbosity / logcat)</string>
     <string name="debug_logs">Aflúsunarannálar</string>
     <string name="start_logging">Byrja annálsskráningu</string>
     <string name="stop_logging">Stöðva annálsskráningu</string>
     <string name="clear_log">Hreinsa annál</string>
+    <string name="log_service_text">Opna stjórnskjá fyrir annála</string>
     <string name="copy_to_clipboard">Afrita á klippispjald</string>
     <string name="copied_to_clipboard">Afritaði annál á klippispjald.</string>
     <string name="quit">Hætta og endurræsa forrit</string>
@@ -263,7 +269,6 @@
     <string name="drawer_close">Loka hliðarvalmynd</string>
     <string name="network_browsing">Staðarnet</string>
     <string name="file_size">Skráarstærð:</string>
-    <string name="file_other">Loka flakkvalmynd</string>
     <string name="audio_delay">Hljóðtöf</string>
     <string name="spu_delay">Töf skjátexta</string>
     <string name="sleep_time_not_set">ekkert stillt</string>
@@ -271,11 +276,18 @@
     <string name="network_empty">Þessi mappa er tóm</string>
     <string name="network_connection_needed">Engin tenging við staðarnet.</string>
     <string name="search_hint">Leita á miðlum</string>
+    <string name="directory_show_medialib">Birta í MediaLib</string>
+    <string name="directory_hide_medialib">Fela úr MediaLib</string>
     <string name="playlist_save">Vista spilunarlista</string>
     <string name="playlist_name_hint">heiti spilunarlista</string>
     <string name="go_to_chapter">Fara á kafla…</string>
     <string name="chapter">Kafli</string>
+    <string name="resume_from_position">Halda áfram frá síðustu stöðu</string>
+    <string name="confirm_resume">Halda áfram frá síðustu stöðu?</string>
+    <string name="confirm_resume_title">Biðja um staðfestingu á að halda áfram</string>
     <string name="directory_empty">Mappa er tóm</string>
+    <string name="save_brightness_summary">Muna birtustig í myndspilara</string>
+    <string name="save_brightness_title">Vista birtustig myndmerkis</string>
     <!--Accessibility-->
     <string name="more_actions">Fleiri aðgerðir</string>
     <string name="move">Færa</string>
@@ -284,6 +296,10 @@
     <string name="no_subs_found">Engir skjátextar í þessari möppu</string>
     <string name="music_now_playing">Í afspilun</string>
     <!--Widget-->
+    <string name="widget_name_w">Hvítir VLC-viðmótshlutar</string>
+    <string name="widget_name_b">Dökkir VLC-viðmótshlutar</string>
+    <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>
     <string name="permission_ask_again">Gefa leyfi</string>
     <string name="exit_app">Loka VLC</string>
+    <!--PLugins-->
 </resources>
