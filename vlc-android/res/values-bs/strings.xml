@@ -213,7 +213,6 @@
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
     <string name="interface_prefs_screen">Interfejs</string>
-    <string name="interface_secondary_display_category">Interfejs - Sekundarni Ekran</string>
     <string name="interface_secondary_display_category_summary">Postavke kada su sekundardni ekrani povezani (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferiraj kloniranje</string>
     <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
@@ -287,7 +286,6 @@
     <string name="drawer_close">Zatvori navigacijsku ladicu</string>
     <string name="network_browsing">Lokalna Mreža</string>
     <string name="file_size">Veličina datoteke:</string>
-    <string name="file_other">Zatvori navigacijsku ladicu</string>
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje titla</string>
     <string name="sleep_time_not_set">nije postavljen</string>
@@ -306,6 +304,8 @@
     <string name="confirm_resume_title">Pitaj potvrdu za nastavak</string>
     <string name="confirm_resume_summary">ako se aktivira od vas će biti zatraženo da potvrdite kada se video može nastaviti sa zadnje pozicije</string>
     <string name="directory_empty">Direktorij je prazan</string>
+    <string name="save_brightness_summary">Zapamti nivo svjetlosti u video izvođaču</string>
+    <string name="save_brightness_title">Snimi nivo svjetlosti za video</string>
     <!--Accessibility-->
     <string name="more_actions">Više Akcija</string>
     <string name="move">Pomjeri</string>
@@ -317,4 +317,10 @@
     <!--Widget-->
     <string name="widget_name_w">VLC Bijeli Widget</string>
     <string name="widget_name_b">VLC Tamni Widget</string>
+    <string name="allow_storage_access_title">Dozvoli da VLC pristupi video i audio datotekama</string>
+    <string name="allow_storage_access_description">VLC zahtjeva da odobrite pristup medijskim datotekama na ovom uređaju.</string>
+    <string name="permission_ask_again">Odobri pristup</string>
+    <string name="exit_app">Zatvori VLC</string>
+    <string name="hardware_acceleration_error">greška pri harverskom ubrzanju, prebacujem na softversko kodiranje</string>
+    <!--PLugins-->
 </resources>
