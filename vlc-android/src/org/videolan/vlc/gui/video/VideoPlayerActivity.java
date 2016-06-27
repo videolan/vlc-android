@@ -2500,7 +2500,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (time > mForcedTime)
                     mLastTime = mForcedTime = -1;
             }
-        }
+        } else if (time == 0)
+            time = (int) mService.getCurrentMediaWrapper().getTime();
         return mForcedTime == -1 ? time : mForcedTime;
     }
 
