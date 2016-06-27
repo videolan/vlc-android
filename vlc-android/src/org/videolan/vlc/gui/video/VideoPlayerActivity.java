@@ -244,11 +244,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private View mObjectFocused;
     private boolean mEnableBrightnessGesture;
     private boolean mEnableCloneMode;
-    private boolean mDisplayRemainingTime = false;
+    private boolean mDisplayRemainingTime;
     private int mScreenOrientation;
     private int mScreenOrientationLock;
     private ImageView mLock;
     private ImageView mSize;
+    private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";;
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
@@ -465,6 +466,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHardwareAccelerationError = false;
 
         mAskResume = mSettings.getBoolean("dialog_confirm_resume", false);
+        mDisplayRemainingTime = mSettings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false);
         // Clear the resume time, since it is only used for resumes in external
         // videos.
         SharedPreferences.Editor editor = mSettings.edit();
@@ -2310,6 +2312,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case R.id.player_overlay_time:
                 mDisplayRemainingTime = !mDisplayRemainingTime;
                 showOverlay();
+                Util.commitPreferences(mSettings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, mDisplayRemainingTime));
                 break;
             case R.id.player_delay_minus:
                 if (mPlaybackSetting == DelayState.AUDIO)
