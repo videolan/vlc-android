@@ -21,8 +21,10 @@
 package org.videolan.vlc.gui.video;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
@@ -43,6 +45,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -301,9 +304,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public class VideoComparator extends SortedList.Callback<MediaWrapper> {
 
-        private int mSortDirection = 1;
-        private int mSortBy = SORT_BY_TITLE;
+        private static final String KEY_SORT_BY =  "sort_by";
+        private static final String KEY_SORT_DIRECTION =  "sort_direction";
 
+        private int mSortDirection;
+        private int mSortBy;
+        protected SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+
+        public VideoComparator() {
+            mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
+            mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
+        }
         public int sortDirection(int sortby) {
             if (sortby == mSortBy)
                 return  mSortDirection;
@@ -343,6 +354,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     break;
             }
             resetSorting();
+
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putInt(KEY_SORT_BY, mSortBy);
+            editor.putInt(KEY_SORT_DIRECTION, mSortDirection);
+            Util.commitPreferences(editor);
         }
 
         @Override
