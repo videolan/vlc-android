@@ -59,7 +59,7 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
         mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
         if (mMediaBrowser != null) {
             if (mUri != null)
-                mMediaBrowser.browse(mUri, true);
+                mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
             else
                 browseRoot();
             ((BrowserActivityInterface)getActivity()).showProgress(true);
