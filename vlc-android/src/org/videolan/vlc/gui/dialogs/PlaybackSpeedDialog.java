@@ -35,6 +35,7 @@ import android.widget.TextView;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
@@ -85,6 +86,8 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         mPlaybackSpeedPlus.setOnClickListener(mSpeedUpListener);
         mPlaybackSpeedMinus.setOnClickListener(mSpeedDownListener);
         mSpeedValue.setOnClickListener(mResetListener);
+        mPlaybackSpeedMinus.setOnTouchListener(new OnRepeatListener(mSpeedDownListener));
+        mPlaybackSpeedPlus.setOnTouchListener(new OnRepeatListener(mSpeedUpListener));
 
         mTextColor = mSpeedValue.getCurrentTextColor();
 
