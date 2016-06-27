@@ -48,6 +48,8 @@ public class MediaBrowser {
     public static class Flag {
         /** If this flag is set, browse() could fire up dialogs */
         public final static int Interact = 1;
+        /** If this flag is set, slaves won't be attached to medias but will be added as a media. */
+        public final static int NoSlavesAutodetect = 1 << 1;
     }
 
     /**
@@ -194,6 +196,8 @@ public class MediaBrowser {
          */
         media.retain();
         media.addOption(IGNORE_LIST_OPTION + mIgnoreList);
+        if ((flags & Flag.NoSlavesAutodetect) != 0)
+            media.addOption(":no-sub-autodetect-file");
         int mediaFlags = Media.Parse.ParseNetwork;
         if ((flags & Flag.Interact) != 0)
             mediaFlags |= Media.Parse.DoInteract;
