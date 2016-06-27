@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -66,7 +65,6 @@ import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
-import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
@@ -1330,13 +1328,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         loadLocations(mediaPathList, position);
         if (time > 0)
             seek(time);
-        if(!audio) {
+        if (!audio) {
             boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
             if (paused)
                 pause();
             if (rate != 1.0f)
-                setRate(rate);
+                setRate(rate, false);
         }
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
@@ -1684,7 +1682,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         final MediaWrapper mw = mMediaList.getMedia(index);
         if (mw == null)
             return;
-        if (!mVideoBackground && mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying())
+
+        boolean isVideoPlaying = isVideoPlaying();
+        if (!mVideoBackground && mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying)
             mw.addFlags(MediaWrapper.MEDIA_VIDEO);
 
         if (mVideoBackground)
@@ -1721,11 +1721,13 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         media.release();
 
         if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
-                || isVideoPlaying()) {
+                || isVideoPlaying) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);
+            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
+                setRate(mSettings.getFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, 1.0F), true);
             mMediaPlayer.play();
 
             determinePrevAndNextIndices();
@@ -1929,8 +1931,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public void setRate(float rate) {
+    public void setRate(float rate, boolean save) {
         mMediaPlayer.setRate(rate);
+        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
+            Util.commitPreferences(mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate));
     }
 
     @MainThread

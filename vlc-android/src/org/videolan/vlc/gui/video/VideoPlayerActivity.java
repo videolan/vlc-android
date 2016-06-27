@@ -761,9 +761,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         loadMedia();
 
-        int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
-        if (ratePref == 2)
-            mService.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f));
+        boolean ratePref = mSettings.getBoolean(PreferencesActivity.VIDEO_SAVE_SPEED, false);
+        mService.setRate(ratePref ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
+
 
         if (mService.hasPlaylist()) {
             mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
@@ -907,11 +907,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-            int ratePref = Integer.valueOf(mSettings.getString(PreferencesActivity.VIDEO_SAVE_SPEED, "0"));
-            if (ratePref == 2)
+            boolean ratePref = mSettings.getBoolean(PreferencesActivity.VIDEO_SAVE_SPEED, false);
+            if (ratePref)
                 editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
-            else if (ratePref == 0)
-                mService.setRate(1.0f);
+            mService.setRate(1.0f, false);
             mService.stop();
         }
         Util.commitPreferences(editor);
@@ -1381,7 +1380,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         float rate = Math.round((mService.getRate()+delta)*100f)/100f;
         if (rate < 0.25f || rate > 4f)
             return;
-        mService.setRate(rate);
+        mService.setRate(rate, false);
         mInfo.setText(getString(R.string.playback_speed) + "\n" +rate + " x");
         if (mPlaybackSetting == DelayState.OFF) {
             mPlaybackSetting = DelayState.SPEED;
