@@ -198,6 +198,10 @@
 
     <string name="playback_history_title">Playback history</string>
     <string name="playback_history_summary">Save all media played in History section</string>
+    <string name="playback_speed_title">Save Audio Playback Speed</string>
+    <string name="playback_speed_summary">Remember the audio playback speed you set</string>
+    <string name="save_video_speed_title">Save video Playback speed</string>
+    <string name="save_video_speed_summary">Remember the video playback speed you set</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Video player tips:</string>
@@ -309,8 +313,6 @@
     <string name="aout_summary">Change the method that VLC uses to output audio.</string>
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
-    <string name="save_video_speed_title">Save video Playback speed</string>
-    <string name="save_video_speed_summary">Remember the video playback speed for any video</string>
     <string name="save_video_none">Do not save speed</string>
     <string name="save_video_session">Save speed during session</string>
     <string name="save_video_always">Save speed across sessions</string>
@@ -416,17 +418,6 @@
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Download</string>
     <string name="extension_empty">No item to display, go to your extension settings to get some.</string>
-
-    <string-array name="video_rate_list">
-        <item>@string/save_video_none</item>
-        <item>@string/save_video_session</item>
-        <item>@string/save_video_always</item>
-    </string-array>
-    <string-array name="video_rate_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

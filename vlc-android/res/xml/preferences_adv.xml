@@ -11,13 +11,17 @@
     <!--android:summary="@string/vout_summary"-->
     <!--android:title="@string/vout" />-->
 
-    <ListPreference
-        android:defaultValue="1"
-        android:key="save_video_speed"
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="video_playback_speed"
         android:title="@string/save_video_speed_title"
-        android:summary="@string/save_video_speed_summary"
-        android:entries="@array/video_rate_list"
-        android:entryValues="@array/video_rate_values"/>
+        android:summary="@string/save_video_speed_summary" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="playback_speed"
+        android:summary="@string/playback_speed_summary"
+        android:title="@string/playback_speed_title" />
 
     <CheckBoxPreference
         android:defaultValue="true"
