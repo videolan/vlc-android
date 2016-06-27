@@ -195,6 +195,8 @@ public class SubtitlesDownloader {
                         subLanguageID = ((HashMap<String, String>) map).get("SubLanguageID");
                         subDownloadLink = ((HashMap<String, String>) map).get("SubDownloadLink");
                         fileUrl = index.get(movieHash);
+                        if (fileUrl == null)
+                            return;
 
                         fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
                         if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
