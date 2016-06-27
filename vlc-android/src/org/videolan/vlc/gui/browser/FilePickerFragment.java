@@ -109,4 +109,9 @@ public class FilePickerFragment extends FileBrowserFragment {
     protected int getLayoutId(){
         return R.layout.file_picker_fragment;
     }
+
+    @Override
+    protected int getBrowserFlags() {
+        return MediaBrowser.Flag.Interact|MediaBrowser.Flag.NoSlavesAutodetect;
+    }
 }

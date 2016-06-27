@@ -354,7 +354,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mRoot)
             browseRoot();
         else
-            mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), MediaBrowser.Flag.Interact);
+            mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), getBrowserFlags());
     }
 
     private void deleteMedia(final MediaWrapper mw) {
@@ -373,6 +373,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             case R.id.fab_add_custom_dir:
                 playAll(null);
         }
+    }
+
+    protected int getBrowserFlags() {
+        return MediaBrowser.Flag.Interact;
     }
 
     protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
