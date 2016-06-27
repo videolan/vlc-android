@@ -353,7 +353,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mRoot)
             browseRoot();
         else
-            mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), true);
+            mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), MediaBrowser.Flag.Interact);
     }
 
     private void deleteMedia(final MediaWrapper mw) {
@@ -588,7 +588,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mw = null;
             if (mw != null){
                 if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
-                    mMediaBrowser.browse(mw.getUri(), false);
+                    mMediaBrowser.browse(mw.getUri(), 0);
                     return;
                 }
             }
@@ -641,7 +641,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
             if (mw != null) {
                 if (mCurrentParsedPosition < mAdapter.getItemCount()) {
-                    mMediaBrowser.browse(mw.getUri(), false);
+                    mMediaBrowser.browse(mw.getUri(), 0);
                 } else {
                     mCurrentParsedPosition = -1;
                     releaseBrowser();

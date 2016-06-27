@@ -45,6 +45,11 @@ public class MediaBrowser {
     private static final String IGNORE_LIST_OPTION =  ":ignore-filetypes=";
     private String mIgnoreList = "db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv,txt,sub,idx,srt,cue,ssa";
 
+    public static class Flag {
+        /** If this flag is set, browse() could fire up dialogs */
+        public final static int Interact = 1;
+    }
+
     /**
      * Listener called when medias are added or removed.
      */
@@ -154,12 +159,12 @@ public class MediaBrowser {
      * Browse to the specified local path starting with '/'.
      *
      * @param path
-     * @param interact true if browsing could fire up dialogs
+     * @param flags see {@link MediaBrowser.Flag}
      */
     @MainThread
-    public void browse(String path, boolean interact) {
+    public void browse(String path, int flags) {
         final Media media = new Media(mLibVlc, path);
-        browse(media, interact);
+        browse(media, flags);
         media.release();
     }
 
@@ -167,12 +172,12 @@ public class MediaBrowser {
      * Browse to the specified uri.
      *
      * @param uri
-     * @param interact true if browsing could fire up dialogs
+     * @param flags see {@link MediaBrowser.Flag}
      */
     @MainThread
-    public void browse(Uri uri, boolean interact) {
+    public void browse(Uri uri, int flags) {
         final Media media = new Media(mLibVlc, uri);
-        browse(media, interact);
+        browse(media, flags);
         media.release();
     }
 
@@ -180,22 +185,22 @@ public class MediaBrowser {
      * Browse to the specified media.
      *
      * @param media Can be a media returned by MediaBrowser.
-     * @param interact true if browsing could fire up dialogs
+     * @param flags see {@link MediaBrowser.Flag}
      */
     @MainThread
-    public void browse(Media media, boolean interact) {
+    public void browse(Media media, int flags) {
         /* media can be associated with a medialist,
          * so increment ref count in order to don't clean it with the medialist
          */
         media.retain();
         media.addOption(IGNORE_LIST_OPTION + mIgnoreList);
-        int flags = Media.Parse.ParseNetwork;
-        if (interact)
-            flags |= Media.Parse.DoInteract;
+        int mediaFlags = Media.Parse.ParseNetwork;
+        if ((flags & Flag.Interact) != 0)
+            mediaFlags |= Media.Parse.DoInteract;
         reset();
         mBrowserMediaList = media.subItems();
         mBrowserMediaList.setEventListener(mBrowserMediaListEventListener);
-        media.parseAsync(flags, 0);
+        media.parseAsync(mediaFlags, 0);
         mMedia = media;
     }
 
