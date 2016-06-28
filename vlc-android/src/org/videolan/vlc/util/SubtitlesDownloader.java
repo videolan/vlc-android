@@ -516,7 +516,7 @@ public class SubtitlesDownloader {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VLCApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
                 }
             });
         }
