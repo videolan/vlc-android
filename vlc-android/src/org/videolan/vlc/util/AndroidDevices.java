@@ -51,6 +51,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class AndroidDevices {
@@ -59,6 +60,9 @@ public class AndroidDevices {
 
     final static boolean hasNavBar;
     final static boolean hasTsp, isTv, showInternalStorage;
+    public final static boolean showMediaStyle;
+
+    final static String[] noMediaStyleManufacturers = {"huawei", "symphony teleca"};
 
     static {
         HashSet<String> devicesWithoutNavBar = new HashSet<String>();
@@ -71,6 +75,8 @@ public class AndroidDevices {
         hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
         isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
         showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
+
+        showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
     }
 
     public static boolean hasExternalStorage() {
@@ -255,5 +261,12 @@ public class AndroidDevices {
                 enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
+    }
+
+    private static boolean isManufacturerBannedForMediastyleNotifications() {
+        for (String manufacturer : noMediaStyleManufacturers)
+            if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
+                return true;
+        return false;
     }
 }
