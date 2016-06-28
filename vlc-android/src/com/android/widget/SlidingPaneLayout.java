@@ -366,7 +366,7 @@ public class SlidingPaneLayout extends ViewGroup {
         final int childCount = getChildCount();
 
         if (childCount > 2) {
-            Log.e(TAG, "onMeasure: More than two child views are not supported.");
+            if (BuildConfig.DEBUG) Log.e(TAG, "onMeasure: More than two child views are not supported.");
         }
 
         // We'll find the current one below.
@@ -1037,13 +1037,13 @@ public class SlidingPaneLayout extends ViewGroup {
             try {
                 mGetDisplayList = View.class.getDeclaredMethod("getDisplayList", (Class[]) null);
             } catch (NoSuchMethodException e) {
-                Log.e(TAG, "Couldn't fetch getDisplayList method; dimming won't work right.", e);
+                if (BuildConfig.DEBUG) Log.e(TAG, "Couldn't fetch getDisplayList method; dimming won't work right.", e);
             }
             try {
                 mRecreateDisplayList = View.class.getDeclaredField("mRecreateDisplayList");
                 mRecreateDisplayList.setAccessible(true);
             } catch (NoSuchFieldException e) {
-                Log.e(TAG, "Couldn't fetch mRecreateDisplayList field; dimming will be slow.", e);
+                if (BuildConfig.DEBUG) Log.e(TAG, "Couldn't fetch mRecreateDisplayList field; dimming will be slow.", e);
             }
         }
 
@@ -1054,7 +1054,7 @@ public class SlidingPaneLayout extends ViewGroup {
                     mRecreateDisplayList.setBoolean(child, true);
                     mGetDisplayList.invoke(child, (Object[]) null);
                 } catch (Exception e) {
-                    Log.e(TAG, "Error refreshing display list state", e);
+                    if (BuildConfig.DEBUG) Log.e(TAG, "Error refreshing display list state", e);
                 }
             } else {
                 // Slow path. REALLY slow path. Let's hope we don't get here.
