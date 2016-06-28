@@ -761,7 +761,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         loadMedia();
 
-        boolean ratePref = mSettings.getBoolean(PreferencesActivity.VIDEO_SAVE_SPEED, false);
+        boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
         mService.setRate(ratePref ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
 
 
@@ -907,7 +907,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-            boolean ratePref = mSettings.getBoolean(PreferencesActivity.VIDEO_SAVE_SPEED, false);
+            boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
             if (ratePref)
                 editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
             mService.setRate(1.0f, false);

@@ -1726,7 +1726,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);
-            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
+            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
                 setRate(mSettings.getFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, 1.0F), true);
             mMediaPlayer.play();
 
@@ -1933,7 +1933,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void setRate(float rate, boolean save) {
         mMediaPlayer.setRate(rate);
-        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
+        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
             Util.commitPreferences(mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate));
     }
 
