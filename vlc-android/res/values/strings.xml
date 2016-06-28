@@ -198,10 +198,8 @@
 
     <string name="playback_history_title">Playback history</string>
     <string name="playback_history_summary">Save all media played in History section</string>
-    <string name="playback_speed_title">Save Audio Playback Speed</string>
-    <string name="playback_speed_summary">Remember the audio playback speed you set</string>
-    <string name="save_video_speed_title">Save video Playback speed</string>
-    <string name="save_video_speed_summary">Remember the video playback speed you set</string>
+    <string name="playback_speed_title">Save Playback Speed</string>
+    <string name="playback_speed_summary">Remember the playback speed you set</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Video player tips:</string>
