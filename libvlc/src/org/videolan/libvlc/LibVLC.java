@@ -165,7 +165,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
                 else
                     System.loadLibrary("anw.21");
             } catch (Throwable t) {
-                Log.w(TAG, "Unable to load the anw library: " + t);
+                Log.d(TAG, "anw library not loaded");
             }
 
             try {
