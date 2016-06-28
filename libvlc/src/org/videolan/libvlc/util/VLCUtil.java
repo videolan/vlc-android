@@ -73,46 +73,25 @@ public class VLCUtil {
         // If already checked return cached result
         if (errorMsg != null || isCompatible) return isCompatible;
 
-        final File lib = searchLibrary(context.getApplicationInfo());
-        if (lib == null)
-            return true;
+        boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
+                hasArmV7 = false, hasMips = false, hasX86 = false, is64bits = false;
+        float bogoMIPS = -1;
+        int processors = 0;
 
-        ElfData elf = readLib(lib);
-        if (elf == null) {
-            Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
-            Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
-            return true;
-        }
-
+        /* ABI */
         String[] abis;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             abis = getABIList21();
         else
             abis = getABIList();
 
-        final boolean elfHasX86 = elf.e_machine == EM_386 || elf.e_machine == EM_X86_64;
-        final boolean elfHasArm = elf.e_machine == EM_ARM || elf.e_machine == EM_AARCH64;
-        final boolean elfHasMips = elf.e_machine == EM_MIPS;
-        final boolean elfIs64bits = elf.is64bits;
-
-        Log.i(TAG, "ELF ABI = " + (elfHasArm ? "arm" : elfHasX86 ? "x86" : "mips") + ", " +
-                (elfIs64bits ? "64bits" : "32bits"));
-        Log.i(TAG, "ELF arch = " + elf.att_arch);
-        Log.i(TAG, "ELF fpu = " + elf.att_fpu);
-        boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
-                hasArmV7 = false, hasMips = false, hasX86 = false, is64bits = false;
-        float bogoMIPS = -1;
-        int processors = 0;
-
         for (String abi : abis) {
             if (abi.equals("x86")) {
-                Log.e(TAG, "is X86");
                 hasX86 = true;
             } else if (abi.equals("x86_64")) {
                 hasX86 = true;
                 is64bits = true;
             } else if (abi.equals("armeabi-v7a")) {
-                Log.e(TAG, "is ARMV7");
                 hasArmV7 = true;
                 hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
             } else if (abi.equals("armeabi")) {
@@ -125,6 +104,28 @@ public class VLCUtil {
             }
         }
 
+        /* Elf */
+        ElfData elf = null;
+        boolean elfHasX86 = false;
+        boolean elfHasArm = false;
+        boolean elfHasMips = false;
+        boolean elfIs64bits = false;
+        final File lib = searchLibrary(context.getApplicationInfo());
+        if (lib != null && (elf = readLib(lib)) != null) {
+            elfHasX86 = elf.e_machine == EM_386 || elf.e_machine == EM_X86_64;
+            elfHasArm = elf.e_machine == EM_ARM || elf.e_machine == EM_AARCH64;
+            elfHasMips = elf.e_machine == EM_MIPS;
+            elfIs64bits = elf.is64bits;
+
+            Log.i(TAG, "ELF ABI = " + (elfHasArm ? "arm" : elfHasX86 ? "x86" : "mips") + ", " +
+                    (elfIs64bits ? "64bits" : "32bits"));
+            Log.i(TAG, "ELF arch = " + elf.att_arch);
+            Log.i(TAG, "ELF fpu = " + elf.att_fpu);
+        } else {
+            Log.w(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
+        }
+
+        /* cpuinfo */
         FileReader fileReader = null;
         BufferedReader br = null;
         try {
@@ -165,10 +166,7 @@ public class VLCUtil {
                     }
                 }
             }
-        } catch (IOException ex) {
-            errorMsg = "IOException whilst reading cpuinfo flags";
-            Log.e(TAG, errorMsg, ex);
-            isCompatible = false;
+        } catch (IOException ignored) {
         } finally {
             if (br != null)
                 try {
@@ -182,39 +180,43 @@ public class VLCUtil {
         if (processors == 0)
             processors = 1; // possibly borked cpuinfo?
 
-        // Enforce proper architecture to prevent problems
-        if (elfHasX86 && !hasX86) {
-            errorMsg = "x86 build on non-x86 device";
-            isCompatible = false;
-        } else if (elfHasArm && !hasArmV6) {
-            errorMsg = "ARM build on non ARM device";
-            isCompatible = false;
-        }
-
-        if (elfHasMips && !hasMips) {
-            errorMsg = "MIPS build on non-MIPS device";
-            isCompatible = false;
-        } else if (elfHasArm && hasMips) {
-            errorMsg = "ARM build on MIPS device";
-            isCompatible = false;
-        }
-
-        if (elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
-            errorMsg = "ARMv7 build on non-ARMv7 device";
-            isCompatible = false;
-        }
-        if (elf.e_machine == EM_ARM) {
-            if (elf.att_arch.startsWith("v6") && !hasArmV6) {
-                errorMsg = "ARMv6 build on non-ARMv6 device";
+        isCompatible = true;
+        /* compare ELF with ABI/cpuinfo */
+        if (elf != null) {
+            // Enforce proper architecture to prevent problems
+            if (elfHasX86 && !hasX86) {
+                errorMsg = "x86 build on non-x86 device";
                 isCompatible = false;
-            } else if (elf.att_fpu && !hasFpu) {
-                errorMsg = "FPU-enabled build on non-FPU device";
+            } else if (elfHasArm && !hasArmV6) {
+                errorMsg = "ARM build on non ARM device";
                 isCompatible = false;
             }
-        }
-        if (elfIs64bits && !is64bits) {
-            errorMsg = "64bits build on 32bits device";
-            isCompatible = false;
+
+            if (elfHasMips && !hasMips) {
+                errorMsg = "MIPS build on non-MIPS device";
+                isCompatible = false;
+            } else if (elfHasArm && hasMips) {
+                errorMsg = "ARM build on MIPS device";
+                isCompatible = false;
+            }
+
+            if (elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
+                errorMsg = "ARMv7 build on non-ARMv7 device";
+                isCompatible = false;
+            }
+            if (elf.e_machine == EM_ARM) {
+                if (elf.att_arch.startsWith("v6") && !hasArmV6) {
+                    errorMsg = "ARMv6 build on non-ARMv6 device";
+                    isCompatible = false;
+                } else if (elf.att_fpu && !hasFpu) {
+                    errorMsg = "FPU-enabled build on non-FPU device";
+                    isCompatible = false;
+                }
+            }
+            if (elfIs64bits && !is64bits) {
+                errorMsg = "64bits build on 32bits device";
+                isCompatible = false;
+            }
         }
 
         float frequency = -1;
@@ -236,16 +238,17 @@ public class VLCUtil {
             if (br != null)
                 try {
                     br.close();
-                } catch (IOException e) {}
+                } catch (IOException ignored) {}
             if (fileReader != null)
                 try {
                     fileReader.close();
-                } catch (IOException e) {}
+                } catch (IOException ignored) {}
         }
 
-        isCompatible = errorMsg == null;
         // Store into MachineSpecs
         machineSpecs = new MachineSpecs();
+        Log.d(TAG, "machineSpecs: hasArmV6: " + hasArmV6 + ", hasArmV7: " + hasArmV7 +
+                   ", hasX86: " + hasX86 + ", is64bits: " + is64bits);
         machineSpecs.hasArmV6 = hasArmV6;
         machineSpecs.hasArmV7 = hasArmV7;
         machineSpecs.hasFpu = hasFpu;
