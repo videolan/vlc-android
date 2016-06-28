@@ -907,12 +907,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 builder.addAction(R.drawable.ic_play_w, getString(R.string.play), piPlay);
             builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
 
-            builder.setStyle(new NotificationCompat.MediaStyle()
-                            .setMediaSession(mMediaSession.getSessionToken())
-                            .setShowActionsInCompactView(new int[] {0,1,2})
-                            .setShowCancelButton(true)
-                            .setCancelButtonIntent(piStop)
-            );
+            if (AndroidDevices.showMediaStyle) {
+                builder.setStyle(new NotificationCompat.MediaStyle()
+                                .setMediaSession(mMediaSession.getSessionToken())
+                                .setShowActionsInCompactView(new int[] {0,1,2})
+                                .setShowCancelButton(true)
+                                .setCancelButtonIntent(piStop)
+                );
+            }
 
             notification = builder.build();
 
