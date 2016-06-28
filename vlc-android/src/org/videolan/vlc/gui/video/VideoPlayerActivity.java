@@ -1100,7 +1100,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mLockBackButton) {
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
-            Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
+            Toast.makeText(VLCApplication.getAppContext(), getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
         } else if(mPlaylist.getVisibility() == View.VISIBLE) {
             togglePlaylist();
         } else if (mPlaybackSetting != DelayState.OFF){
@@ -1720,7 +1720,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHardwareAccelerationError = true;
         if (mSwitchingView)
             return;
-        Toast.makeText(this, R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
+        Toast.makeText(VLCApplication.getAppContext(), R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
         final boolean wasPaused = !mService.isPlaying();
         final long oldTime = mService.getTime();
         int position = mService.getCurrentMediaPosition();

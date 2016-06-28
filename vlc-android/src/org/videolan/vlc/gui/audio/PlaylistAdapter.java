@@ -180,7 +180,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             };
             UiTools.snackerWithCancel(v, message, null, cancelAction);
         } else if (mAudioPlayer instanceof Context){
-            Toast.makeText((Context) mAudioPlayer, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(VLCApplication.getAppContext(), message, Toast.LENGTH_SHORT).show();
         }
         remove(position);
     }

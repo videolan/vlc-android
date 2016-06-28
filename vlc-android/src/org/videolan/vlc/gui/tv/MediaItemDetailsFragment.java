@@ -120,14 +120,14 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
-                        Toast.makeText(getActivity(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
                         mDb.deleteNetworkFav(Uri.parse(mMedia.getLocation()));
                         detailsOverview.removeAction(actionDelete);
                         detailsOverview.addAction(actionAdd);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
-                        Toast.makeText(getActivity(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_BROWSE:
                         TvUtil.openMedia(getActivity(), media, null);
