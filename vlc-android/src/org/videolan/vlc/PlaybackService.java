@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import android.annotation.TargetApi;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -590,6 +591,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
+        KeyguardManager keyguardManager = (KeyguardManager) VLCApplication.getAppContext().getSystemService(Context.KEYGUARD_SERVICE);
 
         @Override
         public void onEvent(MediaPlayer.Event event) {
@@ -625,7 +627,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
-                    if (!mVideoBackground && switchToVideo())
+                    if (!keyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo())
                         hideNotification(false);
                     else
                         showNotification();
