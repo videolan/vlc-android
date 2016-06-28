@@ -977,7 +977,7 @@ public class SlidingPaneLayout extends ViewGroup {
 
     }
 
-    static class SavedState extends BaseSavedState {
+    static class SavedState extends android.support.v4.view.AbsSavedState {
         int state;
 
         SavedState(Parcelable superState) {
