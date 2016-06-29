@@ -1,8 +1,19 @@
 Changes between 2.0.1 and 2.0.2:
 --------------------------------
 
+Application:
+ * Fix numerous crashes in the Java code
+ * Update translations
+ * Restore long press action on playbackspeed +/- buttons
+ * Show all subs in current folder in subtitles picker
+ * VLC now remembers video sort order
+ * VLC now remembers length/remaining time display choice in video player
+ * Avoid crash on audio playback for Huawei devices
+ * Restore 'position' intent extra for video launch from 3rd party apps
+
 Changes between 2.0.0 and 2.0.1:
 --------------------------------
+
 Application:
  * Fix numerous crashes in the Java code
  * Improve video transition time in popup-view
