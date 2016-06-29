@@ -57,19 +57,16 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
-            intent.setData(getUri(intent));
-            if (intent.getType() != null && intent.getType().startsWith("video")) {
-                intent.setClass(this, VideoPlayerActivity.class);
-                startActivity(intent);
-            } else {
+            intent.setDataAndType(getUri(intent), intent.getType());
+            if (intent.getType() != null && intent.getType().startsWith("video"))
+                startActivity(intent.setClass(this, VideoPlayerActivity.class));
+            else
                 MediaUtils.openUri(this, intent.getData());
-            }
         } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
             startActivity(new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
         } else
             startActivity(new Intent(this, VLCApplication.showTvUi() ? MainTvActivity.class : MainActivity.class));
         finish();
-        return;
     }
 
     private Uri getUri(Intent intent) {
