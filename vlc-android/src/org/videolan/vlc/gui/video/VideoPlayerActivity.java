@@ -151,6 +151,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
     public final static String PLAY_EXTRA_ITEM_TITLE = "title";
     public final static String PLAY_EXTRA_FROM_START = "from_start";
+    public final static String PLAY_EXTRA_START_TIME = "position";
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
     public final static String PLAY_DISABLE_HARDWARE = "disable_hardware";
 
@@ -2856,10 +2857,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean fromStart = false;
         String itemTitle = null;
         int positionInPlaylist = -1;
-        long savedTime = -1; // position passed in by intent (ms)
         Intent intent = getIntent();
-        String action = intent.getAction();
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = intent.getExtras();
+        long savedTime = extras.getLong(PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
+        if (savedTime == 0l)
+            savedTime = extras.getInt(PLAY_EXTRA_START_TIME);
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -2925,7 +2927,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 intent.putExtra(PLAY_EXTRA_FROM_START, false);
                 if (fromStart || mService.isPlaying())
                     media.setTime(0l);
-                else
+                else if (savedTime <= 0)
                     savedTime = media.getTime();
 
                 mLastAudioTrack = media.getAudioTrack();
