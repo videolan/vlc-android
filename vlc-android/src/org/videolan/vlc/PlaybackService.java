@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -1746,7 +1747,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);
-            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
+            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
                 setRate(mSettings.getFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, 1.0F), true);
             mMediaPlayer.play();
 
@@ -1953,7 +1954,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     @MainThread
     public void setRate(float rate, boolean save) {
         mMediaPlayer.setRate(rate);
-        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
+        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false))
             Util.commitPreferences(mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate));
     }
 

@@ -757,7 +757,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         loadMedia();
 
-        boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
+        boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false);
         mService.setRate(ratePref ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
 
 

@@ -12,7 +12,7 @@
     <!--android:title="@string/vout" />-->
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="playback_speed"
         android:summary="@string/playback_speed_summary"
         android:title="@string/playback_speed_title" />
