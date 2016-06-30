@@ -9,6 +9,14 @@
         android:key="enable_black_theme"
         android:summary="@string/enable_black_theme_summary"
         android:title="@string/enable_black_theme" />
+    <ListPreference
+        android:defaultValue="6"
+        android:entries="@array/video_min_group_length_list"
+        android:entryValues="@array/video_min_group_length_values"
+        android:key="video_min_group_length"
+        android:persistent="true"
+        android:summary="@string/video_min_group_length_summary"
+        android:title="@string/video_min_group_length_title" />
     <PreferenceCategory android:title="@string/interface_gui" >
         <CheckBoxPreference
             android:key="tv_ui"

@@ -398,7 +398,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements ISortable
                     final ArrayList<MediaWrapper> jobsList = new ArrayList<>();
                     if (mGroup != null || itemList.size() <= 10) {
                         for (MediaWrapper item : itemList) {
-                            if (mGroup == null || item.getTitle().startsWith(mGroup))
+                            String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+                            if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
                                 displayList.add(item);
                                 jobsList.add(item);
                         }
