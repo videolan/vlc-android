@@ -171,7 +171,8 @@ public class EqualizerFragment extends PlaybackServiceFragment {
             preamp.setProgress((int) mEqualizer.getPreAmp() + 20);
             for (int i = 0; i < BAND_COUNT; ++i) {
                 EqualizerBar bar = (EqualizerBar) bands_layout.getChildAt(i);
-                bar.setValue(mEqualizer.getAmp(i));
+                if (bar != null)
+                    bar.setValue(mEqualizer.getAmp(i));
             }
         }
 
