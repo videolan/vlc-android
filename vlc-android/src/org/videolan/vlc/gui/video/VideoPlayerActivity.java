@@ -2857,8 +2857,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         int positionInPlaylist = -1;
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        long savedTime = extras.getLong(PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
-        if (savedTime == 0l)
+        long savedTime = extras != null ? extras.getLong(PLAY_EXTRA_START_TIME) : 0L; // position passed in by intent (ms)
+        if (extras != null && savedTime == 0L)
             savedTime = extras.getInt(PLAY_EXTRA_START_TIME);
         /*
          * If the activity has been paused by pressing the power button, then
@@ -2924,8 +2924,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false);
                 if (fromStart || mService.isPlaying())
-                    media.setTime(0l);
-                else if (savedTime <= 0)
+                    media.setTime(0L);
+                else if (savedTime <= 0L)
                     savedTime = media.getTime();
 
                 mLastAudioTrack = media.getAudioTrack();
@@ -2933,7 +2933,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             } else {
                 // not in media library
 
-                if (savedTime > 0 && mAskResume) {
+                if (savedTime > 0L && mAskResume) {
                     showConfirmResumeDialog();
                     return;
                 } else {
@@ -2967,7 +2967,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
-            if (savedTime <= 0 && media != null && media.getTime() > 0l)
+            if (savedTime <= 0L && media != null && media.getTime() > 0L)
                 savedTime = media.getTime();
             if (savedTime > 0L && !mService.isPlaying())
                 mService.saveTimeToSeek(savedTime);
