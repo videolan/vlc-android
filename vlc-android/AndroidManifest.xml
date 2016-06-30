@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.videolan.vlc"
     android:installLocation="auto"
-    android:versionCode="02000200"
+    android:versionCode="02000210"
     android:versionName="2.0.2">
     <!--
          versionCode scheme is T M NN RR AA
