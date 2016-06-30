@@ -386,6 +386,12 @@
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
     <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
+    <string name="video_min_group_length_title">Group videos</string>
+    <string name="video_min_group_length_summary">Videos are grouped if their first letters are the same.</string>
+    <string name="video_min_group_length_disable">Disable</string>
+    <string name="video_min_group_length_first">First letter only</string>
+    <string name="video_min_group_length_short">Short number of letters (6)</string>
+    <string name="video_min_group_length_long">Long number of letters (9)</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
@@ -484,6 +490,20 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="video_min_group_length_list" translatable="false">
+        <item>@string/video_min_group_length_disable</item>
+        <item>@string/video_min_group_length_first</item>
+        <item>@string/video_min_group_length_short</item>
+        <item>@string/video_min_group_length_long</item>
+    </string-array>
+
+    <string-array name="video_min_group_length_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>6</item>
+        <item>9</item>
     </string-array>
 
     <string-array name="subtitles_encoding_list" tools:ignore="TypographyDashes">

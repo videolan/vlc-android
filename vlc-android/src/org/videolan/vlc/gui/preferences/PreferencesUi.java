@@ -58,6 +58,9 @@ public class PreferencesUi extends BasePreferenceFragment {
         if (preference.getKey() == null)
             return false;
         switch (preference.getKey()){
+            case "video_min_group_length":
+                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                return true;
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
                 return true;

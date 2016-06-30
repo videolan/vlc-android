@@ -20,6 +20,10 @@
 
 package org.videolan.vlc.media;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 import java.util.ArrayList;
@@ -28,8 +32,6 @@ import java.util.List;
 public class MediaGroup extends MediaWrapper {
 
     public final static String TAG = "VLC/MediaGroup";
-
-    public final static int MIN_GROUP_LENGTH = 6;
 
     private ArrayList<MediaWrapper> mMedias;
 
@@ -92,6 +94,8 @@ public class MediaGroup extends MediaWrapper {
     }
 
     private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
         for (MediaGroup mediaGroup : groups) {
             String group = mediaGroup.getTitle();
             String title = media.getTitle();
@@ -105,10 +109,11 @@ public class MediaGroup extends MediaWrapper {
             int commonLength = 0;
             String groupTitle = group.substring(groupOffset);
             int minLength = Math.min(groupTitle.length(), title.length());
-            while (commonLength < minLength && groupTitle.charAt(commonLength) == title.charAt(commonLength))
+            while (commonLength < minLength
+                    && groupTitle.toLowerCase().charAt(commonLength) == title.toLowerCase().charAt(commonLength))
                 ++commonLength;
 
-            if (commonLength >= MIN_GROUP_LENGTH) {
+            if (commonLength >= minGroupLengthValue && minGroupLengthValue != 0) {
                 if (commonLength == group.length()) {
                     // same prefix name, just add
                     mediaGroup.add(media);
