@@ -623,7 +623,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         public AdvOptionsAdapter() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
-            if (TextUtils.equals(prefs.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, AndroidDevices.hasTsp() ? "0" : "2"), "2"))
+            if (!(prefs.getBoolean("enable_volume_gesture",false) || prefs.getBoolean("enable_volume_gesture",false)))
                 mSelection = 0;
         }
 

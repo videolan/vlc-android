@@ -368,7 +368,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mTouchControls = VLCApplication.showTvUi() ? 2 : Integer.valueOf(mSettings.getString(PreferencesUi.KEY_ENABLE_TOUCH_PLAYER, "0")).intValue();
+        if (!VLCApplication.showTvUi()) {
+            mTouchControls = (mSettings.getBoolean("enable_volume_gesture", true) ? 1 : 0)
+                    + (mSettings.getBoolean("enable_brightness_gesture", true) ? 2 : 0);
+        }
 
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) VLCApplication.getAppContext().getSystemService(AUDIO_SERVICE);
@@ -1915,7 +1918,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
             return true;
         }
-        if (mTouchControls == 2 || mIsLocked) {
+        if (mTouchControls == 0 || mIsLocked) {
             // locked or swipe disabled, only handle show/hide & ignore all actions
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (!mShowing) {
@@ -1981,12 +1984,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mTouchY = event.getRawY();
                 mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
-                if (mTouchControls == 1 || (int)mTouchX > (3 * screen.widthPixels / 5)){
+                if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * screen.widthPixels / 7))){
                     doVolumeTouch(y_changed);
                     hideOverlay(true);
                 }
                 // Brightness (Up or Down - Left side)
-                else if ((int)mTouchX < (2 * screen.widthPixels / 5)){
+                if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * screen.widthPixels / 7))){
                     doBrightnessTouch(y_changed);
                     hideOverlay(true);
                 }

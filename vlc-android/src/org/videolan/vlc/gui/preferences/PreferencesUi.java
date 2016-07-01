@@ -33,8 +33,6 @@ import org.videolan.vlc.R;
 
 public class PreferencesUi extends BasePreferenceFragment {
 
-    public static final String KEY_ENABLE_TOUCH_PLAYER = "enable_touch_player";
-
     @Override
     protected int getXml() {
         return R.xml.preferences_ui;
