@@ -53,12 +53,16 @@
             android:key="save_brightness"
             android:summary="@string/save_brightness_summary"
             android:title="@string/save_brightness_title" />
-        <ListPreference
-            android:defaultValue="0"
-            android:key="enable_touch_player"
-            android:title="@string/player_touch_title"
-            android:entries="@array/touch_entries"
-            android:entryValues="@array/touch_values"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_volume_gesture"
+            android:summary="@string/enable_volume_gesture_summary"
+            android:title="@string/enable_volume_gesture_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_brightness_gesture"
+            android:summary="@string/enable_brightness_gesture_summary"
+            android:title="@string/enable_brightness_gesture_title" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="dialog_confirm_resume"

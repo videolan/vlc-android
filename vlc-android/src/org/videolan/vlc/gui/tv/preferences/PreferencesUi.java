@@ -36,8 +36,6 @@ import org.videolan.vlc.util.AndroidDevices;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesUi extends BasePreferenceFragment {
 
-    public static final String KEY_ENABLE_TOUCH_PLAYER = "enable_touch_player";
-
     @Override
     protected int getXml() {
         return R.xml.preferences_ui;
@@ -56,7 +54,8 @@ public class PreferencesUi extends BasePreferenceFragment {
         findPreference("force_list_portrait").setVisible(false);
         findPreference("enable_headset_detection").setVisible(false);
         findPreference("enable_steal_remote_control").setVisible(false);
-        findPreference(KEY_ENABLE_TOUCH_PLAYER).setVisible(AndroidDevices.hasTsp());
+        findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
+        findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
         findPreference("lockscreen_cover").setVisible(false);
         findPreference("enable_black_theme").setVisible(false);

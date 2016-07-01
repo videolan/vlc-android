@@ -275,8 +275,10 @@
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
-    <string name="enable_brightness_gesture">Enable brightness gesture</string>
+    <string name="enable_brightness_gesture_title">Brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
+    <string name="enable_volume_gesture_title">Volume gesture</string>
+    <string name="enable_volume_gesture_summary">Control volume by gesture during video playback</string>
     <string name="enable_seek_buttons">Enable seek buttons</string>
     <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
     <string name="force_list_portrait">No grid in portrait mode</string>
@@ -593,17 +595,6 @@
         <item>Big5-HKSCS</item>
         <item>VISCII</item>
         <item>Windows-1258</item>
-    </string-array>
-
-    <string-array name="touch_entries">
-        <item>@string/player_touch_enable_all</item>
-        <item>@string/player_touch_disable_brightness</item>
-        <item>@string/player_touch_disable_all</item>
-    </string-array>
-    <string-array name="touch_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
     </string-array>
 
     <string-array name="aouts">
