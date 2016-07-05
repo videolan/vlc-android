@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_alignParentTop="true"
-    android:background="?attr/video_player_overlay"
+    android:background="@color/transparent"
     android:paddingLeft="5dp"
     android:paddingRight="5dp" >
 
@@ -14,8 +14,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/title"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="15sp" />
 
     <TextView
@@ -23,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="15sp"
         android:gravity="center"
         tools:ignore="true" />
@@ -32,7 +31,7 @@
         android:id="@+id/player_overlay_systime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="15sp"
         tools:ignore="true" />
 

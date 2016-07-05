@@ -195,8 +195,6 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="video_player_overlay">@color/transparent</item>
-        <item name="status_bar_overlay">@color/transparent</item>
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
