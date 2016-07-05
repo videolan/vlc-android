@@ -37,7 +37,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/time_margin_sides"
         android:gravity="left"
-        android:text="--:--"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/orange500"
         android:textSize="16sp"/>

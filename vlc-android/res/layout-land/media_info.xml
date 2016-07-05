@@ -105,7 +105,6 @@
             android:clipToPadding="false"
             android:divider="#00000000"
             android:fastScrollEnabled="true"
-            android:listSelector="@android:color/transparent"
             android:paddingBottom="@dimen/listview_bottom_padding" />
     </LinearLayout>
 
