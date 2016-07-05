@@ -25,31 +25,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
-                android:text="@android:string/cancel"
-                android:layout_toLeftOf="@+id/action1"
-                android:onClick="@{handler::onCancel}"
-                tools:targetApi="11"
-                style="?android:attr/borderlessButtonStyle" />
-            <Button
-                android:id="@+id/action1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="@{TextUtils.isEmpty(dialog.cancelText) ? @android:string/cancel : dialog.cancelText}"
                 android:layout_toLeftOf="@+id/action2"
-                android:layout_below="@+id/text"
-                android:text="@{dialog.action1Text}"
-                android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
-                android:onClick="@{handler::onAction1}"
+                android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
             <Button
                 android:id="@+id/action2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/text"
+                android:layout_toLeftOf="@+id/action1"
                 android:text="@{dialog.action2Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
                 android:onClick="@{handler::onAction2}"
+                tools:targetApi="11"
+                style="?android:attr/borderlessButtonStyle" />
+            <Button
+                android:id="@+id/action1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/text"
+                android:text="@{dialog.action1Text}"
+                android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
+                android:onClick="@{handler::onAction1}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
         </RelativeLayout>
