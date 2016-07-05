@@ -107,7 +107,7 @@
         <item name="preferenceTheme">@style/VLCPreferenceTheme.Dark</item>
 
         <item name="colorPrimary">@color/orange800</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
         <item name="item_footer">@color/grey700</item>
         <item name="background_default">@color/grey850</item>
@@ -174,7 +174,7 @@
 
     <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">
         <item name="android:listSelector">@drawable/background_item</item>
-        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:divider">@color/transparent</item>
         <item name="android:dividerHeight">0dp</item>
     </style>
 
@@ -195,11 +195,11 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="video_player_overlay">@android:color/transparent</item>
-        <item name="status_bar_overlay">@android:color/transparent</item>
+        <item name="video_player_overlay">@color/transparent</item>
+        <item name="status_bar_overlay">@color/transparent</item>
 
         <item name="colorPrimary">@color/orange800</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange800</item>
 
         <item name="rounded_bg">@drawable/rounded_corners</item>

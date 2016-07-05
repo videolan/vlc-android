@@ -14,7 +14,7 @@
     <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
         <item name="android:windowTranslucentStatus">false</item>">
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
     </style>
 
     <style name="PopupMenuStyle.Light" parent="@style/Widget.AppCompat.Light.PopupMenu">
