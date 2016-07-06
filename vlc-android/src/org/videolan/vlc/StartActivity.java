@@ -61,7 +61,7 @@ public class StartActivity extends Activity {
             if (intent.getType() != null && intent.getType().startsWith("video"))
                 startActivity(intent.setClass(this, VideoPlayerActivity.class));
             else
-                MediaUtils.openUri(this, intent.getData());
+                MediaUtils.openMediaNoUi(intent.getData());
         } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
             startActivity(new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
         } else

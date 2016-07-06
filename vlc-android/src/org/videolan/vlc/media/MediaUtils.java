@@ -91,6 +91,11 @@ public class MediaUtils {
         });
     }
 
+    public static void openMediaNoUi(Uri uri){
+        final MediaWrapper media = new MediaWrapper(uri);
+        openMediaNoUi(VLCApplication.getAppContext(), media);
+    }
+
     public static void openMediaNoUi(final Context context, final MediaWrapper media){
         if (media == null)
             return;
