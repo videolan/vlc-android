@@ -83,7 +83,7 @@
         <meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
         <activity
-            android:name="org.videolan.vlc.StartActivity">
+            android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
