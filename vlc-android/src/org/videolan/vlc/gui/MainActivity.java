@@ -697,7 +697,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                         ((MediaBrowserFragment) fragment).clear();
                 mMediaLibrary.scanMediaItems(true);
             } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                Intent intent = new Intent(MainActivity.this, StartActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 finish();
                 startActivity(intent);
             }
