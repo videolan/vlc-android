@@ -77,6 +77,10 @@ public class VLCOptions {
         else if (networkCaching < 0)
             networkCaching = 0;
 
+        final String freetypeRelFontsize = pref.getString("subtitles_size", "16");
+        final String freetypeColor = pref.getString("subtitles_color", "16777215");
+        final boolean freetypeBackground = pref.getBoolean("subtitles_background", false);
+
         /* CPU intensive plugin, setting for slow devices */
         options.add(timeStreching ? "--audio-time-stretch" : "--no-audio-time-stretch");
         options.add("--avcodec-skiploopfilter");
@@ -95,6 +99,13 @@ public class VLCOptions {
         options.add(chroma != null ? chroma : "RV32");
         options.add("--audio-resampler");
         options.add(getResampler());
+
+        options.add("--freetype-rel-fontsize=" + freetypeRelFontsize);
+        options.add("--freetype-color=" + freetypeColor);
+        if (freetypeBackground)
+            options.add("--freetype-background-opacity=128");
+        else
+            options.add("--freetype-background-opacity=0");
 
         /* Configure keystore */
         options.add("--keystore");

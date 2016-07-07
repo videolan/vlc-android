@@ -145,4 +145,35 @@
         <item>urd</item>
         <item>vie</item>
     </string-array>
+
+    <string-array name="subtitles_size_entries">
+        <item>@string/subtitles_size_small</item>
+        <item>@string/subtitles_size_normal</item>
+        <item>@string/subtitles_size_big</item>
+        <item>@string/subtitles_size_huge</item>
+    </string-array>
+
+    <string-array name="subtitles_size_values">
+        <item>19</item>
+        <item>16</item>
+        <item>13</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="subtitles_color_entries">
+        <item>@string/subtitles_color_white</item>
+        <item>@string/subtitles_color_pink</item>
+        <item>@string/subtitles_color_blue</item>
+        <item>@string/subtitles_color_yellow</item>
+        <item>@string/subtitles_color_green</item>
+    </string-array>
+
+    <string-array name="subtitles_color_values">
+        <item>16777215</item>
+        <item>16711935</item>
+        <item>65535</item>
+        <item>16776960</item>
+        <item>65280</item>
+    </string-array>
+
 </resources>
