@@ -1323,7 +1323,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void initPlaybackSettingInfo() {
         if (mPresentation == null) {
             UiTools.setViewVisibility(mVerticalBar, View.GONE);
-            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE)
+            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         } else
             mInfo.setVisibility(View.VISIBLE);
         String text = "";
