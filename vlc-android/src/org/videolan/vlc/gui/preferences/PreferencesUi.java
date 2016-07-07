@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
@@ -30,8 +31,9 @@ import android.support.v7.preference.TwoStatePreference;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.VLCInstance;
 
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected int getXml() {
@@ -44,11 +46,29 @@ public class PreferencesUi extends BasePreferenceFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
         findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater());
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key){
+            case "subtitles_size":
+            case "subtitles_color":
+            case "subtitles_background":
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
+        }
     }
 
     @Override
