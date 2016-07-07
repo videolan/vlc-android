@@ -563,7 +563,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        if (mPlaybackStarted) {
+        if (mPlaybackStarted && mService.getCurrentMediaWrapper() != null) {
             Uri uri = intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION) ?
                     (Uri) intent.getExtras().getParcelable(PLAY_EXTRA_ITEM_LOCATION) : intent.getData();
             if (uri == null || uri.equals(mUri))
@@ -1319,8 +1319,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void initPlaybackSettingInfo() {
         if (mPresentation == null) {
-            mVerticalBar.setVisibility(View.GONE);
-            mOverlayInfo.setVisibility(View.VISIBLE);
+            UiTools.setViewVisibility(mVerticalBar, View.GONE);
+            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE)
         } else
             mInfo.setVisibility(View.VISIBLE);
         String text = "";
@@ -1445,6 +1445,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void showInfoWithVerticalBar(String text, int duration, int barNewValue) {
         showInfo(text, duration);
+        if (mVerticalBarProgress == null)
+            return;
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
         layoutParams.weight = barNewValue;
         mVerticalBarProgress.setLayoutParams(layoutParams);
