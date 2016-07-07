@@ -38,9 +38,11 @@ public class VlcQuestionDialog extends VlcDialog<Dialog.QuestionDialog, VlcQuest
 
     public void onAction1(View v) {
         mVlcDialog.postAction(1);
+        dismiss();
     }
 
     public void onAction2(View v) {
         mVlcDialog.postAction(2);
+        dismiss();
     }
 }
