@@ -1,3 +1,11 @@
+Changes between 2.0.2 and 2.0.3:
+--------------------------------
+
+Application:
+ * Fix crashes in the Java code
+ * Allow subtitles customization in preferences
+
+
 Changes between 2.0.1 and 2.0.2:
 --------------------------------
 
