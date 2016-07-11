@@ -97,7 +97,7 @@ public class StartActivity extends Activity {
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Couldn't download file from mail URI");
-                    return null;
+                    return data;
                 } finally {
                     Util.close(is);
                     Util.close(os);
@@ -130,11 +130,11 @@ public class StartActivity extends Activity {
 //                    }
                 } catch (FileNotFoundException e) {
                     Log.e(TAG, "Couldn't understand the intent");
-                    return null;
+                    return data;
                 }
             }
         } else
-            mUri = intent.getData();
+            mUri = data;
         return mUri;
     }
 }
