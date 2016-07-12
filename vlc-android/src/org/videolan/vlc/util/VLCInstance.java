@@ -111,7 +111,7 @@ public class VLCInstance {
                 linkCompatLib(context);
             }
 
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions());
+            sLibVLC = new LibVLC(context, VLCOptions.getLibOptions());
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -130,7 +130,7 @@ public class VLCInstance {
     public static synchronized void restart() throws IllegalStateException {
         if (sLibVLC != null) {
             sLibVLC.release();
-            sLibVLC = new LibVLC(VLCOptions.getLibOptions());
+            sLibVLC = new LibVLC(VLCApplication.getAppContext(), VLCOptions.getLibOptions());
         }
     }
 

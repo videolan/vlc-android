@@ -356,13 +356,25 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
 #endif
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeNew(JNIEnv *env, jobject thiz, jobjectArray jstringArray)
+void Java_org_videolan_libvlc_LibVLC_nativeNew(JNIEnv *env, jobject thiz,
+                                               jobjectArray jstringArray,
+                                               jstring jhomePath)
 {
     vlcjni_object *p_obj = NULL;
     libvlc_instance_t *p_libvlc = NULL;
     jstring *strings = NULL;
     const char **argv = NULL;
     int argc = 0;
+
+    if (jhomePath)
+    {
+        const char *psz_home = (*env)->GetStringUTFChars(env, jhomePath, 0);
+        if (psz_home)
+        {
+            setenv("HOME", psz_home, 1);
+            (*env)->ReleaseStringUTFChars(env, jhomePath, psz_home);
+        }
+    }
 
     if (jstringArray)
     {

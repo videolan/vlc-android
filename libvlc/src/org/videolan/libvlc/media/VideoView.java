@@ -55,6 +55,7 @@ public class VideoView extends SurfaceView
 
     public VideoView(Context context) {
         super(context);
+        sLibVLC = new LibVLC(context, null);
     }
 
     public VideoView(Context context, AttributeSet attrs) {
@@ -68,10 +69,6 @@ public class VideoView extends SurfaceView
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public VideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    private void initLibVLC() {
-        sLibVLC = new LibVLC();
     }
 
     @Override
@@ -91,12 +88,10 @@ public class VideoView extends SurfaceView
     }
 
     public void setVideoPath(String path) {
-        initLibVLC();
         final Media media = new Media(sLibVLC, path);
     }
 
     public void setVideoURI(Uri uri) {
-        initLibVLC();
         final Media media = new Media(sLibVLC, uri);
     }
 
