@@ -170,6 +170,8 @@
     <string name="search_history">Histórico de pesquisa</string>
     <string name="playback_history_title">Histórico de reprodução</string>
     <string name="playback_history_summary">Guardar registo de todos os ficheiros reproduzidos</string>
+    <string name="playback_speed_title">Guardar velocidade de reprodução</string>
+    <string name="playback_speed_summary">Memorizar a velocidade de reprodução definida.</string>
     <!--Tips-->
     <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Procurar</string>
@@ -181,7 +183,7 @@
     <string name="ok_got_it">OK</string>
     <string name="playlist_tips">Sugestões da lista de reprodução</string>
     <string name="remove_song">Remover música</string>
-    <string name="remove_playlist_item">%1$s foi ignorado na lista de reprodução</string>
+    <string name="remove_playlist_item">%1$s foi ignorado da lista de reprodução</string>
     <string name="rearrange_order">Reorganizar</string>
     <string name="hold_to_seek">Toque sem soltar para procurar</string>
     <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Clonar</string>
     <string name="enable_clone_mode_summary">Clonar ecrã do dispositivo sem controlo remoto</string>
     <string name="interface_other_category">Interface - Outras</string>
-    <string name="enable_brightness_gesture">Ativar gesto de brilho</string>
-    <string name="enable_brightness_gesture_summary">Controlar o brilho com um gesto durante a reprodução do vídeo</string>
+    <string name="enable_brightness_gesture_title">Gestos para brilho</string>
+    <string name="enable_brightness_gesture_summary">Ao reproduzir, controlar brilho por meio de gestos</string>
+    <string name="enable_volume_gesture_title">Gestos para volume</string>
+    <string name="enable_volume_gesture_summary">Ao reproduzir, controlar volume por meio de gestos</string>
     <string name="enable_seek_buttons">Ativar botões para avançar/recuar</string>
     <string name="enable_seek_buttons_summary">Mostrar botões para avançar e recuar a reprodução</string>
     <string name="force_list_portrait">Sem grelha no modo vertical</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Avançadas</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC utiliza para a saída de áudio.</string>
-    <string name="save_video_speed_title">Guardar velocidade de reprodução</string>
-    <string name="save_video_speed_summary">Memorizar velocidade de reprodução de todos os vídeos</string>
     <string name="save_video_none">Não memorizar velocidade</string>
     <string name="save_video_session">Guardar velocidade durante a sessão</string>
     <string name="save_video_always">Guardar velocidade entre sessões</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Alterar interface para tema de TV</string>
     <string name="lockscreen_cover_title">Imagem no ecrã de bloqueio</string>
     <string name="lockscreen_cover_summary">Se disponível, utilizar a imagem do ficheiro em reprodução com papel de parede</string>
+    <string name="video_min_group_length_title">Agrupar vídeos</string>
+    <string name="video_min_group_length_summary">Os vídeos serão agrupados pelas suas iniciais.</string>
+    <string name="video_min_group_length_disable">Desativar</string>
+    <string name="video_min_group_length_first">Apenas primeira letra</string>
+    <string name="video_min_group_length_short">Número de letras curto (6)</string>
+    <string name="video_min_group_length_long">Número de letras comprido (9)</string>
+    <string name="subtitles_size_title">Tamanho das legendas</string>
+    <string name="subtitles_size_small">Pequeno</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Grande</string>
+    <string name="subtitles_size_huge">Enorme</string>
+    <string name="subtitles_color_title">Cor das legendas</string>
+    <string name="subtitles_color_white">Branco</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Azul</string>
+    <string name="subtitles_color_yellow">Amarelo</string>
+    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_background_title">Fundo das legandas</string>
     <!--Accessibility-->
     <string name="more_actions">Mais ações</string>
     <string name="move">Mover</string>
