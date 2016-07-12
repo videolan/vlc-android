@@ -170,6 +170,8 @@
     <string name="search_history">Sökhistorik</string>
     <string name="playback_history_title">Uppspelningshistorik</string>
     <string name="playback_history_summary">Spara all uppspelad media i historikavsnittet</string>
+    <string name="playback_speed_title">Spara uppspelningshastighet</string>
+    <string name="playback_speed_summary">Kommer ihåg din angivna uppspelningshastighet</string>
     <!--Tips-->
     <string name="video_player_tips">Tips för videospelaren:</string>
     <string name="seek">Sök</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Föredra klon</string>
     <string name="enable_clone_mode_summary">Klona enhetens skärm utan fjärrkontroll.</string>
     <string name="interface_other_category">Gränssnitt - Övrigt</string>
-    <string name="enable_brightness_gesture">Aktivera gest för ljusstyrka</string>
+    <string name="enable_brightness_gesture_title">Ljusstyrkegester</string>
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
+    <string name="enable_volume_gesture_title">Volymgester</string>
+    <string name="enable_volume_gesture_summary">Kontrollera volymen med gester under videouppspelning</string>
     <string name="enable_seek_buttons">Aktivera spolningsknappar</string>
     <string name="enable_seek_buttons_summary">Visa knappar för fram- och bakåtspolning i videogränssnittet</string>
     <string name="force_list_portrait">Inget rutnät i porträttläge</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Avancerat</string>
     <string name="aout">Ljudutmatning</string>
     <string name="aout_summary">Ändra metoden som VLC använder för att mata ut ljud.</string>
-    <string name="save_video_speed_title">Spara videons uppspelningshastighet</string>
-    <string name="save_video_speed_summary">Kom ihåg uppspelningshastigheten för videor</string>
     <string name="save_video_none">Spara inte hastigheten</string>
     <string name="save_video_session">Spara hastigheten under denna session</string>
     <string name="save_video_always">Spara hastigheten för alla sessioner</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Ändra gränssnitt till TV-anpassat tema</string>
     <string name="lockscreen_cover_title">Omslag för låsskärm</string>
     <string name="lockscreen_cover_summary">Ändra låsskärmens bakgrundsbild till aktuell mediaomslagbild om ett finns.</string>
+    <string name="video_min_group_length_title">Gruppera videor</string>
+    <string name="video_min_group_length_summary">Videor grupperas om de första bokstäverna är likadana.</string>
+    <string name="video_min_group_length_disable">Inaktivera</string>
+    <string name="video_min_group_length_first">Endast första bokstaven</string>
+    <string name="video_min_group_length_short">Litet antal bokstäver (6)</string>
+    <string name="video_min_group_length_long">Långt antal bokstäver (9)</string>
+    <string name="subtitles_size_title">Undertextstorlek</string>
+    <string name="subtitles_size_small">Liten</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Stor</string>
+    <string name="subtitles_size_huge">Enorm</string>
+    <string name="subtitles_color_title">Undertextfärg</string>
+    <string name="subtitles_color_white">Vit</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Blå</string>
+    <string name="subtitles_color_yellow">Gul</string>
+    <string name="subtitles_color_green">Grön</string>
+    <string name="subtitles_background_title">Undertextbakgrund</string>
     <!--Accessibility-->
     <string name="more_actions">Fler åtgärder</string>
     <string name="move">Flytta</string>
