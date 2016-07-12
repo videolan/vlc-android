@@ -201,7 +201,6 @@
     <string name="enable_clone_mode">Pilih klon</string>
     <string name="enable_clone_mode_summary">Klon layar perangkat tampa pengendali jarak jauh.</string>
     <string name="interface_other_category">Antarmuka - Lainnya</string>
-    <string name="enable_brightness_gesture">Aktifkan gestur kecerahan</string>
     <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gestur selama pemutaran video</string>
     <string name="force_list_portrait">Tidak ada grid dalam mode potret</string>
     <string name="force_list_portrait_summary">Tampilkan video dalam senarai bukannya grid dalam mode potret</string>
