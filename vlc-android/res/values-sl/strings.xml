@@ -152,6 +152,13 @@
     <string name="subtitle_label">Dodaj datoteko s podnapisi</string>
     <string name="subtitle_select">Izberi datoteko s podnapisi</string>
     <string name="no_file_picker_found">Na sistemu ni izbirnika datotek.</string>
+    <string name="server_port">Vrata:</string>
+    <string name="password">Geslo</string>
+    <string name="search_results">Rezultati iskanja</string>
+    <string name="favorites_add">Dodaj med priljubljene</string>
+    <string name="favorites_edit">Uredi</string>
+    <string name="favorite_added">Shranjeno med priljubljene</string>
+    <string name="favorite_removed">Odstranjeno iz priljubljenih</string>
     <string name="open">Odpri</string>
     <string name="open_mrl">Pretok</string>
     <string name="open_mrl_dialog_title">Odpri omrežni pretok</string>
@@ -164,6 +171,7 @@
     <string name="invalid_location">Lokacije %1$s ni mogoče predvajati.</string>
     <string name="search">Poišči</string>
     <string name="search_history">Zgodovina iskanja</string>
+    <string name="playback_history_title">Zgodovina predvajanja</string>
     <!--Tips-->
     <string name="video_player_tips">Namigi predvajalnika:</string>
     <string name="seek">Išči</string>
@@ -224,7 +232,6 @@
     <string name="enable_clone_mode">Prednost ima kloniranje</string>
     <string name="enable_clone_mode_summary">Kloniraj zaslon naprave brez daljica.</string>
     <string name="interface_other_category">Vmesnik - drugo</string>
-    <string name="enable_brightness_gesture">Omogoči gesto za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
     <string name="enable_seek_buttons">Omogoči gumbe za skok</string>
     <string name="enable_seek_buttons_summary">Pokaži gumba naprej in nazaj v vmesniku za video</string>
@@ -330,4 +337,9 @@
     <string name="exit_app">Zapri VLC</string>
     <string name="hardware_acceleration_error">napaka strojnega pospeševanja, preklapljanje na programsko odkodiranje</string>
     <!--PLugins-->
+    <string name="plugins">Vstavki</string>
+    <string name="add_to_playlist">Dodaj na seznam predvajanja</string>
+    <string name="preferences_languages_download">Jeziki podnapisov</string>
+    <string name="listen">Poslušaj</string>
+    <string name="connecting">Povezovanje ...</string>
 </resources>
