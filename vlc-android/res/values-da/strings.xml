@@ -234,7 +234,6 @@
     <string name="enable_clone_mode">Foretræk klon</string>
     <string name="enable_clone_mode_summary">Klon enhedsskærmen uden fjernbetjening.</string>
     <string name="interface_other_category">Brugerflade - andet</string>
-    <string name="enable_brightness_gesture">Slå lysstyrke-gestus til</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_seek_buttons">Slå søgeknapper til</string>
     <string name="enable_seek_buttons_summary">Vis spoleknapper på brugerflade for video</string>
@@ -266,8 +265,6 @@
     <string name="advanced_prefs_category">Avanceret</string>
     <string name="aout">Lyd-output</string>
     <string name="aout_summary">Udskift den metode som VLC anvender til at udsende lyd med.</string>
-    <string name="save_video_speed_title">Gem videoens afspilningshastighed</string>
-    <string name="save_video_speed_summary">Husk videoens afspilningshastighed for alle videoer</string>
     <string name="save_video_none">Gem ikke hastighed</string>
     <string name="save_video_session">Gem hastighed under session</string>
     <string name="save_video_always">Gem hastighed mellem sessioner</string>
