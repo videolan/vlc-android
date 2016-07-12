@@ -163,6 +163,8 @@
     <string name="search_history">搜索历史</string>
     <string name="playback_history_title">回放历史</string>
     <string name="playback_history_summary">在“历史记录”下保留所有播放过的媒体</string>
+    <string name="playback_speed_title">保存回放速度</string>
+    <string name="playback_speed_summary">记住您所设置的回放速度</string>
     <!--Tips-->
     <string name="video_player_tips">视频播放器小提示:</string>
     <string name="seek">定位</string>
@@ -227,8 +229,10 @@
     <string name="enable_clone_mode">克隆优先</string>
     <string name="enable_clone_mode_summary">克隆设备屏幕，而不启用远程控制。</string>
     <string name="interface_other_category">界面 - 其他</string>
-    <string name="enable_brightness_gesture">启用亮度手势</string>
+    <string name="enable_brightness_gesture_title">亮度手势</string>
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
+    <string name="enable_volume_gesture_title">音量手势</string>
+    <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
     <string name="enable_seek_buttons">启用定位按钮</string>
     <string name="enable_seek_buttons_summary">在视频界面显示倒退与前进按钮</string>
     <string name="force_list_portrait">竖屏模式不显示网格</string>
@@ -259,8 +263,6 @@
     <string name="advanced_prefs_category">高级</string>
     <string name="aout">音频输出</string>
     <string name="aout_summary">更改 VLC 输出音频的方式。</string>
-    <string name="save_video_speed_title">保存视频回放速度</string>
-    <string name="save_video_speed_summary">为所有视频记住回放速度</string>
     <string name="save_video_none">不要保存速度</string>
     <string name="save_video_session">在会话期间保存速度</string>
     <string name="save_video_always">跨会话保存速度</string>
@@ -330,6 +332,24 @@
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
     <string name="lockscreen_cover_title">锁屏媒体封面</string>
     <string name="lockscreen_cover_summary">可用时，将当前媒体的专辑封面设为锁屏桌面</string>
+    <string name="video_min_group_length_title">视频分组</string>
+    <string name="video_min_group_length_summary">若视频的首字母相同，则将其分组。</string>
+    <string name="video_min_group_length_disable">禁用</string>
+    <string name="video_min_group_length_first">仅首个字母相同</string>
+    <string name="video_min_group_length_short">少量字母相同 (6)</string>
+    <string name="video_min_group_length_long">大量字母相同 (9)</string>
+    <string name="subtitles_size_title">字幕大小</string>
+    <string name="subtitles_size_small">小</string>
+    <string name="subtitles_size_normal">普通</string>
+    <string name="subtitles_size_big">大</string>
+    <string name="subtitles_size_huge">超大</string>
+    <string name="subtitles_color_title">字幕颜色</string>
+    <string name="subtitles_color_white">白色</string>
+    <string name="subtitles_color_pink">粉色</string>
+    <string name="subtitles_color_blue">蓝色</string>
+    <string name="subtitles_color_yellow">黄色</string>
+    <string name="subtitles_color_green">绿色</string>
+    <string name="subtitles_background_title">字幕背景</string>
     <!--Accessibility-->
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
