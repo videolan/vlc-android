@@ -177,6 +177,8 @@
     <string name="search_history">História vyhľadávania</string>
     <string name="playback_history_title">História prehrávania</string>
     <string name="playback_history_summary">Ukladať všetky médiá do sekcie História</string>
+    <string name="playback_speed_title">Uložiť rýchlosť prehrávania</string>
+    <string name="playback_speed_summary">Pamätať si vami nastavenú rýchlosť prehrávania</string>
     <!--Tips-->
     <string name="video_player_tips">Tipy pre prehrávač videa:</string>
     <string name="seek">Vyhľadať</string>
@@ -241,8 +243,10 @@
     <string name="enable_clone_mode">Uprednostniť klonovanie</string>
     <string name="enable_clone_mode_summary">Klonovať obrazovku zariadenia bez diaľkového ovládania.</string>
     <string name="interface_other_category">Rozhranie – Iné</string>
-    <string name="enable_brightness_gesture">Zapnúť gesto pre jas</string>
+    <string name="enable_brightness_gesture_title">Gesto pre jas</string>
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
+    <string name="enable_volume_gesture_title">Gesto pre hlasitosť</string>
+    <string name="enable_volume_gesture_summary">Počas prehrávania videa ovládať hlasitosť gestom</string>
     <string name="enable_seek_buttons">Zapnúť tlačidlá pre vyhľadávanie</string>
     <string name="enable_seek_buttons_summary">Zobraziť prevíjanie dozadu a dopredu v rozhraní videa</string>
     <string name="force_list_portrait">Bez mriežky v režime portrétov</string>
@@ -273,8 +277,6 @@
     <string name="advanced_prefs_category">Pokročilé</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_summary">Zmeniť spôsob, ktorý používa VLC pre výstup zvuku.</string>
-    <string name="save_video_speed_title">Uložiť rýchlosť prehrávania videa</string>
-    <string name="save_video_speed_summary">Zapamätať si rýchlosť prehrávania pre akékoľvek video</string>
     <string name="save_video_none">Neukladať rýchlosť</string>
     <string name="save_video_session">Ukladať rýchlosť počas relácie</string>
     <string name="save_video_always">Ukladať rýchlosť naprieč reláciami</string>
@@ -344,6 +346,24 @@
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
     <string name="lockscreen_cover_title">Obal média na obrazovke uzamknutia</string>
     <string name="lockscreen_cover_summary">Ak je dostupný, nastaví obal média ako pozadie na obrazovke uzamknutia</string>
+    <string name="video_min_group_length_title">Zoskupiť videá</string>
+    <string name="video_min_group_length_summary">Videá sú zoskupované vtedy, keď sú ich prvé písmená rovnaké.</string>
+    <string name="video_min_group_length_disable">Vypnúť</string>
+    <string name="video_min_group_length_first">Len prvé písmeno</string>
+    <string name="video_min_group_length_short">Krátke čísla písmen (6)</string>
+    <string name="video_min_group_length_long">Dlhé čísla písmen (9)</string>
+    <string name="subtitles_size_title">Veľkosť titulkov</string>
+    <string name="subtitles_size_small">Malé</string>
+    <string name="subtitles_size_normal">Normálne</string>
+    <string name="subtitles_size_big">Veľké</string>
+    <string name="subtitles_size_huge">Obrovské</string>
+    <string name="subtitles_color_title">Farba titulkov</string>
+    <string name="subtitles_color_white">Biela</string>
+    <string name="subtitles_color_pink">Ružová</string>
+    <string name="subtitles_color_blue">Modrá</string>
+    <string name="subtitles_color_yellow">Žltá</string>
+    <string name="subtitles_color_green">Zelená</string>
+    <string name="subtitles_background_title">Pozadie titulkov</string>
     <!--Accessibility-->
     <string name="more_actions">Viac akcií</string>
     <string name="move">Presunúť</string>
