@@ -203,7 +203,6 @@
     <string name="enable_clone_mode">ترجیحات شبیه‌سازی</string>
     <string name="enable_clone_mode_summary">شبیه‌سازی صفحه نمایش دستگاه بدون اتصال به کنترل از راه دور.</string>
     <string name="interface_other_category">دیگر - رابط‌ ها</string>
-    <string name="enable_brightness_gesture">فعال سازی حرکت درخشان کردن</string>
     <string name="enable_brightness_gesture_summary">کنترل درخشانی توسط حرکت روی صفحه ویدیو در حال پخش</string>
     <string name="enable_seek_buttons">فعال سازی دکمه های دنباله</string>
     <string name="enable_seek_buttons_summary">نمایش دکمه های عقب و جلو در رابط کاربری ویدیو</string>
