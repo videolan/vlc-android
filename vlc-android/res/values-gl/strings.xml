@@ -195,7 +195,6 @@
     <string name="enable_clone_mode">Preferir a clonación</string>
     <string name="enable_clone_mode_summary">Clonar a pantalla do dispositivo sen control remoto.</string>
     <string name="interface_other_category">Interface - Outras</string>
-    <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
     <string name="audio_title_alignment">Aliñamento do título de audio</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
