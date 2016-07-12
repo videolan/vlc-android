@@ -238,7 +238,6 @@
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
     <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
     <string name="interface_other_category">الواجهة - أخرى</string>
-    <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_seek_buttons">فعّل أزرار البحث</string>
     <string name="enable_seek_buttons_summary">إظهر أزرار الإرجاع و التقديم في شاشة عرض الفيديو</string>
