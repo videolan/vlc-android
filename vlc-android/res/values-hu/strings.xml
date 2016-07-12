@@ -210,7 +210,6 @@
     <string name="enable_clone_mode">Klón preferálása</string>
     <string name="enable_clone_mode_summary">Eszköz képernyőjének klónozása távvezérlés nélkül.</string>
     <string name="interface_other_category">Kezelőfelület - Egyéb</string>
-    <string name="enable_brightness_gesture">Fényerősség gesztus engedélyezése</string>
     <string name="enable_brightness_gesture_summary">Fényerő szabályozása gesztussal videólejátszás közben</string>
     <string name="enable_seek_buttons">Keresőgombok engedélyezése</string>
     <string name="enable_seek_buttons_summary">Vissza- és előretekerés gombok megjelenítése a videófelületen</string>
