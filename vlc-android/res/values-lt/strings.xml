@@ -217,7 +217,6 @@
     <string name="enable_clone_mode">Pageidatinas klonavimas</string>
     <string name="enable_clone_mode_summary">Klonuoti įrenginio ekraną be nuotolinio valdymo.</string>
     <string name="interface_other_category">Sąsaja - kita</string>
-    <string name="enable_brightness_gesture">Įgalinti ryškumo gestus</string>
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_seek_buttons">Įgalinti prasukimo mygtukus</string>
     <string name="enable_seek_buttons_summary">Prodyti prasukimo atgal ir pirmyn mygtukus vaizdo sąsajoje</string>
