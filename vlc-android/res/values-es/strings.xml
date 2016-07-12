@@ -170,6 +170,8 @@
     <string name="search_history">Buscar en el historial</string>
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar los medios reproducidos en la sección de historial</string>
+    <string name="playback_speed_title">Guardar velocidad de reproducción</string>
+    <string name="playback_speed_summary">Recordar la velocidad de reproducción establecida</string>
     <!--Tips-->
     <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Preferir clonar</string>
     <string name="enable_clone_mode_summary">Clonar la pantalla del dispositivo sin control remoto.</string>
     <string name="interface_other_category">Interfaz - Otro</string>
-    <string name="enable_brightness_gesture">Habilitar gesto de brillo</string>
+    <string name="enable_brightness_gesture_title">Gesto de brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
+    <string name="enable_volume_gesture_title">Gesto de volumen</string>
+    <string name="enable_volume_gesture_summary">Controlar el volumen mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_seek_buttons">Habilitar botones de búsqueda</string>
     <string name="enable_seek_buttons_summary">Mostrar los botones rebobinar y avanzar en la interfaz de vídeo</string>
     <string name="force_list_portrait">Sin rejilla en modo retrato</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Avanzado</string>
     <string name="aout">Salida de audio</string>
     <string name="aout_summary">Cambiar el método que usa VLC para la salida de audio.</string>
-    <string name="save_video_speed_title">Guardar velocidad de reproducción</string>
-    <string name="save_video_speed_summary">Recordar la velocidad de reproducción para cualquier vídeo</string>
     <string name="save_video_none">No guardar la velocidad</string>
     <string name="save_video_session">Guardar velocidad durante la sesión</string>
     <string name="save_video_always">Guardar la velocidad entre sesiones</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Cambiar IU a tema adatado TV </string>
     <string name="lockscreen_cover_title">Cubierta en pantalla bloqueda</string>
     <string name="lockscreen_cover_summary">Disponible, establece la cubierta actual como fondo de pantalla de la pantalla de bloqueo</string>
+    <string name="video_min_group_length_title">Agrupar vídeos</string>
+    <string name="video_min_group_length_summary">Los vídeos son agrupados si la primera letra coincide</string>
+    <string name="video_min_group_length_disable">Deshabilitar</string>
+    <string name="video_min_group_length_first">Solo primera letra</string>
+    <string name="video_min_group_length_short">Números o letras cortas (6)</string>
+    <string name="video_min_group_length_long">Números o letras largos (9)</string>
+    <string name="subtitles_size_title">Tamaño de subtítulos</string>
+    <string name="subtitles_size_small">Pequeña</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Grande</string>
+    <string name="subtitles_size_huge">Enorme</string>
+    <string name="subtitles_color_title">Color de subtítulos</string>
+    <string name="subtitles_color_white">Blanco</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Azul</string>
+    <string name="subtitles_color_yellow">Amarillo</string>
+    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_background_title">Fondo de subtítulos</string>
     <!--Accessibility-->
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
