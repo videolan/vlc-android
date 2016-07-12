@@ -90,8 +90,10 @@
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
     <string name="validation">Oletko varma?</string>
     <string name="cover_art">Kansikuva</string>
+    <string name="shuffle_title">Satunnaistoistotila</string>
     <string name="shuffle">Satunnaistoisto pois</string>
     <string name="shuffle_on">Satunnaistoisto päälle</string>
+    <string name="repeat_title">Uudelleentoistotila</string>
     <string name="repeat">Älä uudelleentoista</string>
     <string name="repeat_single">Uudelleentoista kerran</string>
     <string name="repeat_all">Uudelleentoista kaikki</string>
@@ -114,6 +116,7 @@
     <string name="track_video">Videoraita</string>
     <string name="track_text">Tekstitysraita</string>
     <string name="track_unknown">Tunnistamaton raita</string>
+    <string name="track_bitrate_info">Bittinopeus: %1$s/s\n</string>
     <string name="track_codec_info">Koodekki: %1$s\n</string>
     <string name="track_language_info">Kieli: %1$s\n</string>
     <string name="volume">Äänenvoimakkuus</string>
@@ -138,6 +141,19 @@
     <string name="subtitle_label">Lisää tekstitystiedosto</string>
     <string name="subtitle_select">Valitse tekstitystiedosto</string>
     <string name="no_file_picker_found">Tiedostopoimijaa ei löydetty järjestelmästä.</string>
+    <string name="server_add_title">Lisää uusi palvelin suosikkeihin</string>
+    <string name="server_domain_hint">Palvelimen osoite (sivun nimi tai IP)</string>
+    <string name="server_folder_hint">Kansion polku (vapaavalintainen)</string>
+    <string name="server_username_hint">Käyttäjänimi</string>
+    <string name="server_port">Portti:</string>
+    <string name="login">Käyttäjätunnus</string>
+    <string name="password">Salasana</string>
+    <string name="search_results">Hakutulokset</string>
+    <string name="favorites_add">Lisää suosikkeihin</string>
+    <string name="favorites_remove">Poista suosikeista</string>
+    <string name="favorites_edit">Muokkaa</string>
+    <string name="favorite_added">Tallennettu suosikkeihin</string>
+    <string name="favorite_removed">Poistettu suosikeista</string>
     <string name="open">Avaa</string>
     <string name="open_mrl">Avaa MRL</string>
     <string name="open_mrl_dialog_title">Avaa stream verkosta</string>
@@ -150,6 +166,7 @@
     <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
     <string name="search">Etsi</string>
     <string name="search_history">Hakuhistoria</string>
+    <string name="playback_history_title">Toistohistoria</string>
     <!--Tips-->
     <string name="video_player_tips">Videosoittimen vinkit:</string>
     <string name="seek">Hae kohta</string>
@@ -206,11 +223,12 @@
     <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
     <string name="extra_prefs_category">Lisäasetukset</string>
     <string name="interface_prefs_screen">Käyttöliittymä</string>
+    <string name="interface_gui">Näyttö</string>
+    <string name="interface_secondary_display_category_title">Toissijainen näyttö</string>
     <string name="interface_secondary_display_category_summary">Asetukset kun toissijaiset näytöt on kytketty (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
     <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman etähallintaa.</string>
     <string name="interface_other_category">Käyttöliittymä - Muut</string>
-    <string name="enable_brightness_gesture">Ota käyttöön ele kirkkaudensäätöön</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
     <string name="enable_seek_buttons">Ota käyttöön kelauspainikkeet</string>
     <string name="enable_seek_buttons_summary">Näytä taakse- ja eteepäinkelauspainikkeet videorajapinnassa</string>
@@ -312,8 +330,21 @@
     <string name="widget_name_b">VLC tumma pienoisohjelma</string>
     <string name="allow_storage_access_title">Salli VLC:lle pääsy video- ja äänitiedostoihin</string>
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää oikeudet VLC:lle siirtyä tämän laitteen mediatiedostoihin.</string>
+    <string name="allow_settings_access_ringtone_title">Salli VLC:n asettaa soittoääni</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="exit_app">Sulje VLC</string>
     <string name="hardware_acceleration_error">Laitteistokiihdytys virhe, vaihdetaan ohjelmistopurkuun</string>
     <!--PLugins-->
+    <string name="plugins">Liitännäiset</string>
+    <string name="download_on_device">Lataukset</string>
+    <string name="network_shared_folders">Jaetut kansiot</string>
+    <string name="store_password">Muista salasana</string>
+    <string name="add_to_playlist">Lisää soittolistaan</string>
+    <string name="snack_subloader_sub_not_found">Tekstityksiä ei löydetty</string>
+    <string name="dialog_subloader_sumup">Lataus valmis</string>
+    <string name="download_subtitles">Lataa tekstityksiä</string>
+    <string name="preferences_languages_download">Tekstitysten kielet</string>
+    <string name="downloading_subtitles">Ladataan tekstityksiä</string>
+    <string name="listen">Kuuntele</string>
+    <string name="connecting">Yhdistetään...</string>
 </resources>
