@@ -170,6 +170,8 @@
     <string name="search_history">Arama geçmişi</string>
     <string name="playback_history_title">Oynatım geçmişi</string>
     <string name="playback_history_summary">Oynatılan tüm ortamlar geçmiş bölümüne kaydedilir</string>
+    <string name="playback_speed_title">Oynatma Hızını Kaydet</string>
+    <string name="playback_speed_summary">Ayarlanan oynatma hızı hatırlansın</string>
     <!--Tips-->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Yineleme yeğlensin</string>
     <string name="enable_clone_mode_summary">İkinci bir ekran bağlandığında uzaktan kumandayı kullanmadan aygıt ekranı ikinci ekrana yinelenir.</string>
     <string name="interface_other_category">Arayüz - Diğer</string>
-    <string name="enable_brightness_gesture">El hareketi ile parlaklık ayarı</string>
+    <string name="enable_brightness_gesture_title">Parlaklık el hareketi</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
+    <string name="enable_volume_gesture_title">Ses el hareketi</string>
+    <string name="enable_volume_gesture_summary">Görüntü oynatılırken ses el hareketi ile kontrol edilebilsin</string>
     <string name="enable_seek_buttons">Arama düğmeleri görüntülensin</string>
     <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde geri ve ileri sarma düğmeleri görüntülenir</string>
     <string name="force_list_portrait">Dikey doğrultuda ızgara olmasın</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Gelişmiş</string>
     <string name="aout">Ses çıkışı</string>
     <string name="aout_summary">VLC tarafından kullanılan ses üretme yöntemini değiştirir.</string>
-    <string name="save_video_speed_title">Görüntü oynatım hızını kaydet</string>
-    <string name="save_video_speed_summary">Tüm görüntülerin görüntü oynatma hızı hatırlansın</string>
     <string name="save_video_none">Hız kaydedilmesin</string>
     <string name="save_video_session">Hız oturum boyunca kaydedilsin</string>
     <string name="save_video_always">Farklı oturumlardaki hızlar kaydedilsin</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Kullanıcı arayüzünü TV uyumlu temaya dönüştürür</string>
     <string name="lockscreen_cover_title">Kilit ekranında ortam kapağı</string>
     <string name="lockscreen_cover_summary">Yapılabildiğinde, kilit ekranının duvar kağıdı olarak geçerli ortam kapağı görseli görüntülenir</string>
+    <string name="video_min_group_length_title">Görüntüleri grupla</string>
+    <string name="video_min_group_length_summary">İlk harfi aynı olan görüntüleri gruplar.</string>
+    <string name="video_min_group_length_disable">Devre dışı bırak</string>
+    <string name="video_min_group_length_first">Yalnız ilk harf</string>
+    <string name="video_min_group_length_short">Kısa harf sayısı (6)</string>
+    <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
+    <string name="subtitles_size_title">Alt Yazı Boyutu</string>
+    <string name="subtitles_size_small">Küçük</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Büyük</string>
+    <string name="subtitles_size_huge">Çok Büyük</string>
+    <string name="subtitles_color_title">Alt Yazı Rengi</string>
+    <string name="subtitles_color_white">Beyaz</string>
+    <string name="subtitles_color_pink">Pembe</string>
+    <string name="subtitles_color_blue">Mavi</string>
+    <string name="subtitles_color_yellow">Sarı</string>
+    <string name="subtitles_color_green">Yeşil</string>
+    <string name="subtitles_background_title">Alt Yazı Art Alanı</string>
     <!--Accessibility-->
     <string name="more_actions">Diğer İşlemler</string>
     <string name="move">Taşı</string>
