@@ -170,6 +170,8 @@
     <string name="search_history">Cerca nella cronologia</string>
     <string name="playback_history_title">Cronologia di riproduzione</string>
     <string name="playback_history_summary">Salva tutti i media riprodotti nella sezione Cronologia</string>
+    <string name="playback_speed_title">Salva velocità di riproduzione</string>
+    <string name="playback_speed_summary">Ricorda la velocità di riproduzione impostata</string>
     <!--Tips-->
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Clone preferito</string>
     <string name="enable_clone_mode_summary">Clona lo schermo del dispositivo senza telecomando.</string>
     <string name="interface_other_category">Interfaccia - Altro</string>
-    <string name="enable_brightness_gesture">Abilita i gesti di luminosità</string>
+    <string name="enable_brightness_gesture_title">Gesti della luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
+    <string name="enable_volume_gesture_title">Gesti del volume</string>
+    <string name="enable_volume_gesture_summary">Controlla il volume tramite gesti durante la riproduzione video</string>
     <string name="enable_seek_buttons">Abilita i pulsanti di posizionamento</string>
     <string name="enable_seek_buttons_summary">Mostra i pulsanti di riavvolgimento e avanzamento nell\'interfaccia video</string>
     <string name="force_list_portrait">Nessuna griglia in modalità verticale</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Avanzate</string>
     <string name="aout">Uscita audio</string>
     <string name="aout_summary">Cambia il metodo utilizzato da VLC per l\'uscita audio.</string>
-    <string name="save_video_speed_title">Salva velocità di riproduzione del video</string>
-    <string name="save_video_speed_summary">Ricorda la velocità di riproduzione per ogni video</string>
     <string name="save_video_none">Non salvare la velocità</string>
     <string name="save_video_session">Salva velocità durante la sessione</string>
     <string name="save_video_always">Salva velocità tra le sessioni</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
     <string name="lockscreen_cover_title">Copertina al blocco dello schermo</string>
     <string name="lockscreen_cover_summary">Se disponibili, imposta la copertina del media corrente come sfondo del salvaschermo</string>
+    <string name="video_min_group_length_title">Raggruppa video</string>
+    <string name="video_min_group_length_summary">I video sono raggruppati se la prima lettera è la stessa.</string>
+    <string name="video_min_group_length_disable">Disabilita</string>
+    <string name="video_min_group_length_first">Solo la prima lettera</string>
+    <string name="video_min_group_length_short">Numero ridotto di lettere (6)</string>
+    <string name="video_min_group_length_long">Numero esteso di lettere (9)</string>
+    <string name="subtitles_size_title">Dimensione sottotitoli</string>
+    <string name="subtitles_size_small">Piccola</string>
+    <string name="subtitles_size_normal">Normale</string>
+    <string name="subtitles_size_big">Grande</string>
+    <string name="subtitles_size_huge">Enorme</string>
+    <string name="subtitles_color_title">Colore sottotitoli</string>
+    <string name="subtitles_color_white">Bianco</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Blu</string>
+    <string name="subtitles_color_yellow">Giallo</string>
+    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_background_title">Sfondo sottotitoli</string>
     <!--Accessibility-->
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
@@ -351,7 +371,11 @@
     <string name="allow_storage_access_title">Consenti a VLC di accedere ai file video e audio</string>
     <string name="allow_storage_access_description">VLC ha bisogno di questo permesso per accedere ai file multimediali su questo dispositivo.</string>
     <string name="allow_settings_access_ringtone_title">Consenti a VLC di impostare la suoneria</string>
+    <string name="allow_settings_access_ringtone_description">VLC ha bisogno di questo permesso per impostare questo brano come suoneria.</string>
     <string name="allow_settings_access_brightness_title">Consenti a VLC di cambiare la luminosità</string>
+    <string name="allow_settings_access_brightness_description">VLC ha bisogno di questo permesso per modificare la luminosità.</string>
+    <string name="allow_draw_overlays_title">Consenti al lettore VLC di apparire sopra le altre applicazioni</string>
+    <string name="allow_sdraw_overlays_description">VLC ha bisogno di questo permesso per visualizzare il video in una finestra che appare sopra le altre applicazioni.</string>
     <string name="permission_ask_again">Accorda permesso</string>
     <string name="exit_app">Chiudi VLC</string>
     <string name="hardware_acceleration_error">errore di accelerazione hardware, passaggio alla decodifica software</string>
@@ -379,6 +403,7 @@
     <string name="service_unavailable">Servizio non disponibile</string>
     <string name="downloading_subtitles">Scaricamento sottotitoli</string>
     <string name="browse_folder">Sfoglia cartella</string>
+    <string name="listen">Ascolta</string>
     <string name="subtitles_download_title">Scaricamento sottotitoli</string>
     <string name="connecting">Connessione in corso...</string>
 </resources>
