@@ -227,7 +227,6 @@
     <string name="enable_clone_mode">Utamakan klon</string>
     <string name="enable_clone_mode_summary">Klonkan skrin peranti tanpa kawalan jauh.</string>
     <string name="interface_other_category">Antaramuka - Lain</string>
-    <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_seek_buttons">Benarkan butang jangkau</string>
     <string name="enable_seek_buttons_summary">Tunjuk butang mandir dan maju pada antaramuka video</string>
@@ -259,8 +258,6 @@
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
-    <string name="save_video_speed_title">Simpan kelajuan Main Balik video</string>
-    <string name="save_video_speed_summary">Ingat kelajuan main balik video untuk mana-mana video</string>
     <string name="save_video_none">Jangan simpan kelajuan</string>
     <string name="save_video_session">Simpan kelajuan ketika sesi</string>
     <string name="save_video_always">Simpan kelajuan merentasi sesi</string>
