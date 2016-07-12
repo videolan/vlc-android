@@ -200,7 +200,6 @@
     <string name="enable_clone_mode">Vel hels kloning</string>
     <string name="enable_clone_mode_summary">Klona skíggjan á eindini við ongari fjarstýring.</string>
     <string name="interface_other_category">Takførisflati - Annað</string>
-    <string name="enable_brightness_gesture">Gilda ljósstyrkikeipur</string>
     <string name="enable_brightness_gesture_summary">Stýr ljósstyrki við keipum, tá ið sjónbond verða spæld.</string>
     <string name="audio_title_alignment">Stilling fyri heiti á ljóði</string>
     <string name="enable_headset_detection">Finn høvuðsett</string>
