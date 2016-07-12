@@ -170,6 +170,8 @@
     <string name="search_history">Søk i historien</string>
     <string name="playback_history_title">Avspillingshistorikk</string>
     <string name="playback_history_summary">Lagre all avspillt media i historikk-delen</string>
+    <string name="playback_speed_title">Lagre avspillingshastighet</string>
+    <string name="playback_speed_summary">Husk avspillingshastigheten du valgte</string>
     <!--Tips-->
     <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Foretrekk klone</string>
     <string name="enable_clone_mode_summary">Klon enhetens skjerm uten fjernkontroll.</string>
     <string name="interface_other_category">Grensesnitt - Annet</string>
-    <string name="enable_brightness_gesture">Aktiver bevegelse for lysstyrke.</string>
+    <string name="enable_brightness_gesture_title">Lysstyrkebevegelse</string>
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
+    <string name="enable_volume_gesture_title">Volumbevegelse</string>
+    <string name="enable_volume_gesture_summary">Kontroller volum med bevegelse under en videoavspilling</string>
     <string name="enable_seek_buttons">Aktiver søkeknapper</string>
     <string name="enable_seek_buttons_summary">Vis tilbake- og forover-spolingsknapper på videogrensesnittet</string>
     <string name="force_list_portrait">Inget rutenett i portrettmodus</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Avansert</string>
     <string name="aout">Lyd ut</string>
     <string name="aout_summary">Endre metoden VLC bruker for lydutgang.</string>
-    <string name="save_video_speed_title">Lagre avspillingstakt for video</string>
-    <string name="save_video_speed_summary">Husk videoavspillingstakt for all video</string>
     <string name="save_video_none">Ikke lagre takt</string>
     <string name="save_video_session">Lagre takt øktvis</string>
     <string name="save_video_always">Lagre takt på tvers av økter</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Endre grensesnitt til et tiltenkt for TV-er</string>
     <string name="lockscreen_cover_title">Albumomslag på låseskjerm</string>
     <string name="lockscreen_cover_summary">Når tilgjengelig, sett gjeldende albumomslaå som låseskjermsbakgrunn</string>
+    <string name="video_min_group_length_title">Grupper videoer</string>
+    <string name="video_min_group_length_summary">Videoer blir gruppert hvis de første bokstavene deres er de samme.</string>
+    <string name="video_min_group_length_disable">Deaktiver</string>
+    <string name="video_min_group_length_first">Kun første bokstav</string>
+    <string name="video_min_group_length_short">Lavt antall bokstaver (6)</string>
+    <string name="video_min_group_length_long">Stort antall bokstaver (9)</string>
+    <string name="subtitles_size_title">Undertekststørrelse</string>
+    <string name="subtitles_size_small">Liten</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Stor</string>
+    <string name="subtitles_size_huge">Diger</string>
+    <string name="subtitles_color_title">Undertekstfarge</string>
+    <string name="subtitles_color_white">Hvit</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Blå</string>
+    <string name="subtitles_color_yellow">Gu</string>
+    <string name="subtitles_color_green">Grønn</string>
+    <string name="subtitles_background_title">Undertekstbakgrunn</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flytt</string>
