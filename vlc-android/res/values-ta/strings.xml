@@ -225,7 +225,6 @@
     <string name="enable_clone_mode">குளோனை விரும்பு</string>
     <string name="enable_clone_mode_summary">தொலைநிலை கட்டுபாடில்லாமலே திரைகளை நகலெடு.</string>
     <string name="interface_other_category">இடைமுகப்பு - பிற</string>
-    <string name="enable_brightness_gesture">வெளிச்ச சைகையை செயல்படுத்து</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
     <string name="enable_seek_buttons_summary">முன்னும் பின்னும் இயக்க தேவையான பொத்தான்களை காணொளி இடைமுகத்தில் காண்பி</string>
     <string name="force_list_portrait">உருவப்படம் முறையில் கட்டம் தேவையில்லை</string>
@@ -256,7 +255,6 @@
     <string name="advanced_prefs_category">அறிவாளி</string>
     <string name="aout">ஒலி வெளியீடு</string>
     <string name="aout_summary">ஒலியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
-    <string name="save_video_speed_title">காணொளி இயக்க வேகத்தை நினைவிற்கொள்</string>
     <string name="save_video_none">இயக்க வேகத்தை நினைவிற்கொள்ள வேண்டாம்</string>
     <string name="vout">காணொளி வெளியீடு</string>
     <string name="vout_summary">காணொளியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
