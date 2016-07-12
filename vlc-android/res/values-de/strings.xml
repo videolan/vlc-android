@@ -170,6 +170,8 @@
     <string name="search_history">Suchverlauf</string>
     <string name="playback_history_title">Wiedergabe-Historie</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Historien-Bereich speichern</string>
+    <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
+    <string name="playback_speed_summary">Wiedergabegeschwindigkeit merken</string>
     <!--Tips-->
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Klonen bevorzugen</string>
     <string name="enable_clone_mode_summary">Klont den Gerätebildschirm ohne Fernbedienungsmöglichkeit.</string>
     <string name="interface_other_category">Schnittstelle - Andere</string>
-    <string name="enable_brightness_gesture">Helligkeitsgesten aktivieren</string>
+    <string name="enable_brightness_gesture_title">Helligkeit-Geste</string>
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
+    <string name="enable_volume_gesture_title">Lautstärken-Geste</string>
+    <string name="enable_volume_gesture_summary">Die Lautstärke durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_seek_buttons">Suchen-Knöpfe aktivieren</string>
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
     <string name="force_list_portrait">Kein Gitter im Portraitmodus</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="aout">Audioausgabe</string>
     <string name="aout_summary">Die Methode ändern, die VLC zur Tonausgabe benutzt.</string>
-    <string name="save_video_speed_title">Wiedergabegeschwindigkeit der Videos speichern</string>
-    <string name="save_video_speed_summary">Wiedergabegeschwindigkeit für jedes Video merken</string>
     <string name="save_video_none">Geschwindigkeit nicht speichern</string>
     <string name="save_video_session">Geschwindigkeit für die Sitzung speichern</string>
     <string name="save_video_always">Geschwindigkeit über mehrere Sitzungen hinweg speichern</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Thema ändern</string>
     <string name="lockscreen_cover_title">Medien-Cover auf dem Sperrbildschirm</string>
     <string name="lockscreen_cover_summary">Wenn verfügbar, wird das Medien-Cover Sperrbildschirm-Hintergrund angezeigt</string>
+    <string name="video_min_group_length_title">Videos gruppieren</string>
+    <string name="video_min_group_length_summary">Videos werden nach ihren gleichen ersten Buchstaben gruppiert</string>
+    <string name="video_min_group_length_disable">Deaktivieren</string>
+    <string name="video_min_group_length_first">Nur erster Buchstabe</string>
+    <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
+    <string name="video_min_group_length_long">Max. Anzahl der Buchstaben (9)</string>
+    <string name="subtitles_size_title">Untertitel-Größe</string>
+    <string name="subtitles_size_small">Klein</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Groß</string>
+    <string name="subtitles_size_huge">Riesig</string>
+    <string name="subtitles_color_title">Untertitel-Farbe</string>
+    <string name="subtitles_color_white">Weiß</string>
+    <string name="subtitles_color_pink">Pink</string>
+    <string name="subtitles_color_blue">Blau</string>
+    <string name="subtitles_color_yellow">Gelb</string>
+    <string name="subtitles_color_green">Grün</string>
+    <string name="subtitles_background_title">Untertitel-Hintergrund</string>
     <!--Accessibility-->
     <string name="more_actions">Weitere Aktionen</string>
     <string name="move">Verschieben</string>
