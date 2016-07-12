@@ -210,7 +210,6 @@
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
-    <string name="enable_brightness_gesture">Enable brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_seek_buttons">Enable seek buttons</string>
     <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
