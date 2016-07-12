@@ -163,6 +163,8 @@
     <string name="search_history">検索履歴</string>
     <string name="playback_history_title">再生履歴</string>
     <string name="playback_history_summary">履歴にあるすべての再生済みメディアを保存</string>
+    <string name="playback_speed_title">再生速度を保存</string>
+    <string name="playback_speed_summary">設定した再生速度を保存</string>
     <!--Tips-->
     <string name="video_player_tips">ビデオプレイヤーのTips:</string>
     <string name="seek">シーク</string>
@@ -227,8 +229,10 @@
     <string name="enable_clone_mode">複製を選択</string>
     <string name="enable_clone_mode_summary">リモート制御なしでスクリーンを複製</string>
     <string name="interface_other_category">インターフェース - その他</string>
-    <string name="enable_brightness_gesture">ジェスチャーで輝度を調整</string>
+    <string name="enable_brightness_gesture_title">ジェスチャーで輝度調整</string>
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
+    <string name="enable_volume_gesture_title">ジェスチャーで音量変更</string>
+    <string name="enable_volume_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整</string>
     <string name="enable_seek_buttons">シークボタンを有効にする</string>
     <string name="enable_seek_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
     <string name="force_list_portrait">ポートレートモードではグリッド表示はありません</string>
@@ -259,8 +263,6 @@
     <string name="advanced_prefs_category">拡張設定</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
-    <string name="save_video_speed_title">ビデオの再生速度を保存</string>
-    <string name="save_video_speed_summary">すべてのビデオの再生速度を保存</string>
     <string name="save_video_none">再生速度を保存しない</string>
     <string name="save_video_session">セッションの間だけ速度を保存</string>
     <string name="save_video_always">セッションをまたがって速度を保存</string>
@@ -330,6 +332,24 @@
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
     <string name="lockscreen_cover_title">メディアのカバーをロックスクリーンに表示</string>
     <string name="lockscreen_cover_summary">可能な場合、現在のメディアのカバーアートをロック画面の背景に設定</string>
+    <string name="video_min_group_length_title">ビデオをグループ化</string>
+    <string name="video_min_group_length_summary">ビデオの最初の一文字が同じ場合、グループ化されます。</string>
+    <string name="video_min_group_length_disable">無効化</string>
+    <string name="video_min_group_length_first">最初の一文字のみ</string>
+    <string name="video_min_group_length_short">6文字</string>
+    <string name="video_min_group_length_long">9文字</string>
+    <string name="subtitles_size_title">字幕サイズ</string>
+    <string name="subtitles_size_small">小</string>
+    <string name="subtitles_size_normal">通常</string>
+    <string name="subtitles_size_big">大</string>
+    <string name="subtitles_size_huge">特大</string>
+    <string name="subtitles_color_title">字幕の色</string>
+    <string name="subtitles_color_white">白</string>
+    <string name="subtitles_color_pink">ピンク</string>
+    <string name="subtitles_color_blue">青</string>
+    <string name="subtitles_color_yellow">黄</string>
+    <string name="subtitles_color_green">緑</string>
+    <string name="subtitles_background_title">字幕の背景</string>
     <!--Accessibility-->
     <string name="more_actions">他のアクション</string>
     <string name="move">移動</string>
