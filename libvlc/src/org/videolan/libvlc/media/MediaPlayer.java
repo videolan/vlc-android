@@ -72,7 +72,7 @@ public class MediaPlayer
     private org.videolan.libvlc.MediaPlayer mMediaPlayer;
 
     public MediaPlayer() {
-        mLibVLC = new LibVLC(); //FIXME, this is wrong
+        mLibVLC = new LibVLC(null); //FIXME, this is wrong
         mMediaPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
     }
 

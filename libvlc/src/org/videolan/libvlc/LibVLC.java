@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -45,7 +46,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      *
      * @param options
      */
-    public LibVLC(ArrayList<String> options) {
+    public LibVLC(Context context, ArrayList<String> options) {
         loadLibraries();
 
         boolean setAout = true, setChroma = true;
@@ -78,14 +79,14 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
             }
         }
 
-        nativeNew(options.toArray(new String[options.size()]));
+        nativeNew(options.toArray(new String[options.size()]), context.getDir("vlc", Context.MODE_PRIVATE).getAbsolutePath());
     }
 
     /**
      * Create a LibVLC
      */
-    public LibVLC() {
-        this(null);
+    public LibVLC(Context context) {
+        this(context, null);
     }
 
     /**
@@ -141,10 +142,10 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     }
 
     /* JNI */
-    private native void nativeNew(String[] options);
+    private native void nativeNew(String[] options, String homePath);
     private native void nativeRelease();
     private native void nativeSetUserAgent(String name, String http);
-    
+
     private static boolean sLoaded = false;
 
     static synchronized void loadLibraries() {
