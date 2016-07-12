@@ -225,7 +225,6 @@
     <string name="enable_clone_mode">偏好完全複製</string>
     <string name="enable_clone_mode_summary">完整複製裝置上的畫面，不要遠端控制介面。</string>
     <string name="interface_other_category">介面  - 其他</string>
-    <string name="enable_brightness_gesture">啟用亮度手勢</string>
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_seek_buttons">啟用搜尋按鈕</string>
     <string name="enable_seek_buttons_summary">在播放介面上顯示快轉和倒帶按鈕</string>
@@ -257,8 +256,6 @@
     <string name="advanced_prefs_category">進階</string>
     <string name="aout">音訊輸出</string>
     <string name="aout_summary">改變 VLC 音訊輸出方式。</string>
-    <string name="save_video_speed_title">儲存播放速度</string>
-    <string name="save_video_speed_summary">儲存播放速度至所有影片</string>
     <string name="save_video_none">不要儲存速度</string>
     <string name="vout">視訊輸出</string>
     <string name="vout_summary">改變 VLC 視訊輸出方式。</string>
@@ -318,7 +315,14 @@
     <string name="directory_empty">資料夾為空</string>
     <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
     <string name="save_brightness_title">儲存視訊的亮度值</string>
+    <string name="player_touch_title">視訊觸控操作</string>
+    <string name="player_touch_enable_all">啟用觸控操作</string>
+    <string name="player_touch_disable_brightness">停用亮度控制</string>
+    <string name="player_touch_disable_all">停用所有的觸控操作</string>
     <string name="tv_ui_title">Android TV 介面</string>
+    <string name="tv_ui_summary">將介面更改至電視適應的主題</string>
+    <string name="lockscreen_cover_title">鎖定畫面中的媒體封面</string>
+    <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
     <!--Accessibility-->
     <string name="more_actions">更多動作</string>
     <string name="move">移動</string>
@@ -332,16 +336,37 @@
     <string name="widget_name_b">VLC 暗色小工具</string>
     <string name="allow_storage_access_title">允許 VLC 存取視訊與音訊檔案</string>
     <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
+    <string name="allow_settings_access_ringtone_title">允許 VLC 設定鈴聲</string>
+    <string name="allow_settings_access_ringtone_description">VLC 需要您授予權限來設定這首歌成為您的鈴聲。</string>
+    <string name="allow_settings_access_brightness_title">允許 VLC 改變亮度模式</string>
+    <string name="allow_settings_access_brightness_description">VLC 需要您授予權限來調整您的亮度模式。</string>
     <string name="permission_ask_again">授予權限</string>
     <string name="exit_app">關閉 VLC</string>
     <string name="hardware_acceleration_error">硬體加速發生錯誤，已切換到軟體解碼</string>
     <!--PLugins-->
     <string name="plugins">外掛</string>
     <string name="download_on_device">下載</string>
+    <string name="extension_empty">沒有項目可以顯示，請至擴充套件設定中新增。</string>
+    <string name="network_favorites">網路收藏</string>
+    <string name="network_shared_folders">已分享的資料夾</string>
+    <string name="encryption_warning">警告，加密在這個 Android 版本中不適用，密碼將會儲存到私密空間中，但不會被加密。</string>
     <string name="store_password">記住密碼</string>
     <string name="add_to_playlist">加入至播放清單</string>
+    <string name="popup_playback_title">在彈出式視窗中撥放視訊</string>
+    <string name="popup_playback">正在彈出式視窗中撥放</string>
+    <string name="popup_expand">展開視訊</string>
+    <string name="snack_subloader_sub_found">字幕已下載</string>
+    <string name="snack_subloader_sub_not_found">找不到字幕</string>
+    <string name="dialog_subloader_success">已找到字幕給：</string>
+    <string name="dialog_subloader_fails">找不到字幕給：</string>
+    <string name="dialog_subloader_sumup">下載完成</string>
     <string name="download_subtitles">下載字幕</string>
     <string name="preferences_languages_download">字幕語言</string>
+    <string name="list_languages_download_summary">擷取字幕時要下載的語言</string>
+    <string name="list_languages_download_title">欲下載字幕的語言</string>
+    <string name="service_unavailable">服務無法使用</string>
+    <string name="downloading_subtitles">正在下載字幕</string>
     <string name="browse_folder">瀏覽資料夾</string>
+    <string name="subtitles_download_title">字幕下載</string>
     <string name="connecting">連接中…</string>
 </resources>
