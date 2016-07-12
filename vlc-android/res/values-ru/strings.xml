@@ -224,7 +224,6 @@
     <string name="enable_clone_mode">Клонирование</string>
     <string name="enable_clone_mode_summary">Клонировать экран устройства без удалённого управления.</string>
     <string name="interface_other_category">Интерфейс — Другое</string>
-    <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_seek_buttons">Включить кнопки перемотки</string>
     <string name="enable_seek_buttons_summary">Показывать кнопки перемотки назад и вперёд поверх видео</string>
