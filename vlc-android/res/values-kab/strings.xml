@@ -209,7 +209,6 @@
     <string name="enable_clone_mode">Préférer le mode clone</string>
     <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécommande</string>
     <string name="interface_other_category">Agrudem - wiyaḍ</string>
-    <string name="enable_brightness_gesture">Senqed tafat s tnalit</string>
     <string name="enable_brightness_gesture_summary">Senqed tafat s tnalit mi ara tetteddu tɣuri n uvidyu</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Deg uskar ubdid beqqeḍ ividyuten s tebdart</string>
