@@ -16,6 +16,8 @@
     <string name="play_from_start">เล่นจากตำแหน่งเริ่ม</string>
     <string name="play_as_audio">เล่นแต่เสียง</string>
     <string name="play_as_video">เล่นทั้งภาพและเสียง</string>
+    <string name="play_as_audio_background">เล่นวีดิทัศน์ต่อเมื่อพับหรือปิดหน้าจอ</string>
+    <string name="play_as_audio_background_summary">ให้ทำการเล่นวีดิทัศน์ต่อไปเมื่อปิดหน้าจอ หรือคลิกปุ่ม HOME</string>
     <string name="append">เพิ่มเข้า</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">เพิ่มเข้าทั้งหมด</string>
@@ -25,6 +27,7 @@
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
     <string name="info">ข้อมูล</string>
     <string name="confirm_delete">ลบแฟ้ม \'%1$s\' แน่นะ?</string>
+    <string name="confirm_delete_playlist">ลบผังเล่น \'%1$s\' หรือไม่?</string>
     <string name="ringtone_set">แฟ้ม \'%1$s\' ได้ถูกใช้เป็นเสียงเรียกเข้า</string>
     <string name="ringtone_error">เกิดข้อขัดข้องขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
@@ -68,15 +71,25 @@
     <string name="loading">กําลังโหลด…</string>
     <string name="please_wait">รอสักครู่…</string>
     <string name="nomedia">ไม่พบแฟ้มสื่อ กรุณาถ่ายโอนแฟ้มสื่อเข้าอุปกรณ์ หรือปรับค่าปรับแต่งของคุณ</string>
+    <string name="noplaylist">ไม่พบผังเล่น</string>
     <string name="mediafiles">แฟ้มสื่อ</string>
     <string name="notavailable">ไม่สามารถใช้ได้</string>
     <string name="nosubdirectory">ไม่มีที่เก็บแฟ้มย่อย</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
     <string name="validation">คุณแน่ใจ?</string>
     <string name="cover_art">ภาพปก</string>
+    <string name="shuffle_title">การสลับรายการ</string>
+    <string name="shuffle">ไม่ต้องสลับรายการ</string>
+    <string name="shuffle_on">ทำการสลับรายการ</string>
+    <string name="repeat_title">การเล่นซ้ำ</string>
+    <string name="repeat">ไม่ต้องเล่นซ้ำ</string>
+    <string name="repeat_single">เล่นซ้ำรายการเดียว</string>
+    <string name="repeat_all">เล่นซ้ำทุกรายกา</string>
     <string name="previous">ก่อนหน้า</string>
     <string name="stop">หยุด</string>
     <string name="next">ถัดไป</string>
+    <string name="firstsong">เพลงแรกของผังเล่น</string>
+    <string name="lastsong">เพลงสุดท้ายของผังเล่น</string>
     <string name="locked">ล็อค</string>
     <string name="unlocked">ปลดล็อค</string>
     <string name="surface_best_fit">ขนาดที่เหมาะสม</string>
@@ -86,7 +99,7 @@
     <string name="surface_original">ตรงกลาง</string>
     <string name="thumbnail">ภาพตัวอย่าง</string>
     <string name="unseekable_stream">กระแสซึ่งไม่สามารถอ่านได้</string>
-    <string name="refresh">ฟื้นฟู</string>
+    <string name="refresh">ปรับเรียกรายการ</string>
     <string name="track_audio">ร่องเสียง</string>
     <string name="track_video">ร่องวีดิทัศน์</string>
     <string name="track_text">ร่องบทบรรยาย</string>
@@ -110,6 +123,15 @@
     <string name="subtitle_label">เพิ่มแฟ้มบทบรรยาย</string>
     <string name="subtitle_select">เลือกแฟ้มบทบรรยาย</string>
     <string name="no_file_picker_found">ไม่พบตัวจัดเก็บแฟ้มในระบบเลย</string>
+    <string name="server_username_hint">ชื่อผู้ใช้</string>
+    <string name="login">ล็อกอิน</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="search_results">ผลการค้นหา</string>
+    <string name="favorites_add">เพิ่มเป็นรายการโปรด</string>
+    <string name="favorites_remove">ลบออกจากรายการโปรด</string>
+    <string name="favorites_edit">แก้ไข</string>
+    <string name="favorite_added">บันทึกเป็นรายการโปรด</string>
+    <string name="favorite_removed">นำออกจากรายการโปรด</string>
     <string name="open">เปิด</string>
     <string name="open_mrl">เปิด MRL</string>
     <string name="open_mrl_dialog_title">เปิดกระแสเครือข่าย</string>
@@ -120,9 +142,12 @@
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1$s ได้</string>
     <string name="search">ค้นหา</string>
     <string name="search_history">ประวัติการค้นหา</string>
+    <string name="playback_history_title">ประวัติการเล่น</string>
+    <string name="playback_history_summary">จัดเก็บประวัติการเล่นไว้ในส่วนข้อมูล ประวัติ</string>
     <!--Tips-->
     <string name="video_player_tips">ข้อแนะนำตัวเล่นวีดิทัศน์</string>
     <string name="subtitles">บทบรรยาย</string>
+    <string name="audio_sub">ร่องเสียง\nและบทบรรยาย</string>
     <string name="resize">ปรับขนาด</string>
     <string name="options">ตัวเลือก</string>
     <string name="lock">ล็อก</string>
@@ -156,6 +181,8 @@
     <string name="hardware_acceleration_full">การเร่งความเร็วแบบเต็มที่</string>
     <string name="dev_hardware_decoder">ตัวถอดรหัสแบบฮาร์ดแวร์ขั้นสูง</string>
     <string name="dev_hardware_decoder_summary">บังคับใช้ตัวถอดรหัสแบบฮาร์ดแวร์ ,เฉพาะผู้ใช้งานขั้นสูงเท่านั้น</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="automatic">อัตโนมัติ</string>
     <string name="screen_orientation">การจัดวางหน้าจอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
@@ -168,9 +195,10 @@
     <string name="subtitle_text_encoding">การลงรหัสข้อความบทบรรยาย</string>
     <string name="extra_prefs_category">ค่าตั้งพิเศษอื่นๆ</string>
     <string name="interface_prefs_screen">ส่วนติดต่อ</string>
-    <string name="interface_secondary_display_category">ส่วนติดต่อ - หน้าจอแสดงผลสำรอง</string>
+    <string name="interface_gui">หน้าจอ</string>
+    <string name="interface_controls">ส่วนควบคุม</string>
+    <string name="interface_secondary_display_category_title">หน้าจอที่สอง</string>
     <string name="interface_other_category">ส่วนติดต่อ - อื่นๆ</string>
-    <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมแสงสว่างโดยการเลื่อน ในขณะที่กำลังเล่นวีดิทัศน์อยู่</string>
     <string name="force_list_portrait">ไม่มีตารางกริดในการแสดงผลแนวนอน</string>
     <string name="force_list_portrait_summary">แสดงวิดิทัศน์ในรูปแบบรายการแทนรูปแบบตารางกริดเมื่ออยู่ในการแสดงผลแนวนอน</string>
@@ -209,6 +237,8 @@
     <string name="network_caching">ค่าการทำแคชเครือข่าย</string>
     <string name="network_caching_summary">ระยะเวลาที่ใช้ทำบัฟเฟอร์สื่อทางเครือข่าย (ใน ms), ไม่มีผลกับการอ่านรหัสฮาร์ดแวร์, ปล่อยว่างไว้หากต้องการล้างค่า</string>
     <string name="developer_prefs_category">นักพัฒนา</string>
+    <string name="auto_rescan">ตรวจรายการสื่ออัตโนมัติ</string>
+    <string name="auto_rescan_summary">ตรวจดูรายการสื่อวว่ามีสื่อใดเพื่มหรือลบออกไป ในตอนที่เริ่มโปรแกรม</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_summary">เพิ่มรายละเอียด (ปูม)</string>
     <string name="debug_logs">ปูมดีบั๊ก</string>
@@ -227,6 +257,30 @@
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาบทบรรยาย</string>
     <string name="search_hint">ค้นหาสื่อ</string>
+    <string name="playlist_save">บันทึกผังเล่น</string>
+    <string name="playlist_name_hint">ชื่อผังเล่น</string>
+    <string name="video_min_group_length_disable">ปิดใช้</string>
     <!--Accessibility-->
+    <string name="playlist_deleted">ลบผังเล่นแล้ว</string>
+    <string name="file_deleted">ลบแฟ้มแล้ว</string>
+    <string name="music_now_playing">กำลังเล่น</string>
     <!--Widget-->
+    <string name="allow_settings_access_ringtone_title">อนุญาตให้ VLC สามารถตั้งเสียงเรียกเข้าได้</string>
+    <string name="allow_settings_access_ringtone_description">VLC ต้องได้รับการอนุญาตจากคุณเสียก่อน จึงจะสามารถเลือกเพลงตั้งเป็นเสียงเรียกเข้าได้</string>
+    <string name="exit_app">ปิด VLC</string>
+    <!--PLugins-->
+    <string name="plugins">ปลั๊กอิน</string>
+    <string name="download_on_device">ดาวน์โหลด</string>
+    <string name="add_to_playlist">เพิ่มไปยังผังเล่น</string>
+    <string name="snack_subloader_sub_not_found">ไม่พบบทบรรยาย</string>
+    <string name="dialog_subloader_success">พบบทบรรยายของ:</string>
+    <string name="dialog_subloader_fails">ไม่พบบทบรรยายของ:</string>
+    <string name="dialog_subloader_sumup">ดาวน์โหลดสำเร็จ</string>
+    <string name="download_subtitles">ดาวน์โหลดบทบรรยาย</string>
+    <string name="preferences_languages_download">บทบรรยายภาษา</string>
+    <string name="list_languages_download_summary">ภาษาของบทบรรยายเมื่อทำการเรียกดาวน์โหลด์</string>
+    <string name="list_languages_download_title">ภาษาบทบรรยายที่จะดาวน์โหลด</string>
+    <string name="downloading_subtitles">กำลังดาวน์โหลดบทบรรยาย</string>
+    <string name="browse_folder">เรียกดูจากโฟลเดอร์</string>
+    <string name="connecting">กำลังเชื่อมต่อ...</string>
 </resources>
