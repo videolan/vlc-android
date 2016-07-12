@@ -217,7 +217,6 @@
     <string name="enable_clone_mode">Upřednostnit klon</string>
     <string name="enable_clone_mode_summary">Klonovat obrazovku zařízení bez dálkového ovládání.</string>
     <string name="interface_other_category">Rozhraní - Další</string>
-    <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_seek_buttons">Povolit tlačítka posunutí</string>
     <string name="enable_seek_buttons_summary">V rozhraní videa zobrazit tlačítka vpřed a vzad</string>
