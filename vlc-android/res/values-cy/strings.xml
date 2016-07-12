@@ -224,7 +224,6 @@
     <string name="enable_clone_mode">Ffafrio clôn</string>
     <string name="enable_clone_mode_summary">Clonio sgrin y ddyfais heb remote control.</string>
     <string name="interface_other_category">Rhyngwyneb - Arall</string>
-    <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
     <string name="enable_seek_buttons">Galluogi botymau canfod</string>
     <string name="enable_seek_buttons_summary">Dangos botymau nôl ac ymlaen ar y rhyngwyneb fideo</string>
