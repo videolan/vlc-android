@@ -212,7 +212,6 @@
     <string name="enable_clone_mode">Preferir clone</string>
     <string name="enable_clone_mode_summary">Clona a tela do dispositivo sem controle remoto.</string>
     <string name="interface_other_category">Interface - Outros</string>
-    <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_seek_buttons">Habilitar os botões de deslocamento</string>
     <string name="enable_seek_buttons_summary">Exibir os botões de avançar e retroceder na interface de vídeo</string>
