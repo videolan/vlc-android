@@ -217,7 +217,6 @@
     <string name="enable_clone_mode">Preferiraj kloniranje</string>
     <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
     <string name="interface_other_category">Interfejs - Drugo</string>
-    <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_seek_buttons">Omogući dugmad za traženje</string>
     <string name="enable_seek_buttons_summary">Prikaži dugmad za nazad i naprijed na video okruženju</string>
