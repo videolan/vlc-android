@@ -205,7 +205,6 @@
     <string name="enable_clone_mode">Prefero klon</string>
     <string name="enable_clone_mode_summary">Klono ekranin e pajisjes pa telekomandë.</string>
     <string name="interface_other_category">Ndërfaqja - Tjera</string>
-    <string name="enable_brightness_gesture">Aktivizo gjestet e bardhësisë</string>
     <string name="enable_brightness_gesture_summary">Kontrollo me gjeste bardhësine gjatë luajtjes së videos</string>
     <string name="force_list_portrait">Pa rrjetë ne formen portret</string>
     <string name="force_list_portrait_summary">Shfaq videot në listë ne vend të rrjetës ne formën portret</string>
