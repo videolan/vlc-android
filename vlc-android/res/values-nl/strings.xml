@@ -170,6 +170,8 @@
     <string name="search_history">Zoekgeschiedenis</string>
     <string name="playback_history_title">Afspeelgeschiedenis</string>
     <string name="playback_history_summary">Alle media afgespeeld in geschiedenis-sectie opslaan</string>
+    <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
+    <string name="playback_speed_summary">Ingestelde afspeelsnelheid onthouden</string>
     <!--Tips-->
     <string name="video_player_tips">Videospeler-tips:</string>
     <string name="seek">Zoeken</string>
@@ -234,8 +236,10 @@
     <string name="enable_clone_mode">Kloon verkiezen</string>
     <string name="enable_clone_mode_summary">Apparaatscherm zonder afstandsbediening klonen.</string>
     <string name="interface_other_category">Interface - andere</string>
-    <string name="enable_brightness_gesture">Helderheidsgebaren inschakelen</string>
+    <string name="enable_brightness_gesture_title">Helderheidsgebaar</string>
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
+    <string name="enable_volume_gesture_title">Volumegebaar</string>
+    <string name="enable_volume_gesture_summary">Volume aanpassen door gebaren tijdens afspelen van video</string>
     <string name="enable_seek_buttons">Zoekknoppen inschakelen</string>
     <string name="enable_seek_buttons_summary">Terugspoelen- en vooruitspoelen-knoppen weergeven op de video-interface</string>
     <string name="force_list_portrait">Geen raster in staande modus</string>
@@ -266,8 +270,6 @@
     <string name="advanced_prefs_category">Geavanceerd</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_summary">Verander de audio-uitvoermethode die VLC gebruikt.</string>
-    <string name="save_video_speed_title">Video-afspeelsnelheid opslaan</string>
-    <string name="save_video_speed_summary">Video-afspeelsnelheid onthouden voor elke video</string>
     <string name="save_video_none">Snelheid niet opslaan</string>
     <string name="save_video_session">Snelheid opslaan tijdens sessie</string>
     <string name="save_video_always">Snelheid opslaan over sessies heen</string>
@@ -337,6 +339,24 @@
     <string name="tv_ui_summary">UI wijzigen naar aangepast tv-thema</string>
     <string name="lockscreen_cover_title">Media-hoes op vergrendelscherm</string>
     <string name="lockscreen_cover_summary">Wanneer beschikbaar, de huidige media-hoes instellen als achtergrond op vergrendelscherm</string>
+    <string name="video_min_group_length_title">Video\'s groeperen</string>
+    <string name="video_min_group_length_summary">Video\'s worden gegroepeerd als hun eerste letters dezelfde zijn.</string>
+    <string name="video_min_group_length_disable">Uitschakelen</string>
+    <string name="video_min_group_length_first">Alleen eerste letter</string>
+    <string name="video_min_group_length_short">Klein aantal letters (6)</string>
+    <string name="video_min_group_length_long">Groot aantal letters (9)</string>
+    <string name="subtitles_size_title">Ondertitelgrootte</string>
+    <string name="subtitles_size_small">Klein</string>
+    <string name="subtitles_size_normal">Normaal</string>
+    <string name="subtitles_size_big">Groot</string>
+    <string name="subtitles_size_huge">Enorm</string>
+    <string name="subtitles_color_title">Ondertitelkleur</string>
+    <string name="subtitles_color_white">Wit</string>
+    <string name="subtitles_color_pink">Roze</string>
+    <string name="subtitles_color_blue">Blauw</string>
+    <string name="subtitles_color_yellow">Geel</string>
+    <string name="subtitles_color_green">Groen</string>
+    <string name="subtitles_background_title">Ondertitel-achtergrond</string>
     <!--Accessibility-->
     <string name="more_actions">Meer acties</string>
     <string name="move">Verplaatsen</string>
