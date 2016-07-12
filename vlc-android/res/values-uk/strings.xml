@@ -177,6 +177,8 @@
     <string name="search_history">Історія пошуку</string>
     <string name="playback_history_title">Історія відтворення</string>
     <string name="playback_history_summary">Зберігати усі відтворені медіафайли у Історії</string>
+    <string name="playback_speed_title">Зберігати швидкість відтворення</string>
+    <string name="playback_speed_summary">Запам\'ятати швидкість відтворення, задану вами</string>
     <!--Tips-->
     <string name="video_player_tips">Поради для відеопрогравача:</string>
     <string name="seek">Шукати</string>
@@ -241,8 +243,10 @@
     <string name="enable_clone_mode">Переважно клонувати</string>
     <string name="enable_clone_mode_summary">Клонувати екран пристрою без дистанційного керування</string>
     <string name="interface_other_category">Інтерфейс - Інше</string>
-    <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
+    <string name="enable_brightness_gesture_title">Жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
+    <string name="enable_volume_gesture_title">Жест гучності</string>
+    <string name="enable_volume_gesture_summary">Управляти гучністю через жести під час відтворення відео</string>
     <string name="enable_seek_buttons">Увімкнути кнопки пошуку</string>
     <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та переходу вперед на відеоінтерфейсі</string>
     <string name="force_list_portrait">Немає сітки у портретному режимі</string>
@@ -273,8 +277,6 @@
     <string name="advanced_prefs_category">Додатково</string>
     <string name="aout">Вивід звуку</string>
     <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
-    <string name="save_video_speed_title">Зберігати швидкість відтворення відео</string>
-    <string name="save_video_speed_summary">Запам\'ятати швидкість відтворення для будь-якого відео</string>
     <string name="save_video_none">Не зберігати швидкість</string>
     <string name="save_video_session">Зберігати швидкість протягом сеансу</string>
     <string name="save_video_always">Зберігати швидкість між сеансами</string>
@@ -344,6 +346,24 @@
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
     <string name="lockscreen_cover_title">Обкладинка екрану блокування</string>
     <string name="lockscreen_cover_summary">Якщо доступно, то встановіть обкладинку як шпалери екрану блокування</string>
+    <string name="video_min_group_length_title">Групувати відео</string>
+    <string name="video_min_group_length_summary">Відео групується, якщо перші літери назви однакові.</string>
+    <string name="video_min_group_length_disable">Вимкнути</string>
+    <string name="video_min_group_length_first">Лише перші букви</string>
+    <string name="video_min_group_length_short">Коротке число літер (6)</string>
+    <string name="video_min_group_length_long">Довге число літер (9)</string>
+    <string name="subtitles_size_title">Розмір субтитрів</string>
+    <string name="subtitles_size_small">Маленький</string>
+    <string name="subtitles_size_normal">Звичайний</string>
+    <string name="subtitles_size_big">Великий</string>
+    <string name="subtitles_size_huge">Велетенський</string>
+    <string name="subtitles_color_title">Колір субтитрів</string>
+    <string name="subtitles_color_white">Білий</string>
+    <string name="subtitles_color_pink">Рожевий</string>
+    <string name="subtitles_color_blue">Блакитний</string>
+    <string name="subtitles_color_yellow">Жовтий</string>
+    <string name="subtitles_color_green">Зелений</string>
+    <string name="subtitles_background_title">Тло субтитрів</string>
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
