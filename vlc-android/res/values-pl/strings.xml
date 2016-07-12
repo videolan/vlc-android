@@ -177,6 +177,8 @@
     <string name="search_history">Historia wyszukiwania</string>
     <string name="playback_history_title">Historia odtwarzania</string>
     <string name="playback_history_summary">Zapisz wszystkie media odtwarzane w sekcji Historia</string>
+    <string name="playback_speed_title">Zapisz prędkość odtwarzania</string>
+    <string name="playback_speed_summary">Zapamiętaj ustawioną prędkość odtwarzania</string>
     <!--Tips-->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
@@ -241,8 +243,10 @@
     <string name="enable_clone_mode">Włącz powielanie</string>
     <string name="enable_clone_mode_summary">Powiel wyświetlacz urządzenia bez pilota.</string>
     <string name="interface_other_category">Interfejs - inne</string>
-    <string name="enable_brightness_gesture">Włącz gesty jasności</string>
+    <string name="enable_brightness_gesture_title">Gesty jasności</string>
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
+    <string name="enable_volume_gesture_title">Gesty głośności</string>
+    <string name="enable_volume_gesture_summary">Regulacja głośności gestem podczas odtwarzania wideo</string>
     <string name="enable_seek_buttons">Włącz przyciski przeszukiwania</string>
     <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
     <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
@@ -273,8 +277,6 @@
     <string name="advanced_prefs_category">Zaawansowane</string>
     <string name="aout">Wyjście dźwiękowe</string>
     <string name="aout_summary">Zmiana metody, której VLC używa do wyjścia dźwięku.</string>
-    <string name="save_video_speed_title">Zapisz prędkość odtwarzania widea</string>
-    <string name="save_video_speed_summary">Zapamiętaj szybkość odtwarzania dla każdego widea</string>
     <string name="save_video_none">Nie zapisuj prędkości</string>
     <string name="save_video_session">Zapisz prędkość podczas sesji</string>
     <string name="save_video_always">Zapisz prędkość między sesjami</string>
@@ -344,6 +346,24 @@
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
     <string name="lockscreen_cover_title">Okładka albumu na ekranie blokady</string>
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
+    <string name="video_min_group_length_title">Zgrupuj widea</string>
+    <string name="video_min_group_length_summary">Widea są zgrupowane, gdy pierwsza litera jest taka sama.</string>
+    <string name="video_min_group_length_disable">Wyłącz</string>
+    <string name="video_min_group_length_first">Tylko pierwsza litera</string>
+    <string name="video_min_group_length_short">Krótka liczba liter (6)</string>
+    <string name="video_min_group_length_long">Długa liczba liter (9)</string>
+    <string name="subtitles_size_title">Rozmiar napisów</string>
+    <string name="subtitles_size_small">Małe</string>
+    <string name="subtitles_size_normal">Normalne</string>
+    <string name="subtitles_size_big">Duże</string>
+    <string name="subtitles_size_huge">Olbrzymie</string>
+    <string name="subtitles_color_title">Kolor napisów</string>
+    <string name="subtitles_color_white">Białe</string>
+    <string name="subtitles_color_pink">Różowe</string>
+    <string name="subtitles_color_blue">Niebieskie</string>
+    <string name="subtitles_color_yellow">Żółte</string>
+    <string name="subtitles_color_green">Zielone</string>
+    <string name="subtitles_background_title">Tło napisów</string>
     <!--Accessibility-->
     <string name="more_actions">Więcej operacji</string>
     <string name="move">Przenieś</string>
