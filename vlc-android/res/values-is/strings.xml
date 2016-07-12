@@ -206,7 +206,6 @@
     <string name="interface_prefs_screen">Viðmót</string>
     <string name="interface_secondary_display_category_summary">Stillingar þegar aukaskjáir eru tengdir (HDMI/Miracast).</string>
     <string name="interface_other_category">Viðmót - Annað</string>
-    <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
     <string name="enable_seek_buttons">Virkja leitarhnappa</string>
     <string name="enable_seek_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
