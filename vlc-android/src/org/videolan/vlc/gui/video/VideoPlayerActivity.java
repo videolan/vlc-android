@@ -320,7 +320,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPlaybackStarted = false;
-    private boolean mSurfacesAttached = false;
 
     // Tips
     private View mOverlayTips;
@@ -747,6 +746,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && mService.isPlayingPopup())
             mService.stopPlayback();
+        vlcVout.detachViews();
         if (mPresentation == null) {
             vlcVout.setVideoView(mSurfaceView);
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
@@ -756,7 +756,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
                 vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
-        mSurfacesAttached = true;
         vlcVout.addCallback(this);
         vlcVout.attachViews();
         mService.setVideoTrackEnabled(true);
@@ -859,8 +858,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHandler.removeCallbacksAndMessages(null);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.removeCallback(this);
-        if (mSurfacesAttached)
-            vlcVout.detachViews();
+        vlcVout.detachViews();
 
         if(mSwitchingView && mService != null) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
@@ -1873,7 +1871,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         SurfaceView surface;
         SurfaceView subtitlesSurface;
         FrameLayout surfaceFrame;
-
         if (mPresentation == null) {
             surface = mSurfaceView;
             subtitlesSurface = mSubtitlesSurfaceView;
@@ -3446,7 +3443,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
-        mSurfacesAttached = false;
     }
 
     @Override
