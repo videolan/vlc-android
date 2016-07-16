@@ -1,3 +1,15 @@
+Changes between 2.0.3 and 2.0.4:
+--------------------------------
+
+Core:
+ * Improve SMB compatibility
+ * Improve behaviours for self-signed HTTPS websites
+
+Application:
+ * Fix crash in video player when attaching views
+ * Fix crash when 3rd party application are calling
+
+
 Changes between 2.0.2 and 2.0.3:
 --------------------------------
 
