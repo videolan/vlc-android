@@ -36,7 +36,7 @@ android {
         resValue "string", "build_vlc_revision", vlcRevision()
 
         tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('assemble')) {
+            if (task.name.startsWith('merge')) {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
             }
