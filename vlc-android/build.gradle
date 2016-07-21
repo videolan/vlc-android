@@ -23,6 +23,18 @@ android {
         exclude '**/*.txt'
     }
 
+    task libcompatCopy(type: Copy) {
+        from '../libvlc/libcompat/libs/armeabi'
+        into 'assets'
+        include '**/*.so'
+    }
+
+    task libcompatDelete(type: Delete) {
+        delete fileTree('assets') {
+            include '**/*.so'
+        }
+    }
+
     dataBinding {
         enabled = true
     }
@@ -39,6 +51,14 @@ android {
             if (task.name.startsWith('merge')) {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
+
+                if (task.name.contains('ARMv7') || task.name.contains('ARMv6')
+                 || task.name.contains('ARMv5')) {
+                    task.dependsOn libcompatCopy
+                }
+                else {
+                    task.dependsOn libcompatDelete
+                }
             }
         }
 
