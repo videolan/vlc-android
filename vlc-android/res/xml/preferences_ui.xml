@@ -74,6 +74,11 @@
             android:summary="@string/enable_headset_detection_summary"
             android:title="@string/enable_headset_detection" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_play_on_headset_insertion"
+            android:summary="@string/enable_play_on_headset_insertion_summary"
+            android:title="@string/enable_play_on_headset_insertion" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_steal_remote_control"
             android:summary="@string/enable_steal_remote_control_summary"

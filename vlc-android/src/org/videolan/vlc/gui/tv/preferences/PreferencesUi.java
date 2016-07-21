@@ -53,6 +53,7 @@ public class PreferencesUi extends BasePreferenceFragment {
         findPreference("enable_clone_mode").setVisible(false);
         findPreference("force_list_portrait").setVisible(false);
         findPreference("enable_headset_detection").setVisible(false);
+        findPreference("enable_play_on_headset_insertion").setVisible(false);
         findPreference("enable_steal_remote_control").setVisible(false);
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());

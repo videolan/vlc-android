@@ -511,7 +511,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         pause();
                 } else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
                     Log.i(TAG, "Headset Inserted.");
-                    if (wasPlaying && hasCurrentMedia())
+                    if (wasPlaying && hasCurrentMedia() && mSettings.getBoolean("enable_play_on_headset_insertion", false))
                         play();
                 }
             }

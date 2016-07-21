@@ -285,7 +285,9 @@
     <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
     <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
+    <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
+    <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
+    <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="audio_title_alignment_default">Default</string>

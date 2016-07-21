@@ -57,6 +57,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
 
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
         findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater());
+        findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) findPreference("enable_headset_detection")).isChecked());
     }
 
     @Override
@@ -81,6 +82,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
                 return true;
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
+                findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) preference).isChecked());
                 return true;
             case "enable_steal_remote_control":
                 PlaybackService.Client.restartService(getActivity());
