@@ -258,7 +258,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 return;
             if (media instanceof MediaGroup) {
                 MainActivity activity = (MainActivity) mFragment.getActivity();
-                activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
+                String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+                activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
             } else {
                 media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 VideoPlayerActivity.start(v.getContext(), media.getUri(), media.getTitle());
