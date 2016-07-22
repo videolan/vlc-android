@@ -1,3 +1,18 @@
+Changes between 2.0.4 and 2.0.5:
+--------------------------------
+
+Build:
+ * Fix build crashing on some Qualcomm ARMv8 devices
+
+Core:
+ * Fix MKV regression
+ * Fix HTTPS behaviour
+ * Support HTTP Proxy
+
+Application:
+ * Fix grouping settings
+
+
 Changes between 2.0.3 and 2.0.4:
 --------------------------------
 
