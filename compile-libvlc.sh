@@ -160,6 +160,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-faad \
     --disable-x264 \
     --disable-schroedinger \
+    --disable-vnc \
 "
 
 ########################
