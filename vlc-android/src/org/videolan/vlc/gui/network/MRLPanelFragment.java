@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.network;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 
 public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "VLC/MrlPanelFragment";
+    public static final String KEY_MRL = "mrl";
     private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -82,6 +84,21 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     public void onStart(){
         super.onStart();
         getActivity().supportInvalidateOptionsMenu();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_MRL, mEditText.getEditText().getText().toString());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState == null)
+            return;
+        String mrl = savedInstanceState.getString(KEY_MRL);
+        mEditText.getEditText().setText(mrl);
     }
 
     private void updateHistory() {
