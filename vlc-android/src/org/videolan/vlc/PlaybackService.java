@@ -786,6 +786,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         if (updateWidget)
             updateWidget();
         updateMetadata();
+        broadcastMetadata();
     }
 
     private void executeUpdateProgress() {
@@ -1322,6 +1323,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         broadcast.putExtra("album", media.getAlbum());
         broadcast.putExtra("duration", media.getLength());
         broadcast.putExtra("playing", playing);
+        broadcast.putExtra("package", "org.videolan.vlc");
 
         sendBroadcast(broadcast);
     }
