@@ -264,7 +264,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.Media.createStatsFromNativeID,
            fields.Media.clazz,
            "createStatsFromNative",
-           "(IFIFIIIIIIIIIIF;)"
+           "(IFIFIIIIIIIIIIF)"
            "Lorg/videolan/libvlc/Media$Stats;");
 
     GET_ID(GetStaticMethodID,
