@@ -303,6 +303,74 @@ public class Media extends VLCObject<Media.Event> {
         return new Slave(type, priority, uri);
     }
 
+    /**
+     * see libvlc_media_stats_t
+     */
+    public static class Stats {
+
+        public final int readBytes;
+        public final float inputBitrate;
+        public final int demuxReadBytes;
+        public final float demuxBitrate;
+        public final int demuxCorrupted;
+        public final int demuxDiscontinuity;
+        public final int decodedVideo;
+        public final int decodedAudio;
+        public final int displayedPictures;
+        public final int lostPictures;
+        public final int playedAbuffers;
+        public final int lostAbuffers;
+        public final int sentPackets;
+        public final int sentBytes;
+        public final float sendBitrate;
+
+        public Stats(int readBytes, float inputBitrate, int demuxReadBytes,
+                     float demuxBitrate, int demuxCorrupted,
+                     int demuxDiscontinuity, int decodedVideo, int decodedAudio,
+                     int displayedPictures, int lostPictures, int playedAbuffers,
+                     int lostAbuffers, int sentPackets, int sentBytes,
+                     float sendBitrate) {
+            this.readBytes = readBytes;
+            this.inputBitrate = inputBitrate;
+            this.demuxReadBytes = demuxReadBytes;
+            this.demuxBitrate = demuxBitrate;
+            this.demuxCorrupted = demuxCorrupted;
+            this.demuxDiscontinuity = demuxDiscontinuity;
+            this.decodedVideo = decodedVideo;
+            this.decodedAudio = decodedAudio;
+            this.displayedPictures = displayedPictures;
+            this.lostPictures = lostPictures;
+            this.playedAbuffers = playedAbuffers;
+            this.lostAbuffers = lostAbuffers;
+            this.sentPackets = sentPackets;
+            this.sentBytes = sentBytes;
+            this.sendBitrate = sendBitrate;
+        }
+    }
+
+    @SuppressWarnings("unused") /* Used from JNI */
+    private static Stats createStatsFromNative(int readBytes,
+                                               float inputBitrate,
+                                               int demuxReadBytes,
+                                               float demuxBitrates,
+                                               int demuxCorrupted,
+                                               int demuxDiscontinuity,
+                                               int decodedVideo,
+                                               int decodedAudio,
+                                               int displayedPictures,
+                                               int lostPictures,
+                                               int playedAbuffers,
+                                               int lostAbuffers,
+                                               int sentPackets,
+                                               int sentBytes,
+                                               float sendBitrate) {
+        return new Stats(readBytes, inputBitrate, demuxReadBytes,
+                         demuxBitrates, demuxCorrupted, demuxDiscontinuity,
+                         decodedVideo, decodedAudio, displayedPictures,
+                         lostPictures, playedAbuffers, lostAbuffers,
+                         sentPackets, sentBytes, sendBitrate);
+    }
+
     private static final int PARSE_STATUS_INIT = 0x00;
     private static final int PARSE_STATUS_PARSING = 0x01;
     private static final int PARSE_STATUS_PARSED = 0x02;
@@ -773,6 +841,14 @@ public class Media extends VLCObject<Media.Event> {
         return nativeGetSlaves();
     }
 
+    /**
+     * Get the stats related to the playing media
+     */
+    @Nullable
+    public Stats getStats() {
+        return nativeGetStats();
+    }
+
     @Override
     protected void onReleaseNative() {
         if (mSubItems != null)
@@ -798,4 +874,5 @@ public class Media extends VLCObject<Media.Event> {
     private native void nativeAddSlave(int type, int priority, String uri);
     private native void nativeClearSlaves();
     private native Slave[] nativeGetSlaves();
+    private native Stats nativeGetStats();
 }

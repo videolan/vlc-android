@@ -552,3 +552,33 @@ error:
         libvlc_media_slaves_release(pp_slaves, i_slaves);
     return array;
 }
+
+jobject
+Java_org_videolan_libvlc_Media_nativeGetStats(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    unsigned int i_stats;
+    libvlc_media_stats_t stats;
+
+    i_stats = libvlc_media_get_stats(p_obj->u.p_m, &stats);
+    if (i_stats == 0)
+        return NULL;
+
+    return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+                                          fields.Media.createStatsFromNativeID,
+                                          stats.i_read_bytes,
+                                          stats.f_input_bitrate,
+                                          stats.i_demux_read_bytes,
+                                          stats.f_demux_bitrate,
+                                          stats.i_demux_corrupted,
+                                          stats.i_demux_discontinuity,
+                                          stats.i_decoded_video,
+                                          stats.i_decoded_audio,
+                                          stats.i_displayed_pictures,
+                                          stats.i_lost_pictures,
+                                          stats.i_played_abuffers,
+                                          stats.i_lost_abuffers,
+                                          stats.i_sent_packets,
+                                          stats.i_sent_bytes,
+                                          stats.f_send_bitrate);
+}

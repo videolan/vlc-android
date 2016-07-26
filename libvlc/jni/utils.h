@@ -66,6 +66,7 @@ struct fields {
         jmethodID createSubtitleTrackFromNativeID;
         jmethodID createUnknownTrackFromNativeID;
         jmethodID createSlaveFromNativeID;
+        jmethodID createStatsFromNativeID;
     } Media;
     struct {
         struct {
