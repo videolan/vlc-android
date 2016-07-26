@@ -802,7 +802,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
      * @return True if a media is currently loaded, false otherwise
      */
     private boolean hasCurrentMedia() {
-        return mCurrentIndex >= 0 && mCurrentIndex < mMediaList.size();
+        return isValidIndex(mCurrentIndex);
     }
 
     private final Handler mHandler = new AudioServiceHandler(this);
@@ -1021,8 +1021,17 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             } else {
 
                 if(mShuffling) {
-                    if(mPrevious.size() > 0)
+                    if(!mPrevious.isEmpty()){
                         mPrevIndex = mPrevious.peek();
+                        while (!isValidIndex(mPrevIndex)) {
+                            mPrevious.remove(mPrevious.size() - 1);
+                            if (mPrevious.isEmpty()) {
+                                mPrevIndex = -1;
+                                break;
+                            }
+                            mPrevIndex = mPrevious.peek();
+                        }
+                    }
                     // If we've played all songs already in shuffle, then either
                     // reshuffle or stop (depending on RepeatType).
                     if(mPrevious.size() + 1 == size) {
@@ -1058,6 +1067,10 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 }
             }
         }
+    }
+
+    private boolean isValidIndex(int position) {
+        return position >= 0 && position < mMediaList.size();
     }
 
     private void initMediaSession() {
@@ -1640,7 +1653,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             Log.w(TAG, "Warning: empty media list, nothing to play !");
             return;
         }
-        if (mMediaList.size() > position && position >= 0) {
+        if (isValidIndex(position)) {
             mCurrentIndex = position;
         } else {
             Log.w(TAG, "Warning: positon " + position + " out of bounds");
@@ -1673,7 +1686,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             Log.w(TAG, "Warning: empty media list, nothing to play !");
             return;
         }
-        if (index >= 0 && index < mMediaList.size()) {
+        if (isValidIndex(index)) {
             mCurrentIndex = index;
         } else {
             Log.w(TAG, "Warning: index " + index + " out of bounds");
