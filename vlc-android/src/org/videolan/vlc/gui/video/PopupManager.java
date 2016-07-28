@@ -207,8 +207,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override public void onSurfacesDestroyed(IVLCVout vlcVout) {}
 
-    @Override public void onHardwareAccelerationError(IVLCVout vlcVout) {}
-
     @Override
     public void update() {}
 

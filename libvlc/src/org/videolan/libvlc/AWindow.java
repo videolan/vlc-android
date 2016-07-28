@@ -539,16 +539,5 @@ public class AWindow implements IVLCVout {
                 }
             });
         }
-
-        @Override
-        public void sendHardwareAccelerationError() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
-                        cb.onHardwareAccelerationError(AWindow.this);
-                }
-            });
-        }
     };
 }

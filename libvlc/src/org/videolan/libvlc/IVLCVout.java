@@ -57,12 +57,6 @@ public interface IVLCVout {
          */
         @MainThread
         void onSurfacesDestroyed(IVLCVout vlcVout);
-
-        /**
-         * TODO: temporary method, will be removed when VLC can handle decoder fallback
-         */
-        @MainThread
-        void onHardwareAccelerationError(IVLCVout vlcVout);
     }
 
     /**

@@ -213,7 +213,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int RESET_BACK_LOCK = 6;
     private static final int CHECK_VIDEO_TRACKS = 7;
     private static final int LOADING_ANIMATION = 8;
-    private static final int HW_ERROR = 1000; // TODO REMOVE
 
     private static final int LOADING_ANIMATION_DELAY = 1000;
 
@@ -270,7 +269,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private boolean mSwitchingView;
     private boolean mSwitchToPopup;
-    private boolean mHardwareAccelerationError;
     private boolean mHasSubItems = false;
 
     // size of the video
@@ -466,7 +464,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
 
         mSwitchingView = false;
-        mHardwareAccelerationError = false;
 
         mAskResume = mSettings.getBoolean("dialog_confirm_resume", false);
         mDisplayRemainingTime = mSettings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false);
@@ -1653,9 +1650,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 case LOADING_ANIMATION:
                     startLoading();
                     break;
-                case HW_ERROR:
-                    handleHardwareAccelerationError();
-                    break;
             }
             return true;
         }
@@ -1725,28 +1719,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mAlertDialog.show();
     }
 
-    private void handleHardwareAccelerationError() {
-        mHardwareAccelerationError = true;
-        if (mSwitchingView)
-            return;
-        Toast.makeText(VLCApplication.getAppContext(), R.string.hardware_acceleration_error, Toast.LENGTH_LONG).show();
-        final boolean wasPaused = !mService.isPlaying();
-        final long oldTime = mService.getTime();
-        int position = mService.getCurrentMediaPosition();
-        List<MediaWrapper> list = new ArrayList<>(mService.getMedias());
-        final MediaWrapper mw = list.get(position);
-        mService.stop();
-        if(!isFinishing()) {
-            if (wasPaused)
-                mw.addFlags(MediaWrapper.MEDIA_PAUSED);
-            mw.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
-            mw.addFlags(MediaWrapper.MEDIA_VIDEO);
-            mService.load(list, position);
-            if (oldTime > 0)
-                seek(oldTime);
-        }
-    }
-
     private void handleVout(int voutCount) {
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
@@ -1758,7 +1730,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void switchToPopupMode() {
-        if (mHardwareAccelerationError || mService == null)
+        if (mService == null)
             return;
         mSwitchingView = true;
         mSwitchToPopup = true;
@@ -1766,7 +1738,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void switchToAudioMode(boolean showUI) {
-        if (mHardwareAccelerationError || mService == null)
+        if (mService == null)
             return;
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
@@ -2971,7 +2943,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 media = new MediaWrapper(mUri);
             if (mWasPaused)
                 media.addFlags(MediaWrapper.MEDIA_PAUSED);
-            if (mHardwareAccelerationError || intent.hasExtra(PLAY_DISABLE_HARDWARE))
+            if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
                 media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
@@ -3443,11 +3415,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
-    }
-
-    @Override
-    public void onHardwareAccelerationError(IVLCVout vlcVout) {
-        mHandler.sendEmptyMessage(HW_ERROR);
     }
 
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {

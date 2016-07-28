@@ -432,7 +432,6 @@
     <string name="allow_sdraw_overlays_description">VLC needs you to grant this permission display your video in a popup over other applications.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
-    <string name="hardware_acceleration_error">hardware acceleration error, switching to software decoding</string>
 
     <!-- PLugins -->
     <string name="plugins">Plugins</string>
