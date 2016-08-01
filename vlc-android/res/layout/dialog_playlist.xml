@@ -20,12 +20,30 @@
             android:inputType="text"
             android:imeOptions="actionSend"/>
     </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/dialog_playlist_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        android:layout_below="@+id/dialog_playlist_name"
+        android:layout_toLeftOf="@+id/dialog_playlist_save"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"/>
+    <Button
+        android:id="@+id/dialog_playlist_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@android:string/ok"
+        android:layout_below="@+id/dialog_playlist_name"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"/>
     <FrameLayout
         android:id="@+id/dialog_list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/half_default_margin"
-        android:layout_below="@+id/dialog_playlist_name">
+        android:layout_below="@+id/dialog_playlist_cancel">
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
@@ -36,22 +54,4 @@
             android:layout_height="wrap_content"
             android:text="@string/noplaylist"/>
     </FrameLayout>
-    <Button
-        android:id="@+id/dialog_playlist_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@android:string/cancel"
-        android:layout_below="@id/dialog_list_container"
-        android:layout_toLeftOf="@+id/dialog_playlist_save"
-        tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"/>
-    <Button
-        android:id="@+id/dialog_playlist_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="@android:string/ok"
-        android:layout_below="@id/dialog_list_container"
-        tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"/>
 </RelativeLayout>
