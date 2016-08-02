@@ -1887,8 +1887,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public boolean onTouchEvent(MotionEvent event) {
         if (mService == null)
             return false;
-        if (mPlaybackSetting != DelayState.OFF){
-            endPlaybackSetting();
+        if (mPlaybackSetting != DelayState.OFF) {
+            if (event.getAction() == MotionEvent.ACTION_UP)
+                endPlaybackSetting();
             return true;
         } else if(mPlaylist.getVisibility() == View.VISIBLE) {
             togglePlaylist();
