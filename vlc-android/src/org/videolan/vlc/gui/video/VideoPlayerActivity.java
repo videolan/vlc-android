@@ -24,6 +24,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.Presentation;
+import android.bluetooth.BluetoothA2dp;
+import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,6 +50,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
@@ -109,7 +112,6 @@ import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
-import org.videolan.vlc.gui.preferences.PreferencesUi;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
@@ -128,7 +130,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -248,7 +249,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mScreenOrientationLock;
     private ImageView mLock;
     private ImageView mSize;
-    private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";;
+    private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
+    private String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
@@ -654,6 +656,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         filter.addAction(EXIT_PLAYER);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mServiceReceiver, filter);
+        if (mBtReceiver != null) {
+            IntentFilter btFilter = new IntentFilter(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
+            btFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
+            registerReceiver(mBtReceiver, btFilter);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -662,6 +669,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         super.onStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mServiceReceiver);
 
+        if (mBtReceiver != null)
+            unregisterReceiver(mBtReceiver);
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
         if (!isFinishing() && mService != null && mService.isPlaying() &&
@@ -762,6 +771,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, false);
         mService.setRate(ratePref ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
 
+        if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
+            toggleBtDelay(true);
 
         if (mService.hasPlaylist()) {
             mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
@@ -1338,6 +1349,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void endPlaybackSetting() {
         mTouchAction = TOUCH_NONE;
+        if (mBtReceiver != null && mPlaybackSetting == DelayState.AUDIO
+                && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn())) {
+            String msg = getString(R.string.audio_delay) + "\n"
+                    + mService.getAudioDelay() / 1000l
+                    + " ms";
+            Snackbar sb = Snackbar.make(mInfo, msg, Snackbar.LENGTH_LONG);
+            sb.setAction(R.string.save_bluetooth_delay, mBtSaveListener);
+            sb.show();
+        }
         mPlaybackSetting = DelayState.OFF;
         mPlaybackSettingMinus.setOnClickListener(null);
         mPlaybackSettingPlus.setOnClickListener(null);
@@ -3184,6 +3204,36 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaylist.setAdapter(mPlaylistAdapter);
         updateList();
     }
+
+    private BroadcastReceiver mBtReceiver = AndroidUtil.isICSOrLater() ? new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED:
+                case BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED:
+                    long savedDelay = mSettings.getLong(KEY_BLUETOOTH_DELAY, 0l);
+                    long currentDelay = mService.getAudioDelay();
+                    if (savedDelay != 0l) {
+                        boolean connected = intent.getIntExtra(BluetoothA2dp.EXTRA_STATE, -1) == BluetoothA2dp.STATE_CONNECTED;
+                        if (connected && currentDelay == 0l)
+                            toggleBtDelay(true);
+                        else if (!connected && savedDelay == currentDelay)
+                            toggleBtDelay(false);
+                    }
+            }
+        }
+    } : null;
+
+    private void toggleBtDelay(boolean connected) {
+        mService.setAudioDelay(connected ? mSettings.getLong(KEY_BLUETOOTH_DELAY, 0) : 0l);
+    }
+
+    private OnClickListener mBtSaveListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Util.commitPreferences(mSettings.edit().putLong(KEY_BLUETOOTH_DELAY, mService.getAudioDelay()));
+        }
+    };
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void createPresentation() {
