@@ -20,16 +20,6 @@
 
 package org.videolan.libvlc.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Locale;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -39,6 +29,16 @@ import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Locale;
 
 public class VLCUtil {
     public final static String TAG = "VLC/LibVLC/Util";
@@ -73,8 +73,8 @@ public class VLCUtil {
         // If already checked return cached result
         if (errorMsg != null || isCompatible) return isCompatible;
 
-        boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
-                hasArmV7 = false, hasMips = false, hasX86 = false, is64bits = false;
+        boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasPlaceHolder = false,
+                hasArmV7 = false, hasMips = false, hasX86 = false, is64bits = false, isIntel = false;
         float bogoMIPS = -1;
         int processors = 0;
 
@@ -141,14 +141,18 @@ public class VLCUtil {
                     hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
                 } else if (line.contains("ARMv6"))
                     hasArmV6 = true;
-                // "clflush size" is a x86-specific cpuinfo tag.
-                // (see kernel sources arch/x86/kernel/cpu/proc.c)
+                    // "clflush size" is a x86-specific cpuinfo tag.
+                    // (see kernel sources arch/x86/kernel/cpu/proc.c)
                 else if (line.contains("clflush size"))
                     hasX86 = true;
                 else if (line.contains("GenuineIntel"))
                     hasX86 = true;
-                // "microsecond timers" is specific to MIPS.
-                // see arch/mips/kernel/proc.c
+                else if (line.contains("placeholder"))
+                    hasPlaceHolder = true;
+                else if (line.contains("CPU implementer") && line.contains("0x69"))
+                    isIntel = true;
+                    // "microsecond timers" is specific to MIPS.
+                    // see arch/mips/kernel/proc.c
                 else if (line.contains("microsecond timers"))
                     hasMips = true;
                 if (line.contains("neon") || line.contains("asimd"))
@@ -185,8 +189,14 @@ public class VLCUtil {
         if (elf != null) {
             // Enforce proper architecture to prevent problems
             if (elfHasX86 && !hasX86) {
-                errorMsg = "x86 build on non-x86 device";
-                isCompatible = false;
+                //Some devices lie on their /proc/cpuinfo
+                // they seem to have a 'Hardware	: placeholder' property
+                if (hasPlaceHolder && isIntel) {
+                    Log.d(TAG, "Emulated armv7 detected, trying to launch x86 libraries");
+                } else {
+                    errorMsg = "x86 build on non-x86 device";
+                    isCompatible = false;
+                }
             } else if (elfHasArm && !hasArmV6) {
                 errorMsg = "ARM build on non ARM device";
                 isCompatible = false;
@@ -248,7 +258,7 @@ public class VLCUtil {
         // Store into MachineSpecs
         machineSpecs = new MachineSpecs();
         Log.d(TAG, "machineSpecs: hasArmV6: " + hasArmV6 + ", hasArmV7: " + hasArmV7 +
-                   ", hasX86: " + hasX86 + ", is64bits: " + is64bits);
+                ", hasX86: " + hasX86 + ", is64bits: " + is64bits);
         machineSpecs.hasArmV6 = hasArmV6;
         machineSpecs.hasArmV7 = hasArmV7;
         machineSpecs.hasFpu = hasFpu;
