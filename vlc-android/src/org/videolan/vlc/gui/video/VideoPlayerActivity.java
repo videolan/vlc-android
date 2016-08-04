@@ -252,6 +252,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mSize;
     private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
     private String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
+    private long mSpuDelay = 0;
+    private long mAudioDelay = 0;
+    private boolean mRateHasChanged = false;
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
@@ -586,6 +589,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             showTitle();
             initUI();
+            initVideoParams();
             mForcedTime = mLastTime = -1;
             setOverlayProgress();
         }
@@ -769,12 +773,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         initUI();
 
         loadMedia();
-
         boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
-        mService.setRate(ratePref ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
+        mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
 
-        if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
-            toggleBtDelay(true);
+        initVideoParams();
 
         if (mService.hasPlaylist()) {
             mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
@@ -848,6 +850,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mRootView.setKeepScreenOn(true);
     }
 
+    private void initVideoParams() {
+        if (mAudioDelay != 0l)
+            mService.setAudioDelay(mAudioDelay);
+        else if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
+            toggleBtDelay(true);
+        mService.setSpuDelay(mSpuDelay);
+    }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void stopPlayback() {
         if (!mPlaybackStarted)
@@ -903,6 +912,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         }
 
+        editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
+        mRateHasChanged = mService.getRate() != 1.0f;
+
         if (isFinishing()) {
             // Save selected subtitles
             String subtitleList_serialized = null;
@@ -917,9 +929,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-            boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
-            if (ratePref)
-                editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
             mService.setRate(1.0f, false);
             mService.stop();
         }
@@ -1379,6 +1388,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long delay = mService.getAudioDelay()+delta;
         mService.setAudioDelay(delay);
         mInfo.setText(getString(R.string.audio_delay)+"\n"+(delay/1000l)+" ms");
+        mAudioDelay = delay;
         if (mPlaybackSetting == DelayState.OFF) {
             mPlaybackSetting = DelayState.AUDIO;
             initPlaybackSettingInfo();
@@ -1389,6 +1399,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long delay = mService.getSpuDelay()+delta;
         mService.setSpuDelay(delay);
         mInfo.setText(getString(R.string.spu_delay) + "\n" + (delay / 1000l) + " ms");
+        mSpuDelay = delay;
         if (mPlaybackSetting == DelayState.OFF) {
             mPlaybackSetting = DelayState.SUBS;
             initPlaybackSettingInfo();
