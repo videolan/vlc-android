@@ -119,6 +119,8 @@ public class VLCApplication extends Application {
 
         sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
 
+        if (!VLCInstance.testCompatibleCPU(this))
+            return;
         Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
 
         // Disable remote control receiver on Fire TV.
