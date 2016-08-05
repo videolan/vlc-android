@@ -73,7 +73,7 @@ public class SavePlaylistDialog extends DialogFragment implements AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
-        mAdapter.addAll(MediaLibrary.getInstance().getPlaylistDbItems());
+        mAdapter.addAllDBPlaylists(MediaLibrary.getInstance().getPlaylistDbItems());
         mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
         mNewTrack = getArguments().getParcelableArrayList(KEY_NEW_TRACKS);
     }
