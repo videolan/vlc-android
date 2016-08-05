@@ -214,7 +214,7 @@ public class MediaLibrary {
             items = db.playlistGetItems(playlistName);
             if (items == null)
                 continue;
-            playList = new AudioBrowserListAdapter.ListItem(playlistName, null, null, false);
+            playList = new AudioBrowserListAdapter.ListItem(playlistName, null, null, false, null);
             for (String track : items){
                 playList.mMediaList.add(new MediaWrapper(AndroidUtil.LocationToUri(track)));
             }

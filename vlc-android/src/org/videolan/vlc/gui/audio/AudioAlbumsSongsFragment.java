@@ -231,8 +231,9 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
 
         if (id == R.id.audio_list_browser_delete) {
             final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
-            final String key = adapter.getKey(position);
-            adapter.remove(position, key);
+
+            adapter.remove(position);
+
             UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
@@ -241,7 +242,7 @@ public class AudioAlbumsSongsFragment extends PlaybackServiceFragment implements
             }, new Runnable() {
                 @Override
                 public void run() {
-                    adapter.addItem(position, key, listItem);
+                    adapter.addItem(position, listItem);
                 }
             });
             return true;
