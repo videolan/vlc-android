@@ -281,19 +281,17 @@ fi
 # try to detect NDK version
 GCCVER=4.9
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
-case "$REL" in
-    11*)
-        if [ "${HAVE_64}" = 1 ];then
-            ANDROID_API=android-21
-        else
-            ANDROID_API=android-9
-        fi
-    ;;
-    *)
+
+if [ "$REL" -ge 11 ]; then
+    if [ "${HAVE_64}" = 1 ];then
+        ANDROID_API=android-21
+    else
+        ANDROID_API=android-9
+    fi
+else
     echo "You need the NDKv11 or later"
     exit 1
-    ;;
-esac
+fi
 
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 SRC_DIR=$PWD
