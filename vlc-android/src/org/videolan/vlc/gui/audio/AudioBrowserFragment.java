@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -268,6 +267,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             updateLists();
         else {
             updateEmptyView(mViewPager.getCurrentItem());
+            updatePlaylists();
         }
         mMediaLibrary.addUpdateHandler(mHandler);
         mMediaLibrary.setBrowser(this);
@@ -278,7 +278,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 mSwipeRefreshLayout.setEnabled(current.getFirstVisiblePosition() == 0);
             }
         });
-        updatePlaylists();
     }
 
     // Focus support. Start.
@@ -862,20 +861,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
     Runnable updatePlaylists = new Runnable() {
         @Override
         public void run() {
-            if (Looper.myLooper() != Looper.getMainLooper()) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPlaylistAdapter.clear();
-                    }
-                });
-            }
+            //DB playlists
+            ArrayList<AudioBrowserListAdapter.ListItem> dbPlaylists = mMediaLibrary.getPlaylistDbItems();
+            mPlaylistAdapter.addAllDBPlaylists(dbPlaylists);
             //File playlists
             ArrayList<MediaWrapper> playlists = mMediaLibrary.getPlaylistFilesItems();
             mPlaylistAdapter.addAll(playlists, AudioBrowserListAdapter.TYPE_PLAYLISTS);
-            //DB playlists
-            ArrayList<AudioBrowserListAdapter.ListItem> dbPlaylists = mMediaLibrary.getPlaylistDbItems();
-            mPlaylistAdapter.addAll(dbPlaylists);
 
             mAdaptersToNotify.add(mPlaylistAdapter);
             if (mReadyToDisplay && !mDisplaying)

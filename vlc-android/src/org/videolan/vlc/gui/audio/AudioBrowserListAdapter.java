@@ -120,19 +120,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
-    public void addAll(final List<ListItem> items) {
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (ListItem item : items) {
-                    mMediaItemMap.put(item.mTitle, item);
-                    mItems.add(item);
-                }
-                Collections.sort(mItems, mItemsComparator);
-            }
-        });
-    }
-
     public void add(String title, String subTitle, MediaWrapper media) {
         add(title, subTitle, media, null);
     }
@@ -155,12 +142,26 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     }
 
+    public void addAllDBPlaylists(final List<ListItem> items) {
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                clear();
+                for (ListItem item : items) {
+                    mMediaItemMap.put(item.mMediaKey, item);
+                    mItems.add(item);
+                }
+            }
+        });
+    }
+
     public void addAll(List<MediaWrapper> mediaList, final int type) {
         final LinkedList<MediaWrapper> list = new LinkedList<MediaWrapper>(mediaList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                clear();
+                if (type != TYPE_PLAYLISTS)
+                    clear();
                 String title, subTitle, key;
                 for (MediaWrapper media : list) {
                     switch (type){
@@ -226,6 +227,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         char prevFirstChar = '%';
         boolean firstSeparator = true;
         ArrayList<String> sections = new ArrayList<>();
+        if (type == TYPE_PLAYLISTS)
+            Collections.sort(mItems, mItemsComparator);
 
         for (int i = 0; i < mItems.size(); ++i) {
             String title = mItems.get(i).mTitle;
