@@ -92,15 +92,17 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public static class ListItem {
         final public String mTitle;
         final public String mSubTitle;
+        final public String mMediaKey;
         final public ArrayList<MediaWrapper> mMediaList;
         final public boolean mIsSeparator;
 
-        public ListItem(String title, String subTitle, MediaWrapper media, boolean isSeparator) {
+        public ListItem(String title, String subTitle, MediaWrapper media, boolean isSeparator, String mediaKey) {
             mMediaList = new ArrayList<>();
             if (media != null)
                 mMediaList.add(media);
             mTitle = title;
             mSubTitle = subTitle;
+            mMediaKey = mediaKey;
             mIsSeparator = isSeparator;
         }
     }
@@ -147,7 +149,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         if (mMediaItemMap.containsKey(mediaKey))
             mMediaItemMap.get(mediaKey).mMediaList.add(media);
         else {
-            ListItem item = new ListItem(title, subTitle, media, false);
+            ListItem item = new ListItem(title, subTitle, media, false, mediaKey);
             mMediaItemMap.put(mediaKey, item);
             mItems.add(item);
         }
@@ -199,14 +201,14 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         });
     }
 
-    public void remove(int position, String key) {
+    public void remove(int position) {
+        mMediaItemMap.remove(mItems.get(position).mMediaKey);
         mItems.remove(position);
-        mMediaItemMap.remove(key);
         notifyDataSetChanged();
     }
 
-    public void addItem(int position, String key, ListItem item) {
-        mMediaItemMap.put(key, item);
+    public void addItem(int position, ListItem item) {
+        mMediaItemMap.put(item.mMediaKey, item);
         mItems.add(position, item);
         notifyDataSetChanged();
     }
@@ -250,7 +252,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             if (Character.isLetter(firstChar)) {
                 String firstCharInString = String.valueOf(firstChar);
                 if ((firstSeparator || firstChar != prevFirstChar) && !sections.contains(firstCharInString)) {
-                    ListItem item = new ListItem(firstCharInString, null, null, true);
+                    ListItem item = new ListItem(firstCharInString, null, null, true, null);
                     mItems.add(i, item);
                     mSections.put(i, String.valueOf(firstChar));
                     i++;
@@ -259,7 +261,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                     sections.add(firstCharInString);
                 }
             } else if (firstSeparator) {
-                ListItem item = new ListItem("#", null, null, true);
+                ListItem item = new ListItem("#", null, null, true, null);
                 mItems.add(i, item);
                 mSections.put(i, "#");
                 i++;
@@ -276,7 +278,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         if (mSeparatorItemMap.containsKey(titleKey))
             mSeparatorItemMap.get(titleKey).mMediaList.add(media);
         else {
-            ListItem item = new ListItem(title, null, media, true);
+            ListItem item = new ListItem(title, null, media, true, null);
             mSeparatorItemMap.put(titleKey, item);
             mItems.add(item);
         }

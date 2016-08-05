@@ -465,11 +465,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
                 return false;
             final MediaWrapper media = mediaList.get(0);
             final AudioBrowserListAdapter.ListItem listItem = adapter.getItem(position);
-            final String key = adapter.getKey(position);
             String message;
             Runnable action;
 
-            adapter.remove(position, key);
+            adapter.remove(position);
 
             if (mode == MODE_PLAYLIST) {
                 message = getString(R.string.playlist_deleted);
@@ -491,7 +490,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements SwipeR
             UiTools.snackerWithCancel(getView(), message, action, new Runnable() {
                 @Override
                 public void run() {
-                    adapter.addItem(position, key, listItem);
+                    adapter.addItem(position, listItem);
                 }
             });
             return true;
