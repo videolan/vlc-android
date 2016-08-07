@@ -525,6 +525,7 @@ STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
 AR="${CROSS_COMPILE}ar" \
 PKG_CONFIG_LIBDIR=../contrib/$TARGET_TUPLE/lib/pkgconfig \
+PATH=../contrib/bin:$PATH \
 sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
                 ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
 checkfail "vlc: configure failed"
