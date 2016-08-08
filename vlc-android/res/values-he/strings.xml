@@ -183,6 +183,7 @@
     <string name="ok_got_it">הבנתי, עזוב אותי</string>
     <string name="playlist_tips">עצות רשימת נגינה</string>
     <string name="remove_song">הסרת שיר</string>
+    <string name="remove_playlist_item">%1$s הוסר מרשימת הנגינה</string>
     <string name="rearrange_order">שינוי הסדר</string>
     <string name="hold_to_seek">יש להחזיק כדי לגלול</string>
     <string name="audio_player_tips">עצות לנגן המדיה</string>
@@ -238,13 +239,16 @@
     <string name="enable_brightness_gesture_title">מחוות בהירות</string>
     <string name="enable_brightness_gesture_summary">ניתן לשלוט בבהירות באמצעות מחוות במהלך נגינת הווידאו</string>
     <string name="enable_volume_gesture_title">מחוות עצמת שמע</string>
+    <string name="enable_volume_gesture_summary">שליטת על עצמת השמע באמצעות מחווה במהלך נגינת הווידאו</string>
     <string name="enable_seek_buttons">הפעלת כפתורי חיפוש</string>
     <string name="enable_seek_buttons_summary">להציג כפתורי קדימה ואחורה בממשק בווידאו</string>
     <string name="force_list_portrait">ללא רשת במצב דיוקן</string>
     <string name="force_list_portrait_summary">להציג סרטים ברשימה ולא ברשת המצב דיוקן</string>
     <string name="audio_title_alignment">יישור כותרת אוטומטי</string>
     <string name="enable_headset_detection">זיהוי ערכת שמע</string>
-    <string name="enable_headset_detection_summary">יש להשהות עם הסרת האוזניות, להמשיך עם חיבורן מחדש</string>
+    <string name="enable_headset_detection_summary">זיהוי הכנסת או הסרת אוזניות</string>
+    <string name="enable_play_on_headset_insertion">להמשיך בנגינה עם חיבור אוזניות</string>
+    <string name="enable_play_on_headset_insertion_summary">להפסיק בכל מקרה אחר</string>
     <string name="enable_steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
     <string name="enable_steal_remote_control_summary">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
     <string name="audio_title_alignment_default">בררת מחדל</string>
@@ -268,6 +272,9 @@
     <string name="advanced_prefs_category">מתקדם</string>
     <string name="aout">פלט שמע</string>
     <string name="aout_summary">שינוי השיטה בה נעשה שימוש ב־VLC לפלט שמע.</string>
+    <string name="save_video_none">לא לשמור על המהירות</string>
+    <string name="save_video_session">שמירת המהירות במהלך ההפעלה</string>
+    <string name="save_video_always">שמירת המהירות בין ההפעלות</string>
     <string name="vout">פלט וידאו</string>
     <string name="vout_summary">החלפת השיטה בה נעשה שימוש ב־VLC לצורך הצגת פלט וידאו.</string>
     <string name="vout_android_surface">משטח אנדרויד</string>
@@ -304,6 +311,7 @@
     <string name="drawer_open">פתיחת מגירת הניווט</string>
     <string name="drawer_close">סגירת מגירת הניווט</string>
     <string name="network_browsing">רשת מקומית</string>
+    <string name="browsing">עיון</string>
     <string name="file_size">גודל הקובץ:</string>
     <string name="audio_delay">השהיית שמע</string>
     <string name="spu_delay">השהיית כתוביות</string>
@@ -325,8 +333,20 @@
     <string name="directory_empty">התיקייה ריקה</string>
     <string name="save_brightness_summary">שמירת רמת הבהירות בנגן הווידאו</string>
     <string name="save_brightness_title">שמירת רמת הבהירות לסרטון</string>
+    <string name="player_touch_title">פקדי מגע לווידאו</string>
+    <string name="player_touch_enable_all">הפעלת פקדי מגע</string>
+    <string name="player_touch_disable_brightness">נטרול פיקוד בהירות</string>
+    <string name="player_touch_disable_all">נטרול כל פקדי המגע</string>
+    <string name="tv_ui_title">מנשק טלוויזיה של אנדרויד</string>
+    <string name="tv_ui_summary">החלפת מנשק המשתמש לערכה מותאמת טלוויזיה</string>
+    <string name="lockscreen_cover_title">תמונת המדיה במסך הנעילה</string>
+    <string name="lockscreen_cover_summary">אם ניתן, להגדיר את תמונת המדיה הנוכחית כטפט רקע למסך הנעילה</string>
+    <string name="video_min_group_length_title">קיבוץ סרטונים</string>
+    <string name="video_min_group_length_summary">סרטוני הווידאו יקובצו רק אם האות הראשונה שלהם זהה.</string>
     <string name="video_min_group_length_disable">נטרול</string>
     <string name="video_min_group_length_first">אות ראשונה בלבד</string>
+    <string name="video_min_group_length_short">מספר קטן של אותיות (6)</string>
+    <string name="video_min_group_length_long">מספר גדול של אותיות (9)</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
     <string name="subtitles_size_small">קטן</string>
     <string name="subtitles_size_normal">רגיל</string>
@@ -353,9 +373,13 @@
     <string name="allow_storage_access_title">לאפשר ל־VLC לגשת לקובצי וידאו ושמע</string>
     <string name="allow_storage_access_description">ל־VLC נדרשת גישה למדיה בהתקן זה.</string>
     <string name="allow_settings_access_ringtone_title">לאפשר ל־VLC להגדיר את צלצול המכשיר</string>
+    <string name="allow_settings_access_ringtone_description">ל־VLC נדרשת הרשאה זו כדי להגדיר שיר זה בתור הצלצול שלך.</string>
+    <string name="allow_settings_access_brightness_title">לאפשר ל־VLC לשנות את מצב הבהירות</string>
+    <string name="allow_settings_access_brightness_description">ל־VLC נדרשת הרשאה זו כדי לשנות את מצב הבהירות שלך.</string>
+    <string name="allow_draw_overlays_title">לאפשר לנגן של VLC לקפוץ מעבר ליישומונים אחרים</string>
+    <string name="allow_sdraw_overlays_description">ל־VLC נדרשת ההרשאה הזו כדי להציג את הווידאו שלך בחלונית קופצת מעל ליישומונים אחרים.</string>
     <string name="permission_ask_again">הענקת הרשאות</string>
     <string name="exit_app">סגירת VLC</string>
-    <string name="hardware_acceleration_error">שגיאה האצת חומרה, עוברים לקידוד תכנה</string>
     <!--PLugins-->
     <string name="plugins">תוספים</string>
     <string name="download_on_device">הורדה</string>
@@ -365,6 +389,8 @@
     <string name="encryption_warning">אזהרה, הצפנה אינה זמינה לגרסת אנדרויד זו, הססמה תאוחסן במרחב פרטי אך ללא הצפנה.</string>
     <string name="store_password">שמירת הססמה</string>
     <string name="add_to_playlist">הוספה לרשימת השמעה</string>
+    <string name="popup_playback_title">ניגון וידאו בחלונית קופצת</string>
+    <string name="popup_playback">מתנגן בחלונית קופצת</string>
     <string name="popup_expand">הרחבת וידאו</string>
     <string name="snack_subloader_sub_found">הכתוביות התקבלו</string>
     <string name="snack_subloader_sub_not_found">לא נמצאו כתוביות</string>
@@ -381,4 +407,5 @@
     <string name="listen">האזנה</string>
     <string name="subtitles_download_title">הורדת כתוביות</string>
     <string name="connecting">מתבצעת התחברות..</string>
+    <string name="save_bluetooth_delay">שמירת ההשהיה להתקן Bluetooth</string>
 </resources>
