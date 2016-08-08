@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portraitmodus anzeigen</string>
     <string name="audio_title_alignment">Audiotitelausrichtung</string>
     <string name="enable_headset_detection">Kopfhörer erkennen</string>
-    <string name="enable_headset_detection_summary">Pause beim Entfernen der Kopfhörer; beim Einstecken fortsetzen</string>
+    <string name="enable_headset_detection_summary">An- und Abstecken des Kopfhörers erkennen</string>
+    <string name="enable_play_on_headset_insertion">Fortsetzen wenn Kopfhörer angesteckt</string>
+    <string name="enable_play_on_headset_insertion_summary">Andernfalls pausieren</string>
     <string name="enable_steal_remote_control">Exklusive Kopfhörerfernbedienung</string>
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte, durch die Übernahme der Fernbedienung, von anderen Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC benötigt von Ihnen die Genehmigung zum Einblenden Ihres Videos über andere Anwendungen.</string>
     <string name="permission_ask_again">Genehmigung erteilen</string>
     <string name="exit_app">VLC schließen</string>
-    <string name="hardware_acceleration_error">Fehler bei der Hardwarebeschleunigung, Wechsel auf die Softwaredekodierung</string>
     <!--PLugins-->
     <string name="plugins">Module</string>
     <string name="download_on_device">Herunterladen</string>
@@ -406,4 +407,5 @@
     <string name="listen">Hören</string>
     <string name="subtitles_download_title">Untertitel herunterladen</string>
     <string name="connecting">Verbinde...</string>
+    <string name="save_bluetooth_delay">Verzögerung des Bluetooth-Gerätes speichern</string>
 </resources>
