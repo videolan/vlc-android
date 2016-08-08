@@ -206,7 +206,6 @@
     <string name="force_list_portrait_summary">Tampilkan video dalam senarai bukannya grid dalam mode potret</string>
     <string name="audio_title_alignment">Perataan judul video</string>
     <string name="enable_headset_detection">Deteksi headset</string>
-    <string name="enable_headset_detection_summary">Jeda ketika headset dilepas, lanjutkan ketika dimasukkan</string>
     <string name="enable_steal_remote_control">Pengendali jarak jauh headset ekslusif</string>
     <string name="enable_steal_remote_control_summary">Hindari konflik dengan menggunakan pengendali jarak jauh dari aplikasi lain. Hal ini mencegah proses panggil ketika klik ganda pada telepon HTC.</string>
     <string name="audio_title_alignment_default">Bawaan</string>
