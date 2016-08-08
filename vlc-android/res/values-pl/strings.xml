@@ -253,7 +253,9 @@
     <string name="force_list_portrait_summary">Pokaż filmy w liście zamiast w kratkę w trybie portretowym</string>
     <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
-    <string name="enable_headset_detection_summary">Pauzuj przy usunięciu słuchawek, wznów po ponownym włożeniu słuchawek</string>
+    <string name="enable_headset_detection_summary">Wykrywanie wkładania i wyjmowania zestawu słuchawkowego</string>
+    <string name="enable_play_on_headset_insertion">Wznowienie po włożeniu słuchawek</string>
+    <string name="enable_play_on_headset_insertion_summary">Pauzuj inaczej</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
     <string name="enable_steal_remote_control_summary">Unikanie konfliktów poprzez zapożyczenie pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach firmy HTC.</string>
     <string name="audio_title_alignment_default">Domyślnie</string>
@@ -385,7 +387,6 @@
     <string name="allow_sdraw_overlays_description">VLC potrzebuje udzielenia pozwolenia do wyświetlania widea w oknie nad innymi aplikacjami.</string>
     <string name="permission_ask_again">Udzielenie pozwolenia</string>
     <string name="exit_app">Zamknij VLC</string>
-    <string name="hardware_acceleration_error">błąd akceleracji sprzętowej, przejście do dekodowania programowego</string>
     <!--PLugins-->
     <string name="plugins">Wtyczki</string>
     <string name="download_on_device">Pobieranie</string>
@@ -413,4 +414,5 @@
     <string name="listen">Posłuchaj</string>
     <string name="subtitles_download_title">Pobierz napisy</string>
     <string name="connecting">Łączenie...</string>
+    <string name="save_bluetooth_delay">zapisz opóźnienie urządzenia bluetooth</string>
 </resources>
