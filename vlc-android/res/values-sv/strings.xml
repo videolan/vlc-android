@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
     <string name="enable_headset_detection">Identifiera hörlurar</string>
-    <string name="enable_headset_detection_summary">Pausa när hörlurar tas bort och återuppta när de ansluts igen</string>
+    <string name="enable_headset_detection_summary">Identifiera anslutning och borttagning av headset</string>
+    <string name="enable_play_on_headset_insertion">Återuppta när headset ansluts</string>
+    <string name="enable_play_on_headset_insertion_summary">Pausa annars</string>
     <string name="enable_steal_remote_control">Exklusiv fjärrstyrning med hörlurar</string>
     <string name="enable_steal_remote_control_summary">Undvik konflikter genom att stjäla fjärrstyrningen från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i ett poppupp över andra applikationer.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
     <string name="exit_app">Avsluta VLC</string>
-    <string name="hardware_acceleration_error">Problem med hårdvaruaccelereringen; byter till mjukvaruavkodning</string>
     <!--PLugins-->
     <string name="plugins">Insticksmoduler</string>
     <string name="download_on_device">Ladda ned</string>
@@ -406,4 +407,5 @@
     <string name="listen">Lyssna</string>
     <string name="subtitles_download_title">Ladda ned undertexter</string>
     <string name="connecting">Ansluter...</string>
+    <string name="save_bluetooth_delay">Spara fördröjning för Bluetooth-enhet</string>
 </resources>
