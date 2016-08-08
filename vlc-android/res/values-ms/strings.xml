@@ -234,7 +234,6 @@
     <string name="force_list_portrait_summary">Tunjuk video di dalam senarai bukannya grid dalam mod potret</string>
     <string name="audio_title_alignment">Jajaran tajuk audio</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
-    <string name="enable_headset_detection_summary">Jeda ketika set kepala dibuang; sambung bila menyisip set kepala</string>
     <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
     <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
     <string name="audio_title_alignment_default">Lalai</string>
@@ -348,7 +347,6 @@
     <string name="allow_sdraw_overlays_description">VLC perlu kebenaran anda untuk paparkan video anda secara timbul berbanding aplikasi lain.</string>
     <string name="permission_ask_again">Beri keizinan</string>
     <string name="exit_app">Tutup VLC</string>
-    <string name="hardware_acceleration_error">ralat pemecutan perkakasan, tukar ke penyahkodan perisian</string>
     <!--PLugins-->
     <string name="plugins">Pemalam</string>
     <string name="download_on_device">Muat Turun</string>
