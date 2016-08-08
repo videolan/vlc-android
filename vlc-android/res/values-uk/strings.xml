@@ -253,7 +253,9 @@
     <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
     <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
-    <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
+    <string name="enable_headset_detection_summary">Виявляти під\'єднання і вилучення навушників</string>
+    <string name="enable_play_on_headset_insertion">Відновлювати при під\'єднанні навушників</string>
+    <string name="enable_play_on_headset_insertion_summary">Інакше - призупиняти </string>
     <string name="enable_steal_remote_control">Виняткове віддалене управління гарнітурою</string>
     <string name="enable_steal_remote_control_summary">Уникає конфліктів через перехоплення віддаленого управління іншими програмами. Це запобігає дзвінкам при подвійному натисканні на HTC телефонах.</string>
     <string name="audio_title_alignment_default">Типово</string>
@@ -385,7 +387,6 @@
     <string name="allow_sdraw_overlays_description">VLC потрібно, щоби ви надали цей дозвіл для відображення вашого відео у спливному вікні над іншими програмами.</string>
     <string name="permission_ask_again">Надати дозвіл</string>
     <string name="exit_app">Закрити VLC</string>
-    <string name="hardware_acceleration_error">помилка апаратного прискорення, перемикання на програмне декодування</string>
     <!--PLugins-->
     <string name="plugins">Модулі</string>
     <string name="download_on_device">Завантажити</string>
@@ -413,4 +414,5 @@
     <string name="listen">Слухати</string>
     <string name="subtitles_download_title">Завантаження субтитрів</string>
     <string name="connecting">Під\'єднання…</string>
+    <string name="save_bluetooth_delay">зберігати затримку для пристрою bluetooth</string>
 </resources>
