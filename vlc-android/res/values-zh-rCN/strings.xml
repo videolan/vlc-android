@@ -239,7 +239,9 @@
     <string name="force_list_portrait_summary">竖屏模式下，以列表形式而不是网格形式显示视频</string>
     <string name="audio_title_alignment">音频标题对齐</string>
     <string name="enable_headset_detection">启用耳机侦测</string>
-    <string name="enable_headset_detection_summary">耳机移除时暂停；插入时继续播放</string>
+    <string name="enable_headset_detection_summary">检测耳机的插入和拔出</string>
+    <string name="enable_play_on_headset_insertion">在插入耳机后继续播放</string>
+    <string name="enable_play_on_headset_insertion_summary">否则暂停</string>
     <string name="enable_steal_remote_control">独占耳机远程控制</string>
     <string name="enable_steal_remote_control_summary">通过拦截其他应用的远程控制请求来避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
     <string name="audio_title_alignment_default">默认</string>
@@ -371,7 +373,6 @@
     <string name="allow_sdraw_overlays_description">VLC 需要您的授权方可在其他应用程序之上的浮层显示您的视频。</string>
     <string name="permission_ask_again">授予权限</string>
     <string name="exit_app">关闭 VLC</string>
-    <string name="hardware_acceleration_error">硬件加速出错，正在切换为软件解码</string>
     <!--PLugins-->
     <string name="plugins">插件</string>
     <string name="download_on_device">下载</string>
