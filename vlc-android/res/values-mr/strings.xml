@@ -217,7 +217,6 @@
     <string name="force_list_portrait_summary">उभ्या मोडमध्ये ग्रीड ऐवजी यादीमध्ये चित्रफीती दाखवा</string>
     <string name="audio_title_alignment">ऑडिओ शीर्षक संरेखन</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
-    <string name="enable_headset_detection_summary">हेडसेट काढल्यावर विराम घ्या; घातल्यावर पुन्हा आरंभ करा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
     <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा. हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="audio_title_alignment_default">पूर्वनिर्धारित</string>
@@ -313,6 +312,5 @@
     <string name="allow_storage_access_description">तुमची विडीयो आणि ऑडियो मिळवण्यासाठी VLC ला तुमची अनुमती हवी आहे.</string>
     <string name="permission_ask_again">परवानगी द्या</string>
     <string name="exit_app">VLC बंद करा</string>
-    <string name="hardware_acceleration_error">हार्डवेअर अॅक्सलरेशन समस्या,सोफ्टवेअर डिकोडिंग कडे जात आहे</string>
     <!--PLugins-->
 </resources>
