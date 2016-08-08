@@ -203,7 +203,6 @@
     <string name="enable_brightness_gesture_summary">Stýr ljósstyrki við keipum, tá ið sjónbond verða spæld.</string>
     <string name="audio_title_alignment">Stilling fyri heiti á ljóði</string>
     <string name="enable_headset_detection">Finn høvuðsett</string>
-    <string name="enable_headset_detection_summary">Steðga, tá ið høvuðsett verður tikið út; halt fram, tá ið høvuðsett verður sett til</string>
     <string name="enable_steal_remote_control">Serlig fjarstýring til høvuðsett</string>
     <string name="enable_steal_remote_control_summary">Ansa eftir, at fjarstýringin ikki órógvar onnur forrit. Vandi er í, at tú kemur til at ringja við dupultum klikki á HTC-telefonum.</string>
     <string name="audio_title_alignment_default">Vanliga</string>
