@@ -93,6 +93,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-soxr \
     --enable-nfs \
     --enable-microdns \
+    --enable-fluidlite \
 "
 
 ###########################
@@ -135,6 +136,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-sdl-image \
     --enable-zvbi \
     --disable-fluidsynth \
+    --enable-fluidlite \
     --disable-jack \
     --disable-pulse \
     --disable-alsa \
