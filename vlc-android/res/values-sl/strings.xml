@@ -239,7 +239,6 @@
     <string name="force_list_portrait_summary">Filme v pokončnem načinu pokaži v seznamu namesto mreži</string>
     <string name="audio_title_alignment">Poravnava naslova zvoka</string>
     <string name="enable_headset_detection">Zaznaj slušalke</string>
-    <string name="enable_headset_detection_summary">Prekini ob odklopu slušalk; Nadaljuj ob priklopu slušalk</string>
     <string name="enable_steal_remote_control">Ekskluziven daljinski nadzor slušalk</string>
     <string name="enable_steal_remote_control_summary">Izognite se konfliktom z odvzemom daljinskega nadzora drugim napravam. To prepreči klicanje z dvoklikom na HTC telefonih.</string>
     <string name="audio_title_alignment_default">Privzeto</string>
@@ -335,7 +334,6 @@
     <string name="allow_storage_access_description">VLC-ju morate odobriti to dovoljenje za dostop do datotek predstavnih vsebin na tej napravi.</string>
     <string name="permission_ask_again">Odobri dovoljenje</string>
     <string name="exit_app">Zapri VLC</string>
-    <string name="hardware_acceleration_error">napaka strojnega pospeševanja, preklapljanje na programsko odkodiranje</string>
     <!--PLugins-->
     <string name="plugins">Vstavki</string>
     <string name="add_to_playlist">Dodaj na seznam predvajanja</string>
