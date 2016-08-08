@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Vis videoer i liste i steden for rutenett i portrettmodus</string>
     <string name="audio_title_alignment">Lydtittel justering</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
-    <string name="enable_headset_detection_summary">Pauser når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
+    <string name="enable_headset_detection_summary">Oppdag hodetelefon-innplugging og -fjerning</string>
+    <string name="enable_play_on_headset_insertion">Fortsett når hodetelefoner blir plugget inn</string>
+    <string name="enable_play_on_headset_insertion_summary">Sett på pause ellers</string>
     <string name="enable_steal_remote_control">Eksklusiv fjernkontroll fra hodetelefon</string>
     <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC behøver denne tilgangen for å vise video i et oppsprett over andre programmer.</string>
     <string name="permission_ask_again">Gi tillatelse</string>
     <string name="exit_app">Lukk VLC</string>
-    <string name="hardware_acceleration_error">feil med maskinvareaksellerasjon, bytter til programvaredekoding</string>
     <!--PLugins-->
     <string name="plugins">Programtillegg</string>
     <string name="download_on_device">Last ned</string>
@@ -406,4 +407,5 @@
     <string name="listen">Lytt</string>
     <string name="subtitles_download_title">Nedlasting av undertekster</string>
     <string name="connecting">Kobler til…</string>
+    <string name="save_bluetooth_delay">Lagre forsinkelsen for blåtannenhet</string>
 </resources>
