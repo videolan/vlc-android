@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Mostar vídeos en una lista en vez de rejilla en modo retrato</string>
     <string name="audio_title_alignment">Alineación del audio</string>
     <string name="enable_headset_detection">Detectar auriculares</string>
-    <string name="enable_headset_detection_summary">Pausar al quitar los cascos, continuar al insertar los cascos</string>
+    <string name="enable_headset_detection_summary">Detectar inserción y extracción de auriculares</string>
+    <string name="enable_play_on_headset_insertion">Continuar al insertar auriculares</string>
+    <string name="enable_play_on_headset_insertion_summary">Pausar de otra manera</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evitar conflictos robando el control remoto de otras aplicaciones. Esto previene llamar al hacer doble clic en teléfonos HTC.</string>
     <string name="audio_title_alignment_default">Predeterminado</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC necesita que proporciones este permiso para mostrar tu vídeo en una ventana emergente sobre otras aplicaciones.</string>
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Cerrar VLC</string>
-    <string name="hardware_acceleration_error">error en la aceleración por hardware, cambiando a decodificación por software</string>
     <!--PLugins-->
     <string name="plugins">Complementos</string>
     <string name="download_on_device">Descargar</string>
@@ -406,4 +407,5 @@
     <string name="listen">Escuchar</string>
     <string name="subtitles_download_title">Descarga subtítulos</string>
     <string name="connecting">Conectando...</string>
+    <string name="save_bluetooth_delay">guardar retraso para dispositivo bluetooth</string>
 </resources>
