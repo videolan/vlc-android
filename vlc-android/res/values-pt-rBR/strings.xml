@@ -90,8 +90,10 @@
     <string name="nohistory">Você não possui histórico de reprodução.</string>
     <string name="validation">Tem certeza?</string>
     <string name="cover_art">Capa</string>
+    <string name="shuffle_title">Modo aleatório</string>
     <string name="shuffle">Desabilitar o Aleatório</string>
     <string name="shuffle_on">Habilitar o Aleatório</string>
+    <string name="repeat_title">Modo contínuo</string>
     <string name="repeat">Repetir nenhuma</string>
     <string name="repeat_single">Repetir uma</string>
     <string name="repeat_all">Repetir todas</string>
@@ -114,6 +116,7 @@
     <string name="track_video">Trilha de vídeo</string>
     <string name="track_text">Trilha de Legenda</string>
     <string name="track_unknown">Trilha desconhecida</string>
+    <string name="track_bitrate_info">Taxa de bits: %1$s/s\n</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Idioma: %1$s\n</string>
     <string name="volume">Volume</string>
@@ -138,6 +141,13 @@
     <string name="subtitle_label">Adicionar arquivo de legenda</string>
     <string name="subtitle_select">Selecionar arquivo de legenda</string>
     <string name="no_file_picker_found">Nenhum seletor de arquivos foi encontrado no sistema.</string>
+    <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
+    <string name="server_domain_hint">Endereço do servidor (nome ou IP)</string>
+    <string name="server_share_hint">Nome do compartilhamento de rede (ou endereço IP)</string>
+    <string name="server_username_hint">Usuário</string>
+    <string name="server_port">Porta:</string>
+    <string name="login">Ingressar</string>
+    <string name="password">Senha</string>
     <string name="favorites_edit">Editar</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
@@ -207,7 +217,9 @@
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="extra_prefs_category">Configurações extras</string>
     <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_gui">Exibir</string>
     <string name="interface_controls">Controles</string>
+    <string name="interface_secondary_display_category_title">Tela secundária</string>
     <string name="interface_secondary_display_category_summary">Configurações para quando telas secundárias estão conectadas (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferir clone</string>
     <string name="enable_clone_mode_summary">Clona a tela do dispositivo sem controle remoto.</string>
@@ -219,7 +231,6 @@
     <string name="force_list_portrait_summary">Exibir vídeos em lista em vez de grade, no modo retrato</string>
     <string name="audio_title_alignment">Alinhamento do título do áudio</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
-    <string name="enable_headset_detection_summary">Pausar ao remover fone de ouvido; continuar ao inserir fone de ouvido</string>
     <string name="enable_steal_remote_control">Controle remoto exclusivo para o fone</string>
     <string name="enable_steal_remote_control_summary">Evite conflitos tomando o acesso ao controle remoto. Isso evita a discagem por duplo-toque dos telefones HTC.</string>
     <string name="audio_title_alignment_default">Padrão</string>
@@ -300,6 +311,19 @@
     <string name="directory_empty">A pasta está vazia</string>
     <string name="save_brightness_summary">Salvar o nível de brilho no reprodutor de vídeos</string>
     <string name="save_brightness_title">Salvar o nível de brilho para vídeo</string>
+    <string name="video_min_group_length_disable">Desabilitar</string>
+    <string name="subtitles_size_title">Tamanho da Legenda</string>
+    <string name="subtitles_size_small">Pequeno</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Grande</string>
+    <string name="subtitles_size_huge">Imenso</string>
+    <string name="subtitles_color_title">Cor da Legenda</string>
+    <string name="subtitles_color_white">Branco</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Azul</string>
+    <string name="subtitles_color_yellow">Amarelo</string>
+    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_background_title">Fundo da Legenda</string>
     <!--Accessibility-->
     <string name="more_actions">Mais Ações</string>
     <string name="move">Mover</string>
@@ -313,10 +337,30 @@
     <string name="widget_name_b">Dispositivo VLC Preto</string>
     <string name="allow_storage_access_title">Permitir que o VLC acesse arquivos de áudio e vídeo</string>
     <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
+    <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
+    <string name="allow_settings_access_ringtone_description">O VLC precisa que você conceda esta permissão para definir esta música como toque.</string>
+    <string name="allow_settings_access_brightness_title">Permitir que o VLC defina o brilho</string>
+    <string name="allow_settings_access_brightness_description">O VLC precisa que você conceda esta permissão para definir o brilho</string>
+    <string name="allow_draw_overlays_title">Permitir que o VLC se sobreponha a outros aplicativos</string>
     <string name="permission_ask_again">Conceder permissão</string>
     <string name="exit_app">Fechar o VLC</string>
-    <string name="hardware_acceleration_error">erro na aceleração por hardware, alternando para decodificação por software</string>
     <!--PLugins-->
+    <string name="plugins">Complementos</string>
     <string name="download_on_device">Baixar</string>
+    <string name="network_favorites">Favoritos da rede</string>
+    <string name="network_shared_folders">Pastas compartilhadas</string>
+    <string name="snack_subloader_sub_not_found">Legenda não encontrada</string>
+    <string name="dialog_subloader_success">Legenda encontrada para:</string>
+    <string name="dialog_subloader_fails">Legenda não encontrada para:</string>
+    <string name="dialog_subloader_sumup">Transferência finalizada</string>
+    <string name="download_subtitles">Baixar legenda</string>
+    <string name="preferences_languages_download">Idiomas das legendas</string>
+    <string name="list_languages_download_summary">Idiomas para baixar legendas</string>
+    <string name="list_languages_download_title">Idiomas para baixar legenda</string>
+    <string name="service_unavailable">Serviço indisponível</string>
+    <string name="downloading_subtitles">Baixando legenda</string>
+    <string name="browse_folder">Procurar pasta</string>
+    <string name="listen">Ouvir</string>
+    <string name="subtitles_download_title">Baixar legenda</string>
     <string name="connecting">Conectando...</string>
 </resources>
