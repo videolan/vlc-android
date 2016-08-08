@@ -635,7 +635,7 @@ VLC_MODULES=$(find_modules ${REDEFINED_VLC_MODULES_DIR})
 VLC_SRC_DIR="$SRC_DIR/vlc"
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
-VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do pkg-config --libs $i; done |xargs`
+VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs`
 
 if [ "${CHROME_OS}" != "1" ];then
     if [ "${HAVE_64}" != 1 ];then
