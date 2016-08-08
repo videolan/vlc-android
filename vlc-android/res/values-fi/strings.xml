@@ -143,6 +143,7 @@
     <string name="no_file_picker_found">Tiedostopoimijaa ei löydetty järjestelmästä.</string>
     <string name="server_add_title">Lisää uusi palvelin suosikkeihin</string>
     <string name="server_domain_hint">Palvelimen osoite (sivun nimi tai IP)</string>
+    <string name="server_share_hint">Verkkojaon nimi (tai IP osoite)</string>
     <string name="server_folder_hint">Kansion polku (vapaavalintainen)</string>
     <string name="server_username_hint">Käyttäjänimi</string>
     <string name="server_port">Portti:</string>
@@ -167,6 +168,8 @@
     <string name="search">Etsi</string>
     <string name="search_history">Hakuhistoria</string>
     <string name="playback_history_title">Toistohistoria</string>
+    <string name="playback_speed_title">Tallenna toiston nopeus</string>
+    <string name="playback_speed_summary">Muista asettamasi toiston nopeus</string>
     <!--Tips-->
     <string name="video_player_tips">Videosoittimen vinkit:</string>
     <string name="seek">Hae kohta</string>
@@ -224,19 +227,22 @@
     <string name="extra_prefs_category">Lisäasetukset</string>
     <string name="interface_prefs_screen">Käyttöliittymä</string>
     <string name="interface_gui">Näyttö</string>
+    <string name="interface_controls">Hallinnat</string>
     <string name="interface_secondary_display_category_title">Toissijainen näyttö</string>
     <string name="interface_secondary_display_category_summary">Asetukset kun toissijaiset näytöt on kytketty (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
     <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman etähallintaa.</string>
     <string name="interface_other_category">Käyttöliittymä - Muut</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
+    <string name="enable_volume_gesture_title">Äänen voimakkuus ele</string>
+    <string name="enable_volume_gesture_summary">Säädä äänenvoimakkuutta eleillä videotoiston aikana</string>
     <string name="enable_seek_buttons">Ota käyttöön kelauspainikkeet</string>
     <string name="enable_seek_buttons_summary">Näytä taakse- ja eteepäinkelauspainikkeet videorajapinnassa</string>
     <string name="force_list_portrait">Ei ruudutusta muotokuvatilassa</string>
     <string name="force_list_portrait_summary">Näytä videot listassa ruudukon sijaan muotokuvatilassa</string>
     <string name="audio_title_alignment">Äänen otsikon tasaus</string>
     <string name="enable_headset_detection">Tunnista kuulokkeet</string>
-    <string name="enable_headset_detection_summary">Tauota kuulokkeiden irroittamisen jälkeen; jatka kiinnittämisen jälkeen</string>
+    <string name="enable_play_on_headset_insertion_summary">Tauota muussa tapauksessa</string>
     <string name="enable_steal_remote_control">Hieno kuulokkeiden etähallinta</string>
     <string name="enable_steal_remote_control_summary">Vältä konflikteja kaappaamalla etähallintakyky muilta ohjelmilta. Tämä estää soittamisen tuplanapautuksella HTC:n puhelimissa.</string>
     <string name="audio_title_alignment_default">Oletus</string>
@@ -260,6 +266,7 @@
     <string name="advanced_prefs_category">Edistykselliset</string>
     <string name="aout">Ääniulostulo</string>
     <string name="aout_summary">Vaihda menetelmää, jota VLC käyttää äänen ulosantiin.</string>
+    <string name="save_video_none">Älä tallenna nopeutta</string>
     <string name="vout">Videoulostulo</string>
     <string name="vout_summary">Vaihda menetelmää, jota VLC käyttää videoulosantia varten.</string>
     <string name="vout_android_surface">Android-alusta</string>
@@ -296,6 +303,7 @@
     <string name="drawer_open">Avaa navigointilaatikko</string>
     <string name="drawer_close">Sulje navigointilaatikko</string>
     <string name="network_browsing">Paikallinen verkko</string>
+    <string name="browsing">Selataan</string>
     <string name="file_size">Tiedostokoko:</string>
     <string name="audio_delay">Äänen viive</string>
     <string name="spu_delay">Tekstityksen viive</string>
@@ -317,6 +325,21 @@
     <string name="directory_empty">Hakemisto on tyhjä</string>
     <string name="save_brightness_summary">Muista kirkkauden taso videosoittimessa</string>
     <string name="save_brightness_title">Tallenna kirkkauden taso videolle</string>
+    <string name="tv_ui_title">Android TV käyttöliittymä</string>
+    <string name="video_min_group_length_disable">Poista käytöstä</string>
+    <string name="video_min_group_length_first">Vain ensimmäinen kirjain</string>
+    <string name="subtitles_size_title">Tekstitysten koko</string>
+    <string name="subtitles_size_small">Pieni</string>
+    <string name="subtitles_size_normal">Normaali</string>
+    <string name="subtitles_size_big">Suuri</string>
+    <string name="subtitles_size_huge">Erittäin suuri</string>
+    <string name="subtitles_color_title">Tekstitysten väri</string>
+    <string name="subtitles_color_white">Valkoinen</string>
+    <string name="subtitles_color_pink">Pinkki</string>
+    <string name="subtitles_color_blue">Sininen</string>
+    <string name="subtitles_color_yellow">Keltainen</string>
+    <string name="subtitles_color_green">Vihreä</string>
+    <string name="subtitles_background_title">Tekstitysten tausta</string>
     <!--Accessibility-->
     <string name="more_actions">Lisää toimintoja</string>
     <string name="move">Siirrä</string>
@@ -333,14 +356,18 @@
     <string name="allow_settings_access_ringtone_title">Salli VLC:n asettaa soittoääni</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="exit_app">Sulje VLC</string>
-    <string name="hardware_acceleration_error">Laitteistokiihdytys virhe, vaihdetaan ohjelmistopurkuun</string>
     <!--PLugins-->
     <string name="plugins">Liitännäiset</string>
     <string name="download_on_device">Lataukset</string>
+    <string name="network_favorites">Verkko suosikit</string>
     <string name="network_shared_folders">Jaetut kansiot</string>
     <string name="store_password">Muista salasana</string>
     <string name="add_to_playlist">Lisää soittolistaan</string>
+    <string name="popup_expand">Laajenna video</string>
+    <string name="snack_subloader_sub_found">Ladatut tekstitykset</string>
     <string name="snack_subloader_sub_not_found">Tekstityksiä ei löydetty</string>
+    <string name="dialog_subloader_success">Tekstityksiä löytyy:</string>
+    <string name="dialog_subloader_fails">Tekstityksiä ei löydy:</string>
     <string name="dialog_subloader_sumup">Lataus valmis</string>
     <string name="download_subtitles">Lataa tekstityksiä</string>
     <string name="preferences_languages_download">Tekstitysten kielet</string>
