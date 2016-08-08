@@ -13,28 +13,11 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
 	$(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
 	$(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
+	$(VLC_CONTRIB_LDFLAGS) \
 	-ldl -lz -lm -llog \
-	-ldvbpsi -lmatroska -lebml -ltag \
-	-logg -lFLAC -ltheora -lvorbis \
-	-la52 -lsoxr \
-	-lavformat -lavcodec -lswscale -lavutil -lpostproc -lgsm -lopenjpeg \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
-	-lspeex -lspeexdsp \
-	-lxml2 -lpng -lgnutls -lgcrypt -lgpg-error \
-	-lnettle -lhogweed -lgmp \
-	-liconv -lass -lfribidi -lopus \
-	-lharfbuzz -lfreetype \
-	-lEGL -lGLESv2 -ljpeg \
-	-ldvdnav -ldvdread -ldvdcss \
-	-ldsm -ltasn1 \
-	-lzvbi \
-	-lssh2 -lnfs \
-	-lmodplug \
-	-lupnp -lthreadutil -lixml \
-	-larchive \
-	-lmpg123 \
-	-llua \
-	-lmicrodns \
+	-la52 -ljpeg \
+	-lavcodec -lebml \
 	$(EXTRA_LDFLAGS)
 
 ifeq ($(HAVE_LIBCOMPAT), 1)

@@ -633,6 +633,7 @@ VLC_MODULES=$(find_modules ${REDEFINED_VLC_MODULES_DIR})
 VLC_SRC_DIR="$SRC_DIR/vlc"
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
+VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do pkg-config --libs $i; done |xargs`
 
 if [ "${CHROME_OS}" != "1" ];then
     if [ "${HAVE_64}" != 1 ];then
@@ -659,6 +660,7 @@ $ANDROID_NDK/ndk-build -C libvlc \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
     VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
     VLC_CONTRIB="$VLC_CONTRIB" \
+    VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
     VLC_MODULES="$VLC_MODULES" \
     TARGET_CFLAGS="$EXTRA_CFLAGS" \
     EXTRA_LDFLAGS="$EXTRA_LDFLAGS" \
