@@ -18,6 +18,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
 	-la52 -ljpeg \
 	-lavcodec -lebml \
+	-llua \
 	$(EXTRA_LDFLAGS)
 
 ifeq ($(HAVE_LIBCOMPAT), 1)
