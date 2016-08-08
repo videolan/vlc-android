@@ -231,7 +231,6 @@
     <string name="force_list_portrait_summary">В вертикальном режиме показывать видео в списке, а не в сетке.</string>
     <string name="audio_title_alignment">Расположение заголовка аудио</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
-    <string name="enable_headset_detection_summary">Пауза при отключении гарнитуры; продолжение при подключении</string>
     <string name="enable_steal_remote_control">Захват управления с гарнитуры</string>
     <string name="enable_steal_remote_control_summary">Предотвращает конфликты, перехватывая удалённое управление у других приложений. Помогает избежать набора номера при двойном щелчке на аппаратах HTC.</string>
     <string name="audio_title_alignment_default">по умолчанию</string>
@@ -327,6 +326,5 @@
     <string name="allow_storage_access_description">VLC требуется это разрешение, чтобы обращаться к медиафайлам на вашем устройстве.</string>
     <string name="permission_ask_again">Дать разрешение</string>
     <string name="exit_app">Закрыть VLC</string>
-    <string name="hardware_acceleration_error">ошибка аппаратного ускорение, переключение на программное декодирование</string>
     <!--PLugins-->
 </resources>
