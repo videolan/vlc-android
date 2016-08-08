@@ -214,7 +214,6 @@
     <string name="force_list_portrait_summary">Deg uskar ubdid beqqeḍ ividyuten s tebdart</string>
     <string name="audio_title_alignment">Tarigla n izewlen n imesli</string>
     <string name="enable_headset_detection">Détecter le casque</string>
-    <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
     <string name="enable_steal_remote_control">Asenqed n umsegdal ad yli kan s unzaḍ anmeggag</string>
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="audio_title_alignment_default">Prédéfini(e)</string>
