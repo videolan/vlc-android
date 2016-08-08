@@ -224,7 +224,6 @@
     <string name="force_list_portrait_summary">Įrenginį laikant vertikaliai, vaizdo kūrinius išdėstyti sąrašu, o ne tinkleliu</string>
     <string name="audio_title_alignment">Muzikos kūrinio pavadinimo padėtis</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
-    <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
     <string name="enable_steal_remote_control">Išskirtinė nuotolinė ausinių kontrolė</string>
     <string name="enable_steal_remote_control_summary">Vengti konflikto, kuomet reaguojama į kitų programų nuotolinę kontrolę. Tai leidžia išvengti skambinimo dukart spustelėjus HTC telefonus.</string>
     <string name="audio_title_alignment_default">Numatyta</string>
@@ -318,6 +317,5 @@
     <string name="allow_storage_access_description">VLC prašo leisti prieiti prie šiame įrenginyje esančių įvairialypės terpės rinkmenų.</string>
     <string name="permission_ask_again">Leisti</string>
     <string name="exit_app">Užverti VLC</string>
-    <string name="hardware_acceleration_error">aparatinio iškodavimo nepavyksta naudoti, naudosime programinį iškodavimą</string>
     <!--PLugins-->
 </resources>
