@@ -147,6 +147,8 @@
     <string name="login">நுழை</string>
     <string name="password">கடவுச்சொல்</string>
     <string name="search_results">தேடல் முடிவுகள்</string>
+    <string name="favorites_add">பிடித்தபட்டியலில் இணைக்க</string>
+    <string name="favorites_remove">பிடித்தப்பட்டியலில் இருந்து நீக்கு</string>
     <string name="favorites_edit">தொகு</string>
     <string name="open">திற</string>
     <string name="open_mrl">MRLஐ திற</string>
@@ -231,7 +233,6 @@
     <string name="force_list_portrait_summary">உருவப்படம் முறையில் கட்டம் பதிலாக பட்டியலில் காண்பி வீடியோக்களை</string>
     <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
-    <string name="enable_headset_detection_summary">தலைப்பொறி நீக்கப்படும்போது இடைநிறுத்தம் செய்யவும்; தலைப்பொறி சொருகும்போது தொடரவும்</string>
     <string name="enable_steal_remote_control">பிரத்தியேக தலைப்பொறி தொலைநிலை கட்டுப்பாடு</string>
     <string name="enable_steal_remote_control_summary">தொலைநிலை கட்டுப்பாட்டை பிற பயன்பாடுகள் திருடுவதை தடுப்பதன் மூலம் மோதல்களை தவிர்க்கலாம். இது HTC பேசிகளில் இரட்டை சொடுக்கல் மூலம் எண்கள் அழைத்தலை தடுக்க முடியும்.</string>
     <string name="audio_title_alignment_default">முன்னிருப்பு</string>
@@ -312,6 +313,18 @@
     <string name="confirm_resume_title">மீண்டும் தொடர்வதற்கு உறுதி கேட்க</string>
     <string name="confirm_resume_summary">செயல்படுத்தப்படுகிறது என்றால் ஒரு காணொளி கடைசி நிலையில் இருந்து தொடர்வதற்கு முன் உங்களிடம் உறுதி கேட்கப்படும்</string>
     <string name="directory_empty">அடைவு வெறுமையாக உள்ளது</string>
+    <string name="video_min_group_length_disable">செயலிழக்க</string>
+    <string name="subtitles_size_title">துணை உரைகளின் அளவு</string>
+    <string name="subtitles_size_small">சிறிய</string>
+    <string name="subtitles_size_normal">சாதாரண</string>
+    <string name="subtitles_size_big">பெரிய</string>
+    <string name="subtitles_size_huge">மிகவும் பெரிய</string>
+    <string name="subtitles_color_title">துணைஉரைகளின் நிரம்</string>
+    <string name="subtitles_color_white">வெள்ளை</string>
+    <string name="subtitles_color_pink">பிங்க்</string>
+    <string name="subtitles_color_blue">நீலம்</string>
+    <string name="subtitles_color_yellow">மஞ்சள்</string>
+    <string name="subtitles_color_green">பச்சை</string>
     <!--Accessibility-->
     <string name="more_actions">மேலும் செயல்கள்</string>
     <string name="move">நகர்த்து</string>
@@ -319,7 +332,15 @@
     <string name="playlist_deleted">தொகுப்பு பட்டியல் நீக்கப்பட்டது</string>
     <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை </string>
-    <string name="music_now_playing">இப்போ ஒடுவது </string>
+    <string name="music_now_playing">தற்சமயம் இயக்கப்படுவது</string>
     <!--Widget-->
+    <string name="exit_app">VLC-ஐ நிறுத்து</string>
     <!--PLugins-->
+    <string name="download_on_device">பதிவிறக்கு</string>
+    <string name="download_subtitles">வசன வரிகளை தரவிறக்கு</string>
+    <string name="preferences_languages_download">வசன வரிகளின் மொழி</string>
+    <string name="service_unavailable">வேவை இல்லை</string>
+    <string name="downloading_subtitles">வசன வரிகள் தறவிறக்கப்படுகிறது</string>
+    <string name="subtitles_download_title">வசன வரிகள் பதிவிறக்கம்</string>
+    <string name="connecting">இணக்கப்படுகிறது...</string>
 </resources>
