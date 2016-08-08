@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Dikey konumda görüntüler ızgara yerine liste şeklinde görüntülenir</string>
     <string name="audio_title_alignment">Ses başlığının hizası</string>
     <string name="enable_headset_detection">Kulaklık algılansın</string>
-    <string name="enable_headset_detection_summary">Kulaklık çıkarıldığında duraklansın; takıldığında sürdürülsün</string>
+    <string name="enable_headset_detection_summary">Kulaklığın takıldığı ve çıkarıldığı algılansın</string>
+    <string name="enable_play_on_headset_insertion">Kulaklık takıldığında sürdürülsün</string>
+    <string name="enable_play_on_headset_insertion_summary">Yoksa duraklatılsın</string>
     <string name="enable_steal_remote_control">Özel kulaklık kumandası</string>
     <string name="enable_steal_remote_control_summary">Uzaktan kumandanın başka uygulamalar tarafından kullanılması önlenir. Böylece HTC telefonlardaki çift tıklandığında arama özelliği engellenir.</string>
     <string name="audio_title_alignment_default">Varsayılan</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC oynatıcı penceresini diğer uygulamaların üzerine açmak için bu izne gereksinim duyar.</string>
     <string name="permission_ask_again">İzin ver</string>
     <string name="exit_app">Kapat</string>
-    <string name="hardware_acceleration_error">donanım hızlandırma hatası, yazılımsal kod çözücüsüne geçiliyor</string>
     <!--PLugins-->
     <string name="plugins">Uygulama Ekleri</string>
     <string name="download_on_device">İndirme</string>
@@ -406,4 +407,5 @@
     <string name="listen">Dinle</string>
     <string name="subtitles_download_title">Altyazı indirme</string>
     <string name="connecting">Bağlanılıyor...</string>
+    <string name="save_bluetooth_delay">Bluetooth aygıtı için kaydetme gecikmesi</string>
 </resources>
