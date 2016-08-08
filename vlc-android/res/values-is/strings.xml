@@ -211,7 +211,6 @@
     <string name="enable_seek_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
     <string name="audio_title_alignment">Jöfnun titils fyrir hljóð</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
-    <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
     <string name="enable_steal_remote_control">Sérstök fjarstýring heyrnartóla</string>
     <string name="enable_steal_remote_control_summary">Forðast árekstra við að stela fjarstýringu frá öðrum forritum. Þetta kemur í veg fyrir að hringt sé við tvíslátt á HTC-símum.</string>
     <string name="audio_title_alignment_default">Sjálfgefið</string>
