@@ -248,7 +248,6 @@
     <string name="force_list_portrait_summary">Prikaži video snimke u popisu umjesto u mreži kada je u uspravnom načinu</string>
     <string name="audio_title_alignment">Poravnjanje zapisa zvuka</string>
     <string name="enable_headset_detection">Otkrij slušalice</string>
-    <string name="enable_headset_detection_summary">Pauziraj pri uklanjanju slušalica a nastavi pri spajanju slušalica.</string>
     <string name="enable_steal_remote_control">Isključivo daljinsko upravljanje slušalicama</string>
     <string name="enable_steal_remote_control_summary">Izbjegavanje sukoba oduzimanjem funkcija daljinskog upravljanja drugim aplikacijama. Ovime se onemogućuje pozivanje dvostrukim dodirom na HTC mobitelima.</string>
     <string name="audio_title_alignment_default">Zadano</string>
@@ -362,7 +361,6 @@
     <string name="allow_sdraw_overlays_description">Vlc treba dozvolu za prikaz video snimke u skočnom prozor preko drugih aplikacija.</string>
     <string name="permission_ask_again">Odobri dozvolu </string>
     <string name="exit_app">Zatvori VLC</string>
-    <string name="hardware_acceleration_error">greška hardverskog ubrzanja, prebacivanje na softversko dekôdiranje</string>
     <!--PLugins-->
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzmi</string>
