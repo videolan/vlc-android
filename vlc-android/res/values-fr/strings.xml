@@ -116,7 +116,7 @@
     <string name="track_video">Piste vidéo</string>
     <string name="track_text">Piste sous-titres</string>
     <string name="track_unknown">Piste inconnue</string>
-    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
+    <string name="track_bitrate_info">Bitrate : %1$s/s\n</string>
     <string name="track_codec_info">Codec : %1$s\n</string>
     <string name="track_language_info">Langue : %1$s\n</string>
     <string name="volume">Volume</string>
@@ -169,7 +169,9 @@
     <string name="search">Rechercher</string>
     <string name="search_history">Historique de recherche</string>
     <string name="playback_history_title">Historique de lecture</string>
-    <string name="playback_history_summary">Sauvegarder tous les média joués dans la section Historique</string>
+    <string name="playback_history_summary">Sauvegarder tous les médias joués dans la section  « Historique »</string>
+    <string name="playback_speed_title">Enregistrer la vitesse de lecture</string>
+    <string name="playback_speed_summary">Conserver la vitesse de lecture d\'une vidéo à l\'autre</string>
     <!--Tips-->
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>
@@ -234,14 +236,19 @@
     <string name="enable_clone_mode">Préférer le mode clone</string>
     <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécommande</string>
     <string name="interface_other_category">Interface - Autres</string>
+    <string name="enable_brightness_gesture_title">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
+    <string name="enable_volume_gesture_title">Mouvement du volume</string>
+    <string name="enable_volume_gesture_summary">Pendant la lecture d’une vidéo, contrôler le volume au toucher</string>
     <string name="enable_seek_buttons">Activer les boutons de déplacement</string>
     <string name="enable_seek_buttons_summary">Afficher les boutons d\'avance et retour rapides sur l\'interface vidéo</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="enable_headset_detection">Détecter le casque</string>
-    <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
+    <string name="enable_headset_detection_summary">Détecter l\'insertion et le retrait d\'un micro-casque</string>
+    <string name="enable_play_on_headset_insertion">Reprendre à l\'insertion d\'un micro-casque</string>
+    <string name="enable_play_on_headset_insertion_summary">Mettre en pause dans le cas contraire</string>
     <string name="enable_steal_remote_control">Contrôle exclusif de la télécommande</string>
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="audio_title_alignment_default">Prédéfini(e)</string>
@@ -265,9 +272,9 @@
     <string name="advanced_prefs_category">Avancé</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio.</string>
-    <string name="save_video_none">Ne pas sauvegarder la vitesse</string>
-    <string name="save_video_session">Conserver la vitesse pour la session</string>
-    <string name="save_video_always">Conserver la vitesse d\'une session à l\'autre</string>
+    <string name="save_video_none">Ne pas engegistrer la vitesse</string>
+    <string name="save_video_session">Conserver la vitesse d\'une session à l\'autre</string>
+    <string name="save_video_always">Conserver la vitesse entre les sessions</string>
     <string name="vout">Sortie vidéo</string>
     <string name="vout_summary">Modifier la méthode utilisée par VLC pour la sortie vidéo.</string>
     <string name="vout_android_surface">Android surface</string>
@@ -334,6 +341,24 @@
     <string name="tv_ui_summary">Basculer sur l\'interface Android TV</string>
     <string name="lockscreen_cover_title">Pochette des albums sur l\'écran de verrouillage</string>
     <string name="lockscreen_cover_summary">Si disponible, la pochette de l\'album sera affichée comme fond d\'écran lorsque l\'appareil est verrouillé</string>
+    <string name="video_min_group_length_title">Regrouper les vidéos</string>
+    <string name="video_min_group_length_summary">Les vidéos sont regroupées si la première lettre de leur titre est la même.</string>
+    <string name="video_min_group_length_disable">Désactiver</string>
+    <string name="video_min_group_length_first">Première lettre seulement</string>
+    <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
+    <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
+    <string name="subtitles_size_title">Taille des sous-titres</string>
+    <string name="subtitles_size_small">Petit</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Grand</string>
+    <string name="subtitles_size_huge">Énorme</string>
+    <string name="subtitles_color_title">Couleur des sous-titres</string>
+    <string name="subtitles_color_white">Blanc</string>
+    <string name="subtitles_color_pink">Rose</string>
+    <string name="subtitles_color_blue">Bleu</string>
+    <string name="subtitles_color_yellow">Jaune</string>
+    <string name="subtitles_color_green">Vert</string>
+    <string name="subtitles_background_title">Arrière-plan des sous-titres</string>
     <!--Accessibility-->
     <string name="more_actions">Plus d\'actions</string>
     <string name="move">Déplacer</string>
@@ -355,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC a besoin de votre autorisation pour afficher les vidéos dans une popup par dessus les autres applications</string>
     <string name="permission_ask_again">Donner l\'autorisation</string>
     <string name="exit_app">Fermer VLC</string>
-    <string name="hardware_acceleration_error">erreur d\'accélération matériel, passage au décodage logiciel</string>
     <!--PLugins-->
     <string name="plugins">Extensions</string>
     <string name="download_on_device">Télécharger</string>
@@ -363,7 +387,7 @@
     <string name="network_favorites">Favoris réseau</string>
     <string name="network_shared_folders">Dossiers partagés</string>
     <string name="encryption_warning">Avertissement, le chiffrement n\'est pas disponible pour cette version d\'Android, le mot de passe sera stocké dans un espace privé mais de manière non chiffrée</string>
-    <string name="store_password">Sauvegarder le mot de passe</string>
+    <string name="store_password">Enregistrer le mot de passe</string>
     <string name="add_to_playlist">Ajouter à la liste de lecture</string>
     <string name="popup_playback_title">Jouer la vidéo dans une fenêtre popup</string>
     <string name="popup_playback">Lecture dans une fenêtre popup</string>
