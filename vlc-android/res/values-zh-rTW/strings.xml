@@ -232,7 +232,6 @@
     <string name="force_list_portrait_summary">在直向模式時以清單顯示影片而非格狀排列</string>
     <string name="audio_title_alignment">音訊標題對齊</string>
     <string name="enable_headset_detection">偵測耳機</string>
-    <string name="enable_headset_detection_summary">耳機拔除時暫停、插入時繼續播放</string>
     <string name="enable_steal_remote_control">專用耳機遙控</string>
     <string name="enable_steal_remote_control_summary">在使用其他 app 的遙控功能時避免衝突，這可以防止在 HTC 的手機上雙擊時撥號。</string>
     <string name="audio_title_alignment_default">預設</string>
@@ -342,7 +341,6 @@
     <string name="allow_settings_access_brightness_description">VLC 需要您授予權限來調整您的亮度模式。</string>
     <string name="permission_ask_again">授予權限</string>
     <string name="exit_app">關閉 VLC</string>
-    <string name="hardware_acceleration_error">硬體加速發生錯誤，已切換到軟體解碼</string>
     <!--PLugins-->
     <string name="plugins">外掛</string>
     <string name="download_on_device">下載</string>
