@@ -138,6 +138,11 @@
     <string name="subtitle_label">Feliratfájl hozzáadása</string>
     <string name="subtitle_select">Feliratfájl kiválasztása</string>
     <string name="no_file_picker_found">Nem található fájlkiválasztó ezen a rendszeren.</string>
+    <string name="server_username_hint">Felhasználónév</string>
+    <string name="server_port">Port: </string>
+    <string name="login">Bejelentkezés</string>
+    <string name="password">Jelszó</string>
+    <string name="favorites_edit">Szerkesztés</string>
     <string name="open">Megnyitás</string>
     <string name="open_mrl">Műsorszórás</string>
     <string name="open_mrl_dialog_title">Hálózati műsor megnyitása</string>
@@ -206,6 +211,8 @@
     <string name="subtitle_text_encoding">Felirat szövegkódolása</string>
     <string name="extra_prefs_category">Extra beállítások</string>
     <string name="interface_prefs_screen">Kezelőfelület</string>
+    <string name="interface_gui">Megjelenítés</string>
+    <string name="interface_secondary_display_category_title">Másodlagos megjelenítő</string>
     <string name="interface_secondary_display_category_summary">Beállítások arra az esetre, ha másodlagos kijelző csatlakozik (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Klón preferálása</string>
     <string name="enable_clone_mode_summary">Eszköz képernyőjének klónozása távvezérlés nélkül.</string>
@@ -217,7 +224,6 @@
     <string name="force_list_portrait_summary">A videók megjelenítése listában, a rács helyett, portré mód esetén.</string>
     <string name="audio_title_alignment">Felirat automatikus igazítása</string>
     <string name="enable_headset_detection">Fejhallgató észlelése</string>
-    <string name="enable_headset_detection_summary">Fejhallgató eltávolításakor szünet; visszahelyezésekor folytatás</string>
     <string name="enable_steal_remote_control">Kizárólagosan vezérelje a fejhallgatót</string>
     <string name="enable_steal_remote_control_summary">A fejhallgató vezérlőit ne használhassák más alkalmazások. Ezzel megakadályozható a tárcsázás duplakattintáskor HTC telefonokon.</string>
     <string name="audio_title_alignment_default">Alapértelmezett</string>
@@ -298,6 +304,20 @@
     <string name="directory_empty">A könyvtár üres</string>
     <string name="save_brightness_summary">Fényerő szintjének megjegyzése a videólejátszóban</string>
     <string name="save_brightness_title">Fényerő szintjének mentése a videóhoz</string>
+    <string name="video_min_group_length_title">Videók csoportosítása</string>
+    <string name="video_min_group_length_summary">Videók csoportosításra kerülnek, ha a kezdőbetűik azonosak.</string>
+    <string name="subtitles_size_title">Feliratok mérete</string>
+    <string name="subtitles_size_small">Kicsi</string>
+    <string name="subtitles_size_normal">Normál</string>
+    <string name="subtitles_size_big">Nagy</string>
+    <string name="subtitles_size_huge">Hatalmas</string>
+    <string name="subtitles_color_title">Feliratok színe</string>
+    <string name="subtitles_color_white">Fehér</string>
+    <string name="subtitles_color_pink">Rózsaszín</string>
+    <string name="subtitles_color_blue">Kék</string>
+    <string name="subtitles_color_yellow">Sárga</string>
+    <string name="subtitles_color_green">Zöld</string>
+    <string name="subtitles_background_title">Feliratok háttere</string>
     <!--Accessibility-->
     <string name="more_actions">További műveletek</string>
     <string name="move">Mozgatás</string>
@@ -313,6 +333,12 @@
     <string name="allow_storage_access_description">A VLC-nek szüksége van erre az engedélyre a médiafájlok elérésére az eszözén.</string>
     <string name="permission_ask_again">Engedély megadása</string>
     <string name="exit_app">VLC bezárása</string>
-    <string name="hardware_acceleration_error">hardveres gyorsítási hiba, váltás szoftveres dekódolásra</string>
     <!--PLugins-->
+    <string name="download_on_device">Letöltés</string>
+    <string name="store_password">Jelszó megjegyzése</string>
+    <string name="snack_subloader_sub_found">Feliratok letöltve</string>
+    <string name="dialog_subloader_sumup">Letöltés befejeződött</string>
+    <string name="download_subtitles">Feliratok letöltése</string>
+    <string name="preferences_languages_download">Feliratok nyelvei</string>
+    <string name="connecting">Csatlakozás...</string>
 </resources>
