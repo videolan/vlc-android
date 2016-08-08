@@ -224,7 +224,6 @@
     <string name="force_list_portrait_summary">Zobrazit videa jako seznam místo mřížky při zobrazení na výšku</string>
     <string name="audio_title_alignment">Zarovnání titulku hudby</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
-    <string name="enable_headset_detection_summary">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
     <string name="enable_steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
     <string name="enable_steal_remote_control_summary">Obchází konflikt ukradením vzdálené kontroly od ostatních aplikací. Zabraňuje vytáčení při dvojitém stisku na telefonech HTC.</string>
     <string name="audio_title_alignment_default">Výchozí</string>
@@ -320,6 +319,5 @@
     <string name="allow_storage_access_description">VLC potřebuje, abyste mu udělil/a oprávnění přistupovat k multimediálním souborům na tomto zařízení.</string>
     <string name="permission_ask_again">Udělit oprávnění</string>
     <string name="exit_app">Zavřít VLC</string>
-    <string name="hardware_acceleration_error">chyba hardwarové akcelerace, přepínám na softwarové dekódování</string>
     <!--PLugins-->
 </resources>
