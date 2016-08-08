@@ -210,7 +210,6 @@
     <string name="force_list_portrait_summary">Shfaq videot në listë ne vend të rrjetës ne formën portret</string>
     <string name="audio_title_alignment">Radhitja e titullit të audios</string>
     <string name="enable_headset_detection">Zbulo kufje</string>
-    <string name="enable_headset_detection_summary">Pusho gjatë heqjes së kufjeve, vazhdo gjatë vendosjes së kufjeve</string>
     <string name="enable_steal_remote_control">Kontroll ekskluziv nëpërmjet kufjeve</string>
     <string name="enable_steal_remote_control_summary">Mënjano konflikte duke u marrë telekomanimin nga aplikacione të tjera. Kjo mënjanon rënien e telefonit kur bën double klik ne telefonat HTC.</string>
     <string name="audio_title_alignment_default">Të parazgjedhura</string>
