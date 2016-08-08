@@ -239,7 +239,9 @@
     <string name="force_list_portrait_summary">ポートレートモードではビデオをグリッド表示ではなく、リスト形式で表示します</string>
     <string name="audio_title_alignment">オーディオタイトルの位置合わせ</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
-    <string name="enable_headset_detection_summary">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
+    <string name="enable_headset_detection_summary">ヘッドセットの着脱を検出</string>
+    <string name="enable_play_on_headset_insertion">ヘッドセットの装着で再開</string>
+    <string name="enable_play_on_headset_insertion_summary">それ以外では一時停止</string>
     <string name="enable_steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
     <string name="enable_steal_remote_control_summary">他のアプリケーションがリモートコントロールを占有する場合の競合を避けます。HTC製の電話でダブルクリックによる発信を防止します。</string>
     <string name="audio_title_alignment_default">デフォルト</string>
@@ -371,7 +373,6 @@
     <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにVLCに権限を与える必要があります。</string>
     <string name="permission_ask_again">権限を付与</string>
     <string name="exit_app">VLCを閉じる</string>
-    <string name="hardware_acceleration_error">ハードウェアアクセラレーションでエラーが発生しました。ソフトウェアデコーディングに切り替えます。</string>
     <!--PLugins-->
     <string name="plugins">プラグイン</string>
     <string name="download_on_device">ダウンロード</string>
@@ -399,4 +400,5 @@
     <string name="listen">Listen</string>
     <string name="subtitles_download_title">字幕ダウンロード</string>
     <string name="connecting">接続中...</string>
+    <string name="save_bluetooth_delay">bluetoothデバイスへの遅延を保存</string>
 </resources>
