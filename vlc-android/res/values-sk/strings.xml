@@ -253,7 +253,9 @@
     <string name="force_list_portrait_summary">Zobraziť videá v režime portrétov, bez mriežky</string>
     <string name="audio_title_alignment">Zarovnanie názvu zvukového súboru</string>
     <string name="enable_headset_detection">Detegovať headset</string>
-    <string name="enable_headset_detection_summary">Pozastaviť pri odpojení headsetu; pokračovať pri pripojení headsetu</string>
+    <string name="enable_headset_detection_summary">Detegovať pripojenie a odpojenie headsetu</string>
+    <string name="enable_play_on_headset_insertion">Pokračovať pri pripojení headsetu</string>
+    <string name="enable_play_on_headset_insertion_summary">V iných prípadoch pozastaviť</string>
     <string name="enable_steal_remote_control">Výhradné vzdialené ovládanie headsetu</string>
     <string name="enable_steal_remote_control_summary">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
     <string name="audio_title_alignment_default">Predvolené</string>
@@ -385,7 +387,6 @@
     <string name="allow_sdraw_overlays_description">Na zobrazovanie videa vo vyskakovacom okne nad ostatnými aplikáciami musí mať VLC udelené oprávnenia.</string>
     <string name="permission_ask_again">Udeliť oprávnenie</string>
     <string name="exit_app">Zavrieť VLC</string>
-    <string name="hardware_acceleration_error">chyba HW akcelerovania, prepínam na softvérové dekódovanie</string>
     <!--PLugins-->
     <string name="plugins">Prídavné moduly</string>
     <string name="download_on_device">Stiahnutie</string>
@@ -413,4 +414,5 @@
     <string name="listen">Vypočuť</string>
     <string name="subtitles_download_title">Stiahnutie titulkov</string>
     <string name="connecting">Pripája sa...</string>
+    <string name="save_bluetooth_delay">uložiť oneskorenie pre zariadenie Bluetooth</string>
 </resources>
