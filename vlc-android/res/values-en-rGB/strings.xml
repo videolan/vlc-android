@@ -217,7 +217,6 @@
     <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
     <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="audio_title_alignment_default">Default</string>
@@ -313,6 +312,5 @@
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
-    <string name="hardware_acceleration_error">hardware acceleration error, switching to software decoding</string>
     <!--PLugins-->
 </resources>
