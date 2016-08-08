@@ -151,7 +151,7 @@
     <string name="login">Log ind</string>
     <string name="password">Adgangskode</string>
     <string name="search_results">Søgeresultater</string>
-    <string name="favorites_add">Tilføj til favoritter</string>
+    <string name="favorites_add">Føj til favoritter</string>
     <string name="favorites_remove">Fjern fra favoritter</string>
     <string name="favorites_edit">Redigér</string>
     <string name="favorite_added">Gemt til favoritter</string>
@@ -170,6 +170,8 @@
     <string name="search_history">Søg historik</string>
     <string name="playback_history_title">Afspilningshistorik</string>
     <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
+    <string name="playback_speed_title">Gem afspilningshastighed</string>
+    <string name="playback_speed_summary">Husk den afspilningshastighed du har sat</string>
     <!--Tips-->
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>
@@ -234,14 +236,19 @@
     <string name="enable_clone_mode">Foretræk klon</string>
     <string name="enable_clone_mode_summary">Klon enhedsskærmen uden fjernbetjening.</string>
     <string name="interface_other_category">Brugerflade - andet</string>
+    <string name="enable_brightness_gesture_title">Lysstyrke-gestus</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
+    <string name="enable_volume_gesture_title">Lydstyrke-gestus</string>
+    <string name="enable_volume_gesture_summary">Styr lydstyrke med gestus under videoafspilning</string>
     <string name="enable_seek_buttons">Slå søgeknapper til</string>
     <string name="enable_seek_buttons_summary">Vis spoleknapper på brugerflade for video</string>
     <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
     <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
     <string name="enable_headset_detection">Registrer hovedtelefoner</string>
-    <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
+    <string name="enable_headset_detection_summary">Registrér indsættes og fjernelse af hovedtelefon</string>
+    <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefon</string>
+    <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
     <string name="enable_steal_remote_control">Udeluk hovedtelefon fjernbetjening</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -334,6 +341,24 @@
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
     <string name="lockscreen_cover_title">Mediecover på Låsskærm</string>
     <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecoverbillede som låsskærmens tapet</string>
+    <string name="video_min_group_length_title">Gruppér videoer</string>
+    <string name="video_min_group_length_summary">Videoer grupperes hvis deres første tegn er det samme.</string>
+    <string name="video_min_group_length_disable">Deaktivér</string>
+    <string name="video_min_group_length_first">Kun første bogstav</string>
+    <string name="video_min_group_length_short">Korte antal tegn (6)</string>
+    <string name="video_min_group_length_long">Lange antal tegn (9)</string>
+    <string name="subtitles_size_title">Underteksters størrelse</string>
+    <string name="subtitles_size_small">Lille</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Stor</string>
+    <string name="subtitles_size_huge">Meget stor</string>
+    <string name="subtitles_color_title">Underteksters farve</string>
+    <string name="subtitles_color_white">Hvid</string>
+    <string name="subtitles_color_pink">Pink</string>
+    <string name="subtitles_color_blue">Blå</string>
+    <string name="subtitles_color_yellow">Gul</string>
+    <string name="subtitles_color_green">Grøn</string>
+    <string name="subtitles_background_title">Underteksterne baggrund</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
@@ -355,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC har brug for at du giver denne tilladelse for at vise din video i en pop-op over andre applikationer.</string>
     <string name="permission_ask_again">Tildel rettighed</string>
     <string name="exit_app">Luk VLC</string>
-    <string name="hardware_acceleration_error">fejl i hardwareacceleration, skifter til software-afkodning</string>
     <!--PLugins-->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Download</string>
@@ -364,7 +388,7 @@
     <string name="network_shared_folders">Delte mapper</string>
     <string name="encryption_warning">Advarsel! Kryptering er ikke tilgængelig i denne version af Android, adgangskode bliver gemt i et privatområde, men ikke krypteret</string>
     <string name="store_password">Husk adgangskode</string>
-    <string name="add_to_playlist">Tilføj til spilleliste</string>
+    <string name="add_to_playlist">Føj til spilleliste</string>
     <string name="popup_playback_title">Afspil video i et pop-op-vindue</string>
     <string name="popup_playback">Afspiller i et pop-op-vindue</string>
     <string name="popup_expand">Udvid video</string>
@@ -383,4 +407,5 @@
     <string name="listen">Lyt</string>
     <string name="subtitles_download_title">Untertekster download</string>
     <string name="connecting">Opretter forbindelse...</string>
+    <string name="save_bluetooth_delay">gem forsinkelse for Bluetooth-enhed</string>
 </resources>
