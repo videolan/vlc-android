@@ -242,11 +242,13 @@
     <string name="enable_volume_gesture_summary">Ao reproduzir, controlar volume por meio de gestos</string>
     <string name="enable_seek_buttons">Ativar botões para avançar/recuar</string>
     <string name="enable_seek_buttons_summary">Mostrar botões para avançar e recuar a reprodução</string>
-    <string name="force_list_portrait">Sem grelha no modo vertical</string>
+    <string name="force_list_portrait">Lista no modo vertical</string>
     <string name="force_list_portrait_summary">Mostrar vídeos em lista em vez de grelha no modo vertical</string>
     <string name="audio_title_alignment">Alinhamento do título de áudio</string>
     <string name="enable_headset_detection">Detetar auscultadores</string>
-    <string name="enable_headset_detection_summary">Pausa ao remover os auscultadores e retomar ao inserir</string>
+    <string name="enable_headset_detection_summary">Detetar inserção e remoção dos auriculares</string>
+    <string name="enable_play_on_headset_insertion">Continuar ao inserir os auriculares</string>
+    <string name="enable_play_on_headset_insertion_summary">Caso contrário, colocar em pausa</string>
     <string name="enable_steal_remote_control">Controlo remoto exclusivo do auscultador</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos obtendo o controlo remoto das outras aplicações. Isto evita a marcação de números com duplo clique nos telefones HTC</string>
     <string name="audio_title_alignment_default">Predefinição</string>
@@ -277,7 +279,7 @@
     <string name="vout_summary">Alterar o método que o VLC utiliza para a saída de vídeo.</string>
     <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Limpar base de dados multimédia</string>
-    <string name="clear_history">Limpar histórico de pesquisas</string>
+    <string name="clear_history">Limpar histórico</string>
     <string name="media_db_cleared">A base de dados foi limpa!</string>
     <string name="set_locale">Definir idioma</string>
     <string name="set_locale_detail">Deixe em branco para repor</string>
@@ -356,7 +358,7 @@
     <string name="subtitles_color_blue">Azul</string>
     <string name="subtitles_color_yellow">Amarelo</string>
     <string name="subtitles_color_green">Verde</string>
-    <string name="subtitles_background_title">Fundo das legandas</string>
+    <string name="subtitles_background_title">Fundo das legendas</string>
     <!--Accessibility-->
     <string name="more_actions">Mais ações</string>
     <string name="move">Mover</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">O VLC necessita que você conceda as permissões para mostrar o vídeo por cima de outras aplicações.</string>
     <string name="permission_ask_again">Permitir</string>
     <string name="exit_app">Fechar o VLC</string>
-    <string name="hardware_acceleration_error">Erro de aceleração de hardware. A trocar para descodificação de software.</string>
     <!--PLugins-->
     <string name="plugins">Extras</string>
     <string name="download_on_device">Descarregar</string>
@@ -399,11 +400,12 @@
     <string name="download_subtitles">Descarregar legendas</string>
     <string name="preferences_languages_download">Idiomas das legendas</string>
     <string name="list_languages_download_summary">Os idiomas a descarregar ao procurar por legendas</string>
-    <string name="list_languages_download_title">Idiomas de descarga de legendas</string>
+    <string name="list_languages_download_title">Idiomas de descarga das legendas</string>
     <string name="service_unavailable">Serviço indisponível</string>
     <string name="downloading_subtitles">A descarregar legendas</string>
     <string name="browse_folder">Explorar pasta</string>
     <string name="listen">Escutar</string>
     <string name="subtitles_download_title">Descarregar legendas</string>
     <string name="connecting">A estabelecer ligação...</string>
+    <string name="save_bluetooth_delay">Atraso para o dispositivo bluetooth</string>
 </resources>
