@@ -138,6 +138,7 @@
     <string name="track_video">مقطع مرئي</string>
     <string name="track_text">مقطع التّرجمة</string>
     <string name="track_unknown">مقطع غير معروف</string>
+    <string name="track_bitrate_info">معدل البث: %1$s/s\n</string>
     <string name="track_codec_info">مرماز : %1$s\n</string>
     <string name="track_language_info">اللغة : %1$s\n</string>
     <string name="volume">حجم الصّوت</string>
@@ -166,6 +167,20 @@
     <string name="subtitle_label">أضِف ملف ترجمة</string>
     <string name="subtitle_select">اختر ملف ترجمة</string>
     <string name="no_file_picker_found">لا يوجد حامل ملفات في النّظام.</string>
+    <string name="server_add_title">اضافة خادم جديد الى المفضلة</string>
+    <string name="server_domain_hint">عنوان الخادم (اسم النطاق او عنوانه)</string>
+    <string name="server_share_hint">اسم الشبكة المشاركة (او عنوان الشبكة المشاركة)</string>
+    <string name="server_folder_hint">مسار المجلد (اختياري)</string>
+    <string name="server_username_hint">اسم المستخدم</string>
+    <string name="server_port">المنفذ:</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="password">كلمة السر</string>
+    <string name="search_results">نتائج البحث</string>
+    <string name="favorites_add">إضافة إلى المفضلة</string>
+    <string name="favorites_remove">إزالة من المفضلة</string>
+    <string name="favorites_edit">تحرير</string>
+    <string name="favorite_added">حفظ إلى المفضلة</string>
+    <string name="favorite_removed">إزالة من المفضلة</string>
     <string name="open">افتح</string>
     <string name="open_mrl">افتح MRL</string>
     <string name="open_mrl_dialog_title">افتح بثًا شبكيًا</string>
@@ -178,6 +193,10 @@
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="search">ابحث</string>
     <string name="search_history">تأريخ البحث</string>
+    <string name="playback_history_title">سجل التشغيل</string>
+    <string name="playback_history_summary">حفظ جميع الوسائط المشغلة في قسم السجل</string>
+    <string name="playback_speed_title">حفظ سرعة التشغيل</string>
+    <string name="playback_speed_summary">تذكر سرعة التشغيل التي عينتها</string>
     <!--Tips-->
     <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>
@@ -234,6 +253,8 @@
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="extra_prefs_category">إعدادات إضافية</string>
     <string name="interface_prefs_screen">الواجهة</string>
+    <string name="interface_gui">العرض</string>
+    <string name="interface_controls">التحكم</string>
     <string name="interface_secondary_display_category_summary">وضع الإعدادات عند الربط بعارضات ثانوية (HDMI/Miracast).</string>
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
     <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
@@ -245,7 +266,6 @@
     <string name="force_list_portrait_summary">عرض الفيديو في القائمة بدلا من الشبكة في وضع عمودي</string>
     <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
-    <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
     <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
     <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
     <string name="audio_title_alignment_default">افتراضي</string>
@@ -269,6 +289,7 @@
     <string name="advanced_prefs_category">مُتقدّم</string>
     <string name="aout">الإخراج الصّوتي</string>
     <string name="aout_summary">غير طريقة إخراج VLC الصّوتي.</string>
+    <string name="save_video_none">لا تقم بحفظ مقدار السرعة</string>
     <string name="vout">الإخراج المرئي</string>
     <string name="vout_summary">غير طريقة إخراج VLC المرئي.</string>
     <string name="vout_android_surface">واجهة أندرويد</string>
@@ -305,6 +326,7 @@
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
     <string name="network_browsing">الشبكة المحلية</string>
+    <string name="browsing">التصفح</string>
     <string name="file_size">حجم الملف:</string>
     <string name="audio_delay">تأخير الصوت</string>
     <string name="spu_delay">تأخير الترجمة النصية</string>
@@ -326,6 +348,19 @@
     <string name="directory_empty">المجلد فارغ</string>
     <string name="save_brightness_summary">تذكر درجة سطوع الفيديو في مشغل الفيديو</string>
     <string name="save_brightness_title">حفظ درجة سطوع الفيديو لهذا الفيديو</string>
+    <string name="video_min_group_length_disable">تعطيل</string>
+    <string name="video_min_group_length_first">أول حرف فقط</string>
+    <string name="subtitles_size_small">صغير</string>
+    <string name="subtitles_size_normal">متوسط</string>
+    <string name="subtitles_size_big">كبير</string>
+    <string name="subtitles_size_huge">ضخم</string>
+    <string name="subtitles_color_title">لون نص الترجمة</string>
+    <string name="subtitles_color_white">أبيض</string>
+    <string name="subtitles_color_pink">وردي</string>
+    <string name="subtitles_color_blue">أزرق</string>
+    <string name="subtitles_color_yellow">أصفر</string>
+    <string name="subtitles_color_green">أخضر</string>
+    <string name="subtitles_background_title">خلفية نص الترجمة</string>
     <!--Accessibility-->
     <string name="more_actions">المزيد من الإجراءات</string>
     <string name="move">تحريك</string>
@@ -341,6 +376,20 @@
     <string name="allow_storage_access_description">VLC يحتاج إلى الحصول على تصريح للدخول إلى ملفات الوسائط هذه في هذا الجهاز</string>
     <string name="permission_ask_again">الحصول على تصريح</string>
     <string name="exit_app">أغلق VLC</string>
-    <string name="hardware_acceleration_error">خطأ في تسريع الفيديو من العتاد. تحويل إلى مفك التشفير من البرنامج</string>
     <!--PLugins-->
+    <string name="plugins">الإضافات</string>
+    <string name="download_on_device">تحميل</string>
+    <string name="network_shared_folders">مجلدات مشتركة</string>
+    <string name="add_to_playlist">أضف إلى قائمة التشغيل</string>
+    <string name="snack_subloader_sub_found">تحميل الترجمات</string>
+    <string name="snack_subloader_sub_not_found">لم يتم العثور على الترجمات</string>
+    <string name="dialog_subloader_success">تم العثور على ترجمات لـ :</string>
+    <string name="dialog_subloader_fails">لم يتم العثور على ترجمات لـ :</string>
+    <string name="dialog_subloader_sumup">التحميل انتهى</string>
+    <string name="download_subtitles">تحميل الترجمات</string>
+    <string name="preferences_languages_download">لغات الترجمات</string>
+    <string name="downloading_subtitles">جاري تحميل الترجمات</string>
+    <string name="browse_folder">استعرض مجلد</string>
+    <string name="listen">استمع</string>
+    <string name="connecting">يتّصل...</string>
 </resources>
