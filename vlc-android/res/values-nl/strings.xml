@@ -246,7 +246,9 @@
     <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
     <string name="audio_title_alignment">Audiotitel-oriëntatie</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
-    <string name="enable_headset_detection_summary">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
+    <string name="enable_headset_detection_summary">Insteken en verwijderen van headset detecteren</string>
+    <string name="enable_play_on_headset_insertion">Hervatten bij insteken van headset</string>
+    <string name="enable_play_on_headset_insertion_summary">Anders pauzeren</string>
     <string name="enable_steal_remote_control">Exclusieve headset-afstandsbediening</string>
     <string name="enable_steal_remote_control_summary">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
     <string name="audio_title_alignment_default">Standaard</string>
@@ -378,7 +380,6 @@
     <string name="allow_sdraw_overlays_description">VLC moet uw toestemming hebben om uw video weer te geven in een popup bovenop andere toepassingen.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
     <string name="exit_app">VLC sluiten</string>
-    <string name="hardware_acceleration_error">hardwareversnelling-fout, overschakelen naar software-decoderen</string>
     <!--PLugins-->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Downloaden</string>
@@ -406,4 +407,5 @@
     <string name="listen">Luisteren</string>
     <string name="subtitles_download_title">Ondertiteldownload</string>
     <string name="connecting">Verbinden...</string>
+    <string name="save_bluetooth_delay">vertraging voor bluetooth-apparaat opslaan</string>
 </resources>
