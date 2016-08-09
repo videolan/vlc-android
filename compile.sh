@@ -43,6 +43,11 @@ while [ $# -gt 0 ]; do
         run)
             RUN=1
             ;;
+        *)
+            echo "$0: Invalid option '$1'." 1>&2
+            echo "$0: Try --help for more information." 1>&2
+            exit 1
+            ;;
     esac
     shift
 done
