@@ -80,6 +80,30 @@ if [ -z "$ANDROID_ABI" ]; then
    ANDROID_ABI="armeabi-v7a"
 fi
 
+if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
+    GRADLE_ABI="ARMv7"
+elif [ "$ANDROID_ABI" = "armeabi-v5" ]; then
+    GRADLE_ABI="ARMv5"
+elif [ "$ANDROID_ABI" = "armeabi" ]; then
+    GRADLE_ABI="ARMv6fpu"
+elif [ "$ANDROID_ABI" = "armeabi-nofpu" ]; then
+    GRADLE_ABI="ARMv6nofpu"
+elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
+    GRADLE_ABI="ARMv8"
+elif [ "$ANDROID_ABI" = "x86" ]; then
+    GRADLE_ABI="x86"
+elif [ "$ANDROID_ABI" = "x86_64" ]; then
+    GRADLE_ABI="x86_64"
+elif [ "$ANDROID_ABI" = "mips" ]; then
+    GRADLE_ABI="MIPS"
+elif [ "$ANDROID_ABI" = "mips64" ]; then
+    GRADLE_ABI="MIPS64"
+else
+    diagnostic "Invalid arch specified: '$ANDROID_ABI'."
+    diagnostic "Try --help for more information"
+    exit 1
+fi
+
 ##########
 # GRADLE #
 ##########
@@ -208,27 +232,6 @@ fi
 if [ "$CHROME_OS" = 1 ]; then
     PLATFORM="Chrome"
 fi
-
-if [ "$ANDROID_ABI" = "armeabi-v5" ]; then
-    GRADLE_ABI="ARMv5"
-elif [ "$ANDROID_ABI" = "armeabi" ]; then
-    GRADLE_ABI="ARMv6fpu"
-elif [ "$ANDROID_ABI" = "armeabi-nofpu" ]; then
-    GRADLE_ABI="ARMv6nofpu"
-elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
-    GRADLE_ABI="ARMv8"
-elif [ "$ANDROID_ABI" = "x86" ]; then
-    GRADLE_ABI="x86"
-elif [ "$ANDROID_ABI" = "x86_64" ]; then
-    GRADLE_ABI="x86_64"
-elif [ "$ANDROID_ABI" = "mips" ]; then
-    GRADLE_ABI="MIPS"
-elif [ "$ANDROID_ABI" = "mips64" ]; then
-    GRADLE_ABI="MIPS64"
-else
-    GRADLE_ABI="ARMv7"
-fi
-
 if [ "$BUILD_LIBVLC" = 1 ];then
     ./gradlew -p libvlc assemble${BUILDTYPE}
     RUN=0
