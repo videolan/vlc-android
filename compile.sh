@@ -172,7 +172,7 @@ else
     diagnostic "VLC source found"
     cd vlc
     if ! git cat-file -e ${TESTED_HASH}; then
-        cat << EOF
+        cat 1>&2 << EOF
 ***
 *** Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}
 ***
