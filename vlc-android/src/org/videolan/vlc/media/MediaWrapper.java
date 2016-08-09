@@ -161,22 +161,17 @@ public class MediaWrapper implements Parcelable {
         if (mType != TYPE_ALL)
             return;
 
-        String fileExt = null;
-        int dotIndex = mTitle != null ? mTitle.lastIndexOf(".") : -1;
+        String fileExt = null, filename = mUri.getLastPathSegment();
+        if (filename == null)
+            return;
+        final int index = filename.indexOf('?');
+        if (index != -1)
+            filename = filename.substring(0, index);
 
-        if (dotIndex != -1) {
-            fileExt = mTitle.substring(dotIndex).toLowerCase(Locale.ENGLISH);
-        } else {
-            final int index = mUri.toString().indexOf('?');
-            String location;
-            if (index == -1)
-                location = mUri.toString();
-            else
-                location = mUri.toString().substring(0, index);
-            dotIndex = location.lastIndexOf(".");
-            if (dotIndex != -1)
-                fileExt = location.substring(dotIndex).toLowerCase(Locale.ENGLISH);
-        }
+        index = filename.lastIndexOf(".");
+
+        if (index != -1)
+            fileExt = filename.substring(index).toLowerCase(Locale.ENGLISH);
 
         if (!TextUtils.isEmpty(fileExt)) {
             if (Extensions.VIDEO.contains(fileExt)) {
