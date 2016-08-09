@@ -1,6 +1,11 @@
 #! /bin/sh
 set -e
 
+diagnostic()
+{
+    echo "$@" 1>&2;
+}
+
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
@@ -44,8 +49,8 @@ while [ $# -gt 0 ]; do
             RUN=1
             ;;
         *)
-            echo "$0: Invalid option '$1'." 1>&2
-            echo "$0: Try --help for more information." 1>&2
+            diagnostic "$0: Invalid option '$1'."
+            diagnostic "$0: Try --help for more information."
             exit 1
             ;;
     esac
@@ -53,13 +58,13 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
-   echo "You must define ANDROID_NDK, ANDROID_SDK before starting."
-   echo "They must point to your NDK and SDK directories.\n"
+   diagnostic "You must define ANDROID_NDK, ANDROID_SDK before starting."
+   diagnostic "They must point to your NDK and SDK directories."
    exit 1
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-   echo "*** No ANDROID_ABI defined architecture: using ARMv7"
+   diagnostic "*** No ANDROID_ABI defined architecture: using ARMv7"
    ANDROID_ABI="armeabi-v7a"
 fi
 
@@ -80,7 +85,7 @@ checkfail()
 ##########
 
 if [ ! -d "gradle/wrapper" ]; then
-    echo "Downloading gradle"
+    diagnostic "Downloading gradle"
     GRADLE_VERSION=2.10
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle-${GRADLE_VERSION}-all.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
@@ -135,7 +140,7 @@ if [ -z "$KEYSTORE_FILE" ]; then
     STOREALIAS="androiddebugkey"
 else
     if [ -z "$PASSWORD_KEYSTORE" ]; then
-        echo "No password"
+        diagnostic "No password"
         exit 1
     fi
     rm -f gradle.properties
@@ -160,11 +165,11 @@ fi
 
 TESTED_HASH=4e213ff
 if [ ! -d "vlc" ]; then
-    echo "VLC source not found, cloning"
+    diagnostic "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
     checkfail "vlc source: git clone failed"
 else
-    echo "VLC source found"
+    diagnostic "VLC source found"
     cd vlc
     if ! git cat-file -e ${TESTED_HASH}; then
         cat << EOF
@@ -181,7 +186,7 @@ fi
 # Make VLC #
 ############
 
-echo "Configuring"
+diagnostic "Configuring"
 OPTS="-a ${ANDROID_ABI}"
 if [ "$RELEASE" = 1 ]; then
     OPTS="$OPTS release"
