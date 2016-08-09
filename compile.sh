@@ -1,9 +1,21 @@
 #! /bin/sh
 set -e
 
+#############
+# FUNCTIONS #
+#############
+
 diagnostic()
 {
     echo "$@" 1>&2;
+}
+
+checkfail()
+{
+    if [ ! $? -eq 0 ];then
+        diagnostic "$1"
+        exit 1
+    fi
 }
 
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
@@ -67,18 +79,6 @@ if [ -z "$ANDROID_ABI" ]; then
    diagnostic "*** No ANDROID_ABI defined architecture: using ARMv7"
    ANDROID_ABI="armeabi-v7a"
 fi
-
-#############
-# FUNCTIONS #
-#############
-
-checkfail()
-{
-    if [ ! $? -eq 0 ];then
-        echo "$1"
-        exit 1
-    fi
-}
 
 ##########
 # GRADLE #
