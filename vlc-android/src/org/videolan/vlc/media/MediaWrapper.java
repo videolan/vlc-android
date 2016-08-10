@@ -166,7 +166,7 @@ public class MediaWrapper implements Parcelable {
             filename = mTitle;
         if (TextUtils.isEmpty(filename))
             return;
-        final int index = filename.indexOf('?');
+        int index = filename.indexOf('?');
         if (index != -1)
             filename = filename.substring(0, index);
 
