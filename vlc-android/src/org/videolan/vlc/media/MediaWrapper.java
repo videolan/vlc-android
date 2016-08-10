@@ -162,7 +162,9 @@ public class MediaWrapper implements Parcelable {
             return;
 
         String fileExt = null, filename = mUri.getLastPathSegment();
-        if (filename == null)
+        if (TextUtils.isEmpty(filename))
+            filename = mTitle;
+        if (TextUtils.isEmpty(filename))
             return;
         final int index = filename.indexOf('?');
         if (index != -1)
