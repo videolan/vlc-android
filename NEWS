@@ -6,6 +6,7 @@ Application:
  * Fix detection of some opus/ogg files
  * Fix crashes
  * Fix Playlists saving dialog
+ * Add option to remember audio delay when using bluetooth
 
 Core:
  * Codec updates
