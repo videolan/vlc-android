@@ -3,13 +3,13 @@ Changes between 2.0.5 and 2.0.6:
 
 Application:
  * Fix crash on Zenphones x86 devices
+ * Fix detection of some opus/ogg files
+ * Fix crashes
+ * Fix Playlists saving dialog
 
 Core:
  * Codec updates
  * FTP browsing
-
-Application:
- * Fix crashes
 
 
 Changes between 2.0.4 and 2.0.5:
