@@ -47,6 +47,8 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     Uri mUri;
     String mName;
 
+    //Dummy hack because spinner callback is called right on registration
+    boolean mIgnoreFirstSpinnerCb = false;
 
     public NetworkServerDialog() {}
 
@@ -105,16 +107,6 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         mPortTitle = (TextView) v.findViewById(R.id.server_port_text);
 
         mProtocols = getResources().getStringArray(R.array.server_protocols);
-        mSpinnerProtocol.setOnItemSelectedListener(this);
-        mSave.setOnClickListener(this);
-        mCancel.setOnClickListener(this);
-
-        mEditPort.addTextChangedListener(this);
-        mEditAddress.addTextChangedListener(this);
-        mEditFolder.addTextChangedListener(this);
-        mEditUsername.addTextChangedListener(this);
-
-        updateUrl();
         return v;
     }
 
@@ -122,6 +114,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mUri != null) {
+            mIgnoreFirstSpinnerCb = true;
             mEditAddress.setText(mUri.getHost());
             if (!TextUtils.isEmpty(mUri.getUserInfo()))
                 mEditUsername.setText(mUri.getUserInfo());
@@ -135,7 +128,18 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
             int port = mUri.getPort();
             mEditPort.setText(port != -1 ? String.valueOf(port) : getPortForProtocol(position));
         }
+        mSpinnerProtocol.setOnItemSelectedListener(this);
+        mSave.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
+
+        mEditPort.addTextChangedListener(this);
+        mEditAddress.addTextChangedListener(this);
+        mEditFolder.addTextChangedListener(this);
+        mEditUsername.addTextChangedListener(this);
+
+        updateUrl();
     }
+
     private void saveServer() {
         String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
@@ -208,6 +212,10 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (mIgnoreFirstSpinnerCb) {
+            mIgnoreFirstSpinnerCb = false;
+            return;
+        }
         boolean portEnabled = true, userEnabled = true;
         String port = getPortForProtocol(position);
         int addressHint = R.string.server_domain_hint;
