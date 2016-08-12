@@ -66,6 +66,9 @@
     <uses-feature android:name="android.hardware.microphone"
         android:required="false"/>
 
+    <uses-feature android:name="android.hardware.bluetooth"
+        android:required="false" />
+
     <application
         android:name="org.videolan.vlc.VLCApplication"
         android:hardwareAccelerated="true"
