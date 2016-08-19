@@ -89,13 +89,14 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(KEY_MRL, mEditText.getEditText().getText().toString());
+        if (mEditText != null)
+            outState.putString(KEY_MRL, mEditText.getEditText().getText().toString());
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState == null)
+        if (savedInstanceState == null || mEditText == null)
             return;
         String mrl = savedInstanceState.getString(KEY_MRL);
         mEditText.getEditText().setText(mrl);
