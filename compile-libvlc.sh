@@ -694,16 +694,10 @@ if [ "${HAVE_LIBCOMPAT}" = "1" ];then
 fi
 
 DBG_LIB_DIR=libvlc/jni/obj/local/${ANDROID_ABI}
-OUT_LIB_DIR=libvlc/jni/libs/${ANDROID_ABI}
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
 mkdir -p $OUT_DBG_DIR
-for lib in ${DBG_LIB_DIR}/*.so; do
-    ${CROSS_COMPILE}objcopy --only-keep-debug "$lib" "$OUT_DBG_DIR/`basename $lib.dbg`"; \
-done
-for lib in ${OUT_LIB_DIR}/*.so; do
-    ${CROSS_COMPILE}objcopy --add-gnu-debuglink="$OUT_DBG_DIR/`basename $lib.dbg`" "$lib" ; \
-done
+cp -a ${DBG_LIB_DIR}/*.so ${OUT_DBG_DIR}
