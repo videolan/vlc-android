@@ -48,7 +48,7 @@ public class NativeCrashActivity extends Activity {
         mRestartButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.os.Process.killProcess(getIntent().getExtras().getInt("PID"));
+                android.os.Process.killProcess(android.os.Process.myPid());
                 Intent i = new Intent(NativeCrashActivity.this, StartActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
