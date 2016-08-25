@@ -29,6 +29,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -63,10 +64,15 @@ public class StartActivity extends Activity {
             else
                 MediaUtils.openMediaNoUi(intent.getData());
         } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
-            startActivity(new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
+            startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
         } else
-            startActivity(new Intent(this, VLCApplication.showTvUi() ? MainTvActivity.class : MainActivity.class));
+            startActivity(new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class));
         finish();
+    }
+
+    private boolean showTvUi() {
+        return AndroidUtil.isJellyBeanMR1OrLater() && (AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp() ||
+                PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false));
     }
 
     private Uri getUri(Intent intent) {
