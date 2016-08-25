@@ -118,7 +118,6 @@ public class VLCInstance {
                 public void onNativeCrash() {
                     Intent i = new Intent(context, NativeCrashActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("PID", android.os.Process.myPid());
                     context.startActivity(i);
                 }
             });
