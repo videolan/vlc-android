@@ -1,5 +1,6 @@
 # VLC
 /vlc/
+/toolchains/
 
 # Android .so
 /android-libs/**/*.so

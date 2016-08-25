@@ -94,6 +94,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-nfs \
     --enable-microdns \
     --enable-fluidlite \
+    --disable-mad \
 "
 
 ###########################
@@ -279,26 +280,42 @@ else
 fi
 
 # try to detect NDK version
-GCCVER=4.9
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 
-if [ "$REL" -ge 11 ]; then
+if [ "$REL" -ge 12 ]; then
     if [ "${HAVE_64}" = 1 ];then
-        ANDROID_API=android-21
+        ANDROID_API=21
     else
-        ANDROID_API=android-9
+        ANDROID_API=9
     fi
 else
-    echo "You need the NDKv11 or later"
+    echo "You need the NDKv12 or later"
     exit 1
 fi
 
-SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
+NDK_TOOLCHAIN_DIR=${PWD}/toolchains/${PLATFORM_SHORT_ARCH}
+NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
+NDK_SUPPORT_DIR=${NDK_TOOLCHAIN_DIR}/include/support
+$ANDROID_NDK/build/tools/make_standalone_toolchain.py \
+    --arch ${PLATFORM_SHORT_ARCH} \
+    --api ${ANDROID_API} \
+    --stl libc++ \
+    --install-dir ${NDK_TOOLCHAIN_DIR} 2> /dev/null
+if [ ! -d ${NDK_TOOLCHAIN_PATH} ];
+then
+    echo "make_standalone_toolchain.py failed"
+    exit 1
+fi
+if [ ! -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/include/uchar.h ];
+then
+    cp ${ANDROID_NDK}/platforms/android-24/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
+        ${NDK_TOOLCHAIN_DIR}/sysroot/usr/include
+fi
+
 SRC_DIR=$PWD
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
-NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
-CROSS_COMPILE=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
+CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
 
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
@@ -308,7 +325,6 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 echo "ABI:        $ANDROID_ABI"
 echo "API:        $ANDROID_API"
-echo "SYSROOT:    $SYSROOT"
 if [ ! -z "$NO_FPU" ]; then
 echo "FPU:        NO"
 fi
@@ -331,22 +347,20 @@ fi
 ##########
 # CFLAGS #
 ##########
+VLC_CFLAGS="-std=gnu11"
+VLC_CXXFLAGS="-std=gnu++11"
 if [ "$NO_OPTIM" = "1" ];
 then
-     CFLAGS="-g -O0"
+     VLC_CFLAGS="${VLC_CFLAGS} -g -O0"
 else
-     CFLAGS="-g -O2"
+     VLC_CFLAGS="${VLC_CFLAGS} -g -O2"
 fi
 
-CFLAGS="${CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
-if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
-    CFLAGS="${CFLAGS} -mlong-calls"
-fi
+VLC_CFLAGS="${VLC_CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
 
-EXTRA_CFLAGS=""
 # Setup CFLAGS per ABI
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
-    EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
+    EXTRA_CFLAGS="-march=armv7-a -mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
 elif [ "${ANDROID_ABI}" = "armeabi" ] ; then
     if [ -n "${ARMV5}" ]; then
@@ -367,30 +381,32 @@ elif [ "${ANDROID_ABI}" = "mips" ] ; then
     # See http://www.linux-mips.org/wiki/Floating_point#The_Linux_kernel_and_floating_point
 fi
 
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include"
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
-
-# XXX: remove when ndk C++11 is updated
-EXTRA_CXXFLAGS="-D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MACROS=1 -D__STDC_LIMIT_MACROS=1"
-
-CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
+EXTRA_CFLAGS="${EXTRA_CFLAGS} -MMD -MP -fpic -ffunction-sections -funwind-tables \
+-fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument \
+-no-canonical-prefixes -fno-integrated-as"
+EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -fexceptions -frtti"
+EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MACROS=1 -D__STDC_LIMIT_MACROS=1"
 
 #################
 # Setup LDFLAGS #
 #################
 
-EXTRA_LDFLAGS="-L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI} -lgnustl_static"
-
-LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
-
+VLC_LDFLAGS=""
 if [ -n "$HAVE_ARM" ]; then
-    if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
+if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
-        LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
+        VLC_LDFLAGS="${VLC_LDFLAGS} -Wl,--fix-cortex-a8"
     fi
 fi
+NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
+if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
+    NDK_LIB_DIR="${NDK_LIB_DIR}64"
+fi
+if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
+    NDK_LIB_DIR="${NDK_LIB_DIR}/armv7-a"
+fi
 
-LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}"
+VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi"
 
 # Release or not?
 if [ "$RELEASE" = 1 ]; then
@@ -402,15 +418,15 @@ else
     NDK_DEBUG=1
 fi
 
-
-echo "CFLAGS:            ${CFLAGS}"
 echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
+echo "VLC_CFLAGS:        ${VLC_CFLAGS}"
 
 cd vlc
 
 ###########################
 # Build buildsystem tools #
 ###########################
+VLC_SRC_DIR="$SRC_DIR/vlc"
 
 export PATH=`pwd`/extras/tools/build/bin:$PATH
 echo "Building tools"
@@ -418,6 +434,7 @@ cd extras/tools
 ./bootstrap
 checkfail "buildsystem tools: bootstrap failed"
 make $MAKEFLAGS
+make $MAKEFLAGS .gas
 checkfail "buildsystem tools: make"
 cd ../..
 
@@ -453,18 +470,16 @@ gen_pc_file GLESv2 2
 
 cd contrib/contrib-android-${TARGET_TUPLE}
 
-ANDROID_ABI=${ANDROID_ABI} ANDROID_API=${ANDROID_API} \
+ANDROID_ABI=${ANDROID_ABI} ANDROID_API=android-${ANDROID_API} \
     ../bootstrap --host=${TARGET_TUPLE} ${VLC_BOOTSTRAP_ARGS}
 checkfail "contribs: bootstrap failed"
-
-# TODO: mpeg2, theora
 
 # Some libraries have arm assembly which won't build in thumb mode
 # We append -marm to the CFLAGS of these libs to disable thumb mode
 [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
-echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
-echo "EXTRA_LDFLAGS= ${EXTRA_LDFLAGS}" >> config.mak
+echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
+echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
 
 make fetch
 checkfail "contribs: make fetch failed"
@@ -503,31 +518,40 @@ if [ "${CHROME_OS}" = "1" ];then
     export ac_cv_func_pipe2=no
 fi
 
-if [ ${ANDROID_API} = "android-21" ] ; then
+NDK_SUPPORT_INCLUDES=""
+if [ ${ANDROID_API} = "21" ] ; then
     # android-21 has empty sys/shm.h headers that triggers shm detection but it
     # doesn't have any shm functions and/or symbols. */
     export ac_cv_header_sys_shm_h=no
+else
+    # force nanf and uselocale using libandroid_support since it's present in libc++
+    if [ ! -d ${NDK_SUPPORT_DIR} ];then
+        mkdir -p ${NDK_SUPPORT_DIR}
+        cp ${ANDROID_NDK}/sources/android/support/include/locale.h ${NDK_SUPPORT_DIR}
+        cp ${ANDROID_NDK}/sources/android/support/include/xlocale.h ${NDK_SUPPORT_DIR}
+        cp ${ANDROID_NDK}/sources/android/support/include/math.h ${NDK_SUPPORT_DIR}
+    fi
+    export ac_cv_lib_m_nanf=yes
+    export ac_cv_func_uselocale=yes
+    NDK_SUPPORT_INCLUDES="-I${NDK_SUPPORT_DIR}"
+    VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
 fi
-if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
-    # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
-    # intel devices has nanf. Assume they don't have it.
-    export ac_cv_lib_m_nanf=no
-fi
+
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
-CPPFLAGS="$CPPFLAGS" \
-CFLAGS="$CFLAGS ${EXTRA_CFLAGS}" \
-CXXFLAGS="$CFLAGS ${EXTRA_CXXFLAGS}" \
-LDFLAGS="$LDFLAGS" \
-CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \
-CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT} -D__cpp_static_assert=200410" \
-NM="${CROSS_COMPILE}nm" \
-STRIP="${CROSS_COMPILE}strip" \
-RANLIB="${CROSS_COMPILE}ranlib" \
-AR="${CROSS_COMPILE}ar" \
-PKG_CONFIG_LIBDIR=../contrib/$TARGET_TUPLE/lib/pkgconfig \
+CPPFLAGS="${CONTRIB_INCLUDES}" \
+CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS} ${NDK_SUPPORT_INCLUDES}" \
+CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+CC="${CROSS_TOOLS}clang" \
+CXX="${CROSS_TOOLS}clang++" \
+NM="${CROSS_TOOLS}nm" \
+STRIP="${CROSS_TOOLS}strip" \
+RANLIB="${CROSS_TOOLS}ranlib" \
+AR="${CROSS_TOOLS}ar" \
+PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
 PATH=../contrib/bin:$PATH \
 sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
-                ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
+    --with-contrib=${VLC_SRC_DIR}/contrib/${TARGET_TUPLE} \
+    ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
 checkfail "vlc: configure failed"
 fi
 
@@ -541,10 +565,7 @@ checkfail "vlc: make failed"
 
 cd $SRC_DIR
 
-
-################################################################################
-# libvlcJNI                                                                    #
-################################################################################
+echo ok
 
 ##################
 # libVLC modules #
@@ -582,7 +603,7 @@ BUILTINS="const void *vlc_static_modules[] = {\n";
 for file in $VLC_MODULES; do
     outfile=${REDEFINED_VLC_MODULES_DIR}/`basename $file`
     name=`echo $file | sed 's/.*\.libs\/lib//' | sed 's/_plugin\.a//'`;
-    symbols=$("${CROSS_COMPILE}nm" -g $file)
+    symbols=$("${CROSS_TOOLS}nm" -g $file)
 
     # assure that all modules have differents symbol names
     entry=$(get_symbol "$symbols" _)
@@ -603,7 +624,7 @@ $entry vlc_entry__$name
 $copyright vlc_entry_copyright__$name
 $license vlc_entry_license__$name
 EOF
-    ${CROSS_COMPILE}objcopy --redefine-syms ${REDEFINED_VLC_MODULES_DIR}/syms $file $outfile
+    ${CROSS_TOOLS}objcopy --redefine-syms ${REDEFINED_VLC_MODULES_DIR}/syms $file $outfile
     checkfail "objcopy failed"
 
     DEFINITION=$DEFINITION"int vlc_entry__$name (int (*)(void *, void *, int, ...), void *);\n";
@@ -630,7 +651,6 @@ rm ${REDEFINED_VLC_MODULES_DIR}/syms
 
 LIBVLC_LIBS="libvlcjni"
 VLC_MODULES=$(find_modules ${REDEFINED_VLC_MODULES_DIR})
-VLC_SRC_DIR="$SRC_DIR/vlc"
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs`
@@ -651,51 +671,60 @@ fi
 echo "Building NDK"
 
 HAVE_LIBCOMPAT=
-if [ "${ANDROID_API}" = "android-9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+if [ "${ANDROID_API}" = "9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
     HAVE_LIBCOMPAT=1
 fi
 
 $ANDROID_NDK/ndk-build -C libvlc \
+    APP_STL="c++_shared" \
+    LOCAL_CPP_FEATURES="rtti exceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
-    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
     VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
     VLC_CONTRIB="$VLC_CONTRIB" \
     VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
     VLC_MODULES="$VLC_MODULES" \
-    TARGET_CFLAGS="$EXTRA_CFLAGS" \
-    EXTRA_LDFLAGS="$EXTRA_LDFLAGS" \
+    VLC_LDFLAGS="$VLC_LDFLAGS" \
     LIBVLC_LIBS="$LIBVLC_LIBS" \
-    LIBIOMX_LIBS="$LIBIOMX_LIBS" \
-    LIBANW_LIBS="$LIBANW_LIBS" \
     APP_BUILD_SCRIPT=jni/Android.mk \
-    APP_PLATFORM=${ANDROID_API} \
+    APP_PLATFORM=android-${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
-    SYSROOT=${SYSROOT} \
     TARGET_TUPLE=$TARGET_TUPLE \
-    HAVE_64=${HAVE_64} \
     NDK_PROJECT_PATH=jni \
-    NDK_TOOLCHAIN_VERSION=${GCCVER} \
+    NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG} \
     HAVE_LIBCOMPAT=${HAVE_LIBCOMPAT}
+
+checkfail "ndk-build failed"
+
+$ANDROID_NDK/ndk-build -C libvlc \
+    VLC_SRC_DIR="$VLC_SRC_DIR" \
+    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
+    LIBIOMX_LIBS="$LIBIOMX_LIBS" \
+    LIBANW_LIBS="$LIBANW_LIBS" \
+    APP_BUILD_SCRIPT=private_libs/Android.mk \
+    APP_PLATFORM=android-${ANDROID_API} \
+    APP_ABI=${ANDROID_ABI} \
+    TARGET_TUPLE=$TARGET_TUPLE \
+    NDK_PROJECT_PATH=private_libs \
+    NDK_TOOLCHAIN_VERSION=clang
 
 checkfail "ndk-build failed"
 
 if [ "${HAVE_LIBCOMPAT}" = "1" ];then
     $ANDROID_NDK/ndk-build -C libvlc \
         APP_BUILD_SCRIPT=libcompat/Android.mk \
-        APP_PLATFORM=${ANDROID_API} \
+        APP_PLATFORM=android-${ANDROID_API} \
         APP_ABI="armeabi" \
         NDK_PROJECT_PATH=libcompat \
-        NDK_TOOLCHAIN_VERSION=${GCCVER} \
-        NDK_DEBUG=${NDK_DEBUG}
+        NDK_TOOLCHAIN_VERSION=clang
     checkfail "ndk-build compat failed"
 fi
 
-DBG_LIB_DIR=libvlc/jni/obj/local/${ANDROID_ABI}
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
 mkdir -p $OUT_DBG_DIR
-cp -a ${DBG_LIB_DIR}/*.so ${OUT_DBG_DIR}
+cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+cp -a libvlc/private_libs/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
