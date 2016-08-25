@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -181,11 +182,14 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
 
     @Override
     public void updateList() {
+        Activity activity = getActivity();
+        if (activity == null)
+            return;
         mAdapter.clear();
         ArrayObjectAdapter adapter;
         HeaderItem header;
         for (ListItem item : mMediaItemMap.values()){
-            adapter = new ArrayObjectAdapter(new CardPresenter(getActivity()));
+            adapter = new ArrayObjectAdapter(new CardPresenter(activity));
             header = new HeaderItem(0, item.Letter);
             adapter.addAll(0, item.mediaList);
             mAdapter.add(new ListRow(header, adapter));
