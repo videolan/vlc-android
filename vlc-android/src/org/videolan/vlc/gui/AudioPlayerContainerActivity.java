@@ -205,7 +205,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     removeTipViewIfDisplayed();
                     SharedPreferences.Editor editor = mSettings.edit();
                     editor.putBoolean(settingKey, true);
-                    Util.commitPreferences(editor);
+                    editor.apply();
                 }
             });
         }

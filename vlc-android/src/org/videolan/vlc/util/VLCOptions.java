@@ -62,8 +62,8 @@ public class VLCOptions {
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
         String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
-        if (chroma != null)
-            chroma = chroma.equals("YV12") && !AndroidUtil.isGingerbreadOrLater() ? "" : chroma;
+        if (chroma != null && chroma.equals("YV12"))
+            chroma = "";
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         int deblocking = -1;
@@ -233,6 +233,6 @@ public class VLCOptions {
         } else {
             editor.putBoolean("equalizer_enabled", false);
         }
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 }

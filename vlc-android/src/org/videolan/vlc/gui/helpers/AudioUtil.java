@@ -134,7 +134,7 @@ public class AudioUtil {
     @SuppressLint("NewApi")
     public static void prepareCacheFolder(Context context) {
         try {
-            if (AndroidUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
+            if (AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
                 CACHE_DIR = context.getExternalCacheDir().getPath();
             else
                 CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";

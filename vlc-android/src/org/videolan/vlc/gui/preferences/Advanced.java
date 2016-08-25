@@ -32,17 +32,14 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 
@@ -110,7 +107,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                     editor.putInt("network_caching_value", 0);
                     editor.putString("network_caching", "0");
                 }
-                Util.commitPreferences(editor);
+                editor.apply();
                 return true;
             }
         });

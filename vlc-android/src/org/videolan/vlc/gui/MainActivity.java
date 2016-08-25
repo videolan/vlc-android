@@ -67,7 +67,6 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
@@ -159,7 +158,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if (mFirstRun) {
             Editor editor = mSettings.edit();
             editor.putInt(PREF_FIRST_RUN, mVersionNumber);
-            Util.commitPreferences(editor);
+            editor.apply();
         }
 
         Permissions.checkReadStoragePermission(this, false);
@@ -414,7 +413,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt("fragment_id", mCurrentFragmentId);
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -533,17 +532,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
 
-        if (AndroidUtil.isFroyoOrLater()) {
-            SearchManager searchManager =
-                    (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
-            mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
-            mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            mSearchView.setQueryHint(getString(R.string.search_hint));
-            SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
-            searchSuggestionsAdapter.setFilterQueryProvider(this);
-            mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
-        } else
-            menu.findItem(R.id.ml_menu_search).setVisible(false);
+        SearchManager searchManager =
+                (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setQueryHint(getString(R.string.search_hint));
+        SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
+        searchSuggestionsAdapter.setFilterQueryProvider(this);
+        mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
         return super.onCreateOptionsMenu(menu);
     }
 

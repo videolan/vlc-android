@@ -140,7 +140,7 @@ public class Permissions {
                         }
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("user_declined_storage_access", true);
-                        Util.commitPreferences(editor);
+                        editor.apply();
                     }
                 });
         if (exit) {
@@ -178,7 +178,7 @@ public class Permissions {
                         }
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("user_declined_storage_access", true);
-                        Util.commitPreferences(editor);
+                        editor.apply();
                     }
                 });
         if (exit) {
@@ -227,7 +227,7 @@ public class Permissions {
                         } catch (Exception ex) {}
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("user_declined_settings_access", true);
-                        Util.commitPreferences(editor);
+                        editor.apply();
                     }
                 });
         return dialogBuilder.show();

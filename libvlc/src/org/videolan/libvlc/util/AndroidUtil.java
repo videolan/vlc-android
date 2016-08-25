@@ -26,13 +26,6 @@ import android.os.Build;
 import java.io.File;
 
 public class AndroidUtil {
-    public static boolean isFroyoOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO;
-    }
-
-    public static boolean isGingerbreadOrLater() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-    }
 
     public static boolean isHoneycombOrLater() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;

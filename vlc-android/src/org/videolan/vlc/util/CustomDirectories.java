@@ -45,7 +45,7 @@ public class CustomDirectories {
         }
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("custom_paths", builder.toString());
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     public static void removeCustomDirectory(String path) {
@@ -70,7 +70,7 @@ public class CustomDirectories {
         }
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("custom_paths", custom_path);
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     public static String[] getCustomDirectories() {

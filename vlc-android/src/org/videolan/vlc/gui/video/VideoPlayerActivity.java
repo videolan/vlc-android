@@ -451,11 +451,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
 
-        if (HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
-            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-            mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-        } else
-            mSubtitlesSurfaceView.setVisibility(View.GONE);
+        mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+        mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
 
@@ -482,7 +479,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         // Paused flag - per session too, like the subs list.
         editor.remove(PreferencesActivity.VIDEO_PAUSED);
-        Util.commitPreferences(editor);
+        editor.apply();
 
         IntentFilter filter = new IntentFilter();
         if (mBattery != null)
@@ -709,7 +706,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (brightness != -1f) {
                 SharedPreferences.Editor editor = mSettings.edit();
                 editor.putFloat("brightness_value", brightness);
-                Util.commitPreferences(editor);
+                editor.apply();
             }
         }
     }
@@ -932,7 +929,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mService.setRate(1.0f, false);
             mService.stop();
         }
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private void cleanUI() {
@@ -1777,7 +1774,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             Intent i = new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
             startActivity(i);
         } else
-            Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
+            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true).apply();
         exitOK();
     }
 
@@ -2318,7 +2315,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case R.id.player_overlay_time:
                 mDisplayRemainingTime = !mDisplayRemainingTime;
                 showOverlay();
-                Util.commitPreferences(mSettings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, mDisplayRemainingTime));
+                mSettings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, mDisplayRemainingTime).apply();
                 break;
             case R.id.player_delay_minus:
                 if (mPlaybackSetting == DelayState.AUDIO)
@@ -2958,7 +2955,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         } else {
                             Editor editor = mSettings.edit();
                             editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                            Util.commitPreferences(editor);
+                            editor.apply();
                             savedTime = rTime;
                         }
                     }
@@ -3095,15 +3092,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR :
                         ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             case 101: //screen orientation landscape
-                if (AndroidUtil.isGingerbreadOrLater())
-                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-                else
-                    return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
             case 102: //screen orientation portrait
-                if (AndroidUtil.isGingerbreadOrLater())
-                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
-                else
-                    return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
         }
         /*
          mScreenOrientation = 100, we lock screen at its current orientation
@@ -3130,13 +3121,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case Surface.ROTATION_180:
                 // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
                 // Level 9+
-                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                        : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
             case Surface.ROTATION_270:
                 // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
                 // Level 9+
-                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                        : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
             default:
                 return 0;
             }
@@ -3149,13 +3138,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case Surface.ROTATION_180:
                 // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
                 // Level 9+
-                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                        : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
             case Surface.ROTATION_270:
                 // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
                 // Level 9+
-                return (AndroidUtil.isGingerbreadOrLater() ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                        : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
             default:
                 return 0;
             }
@@ -3235,7 +3222,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private OnClickListener mBtSaveListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            Util.commitPreferences(mSettings.edit().putLong(KEY_BLUETOOTH_DELAY, mService.getAudioDelay()));
+            mSettings.edit().putLong(KEY_BLUETOOTH_DELAY, mService.getAudioDelay()).apply();
         }
     };
 
@@ -3320,11 +3307,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
             mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
 
-            if (HWDecoderUtil.HAS_SUBTITLES_SURFACE) {
-                mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-                mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-            } else
-                mSubtitlesSurfaceView.setVisibility(View.GONE);
+            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+            mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
             VideoPlayerActivity activity = (VideoPlayerActivity)getOwnerActivity();
             if (activity == null) {
                 Log.e(TAG, "Failed to get the VideoPlayerActivity instance, secondary display won't work");
@@ -3375,7 +3359,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mOverlayTips.setVisibility(View.GONE);
         Editor editor = mSettings.edit();
         editor.putBoolean(PREF_TIPS_SHOWN, true);
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private void updateNavStatus() {
@@ -3447,7 +3431,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!mSwitchingView)
             mHandler.sendEmptyMessage(START_PLAYBACK);
         mSwitchingView = false;
-        Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
+        mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
     }
 
     @Override

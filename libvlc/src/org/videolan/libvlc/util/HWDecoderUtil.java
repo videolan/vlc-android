@@ -28,8 +28,6 @@ import java.util.HashMap;
  */
 public class HWDecoderUtil {
 
-    public static final boolean HAS_SUBTITLES_SURFACE = AndroidUtil.isGingerbreadOrLater();
-
     public enum Decoder {
         UNKNOWN, NONE, OMX, MEDIACODEC, ALL
     }
@@ -162,18 +160,14 @@ public class HWDecoderUtil {
      * (By default, returns ALL, i.e AudioTrack + OpenSles)
      */
     public static AudioOutput getAudioOutputFromDevice() {
-        if (!AndroidUtil.isGingerbreadOrLater()) {
-            return AudioOutput.AUDIOTRACK;
-        } else {
-            for (AudioOutputBySOC aoutBySOC : sAudioOutputBySOCList) {
-                final String prop = getSystemPropertyCached(aoutBySOC.key);
-                if (prop != null) {
-                    if (prop.contains(aoutBySOC.value))
-                        return aoutBySOC.aout;
-                }
+        for (AudioOutputBySOC aoutBySOC : sAudioOutputBySOCList) {
+            final String prop = getSystemPropertyCached(aoutBySOC.key);
+            if (prop != null) {
+                if (prop.contains(aoutBySOC.value))
+                    return aoutBySOC.aout;
             }
-            return AudioOutput.ALL;
         }
+        return AudioOutput.ALL;
     }
 
     private static String getSystemPropertyCached(String key) {

@@ -20,14 +20,11 @@
 
 package org.videolan.vlc.util;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -65,14 +62,6 @@ public class Util {
             close(is);
             close(r);
         }
-    }
-
-    @TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
-    public static void commitPreferences(SharedPreferences.Editor editor){
-        if (AndroidUtil.isGingerbreadOrLater())
-            editor.apply();
-        else
-            editor.commit();
     }
 
     public static boolean close(Closeable closeable) {

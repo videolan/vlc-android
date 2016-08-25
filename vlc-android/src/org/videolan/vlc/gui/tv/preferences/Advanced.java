@@ -112,7 +112,7 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
                     editor.putInt("network_caching_value", 0);
                     editor.putString("network_caching", "0");
                 }
-                Util.commitPreferences(editor);
+                editor.apply();
                 return true;
             }
         });

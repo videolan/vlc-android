@@ -359,7 +359,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putInt(KEY_SORT_BY, mSortBy);
             editor.putInt(KEY_SORT_DIRECTION, mSortDirection);
-            Util.commitPreferences(editor);
+            editor.apply();
         }
 
         @Override

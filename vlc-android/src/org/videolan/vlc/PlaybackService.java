@@ -207,10 +207,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         return mp;
     }
 
-    private static boolean readPhoneState() {
-        return !AndroidUtil.isFroyoOrLater();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -261,7 +257,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
 
-        if (!AndroidUtil.isFroyoOrLater() || stealRemoteControl) {
+        if (stealRemoteControl) {
             /* Backward compatibility for API 7 */
             filter = new IntentFilter();
             if (stealRemoteControl)
@@ -269,12 +265,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
-        }
-
-        if (readPhoneState()) {
-            initPhoneListener();
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(mPhoneStateListener, mPhoneEvents);
         }
     }
 
@@ -315,11 +305,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             mRemoteControlClientReceiver = null;
         }
         mMediaPlayer.release();
-
-        if (readPhoneState()) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
-        }
     }
 
     @Override
@@ -338,8 +323,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         return mMediaPlayer.getVLCVout();
     }
 
-    private final OnAudioFocusChangeListener mAudioFocusListener = AndroidUtil.isFroyoOrLater() ?
-            createOnAudioFocusChangeListener() : null;
+    private final OnAudioFocusChangeListener mAudioFocusListener = createOnAudioFocusChangeListener();
 
     @TargetApi(Build.VERSION_CODES.FROYO)
     private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
@@ -1354,7 +1338,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
         editor.putLong(audio ? "position_in_song" : "position_in_media", 0);
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private synchronized void saveCurrentMedia() {
@@ -1365,7 +1349,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         }
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(audio ? "current_song" : "current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private synchronized void saveMediaList() {
@@ -1381,7 +1365,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(audio ? "audio_list" : "media_list", locations.toString().trim());
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private synchronized void savePosition(){
@@ -1401,7 +1385,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             editor.putFloat(PreferencesActivity.VIDEO_SPEED, getRate());
         }
-        Util.commitPreferences(editor);
+        editor.apply();
     }
 
     private boolean validateLocation(String location)
@@ -1949,7 +1933,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void setRate(float rate, boolean save) {
         mMediaPlayer.setRate(rate);
         if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
-            Util.commitPreferences(mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate));
+            mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate).apply();
     }
 
     @MainThread
@@ -2217,22 +2201,5 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             stopService(context);
             startService(context);
         }
-    }
-
-    int mPhoneEvents = PhoneStateListener.LISTEN_CALL_STATE;
-    PhoneStateListener mPhoneStateListener;
-
-    private void initPhoneListener() {
-        mPhoneStateListener = new PhoneStateListener(){
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                if (!mMediaPlayer.isPlaying() || !hasCurrentMedia())
-                    return;
-                if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK)
-                    pause();
-                else if (state == TelephonyManager.CALL_STATE_IDLE)
-                    play();
-            }
-        };
     }
 }

@@ -155,7 +155,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         if (mService.hasMedia()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
-                Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
+                mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
                 mService.switchToVideo();
                 finish();
                 return;

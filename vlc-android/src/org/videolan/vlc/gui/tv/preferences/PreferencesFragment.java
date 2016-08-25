@@ -69,7 +69,7 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString("screen_orientation_value", (String) newValue);
-                Util.commitPreferences(editor);
+                editor.apply();
                 return true;
             }
         });

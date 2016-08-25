@@ -321,10 +321,7 @@ public class VLCUtil {
             libraryPaths = property.split(":");
         } else {
             libraryPaths = new String[1];
-            if (AndroidUtil.isGingerbreadOrLater())
-                libraryPaths[0] = applicationInfo.nativeLibraryDir;
-            else
-                libraryPaths[0] = applicationInfo.dataDir + "/lib";
+            libraryPaths[0] = applicationInfo.nativeLibraryDir;
         }
         if (libraryPaths[0] == null) {
             Log.e(TAG, "can't find library path");
