@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.videolan" android:versionCode="2" android:versionName="3.0.0">
     <application>
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="22"/>
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="22"/>
 </application>
 </manifest> 
