@@ -131,10 +131,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     private View.OnClickListener mResetListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mService == null)
-                return;
-
-            if (mService.getRate() == 1.0d)
+            if (mService == null || mService.getRate() == 1.0d || mService.getCurrentMediaWrapper() == null)
                 return;
 
             mService.setRate(1F, mService.getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_AUDIO);
