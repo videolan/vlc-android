@@ -146,7 +146,6 @@ public class VideoView extends SurfaceView
     public void stopPlayback() {
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
     public void suspend() {
     }
 

@@ -92,7 +92,6 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -521,7 +520,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     /** Create menu from XML
      */
-    @TargetApi(Build.VERSION_CODES.FROYO)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;

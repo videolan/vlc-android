@@ -689,7 +689,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHelper.onStop();
     }
 
-    @TargetApi(android.os.Build.VERSION_CODES.FROYO)
     private void restoreBrightness() {
         if (mRestoreAutoBrightness != -1f) {
             int brightness = (int) (mRestoreAutoBrightness*255f);
@@ -3072,15 +3071,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int getScreenRotation(){
         WindowManager wm = (WindowManager) VLCApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO /* Android 2.2 has getRotation */) {
-            try {
-                Method m = display.getClass().getDeclaredMethod("getRotation");
-                return (Integer) m.invoke(display);
-            } catch (Exception e) {
-                return Surface.ROTATION_0;
-            }
-        } else {
-            return display.getOrientation();
+        try {
+            Method m = display.getClass().getDeclaredMethod("getRotation");
+            return (Integer) m.invoke(display);
+        } catch (Exception e) {
+            return Surface.ROTATION_0;
         }
     }
 

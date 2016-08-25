@@ -325,7 +325,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
     private final OnAudioFocusChangeListener mAudioFocusListener = createOnAudioFocusChangeListener();
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
     private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
         return new OnAudioFocusChangeListener() {
             private boolean mLossTransient = false;
@@ -377,7 +376,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
         };
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
     private void changeAudioFocus(boolean acquire) {
         final AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         if (am == null)
@@ -394,7 +392,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             }
         } else {
             if (mHasAudioFocus) {
-                final int result = am.abandonAudioFocus(mAudioFocusListener);
+                am.abandonAudioFocus(mAudioFocusListener);
                 am.setParameters("bgm_state=false");
                 mHasAudioFocus = false;
             }

@@ -59,13 +59,10 @@ public class VLCUtil {
     }
 
     @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.FROYO)
     public static String[] getABIList() {
-        final boolean hasABI2 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
-        final String[] abis = new String[hasABI2 ? 2 : 1];
+        final String[] abis = new String[2];
         abis[0] = android.os.Build.CPU_ABI;
-        if (hasABI2)
-            abis[1] = android.os.Build.CPU_ABI2;
+        abis[1] = android.os.Build.CPU_ABI2;
         return abis;
     }
 
