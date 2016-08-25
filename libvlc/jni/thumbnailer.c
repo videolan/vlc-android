@@ -204,7 +204,7 @@ static void thumbnailer_display(void *opaque, void *picture)
     /* If we have already received a thumbnail, or we are still seeking,
      * we skip this frame. */
     pthread_mutex_lock(&sys->doneMutex);
-    if ((sys->state & THUMB_SEEKED|THUMB_VOUT) != (THUMB_SEEKED|THUMB_VOUT))
+    if ((sys->state & (THUMB_SEEKED|THUMB_VOUT)) != (THUMB_SEEKED|THUMB_VOUT))
     {
         pthread_mutex_unlock(&sys->doneMutex);
         return;
