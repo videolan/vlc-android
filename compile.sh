@@ -114,7 +114,7 @@ fi
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
     GRADLE_VERSION=2.14.1
-    GRADLE_URL=https://download.videolan.org/pub/contrib/gradle-${GRADLE_VERSION}-all.zip
+    GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-all.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
 
