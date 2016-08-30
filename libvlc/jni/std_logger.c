@@ -167,7 +167,7 @@ std_logger_Close(std_logger *sys)
 {
     if (sys->stop_pipe[1] != -1)
     {
-        write(sys->stop_pipe[1], '\0', 1);
+        write(sys->stop_pipe[1], "\0", 1);
         close(sys->stop_pipe[1]);
         sys->stop_pipe[1] = -1;
         pthread_join(sys->thread, NULL);
