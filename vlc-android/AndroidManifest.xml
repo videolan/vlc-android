@@ -13,9 +13,9 @@
          RR: Micro/Revision version from 00 to 99
          AA: ABI from 0 to 99
          0 is dev
-         1 is ARMv5
-         2 is ARMv6-nofpu
-         3 is ARMv6-fpu
+         1 was ARMv5        (deprecated)
+         2 was ARMv6-nofpu  (deprecated)
+         3 was ARMv6-fpu    (deprecated)
          4 is ARMv7-A
          5 is x86
          6 is MIPS

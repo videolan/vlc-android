@@ -73,15 +73,6 @@ tasks.withType(BuildNative){
     commandLine './compile-libvlc.sh'
 }
 
-task buildDebugARMv5(type:BuildNative) {
-    args('-a', "armeabi-v5")
-}
-task buildDebugARMv6(type:BuildNative) {
-    args('-a', "armeabi")
-}
-task buildDebugARMv6_nofpu(type:BuildNative) {
-    args('-a', "armeabi-nofpu")
-}
 task buildDebugARMv7(type:BuildNative) {
     args('-a', "armeabi-v7a")
 }

@@ -26,7 +26,7 @@ while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
             echo "Use -a to set the ARCH:"
-            echo "  ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu"
+            echo "  ARM:     armeabi-v7a"
             echo "  ARM64:   arm64-v8a"
             echo "  X86:     x86, x86_64"
             echo "  MIPS:    mips, mips64."
@@ -85,12 +85,6 @@ fi
 
 if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
     GRADLE_ABI="ARMv7"
-elif [ "$ANDROID_ABI" = "armeabi-v5" ]; then
-    GRADLE_ABI="ARMv5"
-elif [ "$ANDROID_ABI" = "armeabi" ]; then
-    GRADLE_ABI="ARMv6fpu"
-elif [ "$ANDROID_ABI" = "armeabi-nofpu" ]; then
-    GRADLE_ABI="ARMv6nofpu"
 elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
     GRADLE_ABI="ARMv8"
 elif [ "$ANDROID_ABI" = "x86" ]; then

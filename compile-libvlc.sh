@@ -50,7 +50,7 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
     echo "Please pass the ANDROID ABI to the correct architecture, using
                 compile-libvlc.sh -a ARCH
-    ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu
+    ARM:     armeabi-v7a
     ARM64:   arm64-v8a
     X86:     x86, x86_64
     MIPS:    mips, mips64."
@@ -231,23 +231,6 @@ VLC_MODULE_BLACKLIST="
 # FLAGS #
 #########
 
-# ARMv5 and ARMv6-nofpu are not really ABIs
-if [ "${ANDROID_ABI}" = "armeabi-nofpu" ];then
-    NO_FPU=0
-    ANDROID_ABI="armeabi"
-fi
-if [ "${ANDROID_ABI}" = "armeabi-v5" ];then
-    ARMV5=1
-    NO_FPU=0
-    ANDROID_ABI="armeabi"
-fi
-[ "${ANDROID_ABI}" = "armeabi" ] && cat << EOF
-For an ARMv6 device without FPU:
-use "-a armeabi-nofpu"
-For an ARMv5 device:
-use "-a armeabi-v5"
-EOF
-
 # Set up ABI variables
 if [ "${ANDROID_ABI}" = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
@@ -273,7 +256,7 @@ elif [ "${ANDROID_ABI}" = "arm64-v8a" ] ; then
     HAVE_ARM=1
     HAVE_64=1
     PLATFORM_SHORT_ARCH="arm64"
-elif [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+elif [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
@@ -329,12 +312,6 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 echo "ABI:        $ANDROID_ABI"
 echo "API:        $ANDROID_API"
-if [ ! -z "$NO_FPU" ]; then
-echo "FPU:        NO"
-fi
-if [ ! -z "$ARMV5" ]; then
-echo "ARMv5:       YES"
-fi
 echo "PATH:       $PATH"
 
 # Make in //
@@ -367,16 +344,6 @@ VLC_CFLAGS="${VLC_CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-march=armv7-a -mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
-elif [ "${ANDROID_ABI}" = "armeabi" ] ; then
-    if [ -n "${ARMV5}" ]; then
-        EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
-    else
-        if [ -n "${NO_FPU}" ]; then
-            EXTRA_CFLAGS="-march=armv6j -mtune=arm1136j-s -msoft-float"
-        else
-            EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
-        fi
-    fi
 elif [ "${ANDROID_ABI}" = "x86" ] ; then
     EXTRA_CFLAGS="-mtune=atom -msse3 -mfpmath=sse -m32"
 elif [ "${ANDROID_ABI}" = "mips" ] ; then
@@ -397,11 +364,9 @@ EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MAC
 #################
 
 VLC_LDFLAGS=""
-if [ -n "$HAVE_ARM" ]; then
 if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
         VLC_LDFLAGS="${VLC_LDFLAGS} -Wl,--fix-cortex-a8"
-    fi
 fi
 NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
 if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
@@ -692,7 +657,7 @@ fi
 echo "Building NDK"
 
 HAVE_LIBCOMPAT=
-if [ "${ANDROID_API}" = "9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
+if [ "${ANDROID_API}" = "9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     HAVE_LIBCOMPAT=1
 fi
 

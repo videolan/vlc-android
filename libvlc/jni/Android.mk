@@ -3,9 +3,6 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libvlc
 ARCH=$(APP_ABI)
-ifeq ($(ARCH), armeabi)
-	LOCAL_ARM_MODE := arm
-endif
 LOCAL_SRC_FILES += libvlcjni-modules.c libvlcjni-symbols.c dummy.cpp
 LOCAL_LDLIBS := \
 	-L$(VLC_CONTRIB)/lib \
@@ -43,12 +40,6 @@ LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 ARCH=$(APP_ABI)
 
 LOCAL_CFLAGS := -std=c11
-ifeq ($(ARCH), armeabi)
-	LOCAL_CFLAGS += -DHAVE_ARMEABI
-	# Needed by ARMv6 Thumb1 (the System Control coprocessor/CP15 is mandatory on ARMv6)
-	# On newer ARM architectures we can use Thumb2
-	LOCAL_ARM_MODE := arm
-endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
 endif

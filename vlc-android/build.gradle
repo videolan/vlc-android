@@ -52,8 +52,7 @@ android {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
 
-                if (task.name.contains('ARMv7') || task.name.contains('ARMv6')
-                 || task.name.contains('ARMv5')) {
+                if (task.name.contains('ARMv7')) {
                     task.dependsOn libcompatCopy
                 }
                 else {
@@ -66,12 +65,6 @@ android {
         if (System.getenv('PASSWORD_KEYSTORE') == null)
             tasks.whenTaskAdded { task ->
                 if (task.name.startsWith('assemble')) {
-                    if (task.name.endsWith('ARMv5Debug'))
-                        task.dependsOn(":libvlc:buildDebugARMv5")
-                    else if (task.name.endsWith('ARMv6fpuDebug'))
-                        task.dependsOn(":libvlc:buildDebugARMv6")
-                    else if (task.name.endsWith('ARMv6nofpuDebug'))
-                        task.dependsOn(":libvlc:buildDebugARMv6_nofpu")
                     else if (task.name.endsWith('ARMv7Debug'))
                         task.dependsOn(":libvlc:buildDebugARMv7")
                     else if (task.name.endsWith('ARMv8Debug'))
@@ -131,18 +124,6 @@ android {
             minSdkVersion 19
             dimension "target"
             versionCode = 2
-        }
-        ARMv5 {
-            dimension "abi"
-            versionCode = 1
-        }
-        ARMv6nofpu {
-            dimension "abi"
-            versionCode = 2
-        }
-        ARMv6fpu {
-            dimension "abi"
-            versionCode = 3
         }
         ARMv7 {
             dimension "abi"
