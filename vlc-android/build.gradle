@@ -65,7 +65,7 @@ android {
         if (System.getenv('PASSWORD_KEYSTORE') == null)
             tasks.whenTaskAdded { task ->
                 if (task.name.startsWith('assemble')) {
-                    else if (task.name.endsWith('ARMv7Debug'))
+                    if (task.name.endsWith('ARMv7Debug'))
                         task.dependsOn(":libvlc:buildDebugARMv7")
                     else if (task.name.endsWith('ARMv8Debug'))
                         task.dependsOn(":libvlc:buildDebugARM64")
