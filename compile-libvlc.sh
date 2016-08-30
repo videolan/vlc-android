@@ -374,7 +374,7 @@ if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         VLC_LDFLAGS="${VLC_LDFLAGS} -Wl,--fix-cortex-a8"
 fi
 NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
-if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
+if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" -o "${PLATFORM_SHORT_ARCH}" = "mips64" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}64"
 fi
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
