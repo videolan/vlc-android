@@ -26,8 +26,8 @@ while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
             echo "Use -a to set the ARCH:"
-            echo "  ARM:     armeabi-v7a"
-            echo "  ARM64:   arm64-v8a"
+            echo "  ARM:     (armeabi-v7a|arm)"
+            echo "  ARM64:   (arm64-v8a|arm64)"
             echo "  X86:     x86, x86_64"
             echo "  MIPS:    mips, mips64."
             echo "Use --release to build in release mode"
@@ -83,9 +83,9 @@ if [ -z "$ANDROID_ABI" ]; then
    ANDROID_ABI="armeabi-v7a"
 fi
 
-if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
+if [ "$ANDROID_ABI" = "armeabi-v7a" -o "$ANDROID_ABI" = "arm" ]; then
     GRADLE_ABI="ARMv7"
-elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
+elif [ "$ANDROID_ABI" = "arm64-v8a" -o "$ANDROID_ABI" = "arm64" ]; then
     GRADLE_ABI="ARMv8"
 elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"

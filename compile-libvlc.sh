@@ -50,8 +50,8 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
     echo "Please pass the ANDROID ABI to the correct architecture, using
                 compile-libvlc.sh -a ARCH
-    ARM:     armeabi-v7a
-    ARM64:   arm64-v8a
+    ARM:     (armeabi-v7a|arm)
+    ARM64:   (arm64-v8a|arm64)
     X86:     x86, x86_64
     MIPS:    mips, mips64."
     exit 1
@@ -230,6 +230,11 @@ VLC_MODULE_BLACKLIST="
 #########
 # FLAGS #
 #########
+if [ "${ANDROID_ABI}" = "arm" ] ; then
+    ANDROID_ABI="armeabi-v7a"
+elif [ "${ANDROID_ABI}" = "arm64" ] ; then
+    ANDROID_ABI="arm64-v8a"
+fi
 
 # Set up ABI variables
 if [ "${ANDROID_ABI}" = "x86" ] ; then
