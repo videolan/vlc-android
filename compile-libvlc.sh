@@ -285,18 +285,30 @@ else
     exit 1
 fi
 
+NDK_FORCE_ARG=
 NDK_TOOLCHAIN_DIR=${PWD}/toolchains/${PLATFORM_SHORT_ARCH}
+NDK_TOOLCHAIN_PROPS=${NDK_TOOLCHAIN_DIR}/source.properties
 NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
 NDK_SUPPORT_DIR=${NDK_TOOLCHAIN_DIR}/include/support
+
+if [ "`cat \"${NDK_TOOLCHAIN_PROPS}\" 2>/dev/null`" != "`cat \"${ANDROID_NDK}/source.properties\"`" ];then
+     echo "NDK changed, making new toolchain"
+     NDK_FORCE_ARG="--force"
+fi
+
 $ANDROID_NDK/build/tools/make_standalone_toolchain.py \
     --arch ${PLATFORM_SHORT_ARCH} \
     --api ${ANDROID_API} \
     --stl libc++ \
+    ${NDK_FORCE_ARG} \
     --install-dir ${NDK_TOOLCHAIN_DIR} 2> /dev/null
 if [ ! -d ${NDK_TOOLCHAIN_PATH} ];
 then
     echo "make_standalone_toolchain.py failed"
     exit 1
+fi
+if [ ! -z "${NDK_FORCE_ARG}" ];then
+    cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
 fi
 if [ ! -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/include/uchar.h ];
 then
