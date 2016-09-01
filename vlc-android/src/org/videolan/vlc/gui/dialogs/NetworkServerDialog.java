@@ -94,8 +94,8 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
 
         View v = inflater.inflate(R.layout.network_server_dialog, container, false);
 
-        mEditAddress = ((TextInputLayout)v.findViewById(R.id.server_domain)).getEditText();
-        mEditAddressLayout = (TextInputLayout) mEditAddress.getParent();
+        mEditAddressLayout = (TextInputLayout) v.findViewById(R.id.server_domain);
+        mEditAddress = mEditAddressLayout.getEditText();
         mEditFolder = ((TextInputLayout)v.findViewById(R.id.server_folder)).getEditText();
         mEditUsername = ((TextInputLayout)v.findViewById(R.id.server_username)).getEditText();
         mEditServername = ((TextInputLayout)v.findViewById(R.id.server_name)).getEditText();
