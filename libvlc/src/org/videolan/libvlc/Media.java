@@ -771,12 +771,10 @@ public class Media extends VLCObject<Media.Event> {
         addOption(":network-caching=1500");
 
         final StringBuilder sb = new StringBuilder(":codec=");
-        if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
+        if (decoder == HWDecoderUtil.Decoder.MEDIACODEC || decoder == HWDecoderUtil.Decoder.ALL)
             sb.append(getMediaCodecModule()).append(",");
-        else if (decoder == HWDecoderUtil.Decoder.OMX)
+        if (force && (decoder == HWDecoderUtil.Decoder.OMX || decoder == HWDecoderUtil.Decoder.ALL))
             sb.append("iomx,");
-        else
-            sb.append(getMediaCodecModule()).append(",iomx,");
         sb.append("all");
 
         addOption(sb.toString());
