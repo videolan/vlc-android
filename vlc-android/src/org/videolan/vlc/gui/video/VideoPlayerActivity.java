@@ -193,7 +193,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int SURFACE_16_9 = 4;
     private static final int SURFACE_4_3 = 5;
     private static final int SURFACE_ORIGINAL = 6;
-    private int mCurrentSize = SURFACE_BEST_FIT;
+    private int mCurrentSize;
 
     private SharedPreferences mSettings;
     private int mTouchControls = 0;
@@ -439,6 +439,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mLock = (ImageView) findViewById(R.id.lock_overlay_button);
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
+        mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
 
         mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
 
@@ -2571,6 +2572,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 showInfo(R.string.surface_original, 1000);
                 break;
         }
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putInt(PreferencesActivity.VIDEO_RATIO, mCurrentSize);
+        editor.apply();
         showOverlay();
     }
 

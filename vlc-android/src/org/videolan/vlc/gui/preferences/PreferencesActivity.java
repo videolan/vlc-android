@@ -44,6 +44,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     public final static String VIDEO_BACKGROUND = "video_background";
     public final static String VIDEO_RESTORE = "video_restore";
     public final static String VIDEO_RATE = "video_rate";
+    public final static String VIDEO_RATIO = "video_ratio";
     public final static String AUTO_RESCAN = "auto_rescan";
     public final static String LOGIN_STORE = "store_login";
     public static final String KEY_AUDIO_PLAYBACK_RATE = "playback_rate";
