@@ -24,12 +24,12 @@ import android.net.Uri;
 import android.support.annotation.MainThread;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaDiscoverer;
 import org.videolan.libvlc.MediaList;
+
+import java.util.ArrayList;
 
 public class MediaBrowser {
     private static final String TAG = "MediaBrowser";
@@ -273,19 +273,8 @@ public class MediaBrowser {
              */
             switch (mlEvent.type) {
             case MediaList.Event.ItemAdded:
-                /* one item can be found by severals discoverers */
-                boolean found = false;
-                for (Media media : mDiscovererMediaArray) {
-                    if (media.getUri().toString().equalsIgnoreCase(mlEvent.media.getUri().toString())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    mDiscovererMediaArray.add(mlEvent.media);
-                    index = mDiscovererMediaArray.size() - 1;
-                }if (index != -1)
-                    mEventListener.onMediaAdded(index, mlEvent.media);
+                mDiscovererMediaArray.add(mlEvent.media);
+                mEventListener.onMediaAdded(index, mlEvent.media);
                 break;
             case MediaList.Event.ItemDeleted:
                 index = mDiscovererMediaArray.indexOf(mlEvent.media);
