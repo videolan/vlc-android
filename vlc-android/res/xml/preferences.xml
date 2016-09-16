@@ -39,6 +39,9 @@
             android:title="@string/interface_prefs_screen"
             android:key="ui_category" />
         <Preference
+            android:title="@string/video_prefs_category"
+            android:key="video_category" />
+        <Preference
             android:title="@string/subtitles_prefs_category"
             android:key="subtitles_category" />
         <Preference

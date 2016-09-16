@@ -94,6 +94,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
             case "ui_category":
                 loadFragment(new PreferencesUi());
                 break;
+            case "video_category":
+                loadFragment(new PreferencesVideo());
+                break;
             case "subtitles_category":
                 loadFragment(new PreferencesSubtitles());
                 break;

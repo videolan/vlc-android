@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="video_category"
+    android:title="@string/video_prefs_category">
+
+    <ListPreference
+        android:defaultValue="6"
+        android:entries="@array/video_min_group_length_list"
+        android:entryValues="@array/video_min_group_length_values"
+        android:key="video_min_group_length"
+        android:persistent="true"
+        android:summary="@string/video_min_group_length_summary"
+        android:title="@string/video_min_group_length_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="force_list_portrait"
+        android:summary="@string/force_list_portrait_summary"
+        android:title="@string/force_list_portrait" />
+
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="save_brightness"
+            android:summary="@string/save_brightness_summary"
+            android:title="@string/save_brightness_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_volume_gesture"
+            android:summary="@string/enable_volume_gesture_summary"
+            android:title="@string/enable_volume_gesture_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_brightness_gesture"
+            android:summary="@string/enable_brightness_gesture_summary"
+            android:title="@string/enable_brightness_gesture_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dialog_confirm_resume"
+            android:summary="@string/confirm_resume_summary"
+            android:title="@string/confirm_resume_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_seek_buttons"
+            android:summary="@string/enable_seek_buttons_summary"
+            android:title="@string/enable_seek_buttons" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

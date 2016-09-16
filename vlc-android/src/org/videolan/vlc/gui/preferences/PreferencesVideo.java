@@ -1,9 +1,8 @@
 /*
  * *************************************************************************
- *  PreferencesUi.java
+ *  PreferencesVideo.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ *  Copyright © 2016 VLC authors and VideoLAN
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,26 +22,20 @@
 
 package org.videolan.vlc.gui.preferences;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.TwoStatePreference;
-
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.VLCInstance;
 
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesVideo extends BasePreferenceFragment {
 
     @Override
     protected int getXml() {
-        return R.xml.preferences_ui;
+        return R.xml.preferences_video;
     }
 
     @Override
     protected int getTitleId() {
-        return R.string.interface_prefs_screen;
+        return R.string.video_prefs_category;
     }
 
     @Override
@@ -53,9 +46,6 @@ public class PreferencesUi extends BasePreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
-        findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) findPreference("enable_headset_detection")).isChecked());
     }
 
     @Override
@@ -63,18 +53,11 @@ public class PreferencesUi extends BasePreferenceFragment {
         if (preference.getKey() == null)
             return false;
         switch (preference.getKey()){
-            case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) preference).isChecked());
+            case "video_min_group_length":
+                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
-            case "tv_ui":
+            case "force_list_portrait":
                 ((PreferencesActivity) getActivity()).setRestart();
-                return true;
-            case "enable_black_theme":
-                ((PreferencesActivity) getActivity()).exitAndRescan();
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
