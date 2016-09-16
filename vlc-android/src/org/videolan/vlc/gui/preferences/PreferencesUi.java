@@ -33,7 +33,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.VLCInstance;
 
-public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesUi extends BasePreferenceFragment {
 
     @Override
     protected int getXml() {
@@ -48,7 +48,6 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     @Override
     public void onStart() {
         super.onStart();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -56,20 +55,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         super.onCreate(savedInstanceState);
 
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
-        findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater());
         findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) findPreference("enable_headset_detection")).isChecked());
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key){
-            case "subtitles_size":
-            case "subtitles_color":
-            case "subtitles_background":
-                VLCInstance.restart();
-                if (getActivity() != null )
-                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
-        }
     }
 
     @Override

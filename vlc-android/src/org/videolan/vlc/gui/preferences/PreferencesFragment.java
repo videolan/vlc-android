@@ -75,8 +75,7 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("hardware_acceleration")
-                || key.equalsIgnoreCase("subtitle_text_encoding")) {
+        if(key.equalsIgnoreCase("hardware_acceleration")) {
             VLCInstance.restart();
             if (getActivity() != null )
                 ((PreferencesActivity)getActivity()).restartMediaPlayer();
@@ -94,6 +93,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 return true;
             case "ui_category":
                 loadFragment(new PreferencesUi());
+                break;
+            case "subtitles_category":
+                loadFragment(new PreferencesSubtitles());
                 break;
             case "perf_category":
                 loadFragment(new PreferencesPerformances());

@@ -296,6 +296,20 @@
     <string name="audio_title_alignment_right">Right</string>
     <string name="audio_title_alignment_marquee">Marquee</string>
 
+    <string name="subtitles_prefs_category">Subtitles</string>
+    <string name="subtitles_size_title">Subtitles Size</string>
+    <string name="subtitles_size_small">Small</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Big</string>
+    <string name="subtitles_size_huge">Huge</string>
+    <string name="subtitles_color_title">Subtitles Color</string>
+    <string name="subtitles_color_white">White</string>
+    <string name="subtitles_color_pink">Pink</string>
+    <string name="subtitles_color_blue">Blue</string>
+    <string name="subtitles_color_yellow">Yellow</string>
+    <string name="subtitles_color_green">Green</string>
+    <string name="subtitles_background_title">Subtitles Background</string>
+
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
@@ -396,18 +410,6 @@
     <string name="video_min_group_length_first">First letter only</string>
     <string name="video_min_group_length_short">Short number of letters (6)</string>
     <string name="video_min_group_length_long">Long number of letters (9)</string>
-    <string name="subtitles_size_title">Subtitles Size</string>
-    <string name="subtitles_size_small">Small</string>
-    <string name="subtitles_size_normal">Normal</string>
-    <string name="subtitles_size_big">Big</string>
-    <string name="subtitles_size_huge">Huge</string>
-    <string name="subtitles_color_title">Subtitles Color</string>
-    <string name="subtitles_color_white">White</string>
-    <string name="subtitles_color_pink">Pink</string>
-    <string name="subtitles_color_blue">Blue</string>
-    <string name="subtitles_color_yellow">Yellow</string>
-    <string name="subtitles_color_green">Green</string>
-    <string name="subtitles_background_title">Subtitles Background</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>

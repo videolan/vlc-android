@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="subtitles_category"
+    android:title="@string/subtitles_prefs_category">
+
+    <ListPreference
+        android:defaultValue="16"
+        android:entries="@array/subtitles_size_entries"
+        android:entryValues="@array/subtitles_size_values"
+        android:key="subtitles_size"
+        android:persistent="true"
+        android:title="@string/subtitles_size_title" />
+    <ListPreference
+        android:defaultValue="16777215"
+        android:entries="@array/subtitles_color_entries"
+        android:entryValues="@array/subtitles_color_values"
+        android:key="subtitles_color"
+        android:persistent="true"
+        android:title="@string/subtitles_color_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subtitles_background"
+        android:title="@string/subtitles_background_title" />
+    <android.support.v14.preference.MultiSelectListPreference
+        android:dialogTitle="@string/preferences_languages_download"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"
+        android:key="languages_download_list"
+        android:summary="@string/list_languages_download_summary"
+        android:title="@string/list_languages_download_title" />
+    <ListPreference
+        android:defaultValue=""
+        android:entries="@array/subtitles_encoding_list"
+        android:entryValues="@array/subtitles_encoding_values"
+        android:key="subtitle_text_encoding"
+        android:persistent="true"
+        android:title="@string/subtitle_text_encoding" />
+
+</PreferenceScreen>
