@@ -189,10 +189,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         }
 
         try {
-            System.loadLibrary("compat.7");
-        } catch (Throwable ignored) {}
-
-        try {
             System.loadLibrary("vlc");
             System.loadLibrary("vlcjni");
         } catch (UnsatisfiedLinkError ule) {

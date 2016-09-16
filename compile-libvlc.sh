@@ -673,11 +673,6 @@ fi
 
 echo "Building NDK"
 
-HAVE_LIBCOMPAT=
-if [ "${ANDROID_API}" = "9" ] && [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
-    HAVE_LIBCOMPAT=1
-fi
-
 $ANDROID_NDK/ndk-build -C libvlc \
     APP_STL="c++_shared" \
     LOCAL_CPP_FEATURES="rtti exceptions" \
@@ -694,8 +689,7 @@ $ANDROID_NDK/ndk-build -C libvlc \
     TARGET_TUPLE=$TARGET_TUPLE \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
-    NDK_DEBUG=${NDK_DEBUG} \
-    HAVE_LIBCOMPAT=${HAVE_LIBCOMPAT}
+    NDK_DEBUG=${NDK_DEBUG}
 
 checkfail "ndk-build failed"
 
@@ -712,16 +706,6 @@ $ANDROID_NDK/ndk-build -C libvlc \
     NDK_TOOLCHAIN_VERSION=clang
 
 checkfail "ndk-build failed"
-
-if [ "${HAVE_LIBCOMPAT}" = "1" ];then
-    $ANDROID_NDK/ndk-build -C libvlc \
-        APP_BUILD_SCRIPT=libcompat/Android.mk \
-        APP_PLATFORM=android-${ANDROID_API} \
-        APP_ABI="armeabi" \
-        NDK_PROJECT_PATH=libcompat \
-        NDK_TOOLCHAIN_VERSION=clang
-    checkfail "ndk-build compat failed"
-fi
 
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
