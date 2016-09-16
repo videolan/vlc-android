@@ -41,8 +41,8 @@ public class VLCInstance {
     private static Runnable sCopyLua = new Runnable() {
         @Override
         public void run() {
-            String destinationFolder = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+
-                    "/Android/data/"+VLCApplication.getAppContext().getPackageName()+"/lua";
+            final String destinationFolder = VLCApplication.getAppContext().getDir("vlc",
+                    Context.MODE_PRIVATE).getAbsolutePath() + "/.share/lua";
             AssetManager am = VLCApplication.getAppResources().getAssets();
             FileUtils.copyAssetFolder(am, "lua", destinationFolder);
         }
