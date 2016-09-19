@@ -28,12 +28,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
-import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -41,7 +39,6 @@ import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCOptions;
 
 public class Advanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
@@ -62,27 +59,6 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
             findPreference("quit_app").setEnabled(false);
         }
 
-        // Audio output
-        ListPreference aoutPref = (ListPreference) findPreference("aout");
-        final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
-        if (aout == HWDecoderUtil.AudioOutput.AUDIOTRACK || aout == HWDecoderUtil.AudioOutput.OPENSLES) {
-            /* no AudioOutput choice */
-            findPreference("aout").setVisible(false);
-        } else {
-            int aoutEntriesId = R.array.aouts;
-            int aoutEntriesIdValues = R.array.aouts_values;
-            aoutPref.setEntries(aoutEntriesId);
-            aoutPref.setEntryValues(aoutEntriesIdValues);
-            final String value = aoutPref.getValue();
-            if (value == null)
-                aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
-            else {
-                /* number of entries decreased, handle old values */
-                final int intValue = Integer.parseInt(value);
-                if (intValue != VLCOptions.AOUT_AUDIOTRACK && intValue != VLCOptions.AOUT_OPENSLES)
-                    aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
-            }
-        }
         // Video output
 //        FIXME : This setting is disable until OpenGL is fixed
 //        ListPreference voutPref = (ListPreference) findPreference("vout");
@@ -172,7 +148,6 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
-            case "aout":
             case "network_caching":
             case "vout":
                 VLCInstance.restart();

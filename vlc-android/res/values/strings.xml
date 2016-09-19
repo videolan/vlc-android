@@ -274,18 +274,6 @@
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
-    <string name="audio_title_alignment">Audio title alignment</string>
-    <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
-    <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
-    <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
-    <string name="enable_steal_remote_control">Exclusive headset remote control</string>
-    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
-    <string name="audio_title_alignment_default">Default</string>
-    <string name="audio_title_alignment_left">Left</string>
-    <string name="audio_title_alignment_centre">Centre</string>
-    <string name="audio_title_alignment_right">Right</string>
-    <string name="audio_title_alignment_marquee">Marquee</string>
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Group videos</string>
@@ -319,6 +307,26 @@
     <string name="subtitles_color_green">Green</string>
     <string name="subtitles_background_title">Subtitles Background</string>
 
+    <string name="audio_prefs_category">Audio</string>
+    <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
+    <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
+    <string name="audio_title_alignment">Audio title alignment</string>
+    <string name="audio_title_alignment_default">Default</string>
+    <string name="audio_title_alignment_left">Left</string>
+    <string name="audio_title_alignment_centre">Centre</string>
+    <string name="audio_title_alignment_right">Right</string>
+    <string name="audio_title_alignment_marquee">Marquee</string>
+    <string name="headset_prefs_category">Headset</string>
+    <string name="enable_headset_detection">Detect headset</string>
+    <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
+    <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
+    <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
+    <string name="enable_steal_remote_control">Exclusive headset remote control</string>
+    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="aout">Audio output</string>
+    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
+    <string name="aout_audiotrack" translatable="false">AudioTrack</string>
+    <string name="aout_opensles" translatable="false">OpenSL ES</string>
 
     <string name="controls_prefs_category">Controls</string>
 
@@ -337,10 +345,6 @@
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
 
     <string name="advanced_prefs_category">Advanced</string>
-    <string name="aout">Audio output</string>
-    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
-    <string name="aout_audiotrack" translatable="false">AudioTrack</string>
-    <string name="aout_opensles" translatable="false">OpenSL ES</string>
     <string name="save_video_none">Do not save speed</string>
     <string name="save_video_session">Save speed during session</string>
     <string name="save_video_always">Save speed across sessions</string>
@@ -412,8 +416,6 @@
     <string name="player_touch_disable_all">Disable all Touch controls</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
-    <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
-    <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>

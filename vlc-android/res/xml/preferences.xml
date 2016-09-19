@@ -45,6 +45,9 @@
             android:title="@string/subtitles_prefs_category"
             android:key="subtitles_category" />
         <Preference
+            android:title="@string/audio_prefs_category"
+            android:key="audio_category" />
+        <Preference
             android:title="@string/performance_prefs_category"
             android:key="perf_category" />
         <Preference

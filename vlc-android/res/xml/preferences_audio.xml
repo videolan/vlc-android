@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="audio_category"
+    android:title="@string/audio_prefs_category">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="lockscreen_cover"
+        android:summary="@string/lockscreen_cover_summary"
+        android:title="@string/lockscreen_cover_title" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/audio_title_alignment_list"
+        android:entryValues="@array/audio_title_alignment_values"
+        android:key="audio_title_alignment"
+        android:persistent="true"
+        android:title="@string/audio_title_alignment" />
+
+    <PreferenceCategory android:title="@string/headset_prefs_category">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_headset_detection"
+            android:summary="@string/enable_headset_detection_summary"
+            android:title="@string/enable_headset_detection" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_play_on_headset_insertion"
+            android:summary="@string/enable_play_on_headset_insertion_summary"
+            android:title="@string/enable_play_on_headset_insertion" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_steal_remote_control"
+            android:summary="@string/enable_steal_remote_control_summary"
+            android:title="@string/enable_steal_remote_control" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <ListPreference
+            android:key="aout"
+            android:summary="@string/aout_summary"
+            android:title="@string/aout" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
