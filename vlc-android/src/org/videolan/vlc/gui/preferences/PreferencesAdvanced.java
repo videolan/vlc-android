@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  Advanced.java
+ *  PreferencesAdvanced.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
@@ -40,7 +40,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.VLCInstance;
 
-public class Advanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesAdvanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected int getXml() {
         return R.xml.preferences_adv;
@@ -150,6 +150,10 @@ public class Advanced extends BasePreferenceFragment implements SharedPreference
         switch (key){
             case "network_caching":
             case "vout":
+            case "chroma_format":
+            case "deblocking":
+            case "enable_frame_skip":
+            case "enable_time_stretching_audio":
                 VLCInstance.restart();
                 if (getActivity() != null )
                     ((PreferencesActivity)getActivity()).restartMediaPlayer();

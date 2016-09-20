@@ -48,9 +48,6 @@
             android:title="@string/audio_prefs_category"
             android:key="audio_category" />
         <Preference
-            android:title="@string/performance_prefs_category"
-            android:key="perf_category" />
-        <Preference
             android:title="@string/advanced_prefs_category"
             android:key="adv_category" />
         <Preference
