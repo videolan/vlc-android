@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/interface_prefs_screen"
-    android:key="ui_category" >
+    android:key="ui_category"
+    android:title="@string/interface_prefs_screen">
 
     <android.support.v7.preference.SwitchPreferenceCompat
         android:defaultValue="false"
@@ -10,12 +10,10 @@
         android:summary="@string/enable_black_theme_summary"
         android:title="@string/enable_black_theme" />
 
-    <PreferenceCategory android:title="@string/interface_gui">
-        <CheckBoxPreference
-            android:key="tv_ui"
-            android:summary="@string/tv_ui_summary"
-            android:title="@string/tv_ui_title" />
-    </PreferenceCategory>
+    <CheckBoxPreference
+        android:key="tv_ui"
+        android:summary="@string/tv_ui_summary"
+        android:title="@string/tv_ui_title" />
 
     <PreferenceCategory android:title="@string/interface_secondary_display_category_title">
         <Preference android:summary="@string/interface_secondary_display_category_summary" />
