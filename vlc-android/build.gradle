@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+import com.android.builder.core.DefaultManifestParser
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -134,14 +136,14 @@ android {
 
     // make per-variant version code
     applicationVariants.all { variant ->
-        def manifestParser = new com.android.builder.core.DefaultManifestParser()
+        def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile)
         // get the version code of each flavor
-        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
+        def vlcVersion = manifestParser.getVersionName()
         def targetVersion = variant.productFlavors.get(0).versionCode
         def abiVersion = variant.productFlavors.get(1).versionCode
 
         // set the composite code
-        variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + abiVersion
+        variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.getVersionCode() + abiVersion
         variant.mergedFlavor.versionName = vlcVersion
 
         //Custom APK name

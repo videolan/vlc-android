@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+import com.android.builder.core.DefaultManifestParser
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -27,11 +29,11 @@ android {
 
     // Make per-variant version code
     libraryVariants.all { variant ->
-        def manifestParser = new com.android.builder.core.DefaultManifestParser()
+        def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile)
         // get the version code of each flavor
-        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
-        manifestParser = new com.android.builder.core.DefaultManifestParser()
-        def androidVersion = manifestParser.getVersionName(file('../vlc-android/AndroidManifest.xml'))
+        def vlcVersion = manifestParser.getVersionName()
+        manifestParser = new DefaultManifestParser(file('../vlc-android/AndroidManifest.xml'))
+        def androidVersion = manifestParser.getVersionName()
         //Custom APK name
         variant.outputs.each { output ->
             def outputFile = output.outputFile
