@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  Developer.java
+ *  PreferencesDeveloper.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
@@ -37,7 +37,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.util.VLCInstance;
 
-public class Developer extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesDeveloper extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected int getXml() {
         return R.xml.preferences_dev;
@@ -82,7 +82,6 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
-            case "dev_hardware_decoder":
             case "enable_verbose_mode":
                 VLCInstance.restart();
                 if (getActivity() != null )

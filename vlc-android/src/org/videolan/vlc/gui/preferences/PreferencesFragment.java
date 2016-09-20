@@ -107,7 +107,7 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 loadFragment(new PreferencesAdvanced());
                 break;
             case "dev_category":
-                loadFragment(new Developer());
+                loadFragment(new PreferencesDeveloper());
                 break;
             case PLAYBACK_HISTORY:
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
