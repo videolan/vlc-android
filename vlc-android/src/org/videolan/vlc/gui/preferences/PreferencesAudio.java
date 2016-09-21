@@ -24,7 +24,6 @@ package org.videolan.vlc.gui.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
@@ -32,7 +31,6 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.VLCOptions;
 
 public class PreferencesAudio extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -56,27 +54,10 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) findPreference("enable_headset_detection")).isChecked());
-
-        // Audio output
-        ListPreference aoutPref = (ListPreference) findPreference("aout");
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
-        if (aout == HWDecoderUtil.AudioOutput.AUDIOTRACK || aout == HWDecoderUtil.AudioOutput.OPENSLES) {
+        if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
             findPreference("aout").setVisible(false);
-        } else {
-            int aoutEntriesId = R.array.aouts;
-            int aoutEntriesIdValues = R.array.aouts_values;
-            aoutPref.setEntries(aoutEntriesId);
-            aoutPref.setEntryValues(aoutEntriesIdValues);
-            final String value = aoutPref.getValue();
-            if (value == null)
-                aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
-            else {
-                /* number of entries decreased, handle old values */
-                final int intValue = Integer.parseInt(value);
-                if (intValue != VLCOptions.AOUT_AUDIOTRACK && intValue != VLCOptions.AOUT_OPENSLES)
-                    aoutPref.setValue(String.valueOf(VLCOptions.AOUT_AUDIOTRACK));
-            }
         }
     }
 

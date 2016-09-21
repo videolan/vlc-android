@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.videolan.vlc.BuildConfig;
@@ -55,6 +54,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             findPreference("quit_app").setEnabled(false);
         }
@@ -68,35 +68,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
 //        voutPref.setEntryValues(voutEntriesIdValues);
 //        if (voutPref.getValue() == null)
 //            voutPref.setValue("0"  VOUT_ANDROID_SURFACE );
-        // Network caching
-
-        EditTextPreference networkCachingPref = (EditTextPreference) findPreference("network_caching");
-        networkCachingPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                try {
-                    editor.putInt("network_caching_value", Integer.parseInt((String)newValue));
-                } catch(NumberFormatException e) {
-                    editor.putInt("network_caching_value", 0);
-                    editor.putString("network_caching", "0");
-                }
-                editor.apply();
-                return true;
-            }
-        });
-
-        // Set locale
-        EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
-        setLocalePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                UiTools.snacker(getView(), R.string.set_locale_popup);
-                return true;
-            }
-        });
     }
 
     @Override
@@ -148,7 +119,21 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
+            case "set_locale":
+                UiTools.snacker(getView(), R.string.set_locale_popup);
+                break;
             case "network_caching":
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                try {
+                    editor.putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key,"0")));
+                } catch(NumberFormatException e) {
+                    editor.putInt("network_caching_value", 0);
+                    EditTextPreference networkCachingPref = (EditTextPreference) findPreference(key);
+                    networkCachingPref.setText("");
+                    UiTools.snacker(getView(), R.string.network_caching_popup);
+                }
+                editor.apply();
+                // No break because need VLCInstance.restart();
             case "vout":
             case "chroma_format":
             case "deblocking":
@@ -157,6 +142,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 VLCInstance.restart();
                 if (getActivity() != null )
                     ((PreferencesActivity)getActivity()).restartMediaPlayer();
+                break;
         }
     }
 }

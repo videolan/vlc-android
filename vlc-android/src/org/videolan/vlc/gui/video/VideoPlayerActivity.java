@@ -428,7 +428,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
         mScreenOrientation = Integer.valueOf(
-                mSettings.getString("screen_orientation_value", "99" /*SCREEN ORIENTATION SENSOR*/));
+                mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
 
         mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
 

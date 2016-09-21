@@ -26,9 +26,7 @@ package org.videolan.vlc.gui.preferences;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -52,25 +50,14 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Screen orientation
-        ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
-        screenOrientationPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putString("screen_orientation_value", (String) newValue);
-                editor.apply();
-                return true;
-            }
-        });
-
-        /*** SharedPreferences Listener to apply changes ***/
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
