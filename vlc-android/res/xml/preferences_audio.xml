@@ -17,7 +17,9 @@
         android:persistent="true"
         android:title="@string/audio_title_alignment" />
 
-    <PreferenceCategory android:title="@string/headset_prefs_category">
+    <PreferenceCategory
+        android:title="@string/headset_prefs_category"
+        android:key="headset_prefs_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_headset_detection"

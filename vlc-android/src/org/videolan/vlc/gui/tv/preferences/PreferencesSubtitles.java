@@ -1,9 +1,8 @@
 /*
  * *************************************************************************
- *  PreferencesUi.java
+ *  PreferencesSubtitles.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ *  Copyright © 2016 VLC authors and VideoLAN
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,52 +23,51 @@
 package org.videolan.vlc.gui.tv.preferences;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.TwoStatePreference;
 
-import org.videolan.vlc.PlaybackService;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
+
+import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesSubtitles extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected int getXml() {
-        return R.xml.preferences_ui;
+        return R.xml.preferences_subtitles;
     }
 
     @Override
     protected int getTitleId() {
-        return R.string.interface_prefs_screen;
+        return R.string.subtitles_prefs_category;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        findPreference("enable_clone_mode").setVisible(false);
-        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
-        findPreference("enable_black_theme").setVisible(false);
+        findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater());
     }
 
     @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
-        switch (preference.getKey()){
-            case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
-            case "tv_ui":
-                ((PreferencesActivity) getActivity()).setRestart();
-                return true;
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key){
+            case "subtitles_size":
+            case "subtitles_color":
+            case "subtitles_background":
+            case "subtitle_text_encoding":
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
-        return super.onPreferenceTreeClick(preference);
     }
+
 }

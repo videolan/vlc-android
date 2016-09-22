@@ -1,9 +1,8 @@
 /*
  * *************************************************************************
- *  PreferencesUi.java
+ *  PreferencesVideo.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ *  Copyright © 2016 VLC authors and VideoLAN
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,32 +26,35 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.TwoStatePreference;
 
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesVideo extends BasePreferenceFragment {
 
     @Override
     protected int getXml() {
-        return R.xml.preferences_ui;
+        return R.xml.preferences_video;
     }
 
     @Override
     protected int getTitleId() {
-        return R.string.interface_prefs_screen;
+        return R.string.video_prefs_category;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        findPreference("enable_clone_mode").setVisible(false);
-        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
-        findPreference("enable_black_theme").setVisible(false);
+        findPreference("force_list_portrait").setVisible(false);
+        findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
+        findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
     }
 
     @Override
@@ -60,14 +62,8 @@ public class PreferencesUi extends BasePreferenceFragment {
         if (preference.getKey() == null)
             return false;
         switch (preference.getKey()){
-            case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
-            case "tv_ui":
-                ((PreferencesActivity) getActivity()).setRestart();
+            case "video_min_group_length":
+                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
         }
         return super.onPreferenceTreeClick(preference);

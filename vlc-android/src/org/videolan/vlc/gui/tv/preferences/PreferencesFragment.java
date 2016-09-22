@@ -28,14 +28,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -56,39 +53,26 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         findPreference("screen_orientation").setVisible(false);
-
-        // Screen orientation
-        ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
-        screenOrientationPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                editor.putString("screen_orientation_value", (String) newValue);
-                editor.apply();
-                return true;
-            }
-        });
-
-        /*** SharedPreferences Listener to apply changes ***/
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+        findPreference("ui_category").setVisible(false);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("hardware_acceleration")
-                || key.equalsIgnoreCase("subtitle_text_encoding")) {
+        if(key.equalsIgnoreCase("hardware_acceleration")) {
             VLCInstance.restart();
             if (getActivity() != null )
                 ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
     }
-
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()){
@@ -98,17 +82,23 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 startActivity(intent);
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
-            case "enable_black_theme":
-                ((PreferencesActivity) getActivity()).exitAndRescan();
-                return true;
-            case "ui_category":
-                loadFragment(new PreferencesUi());
+//            case "ui_category":
+//                loadFragment(new PreferencesUi());
+//                break;
+            case "video_category":
+                loadFragment(new PreferencesVideo());
+                break;
+            case "subtitles_category":
+                loadFragment(new PreferencesSubtitles());
+                break;
+            case "audio_category":
+                loadFragment(new PreferencesAudio());
                 break;
             case "adv_category":
-                loadFragment(new Advanced());
+                loadFragment(new PreferencesAdvanced());
                 break;
             case "dev_category":
-                loadFragment(new Developer());
+                loadFragment(new PreferencesDeveloper());
                 break;
             case PLAYBACK_HISTORY:
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);

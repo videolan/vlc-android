@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  PreferencesUi.java
+ *  PreferencesDeveloper.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
@@ -23,53 +23,72 @@
 
 package org.videolan.vlc.gui.tv.preferences;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.TwoStatePreference;
 
-import org.videolan.vlc.PlaybackService;
+import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DebugLogActivity;
+import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesUi extends BasePreferenceFragment {
-
+public class PreferencesDeveloper extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected int getXml() {
-        return R.xml.preferences_ui;
+        return R.xml.preferences_dev;
     }
 
     @Override
     protected int getTitleId() {
-        return R.string.interface_prefs_screen;
+        return R.string.developer_prefs_category;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
+                (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
+    }
 
-        findPreference("enable_clone_mode").setVisible(false);
-        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
-        findPreference("enable_black_theme").setVisible(false);
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
         switch (preference.getKey()){
-            case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
-            case "tv_ui":
-                ((PreferencesActivity) getActivity()).setRestart();
+            case "debug_logs":
+                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key){
+            case "enable_verbose_mode":
+                VLCInstance.restart();
+                if (getActivity() != null )
+                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
+        }
     }
 }

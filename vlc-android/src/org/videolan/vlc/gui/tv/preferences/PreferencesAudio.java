@@ -1,9 +1,8 @@
 /*
  * *************************************************************************
- *  Developer.java
+ *  PreferencesAudio.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
- *  Author: Geoffrey Métais
+ *  Copyright © 2016 VLC authors and VideoLAN
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,37 +21,28 @@
  */
 
 package org.videolan.vlc.gui.tv.preferences;
-
-import android.Manifest;
-import android.content.Intent;
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
 
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.BuildConfig;
+import android.support.v7.preference.TwoStatePreference;
+
+import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.util.VLCInstance;
 
-public class Developer extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+public class PreferencesAudio extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
     @Override
     protected int getXml() {
-        return R.xml.preferences_dev;
+        return R.xml.preferences_audio;
     }
 
     @Override
     protected int getTitleId() {
-        return R.string.developer_prefs_category;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
-                (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
+        return R.string.audio_prefs_category;
     }
 
     @Override
@@ -62,28 +52,26 @@ public class Developer extends BasePreferenceFragment implements SharedPreferenc
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        findPreference("enable_headset_detection").setVisible(false);
+        findPreference("enable_play_on_headset_insertion").setVisible(false);
+        findPreference("enable_steal_remote_control").setVisible(false);
+        findPreference("headset_prefs_category").setVisible(false);
+
+        final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
+        if (aout != HWDecoderUtil.AudioOutput.ALL) {
+            /* no AudioOutput choice */
+            findPreference("aout").setVisible(false);
+        }
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        switch (preference.getKey()){
-            case "debug_logs":
-                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onPreferenceTreeClick(preference);
-    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
-            case "dev_hardware_decoder":
-            case "enable_verbose_mode":
+            case "aout":
                 VLCInstance.restart();
                 if (getActivity() != null )
                     ((PreferencesActivity)getActivity()).restartMediaPlayer();
