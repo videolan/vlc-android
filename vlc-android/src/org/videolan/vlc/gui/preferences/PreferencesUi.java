@@ -23,13 +23,15 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.UiTools;
 
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected int getXml() {
@@ -44,6 +46,14 @@ public class PreferencesUi extends BasePreferenceFragment {
     @Override
     public void onStart() {
         super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -65,5 +75,10 @@ public class PreferencesUi extends BasePreferenceFragment {
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
+    }
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("set_locale"))
+            UiTools.snacker(getView(), R.string.set_locale_popup);
     }
 }

@@ -62,7 +62,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findPreference("screen_orientation").setVisible(false);
-        findPreference("ui_category").setVisible(false);
     }
 
     @Override
@@ -82,9 +81,9 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
                 startActivity(intent);
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
-//            case "ui_category":
-//                loadFragment(new PreferencesUi());
-//                break;
+            case "ui_category":
+                loadFragment(new PreferencesUi());
+                break;
             case "video_category":
                 loadFragment(new PreferencesVideo());
                 break;

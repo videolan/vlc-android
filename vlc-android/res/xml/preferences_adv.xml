@@ -9,15 +9,17 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="playback_speed"
-        android:summary="@string/playback_speed_summary"
-        android:title="@string/playback_speed_title" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
         android:key="auto_rescan"
         android:summary="@string/auto_rescan_summary"
         android:title="@string/auto_rescan" />
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="network_caching"
+        android:maxLength="5"
+        android:summary="@string/network_caching_summary"
+        android:title="@string/network_caching" />
+
     <Preference
         android:enabled="true"
         android:key="clear_media_db"
@@ -26,18 +28,6 @@
     <PreferenceScreen
         android:key="clear_history"
         android:title="@string/clear_history" />
-
-    <EditTextPreference
-        android:defaultValue=""
-        android:key="set_locale"
-        android:summary="@string/set_locale_detail"
-        android:title="@string/set_locale" />
-    <EditTextPreference
-        android:defaultValue=""
-        android:key="network_caching"
-        android:maxLength="5"
-        android:summary="@string/network_caching_summary"
-        android:title="@string/network_caching" />
 
     <Preference
         android:enabled="true"

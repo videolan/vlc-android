@@ -24,17 +24,16 @@
 package org.videolan.vlc.gui.tv.preferences;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.TwoStatePreference;
 
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.AndroidDevices;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesUi extends BasePreferenceFragment {
+public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected int getXml() {
@@ -47,29 +46,32 @@ public class PreferencesUi extends BasePreferenceFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         findPreference("enable_clone_mode").setVisible(false);
         findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_black_theme").setVisible(false);
+        findPreference("secondary_display_category").setVisible(false);
+        findPreference("secondary_display_category_summary").setVisible(false);
     }
 
     @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
-        switch (preference.getKey()){
-            case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
-            case "tv_ui":
-                ((PreferencesActivity) getActivity()).setRestart();
-                return true;
-        }
-        return super.onPreferenceTreeClick(preference);
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("set_locale"))
+            UiTools.snacker(getView(), R.string.set_locale_popup);
     }
 }

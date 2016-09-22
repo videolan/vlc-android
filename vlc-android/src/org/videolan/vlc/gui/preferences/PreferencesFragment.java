@@ -58,8 +58,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        findPreference("ui_category").setVisible(false);
     }
 
     @Override

@@ -90,7 +90,9 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        switch (preference.getKey()) {
+        if (preference.getKey() == null)
+            return false;
+        switch (preference.getKey()){
             case "clear_history":
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.clear_history)
@@ -124,9 +126,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
-            case "set_locale":
-                UiTools.snacker(getView(), R.string.set_locale_popup);
-                break;
             case "network_caching":
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 try {
