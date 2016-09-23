@@ -23,16 +23,22 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.text.TextUtils;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -58,6 +64,9 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             findPreference("quit_app").setEnabled(false);
         }
+
+        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
+                (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
 
         // Video output
 //        FIXME : This setting is disable until OpenGL is fixed
@@ -87,6 +96,10 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
         if (preference.getKey() == null)
             return false;
         switch (preference.getKey()){
+            case "debug_logs":
+                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
+                startActivity(intent);
+                return true;
             case "clear_history":
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.clear_history)
@@ -137,6 +150,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
             case "deblocking":
             case "enable_frame_skip":
             case "enable_time_stretching_audio":
+            case "enable_verbose_mode":
                 VLCInstance.restart();
                 if (getActivity() != null )
                     ((PreferencesActivity)getActivity()).restartMediaPlayer();

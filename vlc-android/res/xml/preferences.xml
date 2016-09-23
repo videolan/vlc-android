@@ -50,9 +50,6 @@
         <Preference
             android:title="@string/advanced_prefs_category"
             android:key="adv_category" />
-        <Preference
-            android:title="@string/developer_prefs_category"
-            android:key="dev_category" />
 
     </PreferenceCategory>
 
