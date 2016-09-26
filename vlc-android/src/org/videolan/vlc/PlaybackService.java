@@ -365,7 +365,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         if (mLossTransientVolume != -1) {
                             mMediaPlayer.setVolume(mLossTransientVolume);
                             mLossTransientVolume = -1;
-                        } else if (mLossTransient) {
+                        }
+                        if (mLossTransient) {
                             if (wasPlaying)
                                 mMediaPlayer.play();
                             mLossTransient = false;
