@@ -112,16 +112,15 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeList(JNIEnv *env, jobject thiz,
     vlcjni_object *p_lib_obj = VLCJniObject_getInstance(env, libVlc);
     libvlc_instance_t *p_libvlc = p_lib_obj->u.p_libvlc;
     libvlc_media_discoverer_description_t **pp_services = NULL;
-    ssize_t i_nb_services = 0;
+    size_t i_nb_services = 0;
     jobjectArray array;
 
     if (!p_lib_obj)
         return NULL;
 
     i_nb_services =
-        libvlc_media_discoverer_list_get( p_libvlc, i_category,
-                                              &pp_services);
-    if (i_nb_services <= 0)
+        libvlc_media_discoverer_list_get( p_libvlc, i_category, &pp_services);
+    if (i_nb_services == 0)
         return NULL;
 
     array = (*env)->NewObjectArray(env, i_nb_services,
@@ -130,7 +129,7 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeList(JNIEnv *env, jobject thiz,
     if (!array)
         goto error;
 
-    for (size_t i = 0; i < (size_t) i_nb_services; ++i)
+    for (size_t i = 0; i < i_nb_services; ++i)
     {
         jobject jservice = service_to_object(env, pp_services[i]);
 
