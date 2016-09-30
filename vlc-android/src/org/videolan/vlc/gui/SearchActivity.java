@@ -41,7 +41,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false))
             setTheme(R.style.Theme_VLC_Black);
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()) || "com.google.android.gms.actions.SEARCH_ACTION".equals(intent.getAction())) {
             mBinding = DataBindingUtil.setContentView(this, R.layout.search_activity);
             mBinding.setHandler(mClickHandler);
             mMedialibrary = VLCApplication.getMLInstance();
