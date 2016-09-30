@@ -438,6 +438,15 @@
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC"/>
         <activity
+            android:name=".gui.SearchActivity"
+            android:theme="@style/Theme.VLC">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
             android:name=".gui.browser.FilePickerActivity"
             android:theme="@style/Theme.VLC.PickerDialog"/>
         <activity android:name=".gui.CompatErrorActivity" />

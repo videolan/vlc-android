@@ -1,5 +1,7 @@
 package org.videolan.medialibrary.media;
 
+import org.videolan.medialibrary.Tools;
+
 public class SearchAggregate {
 
     private final Album[] albums;
@@ -41,6 +43,10 @@ public class SearchAggregate {
 
     public Playlist[] getPlaylists() {
         return playlists;
+    }
+
+    public boolean isEmpty() {
+        return Tools.isArrayEmpty(albums) && Tools.isArrayEmpty(artists) && Tools.isArrayEmpty(genres) && Tools.isArrayEmpty(playlists) && (mediaSearchAggregate == null || mediaSearchAggregate.isEmpty());
     }
 
     @Override

@@ -233,6 +233,17 @@
 
     <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+    <style name="Result.Title" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/orange800</item>
+    </style>
+
+    <style name="Result.List" parent="Base.Widget.AppCompat.ListView">
+        <item name="android:background">@color/white</item>
+        <item name="android:elevation">2sp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
     <!--Preferences-->
     <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay">
         <item name="android:textColorPrimary">@color/grey900</item>

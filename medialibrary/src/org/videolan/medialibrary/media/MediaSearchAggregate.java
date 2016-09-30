@@ -1,5 +1,7 @@
 package org.videolan.medialibrary.media;
 
+import org.videolan.medialibrary.Tools;
+
 public class MediaSearchAggregate {
 
     private final MediaWrapper[] episodes, movies, others, tracks;
@@ -25,6 +27,10 @@ public class MediaSearchAggregate {
 
     public MediaWrapper[] getTracks() {
         return tracks;
+    }
+
+    public boolean isEmpty() {
+        return Tools.isArrayEmpty(episodes) && Tools.isArrayEmpty(movies) && Tools.isArrayEmpty(others) && Tools.isArrayEmpty(tracks);
     }
 
     @Override

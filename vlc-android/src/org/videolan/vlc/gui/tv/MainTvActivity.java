@@ -51,6 +51,7 @@ import android.widget.ProgressBar;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
@@ -69,7 +70,6 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -380,7 +380,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
             // Update video section
-            if (!Util.isArrayEmpty(videoList)) {
+            if (!Tools.isArrayEmpty(videoList)) {
                 final int size = Math.min(NUM_ITEMS_PREVIEW, videoList.length);
                 mRootContainer.post(new Runnable() {
                     @Override
@@ -408,7 +408,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             //History
-            if (showHistory && !Util.isArrayEmpty(history)){
+            if (showHistory && !Tools.isArrayEmpty(history)){
                 mHistoryAdapter = new ArrayObjectAdapter(
                         new CardPresenter(mContext));
                 final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));

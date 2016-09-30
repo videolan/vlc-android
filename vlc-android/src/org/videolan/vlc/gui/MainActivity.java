@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
-import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -79,7 +78,6 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
-import org.videolan.vlc.gui.helpers.SearchSuggestionsAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -529,14 +527,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
 
-        SearchManager searchManager =
-                (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setQueryHint(getString(R.string.search_hint));
-        SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
-        searchSuggestionsAdapter.setFilterQueryProvider(this);
-        mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
+//        SearchManager searchManager =
+//                (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
+//        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        mSearchView.setQueryHint(getString(R.string.search_hint));
+//        SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
+//        searchSuggestionsAdapter.setFilterQueryProvider(this);
+//        mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -631,6 +629,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             // Refresh
             case R.id.ml_menu_refresh:
                 forceRefresh(current);
+                break;
+            case R.id.ml_menu_search:
+                startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
@@ -753,7 +754,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     }
 
     @Override
-    public Cursor runQuery(CharSequence constraint) {
+    public Cursor runQuery(final CharSequence constraint) {
         return MediaDatabase.getInstance().queryMedia(constraint.toString());
     }
 

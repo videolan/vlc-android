@@ -3,6 +3,7 @@ package org.videolan.medialibrary;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 public class Tools {
@@ -16,5 +17,9 @@ public class Tools {
             return uri;
         String path = uri.toString();
         return Uri.parse(path.replace("/sdcard", Environment.getExternalStorageDirectory().getPath()));
+    }
+
+    public static boolean isArrayEmpty(@Nullable Object[] array) {
+        return array == null || array.length == 0;
     }
 }

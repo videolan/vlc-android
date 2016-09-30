@@ -165,6 +165,7 @@
     <string name="password">Password</string>
 
     <string name="search_results">Search results</string>
+    <string name="search_no_result">No media found</string>
     <string name="favorites_add">Add to favorites</string>
     <string name="favorites_remove">Remove from favorites</string>
     <string name="favorites_edit">Edit</string>
@@ -660,6 +661,9 @@
     <string name="subtitles_download_title">Subs download</string>
     <string name="connecting">Connecting...</string>
     <string name="save_bluetooth_delay">save delay for bluetooth device</string>
+    <string name="episodes">episodes</string>
+    <string name="movies">movies</string>
+    <string name="videos">videos</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>

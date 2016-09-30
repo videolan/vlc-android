@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="searchAggregate"
+            type="org.videolan.medialibrary.media.SearchAggregate" />
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.SearchActivity.ClickHandler" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/background_default"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:scaleType="center"
+                android:onClick="@{handler::onBack}" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/search_edit_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/search_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textFilter"
+                    android:textColor="?attr/font_default"
+                    android:background="@android:color/transparent" />
+            </android.support.design.widget.TextInputLayout>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_clear_orange"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"
+                android:onClick="@{handler::onClean}" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/background_default_darker"
+            android:visibility="@{searchAggregate.isEmpty ? View.GONE : View.VISIBLE}">
+            <LinearLayout
+                android:id="@+id/results_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/albums"
+                    android:textAppearance="@style/Result.Title"
+                    android:visibility="@{searchAggregate.albums.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/albums_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.albums.length == 0 ? View.GONE : View.VISIBLE}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/artists"
+                    android:visibility="@{searchAggregate.artists.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/artists_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.artists.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/genres"
+                    android:visibility="@{searchAggregate.genres.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/genres_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.genres.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/playlists"
+                    android:visibility="@{searchAggregate.playlists.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/playlists_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.playlists.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/episodes"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.episodes.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/episodes_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.episodes.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/movies"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.movies.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/movies_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.movies.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/videos"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.others.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/others_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.others.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="@style/Result.Title"
+                    android:text="@string/songs"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.tracks.length == 0 ? View.GONE : View.VISIBLE}"/>
+                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                    android:id="@+id/songs_results"
+                    style="@style/Result.List"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/background_default"
+                    android:visibility="@{searchAggregate.mediaSearchAggregate.tracks.length == 0 ? View.GONE : View.VISIBLE}"/>
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="@style/Result.Title"
+            android:visibility="@{searchAggregate.isEmpty ? View.VISIBLE : View.GONE}"
+            android:text="@string/search_no_result"/>
+    </LinearLayout>
+</layout>
