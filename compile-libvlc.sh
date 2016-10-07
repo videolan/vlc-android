@@ -306,6 +306,17 @@ then
     echo "make_standalone_toolchain.py failed"
     exit 1
 fi
+
+# don't use the dummy uchar.c
+cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
+    ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
+
+# Don't mess up nl_langinfo() detection since this symbol is not present for 64
+# bits
+if [ "${HAVE_64}" = 1 ];then
+    rm -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
+fi
+
 if [ ! -z "${NDK_FORCE_ARG}" ];then
     cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
 fi
@@ -526,14 +537,6 @@ else
     export ac_cv_func_uselocale=yes
 
     VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
-fi
-cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
-    ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
-
-if [ "${HAVE_64}" = 1 ];then
-    # Don't mess up nl_langinfo() detection since this symbol is not present
-    # for 64 bits
-    rm -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
 fi
 
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
