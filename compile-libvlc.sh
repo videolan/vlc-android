@@ -307,14 +307,16 @@ then
     exit 1
 fi
 
-# don't use the dummy uchar.c
-cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
-    ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
+if [ ! -z "${NDK_FORCE_ARG}" ];then
+    # don't use the dummy uchar.c
+    cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
+        ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
 
-# Don't mess up nl_langinfo() detection since this symbol is not present for 64
-# bits
-if [ "${HAVE_64}" = 1 ];then
-    rm -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
+    # Don't mess up nl_langinfo() detection since this symbol is not present for 64
+    # bits
+    if [ "${HAVE_64}" = 1 ];then
+        rm ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
+    fi
 fi
 
 if [ ! -z "${NDK_FORCE_ARG}" ];then
