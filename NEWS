@@ -1,3 +1,10 @@
+Changes between 2.0.0 and 2.1.0:
+----------------------------------
+
+Core
+ * Switch to clang and libc++_shared using ndk13
+
+
 Changes between 1.9.13 and 2.0.0:
 ----------------------------------
 
