@@ -274,14 +274,14 @@ fi
 # try to detect NDK version
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 
-if [ "$REL" -ge 12 ]; then
+if [ "$REL" -ge 13 ]; then
     if [ "${HAVE_64}" = 1 ];then
         ANDROID_API=21
     else
         ANDROID_API=9
     fi
 else
-    echo "You need the NDKv12 or later"
+    echo "You need the NDKv13 or later"
     exit 1
 fi
 
@@ -289,7 +289,6 @@ NDK_FORCE_ARG=
 NDK_TOOLCHAIN_DIR=${PWD}/toolchains/${PLATFORM_SHORT_ARCH}
 NDK_TOOLCHAIN_PROPS=${NDK_TOOLCHAIN_DIR}/source.properties
 NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
-NDK_SUPPORT_DIR=${NDK_TOOLCHAIN_DIR}/include/support
 
 if [ "`cat \"${NDK_TOOLCHAIN_PROPS}\" 2>/dev/null`" != "`cat \"${ANDROID_NDK}/source.properties\"`" ];then
      echo "NDK changed, making new toolchain"
@@ -309,11 +308,6 @@ then
 fi
 if [ ! -z "${NDK_FORCE_ARG}" ];then
     cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
-fi
-if [ ! -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/include/uchar.h ];
-then
-    cp ${ANDROID_NDK}/platforms/android-24/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
-        ${NDK_TOOLCHAIN_DIR}/sysroot/usr/include
 fi
 
 SRC_DIR=$PWD
@@ -528,16 +522,18 @@ if [ ${ANDROID_API} = "21" ] ; then
     export ac_cv_header_sys_shm_h=no
 else
     # force nanf and uselocale using libandroid_support since it's present in libc++
-    if [ ! -d ${NDK_SUPPORT_DIR} ];then
-        mkdir -p ${NDK_SUPPORT_DIR}
-        cp ${ANDROID_NDK}/sources/android/support/include/locale.h ${NDK_SUPPORT_DIR}
-        cp ${ANDROID_NDK}/sources/android/support/include/xlocale.h ${NDK_SUPPORT_DIR}
-        cp ${ANDROID_NDK}/sources/android/support/include/math.h ${NDK_SUPPORT_DIR}
-    fi
     export ac_cv_lib_m_nanf=yes
     export ac_cv_func_uselocale=yes
-    NDK_SUPPORT_INCLUDES="-I${NDK_SUPPORT_DIR}"
+
     VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
+fi
+cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
+    ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
+
+if [ "${HAVE_64}" = 1 ];then
+    # Don't mess up nl_langinfo() detection since this symbol is not present
+    # for 64 bits
+    rm -f ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
 fi
 
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
