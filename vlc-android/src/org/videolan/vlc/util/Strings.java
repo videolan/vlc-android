@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.util;
 
+import android.text.TextUtils;
+
 import org.videolan.vlc.BuildConfig;
 
 import java.text.DecimalFormat;
@@ -102,13 +104,6 @@ public class Strings {
     }
 
     /**
-     * equals() with two strings where either could be null
-     */
-    public static boolean nullEquals(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
-    }
-
-    /**
      * Get the formatted current playback speed in the form of 1.00x
      */
     public static String formatRateString(float rate) {
@@ -140,5 +135,12 @@ public class Strings {
 
     public static String buildPkgString(String string) {
         return BuildConfig.APPLICATION_ID + "." + string;
+    }
+
+    public static boolean stringArrayContains(String[] array, String string) {
+        for (int i = 0 ; i < array.length ; ++i)
+            if (TextUtils.equals(string, array[i]))
+                return true;
+        return false;
     }
 }

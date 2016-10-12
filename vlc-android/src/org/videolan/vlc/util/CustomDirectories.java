@@ -22,7 +22,6 @@ package org.videolan.vlc.util;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 
 import org.videolan.vlc.VLCApplication;
 
@@ -50,14 +49,14 @@ public class CustomDirectories {
 
     public static void removeCustomDirectory(String path) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        if(!preferences.getString("custom_paths", "").contains(path))
+        if (!preferences.getString("custom_paths", "").contains(path))
             return;
         ArrayList<String> dirs = new ArrayList<String>(
                 Arrays.asList(preferences.getString("custom_paths", "").split(
                         ":")));
         dirs.remove(path);
         String custom_path;
-        if(dirs.size() > 0) {
+        if (dirs.size() > 0) {
             StringBuilder builder = new StringBuilder();
             builder.append(dirs.remove(0));
             for(String s : dirs) {
@@ -76,19 +75,13 @@ public class CustomDirectories {
     public static String[] getCustomDirectories() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         final String custom_paths = preferences.getString("custom_paths", "");
-        if(custom_paths.equals(""))
+        if (custom_paths.equals(""))
             return new String[0];
         else
             return custom_paths.split(":");
     }
 
-    public static boolean contains(String directory){
-        directory = directory.trim();
-        String[] directories = getCustomDirectories();
-        for (int i = 0 ; i < directories.length ; ++i){
-            if (TextUtils.equals(directory, directories[i]))
-                return true;
-        }
-        return false;
+    public static boolean contains(String directory) {
+        return Strings.stringArrayContains(getCustomDirectories(), directory.trim());
     }
 }
