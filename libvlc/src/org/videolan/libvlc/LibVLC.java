@@ -38,9 +38,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         }
     }
 
-    /** Native crash handler */
-    private static OnNativeCrashListener sOnNativeCrashListener;
-
     /**
      * Create a LibVLC withs options
      *
@@ -115,19 +112,6 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     @Override
     protected void onReleaseNative() {
         nativeRelease();
-    }
-
-    public interface OnNativeCrashListener {
-        void onNativeCrash();
-    }
-
-    public static void setOnNativeCrashListener(OnNativeCrashListener l) {
-        sOnNativeCrashListener = l;
-    }
-
-    private static void onNativeCrash() {
-        if (sOnNativeCrashListener != null)
-            sOnNativeCrashListener.onNativeCrash();
     }
 
     /**

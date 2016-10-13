@@ -31,7 +31,6 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.CompatErrorActivity;
-import org.videolan.vlc.gui.NativeCrashActivity;
 
 public class VLCInstance {
     public final static String TAG = "VLC/UiTools/VLCInstance";
@@ -60,15 +59,6 @@ public class VLCInstance {
             }
 
             sLibVLC = new LibVLC(context, VLCOptions.getLibOptions());
-            LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
-                @Override
-                public void onNativeCrash() {
-                    Intent i = new Intent(context, NativeCrashActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(i);
-                }
-            });
-
             VLCApplication.runBackground(sCopyLua);
         }
         return sLibVLC;
