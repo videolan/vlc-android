@@ -42,10 +42,6 @@ struct fields {
     } FileDescriptor;
     struct {
         jclass clazz;
-        jmethodID onNativeCrashID;
-    } LibVLC;
-    struct {
-        jclass clazz;
         jfieldID mInstanceID;
         jmethodID dispatchEventFromNativeID;
         jmethodID getWeakReferenceID;

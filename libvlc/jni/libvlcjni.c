@@ -36,7 +36,6 @@
 
 #include "libvlcjni-vlcobject.h"
 #include "utils.h"
-#include "native_crash_handler.h"
 #include "std_logger.h"
 
 struct fields fields;
@@ -161,8 +160,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.FileDescriptor.descriptorID,
            fields.FileDescriptor.clazz,
            "descriptor", "I");
-    GET_CLASS(fields.LibVLC.clazz,
-              "org/videolan/libvlc/LibVLC", true);
     GET_CLASS(fields.VLCObject.clazz,
               "org/videolan/libvlc/VLCObject", true);
     GET_CLASS(fields.Media.clazz,
@@ -187,11 +184,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "org/videolan/libvlc/MediaDiscoverer$Description", true);
     GET_CLASS(fields.Dialog.clazz,
               "org/videolan/libvlc/Dialog", true);
-
-    GET_ID(GetStaticMethodID,
-           fields.LibVLC.onNativeCrashID,
-           fields.LibVLC.clazz,
-           "onNativeCrash", "()V");
 
     GET_ID(GetFieldID,
            fields.VLCObject.mInstanceID,
@@ -328,8 +320,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 #undef GET_CLASS
 #undef GET_ID
 
-    init_native_crash_handler();
-
     LOGD("JNI interface loaded.");
     return VLC_JNI_VERSION;
 }
@@ -337,8 +327,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 void JNI_OnUnload(JavaVM* vm, void* reserved)
 {
     JNIEnv* env = NULL;
-
-    destroy_native_crash_handler();
 
     if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
         return;
