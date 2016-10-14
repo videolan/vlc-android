@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -53,7 +54,7 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
@@ -279,10 +280,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 MediaUtils.openList(getActivity(), playList, position+offset);
                 return true;
             case R.id.video_list_info:
-                Intent i = new Intent(getActivity(), SecondaryActivity.class);
-                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.MEDIA_INFO);
-                i.putExtra(MediaInfoFragment.ITEM_KEY, media);
-                startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY);
+                BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
+                Bundle args = new Bundle();
+                args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
+                bottomSheetDialogFragment.setArguments(args);
+                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 return true;
             case R.id.video_list_delete:
                 mVideoAdapter.remove(position);

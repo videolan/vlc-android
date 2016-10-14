@@ -1,43 +1,24 @@
-/*****************************************************************************
- * MediaInfoActivity.java
- *****************************************************************************
- * Copyright © 2011-2015 VLC authors and VideoLAN
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
+package org.videolan.vlc.gui;
 
-package org.videolan.vlc.gui.video;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
@@ -49,8 +30,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
+import org.videolan.vlc.gui.video.MediaInfoAdapter;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
@@ -61,27 +42,27 @@ import org.videolan.vlc.util.WeakHandler;
 import java.io.File;
 import java.nio.ByteBuffer;
 
-public class MediaInfoFragment extends ListFragment {
+public class MediaInfoDialog extends BottomSheetDialogFragment {
 
-    public final static String TAG = "VLC/MediaInfoFragment";
+    public final static String TAG = "VLC/MediaInfoDialog";
 
     public final static String ITEM_KEY = "key_item";
 
     private MediaWrapper mItem;
+    private TextView mTitle;
+    private ListView mTracksList;
     private TextView mLengthView;
     private TextView mSizeView;
     private TextView mPathView;
     private View mProgress;
     private FloatingActionButton mPlayButton;
-    private ImageButton mDelete;
     private ImageView mSubtitles;
     private Media mMedia;
     private MediaInfoAdapter mAdapter;
-    private LoadImageTask mLoadImageTask = null;
+    private MediaInfoDialog.LoadImageTask mLoadImageTask = null;
     private final static int NEW_TEXT = 1;
-    private final static int HIDE_DELETE = 3;
-    private final static int EXIT = 4;
-    private final static int SHOW_SUBTITLES = 5;
+    private final static int EXIT = 2;
+    private final static int SHOW_SUBTITLES = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,34 +73,34 @@ public class MediaInfoFragment extends ListFragment {
     }
 
     @Override
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        View contentView = View.inflate(getContext(), R.layout.media_info, null);
+        dialog.setContentView(contentView);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.media_info, container, false);
 
+        mTitle = (TextView) v.findViewById(R.id.media_title);
         mLengthView = (TextView) v.findViewById(R.id.length);
+        mTracksList = (ListView) v.findViewById(android.R.id.list);
         mSizeView = (TextView) v.findViewById(R.id.size_value);
         mPathView = (TextView) v.findViewById(R.id.info_path);
         mPlayButton = (FloatingActionButton) v.findViewById(R.id.play);
-        mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
         mProgress = v.findViewById(R.id.image_progress);
-        mPlayButton.setOnClickListener(new OnClickListener() {
+        mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaUtils.openMedia(getContext(), mItem);
             }
         });
 
-        mDelete.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItem != null) {
-                    UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), mDeleteAction);
-                }
-            }
-        });
         mAdapter = new MediaInfoAdapter(getActivity());
-        setListAdapter(mAdapter);
+        mTracksList.setAdapter(mAdapter);
 
         return v;
     }
@@ -128,21 +109,18 @@ public class MediaInfoFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (mItem == null) {
-            // Shouldn't happen, maybe user opened it faster than Media Library could index it
+        // Shouldn't happen, maybe user opened it faster than Media Library could index it
+        if (mItem == null)
             return;
-        }
 
-        mCheckFileTask = (CheckFileTask) new CheckFileTask().execute();
-        mLoadImageTask = (LoadImageTask) new LoadImageTask().execute();
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
-        mLengthView.setText(Strings.millisToString(mItem.getLength()));
-
+        mTitle.setText(mItem.getTitle());
+        mCheckFileTask = (MediaInfoDialog.CheckFileTask) new MediaInfoDialog.CheckFileTask().execute();
+        mLoadImageTask = (MediaInfoDialog.LoadImageTask) new MediaInfoDialog.LoadImageTask().execute();
+        mLengthView.setText(mItem.getLength() > 0l ? Strings.millisToString(mItem.getLength()) : "");
         mPathView.setText(Uri.decode(mItem.getUri().getPath()));
     }
 
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         if (mCheckFileTask != null && !mCheckFileTask.isCancelled())
             mCheckFileTask.cancel(true);
@@ -164,7 +142,7 @@ public class MediaInfoFragment extends ListFragment {
         mHandler = null;
     }
 
-    CheckFileTask mCheckFileTask = null;
+    MediaInfoDialog.CheckFileTask mCheckFileTask = null;
     private class CheckFileTask extends AsyncTask<Void, Void, File> {
 
         private void checkSubtitles(File itemFile) {
@@ -211,8 +189,6 @@ public class MediaInfoFragment extends ListFragment {
         @Override
         protected File doInBackground(Void... params) {
             File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
-            if (!itemFile.canWrite() && mHandler != null)
-                mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
 
             if (mItem.getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
@@ -270,7 +246,7 @@ public class MediaInfoFragment extends ListFragment {
             if (!isCancelled()) {
                 if (mItem.getType() == MediaWrapper.TYPE_VIDEO) {
                     // Get the thumbnail.
-                    image = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+                    image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
                     byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
 
@@ -287,16 +263,22 @@ public class MediaInfoFragment extends ListFragment {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             mProgress.setVisibility(View.GONE);
-            if (bitmap == null)
-                return;
             ImageView imageView = (ImageView) getView().findViewById(R.id.image);
             imageView.setImageBitmap(bitmap);
+            if (bitmap == null) {
+                RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.image_layout);
+                if (layout != null) {
+                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) layout.getLayoutParams();
+                    lp.weight = 0f;
+                    layout.setLayoutParams(lp);
+                }
+                return;
+            }
             ViewGroup.LayoutParams lp = imageView.getLayoutParams();
             lp.height = bitmap.getHeight();
             lp.width = bitmap.getWidth();
             imageView.setLayoutParams(lp);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mLengthView.setVisibility(View.VISIBLE);
             mLoadImageTask = null;
         }
 
@@ -341,25 +323,21 @@ public class MediaInfoFragment extends ListFragment {
         }
     };
 
-    private Handler mHandler = new MediaInfoHandler(this);
+    private Handler mHandler = new MediaInfoDialog.MediaInfoHandler(this);
 
-    private static class MediaInfoHandler extends WeakHandler<MediaInfoFragment> {
-        public MediaInfoHandler(MediaInfoFragment owner) {
+    private static class MediaInfoHandler extends WeakHandler<MediaInfoDialog> {
+        public MediaInfoHandler(MediaInfoDialog owner) {
             super(owner);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            final MediaInfoFragment fragment = getOwner();
+            final MediaInfoDialog fragment = getOwner();
             if(fragment == null) return;
 
             switch (msg.what) {
                 case NEW_TEXT:
                     fragment.updateText();
-                    break;
-                case HIDE_DELETE:
-                    fragment.mDelete.setClickable(false);
-                    fragment.mDelete.setVisibility(View.GONE);
                     break;
                 case EXIT:
                     fragment.getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
@@ -371,5 +349,4 @@ public class MediaInfoFragment extends ListFragment {
             }
         }
     }
-
 }

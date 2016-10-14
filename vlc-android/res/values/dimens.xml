@@ -52,5 +52,6 @@
     <dimen name="half_default_margin">8dp</dimen>
     <dimen name="very_small_margin">4dp</dimen>
     <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="info_dialog_peek_height">120dip</dimen>
 
 </resources>

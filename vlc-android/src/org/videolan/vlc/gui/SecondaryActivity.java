@@ -38,7 +38,6 @@ import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
-import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
@@ -55,7 +54,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     public static final String ALBUM = "album";
     public static final String EQUALIZER = "equalizer";
     public static final String ABOUT = "about";
-    public static final String MEDIA_INFO = "mediaInfo";
     public static final String VIDEO_GROUP_LIST = "videoGroupList";
     public static final String STORAGE_BROWSER = "storage_browser";
 
@@ -157,11 +155,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             mFragment = new EqualizerFragment();
         } else if(id.equals(ABOUT)) {
             mFragment = new AboutFragment();
-        } else if(id.equals(MEDIA_INFO)) {
-            mFragment = new MediaInfoFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(MediaInfoFragment.ITEM_KEY, getIntent().getParcelableExtra(MediaInfoFragment.ITEM_KEY));
-            mFragment.setArguments(args);
         } else if(id.equals(VIDEO_GROUP_LIST)) {
             mFragment = new VideoGridFragment();
             ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));

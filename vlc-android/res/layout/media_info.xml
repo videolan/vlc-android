@@ -1,13 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    style="@style/Theme.VLC"
+    android:background="?attr/background_default"
+    android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/media_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/length"
+            android:layout_toStartOf="@+id/length"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:lines="1"
+            android:textColor="@color/orange800" />
+
+        <TextView
+            android:id="@+id/length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_toLeftOf="@+id/play"
+            android:layout_toStartOf="@+id/play"
+            android:layout_alignBottom="@+id/media_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?attr/font_light" />
+        <TextView
+            android:id="@+id/info_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/play"
+            android:layout_toStartOf="@+id/play"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/media_title"
+            android:textColor="?attr/font_light" />
+        <TextView
+            android:id="@+id/size_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/file_size"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_below="@+id/info_path"
+            android:gravity="center_vertical"
+            android:textColor="?attr/font_light" />
+        <TextView
+            android:id="@+id/size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info_path"
+            android:layout_toRightOf="@+id/size_title"
+            android:layout_toEndOf="@+id/size_title"
+            android:gravity="center_vertical"
+            android:textColor="?attr/font_light" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dip"
+            android:layout_marginLeft="20dip"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_fab_play"
+            android:tint="@color/grey50"
+            app:backgroundTint="@color/orange800" />
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -16,7 +96,7 @@
             <FrameLayout
                 android:id="@+id/image_container"
                 android:layout_width="fill_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content">
 
                 <ProgressBar
                     android:id="@+id/image_progress"
@@ -32,60 +112,18 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="36dp"
                     android:scaleType="fitCenter" />
-
-                <TextView
-                    android:id="@+id/length"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
-                    android:layout_marginLeft="@dimen/default_margin"
-                    android:layout_marginBottom="36dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/white"
-                    android:text="length"
-                    android:visibility="invisible"  />
             </FrameLayout>
-            <TextView
-                android:id="@+id/info_path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginBottom="5dp"
-                android:text="info_path"
-                android:layout_below="@+id/image_container"/>
-            <TextView
-                android:id="@+id/size_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/file_size"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginRight="5dp"
-                android:layout_below="@+id/info_path"/>
-            <TextView
-                android:id="@+id/size_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/info_path"
-                android:layout_toRightOf="@+id/size_title"/>
             <ImageView
                 android:id="@+id/info_subtitles"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@+id/info_path"
-                android:layout_toRightOf="@+id/size_value"
-                android:src="@drawable/ic_audiosub_circle_normal_o"
-                android:visibility="invisible"/>
-            <ImageButton
-                android:id="@+id/info_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/default_margin"
-                android:layout_below="@+id/info_path"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_below="@+id/image_container"
                 android:layout_alignParentRight="true"
-                android:clickable="true"
-                android:background="?attr/ic_trash_small_normal"
-                tools:targetApi="11"/>
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_audiosub_circle_normal_o"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <ListView
@@ -95,18 +133,8 @@
             android:cacheColorHint="#00000000"
             android:clipToPadding="false"
             android:divider="#00000000"
-            android:fastScrollEnabled="true"
+            android:nestedScrollingEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        app:rippleColor="@color/orange50"
-        android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dip"
-        android:src="@drawable/ic_fab_play"
-        android:tint="@color/grey50" />
-</FrameLayout>
+</LinearLayout>

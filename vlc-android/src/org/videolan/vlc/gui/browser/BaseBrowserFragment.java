@@ -23,11 +23,11 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,11 +50,9 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -496,10 +494,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 });
                 return true;
             case  R.id.directory_view_info:
-                Intent i = new Intent(getActivity(), SecondaryActivity.class);
-                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.MEDIA_INFO);
-                i.putExtra(MediaInfoFragment.ITEM_KEY, mw);
-                getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+                BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
+                Bundle args = new Bundle();
+                args.putParcelable(MediaInfoDialog.ITEM_KEY, mw);
+                bottomSheetDialogFragment.setArguments(args);
+                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 return true;
             case R.id.directory_view_play_audio:
                 if (mService != null) {
@@ -521,9 +520,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 medias.add(mw);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
-                savePlaylistDialog.setArguments(args);
+                Bundle infoArgs = new Bundle();
+                infoArgs.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+                savePlaylistDialog.setArguments(infoArgs);
                 savePlaylistDialog.show(fm, "fragment_add_to_playlist");
                 return true;
             case R.id.directory_subtitles_download:

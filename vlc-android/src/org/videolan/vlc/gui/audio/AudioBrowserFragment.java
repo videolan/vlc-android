@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -61,12 +62,12 @@ import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -427,10 +428,11 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         }
 
         if (id == R.id.audio_view_info) {
-            Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.MEDIA_INFO);
-            i.putExtra(MediaInfoFragment.ITEM_KEY, mSongsAdapter.getItem(position));
-            getActivity().startActivityForResult(i, MainActivity.ACTIVITY_RESULT_SECONDARY);
+            BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
+            Bundle args = new Bundle();
+            args.putParcelable(MediaInfoDialog.ITEM_KEY, mSongsAdapter.getItem(position));
+            bottomSheetDialogFragment.setArguments(args);
+            bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
             return true;
         }
 
