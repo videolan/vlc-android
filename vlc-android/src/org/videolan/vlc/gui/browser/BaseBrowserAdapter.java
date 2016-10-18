@@ -23,6 +23,9 @@
 package org.videolan.vlc.gui.browser;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,6 +35,7 @@ import android.view.ViewGroup;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
@@ -39,7 +43,6 @@ import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.CustomDirectories;
 
 import java.io.File;
@@ -49,14 +52,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     protected static final int TYPE_MEDIA = 0;
     protected static final int TYPE_SEPARATOR = 1;
     protected static final int TYPE_STORAGE = 2;
 
-    protected int FOLDER_RES_ID = R.drawable.ic_menu_folder;
+    protected static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
+
+    private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
+    private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
+    private static final BitmapDrawable IMAGE_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_video_normal));
+    private static final BitmapDrawable IMAGE_SUBTITLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_subtitle_normal));
+    private static final BitmapDrawable IMAGE_UNKNOWN = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_unknown_normal));
 
     ArrayList<Object> mMediaList = new ArrayList<Object>();
     BaseBrowserFragment fragment;
@@ -73,8 +82,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder vh;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ViewHolder vh;
         View v;
         if (viewType == TYPE_MEDIA) {
             v = LayoutInflater.from(parent.getContext())
@@ -89,29 +98,37 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
         if (viewType == TYPE_MEDIA) {
-            onBindMediaViewHolder(holder, position);
+            onBindMediaViewHolder((MediaViewHolder) holder, position);
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
             vh.binding.setTitle(getItem(position).toString());
         }
     }
 
-    private void onBindMediaViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        final MediaViewHolder vh = (MediaViewHolder) holder;
+    private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setMedia(media);
         vh.binding.setType(TYPE_MEDIA);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
             vh.binding.setProtocol(getProtocol(media));
-        vh.binding.executePendingBindings();
-
-        vh.binding.dviIcon.setBackgroundResource(getIconResId(media));
-
+        vh.binding.setImage(getIcon(media));
         vh.setContextMenuListener();
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        if (holder.getType() == TYPE_MEDIA) {
+            final MediaViewHolder vh = (MediaViewHolder) holder;
+            vh.binding.setMedia(null);
+            vh.binding.setHasContextMenu(false);
+            vh.binding.setProtocol(null);
+            vh.binding.setImage(null);
+            vh.binding.executePendingBindings();
+        }
     }
 
     @Override
@@ -119,7 +136,9 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         return mMediaList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public abstract class ViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder {
+
+        public T binding;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -129,10 +148,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         public void onCheckBoxClick(View v){}
 
         public void onMoreClick(View v){}
+
+        public abstract int getType();
     }
 
-    public class MediaViewHolder extends ViewHolder implements View.OnLongClickListener {
-        public DirectoryViewItemBinding binding;
+    public class MediaViewHolder extends ViewHolder<DirectoryViewItemBinding> implements View.OnLongClickListener {
 
         public MediaViewHolder(View v) {
             super(v);
@@ -174,18 +194,27 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         @Override
+        public int getType() {
+            return TYPE_MEDIA;
+        }
+
+        @Override
         public boolean onLongClick(View v) {
             fragment.mRecyclerView.openContextMenu(getLayoutPosition());
             return true;
         }
     }
 
-    public class SeparatorViewHolder extends ViewHolder {
-        BrowserItemSeparatorBinding binding;
+    public class SeparatorViewHolder extends ViewHolder<BrowserItemSeparatorBinding> {
 
         public SeparatorViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
+        }
+
+        @Override
+        public int getType() {
+            return TYPE_SEPARATOR;
         }
     }
 
@@ -336,9 +365,10 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public int getItemViewType(int position){
-        if (getItem(position) instanceof  MediaWrapper)
+        final Object item = getItem(position);
+        if (item instanceof  MediaWrapper)
             return TYPE_MEDIA;
-        else if (getItem(position) instanceof Storage)
+        else if (item instanceof Storage)
             return TYPE_STORAGE;
         else
             return TYPE_SEPARATOR;
@@ -373,18 +403,18 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
-    protected int getIconResId(MediaWrapper media) {
+    protected BitmapDrawable getIcon(MediaWrapper media) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
-                return R.drawable.ic_browser_audio_normal;
+                return IMAGE_AUDIO;
             case MediaWrapper.TYPE_DIR:
-                return FOLDER_RES_ID;
+                return IMAGE_FOLDER;
             case MediaWrapper.TYPE_VIDEO:
-                return R.drawable.ic_browser_video_normal;
+                return IMAGE_VIDEO;
             case MediaWrapper.TYPE_SUBTITLE:
-                return R.drawable.ic_browser_subtitle_normal;
+                return IMAGE_SUBTITLE;
             default:
-                return R.drawable.ic_browser_unknown_normal;
+                return IMAGE_UNKNOWN;
         }
     }
     protected String getProtocol(MediaWrapper media) {

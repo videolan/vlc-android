@@ -94,11 +94,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         MediaWrapper media = getItem(position);
         if (media == null)
             return;
-        holder.binding.setVariable(BR.cover, null);
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
         fillView(holder, media);
-
         holder.binding.setVariable(BR.media, media);
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.binding.setVariable(BR.cover, null);
+        holder.binding.setVariable(BR.resolution, null);
+        holder.binding.setVariable(BR.time, null);
+        holder.binding.setVariable(BR.max, 0);
+        holder.binding.setVariable(BR.progress, 0);
         holder.binding.executePendingBindings();
     }
 

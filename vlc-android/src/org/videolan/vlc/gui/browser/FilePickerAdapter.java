@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.videolan.libvlc.Media;
@@ -45,16 +44,14 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
             super.addItem(mediaWrapper, notify, top);
     }
 
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setMedia(media);
         vh.binding.setHasContextMenu(false);
         vh.binding.setType(TYPE_MEDIA);
         vh.binding.setProtocol(null);
-        vh.binding.executePendingBindings();
-
-        vh.binding.dviIcon.setBackgroundResource(getIconResId(media));
+        vh.binding.setImage(getIcon(media));
     }
 
     //TODO update with different filter types in other cases than subtitles selection

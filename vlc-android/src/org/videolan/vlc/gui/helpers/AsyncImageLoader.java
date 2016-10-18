@@ -156,6 +156,8 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"media", "binding"})
     public static void loadPicture(ImageView v, MediaLibraryItem item, ViewDataBinding vdb) {
+        if (item == null)
+            return;
         if (item instanceof MediaWrapper) {
             if (item instanceof MediaGroup)
                 item = ((MediaGroup) item).getFirstMedia();

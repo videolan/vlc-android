@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.Util;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
@@ -46,8 +45,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder vh;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ViewHolder vh;
         View v;
         v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.directory_view_item, parent, false);
@@ -56,7 +55,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final Storage storage = (Storage) getItem(position);
         String storagePath = storage.getUri().getPath();
@@ -69,6 +68,12 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         if (hasContextMenu)
             vh.setContextMenuListener();
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        final MediaViewHolder vh = (MediaViewHolder) holder;
+        vh.binding.setStorage(null);
     }
 
     public void addItem(Object item, boolean notify, boolean top){
