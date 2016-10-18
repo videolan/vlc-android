@@ -359,8 +359,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         /* Load media items from database and storage */
         if (mScanNeeded && Permissions.canReadStorage())
             mMediaLibrary.reload();
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
-            mActionBar.hide();
+//        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
+//            mActionBar.hide();
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
@@ -770,11 +770,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
             switch (msg.what) {
                 case ACTIVITY_SHOW_INFOLAYOUT:
+                    if (ma.mInfoLayout.getVisibility() != View.VISIBLE)
+                        ma.mAppBarLayout.setExpanded(false, true);
                     ma.mInfoLayout.setVisibility(View.VISIBLE);
                     break;
                 case ACTIVITY_HIDE_INFOLAYOUT:
                     removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
                     ma.mInfoLayout.setVisibility(View.GONE);
+                    ma.mAppBarLayout.setExpanded(true, true);
                     break;
                 case ACTIVITY_SHOW_PROGRESSBAR:
                     ma.mInfoProgress.setVisibility(View.VISIBLE);
@@ -848,31 +851,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             mHandler.obtainMessage(ACTIVITY_UPDATE_PROGRESS, 100, percent).sendToTarget();
         else
             mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
-    }
-
-    // Player is expanded
-    protected void onPanelClosedUiSet() {
-        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
-
-    // Player is hidden
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    protected void onPanelOpenedEntirelyUiSet() {
-        View fab = findViewById(R.id.fab);
-        if (fab != null && AndroidUtil.isHoneycombOrLater())
-            fab.setY(fab.getY()+mAudioPlayerFilling.getHeight());
-        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
-    }
-
-    // Player is shown folded
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    protected void onPanelOpenedUiSet() {
-        View fab = findViewById(R.id.fab);
-        if (fab != null && AndroidUtil.isHoneycombOrLater() &&
-                fab.getY() > (mAudioPlayerFilling.getY()-mAudioPlayerFilling.getHeight()))
-            fab.setY(fab.getY()-mAudioPlayerFilling.getHeight());
-        mDrawerLayout.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
-        removeTipViewIfDisplayed();
     }
 
     @Override

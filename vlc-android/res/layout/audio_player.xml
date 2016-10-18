@@ -136,7 +136,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
-        android:layout_above="@+id/player_controls">
+        android:layout_above="@+id/player_controls"
+        android:background="?attr/background_default">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/songs_list"
@@ -144,7 +145,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layout_gravity="center_horizontal"
-            android:background="?attr/background_default"
+            android:background="@android:color/white"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher

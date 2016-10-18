@@ -25,11 +25,15 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.content.Context;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import org.videolan.vlc.R;
 
 public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior {
 
@@ -39,14 +43,14 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        return dependency instanceof Snackbar.SnackbarLayout;
+        return dependency.getId() == R.id.audio_player_container || dependency instanceof Snackbar.SnackbarLayout || dependency instanceof AppBarLayout;
     }
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        if (dependency instanceof Snackbar.SnackbarLayout) {
-            float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
-            child.setTranslationY(translationY);
+        if (dependency.getId() == R.id.audio_player_container) {
+            int childHeight = ((CoordinatorLayout.LayoutParams)child.getLayoutParams()).bottomMargin + child.getHeight();
+            ViewCompat.setY(child, ViewCompat.getY(dependency) - childHeight);
             return true;
         } else
             return super.onDependentViewChanged(parent, child, dependency);

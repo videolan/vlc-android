@@ -197,7 +197,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     public void onStop() {
         super.onStop();
         mFabPlayShuffleAll.setOnClickListener(null);
-        mFabPlayShuffleAll.setVisibility(View.GONE);
+        mFabPlayShuffleAll.setVisibility(View.INVISIBLE);
     }
 
     private void setupTabLayout() {
@@ -491,10 +491,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     }
 
     public void setFabPlayShuffleAllVisibility() {
-        if (mViewPager.getCurrentItem() == MODE_SONG)
-            mFabPlayShuffleAll.setVisibility(View.VISIBLE);
-        else
-            mFabPlayShuffleAll.setVisibility(View.GONE);
+        mFabPlayShuffleAll.setVisibility(mViewPager.getCurrentItem() == MODE_SONG ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**

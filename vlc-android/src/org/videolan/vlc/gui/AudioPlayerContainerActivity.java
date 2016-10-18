@@ -33,7 +33,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -45,15 +48,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.widget.SlidingPaneLayout;
-
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
@@ -81,11 +81,10 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
-    protected SlidingPaneLayout mSlidingPane;
-    protected View mAudioPlayerFilling;
     protected SharedPreferences mSettings;
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
+    protected BottomSheetBehavior mBottomSheetBehavior;
 
     protected boolean mPreventRescan = false;
 
@@ -111,15 +110,17 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mActionBar = getSupportActionBar();
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
-        mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
-        mSlidingPane.setPanelSlideListener(mPanelSlideListener);
-        mAudioPlayerFilling = findViewById(R.id.audio_player_filling);
-
+        mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mAudioPlayer.setUserVisibleHint(false);
+        mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.audio_player_container));
+        mBottomSheetBehavior.setHideable(true);
+        mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
+        mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
+    }
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.audio_player, mAudioPlayer)
-                .commit();
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override
@@ -185,7 +186,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         if (!mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
-            ViewGroup root = (ViewGroup) findViewById(R.id.pane).getParent();
+            ViewGroup root = (ViewGroup) findViewById(R.id.coordinator).getParent();
             root.addView(v, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             v.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +213,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Remove the current tip view if there is one displayed.
      */
     public void removeTipViewIfDisplayed() {
-            ViewGroup root = (ViewGroup) findViewById(R.id.pane).getParent();
+            ViewGroup root = (ViewGroup) findViewById(R.id.coordinator).getParent();
         if (root.getChildCount() > 2){
             for (int i = 0 ; i< root.getChildCount() ; ++i){
                 if (root.getChildAt(i).getId() == R.id.audio_tips)
@@ -224,20 +225,11 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Show the audio player.
      */
     public void showAudioPlayer() {
-        mActivityHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mActionBar.collapseActionView();
-                // Open the pane only if is entirely opened.
-                if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
-                    mSlidingPane.openPane();
-                mAudioPlayerFilling.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    public int  getSlidingPaneState() {
-        return mSlidingPane.getState();
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            mActionBar.collapseActionView();
+            mAppBarLayout.setExpanded(false, true);
+        }
     }
 
     /**
@@ -245,8 +237,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * @return true on success else false.
      */
     public boolean slideDownAudioPlayer() {
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED) {
-            mSlidingPane.openPane();
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             return true;
         }
         return false;
@@ -256,97 +248,71 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Slide up and down the audio player depending on its current state.
      */
     public void slideUpOrDownAudioPlayer() {
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED){
-            mSlidingPane.openPane();
-        } else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED){
-            mSlidingPane.closePane();
-        }
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN)
+            return;
+        mBottomSheetBehavior.setState(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED?
+                BottomSheetBehavior.STATE_COLLAPSED : BottomSheetBehavior.STATE_EXPANDED);
     }
 
     /**
      * Hide the audio player.
      */
     public void hideAudioPlayer() {
-        mSlidingPane.openPaneEntirely();
-        mAudioPlayerFilling.setVisibility(View.GONE);
+        mBottomSheetBehavior.setHideable(true);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
-            if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER)) {
+            if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER))
                 showAudioPlayer();
-            }
         }
     };
-
-    private final SlidingPaneLayout.PanelSlideListener mPanelSlideListener
-            = new SlidingPaneLayout.PanelSlideListener() {
-        float previousOffset =  1.0f;
-        @Override
-        public void onPanelSlide(float slideOffset) {
-            if (slideOffset >= 0.1 && slideOffset > previousOffset && !mAppBarLayout.isShown())
-                mAppBarLayout.setExpanded(true);
-            else if (slideOffset <= 0.1 && slideOffset < previousOffset && mAppBarLayout.isShown())
-                mAppBarLayout.setExpanded(false);
-            previousOffset = slideOffset;
-        }
-
-        @Override
-        public void onPanelOpened() {
-            int resId = UiTools.getResourceFromAttribute(AudioPlayerContainerActivity.this, R.attr.shadow_bottom_9patch);
-            if (resId != 0)
-                mSlidingPane.setShadowResource(resId);
-            mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
-            mAudioPlayer.setUserVisibleHint(false);
-            onPanelOpenedUiSet();
-            mAudioPlayer.showAudioPlayerTips();
-        }
-
-        @Override
-        public void onPanelOpenedEntirely() {
-            mAudioPlayer.setUserVisibleHint(false);
-            mSlidingPane.setShadowDrawable(null);
-            onPanelOpenedEntirelyUiSet();
-            mAppBarLayout.setExpanded(true);
-        }
-
-        @Override
-        public void onPanelClosed() {
-            mAudioPlayer.setUserVisibleHint(true);
-            mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
-            onPanelClosedUiSet();
-            mAudioPlayer.showPlaylistTips();
-            mAppBarLayout.setExpanded(false);
-        }
-
-    };
-
-    protected void onPanelClosedUiSet() {}
-
-    protected void onPanelOpenedEntirelyUiSet() {}
-
-    protected void onPanelOpenedUiSet() {}
 
     private final BroadcastReceiver storageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
-            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
+            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED))
                 mActivityHandler.obtainMessage(ACTION_MEDIA_MOUNTED, intent.getData()).sendToTarget();
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED)) {
+            else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED))
                 mActivityHandler.sendMessageDelayed(mActivityHandler.obtainMessage(ACTION_MEDIA_UNMOUNTED, intent.getData()), 100);
-            }
         }
     };
 
     Handler mActivityHandler = new StorageHandler(this);
+    AudioPlayerBottomSheetCallback mAudioPlayerBottomSheetCallback = new AudioPlayerBottomSheetCallback();
 
     private static final int ACTION_MEDIA_MOUNTED = 1337;
     private static final int ACTION_MEDIA_UNMOUNTED = 1338;
+
+    private class AudioPlayerBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            switch (newState) {
+                case BottomSheetBehavior.STATE_COLLAPSED:
+                    mBottomSheetBehavior.setHideable(false);
+                    mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
+                    mAudioPlayer.setUserVisibleHint(false);
+                    removeTipViewIfDisplayed();
+                    break;
+                case BottomSheetBehavior.STATE_EXPANDED:
+                    mBottomSheetBehavior.setHideable(false);
+                    mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
+                    mAudioPlayer.setUserVisibleHint(true);
+                    mAudioPlayer.showAudioPlayerTips();
+                    break;
+                case BottomSheetBehavior.STATE_HIDDEN:
+                    removeTipViewIfDisplayed();
+                    break;
+            }
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+    }
 
     private static class StorageHandler extends WeakHandler<AudioPlayerContainerActivity> {
 

@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -135,11 +136,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return R.layout.directory_browser;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
         mEmptyView = (TextView) v.findViewById(android.R.id.empty);
-        mFAB = (FloatingActionButton) v.findViewById(R.id.fab);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -150,6 +150,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        mFAB.setImageResource(R.drawable.ic_fab_play);
     }
 
     @Override
@@ -333,7 +340,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mFAB.setVisibility(View.VISIBLE);
                 mFAB.setOnClickListener(this);
             } else {
-                mFAB.setVisibility(View.GONE);
+                mFAB.setVisibility(View.INVISIBLE);
                 mFAB.setOnClickListener(null);
             }
         }

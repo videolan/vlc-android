@@ -38,18 +38,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.videolan.vlc.R.id.hide;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
@@ -97,7 +95,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
         if (mRoot) {
-            mFAB.setVisibility(View.GONE);
+            mFAB.setVisibility(View.INVISIBLE);
             mFAB.setOnClickListener(null);
         }
     }

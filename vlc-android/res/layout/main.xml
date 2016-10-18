@@ -11,12 +11,6 @@
     android:nextFocusDown="@+id/ml_menu_search"
     android:nextFocusForward="@+id/ml_menu_search"
     android:fitsSystemWindows="true" >
-    <com.android.widget.SlidingPaneLayout
-        android:id="@+id/pane"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:overhangSize="60dp"
-        android:orientation="vertical">
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="match_parent"
@@ -24,7 +18,7 @@
 
             <include layout="@layout/toolbar"/>
 
-            <org.videolan.vlc.gui.view.ContentLinearLayout
+            <LinearLayout
                 android:id="@+id/content_container"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -65,13 +59,19 @@
                         android:textColor="#FFFFFFFF" />
                 </RelativeLayout>
 
-                <View
-                    android:id="@+id/audio_player_filling"
-                    android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:visibility="gone" />
+            </LinearLayout>
 
-            </org.videolan.vlc.gui.view.ContentLinearLayout>
+            <FrameLayout
+                android:id="@+id/audio_player_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+                <fragment
+                    android:id="@+id/audio_player"
+                    android:name="org.videolan.vlc.gui.audio.AudioPlayer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+            </FrameLayout>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
@@ -83,16 +83,10 @@
                 app:rippleColor="@color/orange50"
                 app:layout_anchor="@+id/fragment_placeholder"
                 app:layout_anchorGravity="bottom|end"
-                android:visibility="gone"
+                app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
+                android:visibility="invisible"
                 android:layout_margin="16dp"/>
         </android.support.design.widget.CoordinatorLayout>
-
-        <FrameLayout
-            android:id="@+id/audio_player"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </com.android.widget.SlidingPaneLayout>
 
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView

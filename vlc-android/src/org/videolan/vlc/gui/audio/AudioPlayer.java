@@ -56,6 +56,7 @@ import android.widget.ViewSwitcher;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -69,7 +70,6 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.gui.view.CoverMediaSwitcher;
 import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
@@ -314,7 +314,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         if (mService.hasMedia() && !mService.isVideoPlaying()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
-            if (isResumed() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
+            if (isResumed() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
                 mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
                 mService.switchToVideo();
                 return;
@@ -350,19 +350,19 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             mShuffle.setContentDescription(getResources().getString(R.string.shuffle));
         }
         switch(mService.getRepeatType()) {
-        case PlaybackService.REPEAT_NONE:
-            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
-            mRepeat.setContentDescription(getResources().getString(R.string.repeat));
-            break;
-        case PlaybackService.REPEAT_ONE:
-            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
-            mRepeat.setContentDescription(getResources().getString(R.string.repeat_single));
-            break;
-        default:
-        case PlaybackService.REPEAT_ALL:
-            mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
-            mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
-            break;
+            case PlaybackService.REPEAT_NONE:
+                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
+                mRepeat.setContentDescription(getResources().getString(R.string.repeat));
+                break;
+            case PlaybackService.REPEAT_ONE:
+                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
+                mRepeat.setContentDescription(getResources().getString(R.string.repeat_single));
+                break;
+            default:
+            case PlaybackService.REPEAT_ALL:
+                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
+                mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
+                break;
         }
 
         mShuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
