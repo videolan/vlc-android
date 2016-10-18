@@ -308,10 +308,6 @@ then
 fi
 
 if [ ! -z "${NDK_FORCE_ARG}" ];then
-    # don't use the dummy uchar.c
-    cp ${ANDROID_NDK}/platforms/android-21/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
-        ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include
-
     # Don't mess up nl_langinfo() detection since this symbol is not present for 64
     # bits
     if [ "${HAVE_64}" = 1 ];then
@@ -476,6 +472,13 @@ fi
 
 echo "Building the contribs"
 mkdir -p contrib/contrib-android-${TARGET_TUPLE}
+
+# don't use the dummy uchar.c
+if [ ! -f contrib/${TARGET_TUPLE}/include/uchar.h ]; then
+    mkdir -p contrib/${TARGET_TUPLE}/include
+    cp ${ANDROID_NDK}/platforms/android-24/arch-${PLATFORM_SHORT_ARCH}/usr/include/uchar.h \
+        contrib/${TARGET_TUPLE}/include/uchar.h
+fi
 
 gen_pc_file() {
     echo "Generating $1 pkg-config file"
