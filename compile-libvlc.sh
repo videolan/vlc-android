@@ -572,6 +572,7 @@ STRIP="${CROSS_TOOLS}strip" \
 RANLIB="${CROSS_TOOLS}ranlib" \
 AR="${CROSS_TOOLS}ar" \
 PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
+PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
 PATH=../contrib/bin:$PATH \
 sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
     --with-contrib=${VLC_SRC_DIR}/contrib/${TARGET_TUPLE} \
