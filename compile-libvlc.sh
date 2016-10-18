@@ -325,6 +325,10 @@ SRC_DIR=$PWD
 CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
 
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
+if [ ! -z "$MSYSTEM_PREFIX" ] ; then
+    # The make.exe and awk.exe from the toolchain don't work in msys
+    export PATH=$MSYSTEM_PREFIX/bin:/usr/bin:${NDK_TOOLCHAIN_PATH}:${PATH}
+fi
 
 ON_WINDOWS=0
 if [ ! -z "$MSYSTEM_PREFIX" ] ; then
