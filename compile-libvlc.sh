@@ -550,7 +550,6 @@ if [ "${CHROME_OS}" = "1" ];then
     export ac_cv_func_pipe2=no
 fi
 
-NDK_SUPPORT_INCLUDES=""
 if [ ${ANDROID_API} = "21" ] ; then
     # android-21 has empty sys/shm.h headers that triggers shm detection but it
     # doesn't have any shm functions and/or symbols. */
@@ -564,8 +563,7 @@ else
 fi
 
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
-CPPFLAGS="${CONTRIB_INCLUDES}" \
-CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS} ${NDK_SUPPORT_INCLUDES}" \
+CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
 CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
 CC="${CROSS_TOOLS}clang" \
 CXX="${CROSS_TOOLS}clang++" \
