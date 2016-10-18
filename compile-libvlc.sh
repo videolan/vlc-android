@@ -330,6 +330,13 @@ CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
 
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
+ON_WINDOWS=0
+if [ ! -z "$MSYSTEM_PREFIX" ] ; then
+    # The make.exe and awk.exe from the toolchain don't work in msys
+    export PATH=$MSYSTEM_PREFIX/bin:/usr/bin:${NDK_TOOLCHAIN_PATH}:${PATH}
+    ON_WINDOWS=1
+fi
+
 ###############
 # DISPLAY ABI #
 ###############
@@ -674,7 +681,11 @@ fi
 
 echo "Building NDK"
 
-$ANDROID_NDK/ndk-build -C libvlc \
+if [ $ON_WINDOWS -eq 1 ]; then
+    OSCMD=.cmd
+fi
+
+$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_STL="c++_shared" \
     LOCAL_CPP_FEATURES="rtti exceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
@@ -694,7 +705,7 @@ $ANDROID_NDK/ndk-build -C libvlc \
 
 checkfail "ndk-build failed"
 
-$ANDROID_NDK/ndk-build -C libvlc \
+$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
     LIBIOMX_LIBS="$LIBIOMX_LIBS" \
