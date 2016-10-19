@@ -11,12 +11,12 @@ ANDROID_PRIVATE_LIBS=$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libstagefright.so
 					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libhardware.so
 
 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/%.so: $(ANDROID_PRIVATE_LIBDIR)/%.c
-	mkdir -p $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)
+	$(shell mkdir -p $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE))
 	$(GEN)clang $< -shared -o $@
 
 $(ANDROID_PRIVATE_LIBDIR)/%.c: $(ANDROID_PRIVATE_LIBDIR)/%.symbols
 	$(VERBOSE)rm -f $@ && touch $@
-	$(GEN)for s in `cat $<`; do echo "void $$s() {}" >> $@; done
+	$(GEN)$(shell for s in `cat $<`; do echo \"void $$s() {}\" >> $@; done)
 
 ###########
 # libiOMX #
