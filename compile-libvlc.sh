@@ -717,7 +717,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG}
 
-checkfail "ndk-build failed"
+checkfail "ndk-build failed for libvlc"
 
 $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
@@ -731,7 +731,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     NDK_PROJECT_PATH=private_libs \
     NDK_TOOLCHAIN_VERSION=clang
 
-checkfail "ndk-build failed"
+checkfail "ndk-build failed for private libs"
 
 VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
