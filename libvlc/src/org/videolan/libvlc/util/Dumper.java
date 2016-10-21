@@ -59,7 +59,7 @@ public class Dumper {
         options.add("--no-video");
         options.add("--no-audio");
         options.add("--no-spu");
-        options.add("-vvv");
+        options.add("-vv");
         mLibVLC = new LibVLC(null, options);
 
         final Media media = new Media(mLibVLC, uri);

@@ -116,7 +116,7 @@ public class VLCOptions {
         options.add("--keystore-file");
         options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
-        options.add(verboseMode ? "-vvv" : "-vv");
+        options.add(verboseMode ? "-vv" : "-v");
 
         return options;
     }
