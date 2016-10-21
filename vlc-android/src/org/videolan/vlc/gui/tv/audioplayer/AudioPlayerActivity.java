@@ -356,7 +356,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     private void goPrevious() {
         if (mService != null && mService.hasPrevious()) {
-            mService.previous();
+            mService.previous(false);
         }
     }
 

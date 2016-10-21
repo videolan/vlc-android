@@ -465,7 +465,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 if (hasCurrentMedia())
                     pause();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
-                previous();
+                previous(false);
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP) ||
                     action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
                 stop();
@@ -1100,7 +1100,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         @Override
         public void onSkipToPrevious() {
-            previous();
+            previous(true);
         }
 
         @Override
@@ -1115,7 +1115,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
 
         @Override
         public void onRewind() {
-            previous();
+            previous(false);
         }
     }
 
@@ -1205,9 +1205,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     }
 
     @MainThread
-    public void previous() {
+    public void previous(boolean force) {
         if (hasPrevious() && mCurrentIndex > 0 &&
-                (!mMediaPlayer.isSeekable() || mMediaPlayer.getTime() < 2000l)) {
+                (force || !mMediaPlayer.isSeekable() || mMediaPlayer.getTime() < 2000l)) {
             int size = mMediaList.size();
             mCurrentIndex = mPrevIndex;
             if (mPrevious.size() > 0)

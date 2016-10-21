@@ -2291,7 +2291,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.next();
                 break;
             case R.id.playlist_previous:
-                mService.previous();
+                mService.previous(false);
                 break;
             case R.id.player_overlay_forward:
                 seekDelta(10000);

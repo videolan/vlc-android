@@ -505,7 +505,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService == null)
             return;
         if (mService.hasPrevious() || mService.isSeekable())
-            mService.previous();
+            mService.previous(false);
         else
             Snackbar.make(getView(), R.string.firstsong, Snackbar.LENGTH_SHORT).show();
     }
@@ -603,7 +603,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             if (mService == null)
                 return;
             if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
-                mService.previous();
+                mService.previous(true);
             else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
                 mService.next();
         }
@@ -635,7 +635,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             if (mService == null)
                 return;
             if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
-                mService.previous();
+                mService.previous(true);
             else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
                 mService.next();
         }
