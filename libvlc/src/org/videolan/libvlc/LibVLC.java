@@ -138,7 +138,8 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         sLoaded = true;
 
         System.loadLibrary("c++_shared");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             try {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR1)
                     System.loadLibrary("anw.10");
