@@ -8,7 +8,15 @@
         android:defaultValue="false"
         android:key="enable_black_theme"
         android:summary="@string/enable_black_theme_summary"
-        android:title="@string/enable_black_theme" />
+        android:title="@string/enable_black_theme"
+        android:disableDependentsState="true" />
+
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="daynight"
+        android:dependency="enable_black_theme"
+        android:summary="@string/daynight_summary"
+        android:title="@string/daynight_title" />
 
     <CheckBoxPreference
         android:key="tv_ui"

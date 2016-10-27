@@ -264,6 +264,8 @@
     <string name="enable_black_theme">Enable the black theme</string>
     <string name="enable_black_theme_summary">Change the interface colours for better comfort in low light environments.</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
+    <string name="daynight_title">DayNight mode</string>
+    <string name="daynight_summary">Automatically switch to night mode at appropriate time</string>
 
     <string name="extra_prefs_category">Extra settings</string>
 

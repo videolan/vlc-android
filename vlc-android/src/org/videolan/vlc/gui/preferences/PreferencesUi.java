@@ -25,10 +25,13 @@ package org.videolan.vlc.gui.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.SwitchPreferenceCompat;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
 
 public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -72,6 +75,9 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
                 return true;
             case "enable_black_theme":
                 ((PreferencesActivity) getActivity()).exitAndRescan();
+                return true;
+            case "daynight":
+                AppCompatDelegate.setDefaultNightMode(((SwitchPreferenceCompat)preference).isChecked() ? AppCompatDelegate.MODE_NIGHT_AUTO : AppCompatDelegate.MODE_NIGHT_NO);
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
