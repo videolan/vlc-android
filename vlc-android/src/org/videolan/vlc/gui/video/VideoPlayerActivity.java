@@ -526,7 +526,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onResume() {
         super.onResume();
-
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
@@ -1694,6 +1693,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         updateNavStatus();
         if (!mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_PAUSED))
             mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
+        else {
+            mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_PAUSED);
+            mWasPaused = false;
+        }
         setESTracks();
     }
 
@@ -3014,8 +3017,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             title = itemTitle;
         mTitle.setText(title);
 
-        if (mWasPaused)
+        if (mWasPaused) {
+            // XXX: Workaround to update the seekbar position
+            mForcedTime = savedTime;
+            setOverlayProgress();
+            mForcedTime = -1;
+
             showOverlay(true);
+        }
     }
 
     private SubtitlesGetTask mSubtitlesGetTask = null;
