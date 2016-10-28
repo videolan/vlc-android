@@ -268,6 +268,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mOverlayTimeout = 0;
     private boolean mLockBackButton = false;
     boolean mWasPaused = false;
+    private long mSavedTime = -1;
+    private float mSavedRate = 1.f;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -677,7 +679,38 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
             switchToAudioMode(false);
         }
+
         stopPlayback();
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        if (mSavedTime != -1) {
+            // Save position
+            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
+                MediaDatabase.getInstance().updateMedia(
+                        mUri,
+                        MediaDatabase.INDEX_MEDIA_TIME,
+                        mSavedTime);
+            } else {
+                // Video file not in media library, store time just for onResume()
+                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime);
+            }
+        }
+
+        editor.putFloat(PreferencesActivity.VIDEO_RATE, mSavedRate);
+
+        // Save selected subtitles
+        String subtitleList_serialized = null;
+        if(mSubtitleSelectedFiles.size() > 0) {
+            Log.d(TAG, "Saving selected subtitle files");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(bos);
+                oos.writeObject(mSubtitleSelectedFiles);
+                subtitleList_serialized = bos.toString();
+            } catch(IOException e) {}
+        }
+        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
+        editor.apply();
 
         restoreBrightness();
 
@@ -747,6 +780,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPlaybackStarted || mService == null)
             return;
 
+        mSavedRate = 1.0f;
+        mSavedTime = -1;
         mPlaybackStarted = true;
 
         final IVLCVout vlcVout = mService.getVLCVout();
@@ -881,54 +916,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.showWithoutParse(mService.getCurrentMediaPosition());
             return;
         }
-        if (!mWasPaused)
-            mService.pause();
+
 
         cleanUI();
 
-        long time = getTime();
-        long length = mService.getLength();
-        //remove saved position if in the last 5 seconds
-        if (length - time < 5000)
-            time = 0;
-        else
-            time -= 2000; // go back 2 seconds, to compensate loading time
-
-        SharedPreferences.Editor editor = mSettings.edit();
-        // Save position
         if (mService.isSeekable()) {
-            if(MediaDatabase.getInstance().mediaItemExists(mUri)) {
-                MediaDatabase.getInstance().updateMedia(
-                        mUri,
-                        MediaDatabase.INDEX_MEDIA_TIME,
-                        time);
-            } else {
-                // Video file not in media library, store time just for onResume()
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
-            }
+            mSavedTime = getTime();
+            long length = mService.getLength();
+            //remove saved position if in the last 5 seconds
+            if (length - mSavedTime < 5000)
+                mSavedTime = 0;
+            else
+                mSavedTime -= 2000; // go back 2 seconds, to compensate loading time
         }
 
-        editor.putFloat(PreferencesActivity.VIDEO_RATE, mService.getRate());
-        mRateHasChanged = mService.getRate() != 1.0f;
+        mSavedRate = mService.getRate();
+        mRateHasChanged = mSavedRate != 1.0f;
 
-        if (isFinishing()) {
-            // Save selected subtitles
-            String subtitleList_serialized = null;
-            if(mSubtitleSelectedFiles.size() > 0) {
-                Log.d(TAG, "Saving selected subtitle files");
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(bos);
-                    oos.writeObject(mSubtitleSelectedFiles);
-                    subtitleList_serialized = bos.toString();
-                } catch(IOException e) {}
-            }
-            editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
-
-            mService.setRate(1.0f, false);
-            mService.stop();
-        }
-        editor.apply();
+        mService.setRate(1.0f, false);
+        mService.stop();
     }
 
     private void cleanUI() {
