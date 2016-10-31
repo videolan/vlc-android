@@ -189,6 +189,11 @@
         <item name="android:windowBackground">@color/grey200</item>
     </style>
 
+    <style name="Theme.VLC.Transparent" parent="Theme.AppCompat.DayNight">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>
     <style name="Theme.VLC.Player.7" parent="Theme.AppCompat">
         <item name="android:windowNoTitle">true</item>
