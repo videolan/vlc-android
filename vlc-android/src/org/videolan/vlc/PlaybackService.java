@@ -1201,6 +1201,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
             Log.w(TAG, "Warning: invalid next index, aborted !");
             //Close video player if started
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(VideoPlayerActivity.EXIT_PLAYER));
+            showNotification();
             return;
         }
         mVideoBackground = !isVideoPlaying() && canSwitchToVideo();
