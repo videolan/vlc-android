@@ -39,129 +39,114 @@
             type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
     </data>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/layout_item"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/very_small_margin"
-        vlc:cardElevation="2sp"
-        vlc:cardPreventCornerOverlap="false"
-        vlc:cardUseCompatPadding="true"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{holder::onClick}"
-        android:longClickable="true">
+        android:longClickable="true"  >
+        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
+        <ImageView
+            android:id="@+id/ml_item_thumbnail"
+            android:layout_width="120dp"
+            android:layout_height="75dp"
+            android:layout_margin="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/background_default_darker"
+            vlc:media="@{media}"
+            vlc:binding="@{holder.binding}"
+            android:scaleType="@{scaleType}"
+            android:src="@{cover}" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/ml_item_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/background_default"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ml_item_thumbnail"
+            android:layout_toEndOf="@+id/ml_item_thumbnail"
+            android:layout_toLeftOf="@+id/item_more"
+            android:layout_toStartOf="@+id/item_more"
+            android:layout_above="@+id/ml_item_resolution"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:paddingLeft="@dimen/half_default_margin"
+            android:paddingStart="@dimen/half_default_margin"
+            android:text="@{media.title}"
+            android:textColor="?attr/list_title"
+            android:textSize="17sp" />
 
-            <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
-            <ImageView
-                android:id="@+id/ml_item_thumbnail"
-                android:layout_width="120dp"
-                android:layout_height="75dp"
-                android:background="?attr/background_default_darker"
-                vlc:media="@{media}"
-                vlc:binding="@{holder.binding}"
-                android:scaleType="@{scaleType}"
-                android:src="@{cover}" />
+        <ImageView
+            android:id="@+id/item_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/ml_item_time"
+            android:clickable="true"
+            android:contentDescription="@string/more_actions"
+            android:onClick="@{holder::onMoreClick}"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_more" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/ml_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ml_item_thumbnail"
+                android:layout_toEndOf="@+id/ml_item_thumbnail"
+                android:layout_above="@+id/ml_item_progress"
+                android:background="@color/transparent"
+                android:fontFamily="sans-serif-light"
+                android:gravity="start"
+                android:layout_marginLeft="@dimen/half_default_margin"
+                android:layout_marginStart="@dimen/half_default_margin"
+                android:text="@{time}"
+                android:textColor="?attr/list_subtitle"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ml_item_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/ml_item_time"
+                android:layout_toEndOf="@+id/ml_item_time"
+                android:layout_above="@+id/ml_item_progress"
+                android:layout_marginRight="@dimen/half_default_margin"
+                android:layout_marginEnd="@dimen/half_default_margin"
+                android:background="@color/transparent"
+                android:fontFamily="sans-serif-light"
+                android:gravity="end"
+                android:text="@{resolution}"
+                android:textColor="?attr/list_subtitle"
+                android:textSize="14sp" />
+
+            <ProgressBar
+                android:id="@+id/ml_item_progress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/ml_item_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/item_more"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:paddingLeft="@dimen/half_default_margin"
-                    android:text="@{media.title}"
-                    android:textColor="?attr/list_title"
-                    android:textSize="17sp" />
-
-                <ImageView
-                    android:id="@+id/item_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_above="@+id/info_layout"
-                    android:clickable="true"
-                    android:contentDescription="@string/more_actions"
-                    android:onClick="@{holder::onMoreClick}"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_more" />
-
-                <LinearLayout
-                    android:id="@+id/info_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ml_item_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@color/transparent"
-                            android:fontFamily="sans-serif-light"
-                            android:gravity="left"
-                            android:paddingLeft="@dimen/half_default_margin"
-                            android:text="@{time}"
-                            android:textColor="?attr/list_subtitle"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/ml_item_resolution"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/half_default_margin"
-                            android:layout_weight="1"
-                            android:background="@color/transparent"
-                            android:fontFamily="sans-serif-light"
-                            android:gravity="right"
-                            android:text="@{resolution}"
-                            android:textColor="?attr/list_subtitle"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <ProgressBar
-                        android:id="@+id/ml_item_progress"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dip"
-                        android:layout_marginLeft="@dimen/half_default_margin"
-                        android:layout_marginRight="@dimen/half_default_margin"
-                        android:layout_marginTop="1dp"
-                        android:focusable="false"
-                        android:indeterminate="false"
-                        android:max="@{max}"
-                        android:maxHeight="2dip"
-                        android:minHeight="2dip"
-                        android:progress="@{progress}"
-                        android:progressDrawable="?attr/gridview_progressbar"
-                        android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ml_item_thumbnail"
+                android:layout_toEndOf="@+id/ml_item_thumbnail"
+                android:layout_alignBottom="@+id/ml_item_thumbnail"
+                android:layout_marginBottom="2dip"
+                android:layout_marginLeft="@dimen/half_default_margin"
+                android:layout_marginRight="@dimen/half_default_margin"
+                android:layout_marginTop="1dp"
+                android:focusable="false"
+                android:indeterminate="false"
+                android:max="@{max}"
+                android:maxHeight="2dip"
+                android:minHeight="2dip"
+                android:progress="@{progress}"
+                android:progressDrawable="?attr/gridview_progressbar"
+                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
+    </RelativeLayout>
 </layout>

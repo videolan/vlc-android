@@ -33,7 +33,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
@@ -78,14 +77,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         boolean listMode = viewType == TYPE_LIST;
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
-
-        if (!mListMode) {
-            mThumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
-            int width = mFragment.mGridView.getColumnWidth();
-            int height = width*10/16;
-            mThumbnail.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-        }
-
         return new ViewHolder(v, listMode);
     }
 
@@ -94,7 +85,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         MediaWrapper media = getItem(position);
         if (media == null)
             return;
-        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+        holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
     }

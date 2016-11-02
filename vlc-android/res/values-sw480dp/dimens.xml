@@ -4,4 +4,8 @@
     <dimen name="images_margin_sides">60dp</dimen>
     <dimen name="overlay_margin">5dp</dimen>
     <dimen name="tab_layout_horizontal_padding">20dp</dimen>
+    <dimen name="grid_card_thumb_width">190dp</dimen>
+    <dimen name="grid_card_thumb_height">110dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="half_default_margin">8dp</dimen>
 </resources>

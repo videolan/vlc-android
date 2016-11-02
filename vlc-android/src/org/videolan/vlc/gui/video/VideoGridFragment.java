@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaGroup;
@@ -86,6 +87,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     private Handler mHandler = new Handler();
     private VideoListAdapter mVideoAdapter;
     private VideoGridAnimator mAnimator;
+    private DividerItemDecoration mDividerItemDecoration;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
@@ -115,6 +117,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST);
         mGridView.addOnScrollListener(mScrollListener);
         mGridView.setAdapter(mVideoAdapter);
         return v;
@@ -230,12 +233,15 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             mGridView.setNumColumns(-1);
             int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, res.getDimensionPixelSize(R.dimen.default_margin)));
+            mGridView.removeItemDecoration(mDividerItemDecoration);
         } else {
             mGridView.setNumColumns(1);
+            mGridView.addItemDecoration(mDividerItemDecoration);
         }
         if (mVideoAdapter.isListMode() != listMode)
             mVideoAdapter.setListMode(listMode);
     }
+
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);

@@ -1,6 +1,6 @@
 <resources>
-    <dimen name="grid_card_thumb_width">200dp</dimen>
-    <dimen name="grid_card_thumb_height">125dp</dimen>
+    <dimen name="grid_card_thumb_width">250dp</dimen>
+    <dimen name="grid_card_thumb_height">150dp</dimen>
     <dimen name="grid_card_title_text_size">16sp</dimen>
     <dimen name="grid_card_subtitle_text_size">12sp</dimen>
     <dimen name="grid_card_vertical_spacing">10dp</dimen>
