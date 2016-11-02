@@ -841,11 +841,15 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
 
             // add notification to status bar
+            StringBuilder contentBuilder = new StringBuilder(artist);
+            if (contentBuilder.length() > 0 && !TextUtils.isEmpty(album))
+                contentBuilder.append(" - ");
+            contentBuilder.append(album);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setSmallIcon(R.drawable.ic_stat_vlc)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
-                .setContentText(artist + " - " + album)
+                .setContentText(contentBuilder.toString())
                 .setLargeIcon(cover)
                 .setTicker(title + " - " + artist)
                 .setAutoCancel(!mMediaPlayer.isPlaying())
