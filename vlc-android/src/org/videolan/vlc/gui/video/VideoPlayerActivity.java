@@ -784,7 +784,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
         } else {
             vlcVout.setVideoView(mPresentation.mSurfaceView);
-            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
+            if (mPresentation.mSubtitlesSurfaceView.getVisibility() != View.GONE)
                 vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
         vlcVout.addCallback(this);
