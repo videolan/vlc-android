@@ -1,6 +1,21 @@
 Changes between 2.0.0 and 2.1.0:
 ----------------------------------
 
+Application:
+ * Switch to MediaLibrary
+ * Refactored AudioPlayer to get rid of SlidingPane layout
+ * CoordinatorLayout integration
+ * New Search activity and integration with Google Now
+ * Redesigned audio and video lists/grid
+ * Media Info view is now a BottomSheet pane
+ * DayNight mode integration
+ * Force previous song on audioplayer swipe
+ * Transparent theme for smoother startup
+ * Fix audioplayer layout for black theme and RTL
+ * Fix notification content when no artist nor album
+ * Update notification when playlist is ended
+ * Upgraded AppCompat to version 24.2.1
+
 Core
  * Switch to clang and libc++_shared using ndk13
 
