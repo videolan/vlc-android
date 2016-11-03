@@ -15,16 +15,15 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.view.FastScroller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> {
+public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
-    public static final int TYPE_MEDIA = 0;
-    public static final int TYPE_SEPARATOR = 1;
     private boolean mMakeSections = true;
 
     public interface ClickHandler {
@@ -32,10 +31,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         void onCtxClick(View v, int position, MediaLibraryItem item);
     }
 
-    ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
-    ArrayList<DummyItem> mSeparators = new ArrayList<>();
-    Activity mContext;
-    ClickHandler mClickHandler;
+    private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
+    private ArrayList<DummyItem> mSeparators = new ArrayList<>();
+    private Activity mContext;
+    private ClickHandler mClickHandler;
 
     public AudioBrowserAdapter(Activity context, ClickHandler clickHandler, boolean sections) {
         mContext = context;
@@ -46,7 +45,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (viewType == TYPE_SEPARATOR) {
+        if (viewType == MediaLibraryItem.TYPE_DUMMY) {
             AudioBrowserSeparatorBinding binding = AudioBrowserSeparatorBinding.inflate(inflater, parent, false);
             return new ViewHolder(binding);
         } else {
@@ -60,7 +59,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         if (position >= mDataList.size())
             return;
         holder.vdb.setVariable(BR.item, mDataList.get(position));
-        if (holder.getType() == TYPE_MEDIA)
+        if (holder.getType() == MediaLibraryItem.TYPE_MEDIA)
             holder.vdb.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
     }
 
@@ -86,18 +85,18 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return mDataList;
     }
 
-    public ArrayList<MediaLibraryItem> getMediaItems() {
+    ArrayList<MediaLibraryItem> getMediaItems() {
         ArrayList<MediaLibraryItem> list = new ArrayList<>();
         for (MediaLibraryItem item : mDataList)
-            if (!(item instanceof DummyItem))
+            if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY))
                 list.add(item);
         return list;
     }
 
-    public int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
+    int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
         int offset = 0;
         for (int i = 0; i < mDataList.size(); ++i)
-            if (mDataList.get(i) instanceof DummyItem) {
+            if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
@@ -115,7 +114,20 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position) instanceof DummyItem ? TYPE_SEPARATOR : TYPE_MEDIA;
+        return getItem(position).getItemType();
+    }
+
+    public boolean hasSections() {
+        return mMakeSections;
+    }
+
+    @Override
+    public String getSectionforPosition(int position) {
+        if (mMakeSections)
+            for (int i = position; i >= 0; --i)
+                if (getItem(i).getItemType() == MediaLibraryItem.TYPE_DUMMY)
+                    return getItem(i).getTitle();
+        return "";
     }
 
     public boolean isEmpty() {
@@ -194,12 +206,12 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
 
         public int getType() {
-            return TYPE_SEPARATOR;
+            return MediaLibraryItem.TYPE_DUMMY;
         }
     }
     public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener {
 
-        public MediaItemViewHolder(AudioBrowserItemBinding binding) {
+        MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
             itemView.setOnLongClickListener(this);
@@ -222,7 +234,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
 
         public int getType() {
-            return TYPE_MEDIA;
+            return MediaLibraryItem.TYPE_MEDIA;
         }
     }
 }

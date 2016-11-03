@@ -52,6 +52,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
@@ -61,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, AudioBrowserAdapter.ClickHandler {
+public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, AudioBrowserAdapter.ClickHandler, TabLayout.OnTabSelectedListener {
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -72,9 +73,11 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
+    TabLayout mTabLayout;
     private List<View> mLists;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
+    private FastScroller mFastScroller;
 
     public final static int MODE_ALBUM = 0;
     public final static int MODE_SONG = 1;
@@ -121,8 +124,10 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
+        mFastScroller = (FastScroller) v.findViewById(R.id.songs_fast_scroller);
+
         mViewPager.setOnTouchListener(mSwipeFilter);
-        TabLayout mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
         songsList.setAdapter(mSongsAdapter);
@@ -143,6 +148,8 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mFastScroller.setRecyclerView((RecyclerView) mLists.get(mViewPager.getCurrentItem()));
+        mTabLayout.addOnTabSelectedListener(this);
         updateList();
     }
 
@@ -309,7 +316,7 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         }
     };
 
-    public void clear(){
+    public void clear() {
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
     }
@@ -365,5 +372,18 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         if (getActivity() == null)
             return;
         getActivity().getMenuInflater().inflate(R.menu.audio_list_browser, menu);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mFastScroller.setRecyclerView((RecyclerView) mLists.get(tab.getPosition()));
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {}
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        ((RecyclerView)mLists.get(tab.getPosition())).smoothScrollToPosition(0);
     }
 }

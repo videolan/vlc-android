@@ -39,8 +39,7 @@
                 android:clipToPadding="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideInset"
+                android:scrollbars="none"
                 android:focusable="true"
                 android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
@@ -55,8 +54,7 @@
                 android:clipToPadding="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideInset"
+                android:scrollbars="none"
                 android:focusable="true"
                 android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
@@ -71,8 +69,7 @@
                 android:clipToPadding="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideInset"
+                android:scrollbars="none"
                 android:focusable="true"
                 android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
@@ -87,8 +84,7 @@
                 android:clipToPadding="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideInset"
+                android:scrollbars="none"
                 android:focusable="true"
                 android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
@@ -103,8 +99,7 @@
                 android:clipToPadding="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:fastScrollEnabled="true"
-                android:scrollbarStyle="outsideInset"
+                android:scrollbars="none"
                 android:focusable="true"
                 android:nestedScrollingEnabled="true"
                 android:nextFocusUp="@id/header"
@@ -113,9 +108,17 @@
                 android:nextFocusRight="@+id/playlists_list" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+    <org.videolan.vlc.gui.view.FastScroller
+        android:id="@+id/songs_fast_scroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/swipeLayout"
+        android:visibility="invisible"/>
 
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"
-        android:layout_height="9dp"
-        android:layout_below="@+id/sliding_tabs" />
+        android:layout_below="@+id/sliding_tabs"
+        android:layout_height="9dp" />
 </RelativeLayout>

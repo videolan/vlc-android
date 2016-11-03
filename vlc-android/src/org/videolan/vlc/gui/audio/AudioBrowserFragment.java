@@ -1,7 +1,7 @@
 /*****************************************************************************
  * AudioBrowserFragment.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2016 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,9 +52,6 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
-import org.videolan.medialibrary.media.Album;
-import org.videolan.medialibrary.media.Artist;
-import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -69,6 +65,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IBrowser;
@@ -83,7 +80,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb {
+public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -100,6 +97,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     private TabLayout mTabLayout;
     private TextView mEmptyView;
     private List<View> mLists;
+    private FastScroller mFastScroller;
     private FloatingActionButton mFabPlayShuffleAll;
 
     public static final int REFRESH = 101;
@@ -143,6 +141,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         ContextMenuRecyclerView genreList = (ContextMenuRecyclerView)v.findViewById(R.id.genres_list);
         ContextMenuRecyclerView playlistsList = (ContextMenuRecyclerView)v.findViewById(R.id.playlists_list);
 
+        mFastScroller = (FastScroller) v.findViewById(R.id.songs_fast_scroller);
+
         mLists = Arrays.asList((View)artistList, albumList, songsList, genreList, playlistsList);
 
         songsList.setAdapter(mSongsAdapter);
@@ -178,6 +178,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         }
 
         mViewPager.setOnTouchListener(mSwipeFilter);
+        mFastScroller.setRecyclerView((RecyclerView) mLists.get(mViewPager.getCurrentItem()));
     }
 
     public void onStart() {
@@ -201,24 +202,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     }
 
     private void setupTabLayout() {
-        final PagerAdapter adapter = mViewPager.getAdapter();
-        mTabLayout.setTabsFromPagerAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                ((RecyclerView)mLists.get(tab.getPosition())).smoothScrollToPosition(0);
-            }
-        });
+        mTabLayout.addOnTabSelectedListener(this);
     }
 
     RecyclerView.OnScrollListener mRVScrollListener = new RecyclerView.OnScrollListener() {
@@ -385,8 +371,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
             final MediaLibraryItem mediaLibraryItem = adapter.getItem(position);
             String message;
             Runnable action;
-            final MediaLibraryItem separator = adapter.getItemViewType(position-1) == AudioBrowserAdapter.TYPE_SEPARATOR &&
-                    adapter.getItemViewType(position+1) == AudioBrowserAdapter.TYPE_SEPARATOR ? adapter.getItem(position-1) : null;
+            final MediaLibraryItem separator = adapter.getItemViewType(position-1) == MediaLibraryItem.TYPE_DUMMY &&
+                    adapter.getItemViewType(position+1) == MediaLibraryItem.TYPE_DUMMY ? adapter.getItem(position-1) : null;
             adapter.remove(position);
             if (separator != null)
                 adapter.remove(position-1);
@@ -596,6 +582,19 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         setFabPlayShuffleAllVisibility();
     }
 
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mFastScroller.setRecyclerView((RecyclerView) mLists.get(tab.getPosition()));
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {}
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        ((RecyclerView) mLists.get(tab.getPosition())).smoothScrollToPosition(0);
+    }
+
     private void deleteMedia(final MediaWrapper mw) {
         VLCApplication.runBackground(new Runnable() {
             @Override
@@ -633,19 +632,19 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
-        if (item instanceof Artist || item instanceof Genre) {
+        if (item.getItemType() == MediaLibraryItem.TYPE_ARTIST || item.getItemType() == MediaLibraryItem.TYPE_GENRE) {
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
             i.putExtra(AudioAlbumsSongsFragment.TAG_ITEM, item);
             startActivity(i);
-        } else if (item instanceof MediaWrapper) {
+        } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
             mService.load((MediaWrapper) item);
-        } else if (item instanceof Album) {
+        } else if (item.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
             i.putExtra(AudioAlbumFragment.TAG_ITEM, item);
             startActivity(i);
-        } else if (item instanceof Playlist) {
+        } else if (item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST) {
             mService.load(item.getTracks(mMediaLibrary), 0);
         }
     }

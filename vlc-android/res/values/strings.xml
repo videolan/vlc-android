@@ -445,7 +445,11 @@
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
 
-    <!-- PLugins -->
+    <!-- fast scroller -->
+    <string name="fastscroller_track">FastScroller track</string>
+    <string name="fastscroller_handle">FastScroller handle</string>
+
+    <!-- Plugins -->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Download</string>
     <string name="extension_empty">No item to display, go to your extension settings to get some.</string>

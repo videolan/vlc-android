@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="true"
                 android:clipToPadding="false"
-                android:fastScrollEnabled="true"
+                android:scrollbars="none"
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:fastScrollEnabled="true"
+                android:scrollbars="none"
                 android:nestedScrollingEnabled="true"
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:paddingLeft="20dp"
@@ -50,6 +50,14 @@
                 style="@style/Theme.VLC.List" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+    <org.videolan.vlc.gui.view.FastScroller
+        android:id="@+id/songs_fast_scroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/swipeLayout"
+        android:visibility="invisible"/>
 
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"
