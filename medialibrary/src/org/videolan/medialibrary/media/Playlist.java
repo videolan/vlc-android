@@ -19,6 +19,11 @@ public class Playlist extends MediaLibraryItem {
         return nativeGetTracksFromPlaylist(ml, mId);
     }
 
+    @Override
+    public int getItemType() {
+        return TYPE_PLAYLIST;
+    }
+
     public boolean append(Medialibrary ml, long mediaId) {
         return nativePlaylistAppend(ml, mId, mediaId);
     }

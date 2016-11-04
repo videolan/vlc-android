@@ -57,6 +57,11 @@ public class Album extends MediaLibraryItem {
         return nativeGetTracksFromAlbum(ml, mId);
     }
 
+    @Override
+    public int getItemType() {
+        return TYPE_ALBUM;
+    }
+
     private native MediaWrapper[] nativeGetTracksFromAlbum(Medialibrary ml, long mId);
 
     @Override

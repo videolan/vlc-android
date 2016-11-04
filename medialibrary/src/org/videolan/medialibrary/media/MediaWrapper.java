@@ -265,6 +265,11 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return new MediaWrapper[] {this};
     }
 
+    @Override
+    public int getItemType() {
+        return TYPE_MEDIA;
+    }
+
     public long getId() {
         return mId;
     }

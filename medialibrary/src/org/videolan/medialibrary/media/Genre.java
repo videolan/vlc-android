@@ -23,6 +23,11 @@ public class Genre extends MediaLibraryItem {
         return nativeGetTracksFromGenre(ml, mId);
     }
 
+    @Override
+    public int getItemType() {
+        return TYPE_GENRE;
+    }
+
     private native Album[] nativeGetAlbumsFromGenre(Medialibrary ml, long mId);
     private native Artist[] nativeGetArtistsFromGenre(Medialibrary ml, long mId);
     private native MediaWrapper[] nativeGetTracksFromGenre(Medialibrary ml, long mId);

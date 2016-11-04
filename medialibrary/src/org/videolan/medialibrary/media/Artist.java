@@ -46,6 +46,11 @@ public class Artist extends MediaLibraryItem {
         return nativeGetMediaFromArtist(ml, mId);
     }
 
+    @Override
+    public int getItemType() {
+        return TYPE_ARTIST;
+    }
+
     private native Album[] nativeGetAlbumsFromArtist(Medialibrary ml, long mId);
     private native MediaWrapper[] nativeGetMediaFromArtist(Medialibrary ml, long mId);
 

@@ -7,7 +7,15 @@ import org.videolan.medialibrary.Medialibrary;
 
 public abstract class MediaLibraryItem implements Parcelable {
 
+    public static final int TYPE_ALBUM = 0;
+    public static final int TYPE_ARTIST = 1;
+    public static final int TYPE_GENRE = 2;
+    public static final int TYPE_PLAYLIST = 3;
+    public static final int TYPE_MEDIA = 4;
+    public static final int TYPE_DUMMY = 5;
+
     public abstract MediaWrapper[] getTracks(Medialibrary ml);
+    public abstract int getItemType();
 
     protected long mId;
     protected String mTitle;

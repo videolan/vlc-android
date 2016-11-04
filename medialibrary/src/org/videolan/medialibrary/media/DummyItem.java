@@ -17,6 +17,11 @@ public class DummyItem extends MediaLibraryItem {
     }
 
     @Override
+    public int getItemType() {
+        return TYPE_DUMMY;
+    }
+
+    @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
     }
