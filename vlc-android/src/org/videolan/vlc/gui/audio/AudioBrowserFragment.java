@@ -518,6 +518,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
                     mSwipeRefreshLayout.setRefreshing(false);
                     mDisplaying = false;
                     updateEmptyView(mViewPager.getCurrentItem());
+                    mFastScroller.setRecyclerView((RecyclerView) mLists.get(mViewPager.getCurrentItem()));
                 }
             });
     }

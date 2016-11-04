@@ -155,6 +155,8 @@ public class FastScroller extends LinearLayout {
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
+        if (mRecyclerView != null)
+            mRecyclerView.removeOnScrollListener(scrollListener);
         setVisibility(INVISIBLE);
         mItemCount = recyclerView.getAdapter().getItemCount();
         this.mRecyclerView = recyclerView;
