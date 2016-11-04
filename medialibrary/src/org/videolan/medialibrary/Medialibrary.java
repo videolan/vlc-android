@@ -59,7 +59,6 @@ public class Medialibrary {
     private static final MediaWrapper[] EMPTY_COLLECTION = {};
 
     private long mInstanceID;
-    private Context mContext;
     private boolean mIsInitiated = false;
 
     private MediaUpdatedCb mediaUpdatedCb = null;
@@ -78,13 +77,13 @@ public class Medialibrary {
     }
 
     private Medialibrary(Context context) {
-        mContext = context instanceof Application ? context : context.getApplicationContext();
-        if (canReadStorage())
-            init();
+        context = context instanceof Application ? context : context.getApplicationContext();
+        if (canReadStorage(context))
+            init(context);
     }
 
-    public void init() {
-        nativeInit(mContext.getCacheDir()+"/vlc_media.db", mContext.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
+    public void init(Context context) {
+        nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
         mIsInitiated = true;
     }
 
@@ -403,8 +402,8 @@ public class Medialibrary {
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);
 
-    private boolean canReadStorage() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(mContext,
+    private boolean canReadStorage(Context context) {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 

@@ -210,7 +210,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mMediaLibrary.init();
+                    mMediaLibrary.init(this);
                     ((VLCApplication) VLCApplication.getAppContext()).discoverStorages(mMediaLibrary);
                 } else {
                     Permissions.showStoragePermissionDialog(this, false);

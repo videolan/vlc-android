@@ -113,7 +113,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     private static final int ACTIVITY_UPDATE_PROGRESS = 7;
 
 
-    Medialibrary mMediaLibrary;
+    private Medialibrary mMediaLibrary;
 
     private HackyDrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -252,7 +252,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mMediaLibrary.init();
+                    mMediaLibrary.init(this);
                     ((VLCApplication) VLCApplication.getAppContext()).discoverStorages(mMediaLibrary);
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
