@@ -488,9 +488,9 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     @Override
     public void onRefresh() {
         if (!mMediaLibrary.isWorking()) {
-            mMediaLibrary.addDeviceDiscoveryCb(this);
-            mMediaLibrary.reload();
-        }
+            updateLists();
+        } else
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

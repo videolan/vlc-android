@@ -466,9 +466,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onRefresh() {
-        if (getActivity() != null && !VLCApplication.getMLInstance().isWorking()) {
-            VLCApplication.getMLInstance().reload();
-        }
+        if (!VLCApplication.getMLInstance().isWorking())
+           updateList();
+        else
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
