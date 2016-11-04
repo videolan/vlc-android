@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -20,7 +22,7 @@ import org.videolan.vlc.gui.view.FastScroller;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter {
+public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -32,7 +34,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
-    private ArrayList<DummyItem> mSeparators = new ArrayList<>();
+    private ArrayList<MediaLibraryItem> mOriginalDataSet = null;
+    private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private ClickHandler mClickHandler;
 
@@ -136,12 +139,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     public void clear() {
         mDataList.clear();
+        mOriginalDataSet = null;
         notifyDataSetChanged();
     }
 
     public void addAll(MediaLibraryItem[] items) {
         if (mContext == null)
             return;
+        mOriginalDataSet = null;
         if (mMakeSections) {
             mDataList.clear();
             boolean isLetter;
@@ -156,14 +161,12 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                     currentLetter = isLetter ? firstLetter : "#";
                     DummyItem sep = new DummyItem(currentLetter);
                     mDataList.add(sep);
-                    mSeparators.add(sep);
                 }
                 //Add a new separator
                 if (isLetter && !TextUtils.equals(currentLetter, firstLetter)) {
                     currentLetter = firstLetter;
                     DummyItem sep = new DummyItem(currentLetter);
                     mDataList.add(sep);
-                    mSeparators.add(sep);
                 }
                     mDataList.add(item);
             }
@@ -195,6 +198,13 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 notifyItemInserted(position);
             }
         });
+    }
+
+    public void restoreList() {
+        mDataList.clear();
+        mDataList.addAll(mOriginalDataSet);
+        mOriginalDataSet = null;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -235,6 +245,45 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         public int getType() {
             return MediaLibraryItem.TYPE_MEDIA;
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+    private class ItemFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            if (mOriginalDataSet == null)
+                mOriginalDataSet = new ArrayList<>(mDataList);
+            final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
+            FilterResults results = new FilterResults();
+            ArrayList<MediaLibraryItem> list = new ArrayList<>(mOriginalDataSet.size());
+            MediaLibraryItem media;
+            mediaLoop:
+            for (int i = 0 ; i < mOriginalDataSet.size() ; ++i) {
+                media = mOriginalDataSet.get(i);
+                for (String queryString : queryStrings) {
+                    if (queryString.length() < 2)
+                        continue;
+                    if (media.getTitle() != null && media.getTitle().toLowerCase().contains(queryString)) {
+                        list.add(media);
+                        continue mediaLoop; //avoid duplicates in search results, and skip useless processing
+                    }
+                }
+            }
+            results.values = list;
+            results.count = list.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mDataList = (ArrayList<MediaLibraryItem>) filterResults.values;
+            notifyDataSetChanged();
         }
     }
 }

@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,6 +62,7 @@ import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
@@ -72,7 +74,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -542,5 +544,15 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     mSwipeRefreshLayout.setRefreshing(true);
                 }
             });
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mVideoAdapter.getFilter();
+    }
+
+    @Override
+    public void restoreList() {
+        mVideoAdapter.restoreList();
     }
 }

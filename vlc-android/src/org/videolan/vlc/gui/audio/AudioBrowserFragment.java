@@ -44,6 +44,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
@@ -68,6 +69,7 @@ import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
@@ -80,7 +82,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
+public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -526,6 +528,14 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     @Override
     protected String getTitle() {
         return getString(R.string.audio);
+    }
+
+    public Filter getFilter() {
+        return ((AudioBrowserAdapter)((RecyclerView)mLists.get(mViewPager.getCurrentItem())).getAdapter()).getFilter();
+    }
+
+    public void restoreList() {
+        ((AudioBrowserAdapter)((RecyclerView)mLists.get(mViewPager.getCurrentItem())).getAdapter()).restoreList();
     }
 
     private void updateEmptyView(int position) {

@@ -85,6 +85,7 @@ import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
@@ -97,7 +98,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements DevicesDiscoveryCb, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends AudioPlayerContainerActivity implements DevicesDiscoveryCb, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -359,8 +360,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         /* Load media items from database and storage */
         if (mScanNeeded && Permissions.canReadStorage())
             mMediaLibrary.reload();
-//        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
-//            mActionBar.hide();
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
@@ -527,14 +526,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
 
-//        SearchManager searchManager =
-//                (SearchManager) VLCApplication.getAppContext().getSystemService(Context.SEARCH_SERVICE);
-//        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
-//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        mSearchView.setQueryHint(getString(R.string.search_hint));
-//        SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
-//        searchSuggestionsAdapter.setFilterQueryProvider(this);
-//        mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
+        MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setQueryHint(getString(R.string.search_hint));
+        mSearchView.setOnQueryTextListener(this);
+        MenuItemCompat.setOnActionExpandListener(searchItem, this);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -593,6 +589,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
+        menu.findItem(R.id.ml_menu_filter).setVisible(current instanceof Filterable);
         return true;
     }
 
@@ -756,6 +753,42 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     @Override
     public Cursor runQuery(final CharSequence constraint) {
         return MediaDatabase.getInstance().queryMedia(constraint.toString());
+    }
+
+    //Filtering
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String filterQueryString) {
+        if (filterQueryString.length() < 3)
+            return false;
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        if (current instanceof Filterable) {
+            ((Filterable) current).getFilter().filter(filterQueryString);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        restoreCurrentList();
+        return true;
+    }
+
+    public void restoreCurrentList() {
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        if (current instanceof Filterable) {
+            ((Filterable) current).restoreList();
+        }
     }
 
     private static class MainActivityHandler extends WeakHandler<MainActivity> {

@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -32,6 +33,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -50,7 +53,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> {
+public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable{
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -65,7 +68,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private VideoGridFragment mFragment;
     private VideoComparator mVideoComparator = new VideoComparator();
     private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
-    private ImageView mThumbnail;
+    private ArrayList<MediaWrapper> mOriginalData = null;
+    private ItemFilter mFilter = new ItemFilter();
 
     public VideoListAdapter(VideoGridFragment fragment) {
         super();
@@ -142,7 +146,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public void add(MediaWrapper item) {
-        notifyItemInserted(mVideos.add(item));
+        int position = mVideos.add(item);
+        notifyItemInserted(position);
     }
 
     @MainThread
@@ -155,6 +160,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public void addAll(Collection<MediaWrapper> items) {
         mVideos.addAll(items);
+        mOriginalData = null;
     }
 
     public boolean contains(MediaWrapper mw) {
@@ -184,6 +190,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public void clear() {
         mVideos.clear();
+        mOriginalData = null;
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
@@ -260,10 +267,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             MediaWrapper media = getItem(getAdapterPosition());
             if (media == null)
                 return;
+            Activity activity = mFragment.getActivity();
+            if (activity instanceof MainActivity)
+                ((MainActivity)activity).restoreCurrentList();
             if (media instanceof MediaGroup) {
-                MainActivity activity = (MainActivity) mFragment.getActivity();
                 String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+                ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
             } else {
                 media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 MediaUtils.openMedia(itemView.getContext(), media);
@@ -413,6 +422,56 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             if (item1 == null ^ item2 == null)
                 return false;
             return item1.equals(item2);
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+    public void restoreList() {
+        mVideos.clear();
+        mVideos.addAll(mOriginalData);
+        mOriginalData = null;
+        notifyDataSetChanged();
+    }
+
+    private class ItemFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            if (mOriginalData == null) {
+                mOriginalData = new ArrayList<>(mVideos.size());
+                for (int i = 0; i < mVideos.size(); ++i)
+                    mOriginalData.add(mVideos.get(i));
+            }
+            final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
+            FilterResults results = new FilterResults();
+            ArrayList<MediaWrapper> list = new ArrayList<>(mOriginalData.size());
+            MediaWrapper media;
+            mediaLoop:
+            for (int i = 0 ; i < mOriginalData.size() ; ++i) {
+                media = mOriginalData.get(i);
+                for (String queryString : queryStrings) {
+                    if (queryString.length() < 2)
+                        continue;
+                    if (media.getTitle() != null && media.getTitle().toLowerCase().contains(queryString)) {
+                        list.add(media);
+                        continue mediaLoop; //avoid duplicates in search results, and skip useless processing
+                    }
+                }
+            }
+            results.values = list;
+            results.count = list.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mVideos.clear();
+            mVideos.addAll((Collection<MediaWrapper>) filterResults.values);
+            notifyDataSetChanged();
         }
     }
 }
