@@ -36,6 +36,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -584,7 +585,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {}
+    public void onTabUnselected(TabLayout.Tab tab) {
+        mMainActivity.closeSearchView();
+        ((AudioBrowserAdapter)((RecyclerView)mLists.get(tab.getPosition())).getAdapter()).restoreList();
+    }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {

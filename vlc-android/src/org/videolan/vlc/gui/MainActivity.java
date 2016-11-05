@@ -360,6 +360,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         /* Load media items from database and storage */
         if (mScanNeeded && Permissions.canReadStorage())
             mMediaLibrary.reload();
+        else
+            restoreCurrentList();
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
@@ -782,6 +784,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     public boolean onMenuItemActionCollapse(MenuItem item) {
         restoreCurrentList();
         return true;
+    }
+
+    public void closeSearchView() {
+        MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
     }
 
     public void restoreCurrentList() {

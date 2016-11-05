@@ -201,10 +201,12 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void restoreList() {
-        mDataList.clear();
-        mDataList.addAll(mOriginalDataSet);
-        mOriginalDataSet = null;
-        notifyDataSetChanged();
+        if (mOriginalDataSet != null) {
+            mDataList.clear();
+            mDataList.addAll(mOriginalDataSet);
+            mOriginalDataSet = null;
+            notifyDataSetChanged();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

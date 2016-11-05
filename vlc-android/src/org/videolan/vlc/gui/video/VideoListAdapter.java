@@ -37,6 +37,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
@@ -268,8 +269,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             if (media == null)
                 return;
             Activity activity = mFragment.getActivity();
-            if (activity instanceof MainActivity)
-                ((MainActivity)activity).restoreCurrentList();
             if (media instanceof MediaGroup) {
                 String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
                 ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
@@ -431,10 +430,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public void restoreList() {
-        mVideos.clear();
-        mVideos.addAll(mOriginalData);
-        mOriginalData = null;
-        notifyDataSetChanged();
+        if (mOriginalData != null) {
+            mVideos.clear();
+            mVideos.addAll(mOriginalData);
+            mOriginalData = null;
+            notifyDataSetChanged();
+        }
     }
 
     private class ItemFilter extends Filter {
