@@ -283,9 +283,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            int topRowVerticalPosition =
-                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
         }
     };
 

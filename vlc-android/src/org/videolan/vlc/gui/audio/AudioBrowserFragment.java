@@ -45,6 +45,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
@@ -217,9 +218,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            int topRowVerticalPosition =
-                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
         }
     };
 

@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -443,9 +444,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            int topRowVerticalPosition =
-                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-            mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
         }
     };
 
