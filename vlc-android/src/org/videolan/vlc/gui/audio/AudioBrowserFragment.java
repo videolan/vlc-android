@@ -45,7 +45,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
@@ -176,7 +175,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         for (View rv : mLists) {
             ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(getActivity()));
             registerForContextMenu(rv);
-            ((RecyclerView) rv).addOnScrollListener(mRVScrollListener);
             rv.setOnKeyListener(keyListener);
         }
 
@@ -209,18 +207,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(this);
     }
-
-    RecyclerView.OnScrollListener mRVScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
-        }
-    };
 
     @Override
     public void onPause() {

@@ -34,7 +34,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -143,7 +142,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnScrollListener(mScrollListener);
         registerForContextMenu(mRecyclerView);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
@@ -274,18 +272,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSavedPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
         refresh();
     }
-
-    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
-        }
-    };
 
     /**
      * Update views visibility and emptiness info

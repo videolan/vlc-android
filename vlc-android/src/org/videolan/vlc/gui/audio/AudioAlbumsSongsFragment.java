@@ -140,8 +140,6 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        songsList.addOnScrollListener(mScrollListener);
-        albumsList.addOnScrollListener(mScrollListener);
         return v;
     }
 
@@ -152,19 +150,6 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         mTabLayout.addOnTabSelectedListener(this);
         updateList();
     }
-
-
-    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
-        }
-    };
 
     @Override
     public void onRefresh() {

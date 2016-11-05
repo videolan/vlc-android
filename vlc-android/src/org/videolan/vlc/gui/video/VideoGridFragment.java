@@ -32,8 +32,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -121,7 +119,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST);
-        mGridView.addOnScrollListener(mScrollListener);
         mGridView.setAdapter(mVideoAdapter);
         return v;
     }
@@ -435,18 +432,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void setGroup(String prefix) {
         mGroup = prefix;
     }
-
-    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() >= 0);
-        }
-    };
 
     private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {
         @Override
