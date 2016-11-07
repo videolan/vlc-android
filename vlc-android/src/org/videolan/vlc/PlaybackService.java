@@ -605,6 +605,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     executeUpdate();
                     publishState(event.type);
                     executeUpdateProgress();
+                    mHandler.sendEmptyMessage(SHOW_PROGRESS);
 
                     final MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
                     if (mw != null) {
@@ -639,6 +640,7 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     publishState(event.type);
                     executeUpdateProgress();
                     showNotification();
+                    mHandler.removeMessages(SHOW_PROGRESS);
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
                     break;
@@ -952,22 +954,14 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     public void pause() {
         if (mPausable) {
             savePosition();
-            mHandler.removeMessages(SHOW_PROGRESS);
-            // hideNotification(); <-- see event handler
             mMediaPlayer.pause();
-            broadcastMetadata();
         }
     }
 
     @MainThread
     public void play() {
-        if(hasCurrentMedia()) {
+        if (hasCurrentMedia())
             mMediaPlayer.play();
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
-            updateMetadata();
-            updateWidget();
-            broadcastMetadata();
-        }
     }
 
     @MainThread
