@@ -340,9 +340,8 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_LOSS:
                         Log.i(TAG, "AUDIOFOCUS_LOSS");
-                        // Pause playback
-                        changeAudioFocus(false);
-                        pause();
+                        // Stop playback
+                        stopPlayback();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
