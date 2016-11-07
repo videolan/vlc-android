@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -36,7 +37,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,6 +61,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.MediaInfoDialog;
+import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
@@ -83,7 +84,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
+public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable, View.OnClickListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -102,6 +103,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     private List<View> mLists;
     private FastScroller mFastScroller;
     private FloatingActionButton mFabPlayShuffleAll;
+    private View mSearchButtonView;
 
     public static final int REFRESH = 101;
     public static final int UPDATE_LIST = 102;
@@ -166,6 +168,8 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSearchButtonView = v.findViewById(R.id.searchButton);
+        mSearchButtonView.setOnClickListener(this);
 
         return v;
     }
@@ -230,6 +234,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     @Override
     public void onResume() {
         super.onResume();
+        setSearchVisibility(false);
         mViewPager.addOnPageChangeListener(this);
         mMediaLibrary.addDeviceDiscoveryCb(this);
         mMediaLibrary.setArtistsAddedCb(this);
@@ -522,6 +527,21 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
 
     public void restoreList() {
         ((AudioBrowserAdapter)((RecyclerView)mLists.get(mViewPager.getCurrentItem())).getAdapter()).restoreList();
+    }
+
+    @Override
+    public void setSearchVisibility(boolean visible) {
+        mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.searchButton:
+                startActivity(new Intent(Intent.ACTION_SEARCH, null, getContext(), SearchActivity.class)
+                        .putExtra(SearchManager.QUERY, ((MainActivity)getActivity()).getQuery()));
+                break;
+        }
     }
 
     private void updateEmptyView(int position) {

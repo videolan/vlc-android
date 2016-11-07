@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/searchButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:targetApi="11"
+    style="?android:attr/borderlessButtonStyle"
+    android:layout_marginTop="@dimen/default_margin"
+    android:layout_marginLeft="@dimen/default_margin"
+    android:layout_marginStart="@dimen/default_margin"
+    android:layout_marginRight="@dimen/default_margin"
+    android:layout_marginEnd="@dimen/default_margin"
+    android:text="@string/search_global"
+    android:gravity="center_horizontal"
+    android:textAppearance="@style/Result.Title"
+    android:visibility="gone" />

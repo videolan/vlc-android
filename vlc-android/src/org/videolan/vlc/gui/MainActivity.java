@@ -530,7 +530,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
         MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint(getString(R.string.search_hint));
+        mSearchView.setQueryHint(getString(R.string.search_list_hint));
         mSearchView.setOnQueryTextListener(this);
         MenuItemCompat.setOnActionExpandListener(searchItem, this);
         return super.onCreateOptionsMenu(menu);
@@ -777,11 +777,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
+        setSearchVisibility(true);
         return true;
     }
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
+        setSearchVisibility(false);
         restoreCurrentList();
         return true;
     }
@@ -791,11 +793,21 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
     }
 
+    public String getQuery() {
+        return mSearchView.getQuery().toString();
+    }
+
     public void restoreCurrentList() {
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
         if (current instanceof Filterable) {
             ((Filterable) current).restoreList();
         }
+    }
+
+    private void setSearchVisibility(boolean visible) {
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        if (current instanceof Filterable)
+            ((Filterable) current).setSearchVisibility(visible);
     }
 
     private static class MainActivityHandler extends WeakHandler<MainActivity> {

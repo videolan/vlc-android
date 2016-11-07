@@ -6,6 +6,16 @@
 
     <include layout="@layout/tab_layout" />
 
+    <include layout="@layout/button_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sliding_tabs"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin" />
+
     <TextView
         android:id="@+id/no_media"
         android:layout_width="wrap_content"
@@ -25,7 +35,7 @@
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/sliding_tabs">
+        android:layout_below="@+id/searchButton">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"

@@ -6,4 +6,5 @@ import android.widget.Filter;
 public interface Filterable {
     Filter getFilter();
     void restoreList();
+    void setSearchVisibility(boolean visible);
 }
