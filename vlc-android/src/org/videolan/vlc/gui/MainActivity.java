@@ -787,7 +787,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     }
 
     public void closeSearchView() {
-        MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
+        if (mMenu != null)
+            MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
     }
 
     public void restoreCurrentList() {
