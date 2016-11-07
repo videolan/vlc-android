@@ -330,7 +330,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
     private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
         return new OnAudioFocusChangeListener() {
             private boolean mLossTransient = false;
-            private int mLossTransientVolume = -1;
             private boolean wasPlaying = false;
 
             @Override
@@ -353,21 +352,9 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                         if (wasPlaying)
                             pause();
                         break;
-                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
-                        // Lower the volume
-                        if (mMediaPlayer.isPlaying()) {
-                            mLossTransientVolume = mMediaPlayer.getVolume();
-                            mMediaPlayer.setVolume(36);
-                        }
-                        break;
                     case AudioManager.AUDIOFOCUS_GAIN:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN: " + mLossTransientVolume + ", " + mLossTransient);
+                        Log.i(TAG, "AUDIOFOCUS_GAIN: ");
                         // Resume playback
-                        if (mLossTransientVolume != -1) {
-                            mMediaPlayer.setVolume(mLossTransientVolume);
-                            mLossTransientVolume = -1;
-                        }
                         if (mLossTransient) {
                             if (wasPlaying)
                                 mMediaPlayer.play();
