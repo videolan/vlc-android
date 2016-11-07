@@ -578,25 +578,6 @@ public class PlaybackService extends Service implements IVLCVout.Callback {
                     publishState(event.type);
                     executeUpdateProgress();
                     mHandler.sendEmptyMessage(SHOW_PROGRESS);
-
-                    final MediaWrapper mw = mMediaList.getMedia(mCurrentIndex);
-                    if (mw != null) {
-                        long length = mMediaPlayer.getLength();
-                        MediaDatabase dbManager = MediaDatabase.getInstance();
-                        MediaWrapper m = dbManager.getMedia(mw.getUri());
-                        /**
-                         * 1) There is a media to update
-                         * 2) It has a length of 0
-                         * (dynamic track loading - most notably the OGG container)
-                         * 3) We were able to get a length even after parsing
-                         * (don't want to replace a 0 with a 0)
-                         */
-                        if (m != null && m.getLength() == 0 && length > 0) {
-                            dbManager.updateMedia(mw.getUri(),
-                                    MediaDatabase.INDEX_MEDIA_LENGTH, length);
-                        }
-                    }
-
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
