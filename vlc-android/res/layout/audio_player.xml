@@ -33,7 +33,9 @@
             android:layout_gravity="center"
             android:layout_weight="0"
             android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginEnd="@dimen/half_default_margin"
+            android:layout_marginRight="@dimen/half_default_margin"
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
@@ -53,6 +55,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/playlist_search_text"
             android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
             android:focusable="true"
             android:visibility="gone">
             <EditText
@@ -69,6 +72,7 @@
             android:layout_gravity="center"
             android:layout_weight="0"
             android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
@@ -118,16 +122,12 @@
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
             android:background="#00000000"
             android:contentDescription="@string/pause"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_pause"
-            android:nextFocusForward="@+id/header_play_pause"
-            android:nextFocusUp="@+id/ml_menu_search"
-            android:nextFocusDown="@id/header_play_pause"
-            android:nextFocusLeft="@id/header_play_pause"
-            android:nextFocusRight="@id/header_play_pause" />
+            android:src="?attr/ic_pause" />
 
     </LinearLayout>
 
@@ -176,7 +176,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dip"
-            android:layout_weight="0"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -187,6 +186,7 @@
                 android:layout_gravity="center|left"
                 android:layout_weight="0"
                 android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:clickable="true"
                 android:text="@string/time_0"
                 android:textSize="12sp" />
@@ -211,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
                 android:layout_weight="0"
                 android:text="@string/time_0"
                 android:textSize="12sp" />
@@ -225,8 +226,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:background="#00000000"
                 android:contentDescription="@string/shuffle"
                 android:focusable="true"
@@ -238,8 +241,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
                 android:background="#00000000"
                 android:contentDescription="@string/repeat"
                 android:focusable="true"
@@ -264,7 +269,9 @@
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:layout_toRightOf="@+id/play_pause"
+                android:layout_toEndOf="@+id/play_pause"
                 android:background="#00000000"
                 android:contentDescription="@string/next"
                 android:focusable="true"
@@ -277,7 +284,9 @@
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
                 android:layout_toLeftOf="@+id/play_pause"
+                android:layout_toStartOf="@+id/play_pause"
                 android:background="#00000000"
                 android:contentDescription="@string/previous"
                 android:focusable="true"
