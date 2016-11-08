@@ -3,28 +3,15 @@
     <data>
         <variable name="item" type="org.videolan.medialibrary.media.DummyItem"/>
     </data>
-    <LinearLayout
-        android:id="@+id/layout_item"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="15dip"
-        android:layout_marginBottom="10dip" >
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:singleLine="true"
-            android:text="@{item.title}"
-            android:textColor="?attr/audio_browser_separator"
-            android:textSize="20sp" />
-
-        <!--<View-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="2dip"-->
-            <!--android:background="?attr/audio_browser_separator" />-->
-
-    </LinearLayout>
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="10dip"
+        android:singleLine="true"
+        android:text="@{item.title}"
+        android:textColor="?attr/audio_browser_separator"
+        android:textSize="20sp" />
 </layout>
