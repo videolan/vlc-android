@@ -57,12 +57,8 @@
                 android:scaleType="centerCrop"
                 vlc:media="@{media}"
                 vlc:binding="@{holder.binding}"
-                android:src="@{cover}"
-                android:background="?attr/background_default_darker" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/black_gradient" />
+                android:src="@drawable/black_gradient"
+                android:background="@{cover}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
