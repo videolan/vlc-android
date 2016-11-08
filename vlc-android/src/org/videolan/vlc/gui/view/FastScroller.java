@@ -47,6 +47,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class FastScroller extends LinearLayout {
     
     private static final String TAG = "FastScroller";
@@ -99,51 +100,43 @@ public class FastScroller extends LinearLayout {
     }
 
     private void showBubble() {
-        if (AndroidUtil.isHoneycombOrLater()) {
-            AnimatorSet animatorSet = new AnimatorSet();
-            bubble.setPivotX(bubble.getWidth());
-            bubble.setPivotY(bubble.getHeight());
-            bubble.setVisibility(VISIBLE);
-            Animator growerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
-            Animator growerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
-            Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
-            animatorSet.playTogether(growerX, growerY, alpha);
-            animatorSet.start();
-        } else
-            bubble.setVisibility(VISIBLE);
+        AnimatorSet animatorSet = new AnimatorSet();
+        bubble.setPivotX(bubble.getWidth());
+        bubble.setPivotY(bubble.getHeight());
+        bubble.setVisibility(VISIBLE);
+        Animator growerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
+        Animator growerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
+        Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION);
+        animatorSet.playTogether(growerX, growerY, alpha);
+        animatorSet.start();
     }
 
     private void hideBubble() {
-        if (AndroidUtil.isHoneycombOrLater()) {
-            currentAnimator = new AnimatorSet();
-            bubble.setPivotX(bubble.getWidth());
-            bubble.setPivotY(bubble.getHeight());
-            Animator shrinkerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
-            Animator shrinkerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
-            Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
-            currentAnimator.playTogether(shrinkerX, shrinkerY, alpha);
-            currentAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    bubble.setVisibility(GONE);
-                    currentAnimator = null;
-                    mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
-                }
+        currentAnimator = new AnimatorSet();
+        bubble.setPivotX(bubble.getWidth());
+        bubble.setPivotY(bubble.getHeight());
+        Animator shrinkerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
+        Animator shrinkerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
+        Animator alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION);
+        currentAnimator.playTogether(shrinkerX, shrinkerY, alpha);
+        currentAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                bubble.setVisibility(GONE);
+                currentAnimator = null;
+                mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
+            }
 
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    super.onAnimationCancel(animation);
-                    bubble.setVisibility(INVISIBLE);
-                    currentAnimator = null;
-                    mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
-                }
-            });
-            currentAnimator.start();
-        } else {
-            bubble.setVisibility(GONE);
-            mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
-        }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                bubble.setVisibility(INVISIBLE);
+                currentAnimator = null;
+                mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
+            }
+        });
+        currentAnimator.start();
     }
 
     private void setPosition(float y) {
@@ -155,6 +148,8 @@ public class FastScroller extends LinearLayout {
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
+        if (!AndroidUtil.isHoneycombOrLater())
+            return;
         if (mRecyclerView != null)
             mRecyclerView.removeOnScrollListener(scrollListener);
         setVisibility(INVISIBLE);
@@ -164,7 +159,6 @@ public class FastScroller extends LinearLayout {
         mShowBubble = ((SeparatedAdapter)recyclerView.getAdapter()).hasSections();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
