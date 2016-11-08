@@ -25,8 +25,10 @@ package org.videolan.vlc.gui.browser;
 
 import android.view.View;
 
-import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+
+import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 
@@ -34,22 +36,18 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         super(fragment);
     }
 
-    public void addItem(Object media, boolean notify, boolean top){
-        MediaWrapper mediaWrapper;
-        if (media instanceof MediaWrapper)
-            mediaWrapper = (MediaWrapper) media;
-        else
-            mediaWrapper = new MediaWrapper((Media)media);
-        if (filter(mediaWrapper))
-            super.addItem(mediaWrapper, notify, top);
+    public void addItem(MediaLibraryItem media, boolean notify, boolean top){
+        if (media.getItemType() != TYPE_MEDIA)
+            return;
+        if (filter((MediaWrapper) media))
+            super.addItem(media, notify, top);
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        vh.binding.setMedia(media);
+        vh.binding.setItem(media);
         vh.binding.setHasContextMenu(false);
-        vh.binding.setType(TYPE_MEDIA);
         vh.binding.setProtocol(null);
         vh.binding.setImage(getIcon(media));
     }

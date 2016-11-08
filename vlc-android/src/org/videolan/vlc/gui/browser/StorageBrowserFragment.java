@@ -34,9 +34,10 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
@@ -107,9 +108,9 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     @Override
     protected void browseRoot() {
         String storages[] = AndroidDevices.getMediaDirectories();
-        BaseBrowserAdapter.Storage storage;
+        Storage storage;
         for (String mediaDirLocation : storages) {
-            storage = new BaseBrowserAdapter.Storage(Uri.fromFile(new File(mediaDirLocation)));
+            storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 storage.setName(getString(R.string.internal_memory));
             mAdapter.addItem(storage, false, false);
@@ -158,7 +159,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     protected void setContextMenuItems(MenuInflater inflater, Menu menu, int position) {
         if (mRoot) {
-            BaseBrowserAdapter.Storage storage = (BaseBrowserAdapter.Storage) mAdapter.getItem(position);
+            Storage storage = (Storage) mAdapter.getItem(position);
             boolean isCustom = CustomDirectories.contains(storage.getUri().getPath());
             if (isCustom)
                 inflater.inflate(R.menu.directory_custom_dir, menu);

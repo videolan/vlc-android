@@ -143,9 +143,10 @@ public class AsyncImageLoader {
     }
 
     @BindingAdapter({"mediaWithArt"})
-    public static void downloadIcon(View v, MediaWrapper mw) {
-        if (mw == null)
+    public static void downloadIcon(View v, MediaLibraryItem item) {
+        if (item == null || item.getItemType() != MediaLibraryItem.TYPE_MEDIA)
             return;
+        MediaWrapper mw = (MediaWrapper) item;
         ViewDataBinding vdb = (ViewDataBinding) v.getTag();
         if (TextUtils.isEmpty(mw.getArtworkURL()) || !mw.getArtworkURL().startsWith("http"))
             return;

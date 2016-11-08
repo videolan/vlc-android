@@ -47,7 +47,9 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MediaInfoDialog;
@@ -154,7 +156,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        mFAB.setImageResource(R.drawable.ic_fab_play);
+        if (mFAB != null)
+            mFAB.setImageResource(R.drawable.ic_fab_play);
     }
 
     @Override
@@ -245,7 +248,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onMediaAdded(int index, Media media) {
         boolean empty = mAdapter.isEmpty();
-        mAdapter.addItem(media, mReadyToDisplay && mRoot, false);
+        mAdapter.addItem(new MediaWrapper(media), mReadyToDisplay && mRoot, false);
         if (empty && mReadyToDisplay)
             updateEmptyView();
         if (mRoot && (empty || mSwipeRefreshLayout.isRefreshing()))
@@ -370,11 +373,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
 
-        public static final int MSG_SHOW_LOADING = 0;
-        public static final int MSG_HIDE_LOADING = 1;
-        public static final int MSG_REFRESH = 3;
+        static final int MSG_SHOW_LOADING = 0;
+        static final int MSG_HIDE_LOADING = 1;
+        static final int MSG_REFRESH = 3;
 
-        public BrowserFragmentHandler(BaseBrowserFragment owner) {
+        BrowserFragmentHandler(BaseBrowserFragment owner) {
             super(owner);
         }
         @Override
@@ -561,14 +564,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         else
             mMediaBrowser.changeEventListener(mFoldersBrowserListener);
         mCurrentParsedPosition = 0;
-        Object item;
+        MediaLibraryItem item;
         MediaWrapper mw;
         while (mCurrentParsedPosition <mAdapter.getItemCount()){
             item = mAdapter.getItem(mCurrentParsedPosition);
-            if (item instanceof BaseBrowserAdapter.Storage) {
-                mw = new MediaWrapper(((BaseBrowserAdapter.Storage) item).getUri());
+            if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
+                mw = new MediaWrapper(((Storage) item).getUri());
                 mw.setType(MediaWrapper.TYPE_DIR);
-            } else  if (item instanceof MediaWrapper){
+            } else  if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA){
                 mw = (MediaWrapper) item;
             } else
                 mw = null;
@@ -583,8 +586,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
-        ArrayList<MediaWrapper> directories = new ArrayList<MediaWrapper>();
-        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> directories = new ArrayList<>();
+        ArrayList<MediaWrapper> files = new ArrayList<>();
 
         @Override
         public void onMediaAdded(int index, Media media) {
@@ -611,15 +614,15 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             if (!TextUtils.equals(holderText, "")) {
                 mAdapter.setDescription(mCurrentParsedPosition, holderText);
                 directories.addAll(files);
-                mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<MediaWrapper>(directories));
+                mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
             }
             while (++mCurrentParsedPosition < mAdapter.getItemCount()){ //skip media that are not browsable
-                if (mAdapter.getItem(mCurrentParsedPosition) instanceof MediaWrapper) {
+                if (mAdapter.getItem(mCurrentParsedPosition).getItemType() == MediaLibraryItem.TYPE_MEDIA) {
                     mw = (MediaWrapper) mAdapter.getItem(mCurrentParsedPosition);
                     if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
                         break;
-                } else if (mAdapter.getItem(mCurrentParsedPosition) instanceof BaseBrowserAdapter.Storage) {
-                    mw = new MediaWrapper(((BaseBrowserAdapter.Storage) mAdapter.getItem(mCurrentParsedPosition)).getUri());
+                } else if (mAdapter.getItem(mCurrentParsedPosition).getItemType() == MediaLibraryItem.TYPE_STORAGE) {
+                    mw = new MediaWrapper(((Storage) mAdapter.getItem(mCurrentParsedPosition)).getUri());
                     break;
                 } else
                     mw = null;

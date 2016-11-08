@@ -29,8 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.Util;
@@ -57,12 +58,11 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
-        final Storage storage = (Storage) getItem(position);
-        String storagePath = storage.getUri().getPath();
+        final MediaLibraryItem storage = getItem(position);
+        String storagePath = ((Storage)storage).getUri().getPath();
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
-        vh.binding.setStorage(storage);
+        vh.binding.setItem(storage);
         vh.binding.setHasContextMenu(hasContextMenu);
-        vh.binding.setType(TYPE_STORAGE);
         vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
                 (isRoot && Util.isListEmpty(mMediaDirsLocation)) || mMediaDirsLocation.contains(storagePath));
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
@@ -73,12 +73,12 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     @Override
     public void onViewRecycled(ViewHolder holder) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
-        vh.binding.setStorage(null);
+        vh.binding.setItem(null);
     }
 
-    public void addItem(Object item, boolean notify, boolean top){
-        if (item instanceof Media)
-            item = new Storage(((Media)item).getUri());
+    public void addItem(MediaLibraryItem item, boolean notify, boolean top) {
+        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
+             item = new Storage(((MediaWrapper)item).getUri());
         super.addItem(item, notify, top);
     }
 

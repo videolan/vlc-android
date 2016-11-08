@@ -3,18 +3,13 @@
     xmlns:vlc="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem"/>
         <variable
             name="holder"
             type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ViewHolder"/>
         <variable
-            name="media"
-            type="org.videolan.medialibrary.media.MediaWrapper"/>
-        <variable
-            name="storage"
-            type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.Storage"/>
-        <variable
-            name="type"
-            type="int"/>
+            name="item"
+            type="MediaLibraryItem"/>
         <variable
             name="hasContextMenu"
             type="boolean"/>
@@ -38,7 +33,7 @@
         android:orientation="horizontal"
         android:focusable="true"
         android:clickable="@{holder != null}"
-        android:longClickable="@{hasContextMenu || storage != null}"
+        android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
         android:onClick="@{holder::onClick}"
         android:background="@drawable/background_item">
 
@@ -48,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE}"
             android:focusable="false"
             android:enabled="@{checkEnabled}"
             android:checked="@{checked}"
@@ -63,12 +58,12 @@
             android:gravity="center"
             android:layout_marginLeft="15dp"
             android:contentDescription="@string/cover_art"
-            android:visibility="@{type != 2 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{item.getItemType() != MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE}"
             android:text="@{protocol}"
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"
             android:background="@{image}"
-            vlc:mediaWithArt="@{media}" />
+            vlc:mediaWithArt="@{item}" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -88,7 +83,7 @@
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="@{storage.name ?? media.title}"
+                android:text="@{item.title}"
                 android:fontFamily="sans-serif-light"
                 android:textColor="?attr/list_title"
                 android:textSize="16sp"/>
@@ -99,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:maxLines="1"
-                android:text="@{media.description}"
+                android:text="@{item.description}"
                 android:fontFamily="sans-serif-light"
-                android:visibility="@{media.description != null ? View.VISIBLE : View.GONE}"
+                android:visibility="@{item.description != null ? View.VISIBLE : View.GONE}"
                 android:textColor="?attr/list_subtitle"/>
         </LinearLayout>
 

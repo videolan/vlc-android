@@ -26,21 +26,20 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.CustomDirectories;
@@ -48,18 +47,15 @@ import org.videolan.vlc.util.CustomDirectories;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
 public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
-    protected static final int TYPE_MEDIA = 0;
-    protected static final int TYPE_SEPARATOR = 1;
-    protected static final int TYPE_STORAGE = 2;
-
-    protected static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
+    private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
 
     private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
     private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
@@ -67,16 +63,16 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     private static final BitmapDrawable IMAGE_SUBTITLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_subtitle_normal));
     private static final BitmapDrawable IMAGE_UNKNOWN = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_unknown_normal));
 
-    ArrayList<Object> mMediaList = new ArrayList<Object>();
+    ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
     BaseBrowserFragment fragment;
     MediaDatabase mDbManager;
     LinkedList<String> mMediaDirsLocation;
     List<String> mCustomDirsLocation;
-    String mEmptyDirectoryString;
+    private String mEmptyDirectoryString;
     private int mTop = 0;
     private int mMediaCount = 0;
 
-    public BaseBrowserAdapter(BaseBrowserFragment fragment){
+    BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
         mEmptyDirectoryString = VLCApplication.getAppResources().getString(R.string.directory_empty);
     }
@@ -85,7 +81,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder vh;
         View v;
-        if (viewType == TYPE_MEDIA) {
+        if (viewType == MediaLibraryItem.TYPE_MEDIA) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.directory_view_item, parent, false);
             vh = new MediaViewHolder(v);
@@ -104,14 +100,13 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             onBindMediaViewHolder((MediaViewHolder) holder, position);
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
-            vh.binding.setTitle(getItem(position).toString());
+            vh.binding.setTitle(mMediaList.get(position).getTitle());
         }
     }
 
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        vh.binding.setMedia(media);
-        vh.binding.setType(TYPE_MEDIA);
+        vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
             vh.binding.setProtocol(getProtocol(media));
@@ -123,7 +118,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     public void onViewRecycled(ViewHolder holder) {
         if (holder.getType() == TYPE_MEDIA) {
             final MediaViewHolder vh = (MediaViewHolder) holder;
-            vh.binding.setMedia(null);
+            vh.binding.setItem(null);
             vh.binding.setHasContextMenu(false);
             vh.binding.setProtocol(null);
             vh.binding.setImage(null);
@@ -152,9 +147,9 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         public abstract int getType();
     }
 
-    public class MediaViewHolder extends ViewHolder<DirectoryViewItemBinding> implements View.OnLongClickListener {
+    class MediaViewHolder extends ViewHolder<DirectoryViewItemBinding> implements View.OnLongClickListener {
 
-        public MediaViewHolder(View v) {
+        MediaViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
             binding.setHolder(this);
@@ -169,7 +164,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             });
         }
 
-        public void setContextMenuListener() {
+        void setContextMenuListener() {
             itemView.setOnLongClickListener(this);
         }
 
@@ -205,47 +200,16 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         }
     }
 
-    public class SeparatorViewHolder extends ViewHolder<BrowserItemSeparatorBinding> {
+    private class SeparatorViewHolder extends ViewHolder<BrowserItemSeparatorBinding> {
 
-        public SeparatorViewHolder(View v) {
+        SeparatorViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);
         }
 
         @Override
         public int getType() {
-            return TYPE_SEPARATOR;
-        }
-    }
-
-    public static class Storage {
-        Uri uri;
-        String name;
-        String description;
-
-        public Storage(Uri uri){
-            this.uri = uri;
-            name = uri.getLastPathSegment();
-        }
-
-        public String getName() {
-            return Uri.decode(name);
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public Uri getUri() {
-            return uri;
+            return MediaLibraryItem.TYPE_DUMMY;
         }
     }
 
@@ -258,28 +222,25 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         return mMediaList.isEmpty();
     }
 
-    public void addItem(Object item, boolean notify, boolean top){
+    public void addItem(MediaLibraryItem item, boolean notify, boolean top){
         addItem(item, notify, top, -1);
     }
 
-    public void addItem(Object item, boolean notify, int position){
+    public void addItem(MediaLibraryItem item, boolean notify, int position){
         addItem(item, notify, false, position);
     }
 
-    public void addItem(Object item, boolean notify, boolean top, int positionTo){
+    public void addItem(MediaLibraryItem item, boolean notify, boolean top, int positionTo){
         int position;
         if (positionTo != -1)
             position = positionTo;
         else
             position = top ? mTop : mMediaList.size();
 
-        if (item instanceof Media)
-            item = new MediaWrapper((Media) item);
-
-        if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
+        if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
             return;
 
-        if (item instanceof MediaWrapper && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount++;
 
         mMediaList.add(position, item);
@@ -291,7 +252,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         mTop = top;
     }
 
-    public void setDescription(int position, String description){
+    void setDescription(int position, String description){
         Object item = getItem(position);
         if (item instanceof MediaWrapper)
             ((MediaWrapper) item).setDescription(description);
@@ -302,11 +263,11 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         notifyItemChanged(position);
     }
 
-    public void updateMediaDirs(){
+    void updateMediaDirs(){
         if (mDbManager == null)
             mDbManager = MediaDatabase.getInstance();
         if (mMediaDirsLocation == null)
-            mMediaDirsLocation = new LinkedList<String>();
+            mMediaDirsLocation = new LinkedList<>();
         else
             mMediaDirsLocation.clear();
         List<File> mediaDirs = mDbManager.getMediaDirs();
@@ -326,21 +287,21 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         }
     }
 
-    public void removeItem(int position, boolean notify){
-        Object item = mMediaList.get(position);
+    void removeItem(int position, boolean notify){
+        MediaLibraryItem item = mMediaList.get(position);
         mMediaList.remove(position);
         if (notify) {
             notifyItemRemoved(position);
         }
-        if (item instanceof MediaWrapper && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
     }
 
-    public void removeItem(String path, boolean notify){
+    void removeItem(String path, boolean notify){
         int position = -1;
         for (int i = 0; i< getItemCount(); ++i) {
-            Object item = mMediaList.get(i);
-            if (item instanceof MediaWrapper && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
+            MediaLibraryItem item = mMediaList.get(i);
+            if (item .getItemType() == TYPE_MEDIA && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
                 position = i;
                 if (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO)
                     mMediaCount--;
@@ -354,56 +315,25 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         }
     }
 
-    public ArrayList<Object> getAll(){
+    public ArrayList<MediaLibraryItem> getAll(){
         return mMediaList;
     }
 
-    public Object getItem(int position){
+    public MediaLibraryItem getItem(int position){
         if (position < 0 || position >= mMediaList.size())
             return null;
         return mMediaList.get(position);
     }
 
     public int getItemViewType(int position){
-        final Object item = getItem(position);
-        if (item instanceof  MediaWrapper)
-            return TYPE_MEDIA;
-        else if (item instanceof Storage)
-            return TYPE_STORAGE;
-        else
-            return TYPE_SEPARATOR;
+        return getItem(position).getItemType();
     }
 
-    public int getMediaCount() {
+    int getMediaCount() {
         return mMediaCount;
     }
 
-    public void sortList(){
-        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
-        for (Object item : mMediaList){
-            if (item instanceof MediaWrapper) {
-                MediaWrapper media = (MediaWrapper) item;
-                if (media.getType() == MediaWrapper.TYPE_DIR)
-                    dirs.add(media);
-                else
-                    files.add(media);
-            }
-        }
-        if (dirs.isEmpty() && files.isEmpty())
-            return;
-        mMediaList.clear();
-        if (!dirs.isEmpty()) {
-            Collections.sort(dirs, MediaComparators.byName);
-            mMediaList.addAll(dirs);
-        }
-        if (!files.isEmpty()) {
-            Collections.sort(files, MediaComparators.byName);
-            mMediaList.addAll(files);
-        }
-        notifyDataSetChanged();
-    }
-
-    protected BitmapDrawable getIcon(MediaWrapper media) {
+    BitmapDrawable getIcon(MediaWrapper media) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
                 return IMAGE_AUDIO;
@@ -417,7 +347,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
                 return IMAGE_UNKNOWN;
         }
     }
-    protected String getProtocol(MediaWrapper media) {
+    String getProtocol(MediaWrapper media) {
         if (!fragment.isRootDirectory() || !(fragment instanceof NetworkBrowserFragment))
             return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)

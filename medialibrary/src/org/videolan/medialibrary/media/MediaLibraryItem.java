@@ -13,11 +13,12 @@ public abstract class MediaLibraryItem implements Parcelable {
     public static final int TYPE_PLAYLIST = 3;
     public static final int TYPE_MEDIA = 4;
     public static final int TYPE_DUMMY = 5;
+    public static final int TYPE_STORAGE = 6;
 
     public abstract MediaWrapper[] getTracks(Medialibrary ml);
     public abstract int getItemType();
 
-    protected long mId;
+    long mId;
     protected String mTitle;
 
     protected MediaLibraryItem() {}

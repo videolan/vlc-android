@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -192,11 +193,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         } else {
             boolean isEmpty =  mAdapter.isEmpty();
             if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(getString(R.string.network_favorites), false, false,0); //add header if needed
+                mAdapter.addItem(new DummyItem(getString(R.string.network_favorites)), false, false,0); //add header if needed
             for (int i = 0 ; i < newSize ; )
                 mAdapter.addItem(favs.get(i), false, false, ++i); //add new favorites
             if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(getString(R.string.network_shared_folders), false, false, newSize + 1); //add header if needed
+                mAdapter.addItem(new DummyItem(getString(R.string.network_shared_folders)), false, false, newSize + 1); //add header if needed
             mAdapter.notifyItemRangeChanged(0, newSize+1);
         }
         mFavorites = newSize; //update count
