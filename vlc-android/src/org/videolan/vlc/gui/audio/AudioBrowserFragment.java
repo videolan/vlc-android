@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -60,7 +59,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.MediaInfoDialog;
-import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
@@ -494,8 +492,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.searchButton:
-                startActivity(new Intent(Intent.ACTION_SEARCH, null, getContext(), SearchActivity.class)
-                        .putExtra(SearchManager.QUERY, ((MainActivity)getActivity()).getQuery()));
+                 ((MainActivity)getActivity()).openSearchActivity();
                 break;
         }
     }

@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -57,7 +56,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.MediaInfoDialog;
-import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
@@ -556,8 +554,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.searchButton:
-                startActivity(new Intent(Intent.ACTION_SEARCH, null, getContext(), SearchActivity.class)
-                            .putExtra(SearchManager.QUERY, ((MainActivity)getActivity()).getQuery()));
+                ((MainActivity)getActivity()).openSearchActivity();
                 break;
         }
     }

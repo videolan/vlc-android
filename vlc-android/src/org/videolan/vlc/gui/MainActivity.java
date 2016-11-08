@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -766,8 +767,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
     }
 
-    public String getQuery() {
-        return mSearchView.getQuery().toString();
+    public void openSearchActivity() {
+        startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class)
+                        .putExtra(SearchManager.QUERY, mSearchView.getQuery().toString()));
     }
 
     public void restoreCurrentList() {
