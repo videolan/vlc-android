@@ -54,7 +54,6 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -74,7 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable, View.OnClickListener {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -117,7 +116,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mGridView = (AutoFitRecyclerView) v.findViewById(android.R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSearchButtonView = v.findViewById(R.id.searchButton);
-        mSearchButtonView.setOnClickListener(this);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -548,14 +546,5 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void setSearchVisibility(boolean visible) {
         mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.searchButton:
-                ((MainActivity)getActivity()).openSearchActivity();
-                break;
-        }
     }
 }

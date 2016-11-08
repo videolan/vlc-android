@@ -979,4 +979,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 return ID_VIDEO;
         }
     }
+
+    public void onClick(View v) {
+        if (v.getId() == R.id.searchButton)
+            openSearchActivity();
+    }
 }

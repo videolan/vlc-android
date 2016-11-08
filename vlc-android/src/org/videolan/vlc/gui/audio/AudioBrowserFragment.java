@@ -81,7 +81,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable, View.OnClickListener {
+public class AudioBrowserFragment extends MediaBrowserFragment implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, AudioBrowserAdapter.ClickHandler, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -166,7 +166,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchButtonView = v.findViewById(R.id.searchButton);
-        mSearchButtonView.setOnClickListener(this);
 
         return v;
     }
@@ -486,15 +485,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     @Override
     public void setSearchVisibility(boolean visible) {
         mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.searchButton:
-                 ((MainActivity)getActivity()).openSearchActivity();
-                break;
-        }
     }
 
     private void updateEmptyView(int position) {

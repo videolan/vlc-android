@@ -19,9 +19,11 @@ import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
+import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
@@ -265,31 +267,13 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return mFilter;
     }
 
-    private class ItemFilter extends Filter {
+    private class ItemFilter extends MediaItemFilter {
 
         @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
+        protected List<MediaLibraryItem> initData() {
             if (mOriginalDataSet == null)
                 mOriginalDataSet = new ArrayList<>(mDataList);
-            final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
-            FilterResults results = new FilterResults();
-            ArrayList<MediaLibraryItem> list = new ArrayList<>(mOriginalDataSet.size());
-            MediaLibraryItem media;
-            mediaLoop:
-            for (int i = 0 ; i < mOriginalDataSet.size() ; ++i) {
-                media = mOriginalDataSet.get(i);
-                for (String queryString : queryStrings) {
-                    if (queryString.length() < 2)
-                        continue;
-                    if (media.getTitle() != null && media.getTitle().toLowerCase().contains(queryString)) {
-                        list.add(media);
-                        continue mediaLoop; //avoid duplicates in search results, and skip useless processing
-                    }
-                }
-            }
-            results.values = list;
-            results.count = list.size();
-            return results;
+            return mOriginalDataSet;
         }
 
         @Override

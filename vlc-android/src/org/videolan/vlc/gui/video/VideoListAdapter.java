@@ -37,7 +37,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
-import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
@@ -47,10 +46,12 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -438,34 +439,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         }
     }
 
-    private class ItemFilter extends Filter {
+    private class ItemFilter extends MediaItemFilter {
 
         @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
+        protected List<MediaWrapper> initData() {
             if (mOriginalData == null) {
                 mOriginalData = new ArrayList<>(mVideos.size());
                 for (int i = 0; i < mVideos.size(); ++i)
                     mOriginalData.add(mVideos.get(i));
             }
-            final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
-            FilterResults results = new FilterResults();
-            ArrayList<MediaWrapper> list = new ArrayList<>(mOriginalData.size());
-            MediaWrapper media;
-            mediaLoop:
-            for (int i = 0 ; i < mOriginalData.size() ; ++i) {
-                media = mOriginalData.get(i);
-                for (String queryString : queryStrings) {
-                    if (queryString.length() < 2)
-                        continue;
-                    if (media.getTitle() != null && media.getTitle().toLowerCase().contains(queryString)) {
-                        list.add(media);
-                        continue mediaLoop; //avoid duplicates in search results, and skip useless processing
-                    }
-                }
-            }
-            results.values = list;
-            results.count = list.size();
-            return results;
+            return mOriginalData;
         }
 
         @Override
