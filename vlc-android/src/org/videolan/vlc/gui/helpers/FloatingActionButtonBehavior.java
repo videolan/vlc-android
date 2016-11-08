@@ -38,7 +38,7 @@ import org.videolan.vlc.R;
 public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior {
 
     public FloatingActionButtonBehavior(Context context, AttributeSet attrs) {
-        super();
+        super(context, attrs);
     }
 
     @Override
