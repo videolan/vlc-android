@@ -798,13 +798,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             switch (msg.what) {
                 case ACTIVITY_SHOW_INFOLAYOUT:
                     if (ma.mInfoLayout.getVisibility() != View.VISIBLE)
-                        ma.mAppBarLayout.setExpanded(false, true);
                     ma.mInfoLayout.setVisibility(View.VISIBLE);
                     break;
                 case ACTIVITY_HIDE_INFOLAYOUT:
                     removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
                     ma.mInfoLayout.setVisibility(View.GONE);
-                    ma.mAppBarLayout.setExpanded(true, true);
                     break;
                 case ACTIVITY_SHOW_PROGRESSBAR:
                     ma.mInfoProgress.setVisibility(View.VISIBLE);

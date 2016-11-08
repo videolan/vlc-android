@@ -18,48 +18,11 @@
 
             <include layout="@layout/toolbar"/>
 
-            <LinearLayout
-                android:id="@+id/content_container"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:orientation="vertical" >
-
-                <FrameLayout
-                    android:id="@+id/fragment_placeholder"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <RelativeLayout
-                    android:id="@+id/info_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="20dp"
-                    android:visibility="gone" >
-
-                    <ProgressBar
-                        android:id="@+id/info_progress"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:progressDrawable="@drawable/progress"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/info_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:shadowColor="#CC000000"
-                        android:shadowDx="1"
-                        android:shadowDy="1"
-                        android:shadowRadius="1.5"
-                        android:singleLine="true"
-                        android:textColor="#FFFFFFFF" />
-                </RelativeLayout>
-
-            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/fragment_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <FrameLayout
                 android:id="@+id/audio_player_container"
@@ -71,6 +34,35 @@
                     android:name="org.videolan.vlc.gui.audio.AudioPlayer"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/info_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone" >
+
+                <ProgressBar
+                    android:id="@+id/info_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:progressDrawable="@drawable/progress"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:shadowColor="#CC000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1.5"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFFFF" />
             </FrameLayout>
 
             <android.support.design.widget.FloatingActionButton
