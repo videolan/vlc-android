@@ -28,9 +28,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -43,16 +46,18 @@ import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.MediaItemFilter;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
-public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> {
+public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -64,17 +69,17 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     private static final BitmapDrawable IMAGE_UNKNOWN = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_unknown_normal));
 
     ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
+    ArrayList<MediaLibraryItem> mOriginalData = null;
     BaseBrowserFragment fragment;
     MediaDatabase mDbManager;
     LinkedList<String> mMediaDirsLocation;
     List<String> mCustomDirsLocation;
-    private String mEmptyDirectoryString;
     private int mTop = 0;
     private int mMediaCount = 0;
+    private ItemFilter mFilter = new ItemFilter();
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
-        mEmptyDirectoryString = VLCApplication.getAppResources().getString(R.string.directory_empty);
     }
 
     @Override
@@ -368,5 +373,37 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         else
             MediaUtils.openMedia(v.getContext(), mw);
 
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+    void restoreList() {
+        if (mOriginalData != null) {
+            mMediaList.clear();
+            mMediaList.addAll(mOriginalData);
+            mOriginalData = null;
+            notifyDataSetChanged();
+        }
+    }
+
+    private class ItemFilter extends MediaItemFilter {
+
+        @Override
+        protected List<MediaLibraryItem> initData() {
+            if (mOriginalData == null)
+                mOriginalData = new ArrayList<>(mMediaList);
+            Log.d(TAG, "initData: "+mOriginalData.size());
+            return mOriginalData;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mMediaList.clear();
+            mMediaList.addAll((Collection<MediaWrapper>) filterResults.values);
+            notifyDataSetChanged();
+        }
     }
 }

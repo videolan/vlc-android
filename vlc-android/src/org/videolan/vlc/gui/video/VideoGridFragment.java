@@ -534,6 +534,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     }
 
     @Override
+    public boolean enableSearchOption() {
+        return true;
+    }
+
+    @Override
     public Filter getFilter() {
         return mVideoAdapter.getFilter();
     }

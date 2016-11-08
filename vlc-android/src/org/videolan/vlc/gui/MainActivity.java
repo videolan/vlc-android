@@ -573,7 +573,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
         if (current instanceof NetworkBrowserFragment &&
                 !((NetworkBrowserFragment)current).isRootDirectory()) {
-            MenuItemCompat.setShowAsAction(menu.findItem(R.id.ml_menu_filter), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
             item = menu.findItem(R.id.ml_menu_save);
             item.setVisible(true);
             String mrl = ((BaseBrowserFragment)current).mMrl;
@@ -588,7 +587,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
         boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
-        menu.findItem(R.id.ml_menu_filter).setVisible(current instanceof Filterable);
+        menu.findItem(R.id.ml_menu_filter).setVisible(current instanceof Filterable && ((Filterable)current).enableSearchOption());
         return true;
     }
 

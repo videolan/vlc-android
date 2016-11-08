@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable{
+public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -430,7 +430,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return mFilter;
     }
 
-    public void restoreList() {
+    void restoreList() {
         if (mOriginalData != null) {
             mVideos.clear();
             mVideos.addAll(mOriginalData);

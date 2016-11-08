@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
@@ -57,6 +58,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -71,7 +73,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static String ROOT = "smb";
@@ -86,6 +88,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
     protected ContextMenuRecyclerView mRecyclerView;
+    private View mSearchButtonView;
     protected BaseBrowserAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
@@ -149,6 +152,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSearchButtonView = v.findViewById(R.id.searchButton);
         return v;
     }
 
@@ -165,6 +169,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         super.onResume();
         if (goBack)
             goBack();
+        setSearchVisibility(false);
+        restoreList();
     }
 
     public void onStop(){
@@ -659,4 +665,20 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             return holderText;
         }
     };
+
+    @Override
+    public boolean enableSearchOption() {
+        return !isRootDirectory();
+    }
+
+    public Filter getFilter() {
+        return mAdapter.getFilter();
+    }
+
+    public void restoreList() {
+        mAdapter.restoreList();
+    }
+    public void setSearchVisibility(boolean visible) {
+        mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
 }

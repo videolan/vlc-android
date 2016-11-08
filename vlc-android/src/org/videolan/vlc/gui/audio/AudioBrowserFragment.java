@@ -474,6 +474,11 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         return getString(R.string.audio);
     }
 
+    @Override
+    public boolean enableSearchOption() {
+        return true;
+    }
+
     public Filter getFilter() {
         return ((AudioBrowserAdapter)((RecyclerView)mLists.get(mViewPager.getCurrentItem())).getAdapter()).getFilter();
     }
