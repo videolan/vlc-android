@@ -22,11 +22,7 @@
             android:scrollbars="vertical"
             android:fadingEdge="none"
             android:stretchMode="none"
-            android:gravity="center"
-            android:nextFocusUp="@+id/ml_menu_search"
-            android:nextFocusDown="@id/android:list"
-            android:nextFocusLeft="@id/android:list"
-            android:nextFocusRight="@id/android:list" />
+            android:gravity="center" />
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
     <LinearLayout

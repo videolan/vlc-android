@@ -17,6 +17,7 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 
 import java.util.ArrayList;
@@ -221,12 +222,13 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             return MediaLibraryItem.TYPE_DUMMY;
         }
     }
-    public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener {
+    public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
             itemView.setOnLongClickListener(this);
+            itemView.setOnFocusChangeListener(this);
         }
 
         public void onClick(View v) {
@@ -247,6 +249,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         public int getType() {
             return MediaLibraryItem.TYPE_MEDIA;
+        }
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus)
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
+            else
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
         }
     }
 

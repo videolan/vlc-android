@@ -58,11 +58,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FilterQueryProvider;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.BuildConfig;
@@ -131,7 +129,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     private boolean mParsing = false;
 
     private Handler mHandler = new MainActivityHandler(this);
-    private int mActionBarIconId = -1;
     Menu mMenu;
     private SearchView mSearchView;
 
@@ -268,7 +265,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
-        setActionBarFocus();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -696,29 +692,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
                 forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
             }
-        }
-    }
-
-    private void setActionBarFocus() {
-        View v = ((ViewGroup)findViewById(R.id.main_toolbar)).getChildAt(0);
-        if (v == null || ! (v instanceof ImageButton))
-            return;
-        if ((mActionBarIconId == -1) &&
-                (v.getId() == -1)  &&
-                (v.getNextFocusDownId() == -1) &&
-                (v.getNextFocusUpId() == -1) &&
-                (v.getNextFocusLeftId() == -1) &&
-                (v.getNextFocusRightId() == -1)) {
-            mActionBarIconId = UiTools.generateViewId();
-            v.setId(mActionBarIconId);
-            v.setNextFocusUpId(mActionBarIconId);
-            v.setNextFocusDownId(mActionBarIconId);
-            v.setNextFocusLeftId(mActionBarIconId);
-            v.setNextFocusRightId(R.id.ml_menu_search);
-            if (AndroidUtil.isHoneycombOrLater())
-                v.setNextFocusForwardId(mActionBarIconId);
-            if (findViewById(R.id.ml_menu_search) != null)
-                findViewById(R.id.ml_menu_search).setNextFocusLeftId(mActionBarIconId);
         }
     }
 

@@ -37,7 +37,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -180,7 +179,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
         for (View rv : mLists) {
             ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(getActivity()));
             registerForContextMenu(rv);
-            rv.setOnKeyListener(keyListener);
         }
 
         mViewPager.setOnTouchListener(mSwipeFilter);
@@ -257,48 +255,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
                 }
             });
         }
-    }
-
-    // Focus support. Start.
-    View.OnKeyListener keyListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-            /* Qualify key action to prevent redundant event
-             * handling.
-             */
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                int newPosition = mViewPager.getCurrentItem();
-
-                switch (event.getKeyCode()) {
-                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        if (newPosition < (MODE_TOTAL - 1))
-                            newPosition++;
-                        break;
-                    case KeyEvent.KEYCODE_DPAD_LEFT:
-                        if (newPosition > 0)
-                            newPosition--;
-                        break;
-                    default:
-                        return false;
-                }
-
-                if (newPosition != mViewPager.getCurrentItem()) {
-                    mViewPager.setCurrentItem(newPosition);
-                }
-            }
-
-            // clean up with MainActivity
-            return false;
-        }
-    };
-    // Focus support. End.
-
-    private void loadPlaylist(int position) {
-        MediaWrapper[] mediaList = mPlaylistAdapter.getItem(position).getTracks(mMediaLibrary);
-        if (mService == null)
-            return;
-        mService.load(mediaList, 0);
     }
 
     @Override
