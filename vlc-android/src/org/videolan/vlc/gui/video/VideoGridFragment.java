@@ -236,6 +236,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             mGridView.setNumColumns(-1);
             int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, res.getDimensionPixelSize(R.dimen.default_margin)));
+            mVideoAdapter.setGridCardWidth(mGridView.getColumnWidth());
             mGridView.removeItemDecoration(mDividerItemDecoration);
         } else {
             mGridView.setNumColumns(1);

@@ -40,6 +40,7 @@
     </data>
 
         <RelativeLayout
+            android:id="@+id/video_grid_item_layout"
             android:layout_width="@dimen/grid_card_thumb_width"
             android:layout_height="@dimen/grid_card_thumb_height"
             android:layout_marginBottom="@dimen/default_margin"
@@ -54,7 +55,7 @@
                 android:id="@+id/ml_item_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 vlc:media="@{media}"
                 vlc:binding="@{holder.binding}"
                 android:src="@drawable/black_gradient"

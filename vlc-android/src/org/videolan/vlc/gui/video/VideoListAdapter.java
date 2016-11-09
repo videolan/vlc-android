@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v7.util.SortedList;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
 
+    private int mGridCardWidth = 0;
     public VideoListAdapter(VideoGridFragment fragment) {
         super();
         mFragment = fragment;
@@ -83,6 +85,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         boolean listMode = viewType == TYPE_LIST;
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+        if (!mListMode) {
+            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) v.getLayoutParams();
+            params.width = mGridCardWidth;
+            params.height = params.width*10/16;
+            v.setLayoutParams(params);
+        }
         return new ViewHolder(v, listMode);
     }
 
@@ -231,6 +239,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public void setListMode(boolean value) {
         mListMode = value;
+    }
+
+    public void setGridCardWidth(int gridCardWidth) {
+        mGridCardWidth = gridCardWidth;
     }
 
     public boolean isListMode() {
