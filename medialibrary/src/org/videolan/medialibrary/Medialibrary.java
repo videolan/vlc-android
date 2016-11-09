@@ -138,12 +138,24 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetAlbums() : new Album[0];
     }
 
+    public Album getAlbum(long albumId) {
+        return mIsInitiated ? nativeGetAlbum(albumId) : null;
+    }
+
     public Artist[] getArtists() {
         return mIsInitiated ? nativeGetArtists() : new Artist[0];
     }
 
+    public Artist getArtist(long artistId) {
+        return mIsInitiated ? nativeGetArtist(artistId) : null;
+    }
+
     public Genre[] getGenres() {
         return mIsInitiated ? nativeGetGenres() : new Genre[0];
+    }
+
+    public Genre getGenre(long genreId) {
+        return mIsInitiated ? nativeGetGenre(genreId) : null;
     }
 
     public Playlist[] getPlaylists() {
@@ -387,8 +399,11 @@ public class Medialibrary {
     private native int nativeGetAudioCount();
     private native  boolean nativeIsWorking();
     private native Album[] nativeGetAlbums();
+    private native Album nativeGetAlbum(long albumtId);
     private native Artist[] nativeGetArtists();
+    private native Artist nativeGetArtist(long artistId);
     private native Genre[] nativeGetGenres();
+    private native Genre nativeGetGenre(long genreId);
     private native Playlist[] nativeGetPlaylists();
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);

@@ -48,8 +48,11 @@ public:
     std::vector<medialibrary::MediaPtr> videoFiles( medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false );
     std::vector<medialibrary::MediaPtr> audioFiles( medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false );
     std::vector<medialibrary::AlbumPtr> albums();
+    medialibrary::AlbumPtr album(int64_t albumId);
     std::vector<medialibrary::ArtistPtr> artists();
+    medialibrary::ArtistPtr artist(int64_t artistId);
     std::vector<medialibrary::GenrePtr> genres();
+    medialibrary::GenrePtr genre(int64_t genreId);
     std::vector<medialibrary::PlaylistPtr> playlists();
     medialibrary::PlaylistPtr playlist( int64_t playlistId );
     medialibrary::PlaylistPtr PlaylistCreate( const std::string &name );

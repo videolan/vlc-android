@@ -245,6 +245,14 @@ getAlbums(JNIEnv* env, jobject thiz)
     return albumRefs;
 }
 
+jobject
+getAlbum(JNIEnv* env, jobject thiz, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::AlbumPtr album = aml->album(id);
+    return album != nullptr ? convertAlbumObject(env, &ml_fields, album) : nullptr;
+}
+
 jobjectArray
 getArtists(JNIEnv* env, jobject thiz)
 {
@@ -260,6 +268,14 @@ getArtists(JNIEnv* env, jobject thiz)
     return artistRefs;
 }
 
+jobject
+getArtist(JNIEnv* env, jobject thiz, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::ArtistPtr artist = aml->artist(id);
+    return artist != nullptr ? convertArtistObject(env, &ml_fields, artist) : nullptr;
+}
+
 jobjectArray
 getGenres(JNIEnv* env, jobject thiz)
 {
@@ -273,6 +289,14 @@ getGenres(JNIEnv* env, jobject thiz)
         env->DeleteLocalRef(item);
     }
     return genreRefs;
+}
+
+jobject
+getGenre(JNIEnv* env, jobject thiz, jlong id)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::GenrePtr genre = aml->genre(id);
+    return genre != nullptr ? convertGenreObject(env, &ml_fields, genre) : nullptr;
 }
 
 jobjectArray
@@ -503,8 +527,11 @@ static JNINativeMethod methods[] = {
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
     {"nativeGetAlbums", "()[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },
+    {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/media/Album;", (void*)getAlbum },
     {"nativeGetArtists", "()[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
+    {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/media/Artist;", (void*)getArtist },
     {"nativeGetGenres", "()[Lorg/videolan/medialibrary/media/Genre;", (void*)getGenres },
+    {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/media/Genre;", (void*)getGenre },
     {"nativeGetPlaylists", "()[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylists },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
     {"nativeIsWorking", "()Z", (void*)isWorking },

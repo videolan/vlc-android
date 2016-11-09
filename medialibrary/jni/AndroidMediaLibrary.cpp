@@ -192,16 +192,34 @@ AndroidMediaLibrary::albums()
     return p_ml->albums();
 }
 
+medialibrary::AlbumPtr
+AndroidMediaLibrary::album(int64_t albumId)
+{
+    return p_ml->album(albumId);
+}
+
 std::vector<medialibrary::ArtistPtr>
 AndroidMediaLibrary::artists()
 {
     return p_ml->artists();
 }
 
+medialibrary::ArtistPtr
+AndroidMediaLibrary::artist(int64_t artistId)
+{
+    return p_ml->artist(artistId);
+}
+
 std::vector<medialibrary::GenrePtr>
 AndroidMediaLibrary::genres()
 {
     return p_ml->genres();
+}
+
+medialibrary::GenrePtr
+AndroidMediaLibrary::genre(int64_t genreId)
+{
+    return p_ml->genre(genreId);
 }
 
 std::vector<medialibrary::PlaylistPtr>
