@@ -2,14 +2,17 @@ Changes between 2.0.0 and 2.1.0:
 ----------------------------------
 
 Application:
- * Switch to MediaLibrary
- * Refactored AudioPlayer to get rid of SlidingPane layout
- * CoordinatorLayout integration
+ * Android Auto implementation
+ * DayNight mode integration
+ * Option to filter in current media list
+ * Removed sound lowering on notification
  * New Search activity and integration with Google Now
  * Redesigned audio and video lists/grid
  * Media Info view is now a BottomSheet pane
- * DayNight mode integration
  * Force previous song on audioplayer swipe
+ * Refactored MediaLibrary
+ * Refactored AudioPlayer to get rid of SlidingPane layout
+ * CoordinatorLayout integration
  * Transparent theme for smoother startup
  * Fix audioplayer layout for black theme and RTL
  * Fix notification content when no artist nor album
