@@ -30,10 +30,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.util.FileUtils;
+
+import java.util.LinkedList;
 
 public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
 
@@ -66,6 +71,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
 
 
     protected abstract String getTitle();
+    public abstract void onRefresh();
 
     protected String getSubTitle() { return null; }
     public void clear() {}
@@ -92,5 +98,35 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment {
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
 
         return info != null && handleContextItemSelected(menu, info.position);
+    }
+
+    protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final LinkedList<String> foldersToReload = new LinkedList<>();
+                final LinkedList<String> mediaPaths = new LinkedList<>();
+                for (MediaWrapper media : mw.getTracks(mMediaLibrary)) {
+                    String path = media.getUri().getPath();
+                    mediaPaths.add(media.getLocation());
+                    String parentPath = FileUtils.getParent(path);
+                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath))
+                        foldersToReload.add(parentPath);
+                }
+                for (String folder : foldersToReload)
+                        mMediaLibrary.reload(folder);
+                if (mService != null && getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (String path : mediaPaths)
+                                mService.removeLocation(path);
+                            if (refresh)
+                                onRefresh();
+                        }
+                    });
+                }
+            }
+        });
     }
 }

@@ -355,16 +355,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), getBrowserFlags());
     }
 
-    private void deleteMedia(final MediaWrapper mw) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                FileUtils.deleteFile(mw.getUri().getPath());
-                mMediaLibrary.remove(mw);
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -484,7 +474,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(mw);
+                        deleteMedia(mw, false);
                     }
                 }, new Runnable() {
                     @Override

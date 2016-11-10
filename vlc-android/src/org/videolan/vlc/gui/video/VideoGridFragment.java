@@ -70,7 +70,6 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
@@ -302,7 +301,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                         @Override
                         public void run() {
-                            deleteMedia(media);
+                            deleteMedia(media, false);
                         }
                     }, new Runnable() {
                         @Override
@@ -479,22 +478,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     public void clear(){
         mVideoAdapter.clear();
-    }
-
-    public void deleteMedia(final MediaWrapper media){
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMediaLibrary.remove(media);
-                FileUtils.deleteFile(media.getUri().getPath());
-            }
-        });
-        if (mService != null) {
-            final List<String> list = mService.getMediaLocations();
-            if (list != null && list.contains(media.getLocation())) {
-                mService.removeLocation(media.getLocation());
-            }
-        }
     }
 
     boolean mParsing = false;

@@ -27,14 +27,11 @@ import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoAdapter;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -303,25 +300,6 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
         if (hasSubs && mHandler != null)
             mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
     }
-
-    private void updateSize(Long size){
-        mSizeView.setText(Strings.readableFileSize(size.longValue()));
-    }
-
-    private Runnable mDeleteAction = new Runnable() {
-        @Override
-        public void run() {
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    FileUtils.deleteFile(mItem.getUri().getPath());
-                    VLCApplication.getMLInstance().remove(mItem);
-                    if (mHandler != null)
-                        mHandler.sendEmptyMessage(EXIT);
-                }
-            });
-        }
-    };
 
     private Handler mHandler = new MediaInfoDialog.MediaInfoHandler(this);
 

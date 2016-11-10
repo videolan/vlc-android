@@ -315,10 +315,12 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
 
         if (id == R.id.audio_list_browser_delete) {
             final MediaLibraryItem mediaLibraryItem = adapter.getItem(position);
+            final MediaLibraryItem previous = position> 0 ? adapter.getItem(position-1) : null;
+            final MediaLibraryItem next = position < adapter.getItemCount() ? adapter.getItem(position+1) : null;
             String message;
             Runnable action;
-            final MediaLibraryItem separator = adapter.getItemViewType(position-1) == MediaLibraryItem.TYPE_DUMMY &&
-                    adapter.getItemViewType(position+1) == MediaLibraryItem.TYPE_DUMMY ? adapter.getItem(position-1) : null;
+            final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
+                    (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? adapter.getItem(position-1) : null;
             adapter.remove(position);
             if (separator != null)
                 adapter.remove(position-1);
@@ -336,7 +338,7 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
                 action = new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia((MediaWrapper) mediaLibraryItem);
+                        deleteMedia(mediaLibraryItem, true);
                     }
                 };
             } else
@@ -433,10 +435,10 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
 
     @Override
     public void onRefresh() {
+        mMainActivity.closeSearchView();
         if (!mMediaLibrary.isWorking()) {
             updateLists();
-        } else
-            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -561,26 +563,6 @@ public class AudioBrowserFragment extends MediaBrowserFragment implements Device
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         ((RecyclerView) mLists.get(tab.getPosition())).smoothScrollToPosition(0);
-    }
-
-    private void deleteMedia(final MediaWrapper mw) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final String path = mw.getUri().getPath();
-                mMediaLibrary.remove(mw);
-                FileUtils.deleteFile(path);
-                mMediaLibrary.reload(FileUtils.getParent(mw.getUri().getPath()));
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mService != null)
-                            mService.removeLocation(mw.getLocation());
-                    }
-                });
-                mHandler.obtainMessage(REFRESH, path).sendToTarget();
-            }
-        });
     }
 
     private void deletePlaylist(final Playlist playlist) {

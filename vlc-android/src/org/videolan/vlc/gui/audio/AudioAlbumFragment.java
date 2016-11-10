@@ -25,8 +25,6 @@ package org.videolan.vlc.gui.audio;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -66,7 +64,6 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
     private AudioBrowserAdapter mAdapter;
     private Album mAlbum;
     private Medialibrary mMediaLibrary;
-    Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +85,9 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
     protected String getTitle() {
         return mAlbum.getTitle();
     }
+
+    @Override
+    public void onRefresh() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -190,23 +190,8 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
     }
 
     private void deleteMedia(final int position) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-                mAdapter.remove(position);
-                final String path = mw.getUri().getPath();
-                mMediaLibrary.remove(mw);
-                FileUtils.deleteFile(path);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mService != null)
-                            mService.removeLocation(mw.getLocation());
-                    }
-                });
-            }
-        });
+        mAdapter.remove(position);
+        super.deleteMedia(mAdapter.getItem(position), true);
     }
 
     @Override

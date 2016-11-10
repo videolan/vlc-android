@@ -195,7 +195,7 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
             UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
-                    deleteMedia(mediaItem);
+                    deleteMedia(mediaItem, true);
                 }
             }, new Runnable() {
                 @Override
@@ -302,37 +302,6 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
     public void clear() {
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
-    }
-
-    private void deleteMedia(final MediaLibraryItem mediaLibraryItem) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final MediaWrapper[] mediaList;
-                if (mediaLibraryItem instanceof Album)
-                    mediaList = ((Album) mediaLibraryItem).getTracks(mMediaLibrary);
-                else
-                    mediaList = new MediaWrapper[]{(MediaWrapper) mediaLibraryItem};
-                if (mService != null)
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (MediaWrapper media : mediaList)
-                                mService.removeLocation(media.getLocation());
-                        }
-                    });
-                for (MediaWrapper media : mediaList) {
-                    mMediaLibrary.remove(media);
-                    FileUtils.deleteFile(media.getUri().getPath());
-                }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateList();
-                    }
-                });
-            }
-        });
     }
 
     @Override

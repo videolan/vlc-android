@@ -21,7 +21,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -298,14 +297,6 @@ public class Medialibrary {
             for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                 cb.onParsingStatsUpdated(percent);
          Log.d(TAG, "onParsingStatsUpdated: "+percent);
-    }
-
-    public void remove (MediaWrapper mw) {
-        if (!mIsInitiated)
-            return;
-        File file = new File(mw.getUri().toString().replace(" ", "%20"));
-        if (file.exists() && file.canWrite())
-            nativeReload(file.getParent());
     }
 
     public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {
