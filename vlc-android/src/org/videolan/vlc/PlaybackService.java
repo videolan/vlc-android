@@ -350,8 +350,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_LOSS:
                         Log.i(TAG, "AUDIOFOCUS_LOSS");
-                        // Stop playback
-                        stopPlayback();
+                        // Pause playback
+                        changeAudioFocus(false);
+                        pause();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
