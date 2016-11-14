@@ -126,7 +126,7 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
     return item;
 }
 
-jobject
+static jobject
 convertMediaSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::MediaSearchAggregate const& mediaSearchAggregatePtr)
 {
     jobjectArray episodes = (jobjectArray) env->NewObjectArray(mediaSearchAggregatePtr.episodes.size(), fields->MediaWrapper.clazz, NULL);

@@ -93,7 +93,6 @@ jobject convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr c
 jobject convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr);
 jobject convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr);
 jobject convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr);
-jobject convertMediaSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::MediaSearchAggregate const& mediaSearchAggregatePtr);
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr);
 
 #endif //VLC_MEDIALIB_UTILS_H
