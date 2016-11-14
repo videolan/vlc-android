@@ -153,7 +153,7 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::MediaPtr> mediaPlayed = aml->lastMediaPlayed();
-    jobjectArray mediaRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(mediaPlayed.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaPlayed.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : mediaPlayed) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
@@ -168,7 +168,7 @@ getVideos(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles();
-    jobjectArray videoRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray videoRefs = (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : videoFiles) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
@@ -183,7 +183,7 @@ getAudio(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::MediaPtr> audioFiles = aml->audioFiles();
-    jobjectArray audioRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(audioFiles.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray audioRefs = (jobjectArray) env->NewObjectArray(audioFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : audioFiles) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
@@ -235,7 +235,7 @@ getAlbums(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::AlbumPtr> albums = aml->albums();
-    jobjectArray albumRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL));
+    jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
         jobject item = convertAlbumObject(env, &ml_fields, album);
@@ -258,7 +258,7 @@ getArtists(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::ArtistPtr> artists = aml->artists();
-    jobjectArray artistRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL));
+    jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
         jobject item = convertArtistObject(env, &ml_fields, artist);
@@ -281,7 +281,7 @@ getGenres(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::GenrePtr> genres = aml->genres();
-    jobjectArray genreRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL));
+    jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
     int index = -1;
     for(medialibrary::GenrePtr const& genre : genres) {
         jobject item = convertGenreObject(env, &ml_fields, genre);
@@ -304,7 +304,7 @@ getPlaylists(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists();
-    jobjectArray playlistRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL));
+    jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
         jobject item = convertPlaylistObject(env, &ml_fields, playlist);
@@ -345,7 +345,7 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::MediaPtr> tracks = aml->tracksFromAlbum(id);
-    jobjectArray mediaRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     jobject item = nullptr;
     for(medialibrary::MediaPtr const& media : tracks) {
@@ -365,7 +365,7 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id);
-    jobjectArray mediaRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
@@ -380,7 +380,7 @@ getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromArtist(id);
-    jobjectArray albumsRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL));
+    jobjectArray albumsRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
         jobject item = convertAlbumObject(env, &ml_fields, album);
@@ -400,7 +400,7 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromGenre(id);
-    jobjectArray mediaRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
@@ -415,7 +415,7 @@ getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromGenre(id);
-    jobjectArray albumRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL));
+    jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
         jobject item = convertAlbumObject(env, &ml_fields, album);
@@ -430,7 +430,7 @@ getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::ArtistPtr> artists = aml->artistsFromGenre(id);
-    jobjectArray artistsRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL));
+    jobjectArray artistsRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
         jobject item = convertArtistObject(env, &ml_fields, artist);
@@ -450,7 +450,7 @@ getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromPlaylist(id);
-    jobjectArray mediaRefs = (jobjectArray) env->NewGlobalRef(env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL));
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
