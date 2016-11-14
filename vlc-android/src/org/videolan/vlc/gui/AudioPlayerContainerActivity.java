@@ -106,12 +106,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         super.onCreate(savedInstanceState);
     }
 
-    protected void initAudioPlayerContainerActivity(){
+    protected void initAudioPlayerContainerActivity() {
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        mAppBarLayout.setExpanded(true);
 
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mAudioPlayer.setUserVisibleHint(false);
