@@ -920,11 +920,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void stopPlayback() {
-        if (mMediaSession != null) {
-            mMediaSession.setActive(false);
-            mMediaSession.release();
-            mMediaSession = null;
-        }
         removePopup();
         if (mMediaPlayer == null)
             return;
