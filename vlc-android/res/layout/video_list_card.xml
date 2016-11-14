@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{holder::onClick}"
+        android:onClick="@{(view) -> holder.onClick(view, media)}"
         android:longClickable="true"  >
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
         <ImageView

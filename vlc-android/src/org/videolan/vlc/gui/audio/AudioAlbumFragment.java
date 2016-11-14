@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.audio;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,8 +43,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MediaInfoDialog;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -55,7 +52,7 @@ import org.videolan.vlc.util.FileUtils;
 
 import java.util.ArrayList;
 
-public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnClickListener, AudioBrowserAdapter.ClickHandler {
+public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClickListener, AudioBrowserAdapter.EventsHandler {
 
     public final static String TAG = "VLC/AudioAlbumFragment";
 
@@ -77,17 +74,9 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
     }
 
     @Override
-    protected void inflate(Menu menu, int position) {
-        getActivity().getMenuInflater().inflate(R.menu.audio_list_browser, menu);
-    }
-
-    @Override
     protected String getTitle() {
         return mAlbum.getTitle();
     }
-
-    @Override
-    public void onRefresh() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -169,11 +158,7 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
             });
             return true;
         } else if (id == R.id.audio_view_info) {
-            BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-            Bundle args = new Bundle();
-            args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
-            bottomSheetDialogFragment.setArguments(args);
-            bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+            showInfoDialog(media);
             return true;
         } else if (id == R.id.audio_view_add_playlist) {
             ArrayList<MediaWrapper> medias = new ArrayList<>();
@@ -216,5 +201,10 @@ public class AudioAlbumFragment extends MediaBrowserFragment implements View.OnC
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
         ((ContextMenuRecyclerView) getView().findViewById(R.id.songs)).openContextMenu(position);
+    }
+
+    @Override
+    protected AudioBrowserAdapter getCurrentAdapter() {
+        return mAdapter;
     }
 }

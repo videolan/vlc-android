@@ -20,18 +20,20 @@
 
 package org.videolan.vlc.gui.video;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -54,7 +56,6 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
@@ -70,6 +71,7 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
@@ -289,26 +291,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 MediaUtils.openList(getActivity(), playList, position+offset);
                 return true;
             case R.id.video_list_info:
-                BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-                Bundle args = new Bundle();
-                args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
-                bottomSheetDialogFragment.setArguments(args);
-                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+                showInfoDialog(media);
                 return true;
             case R.id.video_list_delete:
-                mVideoAdapter.remove(position);
-                if (getView() != null)
-                    UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteMedia(media, false);
-                        }
-                    }, new Runnable() {
-                        @Override
-                        public void run() {
-                            mVideoAdapter.add(media);
-                        }
-                    });
+                removeVideo(position, media);
                 return true;
             case R.id.video_group_play:
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
@@ -324,6 +310,22 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 return true;
         }
         return false;
+    }
+
+    private void removeVideo(int position, final MediaWrapper media) {
+        mVideoAdapter.remove(position);
+        if (getView() != null)
+            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(media, false);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    mVideoAdapter.add(media);
+                }
+            });
     }
 
     @Override
@@ -535,5 +537,61 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void setSearchVisibility(boolean visible) {
         mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mode.getMenuInflater().inflate(R.menu.action_mode_video, menu);
+        mVideoAdapter.setActionMode(true);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        if (mVideoAdapter.getSelectedPositions().isEmpty()) {
+            stopActionMode();
+            return false;
+        }
+        menu.findItem(R.id.action_video_info).setVisible(mVideoAdapter.getSelectedPositions().size() == 1);
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_video_play:
+                MediaUtils.openList(getActivity(), mVideoAdapter.getSelection(), 0);
+                break;
+            case R.id.action_video_append:
+                MediaUtils.appendMedia(getActivity(), mVideoAdapter.getSelection());
+                break;
+            case R.id.action_video_info:
+                showInfoDialog(mVideoAdapter.getSelection().get(0));
+                break;
+            case R.id.action_video_delete:
+                for (int position : mVideoAdapter.getSelectedPositions())
+                    removeVideo(position, mVideoAdapter.getItem(position));
+                break;
+            case R.id.action_video_download_subtitles:
+                MediaUtils.getSubs(getActivity(), mVideoAdapter.getSelection());
+                break;
+            case R.id.action_video_play_audio:
+                List<MediaWrapper> list = mVideoAdapter.getSelection();
+                for (MediaWrapper media : list)
+                    media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                MediaUtils.openList(getActivity(), list, 0);
+                break;
+            default:
+                stopActionMode();
+                return false;
+        }
+        stopActionMode();
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        mVideoAdapter.setActionMode(false);
     }
 }

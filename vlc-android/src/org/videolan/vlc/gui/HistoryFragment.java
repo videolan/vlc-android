@@ -24,9 +24,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -150,5 +153,20 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     public void clearHistory() {
         mHistoryAdapter.clear();
         updateEmptyView();
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
     }
 }

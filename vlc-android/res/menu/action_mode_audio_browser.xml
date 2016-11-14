@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_mode_audio_play"
+        android:title="@string/play"
+        android:icon="@drawable/ic_play_w"/>
+    <item
+        android:id="@+id/action_mode_audio_append"
+        android:title="@string/append"
+        android:icon="@drawable/ic_next_w"/>
+    <item
+        android:id="@+id/action_mode_audio_info"
+        android:title="@string/info"
+        android:icon="@drawable/ic_info_outline_white"/>
+    <item
+        android:id="@+id/action_mode_audio_add_playlist"
+        android:title="@string/add_to_playlist"
+        android:icon="@drawable/ic_playlist_add_white"/>
+    <item
+        android:id="@+id/action_mode_audio_delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_trash_normal_w"
+        android:visible="false" />
+    <group android:id="@+id/phone_only" >
+        <item
+            android:id="@+id/action_mode_audio_set_song"
+            android:title="@string/set_song"
+            android:icon="@drawable/ic_music_note_white"
+            android:visible="false" />
+    </group>
+</menu>

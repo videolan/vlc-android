@@ -23,28 +23,32 @@ import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
-    private boolean mMakeSections = true;
+    private boolean mMakeSections = true, mActionMode;
 
-    public interface ClickHandler {
+    public interface EventsHandler {
         void onClick(View v, int position, MediaLibraryItem item);
         void onCtxClick(View v, int position, MediaLibraryItem item);
+        void startActionMode();
+        void invalidateActionMode();
     }
 
     private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
     private ArrayList<MediaLibraryItem> mOriginalDataSet = null;
+    private List<Integer> mSelectedItems = new LinkedList<>();
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
-    private ClickHandler mClickHandler;
+    private EventsHandler mEventsHandler;
 
-    public AudioBrowserAdapter(Activity context, ClickHandler clickHandler, boolean sections) {
+    public AudioBrowserAdapter(Activity context, EventsHandler eventsHandler, boolean sections) {
         mContext = context;
-        mClickHandler = clickHandler;
+        mEventsHandler = eventsHandler;
         mMakeSections = sections;
     }
 
@@ -65,8 +69,11 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         if (position >= mDataList.size())
             return;
         holder.vdb.setVariable(BR.item, mDataList.get(position));
-        if (holder.getType() == MediaLibraryItem.TYPE_MEDIA)
+        if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             holder.vdb.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
+        boolean isSelected = mActionMode && mSelectedItems.contains(position);
+            ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus() || isSelected);
+        }
     }
 
     @Override
@@ -212,6 +219,29 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
     }
 
+    void setActionMode(boolean actionMode) {
+        mActionMode = actionMode;
+        if (!actionMode) {
+            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
+            mSelectedItems.clear();
+            for (Integer position : positions)
+                notifyItemChanged(position);
+        }
+    }
+
+    List<Integer> getSelectedPositions() {
+        return mSelectedItems;
+    }
+
+    List<MediaLibraryItem> getSelection() {
+        List<MediaLibraryItem> selection = new LinkedList<>();
+        for (Integer selected : mSelectedItems) {
+            MediaLibraryItem media = mDataList.get(selected);
+            selection.add(media);
+        }
+        return selection;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewDataBinding vdb;
 
@@ -224,6 +254,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             return MediaLibraryItem.TYPE_DUMMY;
         }
     }
+
     public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
@@ -234,19 +265,38 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
 
         public void onClick(View v) {
-            if (mClickHandler != null)
-                mClickHandler.onClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
+            if (mActionMode) {
+                setSelected();
+                if (mEventsHandler != null)
+                    mEventsHandler.invalidateActionMode();
+                return;
+            }
+            if (mEventsHandler != null)
+                mEventsHandler.onClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
         }
 
         public void onMoreClick(View v) {
-            if (mClickHandler != null)
-                mClickHandler.onCtxClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
+            if (mEventsHandler != null)
+                mEventsHandler.onCtxClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
         }
 
         @Override
         public boolean onLongClick(View view) {
-            onMoreClick(view);
+            if (mActionMode)
+                return false;
+            setSelected();
+            mEventsHandler.startActionMode();
             return true;
+        }
+
+        private void setSelected() {
+            Integer position = getLayoutPosition();
+            boolean selected = !mSelectedItems.contains(position);
+            if (selected)
+                mSelectedItems.add(position);
+            else
+                mSelectedItems.remove(position);
+            setViewBackground(itemView.hasFocus() || mSelectedItems.contains(position));
         }
 
         public int getType() {
@@ -255,7 +305,11 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus)
+            setViewBackground(hasFocus || mSelectedItems.contains(getLayoutPosition()));
+        }
+
+        private void setViewBackground(boolean highlight) {
+            if (highlight)
                 itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
             else
                 itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);

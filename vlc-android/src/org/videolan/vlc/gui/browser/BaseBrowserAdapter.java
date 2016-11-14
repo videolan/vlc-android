@@ -43,6 +43,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.CustomDirectories;
@@ -77,6 +78,8 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     private int mTop = 0;
     private int mMediaCount = 0;
     private ItemFilter mFilter = new ItemFilter();
+    private boolean mActionMode;
+    private List<Integer> mSelectedItems = new LinkedList<>();
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -117,6 +120,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             vh.binding.setProtocol(getProtocol(media));
         vh.binding.setImage(getIcon(media));
         vh.setContextMenuListener();
+        vh.setViewBackground(mSelectedItems.contains(position));
     }
 
     @Override
@@ -173,10 +177,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             itemView.setOnLongClickListener(this);
         }
 
-        public void onClick(View v){
-            openMediaFromView(this, v);
-        }
-
         protected void openStorage() {
             MediaWrapper mw = new MediaWrapper(((Storage) getItem(getAdapterPosition())).getUri());
             mw.setType(MediaWrapper.TYPE_DIR);
@@ -189,19 +189,59 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             }
         }
 
-        public void onMoreClick(View v) {
-            fragment.openContextMenu(getLayoutPosition());
-        }
-
         @Override
         public int getType() {
             return TYPE_MEDIA;
         }
 
+        public void onClick(View v){
+            if (mActionMode) {
+                MediaWrapper mediaWrapper = (MediaWrapper) getItem(getLayoutPosition());
+                if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
+                        mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
+                        mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
+                    setSelected();
+                    fragment.invalidateActionMode();
+                }
+            } else
+                openMediaFromView(this, v);
+        }
+
+        public void onMoreClick(View v) {
+            fragment.openContextMenu(getLayoutPosition());
+        }
+
         @Override
         public boolean onLongClick(View v) {
-            fragment.mRecyclerView.openContextMenu(getLayoutPosition());
+            int position = getLayoutPosition();
+            MediaWrapper mediaWrapper = (MediaWrapper) getItem(position);
+            if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
+                    mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
+                    mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
+                if (mActionMode)
+                    return false;
+                setSelected();
+                fragment.startActionMode();
+            } else
+                fragment.mRecyclerView.openContextMenu(position);
             return true;
+        }
+
+        private void setSelected() {
+            Integer position = getLayoutPosition();
+            boolean selected = !mSelectedItems.contains(position);
+            if (selected)
+                mSelectedItems.add(position);
+            else
+                mSelectedItems.remove(position);
+            setViewBackground(mSelectedItems.contains(position));
+        }
+
+        private void setViewBackground(boolean highlight) {
+            if (highlight)
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
+            else
+                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
         }
     }
 
@@ -374,6 +414,30 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             MediaUtils.openMedia(v.getContext(), mw);
 
     }
+
+    void setActionMode(boolean actionMode) {
+        mActionMode = actionMode;
+        if (!actionMode) {
+            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
+            mSelectedItems.clear();
+            for (Integer position : positions)
+                notifyItemChanged(position);
+        }
+    }
+
+    List<Integer> getSelectedPositions() {
+        return mSelectedItems;
+    }
+
+    ArrayList<MediaWrapper> getSelection() {
+        ArrayList<MediaWrapper> selection = new ArrayList<>();
+        for (Integer selected : mSelectedItems) {
+            MediaWrapper media = (MediaWrapper) mMediaList.get(selected);
+            selection.add(media);
+        }
+        return selection;
+    }
+
 
     @Override
     public Filter getFilter() {

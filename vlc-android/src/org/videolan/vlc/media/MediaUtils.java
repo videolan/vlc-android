@@ -37,11 +37,11 @@ public class MediaUtils {
         LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
     }
 
-    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList) {
+    public static void getSubs(Activity activity, List<MediaWrapper> mediaList) {
         getSubs(activity, mediaList, null);
     }
 
-    public static void getSubs(Activity activity, ArrayList<MediaWrapper> mediaList, SubtitlesDownloader.Callback cb) {
+    public static void getSubs(Activity activity, List<MediaWrapper> mediaList, SubtitlesDownloader.Callback cb) {
         if (sSubtitlesDownloader == null)
             sSubtitlesDownloader = new SubtitlesDownloader();
         sSubtitlesDownloader.setActivity(activity);
@@ -69,6 +69,17 @@ public class MediaUtils {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
         LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
+    }
+
+    public static void appendMedia(final Context context, final List<MediaWrapper> media){
+        if (media == null)
+            return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.append(media);
+                }
+        });
     }
 
     public static void appendMedia(final Context context, final MediaWrapper media){

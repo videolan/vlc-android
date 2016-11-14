@@ -49,7 +49,7 @@
             android:longClickable="true"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{holder::onClick}">
+            android:onClick="@{(view) -> holder.onClick(view, media)}" >
             <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
             <ImageView
                 android:id="@+id/ml_item_thumbnail"

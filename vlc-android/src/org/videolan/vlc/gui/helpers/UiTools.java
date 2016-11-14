@@ -28,13 +28,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -48,10 +52,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
@@ -226,5 +233,13 @@ public class UiTools {
                     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
+    }
+
+    public static void addToPlaylist(FragmentActivity activity, ArrayList<MediaWrapper> tracks) {
+        SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, tracks);
+        savePlaylistDialog.setArguments(args);
+        savePlaylistDialog.show(activity.getSupportFragmentManager(), "fragment_add_to_playlist");
     }
 }

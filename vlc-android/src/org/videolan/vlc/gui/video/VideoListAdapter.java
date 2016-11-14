@@ -52,6 +52,7 @@ import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,11 +64,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
 
-    public final static int TYPE_LIST = 0;
-    public final static int TYPE_GRID = 1;
+    private final static int TYPE_LIST = 0;
+    private final static int TYPE_GRID = 1;
 
     public final static int SORT_BY_DATE = 2;
-    private boolean mListMode = false;
+    private boolean mListMode = false, mActionMode;
+    private List<Integer> mSelectedItems = new LinkedList<>();
     private VideoGridFragment mFragment;
     private VideoComparator mVideoComparator = new VideoComparator();
     private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
@@ -75,7 +77,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private ItemFilter mFilter = new ItemFilter();
 
     private int mGridCardWidth = 0;
-    public VideoListAdapter(VideoGridFragment fragment) {
+    VideoListAdapter(VideoGridFragment fragment) {
         super();
         mFragment = fragment;
     }
@@ -102,6 +104,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
+        boolean isSelected = mActionMode && mSelectedItems.contains(position);
+        holder.setViewBackground(mActionMode && isSelected);
     }
 
     @Override
@@ -115,7 +119,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     @MainThread
-    public void setTimes( Map<Long, Long> times) {
+    void setTimes( Map<Long, Long> times) {
         // update times
         for (int i = 0; i < getItemCount(); ++i) {
             MediaWrapper media = mVideos.get(i);
@@ -185,6 +189,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return list;
     }
 
+    List<Integer> getSelectedPositions() {
+        return mSelectedItems;
+    }
+
+    List<MediaWrapper> getSelection() {
+        List<MediaWrapper> selection = new LinkedList<>();
+        for (Integer selected : mSelectedItems) {
+            MediaWrapper media = mVideos.get(selected);
+            if (media instanceof MediaGroup)
+                selection.addAll(((MediaGroup)media).getAll());
+            else
+                selection.add(media);
+        }
+        return selection;
+    }
+
     @MainThread
     public void update(MediaWrapper item) {
         int position = mVideos.indexOf(item);
@@ -228,7 +248,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 }
             }
             if (media.getWidth() > 0 && media.getHeight() > 0)
-                resolution = String.format("%dx%d", media.getWidth(), media.getHeight());
+                resolution = String.format(Locale.US, "%dx%d", media.getWidth(), media.getHeight());
         }
 
         holder.binding.setVariable(BR.resolution, resolution);
@@ -264,6 +284,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
+    public void setActionMode(boolean actionMode) {
+        mActionMode = actionMode;
+        if (!actionMode) {
+            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
+            mSelectedItems.clear();
+            for (Integer position : positions)
+                notifyItemChanged(position);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
         boolean listmode;
         public ViewDataBinding binding;
@@ -277,10 +307,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             itemView.setOnFocusChangeListener(this);
         }
 
-        public void onClick(View v){
-            MediaWrapper media = getItem(getAdapterPosition());
-            if (media == null)
+        public void onClick(View v, MediaWrapper media) {
+            if (mActionMode) {
+                setSelected();
+                mFragment.invalidateActionMode();
                 return;
+            }
             Activity activity = mFragment.getActivity();
             if (media instanceof MediaGroup) {
                 String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
@@ -292,32 +324,44 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         }
 
         public void onMoreClick(View v){
-            if (mFragment == null)
+            if (mActionMode || mFragment == null)
                 return;
-            mFragment.mGridView.openContextMenu(getAdapterPosition());
+            mFragment.mGridView.openContextMenu(getLayoutPosition());
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if (mFragment == null)
+            if (mActionMode || mFragment == null)
                 return false;
-            mFragment.mGridView.openContextMenu(getLayoutPosition());
+            setSelected();
+            mFragment.startActionMode();
             return true;
+        }
+
+        private void setSelected() {
+            Integer position = getLayoutPosition();
+            boolean selected = !mSelectedItems.contains(position);
+            if (selected)
+                mSelectedItems.add(position);
+            else
+                mSelectedItems.remove(position);
+            setViewBackground(itemView.hasFocus() || mSelectedItems.contains(position));
         }
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus)
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
-            else
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
+            setViewBackground(hasFocus || mSelectedItems.contains(getLayoutPosition()));
+        }
+
+        private void setViewBackground(boolean highlight) {
+            itemView.setBackgroundColor(highlight ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
         }
     }
-    public int sortDirection(int sortDirection) {
+    int sortDirection(int sortDirection) {
         return mVideoComparator.sortDirection(sortDirection);
     }
 
-    public void sortBy(int sortby) {
+    void sortBy(int sortby) {
         mVideoComparator.sortBy(sortby);
     }
 
@@ -328,7 +372,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         notifyItemRangeChanged(0, mVideos.size());
     }
 
-    public class VideoComparator extends SortedList.Callback<MediaWrapper> {
+    class VideoComparator extends SortedList.Callback<MediaWrapper> {
 
         private static final String KEY_SORT_BY =  "sort_by";
         private static final String KEY_SORT_DIRECTION =  "sort_direction";
@@ -337,18 +381,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         private int mSortBy;
         protected SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
 
-        public VideoComparator() {
+        VideoComparator() {
             mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
             mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
         }
-        public int sortDirection(int sortby) {
+        int sortDirection(int sortby) {
             if (sortby == mSortBy)
                 return  mSortDirection;
             else
                 return -1;
         }
 
-        public void sortBy(int sortby) {
+        void sortBy(int sortby) {
             switch (sortby) {
                 case SORT_BY_TITLE:
                     if (mSortBy == SORT_BY_TITLE)

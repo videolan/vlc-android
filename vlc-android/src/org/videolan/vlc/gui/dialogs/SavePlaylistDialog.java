@@ -51,7 +51,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 
 import java.util.ArrayList;
 
-public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, AudioBrowserAdapter.ClickHandler {
+public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, AudioBrowserAdapter.EventsHandler {
 
     public final static String TAG = "VLC/SavePlaylistDialog";
 
@@ -170,4 +170,10 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {}
+
+    @Override
+    public void startActionMode() {}
+
+    @Override
+    public void invalidateActionMode() {}
 }

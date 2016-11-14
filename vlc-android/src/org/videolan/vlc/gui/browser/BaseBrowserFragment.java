@@ -33,6 +33,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -484,11 +485,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 });
                 return true;
             case  R.id.directory_view_info:
-                BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-                Bundle args = new Bundle();
-                args.putParcelable(MediaInfoDialog.ITEM_KEY, mw);
-                bottomSheetDialogFragment.setArguments(args);
-                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+                showMediaInfo(mw);
                 return true;
             case R.id.directory_view_play_audio:
                 if (mService != null) {
@@ -531,6 +528,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         }
         return false;
+    }
+
+    private void showMediaInfo(MediaWrapper mw) {
+        BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(MediaInfoDialog.ITEM_KEY, mw);
+        bottomSheetDialogFragment.setArguments(args);
+        bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
     }
 
     private void playAll(MediaWrapper mw) {
@@ -670,5 +675,54 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
     public void setSearchVisibility(boolean visible) {
         mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mode.getMenuInflater().inflate(R.menu.action_mode_browser_file, menu);
+        mAdapter.setActionMode(true);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        if (mAdapter.getSelectedPositions().isEmpty()) {
+            stopActionMode();
+            return false;
+        }
+        boolean single = this instanceof FileBrowserFragment && mAdapter.getSelectedPositions().size() == 1;
+        int type = single ? ((MediaWrapper) mAdapter.getItem(mAdapter.getSelectedPositions().get(0))).getType() : -1;
+        menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_mode_file_play:
+                mService.load(mAdapter.getSelection(), 0);
+                break;
+            case R.id.action_mode_file_append:
+                mService.append(mAdapter.getSelection());
+                break;
+            case R.id.action_mode_file_delete:
+                for (MediaWrapper media : mAdapter.getSelection())
+                    deleteMedia(media, true);
+                break;
+            case R.id.action_mode_file_add_playlist:
+                UiTools.addToPlaylist(getActivity(), mAdapter.getSelection());
+                break;
+            case R.id.action_mode_file_info:
+                showMediaInfo(mAdapter.getSelection().get(0));
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        mAdapter.setActionMode(false);
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_video_play"
+        android:title="@string/play"
+        android:icon="@drawable/ic_play_w" />
+    <item
+        android:id="@+id/action_video_append"
+        android:title="@string/append"
+        android:icon="@drawable/ic_next_w" />
+    <item
+        android:id="@+id/action_video_play_audio"
+        android:title="@string/play_as_audio"
+        android:icon="@drawable/ic_playasaudio_on_normal_w"/>
+    <item
+        android:id="@+id/action_video_info"
+        android:visible="false"
+        android:title="@string/info"
+        android:icon="@drawable/ic_info_outline_white"/>
+    <item
+        android:id="@+id/action_video_delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_trash_normal_w"/>
+    <item
+        android:id="@+id/action_video_download_subtitles"
+        android:title="@string/download_subtitles"
+        android:icon="@drawable/ic_subtitledelay_normal_w"/>
+</menu>

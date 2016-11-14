@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -45,9 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -62,7 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, AudioBrowserAdapter.ClickHandler, TabLayout.OnTabSelectedListener {
+public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, AudioBrowserAdapter.EventsHandler, TabLayout.OnTabSelectedListener {
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -79,9 +76,9 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
     private AudioBrowserAdapter mAlbumsAdapter;
     private FastScroller mFastScroller;
 
-    public final static int MODE_ALBUM = 0;
-    public final static int MODE_SONG = 1;
-    public final static int MODE_TOTAL = 2; // Number of audio browser modes
+    private final static int MODE_ALBUM = 0;
+    private final static int MODE_SONG = 1;
+    private final static int MODE_TOTAL = 2; // Number of audio browser modes
 
     private MediaLibraryItem mItem;
 
@@ -212,11 +209,7 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         }
 
         if (id == R.id.audio_view_info) {
-            BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-            Bundle args = new Bundle();
-            args.putParcelable(MediaInfoDialog.ITEM_KEY, mediaItem);
-            bottomSheetDialogFragment.setArguments(args);
-            bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+            showInfoDialog((MediaWrapper) mediaItem);
             return true;
         }
 
@@ -320,22 +313,30 @@ public class AudioAlbumsSongsFragment extends MediaBrowserFragment implements Sw
         ((ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem())).openContextMenu(position);
     }
 
-    protected void inflate(Menu menu, int position) {
-        if (getActivity() == null)
-            return;
-        getActivity().getMenuInflater().inflate(R.menu.audio_list_browser, menu);
-    }
-
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         mFastScroller.setRecyclerView((RecyclerView) mLists.get(tab.getPosition()));
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {}
+    public void onTabUnselected(TabLayout.Tab tab) {
+        stopActionMode();
+    }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         ((RecyclerView)mLists.get(tab.getPosition())).smoothScrollToPosition(0);
+    }
+
+    protected AudioBrowserAdapter getCurrentAdapter() {
+        return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
+    }
+
+    private ContextMenuRecyclerView getCurrentRV() {
+        return (ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem());
+    }
+
+    protected boolean songModeSelected() {
+        return mViewPager.getCurrentItem() == MODE_SONG;
     }
 }

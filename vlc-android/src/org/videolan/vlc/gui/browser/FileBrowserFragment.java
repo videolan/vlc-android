@@ -29,9 +29,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.libvlc.util.AndroidUtil;
