@@ -153,6 +153,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+            liftContentOverPlayer();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(storageReceiver);
@@ -234,10 +241,14 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             mActionBar.collapseActionView();
             mAppBarLayout.setExpanded(false, true);
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFragmentContainer.getLayoutParams();
-            lp.bottomMargin = mBottomSheetBehavior.getPeekHeight();
-            mFragmentContainer.setLayoutParams(lp);
+            liftContentOverPlayer();
         }
+    }
+
+    private void liftContentOverPlayer() {
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFragmentContainer.getLayoutParams();
+        lp.bottomMargin = mBottomSheetBehavior.getPeekHeight();
+        mFragmentContainer.setLayoutParams(lp);
     }
 
     /**
