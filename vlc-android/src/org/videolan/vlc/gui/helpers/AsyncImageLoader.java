@@ -55,7 +55,8 @@ public class AsyncImageLoader {
     public final static String TAG = "VLC/AsyncImageLoader";
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public static final BitmapDrawable DEFAULT_COVER_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
+    public static final Bitmap DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_thumbnail_1610);
+    public static final BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_VIDEO);
     public static final Bitmap DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon);
     public static final BitmapDrawable DEFAULT_COVER_AUDIO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_AUDIO);
     public static void LoadImage(final Callbacks cbs, final View target){
@@ -229,14 +230,14 @@ public class AsyncImageLoader {
                 vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                 vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
             } else
-                vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO : AudioUtil.DEFAULT_COVER);
+                vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO_DRAWABLE : AudioUtil.DEFAULT_COVER);
         } else {
             iv.setVisibility(View.VISIBLE);
             if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
                 iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 iv.setImageBitmap(bitmap);
             } else {
-                iv.setImageResource(type == MediaWrapper.TYPE_VIDEO ? R.drawable.ic_cone_o : R.drawable.icon);
+                iv.setImageResource(type == MediaWrapper.TYPE_VIDEO ? R.drawable.ic_no_thumbnail_1610 : R.drawable.icon);
             }
         }
     }
@@ -253,14 +254,12 @@ public class AsyncImageLoader {
 
         @Override
         public Bitmap getImage() {
-            if (TextUtils.isEmpty(item.getArtworkMrl()))
-                return DEFAULT_COVER_AUDIO;
             return AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(item.getArtworkMrl())), width);
         }
 
         @Override
         public void updateImage(Bitmap bitmap, View target) {
-            updateTargetImage(bitmap, target, binding, MediaWrapper.TYPE_AUDIO);
+            updateTargetImage(bitmap, target, binding, ((MediaWrapper) item).getType());
         }
     }
 
