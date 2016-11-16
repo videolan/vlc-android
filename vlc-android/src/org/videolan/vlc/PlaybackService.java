@@ -1685,8 +1685,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mw == null)
             return;
 
-        boolean isVideoPlaying = isVideoPlaying();
-        if (!mVideoBackground && mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying)
+        boolean isVideoPlaying = mw.getType() == MediaWrapper.TYPE_VIDEO && isVideoPlaying();
+        if (!mVideoBackground && isVideoPlaying)
             mw.addFlags(MediaWrapper.MEDIA_VIDEO);
 
         if (mVideoBackground)
@@ -1722,8 +1722,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mMediaPlayer.setMedia(media);
         media.release();
 
-        if (mw .getType() != MediaWrapper.TYPE_VIDEO || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
-                || isVideoPlaying) {
+        if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
