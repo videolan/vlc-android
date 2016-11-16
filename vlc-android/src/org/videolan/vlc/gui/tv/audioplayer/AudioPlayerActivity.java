@@ -153,8 +153,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
         if (mService.hasMedia()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
-            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
+            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
                 mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
+                mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 mService.switchToVideo();
                 finish();
                 return;
