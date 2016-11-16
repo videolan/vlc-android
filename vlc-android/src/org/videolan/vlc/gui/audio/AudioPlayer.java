@@ -261,12 +261,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         return v;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        getView().cancelLongPress();
-    }
-
     public void onPopupMenu(View anchor, final int position) {
         final Activity activity = getActivity();
         if (activity == null || position >= mPlaylistAdapter.getItemCount())
