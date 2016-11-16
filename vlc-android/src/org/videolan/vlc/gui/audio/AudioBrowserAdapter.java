@@ -77,13 +77,6 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     @Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.vdb.setVariable(BR.cover, null);
-        holder.vdb.setVariable(BR.item, null);
-        holder.vdb.executePendingBindings();
-    }
-
-    @Override
     public int getItemCount() {
         return mDataList == null ? 0 :  mDataList.size();
     }

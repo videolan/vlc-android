@@ -108,16 +108,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.setViewBackground(mActionMode && isSelected);
     }
 
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.binding.setVariable(BR.cover, null);
-        holder.binding.setVariable(BR.resolution, null);
-        holder.binding.setVariable(BR.time, null);
-        holder.binding.setVariable(BR.max, 0);
-        holder.binding.setVariable(BR.progress, 0);
-        holder.binding.executePendingBindings();
-    }
-
     @MainThread
     void setTimes( Map<Long, Long> times) {
         // update times

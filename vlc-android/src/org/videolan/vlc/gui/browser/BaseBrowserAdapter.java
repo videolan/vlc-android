@@ -124,18 +124,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     }
 
     @Override
-    public void onViewRecycled(ViewHolder holder) {
-        if (holder.getType() == TYPE_MEDIA) {
-            final MediaViewHolder vh = (MediaViewHolder) holder;
-            vh.binding.setItem(null);
-            vh.binding.setHasContextMenu(false);
-            vh.binding.setProtocol(null);
-            vh.binding.setImage(null);
-            vh.binding.executePendingBindings();
-        }
-    }
-
-    @Override
     public int getItemCount() {
         return mMediaList.size();
     }
