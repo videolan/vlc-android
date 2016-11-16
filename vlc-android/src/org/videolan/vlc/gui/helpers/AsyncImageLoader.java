@@ -259,7 +259,7 @@ public class AsyncImageLoader {
 
         @Override
         public void updateImage(Bitmap bitmap, View target) {
-            updateTargetImage(bitmap, target, binding, ((MediaWrapper) item).getType());
+            updateTargetImage(bitmap, target, binding, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
         }
     }
 
