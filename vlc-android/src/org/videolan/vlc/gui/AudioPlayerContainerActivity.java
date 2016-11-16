@@ -83,6 +83,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
+    private FrameLayout mAudioPLayerContainer;
     protected SharedPreferences mSettings;
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -116,7 +117,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mAudioPlayer.setUserVisibleHint(false);
-        mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.audio_player_container));
+        mAudioPLayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPLayerContainer);
         mBottomSheetBehavior.setHideable(true);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
@@ -237,6 +239,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Show the audio player.
      */
     public void showAudioPlayer() {
+        mAudioPLayerContainer.setVisibility(View.VISIBLE);
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             mActionBar.collapseActionView();

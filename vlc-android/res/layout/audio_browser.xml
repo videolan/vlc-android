@@ -44,57 +44,39 @@
 
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/artists_list"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="true"
-                style="@style/Theme.VLC.List" />
+                android:scrollbars="none" />
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/albums_list"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:scrollbars="none"
-                android:focusable="true"
-                android:nestedScrollingEnabled="true"
-                style="@style/Theme.VLC.List" />
+                android:scrollbars="none" />
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/songs_list"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:scrollbars="none"
-                android:focusable="true"
-                android:nestedScrollingEnabled="true"
-                style="@style/Theme.VLC.List" />
+                android:scrollbars="none" />
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/genres_list"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:scrollbars="none"
-                android:focusable="true"
-                android:nestedScrollingEnabled="true"
-                style="@style/Theme.VLC.List" />
+                android:scrollbars="none" />
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/playlists_list"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:scrollbars="none"
-                android:focusable="true"
-                android:nestedScrollingEnabled="true" />
+                android:scrollbars="none" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
     <org.videolan.vlc.gui.view.FastScroller
