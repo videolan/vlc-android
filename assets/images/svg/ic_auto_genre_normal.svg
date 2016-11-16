@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg4682"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ic_auto_genre_normal.svg"
+   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4684" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.919596"
+     inkscape:cx="-6.7851873"
+     inkscape:cy="51.950994"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-nodes="true"
+     inkscape:object-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2983" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4687">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1028.3622)">
+    <path
+       style="fill:#757575;fill-opacity:1;stroke:none"
+       d="m 9.3611478,1032.3699 c -0.54519,-0.042 -0.96094,0.082 -1.14258,0.4609 -4.01264,8.3746 -3.81279,13.3303 -0.90039,15.0118 2.9123902,1.6814 7.3045502,-0.6229 12.5507802,-8.2852 0.95005,-1.3876 -3.52818,-3.9796 -4.98438,-4.8203 -1.09215,-0.6306 -3.88788,-2.2412 -5.5234302,-2.3672 z m 2.3847602,4.4395 c 0.11108,0.9219 -0.54481,1.76 -1.46679,1.8711 -0.9219902,0.111 -1.7600202,-0.5468 -1.8711002,-1.4688 1.13831,0.454 2.2552002,0.4323 3.3378902,-0.4023 z m 2.91211,1.6816 c -0.13266,1.2756 0.31597,2.3027 1.32227,3.0918 -0.854,0.3648 -1.84224,-0.031 -2.20703,-0.8848 -0.3648,-0.854 0.0308,-1.8422 0.88476,-2.207 z m -6.2558602,4.6523 c 0.4846,-0.034 0.98512,0.071 1.4375,0.3321 1.2063502,0.6965 1.6203102,2.2389 0.9238302,3.4453 -0.9045302,-1.7963 -2.3499702,-2.6578 -4.3691402,-2.5235 0.4353,-0.7539 1.20016,-1.1968 2.00781,-1.2539 z"
+       id="path7167"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
