@@ -482,6 +482,21 @@ void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> 
     }
 }
 
+void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists )
+{
+
+}
+
+void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist )
+{
+
+}
+
+void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
+{
+
+}
+
 void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> ids )
 {
 
