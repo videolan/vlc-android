@@ -61,7 +61,6 @@ public class BrowserProvider {
 
     public static List<MediaBrowserCompat.MediaItem> browse(String parentId) {
         ArrayList<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
-        Uri uri = Uri.parse(BASE_DRAWABLE_URI+"ic_menu_audio");
         MediaLibraryItem[] list = null;
         Resources res = VLCApplication.getAppResources();
         switch (parentId) {
@@ -70,35 +69,32 @@ public class BrowserProvider {
                 MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder()
                         .setMediaId(ID_HISTORY)
                         .setTitle(res.getString(R.string.history))
-                        .setIconUri(uri);
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 //Playlists
                 item.setMediaId(ID_PLAYLISTS)
                         .setTitle(res.getString(R.string.playlists))
-                        .setIconUri(uri);
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_playlist_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 //Artists
                 item.setMediaId(ID_ARTISTS)
                         .setTitle(res.getString(R.string.artists))
-                        .setIconUri(uri);
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_artist_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 //Albums
-                //            uri = Uri.parse(BASE_DRAWABLE_URI +"ic_menu_audio");
                 item.setMediaId(ID_ALBUMS)
                         .setTitle(res.getString(R.string.albums))
-                        .setIconUri(uri);;
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_album_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 //Songs
-                //            uri = Uri.parse(BASE_DRAWABLE_URI +"ic_menu_audio");
                 item.setMediaId(ID_SONGS)
                         .setTitle(res.getString(R.string.songs))
-                        .setIconUri(uri);
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_audio_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 //Genres
-                //            uri = Uri.parse(BASE_DRAWABLE_URI +"ic_menu_audio");
                 item.setMediaId(ID_GENRES)
                         .setTitle(res.getString(R.string.genres))
-                        .setIconUri(uri);
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_genre_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 return results;
             case ID_HISTORY:
