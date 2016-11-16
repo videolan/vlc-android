@@ -775,9 +775,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackStarted = true;
 
         final IVLCVout vlcVout = mService.getVLCVout();
-        if (vlcVout.areViewsAttached() && mService.isPlayingPopup())
-            mService.stopPlayback();
-        vlcVout.detachViews();
+        if (vlcVout.areViewsAttached()) {
+            if (mService.isPlayingPopup())
+                mService.stopPlayback();
+            vlcVout.detachViews();
+        }
         if (mPresentation == null) {
             vlcVout.setVideoView(mSurfaceView);
             if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
@@ -2982,7 +2984,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
-            if (savedTime <= 0L && media != null && media.getTime() > 0L)
+            if (savedTime <= 0L && media.getTime() > 0L)
                 savedTime = media.getTime();
             if (savedTime > 0L && !mService.isPlaying())
                 mService.saveTimeToSeek(savedTime);
@@ -2992,9 +2994,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.load(media);
             else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
-            else {
+            else
                 onPlaying();
-            }
 
             // Get possible subtitles
             getSubtitles();
