@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
+import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
@@ -71,8 +74,9 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         holder.vdb.setVariable(BR.item, mDataList.get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             holder.vdb.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
-        boolean isSelected = mActionMode && mSelectedItems.contains(position);
-            ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus() || isSelected);
+            boolean isSelected = mActionMode && mSelectedItems.contains(position);
+            ((MediaItemViewHolder)holder).setCoverlay(isSelected);
+            ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus(), isSelected);
         }
     }
 
@@ -249,12 +253,17 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
+        private ImageView coverView;
+        private View contentLayout, ctxButton;
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
             itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
+            coverView = binding.mediaCover;
+            contentLayout = binding.audioItemMeta;
+            ctxButton = binding.itemMore;
         }
 
         public void onClick(View v) {
@@ -289,7 +298,12 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 mSelectedItems.add(position);
             else
                 mSelectedItems.remove(position);
-            setViewBackground(itemView.hasFocus() || mSelectedItems.contains(position));
+            setCoverlay(mSelectedItems.contains(position));
+            setViewBackground(itemView.hasFocus(), selected);
+        }
+
+        private void setCoverlay(boolean selected) {
+            coverView.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
         }
 
         public int getType() {
@@ -298,14 +312,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus || mSelectedItems.contains(getLayoutPosition()));
+            setViewBackground(hasFocus, mSelectedItems.contains(getLayoutPosition()));
         }
 
-        private void setViewBackground(boolean highlight) {
-            if (highlight)
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
-            else
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
+        private void setViewBackground(boolean focused, boolean selected) {
+            itemView.setBackgroundColor(focused ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
+            int selectionColor = selected ? ContextCompat.getColor(itemView.getContext(), R.color.orange200transparent) : 0;
+            contentLayout.setBackgroundColor(selectionColor);
+            ctxButton.setBackgroundColor(selectionColor);
         }
     }
 

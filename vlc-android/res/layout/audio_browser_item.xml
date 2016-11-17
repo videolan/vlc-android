@@ -37,18 +37,20 @@
             android:layout_gravity="center"
             vlc:media="@{item}"
             vlc:binding="@{holder.vdb}"
-            android:src="@{cover}" />
+            android:background="@{cover}" />
 
         <LinearLayout
+            android:id="@+id/audio_item_meta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/media_cover"
+            android:layout_alignBottom="@+id/media_cover"
             android:layout_toRightOf="@+id/media_cover"
             android:layout_toEndOf="@+id/media_cover"
             android:layout_toLeftOf="@+id/item_more"
             android:layout_toStartOf="@+id/item_more"
             android:paddingLeft="15dp"
             android:paddingStart="15dp"
-            android:layout_centerVertical="true"
             android:orientation="vertical" >
 
             <!-- TextView must be set to singleLine
@@ -56,8 +58,10 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:singleLine="true"
+                android:gravity="center_vertical"
                 android:ellipsize="end"
                 vlc:alignMode="@{alignMode}"
                 android:text="@{item.title}"
@@ -68,7 +72,8 @@
             <TextView
                 android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:text="@{item.description}"
@@ -80,11 +85,13 @@
         <ImageView
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_more"
+            android:layout_alignTop="@+id/media_cover"
+            android:layout_alignBottom="@+id/media_cover"
+            android:scaleType="center"
+            android:src="@drawable/ic_more"
             android:contentDescription="@string/more_actions"
             android:onClick="@{holder::onMoreClick}" />
     </RelativeLayout>
