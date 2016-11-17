@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -70,9 +71,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
 
@@ -206,7 +205,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             @Override
             public void run() {
                 MediaWrapper[] videos = mMediaLibrary.getVideos();
-                final Map<Long, Long> times = new HashMap<>(videos.length);
+                final SimpleArrayMap<Long, Long> times = new SimpleArrayMap<>(videos.length);
                 for (MediaWrapper mw : videos)
                     times.put(mw.getId(), mw.getTime());
                 mHandler.post(new Runnable() {

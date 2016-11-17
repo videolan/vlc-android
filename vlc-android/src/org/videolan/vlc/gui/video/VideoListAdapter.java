@@ -28,6 +28,7 @@ import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
 
@@ -108,7 +108,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     @MainThread
-    void setTimes( Map<Long, Long> times) {
+    void setTimes( SimpleArrayMap<Long, Long> times) {
         // update times
         for (int i = 0; i < getItemCount(); ++i) {
             MediaWrapper media = mVideos.get(i);
