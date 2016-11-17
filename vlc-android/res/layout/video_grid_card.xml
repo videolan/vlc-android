@@ -55,7 +55,7 @@
                 android:id="@+id/ml_item_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
+                android:scaleType="fitXY"
                 vlc:media="@{media}"
                 vlc:binding="@{holder.binding}"
                 android:src="@drawable/black_gradient"

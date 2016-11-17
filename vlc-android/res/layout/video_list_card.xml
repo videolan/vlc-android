@@ -55,11 +55,10 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:background="?attr/background_default_darker"
             vlc:media="@{media}"
             vlc:binding="@{holder.binding}"
-            android:scaleType="@{scaleType}"
-            android:src="@{cover}" />
+            android:scaleType="fitXY"
+            android:background="@{cover}" />
 
         <TextView
             android:id="@+id/ml_item_title"

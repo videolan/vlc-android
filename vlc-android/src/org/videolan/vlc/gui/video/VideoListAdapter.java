@@ -84,7 +84,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        boolean listMode = viewType == TYPE_LIST;
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
         if (!mListMode) {
@@ -93,7 +92,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             params.height = params.width*10/16;
             v.setLayoutParams(params);
         }
-        return new ViewHolder(v, listMode);
+        return new ViewHolder(v);
     }
 
     @Override
@@ -105,7 +104,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
         boolean isSelected = mActionMode && mSelectedItems.contains(position);
-        holder.setViewBackground(mActionMode && isSelected);
+        holder.setOverlay(mActionMode && isSelected);
     }
 
     @MainThread
@@ -274,7 +273,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
-    public void setActionMode(boolean actionMode) {
+    void setActionMode(boolean actionMode) {
         mActionMode = actionMode;
         if (!actionMode) {
             LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
@@ -285,13 +284,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
-        boolean listmode;
         public ViewDataBinding binding;
+        private ImageView thumbView;
 
-        public ViewHolder(View itemView, boolean listMode) {
+        public ViewHolder(View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
-            this.listmode = listMode;
+            thumbView = (ImageView) itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
             itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
@@ -335,7 +334,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 mSelectedItems.add(position);
             else
                 mSelectedItems.remove(position);
-            setViewBackground(itemView.hasFocus() || mSelectedItems.contains(position));
+            setOverlay(itemView.hasFocus() || mSelectedItems.contains(position));
+        }
+
+        private void setOverlay(boolean selected) {
+            thumbView.setImageResource(selected ? R.drawable.ic_action_mode_select_1610 : mListMode ? 0 : R.drawable.black_gradient);
         }
 
         @Override
