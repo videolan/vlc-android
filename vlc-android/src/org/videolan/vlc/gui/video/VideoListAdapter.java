@@ -28,6 +28,7 @@ import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
@@ -105,6 +106,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.media, media);
         boolean isSelected = mActionMode && mSelectedItems.contains(position);
         holder.setOverlay(mActionMode && isSelected);
+        holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
     }
 
     @MainThread
@@ -335,6 +337,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             else
                 mSelectedItems.remove(position);
             setOverlay(itemView.hasFocus() || mSelectedItems.contains(position));
+            binding.setVariable(BR.bgColor, ContextCompat.getColor(itemView.getContext(), mListMode && selected ? R.color.orange200transparent : R.color.transparent));
         }
 
         private void setOverlay(boolean selected) {
