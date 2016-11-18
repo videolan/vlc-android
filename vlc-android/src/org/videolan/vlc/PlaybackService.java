@@ -58,6 +58,7 @@ import android.support.v7.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import org.videolan.libvlc.IVLCVout;
@@ -166,9 +167,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private MediaSessionCompat mMediaSession;
     protected MediaSessionCallback mSessionCallback;
-    private static final long PLAYBACK_ACTIONS = PlaybackStateCompat.ACTION_PAUSE
-            | PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP
-            | PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
+    private static final long PLAYBACK_BASE_ACTIONS = PlaybackStateCompat.ACTION_PAUSE
+            | PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH | PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
+            | PlaybackStateCompat.ACTION_PLAY_FROM_URI | PlaybackStateCompat.ACTION_PLAY_PAUSE;
 
     public static final int TYPE_AUDIO = 0;
     public static final int TYPE_VIDEO = 1;
@@ -322,13 +323,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @Override
     public IBinder onBind(Intent intent) {
         return SERVICE_INTERFACE.equals(intent.getAction()) ? super.onBind(intent) : mBinder;
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        if (!hasCurrentMedia())
-            stopSelf();
-        return true;
     }
 
     public IVLCVout getVLCVout()  {
@@ -507,7 +501,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @Override
     public void onSurfacesCreated(IVLCVout vlcVout) {
-        hideNotification(false);
+        hideNotification();
     }
 
     @Override
@@ -579,7 +573,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
                     if (!keyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo())
-                        hideNotification(false);
+                        hideNotification();
                     else
                         showNotification();
                     mVideoBackground = false;
@@ -800,7 +794,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
         if (mMediaPlayer.getVLCVout().areViewsAttached()) {
-            hideNotification(false);
+            hideNotification();
             return;
         }
         try {
@@ -889,19 +883,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void hideNotification() {
-        hideNotification(true);
-    }
-
-    /**
-     * Hides the VLC notification and stops the service.
-     *
-     * @param stopPlayback True to also stop playback at the same time. Set to false to preserve playback (e.g. for vout events)
-     */
-    private void hideNotification(boolean stopPlayback) {
         stopForeground(true);
         NotificationManagerCompat.from(this).cancel(3);
-        if(stopPlayback)
-            stopSelf();
     }
 
     @MainThread
@@ -919,7 +902,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
-    public void stopPlayback() {
+    public void stop() {
         removePopup();
         if (mMediaPlayer == null)
             return;
@@ -932,6 +915,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaPlayer.stop();
             mMediaPlayer.setMedia(null);
             media.release();
+            publishState(MediaPlayer.Event.Stopped);
         }
         mMediaList.removeEventListener(mListEventListener);
         mCurrentIndex = -1;
@@ -942,12 +926,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         executeUpdate();
         executeUpdateProgress();
         changeAudioFocus(false);
-    }
-
-    @MainThread
-    public void stop() {
-        stopPlayback();
-        stopSelf();
     }
 
     private void determinePrevAndNextIndices() {
@@ -1052,8 +1030,24 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
 
         @Override
+        public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
+            KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+            if (event != null) {
+                int keyCode = event.getKeyCode();
+                if (!hasMedia() && keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                    loadLastPlaylist(TYPE_AUDIO);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
         public void onPlay() {
-            play();
+            if (hasMedia())
+                play();
+            else
+                loadLastPlaylist(TYPE_AUDIO);
         }
 
         @Override
@@ -1141,19 +1135,22 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mMediaSession == null)
             return;
         PlaybackStateCompat.Builder bob = new PlaybackStateCompat.Builder();
-        bob.setActions(PLAYBACK_ACTIONS);
+        long actions = PLAYBACK_BASE_ACTIONS;
         switch (state) {
             case MediaPlayer.Event.Playing:
-                bob.setState(PlaybackStateCompat.STATE_PLAYING, -1, 1);
+                actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
+                bob.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
                 break;
             case MediaPlayer.Event.Stopped:
-                bob.setState(PlaybackStateCompat.STATE_STOPPED, -1, 0);
+                actions |= PlaybackStateCompat.ACTION_PLAY;
+                bob.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
                 break;
             default:
-            bob.setState(PlaybackStateCompat.STATE_PAUSED, -1, 0);
+                actions |= PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP;
+            bob.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
         }
-        PlaybackStateCompat pbState = bob.build();
-        mMediaSession.setPlaybackState(pbState);
+        bob.setActions(actions);
+        mMediaSession.setPlaybackState(bob.build());
         mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
     }
 
