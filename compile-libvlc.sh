@@ -761,7 +761,6 @@ if [ ! -d "build-$ANDROID_ABI" ]; then
 fi;
 cd "build-$ANDROID_ABI";
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
-../bootstrap
 ../configure \
     --host=$TARGET_TUPLE \
     --disable-shared \
