@@ -756,10 +756,10 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
     tar -xzf ${SQLITE_RELEASE}.tar.gz
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
-if [ ! -d build ]; then
-    mkdir build;
+if [ ! -d "build-$ANDROID_ABI" ]; then
+    mkdir "build-$ANDROID_ABI";
 fi;
-cd build;
+cd "build-$ANDROID_ABI";
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 ../bootstrap
 ../configure \
@@ -813,10 +813,10 @@ sed "s#@libdir@#$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI#g" $SRC_DIR/pkgs/libvlc.pc
 sed -i "s#@includedirs@#-I${SRC_DIR}/vlc/include \
 -I${SRC_DIR}/vlc/build-android-$TARGET_TUPLE/include#g" $SRC_DIR/pkgs/libvlc.pc;
 
-if [ ! -d build-android ]; then
-    mkdir build-android;
+if [ ! -d "build-android-$ANDROID_ABI/" ]; then
+    mkdir "build-android-$ANDROID_ABI/";
 fi;
-cd build-android;
+cd "build-android-$ANDROID_ABI/";
 
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 ../bootstrap
@@ -833,7 +833,7 @@ if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
     PKG_CONFIG_LIBDIR="$SRC_DIR/pkgs/" \
     LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
     LIBJPEG_CFLAGS="-I$SRC_DIR/vlc/contrib/$TARGET_TUPLE/include/" \
-    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build/.libs -lsqlite3" \
+    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
     SQLITE_CFLAGS="-I$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE" \
     AR="${CROSS_TOOLS}ar"
 checkfail "medialibrary: autoconf failed"
@@ -866,7 +866,7 @@ $ANDROID_NDK/ndk-build -C medialibrary \
     VLC_LIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc" \
     MEDIALIBRARY_LIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android/.libs -lmedialibrary" \
     LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
-    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build/.libs -lsqlite3" \
+    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
     MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
     SQLITE3_DIR=${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}/build/.libs
 
