@@ -90,6 +90,10 @@ public class Medialibrary {
         if (mIsInitiated)
             nativeBanFolder(path);
     }
+
+    public String[] getDevices() {
+        return nativeDevices();
+    }
     public void addDevice(String uuid, String path, boolean removable) {
         nativeAddDevice(uuid, path, removable);
         for (String folder : banList)
@@ -98,6 +102,14 @@ public class Medialibrary {
 
     public void discover(String path) {
         nativeDiscover(path);
+    }
+
+    public void removeFolder(String path) {
+        nativeRemoveEntryPoint(path);
+    }
+
+    public String[] getFoldersList() {
+        return nativeEntryPoints();
     }
 
     public boolean removeDevice(String uuid) {
@@ -379,7 +391,10 @@ public class Medialibrary {
     private native void nativeRelease();
     private native void nativeBanFolder(String path);
     private native void nativeAddDevice(String uuid, String path, boolean removable);
+    private native String[] nativeDevices();
     private native void nativeDiscover(String path);
+    private native void nativeRemoveEntryPoint(String path);
+    private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid);
     private native MediaWrapper[] nativeLastMediaPlayed();
     private native MediaWrapper nativeGetMedia(long id);

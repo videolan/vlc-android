@@ -64,6 +64,20 @@ void addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jbo
     env->ReleaseStringUTFChars(storagePath, path);
 }
 
+jobjectArray
+devices(JNIEnv* env, jobject thiz)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    auto devices = aml->devices();
+    jobjectArray deviceRefs = (jobjectArray) env->NewObjectArray(devices.size(), env->FindClass("java/lang/String"), NULL);
+    int index = -1;
+    for(auto device : devices) {
+        std::string path = std::get<1>(device);
+        env->SetObjectArrayElement(deviceRefs, ++index, env->NewStringUTF(path.c_str()));
+    }
+    return deviceRefs;
+}
+
 void
 discover(JNIEnv* env, jobject thiz, jstring storagePath)
 {
@@ -71,6 +85,28 @@ discover(JNIEnv* env, jobject thiz, jstring storagePath)
     const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
     aml->discover(path);
     env->ReleaseStringUTFChars(storagePath, path);
+}
+
+void
+removeEntryPoint(JNIEnv* env, jobject thiz, jstring storagePath)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
+    aml->removeEntryPoint(path);
+    env->ReleaseStringUTFChars(storagePath, path);
+}
+
+jobjectArray
+entryPoints(JNIEnv* env, jobject thiz)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(entryPoints.size(), env->FindClass("java/lang/String"), NULL);
+    int index = -1;
+    for(medialibrary::FolderPtr const& entrypoint : entryPoints) {
+        env->SetObjectArrayElement(mediaRefs, ++index, env->NewStringUTF(entrypoint->path().c_str()));
+    }
+    return mediaRefs;
 }
 
 jboolean
@@ -515,7 +551,10 @@ static JNINativeMethod methods[] = {
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)V", (void*)init },
     {"nativeRelease", "()V", (void*)release },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },
+    {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
+    {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
+    {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },
     {"nativeRemoveDevice", "(Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },

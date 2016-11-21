@@ -16,6 +16,7 @@
 #include <medialibrary/IArtist.h>
 #include <medialibrary/IGenre.h>
 #include <medialibrary/IPlaylist.h>
+#include <medialibrary/IFolder.h>
 #include <medialibrary/Types.h>
 #include <medialibrary/IDeviceLister.h>
 #include <medialibrary/IMedia.h>
@@ -29,9 +30,12 @@ public:
 
     void initML(const std::string& dbPath, const std::string& thumbsPath);
     void addDevice(std::string uuid, std::string path, bool removable);
+    std::vector<std::tuple<std::string, std::string, bool>> devices();
     bool removeDevice(std::string uuid);
     void banFolder(const std::string& path);
     void discover(const std::string&);
+    void removeEntryPoint(const std::string& entryPoint);
+    std::vector<medialibrary::FolderPtr> entryPoints();
     bool isWorking();
     void setMediaUpdatedCbFlag(int flags);
     void setMediaAddedCbFlag(int flags);

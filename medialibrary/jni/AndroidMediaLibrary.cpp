@@ -68,6 +68,12 @@ AndroidMediaLibrary::addDevice(std::string uuid, std::string path, bool removabl
     p_DeviceListerCb->onDevicePlugged(uuid, path);
 }
 
+std::vector<std::tuple<std::string, std::string, bool>>
+AndroidMediaLibrary::devices()
+{
+    return p_lister->devices();
+}
+
 bool
 AndroidMediaLibrary::removeDevice(std::string uuid)
 {
@@ -87,6 +93,18 @@ void
 AndroidMediaLibrary::discover(const std::string& libraryPath)
 {
     p_ml->discover(libraryPath);
+}
+
+void
+AndroidMediaLibrary::removeEntryPoint(const std::string& entryPoint)
+{
+    p_ml->removeEntryPoint(entryPoint);
+}
+
+std::vector<medialibrary::FolderPtr>
+AndroidMediaLibrary::entryPoints()
+{
+    return p_ml->entryPoints();
 }
 
 bool
