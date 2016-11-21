@@ -863,11 +863,11 @@ $ANDROID_NDK/ndk-build -C medialibrary \
     NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG} \
     VLC_LIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc" \
-    MEDIALIBRARY_LIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android/.libs -lmedialibrary" \
+    MEDIALIBRARY_LIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary" \
     LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
     SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
     MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
-    SQLITE3_DIR=${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}/build/.libs
+    SQLITE3_DIR=${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}/build-$ANDROID_ABI/.libs
 
 checkfail "ndk-build failed"
 
