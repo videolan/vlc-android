@@ -26,7 +26,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="23"
+        android:targetSdkVersion="24"
         tools:overrideLibrary="android.support.v17.leanback, android.support.v14.preference, android.support.v17.preference" />
 
     <uses-permission android:name="android.permission.READ_LOGS"
@@ -37,9 +37,6 @@
 
     <!-- used for setting ringtone -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <!-- FIXME Because manifest merger will add it otherwise... -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
 
     <!-- STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
