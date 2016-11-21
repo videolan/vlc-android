@@ -43,6 +43,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -1028,15 +1029,43 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
+    private long mHeadsetDownTime = 0;
+    private long mHeadsetUpTime = 0;
 
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
             KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event != null) {
                 int keyCode = event.getKeyCode();
-                if (!hasMedia() && keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                    loadLastPlaylist(TYPE_AUDIO);
-                    return true;
+                if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+                    long time = SystemClock.uptimeMillis();
+                    switch (event.getAction()) {
+                        case KeyEvent.ACTION_DOWN:
+                            if (event.getRepeatCount() <= 0)
+                                mHeadsetDownTime = time;
+                            if (!hasMedia()) {
+                                loadLastPlaylist(TYPE_AUDIO);
+                                return true;
+                            }
+                            break;
+                        case KeyEvent.ACTION_UP:
+                            if (AndroidDevices.hasTsp()) { //no backward/forward on TV
+                                if (time - mHeadsetDownTime >= 1000) { // long click
+                                    mHeadsetUpTime = time;
+                                    previous(false);
+                                    return true;
+                                } else if (time - mHeadsetUpTime <= 500) { // double click
+                                    mHeadsetUpTime = time;
+                                    next();
+                                    return true;
+                                } else {
+                                    mHeadsetUpTime = time;
+                                    return false;
+                                }
+                            }
+                            break;
+                    }
+                    return false;
                 }
             }
             return false;
@@ -1096,12 +1125,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         @Override
         public void onFastForward() {
-            next();
+            seek(Math.min(getLength(), getTime()+5000));
         }
 
         @Override
         public void onRewind() {
-            previous(false);
+            seek(Math.max(0, getTime()-5000));
         }
     }
 
@@ -1134,23 +1163,29 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     protected void publishState(int state) {
         if (mMediaSession == null)
             return;
-        PlaybackStateCompat.Builder bob = new PlaybackStateCompat.Builder();
+        PlaybackStateCompat.Builder pscb = new PlaybackStateCompat.Builder();
         long actions = PLAYBACK_BASE_ACTIONS;
         switch (state) {
             case MediaPlayer.Event.Playing:
                 actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
-                bob.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
+                pscb.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
                 break;
             case MediaPlayer.Event.Stopped:
                 actions |= PlaybackStateCompat.ACTION_PLAY;
-                bob.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
+                pscb.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
                 break;
             default:
                 actions |= PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP;
-            bob.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
+            pscb.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
         }
-        bob.setActions(actions);
-        mMediaSession.setPlaybackState(bob.build());
+        if (hasNext())
+            actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
+        if (hasPrevious())
+            actions |= PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
+        if (isSeekable())
+            actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
+        pscb.setActions(actions);
+        mMediaSession.setPlaybackState(pscb.build());
         mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
     }
 
