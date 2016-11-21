@@ -51,7 +51,7 @@ import org.videolan.vlc.util.Strings;
 
 import java.io.File;
 
-public class FileBrowserFragment extends BaseBrowserFragment {
+public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrowserFragment {
 
     private AlertDialog mAlertDialog;
 
@@ -95,7 +95,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected void browseRoot() {
         final Activity context = getActivity();
-        mAdapter.updateMediaDirs();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -134,13 +133,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         super.onResume();
         if (mReadyToDisplay)
             update();
-    }
-
-    @Override
-    protected void updateDisplay() {
-        super.updateDisplay();
-        if (isRootDirectory())
-            mAdapter.updateMediaDirs();
     }
 
     @Override
@@ -192,7 +184,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
-                mAdapter.updateMediaDirs();
                 mAdapter.removeItem(position, true);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;

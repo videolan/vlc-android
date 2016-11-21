@@ -107,9 +107,11 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     @Override
     protected void browseRoot() {
-        String storages[] = AndroidDevices.getMediaDirectories();
+        String storages[] = mMediaLibrary.getDevices();
         Storage storage;
         for (String mediaDirLocation : storages) {
+            if (TextUtils.isEmpty(mediaDirLocation))
+                continue;
             storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 storage.setName(getString(R.string.internal_memory));
@@ -124,7 +126,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     @Override
     protected void update() {
-        mAdapter.updateMediaDirs();
+        ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
         super.update();
     }
 
@@ -136,6 +138,8 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     }
 
     protected void updateDisplay() {
+        if (isRootDirectory())
+            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
         if (!mAdapter.isEmpty()) {
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);

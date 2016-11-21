@@ -46,19 +46,16 @@ import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.MediaItemFilter;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
-public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -73,8 +70,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
     ArrayList<MediaLibraryItem> mOriginalData = null;
     BaseBrowserFragment fragment;
     MediaDatabase mDbManager;
-    LinkedList<String> mMediaDirsLocation;
-    List<String> mCustomDirsLocation;
     private int mTop = 0;
     private int mMediaCount = 0;
     private ItemFilter mFilter = new ItemFilter();
@@ -294,20 +289,6 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
         else
             return;
         notifyItemChanged(position);
-    }
-
-    void updateMediaDirs(){
-        if (mDbManager == null)
-            mDbManager = MediaDatabase.getInstance();
-        if (mMediaDirsLocation == null)
-            mMediaDirsLocation = new LinkedList<>();
-        else
-            mMediaDirsLocation.clear();
-        List<File> mediaDirs = mDbManager.getMediaDirs();
-        for (File dir : mediaDirs){
-            mMediaDirsLocation.add(dir.getPath());
-        }
-        mCustomDirsLocation = Arrays.asList(CustomDirectories.getCustomDirectories());
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){

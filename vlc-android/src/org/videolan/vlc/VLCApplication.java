@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -237,9 +238,14 @@ public class VLCApplication extends Application {
     }
 
     public void discoverStorages(final Medialibrary ml) {
-        for (String storage : AndroidDevices.getMediaDirectories()) {
+        for (String storage : AndroidDevices.getMediaDirectories())
             ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
-            ml.discover(storage);
+        if (ml.getFoldersList().length == 0) {
+            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
+            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
+            //TODO manage external storages
         }
     }
 }

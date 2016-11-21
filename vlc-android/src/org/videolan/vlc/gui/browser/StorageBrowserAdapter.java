@@ -29,16 +29,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
     boolean isRoot;
+    ArrayList<String> mMediaDirsLocation = new ArrayList<>();
+    ArrayList<String> mCustomDirsLocation;
+
     public StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
         updateMediaDirs();
@@ -60,6 +69,8 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         final MediaLibraryItem storage = getItem(position);
         String storagePath = ((Storage)storage).getUri().getPath();
+        if (!storagePath.endsWith("/"))
+            storagePath += "/";
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
         vh.binding.setItem(storage);
         vh.binding.setHasContextMenu(hasContextMenu);
@@ -94,11 +105,11 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                         storage = (Storage) item;
                         if (!TextUtils.equals(path, storage.getUri().getPath())) {
                             pathString = storage.getUri().getPath();
-                            mDbManager.addDir(pathString);
+                            VLCApplication.getMLInstance().discover(pathString);
                         }
                     }
                 } else {
-                    mDbManager.removeDir(path);
+                    VLCApplication.getMLInstance().removeFolder(path);
                 }
                 updateMediaDirs();
                 if (isRoot && mMediaDirsLocation.isEmpty() && getItemCount() > 1)
@@ -111,21 +122,28 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                mDbManager.addDir(path);
+                Medialibrary ml = VLCApplication.getMLInstance();
+                ml.discover(path);
                 //No need to check for parents for now
-//                String parentPath = Strings.getParent(path);
-//                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
-//                    mDbManager.removeDir(parentPath);
-//                    parentPath = Strings.getParent(parentPath);
-//                }
+                String parentPath = FileUtils.getParent(path);
+                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
+                    ml.removeFolder(parentPath);
+                    parentPath = FileUtils.getParent(parentPath);
+                }
                 //Remove subfolders, it would be redundant
                 for (String customDirPath : mMediaDirsLocation) {
                     if (customDirPath.startsWith(path + "/"))
-                        mDbManager.removeDir(customDirPath);
+                        ml.removeFolder(customDirPath);
                 }
                 updateMediaDirs();
             }
         });
+    }
+
+    void updateMediaDirs(){
+        mMediaDirsLocation.clear();
+        mMediaDirsLocation = new ArrayList<>(Arrays.asList(VLCApplication.getMLInstance().getFoldersList()));
+        mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
     }
 
     void refreshFragment(){
