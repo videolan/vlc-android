@@ -3,7 +3,6 @@ package org.videolan.vlc.gui.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -317,7 +316,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         private void setViewBackground(boolean focused, boolean selected) {
             itemView.setBackgroundColor(focused ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
-            int selectionColor = selected ? ContextCompat.getColor(itemView.getContext(), R.color.orange200transparent) : 0;
+            int selectionColor = selected ? UiTools.ITEM_SELECTION_ON : 0;
             contentLayout.setBackgroundColor(selectionColor);
             ctxButton.setBackgroundColor(selectionColor);
         }

@@ -65,6 +65,8 @@ public class UiTools {
 
     public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500);
     public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
+    public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
+    public static final int ITEM_BG_TRANSPARENT = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 

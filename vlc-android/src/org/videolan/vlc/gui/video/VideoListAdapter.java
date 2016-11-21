@@ -337,7 +337,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             else
                 mSelectedItems.remove(position);
             setOverlay(itemView.hasFocus() || mSelectedItems.contains(position));
-            binding.setVariable(BR.bgColor, ContextCompat.getColor(itemView.getContext(), mListMode && selected ? R.color.orange200transparent : R.color.transparent));
+            binding.setVariable(BR.bgColor, mListMode && selected ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_BG_TRANSPARENT);
         }
 
         private void setOverlay(boolean selected) {

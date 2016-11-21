@@ -120,7 +120,7 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
             vh.binding.setProtocol(getProtocol(media));
         vh.binding.setImage(getIcon(media));
         vh.setContextMenuListener();
-        vh.setViewBackground(mSelectedItems.contains(position));
+        vh.setViewBackground(vh.itemView.hasFocus(), mSelectedItems.contains(position));
     }
 
     @Override
@@ -222,14 +222,14 @@ public class BaseBrowserAdapter extends  RecyclerView.Adapter<BaseBrowserAdapter
                 mSelectedItems.add(position);
             else
                 mSelectedItems.remove(position);
-            setViewBackground(mSelectedItems.contains(position));
+            setViewBackground(itemView.hasFocus(), mSelectedItems.contains(position));
         }
 
-        private void setViewBackground(boolean highlight) {
-            if (highlight)
+        private void setViewBackground(boolean focus, boolean selected) {
+            if (focus)
                 itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
             else
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_OFF);
+                itemView.setBackgroundColor(selected ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_FOCUS_OFF);
         }
     }
 
