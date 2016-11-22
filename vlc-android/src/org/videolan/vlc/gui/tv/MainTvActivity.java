@@ -180,9 +180,13 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
+    public void onDisconnected() {
+        mService.removeCallback(this);
+        super.onDisconnected();
+    }
+
+    @Override
     protected void onStop() {
-        if (mService != null)
-            mService.removeCallback(this);
         super.onStop();
         if (AndroidDevices.isAndroidTv()) {
             Intent recommendationIntent = new Intent(this,
