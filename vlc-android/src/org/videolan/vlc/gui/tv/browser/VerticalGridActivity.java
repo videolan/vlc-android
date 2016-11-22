@@ -88,7 +88,8 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
 
     @Override
     protected void onNetworkUpdated() {
-        mFragment.updateList();
+        if (mFragment instanceof NetworkBrowserFragment)
+            mFragment.updateList();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
