@@ -113,10 +113,9 @@ public class AndroidDevices {
         return showInternalStorage;
     }
 
-    public static ArrayList<String> getStorageDirectories() {
+    public static ArrayList<String> getExternalStorageDirectories() {
         BufferedReader bufReader = null;
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(EXTERNAL_PUBLIC_DIRECTORY);
+        ArrayList<String> list = new ArrayList<>();
 
         List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
         List<String> typeBL = Arrays.asList("tmpfs");
@@ -133,7 +132,8 @@ public class AndroidDevices {
         String[] deviceWL = {
                 "/dev/block/vold",
                 "/dev/fuse",
-                "/mnt/media_rw"};
+                "/mnt/media_rw"
+        };
 
         try {
             bufReader = new BufferedReader(new FileReader("/proc/mounts"));
@@ -183,7 +183,8 @@ public class AndroidDevices {
 
     public static String[] getMediaDirectories() {
         ArrayList<String> list = new ArrayList<String>();
-        list.addAll(getStorageDirectories());
+        list.add(EXTERNAL_PUBLIC_DIRECTORY);
+        list.addAll(getExternalStorageDirectories());
         list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
         return list.toArray(new String[list.size()]);
     }
