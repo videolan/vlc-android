@@ -103,7 +103,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setHeadersState(HEADERS_HIDDEN);
+//        setHeadersState(HEADERS_HIDDEN);
         if (mAdapter.size() == 0)
             browse();
     }
