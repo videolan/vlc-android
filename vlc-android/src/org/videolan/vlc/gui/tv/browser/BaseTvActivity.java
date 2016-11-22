@@ -48,6 +48,7 @@ import org.videolan.vlc.util.WeakHandler;
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
+    boolean mRegistering = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         storageFilter.addDataScheme("file");
 
+        mRegistering = true;
         registerReceiver(mExternalDevicesReceiver, networkFilter);
         registerReceiver(mExternalDevicesReceiver, storageFilter);
     }
@@ -88,28 +90,23 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     protected abstract void refresh();
     protected abstract void onNetworkUpdated();
-    protected void onExternelDeviceChange() {};
+    protected void onExternelDeviceChange() {}
 
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
-        boolean connected = true;
         @Override
         public void onReceive(Context context, Intent intent) {
             if (mMediaLibrary.isWorking())
                 return;
+            if (mRegistering) {
+                mRegistering = false;
+                return;
+            }
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
                 final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
                         Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-                if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    if (networkInfo == null){
-                        if (connected)
-                            connected = false;
-                        else
-                            return; //block consecutive calls when disconnected
-                    } else
-                        connected = true;
+                if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED)
                     onNetworkUpdated();
-                }
 
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
@@ -126,7 +123,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     private static class FileBrowserFragmentHandler extends WeakHandler<BaseTvActivity> {
 
-        public FileBrowserFragmentHandler(BaseTvActivity owner) {
+        FileBrowserFragmentHandler(BaseTvActivity owner) {
             super(owner);
         }
 
