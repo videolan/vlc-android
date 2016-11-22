@@ -197,12 +197,16 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     protected void onResume() {
         super.onResume();
+        if (mService != null)
+            mService.addCallback(this);
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
         mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
     }
 
     protected void onPause() {
         super.onPause();
+        if (mService != null)
+            mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
     }
 
