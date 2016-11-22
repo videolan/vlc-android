@@ -153,7 +153,7 @@ public class BrowserProvider {
     }
 
     @NonNull
-    private static String generateMediaId(MediaLibraryItem libraryItem) {
+    public static String generateMediaId(MediaLibraryItem libraryItem) {
         String prefix;
         switch (libraryItem.getItemType()) {
             case MediaLibraryItem.TYPE_ALBUM:
