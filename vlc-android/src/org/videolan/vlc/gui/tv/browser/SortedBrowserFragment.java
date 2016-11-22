@@ -184,7 +184,8 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         Activity activity = getActivity();
         if (activity == null)
             return;
-        mAdapter.clear();
+        mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        setAdapter(mAdapter);
         ArrayObjectAdapter adapter;
         HeaderItem header;
         for (ListItem item : mMediaItemMap.values()){
@@ -200,7 +201,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         addMedia(new MediaWrapper(media));
     }
 
-    protected void addMedia(MediaWrapper mw){
+    protected void addMedia(MediaWrapper mw) {
         int type = mw.getType();
         if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
             return;
