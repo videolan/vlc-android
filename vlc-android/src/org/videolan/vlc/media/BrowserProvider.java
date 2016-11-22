@@ -25,6 +25,7 @@
 package org.videolan.vlc.media;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -37,14 +38,17 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class BrowserProvider {
 
     private static final String TAG = "VLC/BrowserProvider";
 
+    private static final Bitmap DEFAULT_AUDIO_COVER = BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_menu_audio);
     private static final String BASE_DRAWABLE_URI = "android.resource://"+VLCApplication.getAppContext().getPackageName()+"/drawable/";
 
     public static final String ID_ROOT = "ID_ROOT";
@@ -133,16 +137,17 @@ public class BrowserProvider {
             for (MediaLibraryItem libraryItem : list) {
                 if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                     continue;
+                Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(libraryItem.getArtworkMrl())), 128);
+                if (cover == null)
+                    cover = DEFAULT_AUDIO_COVER;
                 item.setTitle(libraryItem.getTitle())
                         .setMediaId(generateMediaId(libraryItem));
+                item.setIconBitmap(cover);
                 if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
                     item.setMediaUri(((MediaWrapper) libraryItem).getUri())
-                            .setIconBitmap(AudioUtil.getCoverFromMemCache(VLCApplication.getAppContext(), (MediaWrapper) libraryItem, 64))
                             .setSubtitle(MediaUtils.getMediaSubtitle((MediaWrapper) libraryItem));
-                } else {
-                    item.setSubtitle(libraryItem.getDescription())
-                            .setIconBitmap(BitmapFactory.decodeResource(res, R.drawable.ic_menu_audio));
-                }
+                } else
+                    item.setSubtitle(libraryItem.getDescription());
                 boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
                         libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||
                         libraryItem.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
