@@ -74,6 +74,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.PopupManager;
@@ -570,7 +571,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
-                    publishState(event.type);
+                    publishState();
                     executeUpdateProgress();
                     mHandler.sendEmptyMessage(SHOW_PROGRESS);
                     changeAudioFocus(true);
@@ -585,7 +586,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.Paused:
                     Log.i(TAG, "MediaPlayer.Event.Paused");
                     executeUpdate();
-                    publishState(event.type);
+                    publishState();
                     executeUpdateProgress();
                     showNotification();
                     mHandler.removeMessages(SHOW_PROGRESS);
@@ -596,7 +597,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
                     mMedialibrary.updateProgress(getCurrentMediaWrapper(), getTime());
                     executeUpdate();
-                    publishState(event.type);
+                    publishState();
                     executeUpdateProgress();
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
@@ -923,7 +924,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaPlayer.stop();
             mMediaPlayer.setMedia(null);
             media.release();
-            publishState(MediaPlayer.Event.Stopped);
+            publishState();
         }
         mMediaList.removeEventListener(mListEventListener);
         mCurrentIndex = -1;
@@ -1087,6 +1088,26 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
 
         @Override
+        public void onCustomAction(String action, Bundle extras) {
+            if (TextUtils.equals(action, "shuffle")) {
+                shuffle();
+            } else if (TextUtils.equals(action, "repeat")) {
+                switch (getRepeatType()) {
+                    case PlaybackService.REPEAT_NONE:
+                        setRepeatType(PlaybackService.REPEAT_ALL);
+                        break;
+                    case PlaybackService.REPEAT_ALL:
+                        setRepeatType(PlaybackService.REPEAT_ONE);
+                        break;
+                    default:
+                    case PlaybackService.REPEAT_ONE:
+                        setRepeatType(PlaybackService.REPEAT_NONE);
+                        break;
+                }
+            }
+        }
+
+        @Override
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
             if (mediaId.startsWith(BrowserProvider.ALBUM_PREFIX)) {
                 load(mMedialibrary.getAlbum(Long.parseLong(mediaId.split("_")[1])).getTracks(mMedialibrary), 0);
@@ -1158,7 +1179,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
         MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
         bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-            .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(this, media))
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, BrowserProvider.generateMediaId(media))
+                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(this, media))
                 .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.getTrackNumber())
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(this, media))
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(this, media))
@@ -1169,26 +1191,26 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (cover != null && cover.getConfig() != null) //In case of format not supported
                 bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
         }
+        bob.putLong("shuffle", 1L);
+        bob.putLong("repeat", getRepeatType());
+
         mMediaSession.setMetadata(bob.build());
     }
 
-    protected void publishState(int state) {
+    protected void publishState() {
         if (mMediaSession == null)
             return;
         PlaybackStateCompat.Builder pscb = new PlaybackStateCompat.Builder();
         long actions = PLAYBACK_BASE_ACTIONS;
-        switch (state) {
-            case MediaPlayer.Event.Playing:
-                actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
-                pscb.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
-                break;
-            case MediaPlayer.Event.Stopped:
-                actions |= PlaybackStateCompat.ACTION_PLAY;
-                pscb.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
-                break;
-            default:
-                actions |= PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP;
-                pscb.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
+        if (isPlaying()) {
+            actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
+            pscb.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
+        } else if (hasMedia()) {
+            actions |= PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP;
+            pscb.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
+        } else {
+            actions |= PlaybackStateCompat.ACTION_PLAY;
+            pscb.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
         }
         if (hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
@@ -1198,8 +1220,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
         actions |= PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM;
         pscb.setActions(actions);
+        int repeatResId = getRepeatType() == REPEAT_ALL ? R.drawable.ic_repeat_normal_o : getRepeatType() == REPEAT_ONE ? R.drawable.ic_repeat_one : R.drawable.ic_repeat_normal;
+        if (mMediaList.size() > 2)
+            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_shuffle_normal_o : R.drawable.ic_shuffle_normal_w);
+        pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
         mMediaSession.setPlaybackState(pscb.build());
-        mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
+        mMediaSession.setActive(hasMedia());
         mMediaSession.setQueueTitle(getString(R.string.music_now_playing));
     }
 
@@ -1268,6 +1294,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mShuffling = !mShuffling;
         savePosition();
         determinePrevAndNextIndices();
+        publishState();
     }
 
     @MainThread
@@ -1275,6 +1302,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mRepeating = repeatType;
         savePosition();
         determinePrevAndNextIndices();
+        publishState();
     }
 
     private void updateWidget() {
