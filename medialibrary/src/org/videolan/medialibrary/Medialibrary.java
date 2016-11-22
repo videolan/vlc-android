@@ -199,7 +199,7 @@ public class Medialibrary {
     }
 
     public MediaWrapper[] lastMediaPlayed() {
-        return nativeLastMediaPlayed();
+        return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
     }
 
     public MediaWrapper getMedia(long id) {
