@@ -5,6 +5,8 @@ Application:
  * Android Auto implementation
  * DayNight mode integration
  * Option to filter in current media list
+ * Restored double/long click on remote play to skip songs
+ * Added multiselection mode
  * Removed sound lowering on notification
  * New Search activity and integration with Google Now
  * Redesigned audio and video lists/grid
@@ -14,6 +16,7 @@ Application:
  * Refactored AudioPlayer to get rid of SlidingPane layout
  * CoordinatorLayout integration
  * Transparent theme for smoother startup
+ * PlaybackService now persists
  * Fix audioplayer layout for black theme and RTL
  * Fix notification content when no artist nor album
  * Update notification when playlist is ended
