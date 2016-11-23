@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
@@ -33,6 +34,7 @@ import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -507,5 +509,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             mVideos.addAll((Collection<MediaWrapper>) filterResults.values);
             notifyDataSetChanged();
         }
+    }
+    @BindingAdapter({"time", "resolution"})
+    public static void setLayoutHeight(View view, String time, String resolution) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = TextUtils.isEmpty(time) && TextUtils.isEmpty(resolution) ?
+                layoutParams.MATCH_PARENT :
+                layoutParams.WRAP_CONTENT;
+        view.setLayoutParams(layoutParams);
     }
 }
