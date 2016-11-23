@@ -27,7 +27,8 @@
                 android:gravity="center"
                 android:paddingTop="30dip"
                 android:text="@string/nohistory"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"/>
         </FrameLayout>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
