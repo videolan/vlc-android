@@ -381,26 +381,23 @@ public class AWindow implements IVLCVout {
     @Override
     public void sendMouseEvent(int action, int button, int x, int y) {
         synchronized (mNativeLock) {
-            if (mCallbackNativeHandle != 0)
+            if (mCallbackNativeHandle != 0 && (mMouseAction != action || mMouseButton != button
+                    || mMouseX != x || mMouseY != y))
                 mAWindowNativeHandler.nativeOnMouseEvent(mCallbackNativeHandle, action, button, x, y);
-            else {
-                mMouseAction = action;
-                mMouseButton = button;
-                mMouseX = x;
-                mMouseY = y;
-            }
+            mMouseAction = action;
+            mMouseButton = button;
+            mMouseX = x;
+            mMouseY = y;
         }
     }
 
     @Override
     public void setWindowSize(int width, int height) {
         synchronized (mNativeLock) {
-            if (mCallbackNativeHandle != 0)
+            if (mCallbackNativeHandle != 0 && (mWindowWidth != width || mWindowHeight != height))
                 mAWindowNativeHandler.nativeOnWindowSize(mCallbackNativeHandle, width, height);
-            else {
-                mWindowWidth = width;
-                mWindowHeight = height;
-            }
+            mWindowWidth = width;
+            mWindowHeight = height;
         }
     }
 
@@ -467,8 +464,6 @@ public class AWindow implements IVLCVout {
                     if (mWindowWidth != -1 && mWindowHeight != -1)
                         nativeOnWindowSize(mCallbackNativeHandle, mWindowWidth, mWindowHeight);
                 }
-                mMouseAction = mMouseButton = mMouseX = mMouseY = -1;
-                mWindowWidth = mWindowHeight = -1;
             }
             return true;
         }
