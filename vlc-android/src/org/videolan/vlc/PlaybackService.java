@@ -1220,9 +1220,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
         actions |= PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM;
         pscb.setActions(actions);
-        int repeatResId = getRepeatType() == REPEAT_ALL ? R.drawable.ic_repeat_normal_o : getRepeatType() == REPEAT_ONE ? R.drawable.ic_repeat_one : R.drawable.ic_repeat_normal;
+        int repeatResId = getRepeatType() == REPEAT_ALL ? R.drawable.ic_auto_repeat_pressed : getRepeatType() == REPEAT_ONE ? R.drawable.ic_auto_repeat_one_pressed : R.drawable.ic_auto_repeat_normal;
         if (mMediaList.size() > 2)
-            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_shuffle_normal_o : R.drawable.ic_shuffle_normal_w);
+            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_auto_shuffle_pressed : R.drawable.ic_auto_shuffle_normal);
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
         mMediaSession.setPlaybackState(pscb.build());
         mMediaSession.setActive(hasMedia());
