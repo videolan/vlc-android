@@ -159,6 +159,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static String ACTION_RESULT = Strings.buildPkgString("player.result");
     public final static String EXTRA_POSITION = "extra_position";
     public final static String EXTRA_DURATION = "extra_duration";
+    public final static String EXTRA_URI = "extra_uri";
     public final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
     public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
     public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
@@ -1046,7 +1047,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         Intent resultIntent = new Intent(ACTION_RESULT);
         if (mUri != null && mService != null) {
-            resultIntent.setData(mUri);
+            if (AndroidUtil.isNougatOrLater())
+                resultIntent.putExtra(EXTRA_URI, mUri.toString());
+            else
+                resultIntent.setData(mUri);
             resultIntent.putExtra(EXTRA_POSITION, mService.getTime());
             resultIntent.putExtra(EXTRA_DURATION, mService.getLength());
         }
