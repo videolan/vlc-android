@@ -39,6 +39,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 
@@ -80,7 +81,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     protected MediaWrapper mItemSelected;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>();
     SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
-    ArrayList<MediaWrapper> mVideosList = new ArrayList();
+    ArrayList<MediaWrapper> mVideosList = new ArrayList<>();
     protected BrowserHandler mHandler = new BrowserHandler(this);
 
     abstract protected void browse();
@@ -88,16 +89,15 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
+        if (savedInstanceState != null)
             mItemSelected = savedInstanceState.getParcelable(SELECTED_ITEM);
-        }
         setOnItemViewClickedListener(this);
         setOnItemViewSelectedListener(this);
         setAdapter(mAdapter);
 
         // UI setting
         setHeadersState(HEADERS_ENABLED);
-        setBrandColor(getResources().getColor(R.color.orange800));
+        setBrandColor(ContextCompat.getColor(getActivity(), R.color.orange800));
     }
 
     @Override
@@ -228,14 +228,14 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     public void updateItem(MediaWrapper item) {
         if (mAdapter != null && mMediaIndex != null && item != null
                 && mMediaIndex.containsKey(item.getLocation()))
-            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(item.getLocation()).intValue(), 1);
+            mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(item.getLocation()), 1);
     }
 
     public static class ListItem {
-        public String Letter;
+        String Letter;
         public ArrayList<MediaWrapper> mediaList;
 
-        public ListItem(String letter, MediaWrapper mediaWrapper) {
+        ListItem(String letter, MediaWrapper mediaWrapper) {
             mediaList = new ArrayList<>();
             if (mediaWrapper != null)
                 mediaList.add(mediaWrapper);
@@ -244,7 +244,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     }
 
     protected static class BrowserHandler extends WeakHandler<SortedBrowserFragment> {
-        public BrowserHandler(SortedBrowserFragment owner) {
+        BrowserHandler(SortedBrowserFragment owner) {
             super(owner);
         }
 
