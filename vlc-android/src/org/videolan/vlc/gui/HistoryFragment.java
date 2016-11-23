@@ -147,6 +147,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public void clearHistory() {
+        mMediaLibrary.clearHistory();
         mHistoryAdapter.clear();
         updateEmptyView();
     }

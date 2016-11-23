@@ -202,6 +202,14 @@ public class Medialibrary {
         return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
     }
 
+    public boolean clearHistory() {
+        return mIsInitiated && nativeClearHistory();
+    }
+
+    public boolean addToHistory(String mrl) {
+        return mIsInitiated && nativeAddToHistory(mrl);
+    }
+
     public MediaWrapper getMedia(long id) {
         return nativeGetMedia(id);
     }
@@ -218,9 +226,7 @@ public class Medialibrary {
     }
 
     public boolean increasePlayCount(long mediaId) {
-        if (!mIsInitiated)
-            return false;
-        return mediaId > 0 && nativeIncreasePlayCount(mediaId);
+        return mIsInitiated && mediaId > 0 && nativeIncreasePlayCount(mediaId);
     }
 
     public boolean updateProgress(MediaWrapper mw, long time) {
@@ -397,6 +403,9 @@ public class Medialibrary {
     private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid);
     private native MediaWrapper[] nativeLastMediaPlayed();
+    private native MediaWrapper[] nativeLastStreamsPlayed();
+    private native  boolean nativeAddToHistory(String mrl);
+    private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper[] nativeGetVideos();

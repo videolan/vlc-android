@@ -15,6 +15,7 @@
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IArtist.h>
 #include <medialibrary/IGenre.h>
+#include <medialibrary/IHistoryEntry.h>
 #include <medialibrary/IPlaylist.h>
 #include <medialibrary/IFolder.h>
 #include <medialibrary/Types.h>
@@ -45,7 +46,12 @@ public:
     void reload( const std::string& entryPoint );
     bool increasePlayCount(int64_t mediaId);
     bool updateProgress(int64_t mediaId, int64_t time);
+    /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
+    bool addToHistory( const std::string& mrl );
+    std::vector<medialibrary::HistoryPtr> lastStreamsPlayed();
+    bool clearHistory();
+
     medialibrary::SearchAggregate search(const std::string& query);
     medialibrary::MediaPtr media(long id);
     medialibrary::MediaPtr media(const std::string& mrl);

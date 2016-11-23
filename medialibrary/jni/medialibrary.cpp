@@ -199,6 +199,28 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
     return mediaRefs;
 }
 
+jboolean
+addToHistory(JNIEnv* env, jobject thiz, jstring mrl)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *mrl_cstr = env->GetStringUTFChars(mrl, JNI_FALSE);
+    jboolean ok = aml->addToHistory(mrl_cstr);
+    env->ReleaseStringUTFChars(mrl, mrl_cstr);
+    return ok;
+}
+
+jobjectArray
+lastStreamsPlayed(JNIEnv* env, jobject thiz)
+{
+    //TODO
+    return nullptr;
+}
+
+bool clearHistory(JNIEnv* env, jobject thiz)
+{
+    return MediaLibrary_getInstance(env, thiz)->clearHistory();
+}
+
 jobjectArray
 getVideos(JNIEnv* env, jobject thiz)
 {
@@ -558,6 +580,9 @@ static JNINativeMethod methods[] = {
     {"nativeRemoveDevice", "(Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },
+    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastStreamsPlayed },
+    {"nativeAddToHistory", "(Ljava/lang/String;)Z", (void*)addToHistory },
+    {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},

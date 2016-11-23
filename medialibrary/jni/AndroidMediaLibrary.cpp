@@ -174,6 +174,24 @@ AndroidMediaLibrary::lastMediaPlayed()
     return p_ml->lastMediaPlayed();
 }
 
+bool
+AndroidMediaLibrary::addToHistory( const std::string& mrl )
+{
+    p_ml->addToHistory(mrl);
+}
+
+std::vector<medialibrary::HistoryPtr>
+AndroidMediaLibrary::lastStreamsPlayed()
+{
+    return p_ml->lastStreamsPlayed();
+}
+
+bool
+AndroidMediaLibrary::clearHistory()
+{
+    return p_ml->clearHistory();
+}
+
 medialibrary::SearchAggregate
 AndroidMediaLibrary::search(const std::string& query)
 {
