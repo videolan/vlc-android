@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.browser;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -36,6 +37,7 @@ import android.view.View;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MediaInfoDialog;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
@@ -56,6 +58,13 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
     }
 
     public void onStart(){

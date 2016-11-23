@@ -50,7 +50,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     private HistoryAdapter mHistoryAdapter;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private View mEmptyView;
 
     /* All subclasses of Fragment must include a public empty constructor. */
@@ -65,8 +64,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         View v = inflater.inflate(R.layout.history_list, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(android.R.id.list);
         mEmptyView = v.findViewById(android.R.id.empty);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mHistoryAdapter);
         mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
         mRecyclerView.setNextFocusLeftId(android.R.id.list);
@@ -78,7 +76,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.orange700/*, R.attr.colorPrimary, R.attr.colorPrimaryDark*/);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return v;
     }
@@ -127,8 +124,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
                         return;
                     mHistoryAdapter.setList((MediaWrapper[]) msg.obj);
                     updateEmptyView();
-                    if (mHistoryAdapter != null)
-                        mHistoryAdapter.notifyDataSetChanged();
+                    mHistoryAdapter.notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
                     getActivity().supportInvalidateOptionsMenu();
             }

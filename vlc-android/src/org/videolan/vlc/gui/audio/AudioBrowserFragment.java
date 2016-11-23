@@ -157,7 +157,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         setupTabLayout();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchButtonView = v.findViewById(R.id.searchButton);
 

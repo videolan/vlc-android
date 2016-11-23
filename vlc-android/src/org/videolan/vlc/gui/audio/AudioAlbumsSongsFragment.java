@@ -134,7 +134,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         registerForContextMenu(songsList);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         return v;
