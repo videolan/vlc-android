@@ -534,7 +534,7 @@
             android:name="org.videolan.vlc.gui.tv.MainTvActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV" />
         <activity
             android:name="org.videolan.vlc.gui.tv.DetailsActivity"
             android:exported="true"
@@ -542,23 +542,23 @@
         <activity
             android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV"  />
         <activity
             android:name="org.videolan.vlc.gui.tv.SearchActivity"
             android:exported="true"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV"  />
         <activity
             android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:allowTaskReparenting="true"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV"  />
         <activity android:name=".gui.tv.preferences.PreferencesActivity"
             android:theme="@style/Theme.VLC.Leanback.Preferences" />
         <activity android:name=".gui.tv.AboutActivity"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV"  />
         <activity android:name=".gui.tv.LicenceActivity"
-            android:theme="@style/Theme.Leanback" />
+            android:theme="@style/Theme.VLC.TV"  />
 
         <service
             android:name=".RecommendationsService"

@@ -171,6 +171,13 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
     </style>
+   <style name="Theme.VLC.TV" parent="Theme.Leanback">
+        <item name="imageCardViewStyle">@style/VLCardView</item>
+    </style>
+    <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
+        <item name="cardType">infoUnderWithExtra</item>
+        <item name="infoVisibility">always</item>
+   </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
