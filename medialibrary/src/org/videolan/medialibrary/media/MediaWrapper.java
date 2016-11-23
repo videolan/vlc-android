@@ -33,6 +33,7 @@ import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
 
 import java.util.Locale;
 
@@ -62,7 +63,6 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private int mTrackNumber;
     private int mDiscNumber;
     private String mAlbumArtist;
-    private String mDescription;
     private String mRating;
     private String mDate;
     private String mSettings;
@@ -104,16 +104,21 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mUri = Uri.parse(mrl);
         mId = id;
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
-        String artistMeta = getReferenceArtist();
-        boolean hasArtistMeta = !TextUtils.isEmpty(artistMeta);
         sb.setLength(0);
-        if (!TextUtils.isEmpty(album)) {
-            sb.append(album);
+        if (type == TYPE_AUDIO) {
+            String artistMeta = getReferenceArtist();
+            boolean hasArtistMeta = !TextUtils.isEmpty(artistMeta);
+            if (!TextUtils.isEmpty(album)) {
+                sb.append(album);
+                if (hasArtistMeta)
+                    sb.append(" - ");
+            }
             if (hasArtistMeta)
-                sb.append(" - ");
+                sb.append(artistMeta);
+        } else if (type == TYPE_VIDEO) {
+            Tools.setMediaDescription(this);
         }
-        if (hasArtistMeta)
-            sb.append(artistMeta);
+
         if (sb.length() > 0)
             mDescription = sb.toString();
     }
@@ -462,14 +467,6 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     public int getDiscNumber() {
         return mDiscNumber;
-    }
-
-    public void setDescription(String description){
-        mDescription = description;
-    }
-
-    public String getDescription() {
-        return mDescription;
     }
 
     public String getRating() {

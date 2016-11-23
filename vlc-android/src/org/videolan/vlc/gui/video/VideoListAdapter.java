@@ -40,6 +40,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
@@ -229,17 +230,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             if (media.getLength() > 0) {
                 long lastTime = media.getTime();
                 if (lastTime > 0) {
-                    text = String.format("%s / %s",
-                            Strings.millisToText(lastTime),
-                            Strings.millisToText(media.getLength()));
+                    text = Tools.getProgressText(media);
                     max = (int) (media.getLength() / 1000);
                     progress = (int) (lastTime / 1000);
                 } else {
                     text = Strings.millisToText(media.getLength());
                 }
             }
-            if (media.getWidth() > 0 && media.getHeight() > 0)
-                resolution = String.format(Locale.US, "%dx%d", media.getWidth(), media.getHeight());
+            resolution = Tools.getResolution(media);
         }
 
         holder.binding.setVariable(BR.resolution, resolution);

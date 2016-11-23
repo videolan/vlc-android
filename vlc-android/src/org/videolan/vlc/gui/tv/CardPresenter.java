@@ -33,18 +33,19 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.HttpImageLoader;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -62,7 +63,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Activity context){
         mContext = context;
         mRes = mContext.getResources();
-        sDefaultCardImage = mRes.getDrawable(R.drawable.ic_no_thumbnail_big);
+        sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_no_thumbnail_big);
         CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
         CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     }
@@ -75,8 +76,8 @@ public class CardPresenter extends Presenter {
             mCardView = (ImageCardView) view;
         }
 
-        protected void updateCardViewImage(MediaWrapper mediaWrapper) {
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+        void updateCardViewImage(MediaWrapper mediaWrapper) {
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http")) {
                 AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), mCardView);
             } else {
@@ -84,7 +85,7 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        protected void updateCardViewImage(Drawable image) {
+        void updateCardViewImage(Drawable image) {
             mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
             mCardView.setMainImage(image);
         }
@@ -96,7 +97,7 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mRes.getColor(R.color.lb_details_overview_bg_color));
+        cardView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lb_details_overview_bg_color));
         cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
         return new ViewHolder(cardView);
     }
@@ -108,9 +109,8 @@ public class CardPresenter extends Presenter {
             final MediaWrapper mediaWrapper = (MediaWrapper) item;
             holder.mCardView.setTitleText(mediaWrapper.getTitle());
             holder.mCardView.setContentText(mediaWrapper.getDescription());
-            if (mediaWrapper.getType() == mediaWrapper.TYPE_GROUP)
-                holder.updateCardViewImage(mRes.getDrawable(
-                        R.drawable.ic_video_collection_big));
+            if (mediaWrapper.getType() == MediaWrapper.TYPE_GROUP)
+                holder.updateCardViewImage(ContextCompat.getDrawable(mContext, R.drawable.ic_video_collection_big));
             else
                 holder.updateCardViewImage(mediaWrapper);
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -130,9 +130,9 @@ public class CardPresenter extends Presenter {
             SimpleCard card = (SimpleCard) item;
             Bitmap image = card.getImage();
             holder.mCardView.setTitleText(card.getName());
-            holder.mCardView.setContentText("");
-            holder.updateCardViewImage(image != null ? new BitmapDrawable(image) : mRes.getDrawable(card.getImageId()));
-        }else if (item instanceof String){
+            holder.mCardView.setContentText(card.getDescription());
+            holder.updateCardViewImage(image != null ? new BitmapDrawable(mRes, image) : ContextCompat.getDrawable(mContext, card.getImageId()));
+        } else if (item instanceof String){
             holder.mCardView.setTitleText((String) item);
             holder.mCardView.setContentText("");
             holder.updateCardViewImage(sDefaultCardImage);
@@ -148,10 +148,11 @@ public class CardPresenter extends Presenter {
         // TODO?
     }
 
-    public static class SimpleCard {
+    static class SimpleCard {
         long id;
         int imageId;
         String name;
+        String description;
         Bitmap image;
 
         Uri uri;
@@ -165,6 +166,14 @@ public class CardPresenter extends Presenter {
         SimpleCard(long id, String name, int imageId){
             this.id = id;
             this.name = name;
+            this.description = "";
+            this.imageId = imageId;
+        }
+
+        SimpleCard(long id, String name, String description, int imageId){
+            this.id = id;
+            this.name = name;
+            this.description = description;
             this.imageId = imageId;
         }
 
@@ -210,12 +219,16 @@ public class CardPresenter extends Presenter {
             return name;
         }
 
+        public String getDescription() {
+            return description;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
     }
 
-    public static class CoverFetcher implements AsyncImageLoader.Callbacks{
+    private static class CoverFetcher implements AsyncImageLoader.Callbacks{
         MediaWrapper mediaWrapper;
         private static Resources res;
 
@@ -227,22 +240,26 @@ public class CardPresenter extends Presenter {
         @Override
         public Bitmap getImage() {
             Bitmap picture;
-            if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
-                picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
-            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
-                picture = BitmapUtil.getPicture(mediaWrapper);
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
-            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR) {
-                if (TextUtils.equals(mediaWrapper.getUri().getScheme(),"file"))
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
-                else
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+            switch (mediaWrapper.getType()) {
+                case MediaWrapper.TYPE_AUDIO:
+                    picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
+                    if (picture == null)
+                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
+                    break;
+                case MediaWrapper.TYPE_VIDEO:
+                    picture = BitmapUtil.getPicture(mediaWrapper);
+                    if (picture == null)
+                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
+                    break;
+                case MediaWrapper.TYPE_DIR:
+                    if (TextUtils.equals(mediaWrapper.getUri().getScheme(),"file"))
+                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
+                    else
+                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+                    break;
+                default:
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_big_normal);
             }
-            else
-                picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_big_normal);
             return picture;
         }
 

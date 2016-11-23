@@ -20,6 +20,7 @@ public abstract class MediaLibraryItem implements Parcelable {
 
     long mId;
     protected String mTitle;
+    protected String mDescription;
 
     protected MediaLibraryItem() {}
 
@@ -46,9 +47,13 @@ public abstract class MediaLibraryItem implements Parcelable {
     }
 
     public String getDescription() {
-        return null;
+        return mDescription;
     }
 
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(mId);

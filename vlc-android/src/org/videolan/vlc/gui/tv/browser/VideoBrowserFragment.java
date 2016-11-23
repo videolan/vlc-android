@@ -31,6 +31,7 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -61,6 +62,7 @@ public class VideoBrowserFragment extends SortedBrowserFragment implements Media
                         MediaWrapper media;
                         for (int i = 0; i < mVideos.length; ++i) {
                             media = mVideos[i];
+                            Tools.setMediaDescription(media);
                             addMedia(media);
                             mMediaIndex.put(media.getLocation(), i);
                         }
