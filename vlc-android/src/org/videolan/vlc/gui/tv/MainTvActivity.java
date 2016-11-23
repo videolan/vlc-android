@@ -150,6 +150,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
 
         mRootContainer = mBrowseFragment.getView();
+        mRootContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.grey850));
+        mBrowseFragment.setBrandColor(ContextCompat.getColor(this, R.color.orange800));
     }
 
     @Override
@@ -200,7 +202,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.addCallback(this);
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-        mBrowseFragment.setBrandColor(getResources().getColor(R.color.orange800));
     }
 
     protected void onPause() {

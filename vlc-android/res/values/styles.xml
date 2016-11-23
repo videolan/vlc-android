@@ -173,10 +173,15 @@
     </style>
    <style name="Theme.VLC.TV" parent="Theme.Leanback">
         <item name="imageCardViewStyle">@style/VLCardView</item>
+        <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
     </style>
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
         <item name="cardType">infoUnderWithExtra</item>
         <item name="infoVisibility">always</item>
+   </style>
+    <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">middle</item>
    </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
