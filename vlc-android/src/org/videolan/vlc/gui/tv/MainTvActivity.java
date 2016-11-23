@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MainTvActivity.java
  *****************************************************************************
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2016 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify

@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/material_blue_grey_800">
+        android:background="@color/grey850">
     <fragment
           android:name="android.support.v17.leanback.app.BrowseFragment"
           android:id="@+id/browse_fragment"

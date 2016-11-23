@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VerticalGridActivity.java
  *****************************************************************************
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2016 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -51,7 +51,6 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         setContentView(R.layout.tv_vertical_grid);
         mContentLoadingProgressBar = (ProgressBar) findViewById(R.id.tv_fragment_progress);
         mEmptyView = (TextView) findViewById(R.id.tv_fragment_empty);
-        getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
         if (type == MainTvActivity.HEADER_VIDEO)
             mFragment = new VideoBrowserFragment();
