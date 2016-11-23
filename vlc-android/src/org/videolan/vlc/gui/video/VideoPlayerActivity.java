@@ -1758,8 +1758,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
             /* Video track lost, open in audio mode */
-            Log.i(TAG, "Video track lost, switching to audio");
-            mSwitchingView = true;
+            if (mService.hasMedia()) {
+                Log.i(TAG, "Video track lost, switching to audio");
+                mSwitchingView = true;
+            }
             exit(RESULT_VIDEO_TRACK_LOST);
         }
     }
