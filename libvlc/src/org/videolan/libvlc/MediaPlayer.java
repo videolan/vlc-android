@@ -499,6 +499,24 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Get current video aspect ratio
+     *
+     * @return the video aspect ratio or NULL if unspecified
+     */
+    public String getAspectRatio() {
+        return nativeGetAspectRatio();
+    }
+
+    /**
+     * Set new video aspect ratio.
+     *
+     * @param aspect new video aspect-ratio or NULL to reset to default
+     */
+    public void setAspectRatio(String aspect) {
+        nativeSetAspectRatio(aspect);
+    }
+
+    /**
      * Selects an audio output module.
      * Any change will take effect only after playback is stopped and
      * restarted. Audio output cannot be changed while playing.
@@ -899,6 +917,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
     private native float nativeGetScale();
     private native void nativeSetScale(float scale);
+    private native String nativeGetAspectRatio();
+    private native void nativeSetAspectRatio(String aspect);
     private native boolean nativeSetAudioOutput(String aout);
     private native boolean nativeSetAudioOutputDevice(String id);
     private native Title[] nativeGetTitles();
