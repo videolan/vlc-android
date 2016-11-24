@@ -102,15 +102,14 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 return true;
             case "clear_history":
                 new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.clear_history)
+                        .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                MediaDatabase db = MediaDatabase.getInstance();
-                                db.clearSearchHistory();
+                                VLCApplication.getMLInstance().clearHistory();
                             }
                         })
 
