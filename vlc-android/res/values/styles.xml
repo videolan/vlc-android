@@ -182,8 +182,8 @@
 
    </style>
     <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:maxLines">2</item>
-        <item name="android:ellipsize">middle</item>
+        <item name="android:lines">2</item>
+        <item name="android:gravity">center_vertical</item>
    </style>
     <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
         <item name="android:background">@color/tv_card_content</item>
