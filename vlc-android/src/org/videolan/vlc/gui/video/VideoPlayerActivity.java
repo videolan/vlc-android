@@ -1721,6 +1721,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 }
             });
         }
+        //Ignore repeat 
+        if (mService.getRepeatType() == PlaybackService.REPEAT_ALL && mService.getMediaListSize() == 1)
+            exitOK();
     }
 
     private void encounteredError() {
