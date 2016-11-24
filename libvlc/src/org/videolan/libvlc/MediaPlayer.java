@@ -634,6 +634,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Get the current video track
+     */
+    public Media.VideoTrack getCurrentVideoTrack() {
+        if (getVideoTrack() == -1)
+            return null;
+        final int trackCount = mMedia.getTrackCount();
+        for (int i = 0; i < trackCount; ++i) {
+            final Media.Track  track = mMedia.getTrack(i);
+            if (track.type == Media.Track.Type.Video)
+                return (Media.VideoTrack) track;
+        }
+        return null;
+    }
+
+    /**
      * Get the number of available audio tracks.
      */
     public int getAudioTracksCount() {
