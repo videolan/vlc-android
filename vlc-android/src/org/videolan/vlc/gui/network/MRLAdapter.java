@@ -27,18 +27,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.HistoryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 
-import java.util.ArrayList;
+class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
+    private HistoryItem[] mDataset;
 
-public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
-    private ArrayList<String> mDataset;
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView uriTv;
-        public ImageView deleteButton;
+        TextView uriTv;
+        ImageView deleteButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -47,7 +46,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         }
     }
 
-    public MRLAdapter(ArrayList<String> myDataset) {
+    MRLAdapter(HistoryItem[] myDataset) {
         mDataset = myDataset;
     }
 
@@ -61,58 +60,31 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.uriTv.setText(mDataset.get(position));
+        final HistoryItem item = mDataset[position];
+        holder.uriTv.setText(item.getMrl());
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UiTools.setKeyboardVisibility(holder.itemView, false);
-                MediaUtils.openStream(v.getContext(), getItem(holder.getAdapterPosition()));
-            }
-        });
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UiTools.setKeyboardVisibility(holder.itemView, false);
-                final int currentPosition = holder.getAdapterPosition();
-                if (currentPosition > -1) {
-                    final String mrl = getItem(currentPosition);
-                    if (mrl == null)
-                        return;
-                    mDataset.remove(currentPosition);
-                    notifyItemRemoved(currentPosition);
-                    UiTools.snackerWithCancel(holder.itemView,
-                            holder.itemView.getContext().getString(R.string.file_deleted),
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    MediaDatabase.getInstance().deleteMrlUri(mrl);
-                                }
-                            }, new Runnable() {
-                                @Override
-                                public void run() {
-                                    mDataset.add(currentPosition, mrl);
-                                    notifyItemInserted(currentPosition);
-                                }
-                            });
-                }
+                MediaUtils.openStream(v.getContext(), item.getMrl());
             }
         });
     }
 
-    public void setList(ArrayList<String> list){
+    public void setList(HistoryItem[] list){
         mDataset = list;
         notifyDataSetChanged();
     }
 
-    public String getItem(int position) {
+    public HistoryItem getItem(int position) {
         if (position >= getItemCount() || position < 0)
             return null;
-        return mDataset.get(position);
+        return mDataset[position];
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return mDataset.length;
     }
 
     public boolean isEmpty(){

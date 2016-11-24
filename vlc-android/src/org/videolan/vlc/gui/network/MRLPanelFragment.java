@@ -36,13 +36,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.HistoryItem;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IHistory;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-
-import java.util.ArrayList;
 
 public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "VLC/MrlPanelFragment";
@@ -50,7 +49,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<String> mHistory;
+    HistoryItem[] mHistory;
     TextInputLayout mEditText;
     ImageView mSend;
     View mRootView;
@@ -59,7 +58,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHistory = MediaDatabase.getInstance().getMrlhistory();
+        mHistory = VLCApplication.getMLInstance().lastStreamsPlayed();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -89,7 +88,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mEditText != null)
+        if (mEditText != null && mEditText.getEditText() != null)
             outState.putString(KEY_MRL, mEditText.getEditText().getText().toString());
     }
 
@@ -99,30 +98,28 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         if (savedInstanceState == null || mEditText == null)
             return;
         String mrl = savedInstanceState.getString(KEY_MRL);
-        mEditText.getEditText().setText(mrl);
+        if (mEditText != null && mEditText.getEditText() != null)
+            mEditText.getEditText().setText(mrl);
     }
 
     private void updateHistory() {
-        mHistory = MediaDatabase.getInstance().getMrlhistory();
-        mAdapter.setList(mHistory);
+        mAdapter.setList(VLCApplication.getMLInstance().lastStreamsPlayed());
     }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (keyCode == EditorInfo.IME_ACTION_DONE ||
+        return (keyCode == EditorInfo.IME_ACTION_DONE ||
             keyCode == EditorInfo.IME_ACTION_GO ||
-            event.getAction() == KeyEvent.ACTION_DOWN &&
-            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-            return processUri();
-        }
-        return false;
+                (event.getAction() == KeyEvent.ACTION_DOWN &&
+                event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+                && processUri();
     }
 
     private boolean processUri() {
-        if (!TextUtils.isEmpty(mEditText.getEditText().getText().toString())){
+        if (mEditText.getEditText() != null && !TextUtils.isEmpty(mEditText.getEditText().getText())) {
             UiTools.setKeyboardVisibility(mEditText, false);
             MediaUtils.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
-            MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getEditText().getText().toString().trim());
+            VLCApplication.getMLInstance().addToHistory(mEditText.getEditText().getText().toString().trim());
             updateHistory();
             getActivity().supportInvalidateOptionsMenu();
             mEditText.getEditText().getText().clear();
@@ -132,8 +129,8 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     }
 
     public void clearHistory(){
-        MediaDatabase.getInstance().clearMrlHistory();
-        updateHistory();
+        VLCApplication.getMLInstance().clearHistory();
+        mAdapter.setList(new HistoryItem[0]);
         getActivity().supportInvalidateOptionsMenu();
     }
 

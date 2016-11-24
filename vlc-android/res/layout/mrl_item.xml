@@ -6,32 +6,21 @@
     card_view:cardUseCompatPadding="true"
     card_view:cardPreventCornerOverlap="false"
     card_view:cardElevation="1sp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/background_default">
         <TextView
             android:id="@+id/mrl_item_uri"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/mrl_item_delete"
+            android:layout_toStartOf="@+id/mrl_item_delete"
             android:clickable="true"
             android:ellipsize="middle"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:singleLine="true"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:maxLines="1"
             android:fontFamily="sans-serif-light"
-            android:textColor="?attr/font_default" />
-        <ImageView
-            android:id="@+id/mrl_item_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:src="?attr/ic_trash_small_normal"
-            android:clickable="true"
-            android:contentDescription="@string/delete"
-            android:paddingRight="5dp"/>
-    </RelativeLayout>
+            android:textColor="?attr/font_default"
+            android:background="?attr/background_default" />
 </android.support.v7.widget.CardView>
