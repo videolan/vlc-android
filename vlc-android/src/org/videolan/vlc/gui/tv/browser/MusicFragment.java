@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +37,6 @@ import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 
@@ -113,35 +111,17 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                               RowPresenter.ViewHolder rowViewHolder, Row row) {
         MediaLibraryItem mediaLibraryItem = (MediaLibraryItem) item;
-        Intent intent;
-        if (CATEGORY_ARTISTS == mCategory) {
-            intent = new Intent(mContext, VerticalGridActivity.class);
-            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
-            intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
-            intent.putExtra(MEDIA_SECTION, FILTER_ARTIST);
-            intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
-        } else if (CATEGORY_GENRES == mCategory) {
-            intent = new Intent(mContext, VerticalGridActivity.class);
-            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
-            intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
-            intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
-            intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
-        } else {
-            if (CATEGORY_ALBUMS == mCategory) {
-                TvUtil.playAudioList(mContext, ((MediaLibraryItem) item).getTracks(mMediaLibrary), 0);
-            } else {
-                int position = 0;
+        if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            int position = 0;
                 for (int i = 0; i < mDataList.length; ++i) {
-                    if (item.equals(mDataList[i])) {
+                    if (mediaLibraryItem.equals(mDataList[i])) {
                         position = i;
                         break;
                     }
                 }
                 TvUtil.playAudioList(mContext, (MediaWrapper[]) mDataList, position);
-            }
-            return;
-        }
-        startActivity(intent);
+        } else
+            TvUtil.openAudioCategory(mContext, mediaLibraryItem);
     }
 
     public class AsyncAudioUpdate extends AsyncTask<Void, MediaLibraryItem[], String> {

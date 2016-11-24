@@ -27,14 +27,20 @@ import android.net.Uri;
 import android.support.v17.leanback.widget.Row;
 import android.view.View;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_CATEGORY;
+import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_ITEM;
+import static org.videolan.vlc.gui.tv.browser.MusicFragment.CATEGORY_ALBUMS;
 
 public class TvUtil {
 
@@ -100,5 +106,17 @@ public class TvUtil {
         intent.putExtra(AudioPlayerActivity.MEDIA_LIST, list);
         intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position);
         activity.startActivity(intent);
+    }
+
+    public static void openAudioCategory(Activity context, MediaLibraryItem mediaLibraryItem) {
+        if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
+            TvUtil.playAudioList(context, mediaLibraryItem.getTracks(VLCApplication.getMLInstance()), 0);
+        } else {
+            Intent intent = new Intent(context, VerticalGridActivity.class);
+            intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
+            intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
+            context.startActivity(intent);
+        }
     }
 }

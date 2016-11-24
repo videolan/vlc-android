@@ -36,12 +36,13 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.SearchAggregate;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.medialibrary.media.MediaWrapper;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
@@ -71,10 +72,11 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
     }
 
     private void queryByWords(String words) {
+        if (words == null || words.length() < 3)
+            return;
         mRowsAdapter.clear();
         if (!TextUtils.isEmpty(words) && words.length() > 2) {
             mDelayedLoad.setSearchQuery(words);
-            mDelayedLoad.setSearchType(MediaWrapper.TYPE_ALL);
             VLCApplication.runBackground(mDelayedLoad);
         }
     }
@@ -91,15 +93,40 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         return true;
     }
 
-    private void loadRows(String query, int type) {
-        ArrayList<MediaWrapper> mediaList = MediaLibrary.getInstance().searchMedia(query);
-        final ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter(mActivity));
-        listRowAdapter.addAll(0, mediaList);
+    private void loadRows(String query) {
+        SearchAggregate searchAggregate = VLCApplication.getMLInstance().search(query);
+        CardPresenter cp = new CardPresenter(mActivity);
+        final ArrayObjectAdapter videoAdapter = new ArrayObjectAdapter(cp);
+        videoAdapter.addAll(0, Arrays.asList(searchAggregate.getMediaSearchAggregate().getOthers()));
+        final ArrayObjectAdapter episodesAdapter = new ArrayObjectAdapter(cp);
+        episodesAdapter.addAll(0, Arrays.asList(searchAggregate.getMediaSearchAggregate().getEpisodes()));
+        final ArrayObjectAdapter moviesAdapter = new ArrayObjectAdapter(cp);
+        moviesAdapter.addAll(0, Arrays.asList(searchAggregate.getMediaSearchAggregate().getMovies()));
+        final ArrayObjectAdapter songsAdapter = new ArrayObjectAdapter(cp);
+        songsAdapter.addAll(0, Arrays.asList(searchAggregate.getMediaSearchAggregate().getTracks()));
+        final ArrayObjectAdapter artistsAdapter = new ArrayObjectAdapter(cp);
+        artistsAdapter.addAll(0, Arrays.asList(searchAggregate.getArtists()));
+        final ArrayObjectAdapter albumsAdapter = new ArrayObjectAdapter(cp);
+        albumsAdapter.addAll(0, Arrays.asList(searchAggregate.getAlbums()));
+        final ArrayObjectAdapter genresAdapter = new ArrayObjectAdapter(cp);
+        genresAdapter.addAll(0, Arrays.asList(searchAggregate.getGenres()));
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                HeaderItem header = new HeaderItem(0, getResources().getString(R.string.search_results));
-                mRowsAdapter.add(new ListRow(header, listRowAdapter));
+                if (videoAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.videos)), videoAdapter));
+                if (episodesAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.episodes)), episodesAdapter));
+                if (moviesAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.movies)), moviesAdapter));
+                if (songsAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.songs)), songsAdapter));
+                if (artistsAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.artists)), artistsAdapter));
+                if (albumsAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.albums)), albumsAdapter));
+                if (genresAdapter.size() > 0)
+                    mRowsAdapter.add(new ListRow(new HeaderItem(0, getResources().getString(R.string.genres)), genresAdapter));
             }
         });
     }
@@ -108,9 +135,11 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         return new OnItemViewClickedListener() {
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-                if (item instanceof MediaWrapper) {
+                if (item instanceof MediaWrapper)
                     TvUtil.openMedia(mActivity, item, row);
-                }
+                else
+                    TvUtil.openAudioCategory(mActivity, (MediaLibraryItem) item);
+                getActivity().finish();
             }
         };
     }
@@ -118,19 +147,15 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
     private class SearchRunnable implements Runnable {
 
         private volatile String searchQuery;
-        private volatile int searchType;
 
-        public SearchRunnable() {}
+        SearchRunnable() {}
 
         public void run() {
-            loadRows(searchQuery, searchType);
+            loadRows(searchQuery);
         }
 
-        public void setSearchQuery(String value) {
+        void setSearchQuery(String value) {
             this.searchQuery = value;
-        }
-        public void setSearchType(int value) {
-            this.searchType = value;
         }
     }
 }
