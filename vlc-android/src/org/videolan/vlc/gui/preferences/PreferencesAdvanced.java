@@ -42,7 +42,6 @@ import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.VLCInstance;
 
 public class PreferencesAdvanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -116,10 +115,9 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                         .setNegativeButton(android.R.string.cancel, null).show();
                 return true;
             case "clear_media_db":
-                MediaDatabase.getInstance().emptyDatabase();
+                VLCApplication.getMLInstance().reload();
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
-                getActivity().setResult(PreferencesActivity.RESULT_RESCAN);
                 UiTools.snacker(getView(), R.string.media_db_cleared);
                 return true;
             case "quit_app":
