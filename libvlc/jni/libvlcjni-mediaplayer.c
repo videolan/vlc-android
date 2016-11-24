@@ -881,6 +881,29 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetSpuDelay(JNIEnv *env,
     return libvlc_video_set_spu_delay(p_obj->u.p_mp, delay) == 0 ? true : false;
 }
 
+float
+Java_org_videolan_libvlc_MediaPlayer_nativeGetScale(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return 0.f;
+
+    return libvlc_video_get_scale(p_obj->u.p_mp);
+}
+
+void
+Java_org_videolan_libvlc_MediaPlayer_nativeSetScale(JNIEnv *env, jobject thiz,
+                                                    jfloat factor)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+        return;
+
+    libvlc_video_set_scale(p_obj->u.p_mp, factor);
+}
+
 jboolean
 Java_org_videolan_libvlc_MediaPlayer_nativeAddSlave(JNIEnv *env,
                                                     jobject thiz, jint type,

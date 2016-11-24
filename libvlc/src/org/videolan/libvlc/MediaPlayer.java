@@ -476,6 +476,29 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Get the current video scaling factor
+     *
+     * @return the currently configured zoom factor, or 0. if the video is set to fit to the
+     * output window/drawable automatically.
+     */
+    public float getScale() {
+        return nativeGetScale();
+    }
+
+    /**
+     * Set the video scaling factor
+     *
+     * That is the ratio of the number of pixels on screen to the number of pixels in the original
+     * decoded video in each dimension. Zero is a special value; it will adjust the video to the
+     * output window/drawable (in windowed mode) or the entire screen.
+     *
+     * @param scale the scaling factor, or zero
+     */
+    public void setScale(float scale) {
+        nativeSetScale(scale);
+    }
+
+    /**
      * Selects an audio output module.
      * Any change will take effect only after playback is stopped and
      * restarted. Audio output cannot be changed while playing.
@@ -874,6 +897,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativePlay();
     private native void nativeStop();
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
+    private native float nativeGetScale();
+    private native void nativeSetScale(float scale);
     private native boolean nativeSetAudioOutput(String aout);
     private native boolean nativeSetAudioOutputDevice(String id);
     private native Title[] nativeGetTitles();
