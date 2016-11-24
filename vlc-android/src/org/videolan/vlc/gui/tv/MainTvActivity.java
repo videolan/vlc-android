@@ -152,7 +152,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
 
         mRootContainer = mBrowseFragment.getView();
-        mRootContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.grey850));
         mBrowseFragment.setBrandColor(ContextCompat.getColor(this, R.color.orange800));
     }
 

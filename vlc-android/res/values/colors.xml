@@ -42,4 +42,8 @@
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#dcffffff</color>
     <color name="transparent">#00000000</color>
+
+
+    <color name="tv_bg">#235f69</color>
+    <color name="tv_card_content">#0a6e96</color>
 </resources>
