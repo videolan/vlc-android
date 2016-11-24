@@ -46,13 +46,14 @@
         android:id="@+id/video_grid_item_layout"
         android:layout_width="@dimen/grid_card_thumb_width"
         android:layout_height="@dimen/grid_card_thumb_height"
-        android:layout_marginBottom="@dimen/default_margin"
         android:clickable="true"
         android:focusable="true"
         android:longClickable="true"
         android:onClick="@{(view) -> holder.onClick(view, media)}"
-        android:paddingLeft="@dimen/half_default_margin"
-        android:paddingRight="@dimen/half_default_margin">
+        android:paddingLeft="@dimen/left_right_1610_margin"
+        android:paddingRight="@dimen/left_right_1610_margin"
+        android:paddingBottom="@dimen/top_bottom_1610_margin"
+        android:paddingTop="@dimen/top_bottom_1610_margin">
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
         <ImageView
             android:id="@+id/ml_item_thumbnail"
