@@ -44,17 +44,19 @@ public class PreferencesVideo extends BasePreferenceFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         findPreference("force_list_portrait").setVisible(false);
+        findPreference("save_brightness").setVisible(false);
+        findPreference("video_min_group_length").setVisible(false);
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override

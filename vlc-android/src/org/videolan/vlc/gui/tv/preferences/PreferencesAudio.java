@@ -26,8 +26,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.support.v7.preference.TwoStatePreference;
-
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.VLCInstance;
@@ -46,12 +44,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -59,12 +51,19 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
         findPreference("enable_play_on_headset_insertion").setVisible(false);
         findPreference("enable_steal_remote_control").setVisible(false);
         findPreference("headset_prefs_category").setVisible(false);
+        findPreference("lockscreen_cover").setVisible(false);
 
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
             findPreference("aout").setVisible(false);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
 

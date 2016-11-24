@@ -46,6 +46,18 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        findPreference("enable_clone_mode").setVisible(false);
+        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
+        findPreference("enable_black_theme").setVisible(false);
+        findPreference("secondary_display_category").setVisible(false);
+        findPreference("secondary_display_category_summary").setVisible(false);
+        findPreference("daynight").setVisible(false);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -56,17 +68,6 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         super.onStop();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        findPreference("enable_clone_mode").setVisible(false);
-        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
-        findPreference("enable_black_theme").setVisible(false);
-        findPreference("secondary_display_category").setVisible(false);
-        findPreference("secondary_display_category_summary").setVisible(false);
     }
 
     @Override
