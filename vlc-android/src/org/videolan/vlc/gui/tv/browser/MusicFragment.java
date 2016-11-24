@@ -31,6 +31,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
@@ -41,6 +42,7 @@ import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 
 import java.util.Arrays;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MusicFragment extends MediaLibBrowserFragment implements OnItemViewClickedListener {
@@ -166,7 +168,10 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
         }
 
         protected void onProgressUpdate(MediaLibraryItem[]... datalist){
-            mAdapter.addAll(0, Arrays.asList(((Object[]) datalist[0])));
+            List<Object> list = Arrays.asList(((Object[]) datalist[0]));
+            if (TextUtils.isEmpty(((MediaLibraryItem)list.get(0)).getTitle()))
+                list = list.subList(1, list.size());
+            mAdapter.addAll(0, list);
         }
 
         @Override
