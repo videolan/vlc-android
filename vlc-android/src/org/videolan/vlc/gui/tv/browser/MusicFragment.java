@@ -169,7 +169,7 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
 
         protected void onProgressUpdate(MediaLibraryItem[]... datalist){
             List<Object> list = Arrays.asList(((Object[]) datalist[0]));
-            if (TextUtils.isEmpty(((MediaLibraryItem)list.get(0)).getTitle()))
+            if (TextUtils.isEmpty(((MediaLibraryItem)list.get(0)).getTitle()) && list.size() > 1)
                 list = list.subList(1, list.size());
             mAdapter.addAll(0, list);
         }
