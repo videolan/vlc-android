@@ -5,6 +5,7 @@
 #include <medialibrary/IFile.h>
 #include <medialibrary/IMedia.h>
 #include <medialibrary/IArtist.h>
+#include <medialibrary/IHistoryEntry.h>
 #include <medialibrary/IGenre.h>
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IPlaylist.h>
@@ -198,4 +199,14 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
     }
     return env->NewObject(fields->SearchAggregate.clazz, fields->SearchAggregate.initID,
                           albums, artists, genres, convertMediaSearchAggregateObject(env, fields, searchAggregatePtr.media), playlists);
+}
+
+jobject
+convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr const& historyPtr)
+{
+    jstring mrl = env->NewStringUTF(historyPtr->mrl().c_str());
+    jobject item = env->NewObject(fields->HistoryItem.clazz, fields->HistoryItem.initID, mrl,
+                          (jlong) historyPtr->insertionDate(), (jboolean) historyPtr->isFavorite());
+    env->DeleteLocalRef(mrl);
+    return item;
 }

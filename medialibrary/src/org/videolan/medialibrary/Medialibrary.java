@@ -17,6 +17,7 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
+import org.videolan.medialibrary.media.HistoryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -200,6 +201,10 @@ public class Medialibrary {
 
     public MediaWrapper[] lastMediaPlayed() {
         return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
+    }
+
+    public HistoryItem[] lastStreamsPlayed() {
+        return mIsInitiated ? nativeLastStreamsPlayed() : new HistoryItem[0];
     }
 
     public boolean clearHistory() {
@@ -403,7 +408,7 @@ public class Medialibrary {
     private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid);
     private native MediaWrapper[] nativeLastMediaPlayed();
-    private native MediaWrapper[] nativeLastStreamsPlayed();
+    private native HistoryItem[] nativeLastStreamsPlayed();
     private native  boolean nativeAddToHistory(String mrl);
     private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);

@@ -212,8 +212,16 @@ addToHistory(JNIEnv* env, jobject thiz, jstring mrl)
 jobjectArray
 lastStreamsPlayed(JNIEnv* env, jobject thiz)
 {
-    //TODO
-    return nullptr;
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    std::vector<medialibrary::HistoryPtr> streamsPlayed = aml->lastStreamsPlayed();
+    jobjectArray streamRefs = (jobjectArray) env->NewObjectArray(streamsPlayed.size(), ml_fields.HistoryItem.clazz, NULL);
+    int index = -1;
+    for(medialibrary::HistoryPtr const& historyItem : streamsPlayed) {
+        jobject item = convertHistoryItemObject(env, &ml_fields, historyItem);
+        env->SetObjectArrayElement(streamRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    return streamRefs;
 }
 
 bool clearHistory(JNIEnv* env, jobject thiz)
@@ -580,7 +588,7 @@ static JNINativeMethod methods[] = {
     {"nativeRemoveDevice", "(Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },
-    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastStreamsPlayed },
+    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/HistoryItem;", (void*)lastStreamsPlayed },
     {"nativeAddToHistory", "(Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
@@ -734,6 +742,24 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Playlist.clazz,
            "<init>", "(JLjava/lang/String;)V");
 
+
+    GET_CLASS(ml_fields.MediaWrapper.clazz,
+              "org/videolan/medialibrary/media/MediaWrapper", true);
+
+    GET_ID(GetMethodID,
+           ml_fields.MediaWrapper.initID,
+           ml_fields.MediaWrapper.clazz,
+           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJ)V");
+
+    ///
+    GET_CLASS(ml_fields.HistoryItem.clazz,
+              "org/videolan/medialibrary/media/HistoryItem", true);
+
+    GET_ID(GetMethodID,
+           ml_fields.HistoryItem.initID,
+           ml_fields.HistoryItem.clazz,
+           "<init>", "(Ljava/lang/String;JZ)V");
+///
     GET_CLASS(ml_fields.MediaSearchAggregate.clazz, "org/videolan/medialibrary/media/MediaSearchAggregate", true);
 
     GET_ID(GetMethodID,
@@ -830,15 +856,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.onParsingStatsUpdatedId,
            ml_fields.MediaLibrary.clazz,
            "onParsingStatsUpdated", "(I)V");
-
-
-    GET_CLASS(ml_fields.MediaWrapper.clazz,
-              "org/videolan/medialibrary/media/MediaWrapper", true);
-
-    GET_ID(GetMethodID,
-           ml_fields.MediaWrapper.initID,
-           ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJ)V");
 
 #undef GET_CLASS
 #undef GET_ID

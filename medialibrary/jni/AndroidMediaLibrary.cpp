@@ -177,7 +177,7 @@ AndroidMediaLibrary::lastMediaPlayed()
 bool
 AndroidMediaLibrary::addToHistory( const std::string& mrl )
 {
-    p_ml->addToHistory(mrl);
+    return p_ml->addToHistory(mrl);
 }
 
 std::vector<medialibrary::HistoryPtr>
