@@ -782,12 +782,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         if (mPresentation == null) {
             vlcVout.setVideoView(mSurfaceView);
-            if (mSubtitlesSurfaceView.getVisibility() != View.GONE)
-                vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
+            vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
         } else {
             vlcVout.setVideoView(mPresentation.mSurfaceView);
-            if (mPresentation.mSubtitlesSurfaceView.getVisibility() != View.GONE)
-                vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
+            vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
         vlcVout.addCallback(this);
         vlcVout.attachViews();
@@ -1905,8 +1903,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         surface.setLayoutParams(lp);
-        if (subtitlesSurface != null)
-            subtitlesSurface.setLayoutParams(lp);
+        subtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         lp = surfaceFrame.getLayoutParams();
@@ -1915,8 +1912,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         surfaceFrame.setLayoutParams(lp);
 
         surface.invalidate();
-        if (subtitlesSurface != null)
-            subtitlesSurface.invalidate();
+        subtitlesSurface.invalidate();
     }
 
     private void sendMouseEvent(int action, int button, int x, int y) {
