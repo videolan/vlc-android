@@ -2133,6 +2133,21 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
+    public MediaPlayer.TrackDescription[] getVideoTracks() {
+        return mMediaPlayer.getVideoTracks();
+    }
+
+    @MainThread
+    public Media.VideoTrack getCurrentVideoTrack() {
+        return mMediaPlayer.getCurrentVideoTrack();
+    }
+
+    @MainThread
+    public int getVideoTrack() {
+        return mMediaPlayer.getVideoTrack();
+    }
+
+    @MainThread
     public boolean addSubtitleTrack(String path, boolean select) {
         return mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path, select);
     }
@@ -2195,6 +2210,16 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void setEqualizer(MediaPlayer.Equalizer equalizer) {
         mMediaPlayer.setEqualizer(equalizer);
+    }
+
+    @MainThread
+    public void setVideoScale(float scale) {
+        mMediaPlayer.setScale(scale);
+    }
+
+    @MainThread
+    public void setVideoAspectRatio(String aspect) {
+        mMediaPlayer.setAspectRatio(aspect);
     }
 
     /**

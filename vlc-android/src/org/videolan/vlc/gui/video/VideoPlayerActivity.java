@@ -1795,6 +1795,64 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         exitOK();
     }
 
+    private void changeMediaPlayerLayout(int displayW, int displayH) {
+        /* Change the video placement using MediaPlayer API */
+        switch (mCurrentSize) {
+            case SURFACE_BEST_FIT:
+                mService.setVideoAspectRatio(null);
+                mService.setVideoScale(0);
+                break;
+            case SURFACE_FIT_SCREEN:
+            case SURFACE_FILL: {
+                Media.VideoTrack vtrack = mService.getCurrentVideoTrack();
+                if (vtrack == null)
+                    return;
+                final boolean videoSwapped = vtrack.orientation == Media.VideoTrack.Orientation.LeftBottom
+                        || vtrack.orientation == Media.VideoTrack.Orientation.RightTop;
+                if (mCurrentSize == SURFACE_FIT_SCREEN) {
+                    int videoW = vtrack.width;
+                    int videoH = vtrack.height;
+
+                    if (videoSwapped) {
+                        int swap = videoW;
+                        videoW = videoH;
+                        videoH = swap;
+                    }
+                    if (vtrack.sarNum != vtrack.sarDen)
+                        videoW = videoW * vtrack.sarNum / vtrack.sarDen;
+
+                    float ar = videoW / (float) videoH;
+                    float dar = displayW / (float) displayH;
+
+                    float scale;
+                    if (dar >= ar)
+                        scale = displayW / (float) videoW; /* horizontal */
+                    else
+                        scale = displayH / (float) videoH; /* vertical */
+                    mService.setVideoScale(scale);
+                    mService.setVideoAspectRatio(null);
+                } else {
+                    mService.setVideoScale(0);
+                    mService.setVideoAspectRatio(!videoSwapped ? ""+displayW+":"+displayH
+                                                               : ""+displayH+":"+displayW);
+                }
+                break;
+            }
+            case SURFACE_16_9:
+                mService.setVideoAspectRatio("16:9");
+                mService.setVideoScale(0);
+                break;
+            case SURFACE_4_3:
+                mService.setVideoAspectRatio("4:3");
+                mService.setVideoScale(0);
+                break;
+            case SURFACE_ORIGINAL:
+                mService.setVideoAspectRatio(null);
+                mService.setVideoScale(1);
+                break;
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void changeSurfaceLayout() {
         int sw;
@@ -1809,9 +1867,49 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
 
+        // sanity check
+        if (sw * sh == 0) {
+            Log.e(TAG, "Invalid surface size");
+            return;
+        }
+
         if (mService != null) {
             final IVLCVout vlcVout = mService.getVLCVout();
             vlcVout.setWindowSize(sw, sh);
+        }
+
+        SurfaceView surface;
+        SurfaceView subtitlesSurface;
+        FrameLayout surfaceFrame;
+        if (mPresentation == null) {
+            surface = mSurfaceView;
+            subtitlesSurface = mSubtitlesSurfaceView;
+            surfaceFrame = mSurfaceFrame;
+        } else {
+            surface = mPresentation.mSurfaceView;
+            subtitlesSurface = mPresentation.mSubtitlesSurfaceView;
+            surfaceFrame = mPresentation.mSurfaceFrame;
+        }
+        LayoutParams lp = surface.getLayoutParams();
+
+        if (mVideoWidth * mVideoHeight == 0) {
+            /* Case of OpenGL vouts: handles the placement of the video using MediaPlayer API */
+            lp.width  = LayoutParams.MATCH_PARENT;
+            lp.height = LayoutParams.MATCH_PARENT;
+            surface.setLayoutParams(lp);
+            lp = surfaceFrame.getLayoutParams();
+            lp.width  = LayoutParams.MATCH_PARENT;
+            lp.height = LayoutParams.MATCH_PARENT;
+            surfaceFrame.setLayoutParams(lp);
+            if (mService != null)
+                changeMediaPlayerLayout(sw, sh);
+            return;
+        }
+
+        if (mService != null && lp.width == lp.height && lp.width == LayoutParams.MATCH_PARENT) {
+            /* We handle the placement of the video using Android View LayoutParams */
+            mService.setVideoAspectRatio(null);
+            mService.setVideoScale(0);
         }
 
         double dw = sw, dh = sh;
@@ -1827,12 +1925,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (sw > sh && isPortrait || sw < sh && !isPortrait) {
             dw = sh;
             dh = sw;
-        }
-
-        // sanity check
-        if (dw * dh == 0 || mVideoWidth * mVideoHeight == 0) {
-            Log.e(TAG, "Invalid surface size");
-            return;
         }
 
         // compute the aspect ratio
@@ -1885,21 +1977,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
         }
 
-        SurfaceView surface;
-        SurfaceView subtitlesSurface;
-        FrameLayout surfaceFrame;
-        if (mPresentation == null) {
-            surface = mSurfaceView;
-            subtitlesSurface = mSubtitlesSurfaceView;
-            surfaceFrame = mSurfaceFrame;
-        } else {
-            surface = mPresentation.mSurfaceView;
-            subtitlesSurface = mPresentation.mSubtitlesSurfaceView;
-            surfaceFrame = mPresentation.mSurfaceFrame;
-        }
-
         // set display size
-        LayoutParams lp = surface.getLayoutParams();
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         surface.setLayoutParams(lp);
@@ -3464,9 +3542,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0)
-            return;
-
         // store video size
         mVideoWidth = width;
         mVideoHeight = height;
