@@ -39,14 +39,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
-import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.util.HttpImageLoader;
+import org.videolan.vlc.util.Strings;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -76,10 +77,10 @@ public class CardPresenter extends Presenter {
             mCardView = (ImageCardView) view;
         }
 
-        void updateCardViewImage(MediaWrapper mediaWrapper) {
+        void updateCardViewImage(MediaLibraryItem mediaWrapper) {
             mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (!TextUtils.isEmpty(mediaWrapper.getArtworkURL()) && mediaWrapper.getArtworkURL().startsWith("http")) {
-                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkURL()), mCardView);
+            if (!TextUtils.isEmpty(mediaWrapper.getArtworkMrl()) && mediaWrapper.getArtworkMrl().startsWith("http")) {
+                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkMrl()), mCardView);
             } else {
                 AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), mCardView);
             }
@@ -120,12 +121,11 @@ public class CardPresenter extends Presenter {
                     return true;
                 }
             });
-        } else if (item instanceof MusicFragment.ListItem) {
-            MusicFragment.ListItem listItem = (MusicFragment.ListItem) item;
-            MediaWrapper MediaWrapper = listItem.mediaList.get(0);
-            holder.mCardView.setTitleText(listItem.mTitle);
-            holder.mCardView.setContentText(listItem.mSubTitle);
-            holder.updateCardViewImage(MediaWrapper);
+        } else if (item instanceof MediaLibraryItem) {
+            MediaLibraryItem mediaLibraryItem = (MediaLibraryItem) item;
+            holder.mCardView.setTitleText(mediaLibraryItem.getTitle());
+            holder.mCardView.setContentText(mediaLibraryItem.getDescription());
+            holder.updateCardViewImage(mediaLibraryItem);
         } else if (item instanceof SimpleCard){
             SimpleCard card = (SimpleCard) item;
             Bitmap image = card.getImage();
@@ -229,36 +229,58 @@ public class CardPresenter extends Presenter {
     }
 
     private static class CoverFetcher implements AsyncImageLoader.Callbacks{
-        MediaWrapper mediaWrapper;
+        MediaLibraryItem mediaLibraryItem;
         private static Resources res;
 
-        CoverFetcher(MediaWrapper mediaWrapper){
-            this.mediaWrapper = mediaWrapper;
+        CoverFetcher(MediaLibraryItem mediaLibraryItem){
+            this.mediaLibraryItem = mediaLibraryItem;
             res = VLCApplication.getAppResources();
         }
 
         @Override
         public Bitmap getImage() {
-            Bitmap picture;
-            switch (mediaWrapper.getType()) {
-                case MediaWrapper.TYPE_AUDIO:
-                    picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
-                    if (picture == null)
-                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
-                    break;
-                case MediaWrapper.TYPE_VIDEO:
-                    picture = BitmapUtil.getPicture(mediaWrapper);
-                    if (picture == null)
-                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
-                    break;
-                case MediaWrapper.TYPE_DIR:
-                    if (TextUtils.equals(mediaWrapper.getUri().getScheme(),"file"))
-                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
-                    else
-                        picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
-                    break;
-                default:
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_big_normal);
+            Bitmap picture = null;
+            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+                MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
+                switch (mediaWrapper.getType()) {
+                    case MediaWrapper.TYPE_AUDIO:
+                        picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
+                        if (picture == null)
+                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
+                        break;
+                    case MediaWrapper.TYPE_VIDEO:
+                        picture = BitmapUtil.getPicture(mediaWrapper);
+                        if (picture == null)
+                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
+                        break;
+                    case MediaWrapper.TYPE_DIR:
+                        if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
+                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
+                        else
+                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+                        break;
+                }
+            } else
+                picture = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaLibraryItem.getArtworkMrl())), 384);
+            if (picture == null) {
+                int resId;
+                switch (mediaLibraryItem.getItemType()) {
+                    case MediaLibraryItem.TYPE_ALBUM:
+                        resId = R.drawable.ic_album_big;
+                        break;
+                    case MediaLibraryItem.TYPE_ARTIST:
+                        resId = R.drawable.ic_artist_big;
+                        break;
+                    case MediaLibraryItem.TYPE_GENRE:
+                        resId = R.drawable.ic_genre_big;
+                        break;
+                    case MediaLibraryItem.TYPE_MEDIA:
+                        resId = R.drawable.ic_song_big;
+                        break;
+                    default:
+                        resId = R.drawable.ic_browser_unknown_big_normal;
+                }
+                picture = BitmapFactory.decodeResource(res, resId);
             }
             return picture;
         }

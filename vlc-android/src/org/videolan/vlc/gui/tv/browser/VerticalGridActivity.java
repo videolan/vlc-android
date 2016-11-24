@@ -60,6 +60,9 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
                 mFragment = new SongsBrowserFragment();
             } else {
                 mFragment = new MusicFragment();
+                Bundle args = new Bundle();
+                args.putParcelable(MusicFragment.AUDIO_ITEM, getIntent().getParcelableExtra(MusicFragment.AUDIO_ITEM));
+                ((Fragment)mFragment).setArguments(args);
             }
         else if (type == MainTvActivity.HEADER_NETWORK) {
             Uri uri = getIntent().getData();
@@ -76,7 +79,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             return;
         }
         getFragmentManager().beginTransaction()
-                .add(R.id.tv_fragment_placeholder, (Fragment) mFragment)
+                .add(R.id.tv_fragment_placeholder, ((Fragment)mFragment))
                 .commit();
     }
 

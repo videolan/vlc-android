@@ -32,27 +32,24 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.util.SimpleArrayMap;
-import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Genre;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class MusicFragment extends MediaLibBrowserFragment {
+public class MusicFragment extends MediaLibBrowserFragment implements OnItemViewClickedListener {
 
     public static final String MEDIA_SECTION = "section";
     public static final String AUDIO_CATEGORY = "category";
-    public static final String AUDIO_FILTER = "filter";
+    public static final String AUDIO_ITEM = "item";
 
     public static final long FILTER_ARTIST = 3;
     public static final long FILTER_GENRE = 4;
@@ -63,24 +60,23 @@ public class MusicFragment extends MediaLibBrowserFragment {
     public static final long CATEGORY_GENRES = 3;
     public static final long CATEGORY_SONGS = 4;
 
-    protected SimpleArrayMap<String, ListItem> mMediaItemMap;
-    protected ArrayList<ListItem> mMediaItemList;
     private volatile AsyncAudioUpdate mUpdater = null;
+    MediaLibraryItem[] mDataList;
 
-    String mFilter;
     long mCategory;
     long mType;
+    MediaLibraryItem mCurrentItem;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             mType = savedInstanceState.getLong(MEDIA_SECTION);
             mCategory = savedInstanceState.getLong(AUDIO_CATEGORY);
-            mFilter = savedInstanceState.getString(AUDIO_FILTER);
+            mCurrentItem = savedInstanceState.getParcelable(AUDIO_ITEM);
         } else {
             mType = getActivity().getIntent().getLongExtra(MEDIA_SECTION, -1);
             mCategory = getActivity().getIntent().getLongExtra(AUDIO_CATEGORY, 0);
-            mFilter = getActivity().getIntent().getStringExtra(AUDIO_FILTER);
+            mCurrentItem = getActivity().getIntent().getParcelableExtra(AUDIO_ITEM);
         }
     }
 
@@ -105,162 +101,99 @@ public class MusicFragment extends MediaLibBrowserFragment {
         outState.putLong(MEDIA_SECTION, mType);
     }
 
-    public class AsyncAudioUpdate extends AsyncTask<Void, ListItem, String> {
+    @Override
+    public void updateList() {
+        if (mUpdater == null) {
+            mUpdater = new AsyncAudioUpdate();
+            mUpdater.execute();
+        }
+    }
 
-        ArrayList<MediaWrapper> audioList;
-        public AsyncAudioUpdate() {}
+    @Override
+    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                              RowPresenter.ViewHolder rowViewHolder, Row row) {
+        MediaLibraryItem mediaLibraryItem = (MediaLibraryItem) item;
+        Intent intent;
+        if (CATEGORY_ARTISTS == mCategory) {
+            intent = new Intent(mContext, VerticalGridActivity.class);
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
+            intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
+            intent.putExtra(MEDIA_SECTION, FILTER_ARTIST);
+            intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
+        } else if (CATEGORY_GENRES == mCategory) {
+            intent = new Intent(mContext, VerticalGridActivity.class);
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
+            intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
+            intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
+            intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
+        } else {
+            if (CATEGORY_ALBUMS == mCategory) {
+                TvUtil.playAudioList(mContext, ((MediaLibraryItem) item).getTracks(mMediaLibrary), 0);
+            } else {
+                int position = 0;
+                for (int i = 0; i < mDataList.length; ++i) {
+                    if (item.equals(mDataList[i])) {
+                        position = i;
+                        break;
+                    }
+                }
+                TvUtil.playAudioList(mContext, (MediaWrapper[]) mDataList, position);
+            }
+            return;
+        }
+        startActivity(intent);
+    }
+
+    public class AsyncAudioUpdate extends AsyncTask<Void, MediaLibraryItem[], String> {
+
+        AsyncAudioUpdate() {}
 
         @Override
         protected void onPreExecute() {
             setTitle(getString(R.string.app_name_full));
             mAdapter.clear();
-            mMediaItemMap = new SimpleArrayMap<>();
-            mMediaItemList = new ArrayList<>();
             ((BrowserActivityInterface)getActivity()).showProgress(true);
         }
 
         @Override
         protected String doInBackground(Void... params) {
             String title;
-            ListItem item;
 
-            audioList = new ArrayList<>(Arrays.asList(VLCApplication.getMLInstance().getAudio()));
             if (CATEGORY_ARTISTS == mCategory){
-                Collections.sort(audioList, MediaComparators.byArtist);
+                mDataList = mMediaLibrary.getArtists();
                 title = getString(R.string.artists);
-                for (MediaWrapper mediaWrapper : audioList){
-                    item = add(mediaWrapper.getArtist(), null, mediaWrapper);
-                    if (item != null)
-                        publishProgress(item);
-                }
             } else if (CATEGORY_ALBUMS == mCategory){
-                title = getString(R.string.albums);
-                Collections.sort(audioList, MediaComparators.byAlbum);
-                for (MediaWrapper mediaWrapper : audioList){
-                    if (mFilter == null
-                            || (mType == FILTER_ARTIST && mFilter.equals(mediaWrapper.getArtist()))
-                            || (mType == FILTER_GENRE && mFilter.equals(mediaWrapper.getGenre()))) {
-                        item = add(mediaWrapper.getAlbum(), mediaWrapper.getArtist(), mediaWrapper);
-                        if (item != null)
-                            publishProgress(item);
-                    }
-                }
-                //Customize title for artist/genre browsing
-                if (!mMediaItemList.isEmpty()) {
-                    if (mType == FILTER_ARTIST){
-                        title = title + " " + mMediaItemList.get(0).mediaList.get(0).getArtist();
-                    } else if (mType == FILTER_GENRE){
-                        title = title + " " + mMediaItemList.get(0).mediaList.get(0).getGenre();
-                    }
-                } else
-                    title = getString(R.string.app_name_full);
+                title = mCurrentItem == null ?getString(R.string.albums) :  mCurrentItem.getTitle();
+                if (mCurrentItem == null)
+                    mDataList = mMediaLibrary.getAlbums();
+                else if (mCurrentItem.getItemType() == MediaLibraryItem.TYPE_ARTIST)
+                    mDataList = ((Artist)mCurrentItem).getAlbums(mMediaLibrary);
+                else if (mCurrentItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
+                    mDataList = ((Genre)mCurrentItem).getAlbums(mMediaLibrary);
+                else
+                    return null;
             } else if (CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
-                Collections.sort(audioList, MediaComparators.byGenre);
-                for (MediaWrapper mediaWrapper : audioList){
-                    item = add(mediaWrapper.getGenre(), null, mediaWrapper);
-                    if (item != null)
-                        publishProgress(item);
-                }
+                mDataList = mMediaLibrary.getGenres();
             } else if (CATEGORY_SONGS == mCategory){
                 title = getString(R.string.songs);
-                Collections.sort(audioList, MediaComparators.byName);
-                ListItem mediaItem;
-                for (MediaWrapper mediaWrapper : audioList){
-                    mediaItem = new ListItem(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper);
-                    mMediaItemMap.put(title, mediaItem);
-                    mMediaItemList.add(mediaItem);
-                    publishProgress(mediaItem);
-                }
+                mDataList = mMediaLibrary.getAudio();
             } else {
                 title = getString(R.string.app_name_full);
             }
+            publishProgress(mDataList);
             return title;
         }
 
-        protected void onProgressUpdate(ListItem... items){
-            mAdapter.add(items[0]);
+        protected void onProgressUpdate(MediaLibraryItem[]... datalist){
+            mAdapter.addAll(0, Arrays.asList(((Object[]) datalist[0])));
         }
 
         @Override
         protected void onPostExecute(String title) {
             ((BrowserActivityInterface)getActivity()).showProgress(false);
             setTitle(title);
-            setOnItemViewClickedListener(new OnItemViewClickedListener() {
-                @Override
-                public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                          RowPresenter.ViewHolder rowViewHolder, Row row) {
-                    ListItem listItem = (ListItem) item;
-                    Intent intent;
-                    if (CATEGORY_ARTISTS == mCategory) {
-                        intent = new Intent(mContext, VerticalGridActivity.class);
-                        intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
-                        intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
-                        intent.putExtra(MEDIA_SECTION, FILTER_ARTIST);
-                        intent.putExtra(AUDIO_FILTER, listItem.mediaList.get(0).getArtist());
-                    } else if (CATEGORY_GENRES == mCategory) {
-                        intent = new Intent(mContext, VerticalGridActivity.class);
-                        intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
-                        intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
-                        intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
-                        intent.putExtra(AUDIO_FILTER, listItem.mediaList.get(0).getGenre());
-                    } else {
-                        if (CATEGORY_ALBUMS == mCategory) {
-                            Collections.sort(listItem.mediaList, MediaComparators.byTrackNumber);
-                            TvUtil.playAudioList(mContext, listItem.mediaList, 0);
-                        } else {
-                            int position = 0;
-                            String location = listItem.mediaList.get(0).getLocation();
-                            for (int i = 0; i < audioList.size(); ++i) {
-                                if (TextUtils.equals(location, audioList.get(i).getLocation())) {
-                                    position = i;
-                                    break;
-                                }
-                            }
-                            TvUtil.playAudioList(mContext, audioList, position);
-                        }
-                        return;
-                    }
-                    startActivity(intent);
-                }
-            });
-        }
-    }
-
-    public static class ListItem {
-        public String mTitle;
-        public String mSubTitle;
-        public ArrayList<MediaWrapper> mediaList;
-
-        public ListItem(String title, String subTitle, MediaWrapper mediaWrapper) {
-            mediaList = new ArrayList<>();
-            if (mediaWrapper != null)
-                mediaList.add(mediaWrapper);
-            mTitle = title;
-            mSubTitle = subTitle;
-        }
-    }
-
-    public ListItem add(String title, String subTitle, MediaWrapper mediaWrapper) {
-        if(title == null) return null;
-        title = title.trim();
-        if(subTitle != null) subTitle = subTitle.trim();
-        if (mMediaItemMap.containsKey(title))
-            mMediaItemMap.get(title).mediaList.add(mediaWrapper);
-        else {
-            ListItem item = new ListItem(title, subTitle, mediaWrapper);
-            mMediaItemMap.put(title, item);
-            mMediaItemList.add(item);
-            return item;
-        }
-        return null;
-    }
-
-    @Override
-    public void updateList() {
-        if (mUpdater == null) {
-            mUpdater = new AsyncAudioUpdate();
-            mUpdater.execute();
+            setOnItemViewClickedListener(MusicFragment.this);
         }
     }
 }
