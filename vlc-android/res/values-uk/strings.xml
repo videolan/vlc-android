@@ -111,8 +111,6 @@
     <string name="locked">Заблоковано</string>
     <string name="unlocked">Розблоковано</string>
     <string name="surface_best_fit">Найкраще</string>
-    <string name="surface_fit_horizontal">Припасувати горизонтально</string>
-    <string name="surface_fit_vertical">Припасувати вертикально</string>
     <string name="surface_fill">Заповнити</string>
     <string name="surface_original">Центрувати</string>
     <string name="thumbnail">Мініатюра</string>

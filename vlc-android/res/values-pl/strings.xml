@@ -111,8 +111,6 @@
     <string name="locked">zablokowane</string>
     <string name="unlocked">odblokowane</string>
     <string name="surface_best_fit">Najlepsze dopasowanie</string>
-    <string name="surface_fit_horizontal">Dopasuj poziomo</string>
-    <string name="surface_fit_vertical">Dopasuj pionowo</string>
     <string name="surface_fill">Wypełnij</string>
     <string name="surface_original">Wyśrodkuj</string>
     <string name="thumbnail">Miniaturka</string>

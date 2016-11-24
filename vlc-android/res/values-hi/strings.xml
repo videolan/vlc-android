@@ -77,8 +77,6 @@
     <string name="locked">अवरोधित</string>
     <string name="unlocked">अनवरोधित</string>
     <string name="surface_best_fit">बेहतरीन फिट</string>
-    <string name="surface_fit_horizontal">क्षैतिज फ़िट</string>
-    <string name="surface_fit_vertical">ऊर्ध्वाधर फ़िट</string>
     <string name="surface_fill">पूर्ण</string>
     <string name="surface_original">मध्य</string>
     <string name="thumbnail">अँगूठाकार प्रारूप</string>

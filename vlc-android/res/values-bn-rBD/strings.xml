@@ -92,8 +92,6 @@
     <string name="next">পরবর্তী</string>
     <string name="locked">তালাবদ্ধ</string>
     <string name="surface_best_fit">সেরা মাপসই</string>
-    <string name="surface_fit_horizontal">অনুভূমিক মাপসই</string>
-    <string name="surface_fit_vertical">উলম্ব মাপসই</string>
     <string name="surface_fill">পূরণ</string>
     <string name="surface_original">মাঝামাঝি</string>
     <string name="thumbnail">থাম্বনেইল</string>

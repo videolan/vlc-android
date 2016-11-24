@@ -115,8 +115,6 @@
     <string name="locked">Zaklenjeno</string>
     <string name="unlocked">Odklenjeno</string>
     <string name="surface_best_fit">Najboljše prileganje</string>
-    <string name="surface_fit_horizontal">Prilagodi vodoravno</string>
-    <string name="surface_fit_vertical">Prilagodi navpično</string>
     <string name="surface_fill">Zapolni</string>
     <string name="surface_original">Sredinsko</string>
     <string name="thumbnail">Sličica predogleda</string>

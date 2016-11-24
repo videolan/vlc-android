@@ -105,8 +105,6 @@
     <string name="locked">Låst</string>
     <string name="unlocked">Ulåst</string>
     <string name="surface_best_fit">Best tilpasset</string>
-    <string name="surface_fit_horizontal">Fyll ut vannrett</string>
-    <string name="surface_fit_vertical">Fyll ut loddrett</string>
     <string name="surface_fill">Fyll ut</string>
     <string name="surface_original">Midtstilt</string>
     <string name="thumbnail">Miniatyrbilde</string>

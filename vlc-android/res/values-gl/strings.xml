@@ -99,8 +99,6 @@
     <string name="locked">Bloqueado</string>
     <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Mellor axuste</string>
-    <string name="surface_fit_horizontal">Axustar en horizontal</string>
-    <string name="surface_fit_vertical">Axustar en vertical</string>
     <string name="surface_fill">Encher</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Miniatura</string>

@@ -99,8 +99,6 @@
     <string name="locked">قفل شده</string>
     <string name="unlocked">بدون قفل</string>
     <string name="surface_best_fit">بهترین رویه</string>
-    <string name="surface_fit_horizontal">رویه افقی</string>
-    <string name="surface_fit_vertical">رویه عمودی</string>
     <string name="surface_fill">پر کردن فضای خالی</string>
     <string name="surface_original">وسط</string>
     <string name="thumbnail">بند انگشتی</string>

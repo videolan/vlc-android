@@ -85,8 +85,6 @@
     <string name="locked">Blokeatuta</string>
     <string name="unlocked">Desblokeatuta</string>
     <string name="surface_best_fit">Egokitze optimoa</string>
-    <string name="surface_fit_horizontal">Egokitze horizontala</string>
-    <string name="surface_fit_vertical">Egokitze bertikala</string>
     <string name="surface_fill">Bete</string>
     <string name="surface_original">Zentratu</string>
     <string name="thumbnail">Koadro txikia</string>

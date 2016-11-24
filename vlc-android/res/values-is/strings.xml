@@ -102,8 +102,6 @@
     <string name="locked">Læst</string>
     <string name="unlocked">Ólæst</string>
     <string name="surface_best_fit">Passi best</string>
-    <string name="surface_fit_horizontal">Passi lárétt</string>
-    <string name="surface_fit_vertical">Passi lóðrétt</string>
     <string name="surface_fill">Fylla</string>
     <string name="surface_original">Miðjað</string>
     <string name="thumbnail">Smámynd</string>

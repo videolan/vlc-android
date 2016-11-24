@@ -54,8 +54,6 @@
     <string name="locked">తాళంవేయబడింది</string>
     <string name="unlocked">తాళంతీయబడింది</string>
     <string name="surface_best_fit">ఉత్తమ అమరిక</string>
-    <string name="surface_fit_horizontal">అడ్డముగా అమర్చు</string>
-    <string name="surface_fit_vertical">నిలువుగా అమర్చు</string>
     <string name="surface_fill">నింపు</string>
     <string name="surface_original">మధ్యన</string>
     <string name="thumbnail">చిరుచిత్రం</string>

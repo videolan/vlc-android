@@ -109,8 +109,6 @@
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolje uklapanje</string>
-    <string name="surface_fit_horizontal">Uklopi horizontalno</string>
-    <string name="surface_fit_vertical">Uklopi vertikalno</string>
     <string name="surface_fill">Popuni</string>
     <string name="surface_original">Centar</string>
     <string name="thumbnail">Slikica</string>

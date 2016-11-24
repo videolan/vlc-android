@@ -117,8 +117,6 @@
     <string name="locked">Ar glo</string>
     <string name="unlocked">Ddim ar glo</string>
     <string name="surface_best_fit">Ffit orau</string>
-    <string name="surface_fit_horizontal">Ffitio i\'r lled</string>
-    <string name="surface_fit_vertical">Ffitio i\'r uchder</string>
     <string name="surface_fill">Llenwi\'r sgrin</string>
     <string name="surface_original">Canoli</string>
     <string name="thumbnail">Braslun bawd</string>

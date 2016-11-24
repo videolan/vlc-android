@@ -86,8 +86,6 @@
     <string name="locked">Blocat</string>
     <string name="unlocked">Desblocat</string>
     <string name="surface_best_fit">Millor ajust</string>
-    <string name="surface_fit_horizontal">Ajusta horitzontalment</string>
-    <string name="surface_fit_vertical">Ajusta verticalment</string>
     <string name="surface_fill">Emplena</string>
     <string name="surface_original">Centre</string>
     <string name="thumbnail">Miniatura</string>

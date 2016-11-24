@@ -111,8 +111,6 @@
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolji prikaz</string>
-    <string name="surface_fit_horizontal">Prilagodi vodoravno</string>
-    <string name="surface_fit_vertical">Prilagodi okomito</string>
     <string name="surface_fill">Ispuni</string>
     <string name="surface_original">Sredina</string>
     <string name="thumbnail">Minijatura</string>

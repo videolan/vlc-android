@@ -77,8 +77,6 @@
     <string name="locked">لاک</string>
     <string name="unlocked">کھلا ہوا</string>
     <string name="surface_best_fit">جیسے بہترین لگے</string>
-    <string name="surface_fit_horizontal">افقی ترتیب سے</string>
-    <string name="surface_fit_vertical">عمودى ترتیب سے</string>
     <string name="surface_fill">بھر کر\فل</string>
     <string name="surface_original">مرکزى</string>
     <string name="thumbnail">مختصر کھڑکی</string>

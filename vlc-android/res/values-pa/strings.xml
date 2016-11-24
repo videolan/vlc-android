@@ -85,8 +85,6 @@
     <string name="locked">ਲਾਕ ਹੈ</string>
     <string name="unlocked">ਅਣ-ਲਾਕ ਹੈ</string>
     <string name="surface_best_fit">ਸਭ ਤੋਂ ਵਧੀਆ ਫਿੱਟ</string>
-    <string name="surface_fit_horizontal">ਹਰੀਜੱਟਲ ਫਿੱਟ ਕਰੋ</string>
-    <string name="surface_fit_vertical">ਵਰਟੀਕਲ ਫਿੱਟ ਕਰੋ</string>
     <string name="surface_fill">ਭਰੋ </string>
     <string name="surface_original">ਕੇਂਦਰ</string>
     <string name="thumbnail">ਥੰਮਨੇਲ</string>

@@ -85,8 +85,6 @@
     <string name="locked">අගුළුලා ඇත</string>
     <string name="unlocked">අගුළුලා නැත</string>
     <string name="surface_best_fit">සුදුසුතම අනුසීහුම</string>
-    <string name="surface_fit_horizontal">තිරස්ව හරිගස්සන්න</string>
-    <string name="surface_fit_vertical">සිරස්ව හරිගස්සන්න</string>
     <string name="surface_fill">පිරවුම</string>
     <string name="surface_original">මැද</string>
     <string name="thumbnail">සිඟිතිරූපය</string>

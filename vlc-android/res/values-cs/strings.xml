@@ -109,8 +109,6 @@
     <string name="locked">Uzamčeno</string>
     <string name="unlocked">Odemčeno</string>
     <string name="surface_best_fit">Nejvhodněji přizpůsobit</string>
-    <string name="surface_fit_horizontal">Přizpůsobit šířce</string>
-    <string name="surface_fit_vertical">Přizpůsobit výšce</string>
     <string name="surface_fill">Vyplnit</string>
     <string name="surface_original">Vystředit</string>
     <string name="thumbnail">Náhled</string>

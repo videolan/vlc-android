@@ -99,8 +99,6 @@
     <string name="locked">ล็อค</string>
     <string name="unlocked">ปลดล็อค</string>
     <string name="surface_best_fit">ขนาดที่เหมาะสม</string>
-    <string name="surface_fit_horizontal">เหมาะสมกับแนวนอน</string>
-    <string name="surface_fit_vertical">เหมาะสมกับแนวตั้ง</string>
     <string name="surface_fill">เติมเต็ม</string>
     <string name="surface_original">ตรงกลาง</string>
     <string name="thumbnail">ภาพตัวอย่าง</string>

@@ -105,8 +105,7 @@
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
-    <string name="surface_fit_horizontal">Ajuster horizontalement</string>
-    <string name="surface_fit_vertical">Ajuster verticalement</string>
+    <string name="surface_fit_screen">Ajuster à l\'ecran</string>
     <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>

@@ -105,8 +105,6 @@
     <string name="locked">Kilitli</string>
     <string name="unlocked">Kilitsiz</string>
     <string name="surface_best_fit">En uygun</string>
-    <string name="surface_fit_horizontal">Yatay sığdır</string>
-    <string name="surface_fit_vertical">Dikey sığdır</string>
     <string name="surface_fill">Doldur</string>
     <string name="surface_original">Ortala</string>
     <string name="thumbnail">Küçük resim</string>

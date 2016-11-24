@@ -79,8 +79,6 @@
     <string name="locked">Тыелган</string>
     <string name="unlocked">Рөхсәт ителгән</string>
     <string name="surface_best_fit">Уңайлы</string>
-    <string name="surface_fit_horizontal">Горизонталь буенча</string>
-    <string name="surface_fit_vertical">Вертикаль буенча</string>
     <string name="surface_fill">Тутыру</string>
     <string name="surface_original">Уртадан</string>
     <string name="thumbnail">Эскиз</string>

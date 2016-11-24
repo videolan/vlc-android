@@ -105,8 +105,6 @@
     <string name="locked">Bloqueda</string>
     <string name="unlocked">Desbloqueada</string>
     <string name="surface_best_fit">Mejor ajuste</string>
-    <string name="surface_fit_horizontal">Ajuste horizontal</string>
-    <string name="surface_fit_vertical">Ajuste vertical</string>
     <string name="surface_fill">Rellenar</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Vista previa</string>

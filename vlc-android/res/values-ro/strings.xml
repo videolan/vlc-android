@@ -92,8 +92,6 @@
     <string name="locked">Blocat</string>
     <string name="unlocked">Deblocat</string>
     <string name="surface_best_fit">Cea mai bună potrivire</string>
-    <string name="surface_fit_horizontal">Potrivire pe orizontală</string>
-    <string name="surface_fit_vertical">Potrivire pe verticală</string>
     <string name="surface_fill">Umplere</string>
     <string name="surface_original">Centru</string>
     <string name="thumbnail">Miniatură</string>

@@ -80,8 +80,6 @@
     <string name="locked">പൂട്ടിയിരിക്കന്നു</string>
     <string name="unlocked">തുറന്നിരിക്കുന്നു</string>
     <string name="surface_best_fit">ഏറ്റവും അനുയോജ്യമായത്</string>
-    <string name="surface_fit_horizontal">സമാന്തരമായി ഉറപ്പിക്കുക</string>
-    <string name="surface_fit_vertical">ലംബമായി ഉറപ്പിക്കുക</string>
     <string name="surface_fill">നിറയ്ക്കുക</string>
     <string name="surface_original">മധ്യം</string>
     <string name="thumbnail">ചെറുരൂപം</string>

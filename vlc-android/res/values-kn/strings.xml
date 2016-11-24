@@ -92,8 +92,6 @@
     <string name="locked">ಬಂಧಿಯಾಗಿದೆ </string>
     <string name="unlocked">ಬಂಧಮುಕ್ತಗೊಳಿಸಲಾಗಿದೆ  </string>
     <string name="surface_best_fit">ಅತ್ಯುತ್ತಮ ಹೊಂದಿಕೆ</string>
-    <string name="surface_fit_horizontal">ಅಡ್ಡವಾಗಿ ಹೊಂದಿಸು</string>
-    <string name="surface_fit_vertical">ಲಂಬವಾಗಿ ಹೊಂದಿಸು </string>
     <string name="surface_fill">ತುಂಬಿಸು</string>
     <string name="surface_original">ಮಧ್ಯ</string>
     <string name="thumbnail">ಥಂಬ್ನೇಲ್ಗಳು </string>

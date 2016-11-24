@@ -103,8 +103,6 @@
     <string name="locked">Stongt</string>
     <string name="unlocked">Læst upp</string>
     <string name="surface_best_fit">Hóskar best</string>
-    <string name="surface_fit_horizontal">Passa til loddrætt</string>
-    <string name="surface_fit_vertical">Passa til steyrrætt</string>
     <string name="surface_fill">Passa til</string>
     <string name="surface_original">Miðja</string>
     <string name="thumbnail">Smámynd</string>

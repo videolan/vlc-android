@@ -58,8 +58,6 @@
     <string name="locked">લૉક</string>
     <string name="unlocked">અનલૉક</string>
     <string name="surface_best_fit">શ્રેષ્ઠ ફિટ</string>
-    <string name="surface_fit_horizontal">આડી ફિટ</string>
-    <string name="surface_fit_vertical">વર્ટિકલ ફિટ</string>
     <string name="surface_fill">ભરો</string>
     <string name="surface_original">કેન્દ્ર</string>
     <string name="thumbnail">થંબનેલ</string>

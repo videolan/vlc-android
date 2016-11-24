@@ -109,8 +109,6 @@
     <string name="locked">Užrakinta</string>
     <string name="unlocked">Atrakinta</string>
     <string name="surface_best_fit">Pritaikyti automatiškai</string>
-    <string name="surface_fit_horizontal">Pritaikyti pagal plotį</string>
-    <string name="surface_fit_vertical">Pritaikyti pagal aukštį</string>
     <string name="surface_fill">Užpildyti</string>
     <string name="surface_original">Centruoti</string>
     <string name="thumbnail">Miniatiūra</string>

@@ -74,8 +74,6 @@
     <string name="locked">သော့ခတ်ပြီး</string>
     <string name="unlocked">သော့မခတ်ပြီး</string>
     <string name="surface_best_fit">အကောင်းဆုံးအံကိုက်</string>
-    <string name="surface_fit_horizontal">အလျားလိုက်အံကိုက်</string>
-    <string name="surface_fit_vertical">ဒေါင်လိုက်အံကိုက်</string>
     <string name="surface_fill">ဖြည့်</string>
     <string name="surface_original">အလယ်</string>
     <string name="thumbnail">ပံုရိပ်ပြင်သေး</string>

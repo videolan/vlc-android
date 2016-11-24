@@ -105,8 +105,6 @@
     <string name="locked">Lukittu</string>
     <string name="unlocked">Lukitsematon</string>
     <string name="surface_best_fit">Parhaiten sopiva</string>
-    <string name="surface_fit_horizontal">Sovita vaakasuunnassa</string>
-    <string name="surface_fit_vertical">Sovita pystysuunnassa</string>
     <string name="surface_fill">Täytä</string>
     <string name="surface_original">Keskitä</string>
     <string name="thumbnail">Pikkukuva</string>

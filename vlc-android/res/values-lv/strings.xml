@@ -97,8 +97,6 @@
     <string name="locked">Bloķēts</string>
     <string name="unlocked">Atbloķēts</string>
     <string name="surface_best_fit">Labāk piemērots</string>
-    <string name="surface_fit_horizontal">Uzstādīt horizontāli</string>
-    <string name="surface_fit_vertical">Uzstādīt vertikāli</string>
     <string name="surface_fill">Piepildīt</string>
     <string name="surface_original">Centrs</string>
     <string name="thumbnail">Sīktēls</string>

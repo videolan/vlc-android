@@ -99,8 +99,6 @@
     <string name="locked">I bllokuar</string>
     <string name="unlocked">I çbllokuar</string>
     <string name="surface_best_fit">Më e mira e përshtatur</string>
-    <string name="surface_fit_horizontal">Përshtate horizontalisht</string>
-    <string name="surface_fit_vertical">Përshtate vertikalisht</string>
     <string name="surface_fill">Plotësoje</string>
     <string name="surface_original">Qëndër</string>
     <string name="thumbnail">Thumbnail</string>

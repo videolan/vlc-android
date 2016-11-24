@@ -103,8 +103,6 @@
     <string name="locked">Zárolva</string>
     <string name="unlocked">Feloldva</string>
     <string name="surface_best_fit">Legjobban illeszkedő</string>
-    <string name="surface_fit_horizontal">Vízszintes illeszkedés</string>
-    <string name="surface_fit_vertical">Függőleges illeszkedés</string>
     <string name="surface_fill">Kitöltés</string>
     <string name="surface_original">Központ</string>
     <string name="thumbnail">Miniatűr</string>

@@ -127,8 +127,6 @@
     <string name="locked">مُقفل</string>
     <string name="unlocked">غير مُقفل</string>
     <string name="surface_best_fit">أفضل تمدّد</string>
-    <string name="surface_fit_horizontal">مدّد أُفقيًا</string>
-    <string name="surface_fit_vertical">مدّد رأسيًا</string>
     <string name="surface_fill">املأ</string>
     <string name="surface_original">مركزي</string>
     <string name="thumbnail">المصغرّات</string>

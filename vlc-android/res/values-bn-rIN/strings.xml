@@ -70,8 +70,6 @@
     <string name="locked">লক</string>
     <string name="unlocked">উদ্ঘাটিত</string>
     <string name="surface_best_fit">সর্বোত্তম খাপ খায়</string>
-    <string name="surface_fit_horizontal">অনুভূমিক মাপসই</string>
-    <string name="surface_fit_vertical">উপযোগী উলম্ব</string>
     <string name="surface_fill">ভর্তি করুন</string>
     <string name="surface_original">মধ্য</string>
     <string name="thumbnail">ছোট</string>

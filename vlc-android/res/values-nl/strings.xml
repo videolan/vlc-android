@@ -105,8 +105,6 @@
     <string name="locked">Geblokkeerd</string>
     <string name="unlocked">Gedeblokkeerd</string>
     <string name="surface_best_fit">Best passend</string>
-    <string name="surface_fit_horizontal">Horizontaal passend</string>
-    <string name="surface_fit_vertical">Verticaal passend</string>
     <string name="surface_fill">Schermvullend</string>
     <string name="surface_original">Centreren</string>
     <string name="thumbnail">Miniatuur</string>

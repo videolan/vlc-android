@@ -103,8 +103,6 @@
     <string name="locked">लॉक केलेले</string>
     <string name="unlocked">लॉक उघडले</string>
     <string name="surface_best_fit">योग्य फिट</string>
-    <string name="surface_fit_horizontal">आडवा फिट</string>
-    <string name="surface_fit_vertical">उभा फिट</string>
     <string name="surface_fill">भरा</string>
     <string name="surface_original">मध्यभागी</string>
     <string name="thumbnail">थम्बनेल</string>

@@ -75,8 +75,6 @@
     <string name="locked">Bị khóa</string>
     <string name="unlocked">Đã mở khóa</string>
     <string name="surface_best_fit">Tự canh chỉnh</string>
-    <string name="surface_fit_horizontal">Phù hợp với chiều ngang của màn hình</string>
-    <string name="surface_fit_vertical">Phù hợp với chiều dọc của màn hình</string>
     <string name="surface_fill">Lấp đầy</string>
     <string name="surface_original">Giữa</string>
     <string name="thumbnail">Hình tóm tắt</string>

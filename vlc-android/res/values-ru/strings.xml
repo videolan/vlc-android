@@ -115,8 +115,6 @@
     <string name="locked">Заблокировано</string>
     <string name="unlocked">Разблокировано</string>
     <string name="surface_best_fit">Оптимально</string>
-    <string name="surface_fit_horizontal">По горизонтали</string>
-    <string name="surface_fit_vertical">По вертикали</string>
     <string name="surface_fill">Заполнение</string>
     <string name="surface_original">По центру</string>
     <string name="thumbnail">Эскиз</string>

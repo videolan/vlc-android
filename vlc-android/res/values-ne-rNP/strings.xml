@@ -87,8 +87,6 @@
     <string name="locked">बंद</string>
     <string name="unlocked">खुला</string>
     <string name="surface_best_fit">सबै भन्दा राम्रो फिट</string>
-    <string name="surface_fit_horizontal">तेर्सो फिट गर्नुहोस </string>
-    <string name="surface_fit_vertical">ठाडो फिट गर्नुहोस </string>
     <string name="surface_fill">भरी भर्नुहोस</string>
     <string name="surface_original">बिच</string>
     <string name="thumbnail">थम्बनेल</string>

@@ -95,8 +95,6 @@
     <string name="locked">Terkunci</string>
     <string name="unlocked">Terbuka</string>
     <string name="surface_best_fit">Pas</string>
-    <string name="surface_fit_horizontal">Pas horizontal</string>
-    <string name="surface_fit_vertical">Pas vertikal</string>
     <string name="surface_fill">Isi</string>
     <string name="surface_original">Terpusat</string>
     <string name="thumbnail">Gambar Mini</string>

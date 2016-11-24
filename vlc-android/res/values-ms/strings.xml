@@ -99,8 +99,6 @@
     <string name="locked">Dikunci</string>
     <string name="unlocked">Tidak dikunci</string>
     <string name="surface_best_fit">Suai muat</string>
-    <string name="surface_fit_horizontal">Suai mendatar</string>
-    <string name="surface_fit_vertical">Suai menegak</string>
     <string name="surface_fill">Penuhkan</string>
     <string name="surface_original">Tengah</string>
     <string name="thumbnail">Lakaran Kenit</string>

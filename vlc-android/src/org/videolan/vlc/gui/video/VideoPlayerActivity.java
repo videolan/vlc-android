@@ -186,12 +186,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mPlaylistPrevious;
 
     private static final int SURFACE_BEST_FIT = 0;
-    private static final int SURFACE_FIT_HORIZONTAL = 1;
-    private static final int SURFACE_FIT_VERTICAL = 2;
-    private static final int SURFACE_FILL = 3;
-    private static final int SURFACE_16_9 = 4;
-    private static final int SURFACE_4_3 = 5;
-    private static final int SURFACE_ORIGINAL = 6;
+    private static final int SURFACE_FIT_SCREEN = 1;
+    private static final int SURFACE_FILL = 2;
+    private static final int SURFACE_16_9 = 3;
+    private static final int SURFACE_4_3 = 4;
+    private static final int SURFACE_ORIGINAL = 5;
     private int mCurrentSize;
 
     private SharedPreferences mSettings;
@@ -1849,11 +1848,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     dw = dh * ar;
                 break;
-            case SURFACE_FIT_HORIZONTAL:
-                dh = dw / ar;
-                break;
-            case SURFACE_FIT_VERTICAL:
-                dw = dh * ar;
+            case SURFACE_FIT_SCREEN:
+                if (dar >= ar)
+                    dh = dw / ar; /* horizontal */
+                else
+                    dw = dh * ar; /* vertical */
                 break;
             case SURFACE_FILL:
                 break;
@@ -2562,11 +2561,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case SURFACE_BEST_FIT:
                 showInfo(R.string.surface_best_fit, 1000);
                 break;
-            case SURFACE_FIT_HORIZONTAL:
-                showInfo(R.string.surface_fit_horizontal, 1000);
-                break;
-            case SURFACE_FIT_VERTICAL:
-                showInfo(R.string.surface_fit_vertical, 1000);
+            case SURFACE_FIT_SCREEN:
+                showInfo(R.string.surface_fit_screen, 1000);
                 break;
             case SURFACE_FILL:
                 showInfo(R.string.surface_fill, 1000);

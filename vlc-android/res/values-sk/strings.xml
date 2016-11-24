@@ -111,8 +111,6 @@
     <string name="locked">Uzamknuté</string>
     <string name="unlocked">Odomknuté</string>
     <string name="surface_best_fit">Najlepšie prispôsobenie</string>
-    <string name="surface_fit_horizontal">Prispôsobiť horizontálne</string>
-    <string name="surface_fit_vertical">Prispôsobiť vertikálne</string>
     <string name="surface_fill">Vyplniť</string>
     <string name="surface_original">Vycentrovať</string>
     <string name="thumbnail">Náhľad</string>

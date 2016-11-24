@@ -105,8 +105,6 @@
     <string name="locked">Låst</string>
     <string name="unlocked">Upplåst</string>
     <string name="surface_best_fit">Bästa passform</string>
-    <string name="surface_fit_horizontal">Passa horisontellt</string>
-    <string name="surface_fit_vertical">Passa vertikalt</string>
     <string name="surface_fill">Fyll</string>
     <string name="surface_original">Centrerad</string>
     <string name="thumbnail">Miniatyr</string>

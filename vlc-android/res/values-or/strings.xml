@@ -82,8 +82,6 @@
     <string name="locked">ଅବରୋଧିତ</string>
     <string name="unlocked">ଅନାବରୋଧିତ</string>
     <string name="surface_best_fit">ସର୍ବୋତ୍ତମ ଉପଯୁକ୍ତ</string>
-    <string name="surface_fit_horizontal">ଆନୁଭୂମିକ ରୂପେ ଉପଯୁକ୍ତ</string>
-    <string name="surface_fit_vertical">ଆନୁଲମ୍ବିକ ରୂପେ ଉପଯୁକ୍ତ</string>
     <string name="surface_fill">ପରିପୂର୍ଣ୍ଣ</string>
     <string name="surface_original">କେନ୍ଦ୍ର</string>
     <string name="thumbnail">ଥମ୍ବନେଲ୍</string>

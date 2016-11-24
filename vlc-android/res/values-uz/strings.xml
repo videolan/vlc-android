@@ -87,8 +87,6 @@
     <string name="locked">Qulflangan</string>
     <string name="unlocked">Qulflanmagan</string>
     <string name="surface_best_fit">Optimal</string>
-    <string name="surface_fit_horizontal">Yotiq holat bo‘yicha</string>
-    <string name="surface_fit_vertical">Tik holat bo‘yicha</string>
     <string name="surface_fill">To‘ldirish</string>
     <string name="surface_original">Markazga</string>
     <string name="thumbnail">Nishoncha</string>

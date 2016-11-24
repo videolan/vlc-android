@@ -105,8 +105,6 @@
     <string name="locked">Låst</string>
     <string name="unlocked">Ulåst</string>
     <string name="surface_best_fit">Bedste tilpasning</string>
-    <string name="surface_fit_horizontal">Tilpas vandret</string>
-    <string name="surface_fit_vertical">Tilpas lodret</string>
     <string name="surface_fill">Udfyld</string>
     <string name="surface_original">Center</string>
     <string name="thumbnail">Miniature</string>

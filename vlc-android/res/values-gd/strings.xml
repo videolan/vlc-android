@@ -97,8 +97,6 @@
     <string name="locked">Glaiste</string>
     <string name="unlocked">Neo-ghlaiste</string>
     <string name="surface_best_fit">Meud as fhearr</string>
-    <string name="surface_fit_horizontal">Co-fhreagair air a\' chòmhnard</string>
-    <string name="surface_fit_vertical">Co-fhreagair gu inghearach</string>
     <string name="surface_fill">Lìon</string>
     <string name="surface_original">Meadhan</string>
     <string name="thumbnail">Dealbhag</string>

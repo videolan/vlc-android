@@ -105,8 +105,6 @@
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
-    <string name="surface_fit_horizontal">Adatta orizzontalmente</string>
-    <string name="surface_fit_vertical">Adatta verticalmente</string>
     <string name="surface_fill">Riempi</string>
     <string name="surface_original">Centra</string>
     <string name="thumbnail">Miniatura</string>

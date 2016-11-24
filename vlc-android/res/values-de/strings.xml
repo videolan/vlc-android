@@ -105,8 +105,6 @@
     <string name="locked">Gesperrt</string>
     <string name="unlocked">Entsperrt</string>
     <string name="surface_best_fit">Beste Größe</string>
-    <string name="surface_fit_horizontal">Horizontal anpassen</string>
-    <string name="surface_fit_vertical">Vertikal anpassen</string>
     <string name="surface_fill">Ausfüllen</string>
     <string name="surface_original">Zentrieren</string>
     <string name="thumbnail">Vorschau</string>

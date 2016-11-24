@@ -105,8 +105,6 @@
     <string name="locked">Κλειδωμένο</string>
     <string name="unlocked">Ξεκλείδωτο</string>
     <string name="surface_best_fit">Καλύτερο ταίριασμα</string>
-    <string name="surface_fit_horizontal">Οριζόντιο ταίριασμα</string>
-    <string name="surface_fit_vertical">Κάθετο ταίριασμα</string>
     <string name="surface_fill">Γέμισμα</string>
     <string name="surface_original">Κέντρο</string>
     <string name="thumbnail">Μικρογραφία</string>

@@ -105,8 +105,6 @@
     <string name="locked">பூட்டியது</string>
     <string name="unlocked">திறந்து</string>
     <string name="surface_best_fit">சிறந்தப் பொருத்தம்</string>
-    <string name="surface_fit_horizontal">கிடைமட்டப் பொருத்தம்</string>
-    <string name="surface_fit_vertical">செங்குத்துப் பொருத்தம்</string>
     <string name="surface_fill">நிரப்பு</string>
     <string name="surface_original">நடுவில்</string>
     <string name="thumbnail">கைரேகை</string>

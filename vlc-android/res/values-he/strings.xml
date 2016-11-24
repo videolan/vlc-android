@@ -105,8 +105,6 @@
     <string name="locked">נעול</string>
     <string name="unlocked">משוחרר</string>
     <string name="surface_best_fit">התאמה מיטבית</string>
-    <string name="surface_fit_horizontal">התאמה אופקית</string>
-    <string name="surface_fit_vertical">התאמה אנכית</string>
     <string name="surface_fill">מילוי</string>
     <string name="surface_original">מרכוז</string>
     <string name="thumbnail">תמונה מוקטנת</string>

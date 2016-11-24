@@ -87,8 +87,6 @@
     <string name="locked">Bloquiáu</string>
     <string name="unlocked">Desbloquiáu</string>
     <string name="surface_best_fit">Meyor axuste</string>
-    <string name="surface_fit_horizontal">Axustar n\'horizontal</string>
-    <string name="surface_fit_vertical">Axustar en vertical</string>
     <string name="surface_fill">Llenar</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Miniatura</string>

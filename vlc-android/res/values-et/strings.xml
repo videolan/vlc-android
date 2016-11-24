@@ -85,8 +85,6 @@
     <string name="locked">Lukustatud</string>
     <string name="unlocked">Lukust lahti võetud</string>
     <string name="surface_best_fit">Parim sobitus</string>
-    <string name="surface_fit_horizontal">Sobita rõhtsalt</string>
-    <string name="surface_fit_vertical">Sobita püstiselt</string>
     <string name="surface_fill">Täida</string>
     <string name="surface_original">Keskel</string>
     <string name="thumbnail">Pisipilt</string>
