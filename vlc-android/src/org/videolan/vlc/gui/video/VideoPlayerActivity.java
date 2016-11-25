@@ -2917,10 +2917,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
+        MediaWrapper openedMedia = null;
         if (positionInPlaylist != -1 && mService.hasMedia()) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
-            MediaWrapper openedMedia = mService.getMedias().get(positionInPlaylist);
+            openedMedia = mService.getMedias().get(positionInPlaylist);
             if (openedMedia == null) {
                 encounteredError();
                 return;
@@ -2935,13 +2936,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
                 mService.stop();
             // restore last position
-            Medialibrary ml = VLCApplication.getMLInstance();
-            MediaWrapper media = ml.getMedia(mUri.getPath());
-            if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
-                    mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
-                mUri = FileUtils.convertLocalUri(mUri);
+            MediaWrapper media;
+            if (openedMedia == null || openedMedia.getId() <= 0L) {
+                Medialibrary ml = VLCApplication.getMLInstance();
                 media = ml.getMedia(mUri.getPath());
-            }
+                if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
+                        mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
+                    mUri = FileUtils.convertLocalUri(mUri);
+                    media = ml.getMedia(mUri.getPath());
+                }
+            } else
+                media = openedMedia;
             if (media != null) {
                 // in media library
                 if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
