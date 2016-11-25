@@ -103,7 +103,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     private Handler mHandler = new Handler();
     protected BrowseFragment mBrowseFragment;
     private ProgressBar mProgressBar;
-    private final ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+    private ArrayObjectAdapter mRowsAdapter = null;
     private ArrayObjectAdapter mVideoAdapter, mCategoriesAdapter, mHistoryAdapter, mBrowserAdapter, mOtherAdapter;
     private View mRootContainer;
     private final SimpleArrayMap<String, Integer> mVideoIndex = new SimpleArrayMap<>(), mHistoryIndex = new SimpleArrayMap<>();
@@ -162,7 +162,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (mRowsAdapter.size() == 0 && Permissions.canReadStorage())
+        if ((mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
             update();
         else {
             updateBrowsers();
@@ -365,7 +365,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         protected void onPreExecute() {
 
             showHistory = mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true);
-            mRowsAdapter.clear();
+            if (mRowsAdapter != null)
+                mRowsAdapter.clear();
+            mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
             mProgressBar.setVisibility(View.VISIBLE);
             mHistoryIndex.clear();
 
@@ -439,8 +441,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_tv_icon_small));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_tv_icon_small));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
-            if (mBrowseFragment.getAdapter() == null)
-                mBrowseFragment.setAdapter(mRowsAdapter);
+            mBrowseFragment.setAdapter(mRowsAdapter);
 
             mProgressBar.setVisibility(View.GONE);
             if (askRefresh) { //in case new event occurred while loading view
