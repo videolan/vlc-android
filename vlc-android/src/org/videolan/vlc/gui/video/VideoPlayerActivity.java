@@ -2045,17 +2045,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             y_changed = 0f;
         }
 
-
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
         float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
         float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / screen.xdpi + 0.5f) * 2f);
 
-        /* Offset for Mouse Events */
-        int[] offset = new int[2];
-        mSurfaceView.getLocationOnScreen(offset);
-        int xTouch = Math.round((event.getRawX() - offset[0]) * mVideoWidth / mSurfaceView.getWidth());
-        int yTouch = Math.round((event.getRawY() - offset[1]) * mVideoHeight / mSurfaceView.getHeight());
+        int xTouch = Math.round(event.getRawX());
+        int yTouch = Math.round(event.getRawY());
 
         switch (event.getAction()) {
 
