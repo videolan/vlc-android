@@ -48,7 +48,7 @@ public:
     bool updateProgress(int64_t mediaId, int64_t time);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
-    bool addToHistory( const std::string& mrl );
+    bool addToHistory( const std::string& mrl, const std::string& title );
     std::vector<medialibrary::HistoryPtr> lastStreamsPlayed();
     bool clearHistory();
 

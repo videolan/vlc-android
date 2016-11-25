@@ -200,12 +200,14 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
 }
 
 jboolean
-addToHistory(JNIEnv* env, jobject thiz, jstring mrl)
+addToHistory(JNIEnv* env, jobject thiz, jstring mrl, jstring title)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *mrl_cstr = env->GetStringUTFChars(mrl, JNI_FALSE);
-    jboolean ok = aml->addToHistory(mrl_cstr);
+    const char *title_cstr = env->GetStringUTFChars(title, JNI_FALSE);
+    jboolean ok = aml->addToHistory(mrl_cstr, title_cstr);
     env->ReleaseStringUTFChars(mrl, mrl_cstr);
+    env->ReleaseStringUTFChars(title, title_cstr);
     return ok;
 }
 
@@ -589,7 +591,7 @@ static JNINativeMethod methods[] = {
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },
     {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/HistoryItem;", (void*)lastStreamsPlayed },
-    {"nativeAddToHistory", "(Ljava/lang/String;)Z", (void*)addToHistory },
+    {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
@@ -758,7 +760,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.HistoryItem.initID,
            ml_fields.HistoryItem.clazz,
-           "<init>", "(Ljava/lang/String;JZ)V");
+           "<init>", "(Ljava/lang/String;Ljava/lang/String;JZ)V");
 ///
     GET_CLASS(ml_fields.MediaSearchAggregate.clazz, "org/videolan/medialibrary/media/MediaSearchAggregate", true);
 

@@ -406,6 +406,10 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mDisplayTitle = title;
     }
 
+    public void setTitle(String title){
+        mTitle = title;
+    }
+
     public void setArtist(String artist){
         mArtist = artist;
     }

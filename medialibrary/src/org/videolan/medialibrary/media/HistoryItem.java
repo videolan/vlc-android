@@ -11,18 +11,21 @@ import org.videolan.medialibrary.Medialibrary;
 import java.util.Date;
 
 public class HistoryItem extends MediaLibraryItem {
-    String mrl;
-    boolean favorite;
-    long insertionDate;
+    private String mrl, title;
+    private boolean favorite;
+    private long insertionDate;
 
-    public HistoryItem (String mrl, long insertionDate, boolean favorite) {
+    public HistoryItem (String mrl, String title, long insertionDate, boolean favorite) {
         this.mrl = mrl;
+        this.title = title;
         this.favorite = favorite;
         this.insertionDate = insertionDate;
     }
 
     public MediaWrapper getMedia() {
-        return new MediaWrapper(Uri.parse(mrl));
+        MediaWrapper mw = new MediaWrapper(Uri.parse(mrl));
+        mw.setTitle(title);
+        return mw;
     }
     @Override
     public MediaWrapper[] getTracks(@Nullable Medialibrary ml) {
@@ -36,6 +39,10 @@ public class HistoryItem extends MediaLibraryItem {
 
     public String getMrl() {
         return mrl;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public boolean isFavorite() {

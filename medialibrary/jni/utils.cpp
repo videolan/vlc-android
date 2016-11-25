@@ -205,7 +205,8 @@ jobject
 convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr const& historyPtr)
 {
     jstring mrl = env->NewStringUTF(historyPtr->mrl().c_str());
-    jobject item = env->NewObject(fields->HistoryItem.clazz, fields->HistoryItem.initID, mrl,
+    jstring title = env->NewStringUTF(historyPtr->title().c_str());
+    jobject item = env->NewObject(fields->HistoryItem.clazz, fields->HistoryItem.initID, mrl, title,
                           (jlong) historyPtr->insertionDate(), (jboolean) historyPtr->isFavorite());
     env->DeleteLocalRef(mrl);
     return item;

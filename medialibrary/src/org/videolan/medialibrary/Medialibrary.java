@@ -211,8 +211,8 @@ public class Medialibrary {
         return mIsInitiated && nativeClearHistory();
     }
 
-    public boolean addToHistory(String mrl) {
-        return mIsInitiated && nativeAddToHistory(mrl);
+    public boolean addToHistory(String mrl, String title) {
+        return mIsInitiated && nativeAddToHistory(mrl, title);
     }
 
     public MediaWrapper getMedia(long id) {
@@ -409,7 +409,7 @@ public class Medialibrary {
     private native boolean nativeRemoveDevice(String uuid);
     private native MediaWrapper[] nativeLastMediaPlayed();
     private native HistoryItem[] nativeLastStreamsPlayed();
-    private native  boolean nativeAddToHistory(String mrl);
+    private native  boolean nativeAddToHistory(String mrl, String title);
     private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
