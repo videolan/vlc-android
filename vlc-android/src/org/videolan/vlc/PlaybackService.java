@@ -1651,12 +1651,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
      */
     @MainThread
     public void loadLocations(List<String> mediaPathList, int position) {
-        ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-        MediaDatabase db = MediaDatabase.getInstance();
+        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
 
         for (int i = 0; i < mediaPathList.size(); i++) {
             String location = mediaPathList.get(i);
-            MediaWrapper mediaWrapper = db.getMedia(Uri.parse(location));
+            MediaWrapper mediaWrapper = mMedialibrary.getMedia(location);
             if (mediaWrapper == null) {
                 if (!validateLocation(location)) {
                     Log.w(TAG, "Invalid location " + location);
