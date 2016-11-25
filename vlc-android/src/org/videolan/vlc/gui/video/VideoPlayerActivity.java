@@ -1756,15 +1756,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mAlertDialog.show();
     }
 
-    private void handleVout(int voutCount) {
-        final IVLCVout vlcVout = mService.getVLCVout();
-        if (vlcVout.areViewsAttached() && voutCount == 0) {
-            /* Video track lost, open in audio mode */
+    private final Runnable mSwitchAudioRunnable = new Runnable() {
+        @Override
+        public void run() {
             if (mService.hasMedia()) {
                 Log.i(TAG, "Video track lost, switching to audio");
                 mSwitchingView = true;
             }
             exit(RESULT_VIDEO_TRACK_LOST);
+        }
+    };
+
+    private void handleVout(int voutCount) {
+        mHandler.removeCallbacks(mSwitchAudioRunnable);
+
+        final IVLCVout vlcVout = mService.getVLCVout();
+        if (vlcVout.areViewsAttached() && voutCount == 0) {
+            mHandler.postDelayed(mSwitchAudioRunnable, 1000);
         }
     }
 
