@@ -32,6 +32,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.HttpImageLoader;
 import org.videolan.vlc.util.MurmurHash;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
@@ -283,11 +285,16 @@ public class AudioUtil {
     }
 
     public static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
+        Bitmap cover = null;
+
         if (media != null && media.getArtist() != null && media.getAlbum() != null) {
             final BitmapCache cache = BitmapCache.getInstance();
-            return cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
-        } else
-            return null;
+            cover = cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
+        }
+        if (cover == null && media != null && !TextUtils.isEmpty(media.getArtworkURL()) && media.getArtworkURL().startsWith("http")) {
+            cover = HttpImageLoader.getBitmapFromIconCache(media.getArtworkURL());
+        }
+        return cover;
     }
 
     @SuppressLint("NewApi")
@@ -322,10 +329,8 @@ public class AudioUtil {
                 if (cacheFile.exists()) {
                     if (cacheFile.length() > 0)
                         coverPath = cachePath;
-                    else
-                        return null;
                 }
-            }
+            } else
 
             // try to get it from VLC
             if (coverPath == null || !cacheFile.exists())

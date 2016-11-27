@@ -95,7 +95,7 @@ public class HttpImageLoader implements Callbacks {
     }
 
     @Nullable
-    public static Bitmap downloadBitmap(String imageUrl) {
+    public static Bitmap getBitmapFromIconCache(String imageUrl) {
         if (iconsMap.containsKey(imageUrl)) {
             Bitmap bd = iconsMap.get(imageUrl).get();
             if (bd != null) {
@@ -103,8 +103,15 @@ public class HttpImageLoader implements Callbacks {
             } else
                 iconsMap.remove(imageUrl);
         }
+        return null;
+    }
+
+    @Nullable
+    public static Bitmap downloadBitmap(String imageUrl) {
         HttpURLConnection urlConnection = null;
-        Bitmap icon = null;
+        Bitmap icon = getBitmapFromIconCache(imageUrl);
+        if (icon != null)
+            return icon;
         try {
             URL url = new URL(imageUrl);
             if (url.getPort() <= 0)
