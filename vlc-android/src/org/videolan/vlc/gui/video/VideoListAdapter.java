@@ -31,6 +31,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.SimpleArrayMap;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Strings;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -73,6 +75,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public final static int SORT_BY_DATE = 2;
     private boolean mListMode = false, mActionMode;
+    SparseArrayCompat<WeakReference<ViewHolder>> mHolders = new SparseArrayCompat<>();
     private List<Integer> mSelectedItems = new LinkedList<>();
     private VideoGridFragment mFragment;
     private VideoComparator mVideoComparator = new VideoComparator();
@@ -110,6 +113,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         boolean isSelected = mActionMode && mSelectedItems.contains(position);
         holder.setOverlay(mActionMode && isSelected);
         holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
+        mHolders.put(position, new WeakReference<>(holder));
+    }
+
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        mHolders.remove(holder.getAdapterPosition());
     }
 
     @MainThread
@@ -120,7 +130,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             Long time = times.get(media.getId());
             if (time != null && time != media.getTime()) {
                 media.setTime(time);
-                notifyItemChanged(getPosition(media));
+                int position = getPosition(media);
+                WeakReference<ViewHolder> wr = mHolders.get(position);
+                if (wr != null && wr.get() != null)
+                    fillView(wr.get(), media);
             }
         }
     }
