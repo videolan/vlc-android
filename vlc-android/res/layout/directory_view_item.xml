@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
-            android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE}"
+            android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE, default=gone}"
             android:focusable="false"
             android:enabled="@{checkEnabled}"
             android:checked="@{checked}"
