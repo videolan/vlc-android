@@ -191,9 +191,6 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        WindowManager.LayoutParams lp = (WindowManager.LayoutParams) getLayoutParams();
-        lp.width *= mScaleFactor;
-        lp.height *= mScaleFactor;
         setViewSize(mPopupWidth, mPopupHeight);
         mScaleFactor = 1.0d;
         if (mVLCVout != null)
