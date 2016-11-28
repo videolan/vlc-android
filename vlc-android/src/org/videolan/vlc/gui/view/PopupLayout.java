@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -45,6 +46,7 @@ import org.videolan.vlc.VLCApplication;
 public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
     private static final String TAG = "VLC/PopupView";
 
+    private IVLCVout mVLCVout;
     private WindowManager mWindowManager;
     private GestureDetectorCompat mGestureDetector;
     private ScaleGestureDetector mScaleGestureDetector;
@@ -71,6 +73,10 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         init(context);
     }
 
+    public void setVLCVOut(IVLCVout vout) {
+        mVLCVout = vout;
+    }
+
     /*
      * Remove layout from window manager
      */
@@ -78,6 +84,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         setKeepScreenOn(false);
         mWindowManager.removeView(this);
         mWindowManager = null;
+        mVLCVout = null;
     }
 
     public void setGestureDetector(GestureDetectorCompat gdc) {
@@ -189,6 +196,8 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         lp.height *= mScaleFactor;
         setViewSize(mPopupWidth, mPopupHeight);
         mScaleFactor = 1.0d;
+        if (mVLCVout != null)
+            mVLCVout.setWindowSize(mPopupWidth, mPopupHeight);
     }
 
     private void containInScreen(int width, int height) {

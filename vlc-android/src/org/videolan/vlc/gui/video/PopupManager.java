@@ -107,6 +107,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
         vlcVout.attachViews();
+        mRootView.setVLCVOut(vlcVout);
+        mService.setVideoAspectRatio(null);
+        mService.setVideoScale(0);
         mService.setVideoTrackEnabled(true);
         vlcVout.addCallback(this);
         if (!mService.isPlaying())
@@ -168,18 +171,22 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        if (width * height == 0)
-            return;
-
-        double dw = mRootView.getWidth(), dh = mRootView.getHeight();
+        int displayW = mRootView.getWidth(), displayH = mRootView.getHeight();
 
         // sanity check
-        if (dw * dh == 0) {
+        if (displayW * displayH == 0) {
             Log.e(TAG, "Invalid surface size");
             return;
         }
 
+        if (width == 0 || height == 0) {
+            vlcVout.setWindowSize(displayW, displayH);
+            mRootView.setViewSize(displayW, displayH);
+            return;
+        }
+
         // compute the aspect ratio
+        double dw = displayW, dh = displayH;
         double ar;
         if (sarDen == sarNum) {
             /* No indication about the density, assuming 1:1 */
