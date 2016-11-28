@@ -207,16 +207,45 @@ public class Media extends VLCObject<Media.Event> {
      * see libvlc_video_track_t
      */
     public static class VideoTrack extends Track {
+        public static final class Orientation {
+            /** Top line represents top, left column left */
+            public static final int TopLeft = 0;
+            /** Flipped horizontally */
+            public static final int TopRight = 1;
+            /** Flipped vertically */
+            public static final int BottomLeft = 2;
+            /** Rotated 180 degrees */
+            public static final int BottomRight = 3;
+            /** Transposed */
+            public static final int LeftTop = 4;
+            /** Rotated 90 degrees clockwise (or 270 anti-clockwise) */
+            public static final int LeftBottom = 5;
+            /** Rotated 90 degrees anti-clockwise */
+            public static final int RightTop= 6;
+            /** Anti-transposed */
+            public static final int RightBottom = 7;
+        }
+
+        public static final class Projection {
+            public static final int Rectangular = 0;
+            /** 360 spherical */
+            public static final int EquiRectangular = 1;
+            public static final int CubemapLayoutStandard = 0x100;
+        }
+
         public final int height;
         public final int width;
         public final int sarNum;
         public final int sarDen;
         public final int frameRateNum;
         public final int frameRateDen;
+        public final int orientation;
+        public final int projection;
 
         private VideoTrack(String codec, String originalCodec, int id, int profile,
                 int level, int bitrate, String language, String description,
-                int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen) {
+                int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen,
+                int orientation, int projection) {
             super(Type.Video, codec, originalCodec, id, profile, level, bitrate, language, description);
             this.height = height;
             this.width = width;
@@ -224,16 +253,19 @@ public class Media extends VLCObject<Media.Event> {
             this.sarDen = sarDen;
             this.frameRateNum = frameRateNum;
             this.frameRateDen = frameRateDen;
+            this.orientation = orientation;
+            this.projection = projection;
         }
     }
 
     @SuppressWarnings("unused") /* Used from JNI */
     private static Track createVideoTrackFromNative(String codec, String originalCodec, int id, int profile,
             int level, int bitrate, String language, String description,
-            int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen) {
+            int height, int width, int sarNum, int sarDen, int frameRateNum, int frameRateDen,
+            int orientation, int projection) {
         return new VideoTrack(codec, originalCodec, id, profile,
                 level, bitrate, language, description,
-                height, width, sarNum, sarDen, frameRateNum, frameRateDen);
+                height, width, sarNum, sarDen, frameRateNum, frameRateDen, orientation, projection);
     }
 
     /**

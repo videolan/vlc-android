@@ -228,7 +228,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.Media.createVideoTrackFromNativeID,
            fields.Media.clazz,
            "createVideoTrackFromNative",
-           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIII)"
+           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIIIII)"
            "Lorg/videolan/libvlc/Media$Track;");
 
     GET_ID(GetStaticMethodID,

@@ -328,7 +328,9 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 (jint)p_tracks->video->i_sar_num,
                                 (jint)p_tracks->video->i_sar_den,
                                 (jint)p_tracks->video->i_frame_rate_num,
-                                (jint)p_tracks->video->i_frame_rate_den);
+                                (jint)p_tracks->video->i_frame_rate_den,
+                                (jint)p_tracks->video->i_orientation,
+                                (jint)p_tracks->video->i_projection);
         case libvlc_track_text: {
             jstring jencoding = NULL;
 
