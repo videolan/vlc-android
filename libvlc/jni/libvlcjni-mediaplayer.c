@@ -49,6 +49,7 @@ static const libvlc_event_type_t mp_events[] = {
 struct vlcjni_object_sys
 {
     jobject jwindow;
+    libvlc_video_viewpoint_t *p_vp;
 };
 
 static libvlc_equalizer_t *
@@ -177,6 +178,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
     if (p_obj->p_sys && p_obj->p_sys->jwindow)
         (*env)->DeleteGlobalRef(env, p_obj->p_sys->jwindow);
 
+    free(p_obj->p_sys->p_vp);
     free(p_obj->p_sys);
 
     VLCJniObject_release(env, thiz, p_obj);
@@ -943,6 +945,34 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetAspectRatio(JNIEnv *env,
 
     libvlc_video_set_aspect_ratio(p_obj->u.p_mp, psz_aspect);
     (*env)->ReleaseStringUTFChars(env, jaspect, psz_aspect);
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeUpdateViewPoint(JNIEnv *env,
+                                                           jobject thiz,
+                                                           jfloat yaw,
+                                                           jfloat pitch,
+                                                           jfloat roll,
+                                                           jfloat fov,
+                                                           jboolean absolute)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    if (!p_obj)
+        return false;
+
+    if (p_obj->p_sys->p_vp == NULL)
+    {
+        p_obj->p_sys->p_vp = libvlc_video_new_viewpoint();
+        if (p_obj->p_sys->p_vp == NULL)
+            return false;
+    }
+    p_obj->p_sys->p_vp->f_yaw = yaw;
+    p_obj->p_sys->p_vp->f_pitch = pitch;
+    p_obj->p_sys->p_vp->f_roll = roll;
+    p_obj->p_sys->p_vp->f_field_of_view = fov;
+
+    return libvlc_video_update_viewpoint(p_obj->u.p_mp, p_obj->p_sys->p_vp,
+                                         absolute) == 0 ? true : false;
 }
 
 jboolean

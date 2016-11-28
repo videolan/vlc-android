@@ -517,6 +517,21 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Update the video viewpoint information
+     *
+     * @param yaw View point yaw in degrees
+     * @param pitch View point pitch in degrees
+     * @param roll  View point roll in degrees
+     * @param fov Field of view in degrees (default 80.0f)
+     * @param absolute if true replace the old viewpoint with the new one. If false,
+     *                 increase/decrease it.
+     * @return true on success.
+     */
+    public boolean updateViewpoint(float yaw, float pitch, float roll, float fov, boolean absolute) {
+        return nativeUpdateViewpoint(yaw, pitch, roll, fov, absolute);
+    }
+    
+    /**
      * Selects an audio output module.
      * Any change will take effect only after playback is stopped and
      * restarted. Audio output cannot be changed while playing.
@@ -934,6 +949,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativeSetScale(float scale);
     private native String nativeGetAspectRatio();
     private native void nativeSetAspectRatio(String aspect);
+    private native boolean nativeUpdateViewpoint(float yaw, float pitch, float roll, float fov, boolean absolute);
     private native boolean nativeSetAudioOutput(String aout);
     private native boolean nativeSetAudioOutputDevice(String id);
     private native Title[] nativeGetTitles();
