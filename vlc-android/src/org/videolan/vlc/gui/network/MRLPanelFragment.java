@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.network;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -37,9 +38,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.medialibrary.media.HistoryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaUtils;
 
@@ -49,7 +52,6 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    HistoryItem[] mHistory;
     TextInputLayout mEditText;
     ImageView mSend;
     View mRootView;
@@ -58,7 +60,6 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHistory = VLCApplication.getMLInstance().lastStreamsPlayed();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -71,18 +72,19 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST));
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MRLAdapter(mHistory);
+        mAdapter = new MRLAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mSend.setOnClickListener(this);
-
         return v;
     }
 
     public void onStart(){
         super.onStart();
         getActivity().supportInvalidateOptionsMenu();
+        updateHistory();
     }
 
     @Override
@@ -118,8 +120,9 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     private boolean processUri() {
         if (mEditText.getEditText() != null && !TextUtils.isEmpty(mEditText.getEditText().getText())) {
             UiTools.setKeyboardVisibility(mEditText, false);
-            MediaUtils.openStream(getActivity(), mEditText.getEditText().getText().toString().trim());
-            VLCApplication.getMLInstance().addToHistory(mEditText.getEditText().getText().toString().trim());
+            MediaWrapper mw = new MediaWrapper(Uri.parse(mEditText.getEditText().getText().toString().trim()));
+            mw.setType(MediaWrapper.TYPE_STREAM);
+            MediaUtils.openMedia(getActivity(), mw);
             updateHistory();
             getActivity().supportInvalidateOptionsMenu();
             mEditText.getEditText().getText().clear();

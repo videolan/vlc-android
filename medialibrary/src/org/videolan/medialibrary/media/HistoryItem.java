@@ -25,6 +25,7 @@ public class HistoryItem extends MediaLibraryItem {
     public MediaWrapper getMedia() {
         MediaWrapper mw = new MediaWrapper(Uri.parse(mrl));
         mw.setTitle(title);
+        mw.setType(MediaWrapper.TYPE_STREAM);
         return mw;
     }
     @Override

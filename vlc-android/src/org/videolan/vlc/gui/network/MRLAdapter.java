@@ -24,7 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.medialibrary.media.HistoryItem;
@@ -35,19 +34,21 @@ import org.videolan.vlc.media.MediaUtils;
 class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     private HistoryItem[] mDataset;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView uriTv;
-        ImageView deleteButton;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView uriTv, titleTv;
 
         public ViewHolder(View v) {
             super(v);
             uriTv = (TextView) v.findViewById(R.id.mrl_item_uri);
-            deleteButton = (ImageView) v.findViewById(R.id.mrl_item_delete);
+            titleTv = (TextView) v.findViewById(R.id.mrl_item_title);
+            itemView.setOnClickListener(this);
         }
-    }
 
-    MRLAdapter(HistoryItem[] myDataset) {
-        mDataset = myDataset;
+        @Override
+        public void onClick(View v) {
+                UiTools.setKeyboardVisibility(itemView, false);
+                MediaUtils.openMedia(v.getContext(), mDataset[getLayoutPosition()].getMedia());
+        }
     }
 
     @Override
@@ -62,13 +63,7 @@ class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final HistoryItem item = mDataset[position];
         holder.uriTv.setText(item.getMrl());
-        holder.uriTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UiTools.setKeyboardVisibility(holder.itemView, false);
-                MediaUtils.openStream(v.getContext(), item.getMrl());
-            }
-        });
+        holder.titleTv.setText(item.getTitle());
     }
 
     public void setList(HistoryItem[] list){

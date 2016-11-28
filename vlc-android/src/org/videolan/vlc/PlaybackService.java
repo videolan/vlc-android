@@ -582,6 +582,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     else
                         showNotification();
                     mVideoBackground = false;
+                    if (getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_STREAM)
+                        mMedialibrary.addToHistory(getCurrentMediaLocation(), getCurrentMediaWrapper().getTitle());
                     break;
                 case MediaPlayer.Event.Paused:
                     Log.i(TAG, "MediaPlayer.Event.Paused");
@@ -944,7 +946,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private void determinePrevAndNextIndices(boolean expand) {
         if (expand) {
             mExpanding.set(true);
-            mNextIndex = expand();
+            mNextIndex = expand(getCurrentMedia().getType() == MediaWrapper.TYPE_STREAM);
             mExpanding.set(false);
         } else {
             mNextIndex = -1;
@@ -2226,8 +2228,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
      * @return the index of the media was expanded, and -1 if no media was expanded
      */
     @MainThread
-    public int expand() {
+    public int expand(boolean updateHistory) {
         final Media media = mMediaPlayer.getMedia();
+        String mrl = updateHistory ? getCurrentMediaLocation() : null;
         if (media == null)
             return -1;
         final MediaList ml = media.subItems();
@@ -2242,6 +2245,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 mMediaList.insert(mCurrentIndex, new MediaWrapper(child));
                 child.release();
             }
+            if (updateHistory && ml.getCount() == 1)
+                mMedialibrary.addToHistory(mrl, mMediaList.getMedia(mCurrentIndex).getTitle());
             ret = 0;
         } else {
             ret = -1;

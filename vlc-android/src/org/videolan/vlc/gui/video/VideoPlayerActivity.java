@@ -1708,7 +1708,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             seek(0);
             return;
         }
-        if(mService.expand() == 0) {
+        if (mService.expand(false) == 0) {
             mHandler.removeMessages(LOADING_ANIMATION);
             mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
             Log.d(TAG, "Found a video playlist, expanding it");
