@@ -46,6 +46,10 @@ android {
             proguardFile 'proguard.cfg'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
