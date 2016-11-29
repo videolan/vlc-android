@@ -23,10 +23,10 @@
 package org.videolan.vlc.gui.browser;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,7 +48,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemFilter;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -70,7 +69,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
     ArrayList<MediaLibraryItem> mOriginalData = null;
     BaseBrowserFragment fragment;
-    SparseArrayCompat<WeakReference<MediaViewHolder>> mHolders = new SparseArrayCompat<>();
     private int mTop = 0;
     private int mMediaCount = 0;
     private ItemFilter mFilter = new ItemFilter();
@@ -109,8 +107,9 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
-        mHolders.put(position, new WeakReference<>(vh));
         final MediaWrapper media = (MediaWrapper) getItem(position);
+        if (media.observableDescription == null)
+            media.observableDescription = new ObservableField<>(media.getDescription());
         vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
@@ -118,12 +117,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         vh.binding.setCover(getIcon(media));
         vh.setContextMenuListener();
         vh.setViewBackground(vh.itemView.hasFocus(), mSelectedItems.contains(position));
-    }
-
-
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        mHolders.remove(holder.getAdapterPosition());
     }
 
     @Override
@@ -145,6 +138,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         public void onMoreClick(View v){}
 
         public abstract int getType();
+
     }
 
     class MediaViewHolder extends ViewHolder<DirectoryViewItemBinding> implements View.OnLongClickListener {
@@ -284,19 +278,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     public void setTop (int top) {
         mTop = top;
-    }
-
-    void setDescription(int position, String description){
-        Object item = getItem(position);
-        if (item instanceof MediaWrapper)
-            ((MediaWrapper) item).setDescription(description);
-        else if (item instanceof Storage)
-            ((Storage) item).setDescription(description);
-        else
-            return;
-        WeakReference<MediaViewHolder> wr = mHolders.get(position);
-        if (wr != null && wr.get() != null)
-            wr.get().binding.setItem((MediaLibraryItem) item);
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){

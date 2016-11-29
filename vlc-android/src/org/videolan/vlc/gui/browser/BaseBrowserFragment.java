@@ -612,7 +612,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             MediaWrapper mw = null;
 
             if (!TextUtils.equals(holderText, "")) {
-                mAdapter.setDescription(mCurrentParsedPosition, holderText);
+                mAdapter.getItem(mCurrentParsedPosition).observableDescription.set(holderText);
                 directories.addAll(files);
                 mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
             }
