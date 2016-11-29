@@ -673,7 +673,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.restoreList();
     }
     public void setSearchVisibility(boolean visible) {
-        mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
