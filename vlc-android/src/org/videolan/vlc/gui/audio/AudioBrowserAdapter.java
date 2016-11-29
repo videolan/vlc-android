@@ -80,14 +80,21 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.vdb.setVariable(BR.cover, null);
+    }
+
+    @Override
     public int getItemCount() {
         return mDataList == null ? 0 :  mDataList.size();
     }
 
     public MediaLibraryItem getItem(int position) {
-        if (position < 0 || position >= mDataList.size())
-            return null;
-        return mDataList.get(position);
+        return isPositionValid(position) ? mDataList.get(position) : null;
+    }
+
+    private boolean isPositionValid(int position) {
+        return position >= 0 || position < mDataList.size();
     }
 
     public ArrayList<MediaLibraryItem> getAll() {
@@ -109,16 +116,13 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 if (i < position)
                     ++offset;
             } else
-                    list.add(mDataList.get(i));
+                list.add(mDataList.get(i));
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        if (position < 0 || position >= mDataList.size())
-            return super.getItemId(position);
-        else
-            return mDataList.get(position).getId();
+        return isPositionValid(position) ? mDataList.get(position).getId() : -1;
     }
 
     @Override

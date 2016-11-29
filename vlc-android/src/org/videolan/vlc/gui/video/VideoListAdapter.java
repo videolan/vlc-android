@@ -120,6 +120,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @Override
     public void onViewRecycled(ViewHolder holder) {
         mHolders.remove(holder.getAdapterPosition());
+        holder.binding.setVariable(BR.cover, null);
     }
 
     @MainThread
