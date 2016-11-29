@@ -109,7 +109,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
         if (media.observableDescription == null)
-            media.observableDescription = new ObservableField<>(media.getDescription());
+            media.observableDescription = new ObservableField<>();
         vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())

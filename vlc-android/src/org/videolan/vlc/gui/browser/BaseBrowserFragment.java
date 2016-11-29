@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.databinding.ObservableField;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -612,7 +613,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             MediaWrapper mw = null;
 
             if (!TextUtils.equals(holderText, "")) {
-                mAdapter.getItem(mCurrentParsedPosition).observableDescription.set(holderText);
+                MediaLibraryItem item = mAdapter.getItem(mCurrentParsedPosition);
+                if (item.observableDescription == null)
+                    item.observableDescription = new ObservableField<>(holderText);
+                else
+                    item.observableDescription.set(holderText);
                 directories.addAll(files);
                 mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
             }
