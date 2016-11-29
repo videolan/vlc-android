@@ -2733,7 +2733,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
             mObjectFocused = getCurrentFocus();
-            if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
+            UiTools.setViewVisibility(mOverlayTips, View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
