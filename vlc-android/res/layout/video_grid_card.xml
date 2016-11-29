@@ -62,7 +62,6 @@
             android:background="@{cover}"
             android:scaleType="fitXY"
             android:src="@drawable/black_gradient"
-            vlc:binding="@{holder.binding}"
             vlc:media="@{media}" />
 
         <LinearLayout

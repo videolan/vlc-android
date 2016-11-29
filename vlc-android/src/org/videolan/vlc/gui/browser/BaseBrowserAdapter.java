@@ -115,7 +115,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
             vh.binding.setProtocol(getProtocol(media));
-        vh.binding.setImage(getIcon(media));
+        vh.binding.setCover(getIcon(media));
         vh.setContextMenuListener();
         vh.setViewBackground(vh.itemView.hasFocus(), mSelectedItems.contains(position));
     }
@@ -153,8 +153,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
             super(v);
             binding = DataBindingUtil.bind(v);
             binding.setHolder(this);
-            v.findViewById(R.id.layout_item).setTag(R.id.layout_item, this);
-            v.setTag(binding);
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
@@ -59,6 +60,54 @@ public class AsyncImageLoader {
     public static final BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_VIDEO);
     public static final Bitmap DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon);
     public static final BitmapDrawable DEFAULT_COVER_AUDIO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_AUDIO);
+
+    /*
+     * Custom bindings to trigger image (down)loading
+     */
+
+    @BindingAdapter({"imageUri"})
+    public static void downloadIcon(final View v, final Uri imageUri) {
+        AsyncImageLoader.LoadImage(new Callbacks() {
+            @Override
+            public Bitmap getImage() {
+                return HttpImageLoader.downloadBitmap(imageUri.toString());
+            }
+
+            @Override
+            public void updateImage(Bitmap bitmap, View target) {
+                if (v instanceof ImageView)
+                    updateTargetImage(bitmap, v, 0);
+            }
+        }, v);
+    }
+
+    @BindingAdapter({"mediaWithArt"})
+    public static void downloadIcon(View v, MediaLibraryItem item) {
+        if (item == null || item.getItemType() != MediaLibraryItem.TYPE_MEDIA ||
+                TextUtils.isEmpty(item.getArtworkMrl()) || !item.getArtworkMrl().startsWith("http"))
+            return;
+        MediaWrapper mw = (MediaWrapper) item;
+        AsyncImageLoader.LoadImage(new MLItemCoverFetcher(v, mw), v);
+    }
+
+    @BindingAdapter({"media"})
+    public static void loadPicture(ImageView v, MediaLibraryItem item) {
+        if (item == null)
+            return;
+        if (item instanceof MediaWrapper) {
+            if (item instanceof MediaGroup)
+                item = ((MediaGroup) item).getFirstMedia();
+            int type = ((MediaWrapper) item).getType();
+            final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ?
+                    BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
+            if (bitmap != null) {
+                updateTargetImage(bitmap, v, type);
+                return;
+            }
+        }
+        AsyncImageLoader.LoadImage(new MLItemCoverFetcher(v, item), v);
+    }
+
     public static void LoadImage(final Callbacks cbs, final View target){
         VLCApplication.runBackground(new Runnable() {
             @Override
@@ -69,9 +118,68 @@ public class AsyncImageLoader {
         });
     }
 
-    public abstract static class CoverFetcher implements AsyncImageLoader.Callbacks {
+    private static class MLItemCoverFetcher extends AsyncImageLoader.CoverFetcher {
+        MediaLibraryItem item;
+        int width;
+
+        MLItemCoverFetcher(View v, MediaLibraryItem item) {
+            super(DataBindingUtil.findBinding(v));
+            this.item = item;
+            width = v.getWidth();
+        }
+
+        @Override
+        public Bitmap getImage() {
+            if (bindChanged)
+                return null;
+            String artworkUrl = item.getArtworkMrl();
+            if (!TextUtils.isEmpty(artworkUrl) && artworkUrl.startsWith("http"))
+                return HttpImageLoader.downloadBitmap(artworkUrl);
+            return AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(item.getArtworkMrl())), width);
+        }
+
+        @Override
+        public void updateImage(Bitmap bitmap, View target) {
+            if (!bindChanged)
+                updateTargetImage(bitmap, target, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
+        }
+    }
+
+    private static void updateTargetImage(final Bitmap bitmap, final View target, final int type) {
+        ViewDataBinding vdb = DataBindingUtil.findBinding(target);
+        if (vdb != null) {
+            if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
+                vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+                vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            } else
+                vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO_DRAWABLE : AudioUtil.DEFAULT_COVER);
+        } else {
+            final boolean isBitmapValid = bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1;
+            sHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (target instanceof ImageView) {
+                        ImageView iv = (ImageView) target;
+                        iv.setVisibility(View.VISIBLE);
+                        if (isBitmapValid) {
+                            iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            iv.setImageBitmap(bitmap);
+                        } else
+                            iv.setImageResource(type == MediaWrapper.TYPE_VIDEO ? R.drawable.ic_no_thumbnail_1610 : R.drawable.icon);
+                    } else if (target instanceof TextView) {
+                        if (isBitmapValid) {
+                            target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                            ((TextView) target).setText(null);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    abstract static class CoverFetcher implements AsyncImageLoader.Callbacks {
         protected ViewDataBinding binding = null;
-        private boolean bindChanged = false;
+        protected boolean bindChanged = false;
         final OnRebindCallback<ViewDataBinding> rebindCallbacks = new OnRebindCallback<ViewDataBinding>() {
             @Override
             public boolean onPreBind(ViewDataBinding binding) {
@@ -90,7 +198,7 @@ public class AsyncImageLoader {
             }
         };
 
-        protected CoverFetcher(ViewDataBinding binding){
+        CoverFetcher(ViewDataBinding binding){
             if (binding != null) {
                 this.binding = binding;
                 this.binding.executePendingBindings();
@@ -98,8 +206,8 @@ public class AsyncImageLoader {
             }
         }
 
-        public void updateBindImage(final Bitmap bitmap) {}
-        public void updateImageView(final Bitmap bitmap, View target) {}
+        void updateBindImage(final Bitmap bitmap) {}
+        void updateImageView(final Bitmap bitmap, View target) {}
 
         @Override
         public void updateImage(final Bitmap bitmap, final View target) {
@@ -121,189 +229,5 @@ public class AsyncImageLoader {
                 });
             }
         }
-    }
-
-    /*
-     * Custom bindings to trigger image (dwon)loading
-     */
-
-    @BindingAdapter({"imageUri", "binding"})
-    public static void downloadIcon(final View v, final Uri imageUri, final ViewDataBinding vdb) {
-        AsyncImageLoader.LoadImage(new Callbacks() {
-            @Override
-            public Bitmap getImage() {
-                return HttpImageLoader.downloadBitmap(imageUri.toString());
-            }
-
-            @Override
-            public void updateImage(Bitmap bitmap, View target) {
-                if (v instanceof ImageView)
-                    setCover((ImageView) v, 0, bitmap, vdb);
-            }
-        }, v);
-    }
-
-    @BindingAdapter({"mediaWithArt"})
-    public static void downloadIcon(View v, MediaLibraryItem item) {
-        if (item == null || item.getItemType() != MediaLibraryItem.TYPE_MEDIA)
-            return;
-        MediaWrapper mw = (MediaWrapper) item;
-        ViewDataBinding vdb = (ViewDataBinding) v.getTag();
-        if (TextUtils.isEmpty(mw.getArtworkURL()) || !mw.getArtworkURL().startsWith("http"))
-            return;
-        if (vdb == null && v.getTag() instanceof ViewDataBinding)
-            vdb = (ViewDataBinding) v.getTag();
-        AsyncImageLoader.LoadImage(new MediaCoverFetcher(vdb, mw), v);
-    }
-
-    @BindingAdapter({"media", "binding"})
-    public static void loadPicture(ImageView v, MediaLibraryItem item, ViewDataBinding vdb) {
-        if (item == null)
-            return;
-        if (item instanceof MediaWrapper) {
-            if (item instanceof MediaGroup)
-                item = ((MediaGroup) item).getFirstMedia();
-            int type = ((MediaWrapper) item).getType();
-            final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ?
-                    BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
-            if (bitmap != null) {
-                setCover(v, type, bitmap, vdb);
-                return;
-            }
-        }
-        AsyncImageLoader.LoadImage(new MLItemCoverFetcher(v, vdb, item), v);
-    }
-
-    @BindingAdapter({"media"})
-    public static void loadPicture(ImageView v, MediaWrapper mw) {
-        ViewDataBinding vdb = null;
-        if (v.getTag() instanceof ViewDataBinding)
-            vdb = (ViewDataBinding) v.getTag();
-        loadPicture(v, mw, vdb);
-    }
-
-//    @BindingAdapter({"item"})
-//    public static void loadPicture(final ImageView v, final AudioBrowserListAdapter.ListItem item) {
-//        final Object tag = v.getTag(R.id.media_cover);
-//        if (tag == null || !(tag instanceof ViewDataBinding))
-//            return;
-//        Bitmap bitmap = AudioUtil.getCoverFromMemCache(VLCApplication.getAppContext(), item.mMediaList, 64);
-//        if (bitmap != null) {
-//            ((ViewDataBinding) tag).setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-//            return;
-//        }
-//        AsyncImageLoader.LoadImage(new Callbacks() {
-//            @Override
-//            public Bitmap getImage() {
-//                return AudioUtil.getCover(VLCApplication.getAppContext(), item.mMediaList, 64);
-//            }
-//
-//            @Override
-//            public void updateImage(final Bitmap bitmap, View target) {
-//                sHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        setCover(v, MediaWrapper.TYPE_AUDIO, bitmap, (ViewDataBinding) tag);
-//                    }
-//                });
-//            }
-//        }, v);
-//    }
-
-//    @BindingAdapter({"media", "binding"})
-//    public static void loadPicture(ImageView v, MediaWrapper mw, ViewDataBinding vdb) {
-//        if (mw instanceof MediaGroup)
-//            mw = ((MediaGroup) mw).getFirstMedia();
-//        final Bitmap bitmap = mw.getType() == MediaWrapper.TYPE_VIDEO ?
-//                BitmapUtil.getPictureFromCache(mw) :
-//                AudioUtil.getCoverFromMemCache(v.getContext(), mw, 64);
-//        if (bitmap != null)
-//            setCover(v, mw.getType(), bitmap, vdb);
-//        else
-//            AsyncImageLoader.LoadImage(new MediaCoverFetcher(vdb, mw), v);
-//
-//    }
-
-    private static void setCover(ImageView iv, int type, Bitmap bitmap, ViewDataBinding vdb) {
-        if (vdb != null) {
-            if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
-                vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            } else
-                vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO_DRAWABLE : AudioUtil.DEFAULT_COVER);
-        } else {
-            iv.setVisibility(View.VISIBLE);
-            if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
-                iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                iv.setImageBitmap(bitmap);
-            } else {
-                iv.setImageResource(type == MediaWrapper.TYPE_VIDEO ? R.drawable.ic_no_thumbnail_1610 : R.drawable.icon);
-            }
-        }
-    }
-
-    private static class MLItemCoverFetcher extends AsyncImageLoader.CoverFetcher {
-        MediaLibraryItem item;
-        int width;
-
-        MLItemCoverFetcher(View v, ViewDataBinding binding, MediaLibraryItem item) {
-            super(binding);
-            this.item = item;
-            width = v.getWidth();
-        }
-
-        @Override
-        public Bitmap getImage() {
-            return AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(item.getArtworkMrl())), width);
-        }
-
-        @Override
-        public void updateImage(Bitmap bitmap, View target) {
-            updateTargetImage(bitmap, target, binding, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
-        }
-    }
-
-    private static class MediaCoverFetcher extends AsyncImageLoader.CoverFetcher {
-        final MediaWrapper media;
-
-        MediaCoverFetcher(ViewDataBinding binding, MediaWrapper media) {
-            super(binding);
-            this.media = media;
-        }
-
-        @Override
-        public Bitmap getImage() {
-            if (!TextUtils.isEmpty(media.getArtworkURL()) && media.getArtworkURL().startsWith("http"))
-                return HttpImageLoader.downloadBitmap(media.getArtworkURL());
-            return media.getType() == MediaWrapper.TYPE_VIDEO ? BitmapUtil.fetchPicture(media) :
-                    AudioUtil.getCover(VLCApplication.getAppContext(), media, 64);
-        }
-
-        @Override
-        public void updateImage(final Bitmap bitmap, final View target) {
-            updateTargetImage(bitmap, target, binding, media.getType());
-        }
-    }
-
-    public static void updateTargetImage(final Bitmap bitmap, final View target, final ViewDataBinding binding, final int type) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (target instanceof ImageView)
-                    setCover((ImageView) target, type, bitmap, binding);
-                else if (target instanceof TextView) {
-                    if (bitmap != null && (bitmap.getWidth() != 1 && bitmap.getHeight() != 1)) {
-                        if (binding != null) {
-                            binding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                            binding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                            binding.setVariable(BR.protocol, null);
-                        } else {
-                            target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                            ((TextView) target).setText(null);
-                        }
-                    }
-                }
-            }
-        });
     }
 }

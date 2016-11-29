@@ -23,7 +23,7 @@
             name="protocol"
             type="String"/>
         <variable
-            name="image"
+            name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
     </data>
     <LinearLayout
@@ -62,7 +62,7 @@
             android:text="@{protocol}"
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"
-            android:background="@{image}"
+            android:background="@{cover}"
             vlc:mediaWithArt="@{item}" />
 
         <LinearLayout

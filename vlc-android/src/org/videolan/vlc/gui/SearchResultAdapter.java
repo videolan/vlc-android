@@ -1,7 +1,6 @@
 package org.videolan.vlc.gui;
 
 import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         notifyDataSetChanged();
     }
 
-    public void setClickHandler(SearchActivity.ClickHandler clickHandler) {
+    void setClickHandler(SearchActivity.ClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
@@ -49,10 +48,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             this.binding = binding;
             binding.setHolder(this);
             binding.setHandler(mClickHandler);
-        }
-
-        public ViewDataBinding getDataBinding() {
-            return binding;
         }
     }
 }

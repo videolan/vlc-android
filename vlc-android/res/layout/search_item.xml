@@ -34,7 +34,6 @@
             android:scaleType="fitCenter"
             android:layout_alignParentLeft="true"
             vlc:media="@{item}"
-            vlc:binding="@{holder.getDataBinding()}"
             android:src="@{cover}"/>
         <LinearLayout
             android:layout_width="match_parent"
