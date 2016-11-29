@@ -72,7 +72,6 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             return;
         holder.vdb.setVariable(BR.item, mDataList.get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            holder.vdb.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
             boolean isSelected = mActionMode && mSelectedItems.contains(position);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus(), isSelected);
@@ -81,7 +80,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        holder.vdb.setVariable(BR.cover, null);
+        holder.vdb.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
     }
 
     @Override
