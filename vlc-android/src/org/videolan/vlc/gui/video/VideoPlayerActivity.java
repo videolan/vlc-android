@@ -55,6 +55,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +73,7 @@ import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
@@ -100,6 +102,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -117,7 +120,6 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
@@ -138,7 +140,7 @@ import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         GestureDetector.OnDoubleTapListener, IPlaybackSettingsController,
-        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener {
+        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -177,6 +179,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mPresentationDisplayId = -1;
     private Uri mUri;
     private boolean mAskResume = true;
+    private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetectorCompat mDetector = null;
 
     private ImageView mPlaylistToggle;
@@ -295,9 +298,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int TOUCH_NONE = 0;
     private static final int TOUCH_VOLUME = 1;
     private static final int TOUCH_BRIGHTNESS = 2;
-    private static final int TOUCH_SEEK = 3;
+    private static final int TOUCH_MOVE = 3;
+    private static final int TOUCH_SEEK = 4;
     private int mTouchAction = TOUCH_NONE;
-    private int mSurfaceYDisplayRange;
+    private int mSurfaceYDisplayRange, mSurfaceXDisplayRange;
+    private float mFov;
     private float mInitTouchY, mTouchY =-1f, mTouchX=-1f;
 
     //stick event
@@ -338,6 +343,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
+
+    DisplayMetrics mScreen = new DisplayMetrics();
 
     private static LibVLC LibVLC() {
         return VLCInstance.get();
@@ -521,6 +528,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         resetHudLayout();
+        getWindowManager().getDefaultDisplay().getMetrics(mScreen);
     }
 
     @Override
@@ -1771,7 +1779,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 1000);
-        }
+        } else if (voutCount > 0)
+            mFov = mService.getCurrentVideoTrack().projection == Media.VideoTrack.Projection.Rectangular ? 0f : 80f;
     }
 
     public void switchToPopupMode() {
@@ -2027,14 +2036,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return false;
         }
-        if (mDetector != null && mDetector.onTouchEvent(event))
+        if (mFov != 0f && mScaleGestureDetector != null)
+            mScaleGestureDetector.onTouchEvent(event);
+        if (mScaleGestureDetector.isInProgress() || (mDetector != null && mDetector.onTouchEvent(event)))
             return true;
 
-        DisplayMetrics screen = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(screen);
-
         if (mSurfaceYDisplayRange == 0)
-            mSurfaceYDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
+            mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
+        if (mSurfaceXDisplayRange == 0)
+            mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
 
         float x_changed, y_changed;
         if (mTouchX != -1f && mTouchY != -1f) {
@@ -2047,69 +2057,78 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
-        float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
-        float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / screen.xdpi + 0.5f) * 2f);
+        float xgesturesize = ((x_changed / mScreen.xdpi) * 2.54f);
+        float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / mScreen.xdpi + 0.5f) * 2f);
 
         int xTouch = Math.round(event.getRawX());
         int yTouch = Math.round(event.getRawY());
 
         switch (event.getAction()) {
 
-        case MotionEvent.ACTION_DOWN:
-            // Audio
-            mTouchY = mInitTouchY = event.getRawY();
-            mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            mTouchAction = TOUCH_NONE;
-            // Seek
-            mTouchX = event.getRawX();
-            // Mouse events for the core
-            sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
-            break;
-
-        case MotionEvent.ACTION_MOVE:
-            // Mouse events for the core
-            sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
-
-            // No volume/brightness action if coef < 2 or a secondary display is connected
-            //TODO : Volume action when a secondary display is connected
-            if (mTouchAction != TOUCH_SEEK && coef > 2 && mPresentation == null) {
-                if (Math.abs(y_changed/mSurfaceYDisplayRange) < 0.05)
-                    return false;
-                mTouchY = event.getRawY();
+            case MotionEvent.ACTION_DOWN:
+                // Audio
+                mTouchY = mInitTouchY = event.getRawY();
+                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                mTouchAction = TOUCH_NONE;
+                // Seek
                 mTouchX = event.getRawX();
-                // Volume (Up or Down - Right side)
-                if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * screen.widthPixels / 7))){
-                    doVolumeTouch(y_changed);
-                    hideOverlay(true);
-                }
-                // Brightness (Up or Down - Left side)
-                if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * screen.widthPixels / 7))){
-                    doBrightnessTouch(y_changed);
-                    hideOverlay(true);
-                }
-            } else {
-                // Seek (Right or Left move)
-                doSeekTouch(Math.round(delta_y), xgesturesize, false);
-            }
-            break;
+                // Mouse events for the core
+                sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
+                break;
 
-        case MotionEvent.ACTION_UP:
-            // Mouse events for the core
-            sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
+            case MotionEvent.ACTION_MOVE:
+                // Mouse events for the core
+                sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
 
-            if (mTouchAction == TOUCH_NONE) {
-                if (!mShowing) {
-                    showOverlay();
+                if (mFov == 0f) {
+                    // No volume/brightness action if coef < 2 or a secondary display is connected
+                    //TODO : Volume action when a secondary display is connected
+                    if (mTouchAction != TOUCH_SEEK && coef > 2 && mPresentation == null) {
+                        if (Math.abs(y_changed/mSurfaceYDisplayRange) < 0.05)
+                            return false;
+                        mTouchY = event.getRawY();
+                        mTouchX = event.getRawX();
+                        // Volume (Up or Down - Right side)
+                        if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * mSurfaceXDisplayRange / 7))){
+                            doVolumeTouch(y_changed);
+                            hideOverlay(true);
+                        }
+                        // Brightness (Up or Down - Left side)
+                        if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * mSurfaceXDisplayRange / 7))){
+                            doBrightnessTouch(y_changed);
+                            hideOverlay(true);
+                        }
+                    } else {
+                        // Seek (Right or Left move)
+                        doSeekTouch(Math.round(delta_y), xgesturesize, false);
+                    }
                 } else {
-                    hideOverlay(true);
+                    mTouchY = event.getRawY();
+                    mTouchX = event.getRawX();
+                    mTouchAction = TOUCH_MOVE;
+                    float yaw = mFov * -x_changed/(float)mSurfaceXDisplayRange;
+                    float pitch = mFov * y_changed/(float)mSurfaceYDisplayRange;
+                    mService.updateViewpoint(yaw, pitch, 0, 0, false);
                 }
-            }
-            // Seek
-            if (mTouchAction == TOUCH_SEEK)
-                doSeekTouch(Math.round(delta_y), xgesturesize, true);
-            mTouchX = -1f;
-            mTouchY = -1f;
-            break;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                // Mouse events for the core
+                sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
+
+                if (mTouchAction == TOUCH_NONE) {
+                    if (!mShowing) {
+                        showOverlay();
+                    } else {
+                        hideOverlay(true);
+                    }
+                }
+                // Seek
+                if (mTouchAction == TOUCH_SEEK)
+                    doSeekTouch(Math.round(delta_y), xgesturesize, true);
+                mTouchX = -1f;
+                mTouchY = -1f;
+                break;
         }
         return mTouchAction != TOUCH_NONE;
     }
@@ -2447,6 +2466,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return false;
         }
     }
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        float fov_changed = mFov * (detector.getPreviousSpan()-detector.getCurrentSpan())/(float)mSurfaceXDisplayRange;
+        if (mService.updateViewpoint(0, 0, 0, fov_changed, false)) {
+            mFov += fov_changed;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        return mSurfaceXDisplayRange!= 0 && mFov != 0f;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {}
 
     private interface TrackSelectedListener {
         boolean onTrackSelected(int trackID);
@@ -2563,6 +2599,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mDetector = new GestureDetectorCompat(this, mGestureListener);
             mDetector.setOnDoubleTapListener(this);
         }
+        mScaleGestureDetector = new ScaleGestureDetector(this, this);
     }
 
     private void doPlayPause() {
