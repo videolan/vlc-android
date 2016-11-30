@@ -257,11 +257,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private long mAudioDelay = 0;
     private boolean mRateHasChanged = false;
 
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        return super.onGenericMotionEvent(event);
-    }
-
     private boolean mIsLocked = false;
     /* -1 is a valid track (Disable) */
     private int mLastAudioTrack = -2;
