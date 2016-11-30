@@ -107,7 +107,8 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     @Override
     protected void browseRoot() {
-        String storages[] = mMediaLibrary.getDevices();
+        String[] storages = mMediaLibrary.getDevices();
+        String[] customDirectories = CustomDirectories.getCustomDirectories();
         Storage storage;
         for (String mediaDirLocation : storages) {
             if (TextUtils.isEmpty(mediaDirLocation))
@@ -115,6 +116,14 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 storage.setName(getString(R.string.internal_memory));
+            mAdapter.addItem(storage, false, false);
+        }
+        customLoop:
+        for (String customDir : customDirectories) {
+            for (String mediaDirLocation : storages)
+                if (customDir.startsWith(mediaDirLocation))
+                    continue customLoop;
+            storage = new Storage(Uri.parse(customDir));
             mAdapter.addItem(storage, false, false);
         }
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
