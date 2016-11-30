@@ -26,12 +26,15 @@ import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,9 +53,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Strings;
 
@@ -82,6 +87,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     private int mGridCardWidth = 0;
     VideoListAdapter(VideoGridFragment fragment) {
@@ -120,7 +126,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @Override
     public void onViewRecycled(ViewHolder holder) {
         mHolders.remove(holder.getAdapterPosition());
-        holder.binding.setVariable(BR.cover, null);
+        holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
     @MainThread
@@ -221,8 +227,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 mVideos.updateItemAt(position, item);
             notifyItemChanged(position);
         } else {
-            position = mVideos.add(item);
-            notifyItemRangeChanged(position, mVideos.size()-position);
+            notifyItemInserted(mVideos.add(item));
         }
     }
 
@@ -308,6 +313,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             binding = DataBindingUtil.bind(itemView);
             thumbView = (ImageView) itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
+            binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
             itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
         }
@@ -376,10 +382,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     private void resetSorting() {
-        ArrayList<MediaWrapper> list = getAll();
+        final ArrayList<MediaWrapper> oldList = getAll();
         mVideos.clear();
-        mVideos.addAll(list);
-        notifyItemRangeChanged(0, mVideos.size());
+        mVideos.addAll(oldList);
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, getAll()));
+        mFragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                result.dispatchUpdatesTo(VideoListAdapter.this);
+            }
+        });
     }
 
     class VideoComparator extends SortedList.Callback<MediaWrapper> {
@@ -497,12 +509,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     void restoreList() {
-        if (mOriginalData != null) {
-            mVideos.clear();
-            mVideos.addAll(mOriginalData);
-            mOriginalData = null;
-            notifyDataSetChanged();
-        }
+        if (mOriginalData != null)
+            dispatchUpdate(mOriginalData);
     }
 
     private class ItemFilter extends MediaItemFilter {
@@ -519,9 +527,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            final ArrayList<MediaWrapper> oldList = getAll();
+            final ArrayList<MediaWrapper> newList = (ArrayList<MediaWrapper>) filterResults.values;
             mVideos.clear();
-            mVideos.addAll((Collection<MediaWrapper>) filterResults.values);
-            notifyDataSetChanged();
+            mVideos.addAll(newList);
+            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    result.dispatchUpdatesTo(VideoListAdapter.this);
+                }
+            });
         }
     }
     @BindingAdapter({"time", "resolution"})
@@ -531,5 +547,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 layoutParams.MATCH_PARENT :
                 layoutParams.WRAP_CONTENT;
         view.setLayoutParams(layoutParams);
+    }
+
+    void dispatchUpdate(final ArrayList<MediaWrapper> newList) {
+        final ArrayList<MediaWrapper> oldList = getAll();
+        addAll(newList);
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                result.dispatchUpdatesTo(VideoListAdapter.this);
+            }
+        });
     }
 }

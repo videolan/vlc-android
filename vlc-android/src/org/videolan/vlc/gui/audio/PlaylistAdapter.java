@@ -28,6 +28,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Message;
 import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -43,29 +45,30 @@ import org.videolan.vlc.databinding.PlaylistItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable{
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+
+    private static final String TAG = "VLC/PlaylistAdapter";
 
     private ItemFilter mFilter = new ItemFilter();
+    private PlaybackService mService = null;
+    private IPlayer mAudioPlayer;
+
+    private ArrayList<MediaWrapper> mDataSet = new ArrayList<>();
+    private ArrayList<MediaWrapper> mOriginalDataSet;
+    private int mCurrentIndex = 0;
 
     public interface IPlayer {
         void onPopupMenu(View view, int position);
         void updateList();
         void onSelectionSet(int position);
     }
-    private static final String TAG = "VLC/PlaylistAdapter";
-    PlaybackService mService = null;
-    IPlayer mAudioPlayer;
-
-    private ArrayList<MediaWrapper> mDataSet = new ArrayList();
-    private ArrayList<MediaWrapper> mOriginalDataSet = new ArrayList<MediaWrapper>();
-    private int mCurrentIndex = 0;
 
     public PlaylistAdapter(IPlayer audioPlayer) {
         mAudioPlayer = audioPlayer;
@@ -84,7 +87,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         final MediaWrapper media = getItem(position);
         holder.binding.setMedia(media);
         holder.binding.setSubTitle(MediaUtils.getMediaSubtitle(media));
-        holder.binding.setTitleColor(mCurrentIndex == position
+        holder.binding.setTitleColor(mOriginalDataSet == null && mCurrentIndex == position
                 ? UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
                 : UiTools.getColorFromAttribute(ctx, R.attr.list_title));
         holder.binding.executePendingBindings();
@@ -112,18 +115,29 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return item == null ? "" : item.getLocation();
     }
 
-    public List<MediaWrapper> getMedias() {
+    List<MediaWrapper> getMedias() {
         return mDataSet;
     }
 
     public void addAll(List<MediaWrapper> playList) {
         mDataSet.addAll(playList);
-        mOriginalDataSet.addAll(playList);
+    }
+
+    public void dispatchUpdate(final List<MediaWrapper> newList) {
+        final ArrayList<MediaWrapper> oldList = new ArrayList<>(mDataSet);
+        clear();
+        addAll(newList);
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                result.dispatchUpdatesTo(PlaylistAdapter.this);
+            }
+        });
     }
 
     public void add(MediaWrapper mw) {
         mDataSet.add(mw);
-        mOriginalDataSet.add(mw);
     }
 
     @MainThread
@@ -131,14 +145,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (mService == null)
             return;
         mDataSet.remove(position);
-        mOriginalDataSet.remove(position);
         mService.remove(position);
         notifyItemRemoved(position);
     }
 
     public void clear(){
         mDataSet.clear();
-        mOriginalDataSet.clear();
     }
 
     public int getCurrentIndex() {
@@ -158,7 +170,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mDataSet, fromPosition, toPosition);
-        Collections.swap(mOriginalDataSet, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
@@ -173,7 +184,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 @Override
                 public void run() {
                     mDataSet.add(position, media);
-                    mOriginalDataSet.add(position, media);
                     notifyItemInserted(position);
                     mService.insertItem(position, media);
                 }
@@ -197,22 +207,22 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             binding = DataBindingUtil.bind(v);
             binding.setHolder(this);
         }
-        public void onClick(View v){
-            int position = getMediaPosition();
+        public void onClick(View v, MediaWrapper media){
+            int position = getMediaPosition(media);
             if (mService != null)
                 mService.playIndex(position);
-            if (mDataSet.size() != mOriginalDataSet.size())
+            if (mOriginalDataSet != null)
                 restoreList();
         }
         public void onMoreClick(View v){
             mAudioPlayer.onPopupMenu(v, getLayoutPosition());
         }
 
-        private int getMediaPosition() {
-            if (mDataSet.size() == mOriginalDataSet.size())
+        private int getMediaPosition(MediaWrapper media) {
+            if (mOriginalDataSet == null)
                 return getLayoutPosition();
             else {
-                MediaWrapper mw, media = mDataSet.get(getAdapterPosition());
+                MediaWrapper mw;
                 for (int i = 0 ; i < mOriginalDataSet.size() ; ++i) {
                     mw = mOriginalDataSet.get(i);
                     if (mw.equals(media))
@@ -224,23 +234,22 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public void restoreList() {
-        if (mDataSet.size() == mOriginalDataSet.size())
-            return;
-        mDataSet = new ArrayList<>(mOriginalDataSet.size());
-        mDataSet.addAll(mOriginalDataSet);
-        notifyDataSetChanged();
+        if (mOriginalDataSet != null) {
+            dispatchUpdate(new ArrayList<>(mOriginalDataSet));
+            mOriginalDataSet = null;
+        }
     }
 
     private PlaylistHandler mHandler = new PlaylistHandler(this);
 
     private static class PlaylistHandler extends WeakHandler<PlaylistAdapter>{
 
-        public static final int ACTION_MOVE = 0;
-        public static final int ACTION_MOVED = 1;
+        static final int ACTION_MOVE = 0;
+        static final int ACTION_MOVED = 1;
 
         int from = -1, to = -1;
 
-        public PlaylistHandler(PlaylistAdapter owner) {
+        PlaylistHandler(PlaylistAdapter owner) {
             super(owner);
         }
 
@@ -272,9 +281,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
+            if (mOriginalDataSet == null)
+                mOriginalDataSet = new ArrayList<>(mDataSet);
             final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
             FilterResults results = new FilterResults();
-            ArrayList<MediaWrapper> list = new ArrayList<>(mOriginalDataSet.size());
+            ArrayList<MediaWrapper> list = new ArrayList<>();
             String title, location, artist, album, albumArtist, genre;
             MediaWrapper media;
             mediaLoop:
@@ -307,8 +318,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            mDataSet = (ArrayList<MediaWrapper>) filterResults.values;
-            notifyDataSetChanged();
+            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
 }

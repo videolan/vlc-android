@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.gui.view.CoverMediaSwitcher;
 import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
+import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
@@ -156,7 +157,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSearchText.getEditText().addTextChangedListener(this);
 
         mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager = new NpaLinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mPlaylist.setLayoutManager(layoutManager);
         mPlaylist.setAdapter(mPlaylistAdapter);
@@ -425,24 +426,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void updateList() {
         hideSearchField();
-        int currentIndex = -1, oldCount = mPlaylistAdapter.getItemCount();
         if (mService == null)
             return;
-
-        mPlaylistAdapter.clear();
-
-        final List<MediaWrapper> audioList = mService.getMedias();
-
-        if (audioList != null) {
-            mPlaylistAdapter.addAll(audioList);
-            currentIndex = mService.getCurrentMediaPosition();
-        }
-        mPlaylistAdapter.setCurrentIndex(currentIndex);
-        int count = mPlaylistAdapter.getItemCount();
-        if (oldCount != count)
-            mPlaylistAdapter.notifyDataSetChanged();
-        else
-            mPlaylistAdapter.notifyItemRangeChanged(0, count);
+        mPlaylistAdapter.dispatchUpdate(mService.getMedias());
     }
 
     @Override

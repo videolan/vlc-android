@@ -14,6 +14,8 @@ public abstract class MediaItemFilter extends Filter {
 
     protected abstract List<? extends MediaLibraryItem> initData();
 
+    protected List<MediaLibraryItem> referenceList;
+
     @Override
     protected FilterResults performFiltering(CharSequence charSequence) {
         final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");

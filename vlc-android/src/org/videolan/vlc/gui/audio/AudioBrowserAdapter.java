@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
@@ -40,8 +42,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         void invalidateActionMode();
     }
 
-    private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
-    private ArrayList<MediaLibraryItem> mOriginalDataSet = null;
+    private MediaLibraryItem[] mDataList;
+    private MediaLibraryItem[] mOriginalDataSet = null;
     private List<Integer> mSelectedItems = new LinkedList<>();
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
@@ -67,9 +69,9 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= mDataList.size())
+        if (position >= mDataList.length)
             return;
-        holder.vdb.setVariable(BR.item, mDataList.get(position));
+        holder.vdb.setVariable(BR.item, mDataList[position]);
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             boolean isSelected = mActionMode && mSelectedItems.contains(position);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
@@ -84,18 +86,18 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     @Override
     public int getItemCount() {
-        return mDataList == null ? 0 :  mDataList.size();
+        return mDataList == null ? 0 :  mDataList.length;
     }
 
     public MediaLibraryItem getItem(int position) {
-        return isPositionValid(position) ? mDataList.get(position) : null;
+        return isPositionValid(position) ? mDataList[position] : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 || position < mDataList.size();
+        return position >= 0 || position < mDataList.length;
     }
 
-    public ArrayList<MediaLibraryItem> getAll() {
+    public MediaLibraryItem[] getAll() {
         return mDataList;
     }
 
@@ -109,18 +111,18 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
         int offset = 0;
-        for (int i = 0; i < mDataList.size(); ++i)
-            if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+        for (int i = 0; i < mDataList.length; ++i)
+            if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
-                list.add(mDataList.get(i));
+                list.add(mDataList[i]);
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? mDataList.get(position).getId() : -1;
+        return isPositionValid(position) ? mDataList[position].getId() : -1;
     }
 
     @Override
@@ -146,9 +148,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void clear() {
-        mDataList.clear();
+        mDataList = null;
         mOriginalDataSet = null;
-        notifyDataSetChanged();
     }
 
     public void addAll(MediaLibraryItem[] items) {
@@ -156,7 +157,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             return;
         mOriginalDataSet = null;
         if (mMakeSections) {
-            mDataList.clear();
+            ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
             boolean isLetter;
             String currentLetter = null;
             for (MediaLibraryItem item : items) {
@@ -168,28 +169,31 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 if (currentLetter == null) {
                     currentLetter = isLetter ? firstLetter : "#";
                     DummyItem sep = new DummyItem(currentLetter);
-                    mDataList.add(sep);
+                    datalist.add(sep);
                 }
                 //Add a new separator
                 if (isLetter && !TextUtils.equals(currentLetter, firstLetter)) {
                     currentLetter = firstLetter;
                     DummyItem sep = new DummyItem(currentLetter);
-                    mDataList.add(sep);
+                    datalist.add(sep);
                 }
-                    mDataList.add(item);
+                datalist.add(item);
             }
+            mDataList = datalist.toArray(new MediaLibraryItem[datalist.size()]);
         } else
-            mDataList = new ArrayList<>(Arrays.asList(items));
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
+            mDataList = items;
     }
 
     public void remove(final int position) {
-        mDataList.remove(position);
+        MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
+        int offset = 0;
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (i == position)
+                ++offset;
+            else
+                dataList[i] = mDataList[i+offset];
+        }
+        mDataList = dataList;
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -199,7 +203,16 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void addItem(final int position, MediaLibraryItem item) {
-        mDataList.add(position, item);
+        MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
+        int offset = 0;
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (i == position) {
+                dataList[position] = item;
+                ++offset;
+            } else
+                dataList[i] = mDataList[i-offset];
+        }
+        mDataList = dataList;
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -210,11 +223,28 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     public void restoreList() {
         if (mOriginalDataSet != null) {
-            mDataList.clear();
-            mDataList.addAll(mOriginalDataSet);
+            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, mOriginalDataSet));
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                }
+            });
+            mDataList = mOriginalDataSet;
             mOriginalDataSet = null;
-            notifyDataSetChanged();
         }
+    }
+
+    void dispatchUpdate(final MediaLibraryItem[] newList) {
+        final MediaLibraryItem[] oldList = getAll();
+        addAll(newList);
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+            }
+        });
     }
 
     void setActionMode(boolean actionMode) {
@@ -234,7 +264,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
         for (Integer selected : mSelectedItems) {
-            MediaLibraryItem media = mDataList.get(selected);
+            MediaLibraryItem media = mDataList[selected];
             selection.add(media);
         }
         return selection;
@@ -330,14 +360,18 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         @Override
         protected List<MediaLibraryItem> initData() {
             if (mOriginalDataSet == null)
-                mOriginalDataSet = new ArrayList<>(mDataList);
-            return mOriginalDataSet;
+                mOriginalDataSet = Arrays.copyOf(mDataList, mDataList.length);
+            if (referenceList == null)
+                referenceList = new ArrayList<>(Arrays.asList(mDataList));
+            return referenceList;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            mDataList = (ArrayList<MediaLibraryItem>) filterResults.values;
-            notifyDataSetChanged();
+            MediaLibraryItem[] oldlist = Arrays.copyOf(mDataList, mDataList.length);
+            mDataList = ((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]);
+            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldlist, mDataList));
+            result.dispatchUpdatesTo(AudioBrowserAdapter.this);
         }
     }
 }

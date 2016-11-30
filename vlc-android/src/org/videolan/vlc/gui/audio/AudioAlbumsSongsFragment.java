@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioListActivity.java
+ * AudioAlbumsSongsFragment.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2016 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@ import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,6 +49,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
+import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
@@ -112,8 +112,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         ContextMenuRecyclerView albumsList = (ContextMenuRecyclerView) v.findViewById(R.id.albums);
         ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) v.findViewById(R.id.songs);
-        albumsList.setLayoutManager(new LinearLayoutManager(container.getContext()));
-        songsList.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        albumsList.setLayoutManager(new NpaLinearLayoutManager(container.getContext()));
+        songsList.setLayoutManager(new NpaLinearLayoutManager(container.getContext()));
 
         mLists = Arrays.asList((View)albumsList, songsList);
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
@@ -248,21 +248,20 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         if (mItem == null || getActivity() == null)
             return;
 
-        mAlbumsAdapter.clear();
-        mSongsAdapter.clear();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Album[] albums;
                 final MediaWrapper[] songs;
-                if (mItem instanceof Artist) {
+                if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
                     albums = ((Artist) mItem).getAlbums(mMediaLibrary);
-                    songs = mItem.getTracks(mMediaLibrary);
-                } else if (mItem instanceof Genre) {
+                } else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE) {
                     albums = ((Genre) mItem).getAlbums(mMediaLibrary);
-                    songs = mItem.getTracks(mMediaLibrary);
                 } else
                     return;
+                songs = mItem.getTracks(mMediaLibrary);
+                mSongsAdapter.dispatchUpdate(songs);
+                mAlbumsAdapter.dispatchUpdate(albums);
                 mSongsAdapter.addAll(songs);
                 mAlbumsAdapter.addAll(albums);
                 mHandler.post(new Runnable() {

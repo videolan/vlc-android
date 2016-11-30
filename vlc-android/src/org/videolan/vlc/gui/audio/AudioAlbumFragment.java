@@ -112,7 +112,6 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
         if (mAlbum == null)
             return;
 
-        mAdapter.clear();
         mAdapter.addAll(mAlbum.getTracks(mMediaLibrary));
     }
 

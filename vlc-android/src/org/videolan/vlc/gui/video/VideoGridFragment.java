@@ -30,11 +30,13 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.view.ActionMode;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -85,10 +87,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     protected View mViewNomedia;
     protected String mGroup;
     private View mSearchButtonView;
-
-    private Handler mHandler = new Handler();
     private VideoListAdapter mVideoAdapter;
-    private VideoGridAnimator mAnimator;
     private DividerItemDecoration mDividerItemDecoration;
 
     /* All subclasses of Fragment must include a public empty constructor. */
@@ -137,8 +136,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         if (mMediaLibrary.isWorking()) {
             MediaUtils.actionScanStart();
         }
-
-        mAnimator = new VideoGridAnimator(mGridView);
     }
 
     @Override
@@ -147,12 +144,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         setSearchVisibility(false);
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
         mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
-        final boolean isWorking = mMediaLibrary.isWorking();
         mMediaLibrary.addDeviceDiscoveryCb(this);
-        final boolean refresh = mVideoAdapter.isEmpty();
-        // We don't animate while medialib is scanning. Because gridview is being populated.
-        // That would lead to graphical glitches
-        final boolean animate = mGroup == null && refresh && !mMediaLibrary.isWorking();
+        final boolean isWorking = mMediaLibrary.isWorking();
+        final boolean refresh = mVideoAdapter.isEmpty() && !isWorking;
+        updateViewMode();
         if (refresh)
             updateList();
         else {
@@ -160,10 +155,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             if (!isWorking)
                 updateTimes();
         }
-
-        updateViewMode();
-        if (animate)
-            mAnimator.animate();
     }
 
     @Override
@@ -413,9 +404,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     @Override
                     public void run() {
                         mVideoAdapter.clear();
-                        mVideoAdapter.addAll(displayList);
-                        if (mReadyToDisplay)
-                            display();
+                        mVideoAdapter.dispatchUpdate(displayList);
+                        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+                        stopRefresh();
                     }
                 });
             }
@@ -455,26 +446,14 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onRefresh() {
-        if (!VLCApplication.getMLInstance().isWorking())
+        if (!mMediaLibrary.isWorking())
            updateList();
         else
             mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void display() {
-        if (getActivity() != null)
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    stopRefresh();
-                    mVideoAdapter.notifyDataSetChanged();
-                    mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
-                    mReadyToDisplay = true;
-                    mGridView.requestFocus();
-                }
-            });
-    }
+    public void display() {}
 
     public void clear(){
         mVideoAdapter.clear();
@@ -488,33 +467,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onDiscoveryProgress(String entryPoint) {}
 
     @Override
-    public void onDiscoveryCompleted(String entryPoint) {
-        if (!mParsing && mSwipeRefreshLayout.isRefreshing())
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateList();
-                }
-            });
+    public void onDiscoveryCompleted(final String entryPoint) {
+        if (!mParsing && TextUtils.isEmpty(entryPoint))
+            mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     @Override
-    public void onParsingStatsUpdated(int percent) {
+    public void onParsingStatsUpdated(final int percent) {
         mParsing = percent < 100;
         if (percent == 100)
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateList();
-                }
-            });
+            mHandler.sendEmptyMessage(UPDATE_LIST);
         else if (!mSwipeRefreshLayout.isRefreshing())
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                }
-            });
+            mHandler.sendEmptyMessage(SET_REFRESHING);
     }
 
     @Override
@@ -596,4 +560,23 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onDestroyActionMode(ActionMode mode) {
         mVideoAdapter.setActionMode(false);
     }
+
+    private static final int UPDATE_LIST = 14;
+    private static final int SET_REFRESHING = 15;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_LIST:
+                    removeMessages(UPDATE_LIST);
+                    updateList();
+                    break;
+                case SET_REFRESHING:
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
 }
