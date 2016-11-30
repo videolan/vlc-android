@@ -606,6 +606,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EndReached:
+                    mMedialibrary.updateProgress(getCurrentMediaWrapper(), 0L);
                     executeUpdateProgress();
                     determinePrevAndNextIndices(true);
                     next();
