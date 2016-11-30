@@ -67,7 +67,7 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"imageUri"})
     public static void downloadIcon(final View v, final Uri imageUri) {
-        AsyncImageLoader.LoadImage(new Callbacks() {
+        AsyncImageLoader.LoadImage(new CoverFetcher(null) {
             @Override
             public Bitmap getImage() {
                 return HttpImageLoader.downloadBitmap(imageUri.toString());
@@ -75,8 +75,7 @@ public class AsyncImageLoader {
 
             @Override
             public void updateImage(Bitmap bitmap, View target) {
-                if (v instanceof ImageView)
-                    updateTargetImage(bitmap, v, 0);
+                updateTargetImage(bitmap, v, binding, 0);
             }
         }, v);
     }
@@ -91,7 +90,7 @@ public class AsyncImageLoader {
     }
 
     @BindingAdapter({"media"})
-    public static void loadPicture(ImageView v, MediaLibraryItem item) {
+    public static void loadPicture(View v, MediaLibraryItem item) {
         if (item == null)
             return;
         if (item instanceof MediaWrapper) {
@@ -101,7 +100,7 @@ public class AsyncImageLoader {
             final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ?
                     BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
             if (bitmap != null) {
-                updateTargetImage(bitmap, v, type);
+                updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v), type);
                 return;
             }
         }
@@ -141,16 +140,16 @@ public class AsyncImageLoader {
         @Override
         public void updateImage(Bitmap bitmap, View target) {
             if (!bindChanged)
-                updateTargetImage(bitmap, target, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
+                updateTargetImage(bitmap, target, binding, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
         }
     }
 
-    private static void updateTargetImage(final Bitmap bitmap, final View target, final int type) {
-        ViewDataBinding vdb = DataBindingUtil.findBinding(target);
+    private static void updateTargetImage(final Bitmap bitmap, final View target, final ViewDataBinding vdb, final int type) {
         if (vdb != null) {
             if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
                 vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                 vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                vdb.setVariable(BR.protocol, null);
             } else
                 vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO_DRAWABLE : AudioUtil.DEFAULT_COVER);
         } else {
@@ -179,7 +178,7 @@ public class AsyncImageLoader {
 
     abstract static class CoverFetcher implements AsyncImageLoader.Callbacks {
         protected ViewDataBinding binding = null;
-        protected boolean bindChanged = false;
+        boolean bindChanged = false;
         final OnRebindCallback<ViewDataBinding> rebindCallbacks = new OnRebindCallback<ViewDataBinding>() {
             @Override
             public boolean onPreBind(ViewDataBinding binding) {
@@ -203,30 +202,6 @@ public class AsyncImageLoader {
                 this.binding = binding;
                 this.binding.executePendingBindings();
                 this.binding.addOnRebindCallback(rebindCallbacks);
-            }
-        }
-
-        void updateBindImage(final Bitmap bitmap) {}
-        void updateImageView(final Bitmap bitmap, View target) {}
-
-        @Override
-        public void updateImage(final Bitmap bitmap, final View target) {
-            if (binding != null) {
-                this.binding.removeOnRebindCallback(rebindCallbacks);
-                if (!bindChanged)
-                    sHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateBindImage(bitmap);
-                        }
-                    });
-            } else  {
-                sHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateImageView(bitmap, target);
-                    }
-                });
             }
         }
     }
