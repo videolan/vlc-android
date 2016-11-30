@@ -2098,6 +2098,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
+    public boolean updateViewpoint(float yaw, float pitch, float roll, float fov, boolean absolute) {
+        return mMediaPlayer.updateViewpoint(yaw, pitch, roll, fov, absolute);
+    }
+
+    @MainThread
     public void saveTimeToSeek(long time) {
         mSavedTime = time;
     }
