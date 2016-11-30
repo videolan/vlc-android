@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -241,10 +240,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return selection;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewDataBinding vdb;
+    public class ViewHolder< T extends ViewDataBinding> extends RecyclerView.ViewHolder {
+        T vdb;
 
-        public ViewHolder(ViewDataBinding vdb) {
+        public ViewHolder(T vdb) {
             super(vdb.getRoot());
             this.vdb = vdb;
         }
@@ -254,18 +253,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
     }
 
-    public class MediaItemViewHolder extends ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
-        private ImageView coverView;
-        private View contentLayout, ctxButton;
+    public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnLongClickListener, View.OnFocusChangeListener {
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
             itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
-            coverView = binding.mediaCover;
-            contentLayout = binding.audioItemMeta;
-            ctxButton = binding.itemMore;
+            vdb.setCover(AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
         }
 
         public void onClick(View v) {
@@ -276,12 +271,12 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 return;
             }
             if (mEventsHandler != null)
-                mEventsHandler.onClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
+                mEventsHandler.onClick(v, getLayoutPosition(), vdb.getItem());
         }
 
         public void onMoreClick(View v) {
             if (mEventsHandler != null)
-                mEventsHandler.onCtxClick(v, getLayoutPosition(), ((AudioBrowserItemBinding)vdb).getItem());
+                mEventsHandler.onCtxClick(v, getLayoutPosition(), vdb.getItem());
         }
 
         @Override
@@ -305,7 +300,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
 
         private void setCoverlay(boolean selected) {
-            coverView.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
+            vdb.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
         }
 
         public int getType() {
@@ -320,8 +315,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         private void setViewBackground(boolean focused, boolean selected) {
             itemView.setBackgroundColor(focused ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
             int selectionColor = selected ? UiTools.ITEM_SELECTION_ON : 0;
-            contentLayout.setBackgroundColor(selectionColor);
-            ctxButton.setBackgroundColor(selectionColor);
+            vdb.audioItemMeta.setBackgroundColor(selectionColor);
+            vdb.itemMore.setBackgroundColor(selectionColor);
         }
     }
 
