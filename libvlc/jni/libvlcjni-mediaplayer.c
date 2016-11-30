@@ -948,7 +948,7 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetAspectRatio(JNIEnv *env,
 }
 
 jboolean
-Java_org_videolan_libvlc_MediaPlayer_nativeUpdateViewPoint(JNIEnv *env,
+Java_org_videolan_libvlc_MediaPlayer_nativeUpdateViewpoint(JNIEnv *env,
                                                            jobject thiz,
                                                            jfloat yaw,
                                                            jfloat pitch,
