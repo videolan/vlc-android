@@ -75,18 +75,9 @@ public class AsyncImageLoader {
 
             @Override
             public void updateImage(Bitmap bitmap, View target) {
-                updateTargetImage(bitmap, v, binding, 0);
+                updateTargetImage(bitmap, v, binding);
             }
         }, v);
-    }
-
-    @BindingAdapter({"mediaWithArt"})
-    public static void downloadIcon(View v, MediaLibraryItem item) {
-        if (item == null || item.getItemType() != MediaLibraryItem.TYPE_MEDIA ||
-                TextUtils.isEmpty(item.getArtworkMrl()) || !item.getArtworkMrl().startsWith("http"))
-            return;
-        MediaWrapper mw = (MediaWrapper) item;
-        AsyncImageLoader.LoadImage(new MLItemCoverFetcher(v, mw), v);
     }
 
     @BindingAdapter({"media"})
@@ -97,10 +88,18 @@ public class AsyncImageLoader {
             if (item instanceof MediaGroup)
                 item = ((MediaGroup) item).getFirstMedia();
             int type = ((MediaWrapper) item).getType();
-            final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ?
-                    BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
+            boolean isMedia = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
+            Uri uri = ((MediaWrapper) item).getUri();
+            if (!isMedia && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
+                return;
+            if (item.getId() == 0L && (isMedia) && "file".equals(uri.getScheme())) {
+                MediaWrapper mw = VLCApplication.getMLInstance().getMedia(uri.getPath());
+                if (mw != null)
+                    item = mw;
+            }
+            final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ? BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
             if (bitmap != null) {
-                updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v), type);
+                updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
                 return;
             }
         }
@@ -140,18 +139,17 @@ public class AsyncImageLoader {
         @Override
         public void updateImage(Bitmap bitmap, View target) {
             if (!bindChanged)
-                updateTargetImage(bitmap, target, binding, item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? ((MediaWrapper) item).getType() : MediaWrapper.TYPE_AUDIO);
+                updateTargetImage(bitmap, target, binding);
         }
     }
 
-    private static void updateTargetImage(final Bitmap bitmap, final View target, final ViewDataBinding vdb, final int type) {
+    private static void updateTargetImage(final Bitmap bitmap, final View target, final ViewDataBinding vdb) {
         if (vdb != null) {
             if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
                 vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
                 vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
                 vdb.setVariable(BR.protocol, null);
-            } else
-                vdb.setVariable(BR.cover, type == MediaWrapper.TYPE_VIDEO ? DEFAULT_COVER_VIDEO_DRAWABLE : AudioUtil.DEFAULT_COVER);
+            }
         } else {
             final boolean isBitmapValid = bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1;
             sHandler.post(new Runnable() {
@@ -163,8 +161,7 @@ public class AsyncImageLoader {
                         if (isBitmapValid) {
                             iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                             iv.setImageBitmap(bitmap);
-                        } else
-                            iv.setImageResource(type == MediaWrapper.TYPE_VIDEO ? R.drawable.ic_no_thumbnail_1610 : R.drawable.icon);
+                        }
                     } else if (target instanceof TextView) {
                         if (isBitmapValid) {
                             target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));

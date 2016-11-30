@@ -63,7 +63,7 @@
             android:textSize="11sp"
             android:textColor="@color/whitetransparent"
             android:background="@{cover}"
-            vlc:mediaWithArt="@{item}" />
+            vlc:media="@{item}" />
 
         <LinearLayout
             android:layout_width="0dp"
