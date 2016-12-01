@@ -1171,7 +1171,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return true;
         }
-        if (mShowing || keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
+        if (mShowing || (mFov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN))
             showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
@@ -1228,20 +1228,33 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return true;
         case KeyEvent.KEYCODE_DPAD_LEFT:
             if (!mShowing) {
-                seekDelta(-10000);
+                if (mFov == 0f)
+                    seekDelta(-10000);
+                else
+                    mService.updateViewpoint(-5f, 0f, 0f, 0f, false);
                 return true;
             }
         case KeyEvent.KEYCODE_DPAD_RIGHT:
             if (!mShowing) {
-                seekDelta(10000);
+                if (mFov == 0f)
+                    seekDelta(10000);
+                else
+                    mService.updateViewpoint(5f, 0f, 0f, 0f, false);
                 return true;
             }
         case KeyEvent.KEYCODE_DPAD_UP:
             if (!mShowing) {
-                showAdvancedOptions();
+                if (mFov == 0f)
+                    showAdvancedOptions();
+                else
+                    mService.updateViewpoint(0f, -5f, 0f, 0f, false);
                 return true;
             }
         case KeyEvent.KEYCODE_DPAD_DOWN:
+            if (!mShowing && mFov != 0f) {
+                mService.updateViewpoint(0f, 5f, 0f, 0f, false);
+                return true;
+            }
         case KeyEvent.KEYCODE_DPAD_CENTER:
             if (!mShowing) {
                 doPlayPause();
