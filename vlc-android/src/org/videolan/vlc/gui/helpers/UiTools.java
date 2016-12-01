@@ -89,7 +89,7 @@ public class UiTools {
     }
 
     /** Print an on-screen message to alert the user, with undo action */
-    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action, @Nullable final Runnable cancelAction) {
+    public static void snackerWithCancel(@NonNull View view, @NonNull String message, @Nullable final Runnable action, @Nullable final Runnable cancelAction) {
         Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(android.R.string.cancel, new View.OnClickListener() {
                     @Override
