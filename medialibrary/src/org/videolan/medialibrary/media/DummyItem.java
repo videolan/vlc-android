@@ -2,6 +2,7 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;
 
@@ -39,5 +40,10 @@ public class DummyItem extends MediaLibraryItem {
 
     public DummyItem(Parcel in) {
         super(in);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof DummyItem && TextUtils.equals(mTitle, ((DummyItem) obj).getTitle());
     }
 }

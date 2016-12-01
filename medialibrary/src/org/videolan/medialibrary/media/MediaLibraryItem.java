@@ -67,4 +67,13 @@ public abstract class MediaLibraryItem implements Parcelable {
         mId = in.readLong();
         mTitle = in.readString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || (obj instanceof MediaLibraryItem && mId == ((MediaLibraryItem) obj).getId());
+    }
+
+    public boolean equals(MediaLibraryItem other) {
+        return this == other || (other != null && other.getItemType() == getItemType() && mId == other.getId());
+    }
 }
