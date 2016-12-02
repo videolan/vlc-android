@@ -272,6 +272,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return super.getItemViewType(position);
     }
 
+    int getListWithPosition(ArrayList<MediaWrapper>  list, int position) {
+        MediaWrapper mw;
+        int offset = 0;
+        for (int i = 0; i < getAll().size(); ++i) {
+            mw = getAll().get(i);
+            if (mw instanceof MediaGroup) {
+                for (MediaWrapper item : ((MediaGroup) mw).getAll())
+                    list.add(item);
+                if (i < position)
+                    offset += ((MediaGroup)mw).size()-1;
+            } else
+                list.add(mw);
+        }
+        return position+offset;
+    }
+
     void setActionMode(boolean actionMode) {
         mActionMode = actionMode;
         if (!actionMode) {
@@ -308,7 +324,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
             } else {
                 media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openMedia(itemView.getContext(), media);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+                if (settings.getBoolean("force_play_all", false)) {
+                    ArrayList<MediaWrapper> playList = new ArrayList<>();
+                    MediaUtils.openList(itemView.getContext(), playList, getListWithPosition(playList, getAdapterPosition()));
+                } else {
+                    MediaUtils.openMedia(itemView.getContext(), media);
+                }
             }
         }
 

@@ -22,6 +22,11 @@
     <PreferenceCategory android:title="@string/controls_prefs_category">
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="force_play_all"
+            android:summary="@string/force_play_all_summary"
+            android:title="@string/force_play_all_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="save_brightness"
             android:summary="@string/save_brightness_summary"
             android:title="@string/save_brightness_title" />

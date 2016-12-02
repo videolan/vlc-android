@@ -286,6 +286,8 @@
     <string name="video_min_group_length_long">Long number of letters (9)</string>
     <string name="force_list_portrait">No grid in portrait mode</string>
     <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
+    <string name="force_play_all_summary">Play all videos, starting with the one you clicked on</string>
+    <string name="force_play_all_title">Video playlist mode</string>
     <string name="save_brightness_summary">Remember brightness level in video player</string>
     <string name="save_brightness_title">Save brightness level for video</string>
     <string name="enable_brightness_gesture_title">Brightness gesture</string>
