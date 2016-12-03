@@ -204,24 +204,27 @@
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
     <string name="interface_prefs_screen">इंटरफेस</string>
-    <string name="interface_secondary_display_category_summary">दुय्यम डिस्प्ले (HDMI Miracast) जोडलेले असतानाच्या सेटिंग्ज.</string>
     <string name="enable_clone_mode">क्लोनला प्राधान्य</string>
     <string name="enable_clone_mode_summary">दूरस्थ नियंत्रणाशिवाय उपकरणाचे स्क्रीन क्लोन करा.</string>
     <string name="interface_other_category">इंटरफेस - इतर</string>
+    <string name="force_list_portrait">उभ्या मोडमध्ये ग्रीड नाही</string>
+    <string name="force_list_portrait_summary">उभ्या मोडमध्ये ग्रीड ऐवजी यादीमध्ये चित्रफीती दाखवा</string>
+    <string name="save_brightness_summary">विडीयो प्लेयर साठी प्रखरता पातळी लक्षात ठेवा</string>
+    <string name="save_brightness_title">विडीयो साठी प्रखरता पातळी जतन करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
     <string name="enable_seek_buttons">सीक बटन सुरु करा</string>
     <string name="enable_seek_buttons_summary">विडीयो इंटरफेस साठी मागे व पुढे बटन दाखवा</string>
-    <string name="force_list_portrait">उभ्या मोडमध्ये ग्रीड नाही</string>
-    <string name="force_list_portrait_summary">उभ्या मोडमध्ये ग्रीड ऐवजी यादीमध्ये चित्रफीती दाखवा</string>
     <string name="audio_title_alignment">ऑडिओ शीर्षक संरेखन</string>
-    <string name="enable_headset_detection">हेडसेट शोधा</string>
-    <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
-    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा. हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="audio_title_alignment_default">पूर्वनिर्धारित</string>
     <string name="audio_title_alignment_left">डाव्या बाजूला</string>
     <string name="audio_title_alignment_centre">मध्य</string>
     <string name="audio_title_alignment_right">उजव्या बाजूला</string>
     <string name="audio_title_alignment_marquee">मार्की</string>
+    <string name="enable_headset_detection">हेडसेट शोधा</string>
+    <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
+    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा. हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
+    <string name="aout">ध्वनी आउटपुट</string>
+    <string name="aout_summary">ध्वनी आउटपुटसाठी VLC जी पद्धत वापरते ती बदला.</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
     <string name="chroma_format">चित्रफीत क्रोमा सक्ती करा</string>
     <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा\nRGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता\nYUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
@@ -236,8 +239,8 @@
     <string name="enable_time_stretching_audio">टाईम-स्ट्रेचिंग ध्वनी</string>
     <string name="enable_time_stretching_audio_summary">पिच न बदलता ध्वनी गतिमान करा किंवा मंदगती करा (गतिमान उपकरणाची गरज).</string>
     <string name="advanced_prefs_category">प्रगत</string>
-    <string name="aout">ध्वनी आउटपुट</string>
-    <string name="aout_summary">ध्वनी आउटपुटसाठी VLC जी पद्धत वापरते ती बदला.</string>
+    <string name="auto_rescan">स्वयं पुनश्च-छानणी</string>
+    <string name="auto_rescan_summary">  application सुरु झाल्यावर नविन किंवा नष्ट कॆलॆल्या मीडियाचा स्वयंचलीत शॊध घ्या </string>
     <string name="vout">चित्रफीत आउटपुट</string>
     <string name="vout_summary">VLC व्हिडिओ आऊटपुट करण्यासाठी वापरत असलेली पद्धत बदला.</string>
     <string name="vout_android_surface">Android पृष्ठभाग</string>
@@ -249,9 +252,8 @@
     <string name="set_locale_popup">बदल लागू करण्यासाठी VLC बंद करून पुन्हा चालू करा.</string>
     <string name="network_caching">नेटवर्क कॅशिंग मूल्य</string>
     <string name="network_caching_summary">नेटवर्क मीडिया बफर करण्यासाठी लागणारा वेळ (ms मध्ये). हार्डवेअर डिकोडिंग सोबत काम करत नाही. पूर्ववत करण्यासाठी रिक्त सोडा.</string>
+    <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
     <string name="developer_prefs_category">डेव्हलपर</string>
-    <string name="auto_rescan">स्वयं पुनश्च-छानणी</string>
-    <string name="auto_rescan_summary">  application सुरु झाल्यावर नविन किंवा नष्ट कॆलॆल्या मीडियाचा स्वयंचलीत शॊध घ्या </string>
     <string name="enable_verbose_mode">वर्बोस</string>
     <string name="enable_verbose_mode_summary">वर्बोसिटी वाढवा (लोगकॅट)</string>
     <string name="debug_logs">डीबग लॉग</string>
@@ -262,7 +264,6 @@
     <string name="log_service_text">लॉग कन्सोल उघडा</string>
     <string name="copy_to_clipboard">क्लिपबोर्ड मध्ये कॉपी करा</string>
     <string name="copied_to_clipboard">लॉग क्लिपबोर्ड मध्ये कॉपी केला.</string>
-    <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
     <string name="dump_logcat">लॉगकॅट लाॅग डंप करा</string>
     <string name="dump_logcat_success"> लॉगकॅट %1$s मध्ये यशस्वीरित्या डंप केले!</string>
     <string name="dump_logcat_failure">लॉगकॅट डंप करण्यात अपयश.</string>
@@ -293,8 +294,6 @@
     <string name="confirm_resume_title">सुरू करण्यासाठी पुष्टीकरण मागा</string>
     <string name="confirm_resume_summary">सक्षम केल्यास जर चित्रफीत मागील स्थानापासून सुरू केली जाऊ शकत असल्यास आपणास पुष्टीकरण विचारले जाईल</string>
     <string name="directory_empty">ही डिरेक्टरी मोकळी आहे.</string>
-    <string name="save_brightness_summary">विडीयो प्लेयर साठी प्रखरता पातळी लक्षात ठेवा</string>
-    <string name="save_brightness_title">विडीयो साठी प्रखरता पातळी जतन करा</string>
     <!--Accessibility-->
     <string name="more_actions">उप्लब्ध कृत्या</string>
     <string name="move">स्थलांतरित करा</string>
@@ -310,5 +309,6 @@
     <string name="allow_storage_access_description">तुमची विडीयो आणि ऑडियो मिळवण्यासाठी VLC ला तुमची अनुमती हवी आहे.</string>
     <string name="permission_ask_again">परवानगी द्या</string>
     <string name="exit_app">VLC बंद करा</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
 </resources>
