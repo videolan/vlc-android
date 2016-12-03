@@ -211,24 +211,27 @@
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
     <string name="interface_prefs_screen">Interfejs</string>
-    <string name="interface_secondary_display_category_summary">Postavke kada su sekundardni ekrani povezani (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Preferiraj kloniranje</string>
     <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
     <string name="interface_other_category">Interfejs - Drugo</string>
+    <string name="force_list_portrait">Nema rešetki u modu portreta</string>
+    <string name="force_list_portrait_summary">Prikaži videe u listi umjesto rešetki u modu portreta</string>
+    <string name="save_brightness_summary">Zapamti nivo svjetlosti u video izvođaču</string>
+    <string name="save_brightness_title">Snimi nivo svjetlosti za video</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_seek_buttons">Omogući dugmad za traženje</string>
     <string name="enable_seek_buttons_summary">Prikaži dugmad za nazad i naprijed na video okruženju</string>
-    <string name="force_list_portrait">Nema rešetki u modu portreta</string>
-    <string name="force_list_portrait_summary">Prikaži videe u listi umjesto rešetki u modu portreta</string>
     <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
-    <string name="enable_headset_detection">Pronađi slušalice</string>
-    <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
-    <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
     <string name="audio_title_alignment_default">Zadano</string>
     <string name="audio_title_alignment_left">Lijevo</string>
     <string name="audio_title_alignment_centre">Centar</string>
     <string name="audio_title_alignment_right">Desno</string>
     <string name="audio_title_alignment_marquee">Pokretni tekst</string>
+    <string name="enable_headset_detection">Pronađi slušalice</string>
+    <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
+    <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
+    <string name="aout">Izlaz zvuka</string>
+    <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
     <string name="chroma_format_summary">RGB 32-bit: zadani krom\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
@@ -243,8 +246,8 @@
     <string name="enable_time_stretching_audio">Vremensko-proširavanje zvuka</string>
     <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj).</string>
     <string name="advanced_prefs_category">Napredno</string>
-    <string name="aout">Izlaz zvuka</string>
-    <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
+    <string name="auto_rescan">Automatsko ponovno skeniranje</string>
+    <string name="auto_rescan_summary">Automatski skeniraj uređaj za nove ili izbrisane medije pri pokretanju aplikacije</string>
     <string name="vout">Video izlaz</string>
     <string name="vout_summary">Izmijeni metodu koju VLC koristi za izlaz videa.</string>
     <string name="vout_android_surface">Android površina</string>
@@ -256,9 +259,8 @@
     <string name="set_locale_popup">Zatvori i restartuj VLC kako bi djelovale promjene.</string>
     <string name="network_caching">Veličina predmemoriranja mreže</string>
     <string name="network_caching_summary">Količina vremena za amortizovanje mrežnog medija (u ms). Ne radi sa hardverskim dekodiranjem. Ostavite prazno za resetovanje.</string>
+    <string name="quit">Zatvori i ponovo pokreni aplikaciju</string>
     <string name="developer_prefs_category">Programer</string>
-    <string name="auto_rescan">Automatsko ponovno skeniranje</string>
-    <string name="auto_rescan_summary">Automatski skeniraj uređaj za nove ili izbrisane medije pri pokretanju aplikacije</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
     <string name="enable_verbose_mode_summary">Povećaj pojačavanje (logcat)</string>
     <string name="debug_logs">Zapisnik otkrivanja grešaka</string>
@@ -269,7 +271,6 @@
     <string name="log_service_text">Otvori konzolu zapisnika</string>
     <string name="copy_to_clipboard">Kopiraj u međuspremnik</string>
     <string name="copied_to_clipboard">Zapisnik kopiran u međuspremnik.</string>
-    <string name="quit">Zatvori i ponovo pokreni aplikaciju</string>
     <string name="dump_logcat">Izbaci logcat zapis</string>
     <string name="dump_logcat_success">Logcat uspješno izbačen u %1$s!</string>
     <string name="dump_logcat_failure">Nije uspjelo izbacivanje logcat-a.</string>
@@ -300,8 +301,6 @@
     <string name="confirm_resume_title">Pitaj potvrdu za nastavak</string>
     <string name="confirm_resume_summary">ako se aktivira od vas će biti zatraženo da potvrdite kada se video može nastaviti sa zadnje pozicije</string>
     <string name="directory_empty">Direktorij je prazan</string>
-    <string name="save_brightness_summary">Zapamti nivo svjetlosti u video izvođaču</string>
-    <string name="save_brightness_title">Snimi nivo svjetlosti za video</string>
     <!--Accessibility-->
     <string name="more_actions">Više Akcija</string>
     <string name="move">Pomjeri</string>
@@ -317,5 +316,6 @@
     <string name="allow_storage_access_description">VLC zahtjeva da odobrite pristup medijskim datotekama na ovom uređaju.</string>
     <string name="permission_ask_again">Odobri pristup</string>
     <string name="exit_app">Zatvori VLC</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
 </resources>
