@@ -161,6 +161,8 @@
     <string name="search_history">Gelintar sejarah</string>
     <string name="playback_history_title">Sejarah main balik</string>
     <string name="playback_history_summary">Simpan semua media telah dimain dalam seksyen Sejarah</string>
+    <string name="playback_speed_title">Simpan Kelajuan Main Balik</string>
+    <string name="playback_speed_summary">Ingat kelajuan main balik yang anda tetapkan</string>
     <!--Tips-->
     <string name="video_player_tips">Petua pemain video:</string>
     <string name="seek">Jangkau</string>
@@ -219,26 +221,60 @@
     <string name="extra_prefs_category">Tetapan tambahan</string>
     <string name="interface_prefs_screen">Antaramuka</string>
     <string name="interface_gui">Paparan</string>
-    <string name="interface_controls">Kawalan</string>
     <string name="interface_secondary_display_category_title">Paparan sekunder</string>
-    <string name="interface_secondary_display_category_summary">Tetapkan bila paparan kedua bersambung (HDMI/Miracast).</string>
+    <string name="interface_secondary_display_category_summary">Tetapan bila paparan sekunder bersambung (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Utamakan klon</string>
     <string name="enable_clone_mode_summary">Klonkan skrin peranti tanpa kawalan jauh.</string>
     <string name="interface_other_category">Antaramuka - Lain</string>
-    <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
-    <string name="enable_seek_buttons">Benarkan butang jangkau</string>
-    <string name="enable_seek_buttons_summary">Tunjuk butang mandir dan maju pada antaramuka video</string>
+    <string name="video_prefs_category">Video</string>
+    <string name="video_min_group_length_title">Video kumpulan</string>
+    <string name="video_min_group_length_summary">Video dikumpulkan jika abjad pertama mereka adalah serupa.</string>
+    <string name="video_min_group_length_disable">Dilumpuhkan</string>
+    <string name="video_min_group_length_first">Abjad pertama sahaja</string>
+    <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
+    <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
     <string name="force_list_portrait">Tiada grid dalam mod potret</string>
     <string name="force_list_portrait_summary">Tunjuk video di dalam senarai bukannya grid dalam mod potret</string>
+    <string name="save_brightness_summary">Ingat aras kecerahan dalam pemain video</string>
+    <string name="save_brightness_title">Simpan aras kecerahan untuk video</string>
+    <string name="enable_brightness_gesture_title">Gerak isyarat kecerahan</string>
+    <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
+    <string name="enable_volume_gesture_title">Gerak isyarat volum</string>
+    <string name="enable_volume_gesture_summary">Kawal volum mengikut gerak isyarat ketika main balik video</string>
+    <string name="enable_seek_buttons">Benarkan butang jangkau</string>
+    <string name="enable_seek_buttons_summary">Tunjuk butang mandir dan maju pada antaramuka video</string>
+    <string name="subtitles_prefs_category">Sarikata</string>
+    <string name="subtitles_size_title">Saiz Sarikata</string>
+    <string name="subtitles_size_small">Kecil</string>
+    <string name="subtitles_size_normal">Biasa</string>
+    <string name="subtitles_size_big">Besar</string>
+    <string name="subtitles_size_huge">Sangat Besar</string>
+    <string name="subtitles_color_title">Warna Sarikata</string>
+    <string name="subtitles_color_white">Putih</string>
+    <string name="subtitles_color_pink">Merah Jambu</string>
+    <string name="subtitles_color_blue">Biru</string>
+    <string name="subtitles_color_yellow">Kuning</string>
+    <string name="subtitles_color_green">Hijau</string>
+    <string name="subtitles_background_title">Latar Belakang Sarikata</string>
+    <string name="audio_prefs_category">Audio</string>
+    <string name="lockscreen_cover_title">Muka hadapan media pada skrin kunci</string>
+    <string name="lockscreen_cover_summary">Bila tersedia, tetapkan seni muka hadapan media semasa sebagai kertas dinding skrin kunci</string>
     <string name="audio_title_alignment">Jajaran tajuk audio</string>
-    <string name="enable_headset_detection">Kesan set kepala</string>
-    <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
-    <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
     <string name="audio_title_alignment_default">Lalai</string>
     <string name="audio_title_alignment_left">Kiri</string>
     <string name="audio_title_alignment_centre">Tengah</string>
     <string name="audio_title_alignment_right">Kanan</string>
     <string name="audio_title_alignment_marquee">Marquee</string>
+    <string name="headset_prefs_category">Set Kepala</string>
+    <string name="enable_headset_detection">Kesan set kepala</string>
+    <string name="enable_headset_detection_summary">Kesan pemasangan dan penanggalan set kepala</string>
+    <string name="enable_play_on_headset_insertion">Sambung semula ketika pemasangan set kepala</string>
+    <string name="enable_play_on_headset_insertion_summary">Jeda jika sebaliknya</string>
+    <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
+    <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
+    <string name="aout">Output audio</string>
+    <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
+    <string name="controls_prefs_category">Kawalan</string>
     <string name="performance_prefs_category">Prestasi</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="chroma_format_summary">RGB 32-bit: kroma lalai\nRGB 16-bit: prestasi lebih baik tetapi kualiti lebih rendah\nYUV: prestasi terbaik tetapi tidak berfungsi pada semua peranti. Android 2.3 dan terkini sahaja.</string>
@@ -253,11 +289,11 @@
     <string name="enable_time_stretching_audio">Audio diregang-masa</string>
     <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
     <string name="advanced_prefs_category">Lanjutan</string>
-    <string name="aout">Output audio</string>
-    <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
     <string name="save_video_none">Jangan simpan kelajuan</string>
     <string name="save_video_session">Simpan kelajuan ketika sesi</string>
     <string name="save_video_always">Simpan kelajuan merentasi sesi</string>
+    <string name="auto_rescan">Auto imbas semula</string>
+    <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
     <string name="vout">Output video</string>
     <string name="vout_summary">Ubah kaedah yang VLC gunakan untuk video outout.</string>
     <string name="vout_android_surface">Permukaan Android</string>
@@ -269,9 +305,9 @@
     <string name="set_locale_popup">Keluar dan mula semula VLC suoaya perubahan berkesan.</string>
     <string name="network_caching">Nilai caching rangkaian</string>
     <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
+    <string name="network_caching_popup">Nilai ini perlu diantara 0 hingga 6000 ms</string>
+    <string name="quit">Keluar dan mula semula aplikasi</string>
     <string name="developer_prefs_category">Pembangun</string>
-    <string name="auto_rescan">Auto imbas semula</string>
-    <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
     <string name="enable_verbose_mode">Berjela</string>
     <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
     <string name="debug_logs">Nyahpijat log</string>
@@ -282,7 +318,6 @@
     <string name="log_service_text">Buka konsol log</string>
     <string name="copy_to_clipboard">Salin ke papan keratan</string>
     <string name="copied_to_clipboard">Log disalin ke papan keratan.</string>
-    <string name="quit">Keluar dan mula semula aplikasi</string>
     <string name="dump_logcat">Longgok log logcat</string>
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
@@ -314,16 +349,12 @@
     <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
     <string name="confirm_resume_summary">jika diaktifkan anda akan ditanya untuk sahkan sama ada video boleh disambung semula dari kedudukan terakhirnya</string>
     <string name="directory_empty">Direktori kosong</string>
-    <string name="save_brightness_summary">Ingat aras kecerahan dalam pemain video</string>
-    <string name="save_brightness_title">Simpan aras kecerahan untuk video</string>
     <string name="player_touch_title">Kawalan sentuh untuk Video</string>
     <string name="player_touch_enable_all">Benarkan kawalan Sentuh</string>
     <string name="player_touch_disable_brightness">Lumpuhkan kawalan kecerahan</string>
     <string name="player_touch_disable_all">Lumpuhkan semua kawalan Sentuh</string>
     <string name="tv_ui_title">Antaramuka Android TV</string>
     <string name="tv_ui_summary">Ubah UI ke tema tersuai TV</string>
-    <string name="lockscreen_cover_title">Muka hadapan media pada skrin kunci</string>
-    <string name="lockscreen_cover_summary">Bila tersedia, tetapkan seni muka hadapan media semasa sebagai kertas dinding skrin kunci</string>
     <!--Accessibility-->
     <string name="more_actions">Lagi Tindakan</string>
     <string name="move">Alih</string>
@@ -345,7 +376,8 @@
     <string name="allow_sdraw_overlays_description">VLC perlu kebenaran anda untuk paparkan video anda secara timbul berbanding aplikasi lain.</string>
     <string name="permission_ask_again">Beri keizinan</string>
     <string name="exit_app">Tutup VLC</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
     <string name="plugins">Pemalam</string>
     <string name="download_on_device">Muat Turun</string>
     <string name="extension_empty">Tiada item dipaparkan, pergi ke tetapan sambungan anda untuk dapatkannya.</string>
@@ -372,4 +404,5 @@
     <string name="listen">Dengar</string>
     <string name="subtitles_download_title">muat turun sarikata</string>
     <string name="connecting">Menyambung...</string>
+    <string name="save_bluetooth_delay">simpan lengah untuk peranti bluetooth</string>
 </resources>
