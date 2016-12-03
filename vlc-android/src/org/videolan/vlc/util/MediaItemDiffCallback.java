@@ -38,6 +38,6 @@ public class MediaItemDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return false;
+        return true;
     }
 }

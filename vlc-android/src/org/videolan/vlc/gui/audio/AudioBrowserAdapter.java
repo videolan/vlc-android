@@ -161,6 +161,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             boolean isLetter;
             String currentLetter = null;
             for (MediaLibraryItem item : items) {
+                if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
+                    continue;
                 String title = item.getTitle();
                 if (TextUtils.isEmpty(title))
                     continue;
@@ -222,23 +224,15 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void restoreList() {
-        if (mOriginalDataSet != null) {
-            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, mOriginalDataSet));
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                }
-            });
-            mDataList = mOriginalDataSet;
-            mOriginalDataSet = null;
-        }
+        if (mOriginalDataSet != null)
+            dispatchUpdate(mOriginalDataSet);
     }
 
     void dispatchUpdate(final MediaLibraryItem[] newList) {
         final MediaLibraryItem[] oldList = getAll();
+        clear();
         addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, getAll()));
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
