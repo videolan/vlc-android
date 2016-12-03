@@ -1786,7 +1786,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
-            mHandler.postDelayed(mSwitchAudioRunnable, 1000);
+            mHandler.postDelayed(mSwitchAudioRunnable, 4000);
         } else if (voutCount > 0)
             mFov = mService.getCurrentVideoTrack().projection == Media.VideoTrack.Projection.Rectangular ? 0f : 80f;
     }
