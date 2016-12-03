@@ -195,22 +195,23 @@
     <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
     <string name="extra_prefs_category">Pengaturan ekstra</string>
     <string name="interface_prefs_screen">Antarmuka</string>
-    <string name="interface_secondary_display_category_summary">Pengaturan ketika layar sekunder terhubung (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Pilih klon</string>
     <string name="enable_clone_mode_summary">Klon layar perangkat tampa pengendali jarak jauh.</string>
     <string name="interface_other_category">Antarmuka - Lainnya</string>
-    <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gestur selama pemutaran video</string>
     <string name="force_list_portrait">Tidak ada grid dalam mode potret</string>
     <string name="force_list_portrait_summary">Tampilkan video dalam senarai bukannya grid dalam mode potret</string>
+    <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gestur selama pemutaran video</string>
     <string name="audio_title_alignment">Perataan judul video</string>
-    <string name="enable_headset_detection">Deteksi headset</string>
-    <string name="enable_steal_remote_control">Pengendali jarak jauh headset ekslusif</string>
-    <string name="enable_steal_remote_control_summary">Hindari konflik dengan menggunakan pengendali jarak jauh dari aplikasi lain. Hal ini mencegah proses panggil ketika klik ganda pada telepon HTC.</string>
     <string name="audio_title_alignment_default">Bawaan</string>
     <string name="audio_title_alignment_left">Kiri</string>
     <string name="audio_title_alignment_centre">Tengah</string>
     <string name="audio_title_alignment_right">Kanan</string>
     <string name="audio_title_alignment_marquee">Teks Berjalan</string>
+    <string name="enable_headset_detection">Deteksi headset</string>
+    <string name="enable_steal_remote_control">Pengendali jarak jauh headset ekslusif</string>
+    <string name="enable_steal_remote_control_summary">Hindari konflik dengan menggunakan pengendali jarak jauh dari aplikasi lain. Hal ini mencegah proses panggil ketika klik ganda pada telepon HTC.</string>
+    <string name="aout">Keluaran audio</string>
+    <string name="aout_summary">Ubah metode yang digunakan VLC untuk keluaran audio.</string>
     <string name="performance_prefs_category">Kinerja</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="chroma_format_summary">RGB 32-bit: kroma bawaan\nRGB 16-bit: kinerja lebih baik tapi kualitas lebih rendah\nYUV: kinerja terbaik tetapi tidak berlaku untuk semua perangkat. Hanya Android 2.3 dan yang lebih tinggi.</string>
@@ -225,8 +226,8 @@
     <string name="enable_time_stretching_audio">Waktu-renggang suara</string>
     <string name="enable_time_stretching_audio_summary">Percepat dan perlambat audio tanpa mengubah nada (membutuhkan pernagkat yang cepat).</string>
     <string name="advanced_prefs_category">Lanjutan</string>
-    <string name="aout">Keluaran audio</string>
-    <string name="aout_summary">Ubah metode yang digunakan VLC untuk keluaran audio.</string>
+    <string name="auto_rescan">Pindai ulang otomatis</string>
+    <string name="auto_rescan_summary">Secara otomatis memindai perangkat untuk media baru atau dihapus pada saat aplikasi dijalankan</string>
     <string name="vout">Keluaran video</string>
     <string name="vout_summary">Ubah metode yang digunakan VLC untuk keluaran video.</string>
     <string name="vout_android_surface">Permukaan Android</string>
@@ -238,9 +239,8 @@
     <string name="set_locale_popup">Keluar dan nyalakan ulang VLC agar perubahan terdampak.</string>
     <string name="network_caching">Nilai tembolok jaringan</string>
     <string name="network_caching_summary">Lama durasi untuk menyangga media jaringan (dalam ms). Tidak berlaku untuk dekoding perangkat keras. Kosongkan untuk mengeset ulang.</string>
+    <string name="quit">Keluar dan mulai ulang aplikasi</string>
     <string name="developer_prefs_category">Pengembang</string>
-    <string name="auto_rescan">Pindai ulang otomatis</string>
-    <string name="auto_rescan_summary">Secara otomatis memindai perangkat untuk media baru atau dihapus pada saat aplikasi dijalankan</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Tingkatkan verbositas (logcat)</string>
     <string name="debug_logs">Log awakutu</string>
@@ -251,7 +251,6 @@
     <string name="log_service_text">Buka konsol log</string>
     <string name="copy_to_clipboard">Salin ke papan klip</string>
     <string name="copied_to_clipboard">Salin catatan log ke papan klip.</string>
-    <string name="quit">Keluar dan mulai ulang aplikasi</string>
     <string name="dump_logcat">Buang catatan log logcat</string>
     <string name="dump_logcat_success">Logcat sukses dibuang ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal membuang logcat.</string>
@@ -293,5 +292,6 @@
     <!--Widget-->
     <string name="widget_name_w">VLC Widget Putih</string>
     <string name="widget_name_b">VLC Widget Gelap</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
 </resources>
