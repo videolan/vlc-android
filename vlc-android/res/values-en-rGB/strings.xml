@@ -204,24 +204,27 @@
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="extra_prefs_category">Extra settings</string>
     <string name="interface_prefs_screen">Interface</string>
-    <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
+    <string name="force_list_portrait">No grid in portrait mode</string>
+    <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
+    <string name="save_brightness_summary">Remember brightness level in video player</string>
+    <string name="save_brightness_title">Save brightness level for video</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_seek_buttons">Enable seek buttons</string>
     <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
-    <string name="force_list_portrait">No grid in portrait mode</string>
-    <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
-    <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_steal_remote_control">Exclusive headset remote control</string>
-    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="audio_title_alignment_default">Default</string>
     <string name="audio_title_alignment_left">Left</string>
     <string name="audio_title_alignment_centre">Centre</string>
     <string name="audio_title_alignment_right">Right</string>
     <string name="audio_title_alignment_marquee">Marquee</string>
+    <string name="enable_headset_detection">Detect headset</string>
+    <string name="enable_steal_remote_control">Exclusive headset remote control</string>
+    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="aout">Audio output</string>
+    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
@@ -236,8 +239,8 @@
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
     <string name="advanced_prefs_category">Advanced</string>
-    <string name="aout">Audio output</string>
-    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
+    <string name="auto_rescan">Auto rescan</string>
+    <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="vout">Video output</string>
     <string name="vout_summary">Change the method that VLC uses to output video.</string>
     <string name="vout_android_surface">Android surface</string>
@@ -249,9 +252,8 @@
     <string name="set_locale_popup">Quit and restart VLC for changes to take effect.</string>
     <string name="network_caching">Network caching value</string>
     <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
+    <string name="quit">Quit and restart application</string>
     <string name="developer_prefs_category">Developer</string>
-    <string name="auto_rescan">Auto rescan</string>
-    <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Increase the verbosity (logcat)</string>
     <string name="debug_logs">Debug logs</string>
@@ -262,7 +264,6 @@
     <string name="log_service_text">Open the log console</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="copied_to_clipboard">Copied log to clipboard.</string>
-    <string name="quit">Quit and restart application</string>
     <string name="dump_logcat">Dump logcat log</string>
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
@@ -293,8 +294,6 @@
     <string name="confirm_resume_title">Ask confirmation to resume</string>
     <string name="confirm_resume_summary">if activated you will be asked to confirm when a video can be resumed from last position</string>
     <string name="directory_empty">Directory is empty</string>
-    <string name="save_brightness_summary">Remember brightness level in video player</string>
-    <string name="save_brightness_title">Save brightness level for video</string>
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
     <string name="move">Move</string>
@@ -310,5 +309,6 @@
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="permission_ask_again">Grant permission</string>
     <string name="exit_app">Close VLC</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
 </resources>
