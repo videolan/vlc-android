@@ -551,6 +551,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     void dispatchUpdate(final ArrayList<MediaWrapper> newList) {
         final ArrayList<MediaWrapper> oldList = getAll();
+        mVideos.clear();
         addAll(newList);
         final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
         mHandler.post(new Runnable() {

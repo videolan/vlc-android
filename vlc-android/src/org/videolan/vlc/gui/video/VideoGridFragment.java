@@ -403,7 +403,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mVideoAdapter.clear();
                         mVideoAdapter.dispatchUpdate(displayList);
                         mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                         stopRefresh();
