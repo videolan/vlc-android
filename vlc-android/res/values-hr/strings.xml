@@ -175,6 +175,8 @@
     <string name="search_history">Povijest pretraživanja</string>
     <string name="playback_history_title">Povijest reprodukcije</string>
     <string name="playback_history_summary">Spremi sve reproducirane medije u odjeljak povijesti</string>
+    <string name="playback_speed_title">Spremi brzinu reprodukcije</string>
+    <string name="playback_speed_summary">Zapamti postavljenu brzinu reprodukcije</string>
     <!--Tips-->
     <string name="video_player_tips">Savjeti video reproduktora:</string>
     <string name="seek">Premotavanje</string>
@@ -233,26 +235,59 @@
     <string name="extra_prefs_category">Dodatne postavke</string>
     <string name="interface_prefs_screen">Sučelje</string>
     <string name="interface_gui">Zaslon</string>
-    <string name="interface_controls">Upravljanje</string>
     <string name="interface_secondary_display_category_title">Pomoćni zaslon</string>
-    <string name="interface_secondary_display_category_summary">Postavke kada su pomoćni zasloni povezani (HDMI/Miracast).</string>
+    <string name="interface_secondary_display_category_summary">Postavke kada su pomoćni zasloni povezani (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Preferiraj klonirano</string>
     <string name="enable_clone_mode_summary">Kloniraj zaslon uređaja bez kontrola daljinskog upravljanja.</string>
     <string name="interface_other_category">Sučelje - Ostalo</string>
-    <string name="enable_brightness_gesture_summary">Upravljanje svjetlinom s pokretom tijekom reprodukcije video snimki</string>
-    <string name="enable_seek_buttons">Omogući tipke premotavanja</string>
-    <string name="enable_seek_buttons_summary">Prikaži tipke premotavanja na video sučelju</string>
+    <string name="video_min_group_length_title">Grupiraj video snimke</string>
+    <string name="video_min_group_length_summary">Video snimke su grupirane ako su njihova prva slova jednaka.</string>
+    <string name="video_min_group_length_disable">Onemogući</string>
+    <string name="video_min_group_length_first">Samo prvo slovo</string>
+    <string name="video_min_group_length_short">Manji broj slova (6)</string>
+    <string name="video_min_group_length_long">Veći broj slova (9)</string>
     <string name="force_list_portrait">Bez mreže u uspravnom načinu</string>
     <string name="force_list_portrait_summary">Prikaži video snimke u popisu umjesto u mreži kada je u uspravnom načinu</string>
+    <string name="save_brightness_summary">Zapamti razinu svjetline u video reproduktoru</string>
+    <string name="save_brightness_title">Spremi razinu svjetline u za video snimku</string>
+    <string name="enable_brightness_gesture_title">Pokreti svjetline</string>
+    <string name="enable_brightness_gesture_summary">Upravljanje svjetlinom s pokretom tijekom reprodukcije video snimki</string>
+    <string name="enable_volume_gesture_title">Pokreti glasnoće zvuka</string>
+    <string name="enable_volume_gesture_summary">Upravljanje glasnoćom zvuka s pokretom tijekom reprodukcije video snimki</string>
+    <string name="enable_seek_buttons">Omogući tipke premotavanja</string>
+    <string name="enable_seek_buttons_summary">Prikaži tipke premotavanja na video sučelju</string>
+    <string name="subtitles_prefs_category">Podnaslovi</string>
+    <string name="subtitles_size_title">Veličina podnaslova</string>
+    <string name="subtitles_size_small">Mala</string>
+    <string name="subtitles_size_normal">Normalna</string>
+    <string name="subtitles_size_big">Velika</string>
+    <string name="subtitles_size_huge">Vrlo velika</string>
+    <string name="subtitles_color_title">Boja podnaslova</string>
+    <string name="subtitles_color_white">Bijela</string>
+    <string name="subtitles_color_pink">Ružičasta</string>
+    <string name="subtitles_color_blue">Plava</string>
+    <string name="subtitles_color_yellow">Žuta</string>
+    <string name="subtitles_color_green">Zelena</string>
+    <string name="subtitles_background_title">Pozadina podnaslova</string>
+    <string name="audio_prefs_category">Zvuk</string>
+    <string name="lockscreen_cover_title">Omot medija na zaključanom zaslonu</string>
+    <string name="lockscreen_cover_summary">Kada je dostupno, postavi trenutni omot albuma kao pozadinu zaključanog zaslona</string>
     <string name="audio_title_alignment">Poravnjanje zapisa zvuka</string>
-    <string name="enable_headset_detection">Otkrij slušalice</string>
-    <string name="enable_steal_remote_control">Isključivo daljinsko upravljanje slušalicama</string>
-    <string name="enable_steal_remote_control_summary">Izbjegavanje sukoba oduzimanjem funkcija daljinskog upravljanja drugim aplikacijama. Ovime se onemogućuje pozivanje dvostrukim dodirom na HTC mobitelima.</string>
     <string name="audio_title_alignment_default">Zadano</string>
     <string name="audio_title_alignment_left">Lijevo</string>
     <string name="audio_title_alignment_centre">Sredina</string>
     <string name="audio_title_alignment_right">Desno</string>
     <string name="audio_title_alignment_marquee">Pomično</string>
+    <string name="headset_prefs_category">Slušalice</string>
+    <string name="enable_headset_detection">Otkrij slušalice</string>
+    <string name="enable_headset_detection_summary">Otkrij spajanje i uklanjanje slušalica</string>
+    <string name="enable_play_on_headset_insertion">Nastavi pri spajanju slušalica</string>
+    <string name="enable_play_on_headset_insertion_summary">Pauziraj u protivnom</string>
+    <string name="enable_steal_remote_control">Isključivo daljinsko upravljanje slušalicama</string>
+    <string name="enable_steal_remote_control_summary">Izbjegavanje sukoba oduzimanjem funkcija daljinskog upravljanja drugim aplikacijama. Ovime se onemogućuje pozivanje dvostrukim dodirom na HTC mobitelima.</string>
+    <string name="aout">Zvučni izlaz</string>
+    <string name="aout_summary">Promjena načina izlaza koji VLC koristi za zvučni zapis.</string>
+    <string name="controls_prefs_category">Upravljanje</string>
     <string name="performance_prefs_category">Pefomanse</string>
     <string name="chroma_format">Nametni boju</string>
     <string name="chroma_format_summary">RGB 32-bit: zadana boja\nRGB 16-bit: bolje performanse ali lošija kvaliteta\nYUV: najbolje performanse ali ne radi na svim uređajima. Android 2.3 i novija izdanja.</string>
@@ -267,11 +302,11 @@
     <string name="enable_time_stretching_audio">Vremensko rastezanje zvuka</string>
     <string name="enable_time_stretching_audio_summary">Ubrzavanje i usporavanje zvuka bez promjene tona (zahtijeva brzi uređaj)</string>
     <string name="advanced_prefs_category">Napredno</string>
-    <string name="aout">Zvučni izlaz</string>
-    <string name="aout_summary">Promjena načina izlaza koji VLC koristi za zvučni zapis.</string>
     <string name="save_video_none">Ne spremaj bezinu</string>
     <string name="save_video_session">Spremi brzinu tijekom ove sesije</string>
     <string name="save_video_always">Spremi brzinu za sve sesije</string>
+    <string name="auto_rescan">Automatsko ponovno pretraživanje</string>
+    <string name="auto_rescan_summary">Automatski pretražuje uređaj za nove obrisane medije pri pokretanju aplikacije.</string>
     <string name="vout">Video izlaz</string>
     <string name="vout_summary">Promjena načina izlaza koji VLC koristi za video zapis.</string>
     <string name="vout_android_surface">Android površina</string>
@@ -283,9 +318,9 @@
     <string name="set_locale_popup">Zatvorite i ponovno pokrenite VLC kako bi se promjene omogućile.</string>
     <string name="network_caching">Vrijednost mrežne predmemorije</string>
     <string name="network_caching_summary">Vremensko trajanje predmemorije mrežnog medija (u ms). Ne radi s omogućenim hardverskim dekôdiranjem. Ostavite prazno za zadano sustavom.</string>
+    <string name="network_caching_popup">Ova vrijednost mora biti između 0 i 6000 ms</string>
+    <string name="quit">Zatvori i ponovno pokreni aplikaciju</string>
     <string name="developer_prefs_category">Razvoj</string>
-    <string name="auto_rescan">Automatsko ponovno pretraživanje</string>
-    <string name="auto_rescan_summary">Automatski pretražuje uređaj za nove obrisane medije pri pokretanju aplikacije.</string>
     <string name="enable_verbose_mode">Opširnije</string>
     <string name="enable_verbose_mode_summary">Povećaj opširnost zapisa (LogCat)</string>
     <string name="debug_logs">Zapisi grešaka</string>
@@ -296,7 +331,6 @@
     <string name="log_service_text">Otvori konzolu zapisa</string>
     <string name="copy_to_clipboard">Kopiraj u međuspremnik</string>
     <string name="copied_to_clipboard">Kopirano u međuspremnik</string>
-    <string name="quit">Zatvori i ponovno pokreni aplikaciju</string>
     <string name="dump_logcat">Kopiraj logcat zapis</string>
     <string name="dump_logcat_success">Logcat uspješno kopiran u %1$s!</string>
     <string name="dump_logcat_failure">Neuspjelo kopiranje logcata.</string>
@@ -328,16 +362,12 @@
     <string name="confirm_resume_title">Zatraži potvrdu za nastavak</string>
     <string name="confirm_resume_summary">Ako je aktivirano biti ćete upitani za potvrdu kada će se video snimka nastaviti reproducirati s posljednjeg položaja</string>
     <string name="directory_empty">Direktorij je prazan</string>
-    <string name="save_brightness_summary">Zapamti razinu svjetline u video reproduktoru</string>
-    <string name="save_brightness_title">Spremi razinu svjetline u za video snimku</string>
     <string name="player_touch_title">Upravljanje dodirom za video snimke</string>
     <string name="player_touch_enable_all">Omogući upravljanje dodirom</string>
     <string name="player_touch_disable_brightness">Omogući upravljanje svjetlinom</string>
     <string name="player_touch_disable_all">Onemogući sva upravljanja dodirom</string>
     <string name="tv_ui_title">Android TV sučelje</string>
     <string name="tv_ui_summary">Promijeni sučelje na TV prilagođenu temu</string>
-    <string name="lockscreen_cover_title">Omot medija na zaključanom zaslonu</string>
-    <string name="lockscreen_cover_summary">Kada je dostupno, postavi trenutni omot albuma kao pozadinu zaključanog zaslona</string>
     <!--Accessibility-->
     <string name="more_actions">Više radnji</string>
     <string name="move">Premjesti</string>
@@ -359,7 +389,8 @@
     <string name="allow_sdraw_overlays_description">Vlc treba dozvolu za prikaz video snimke u skočnom prozor preko drugih aplikacija.</string>
     <string name="permission_ask_again">Odobri dozvolu </string>
     <string name="exit_app">Zatvori VLC</string>
-    <!--PLugins-->
+    <!--fast scroller-->
+    <!--Plugins-->
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzmi</string>
     <string name="extension_empty">Nema stavke za prikaz, idite u svoje postavke proširenja za prikaz stavke.</string>
@@ -386,4 +417,5 @@
     <string name="listen">Osluškuj</string>
     <string name="subtitles_download_title">Preuzimanje podnaslova</string>
     <string name="connecting">Povezivanje...</string>
+    <string name="save_bluetooth_delay">spremi odgodu za bluetooth uređaje</string>
 </resources>
