@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MediaItemDiffCallback extends DiffUtil.Callback {
     private static final String TAG = "MediaItemDiffCallback";
-    MediaLibraryItem[] oldList, newList;
+    protected MediaLibraryItem[] oldList, newList;
 
     public MediaItemDiffCallback(List<? extends MediaLibraryItem> oldList, List<? extends MediaLibraryItem> newList) {
         this.oldList = oldList.toArray(new MediaLibraryItem[oldList.size()]);

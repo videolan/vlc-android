@@ -145,16 +145,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
         mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
         mMediaLibrary.addDeviceDiscoveryCb(this);
-        final boolean isWorking = mMediaLibrary.isWorking();
-        final boolean refresh = mVideoAdapter.isEmpty() && !isWorking;
         updateViewMode();
-        if (refresh)
-            updateList();
-        else {
-            mViewNomedia.setVisibility(mVideoAdapter.isEmpty() ? View.VISIBLE : View.GONE);
-            if (!isWorking)
-                updateTimes();
-        }
+        updateList();
     }
 
     @Override
@@ -188,24 +180,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             return getString(R.string.video);
         else
             return mGroup + "\u2026";
-    }
-
-    private void updateTimes() {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                MediaWrapper[] videos = mMediaLibrary.getVideos();
-                final SimpleArrayMap<Long, Long> times = new SimpleArrayMap<>(videos.length);
-                for (MediaWrapper mw : videos)
-                    times.put(mw.getId(), mw.getTime());
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mVideoAdapter.setTimes(times);
-                    }
-                });
-            }
-        });
     }
 
     private void updateViewMode() {
@@ -466,10 +440,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onDiscoveryProgress(String entryPoint) {}
 
     @Override
-    public void onDiscoveryCompleted(final String entryPoint) {
-        if (!mParsing && TextUtils.isEmpty(entryPoint))
-            mHandler.sendEmptyMessage(UPDATE_LIST);
-    }
+    public void onDiscoveryCompleted(final String entryPoint) {}
 
     @Override
     public void onParsingStatsUpdated(final int percent) {

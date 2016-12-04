@@ -47,6 +47,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
@@ -80,7 +81,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public final static int SORT_BY_DATE = 2;
     private boolean mListMode = false, mActionMode;
-    SparseArrayCompat<WeakReference<ViewHolder>> mHolders = new SparseArrayCompat<>();
     private List<Integer> mSelectedItems = new LinkedList<>();
     private VideoGridFragment mFragment;
     private VideoComparator mVideoComparator = new VideoComparator();
@@ -119,38 +119,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         boolean isSelected = mActionMode && mSelectedItems.contains(position);
         holder.setOverlay(mActionMode && isSelected);
         holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
-        mHolders.put(position, new WeakReference<>(holder));
     }
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty())
+            super.onBindViewHolder(holder, position, payloads);
+        else
+            fillView(holder, (MediaWrapper) payloads.get(0));
+    }
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        mHolders.remove(holder.getAdapterPosition());
         holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
-    }
-
-    @MainThread
-    void setTimes( SimpleArrayMap<Long, Long> times) {
-        // update times
-        for (int i = 0; i < getItemCount(); ++i) {
-            MediaWrapper media = mVideos.get(i);
-            Long time = times.get(media.getId());
-            if (time != null && time != media.getTime()) {
-                media.setTime(time);
-                int position = getPosition(media);
-                WeakReference<ViewHolder> wr = mHolders.get(position);
-                if (wr != null && wr.get() != null)
-                    fillView(wr.get(), media);
-            }
-        }
-    }
-
-    private int getPosition(MediaWrapper media) {
-        for (int i = 0; i < getItemCount(); ++i) {
-            if (media.equals(getItem(i)))
-                return i;
-        }
-        return -1;
     }
 
     public void sort() {
@@ -553,12 +534,32 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         final ArrayList<MediaWrapper> oldList = getAll();
         mVideos.clear();
         addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, newList));
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 result.dispatchUpdatesTo(VideoListAdapter.this);
             }
         });
+    }
+
+    private class VideoItemDiffCallback extends MediaItemDiffCallback {
+        VideoItemDiffCallback(List<? extends MediaLibraryItem> oldList, List<? extends MediaLibraryItem> newList) {
+            super(oldList, newList);
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            MediaWrapper oldItem = (MediaWrapper) oldList[oldItemPosition];
+            MediaWrapper newItem = (MediaWrapper) newList[newItemPosition];
+            return oldItem.getTime() == newItem.getTime();
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            ((MediaWrapper) oldList[oldItemPosition]).setTime(((MediaWrapper) newList[newItemPosition]).getTime());
+            return oldList[oldItemPosition];
+        }
     }
 }
