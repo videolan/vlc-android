@@ -32,8 +32,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.SimpleArrayMap;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
@@ -62,7 +60,6 @@ import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Strings;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -534,7 +531,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         final ArrayList<MediaWrapper> oldList = getAll();
         mVideos.clear();
         addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, newList));
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, getAll()));
         mHandler.post(new Runnable() {
             @Override
             public void run() {
