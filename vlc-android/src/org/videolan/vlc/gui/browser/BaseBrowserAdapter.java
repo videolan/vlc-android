@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -106,10 +105,18 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         }
     }
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty())
+            onBindViewHolder(holder, position);
+        else {
+            ((MediaViewHolder) holder).binding.text.setVisibility(View.VISIBLE);
+            ((MediaViewHolder) holder).binding.text.setText((CharSequence) payloads.get(0));
+        }
+    }
+
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
-        if (media.observableDescription == null)
-            media.observableDescription = new ObservableField<>();
         vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
         if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())

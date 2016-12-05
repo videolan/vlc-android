@@ -94,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:maxLines="1"
-                android:text="@{item.observableDescription}"
+                android:text="@{item.description}"
                 android:fontFamily="sans-serif-light"
-                android:visibility="@{item.observableDescription != null ? View.VISIBLE : View.GONE}"
+                android:visibility="@{item.description != null ? View.VISIBLE : View.GONE}"
                 android:textColor="?attr/list_subtitle"/>
         </LinearLayout>
 

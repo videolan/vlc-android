@@ -1,6 +1,5 @@
 package org.videolan.medialibrary.media;
 
-import android.databinding.ObservableField;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -23,7 +22,6 @@ public abstract class MediaLibraryItem implements Parcelable {
 
     long mId;
     protected String mTitle, mDescription;
-    public ObservableField<String> observableDescription = null;
 
     protected MediaLibraryItem() {}
 
