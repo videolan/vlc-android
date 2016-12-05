@@ -34,9 +34,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.view.ActionMode;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -355,8 +353,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @MainThread
     public void updateList() {
-        if (!mSwipeRefreshLayout.isRefreshing())
-            mSwipeRefreshLayout.setRefreshing(true);
+        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
 
         VLCApplication.runBackground(new Runnable() {
             @Override
@@ -377,9 +374,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        stopRefresh();
                         mVideoAdapter.dispatchUpdate(displayList);
                         mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
-                        stopRefresh();
                     }
                 });
             }
@@ -414,6 +411,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     };
 
     public void stopRefresh() {
+        mHandler.removeMessages(SET_REFRESHING);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
