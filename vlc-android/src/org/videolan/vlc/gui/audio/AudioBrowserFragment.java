@@ -409,9 +409,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onRefresh() {
         mMainActivity.closeSearchView();
-        if (!mMediaLibrary.isWorking()) {
-            updateLists();
-        }
+        mMediaLibrary.reload();
     }
 
     @Override

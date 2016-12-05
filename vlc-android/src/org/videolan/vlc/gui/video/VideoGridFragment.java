@@ -417,10 +417,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onRefresh() {
-        if (!mMediaLibrary.isWorking())
-           updateList();
-        else
-            mSwipeRefreshLayout.setRefreshing(false);
+        mMediaLibrary.reload();
     }
 
     @Override
@@ -438,7 +435,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onDiscoveryProgress(String entryPoint) {}
 
     @Override
-    public void onDiscoveryCompleted(final String entryPoint) {}
+    public void onDiscoveryCompleted(final String entryPoint) {
+        mHandler.sendEmptyMessage(mParsing ? SET_REFRESHING : UNSET_REFRESHING);
+    }
 
     @Override
     public void onParsingStatsUpdated(final int percent) {
@@ -531,6 +530,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     private static final int UPDATE_LIST = 14;
     private static final int SET_REFRESHING = 15;
+    private static final int UNSET_REFRESHING = 16;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -541,6 +541,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     break;
                 case SET_REFRESHING:
                     mSwipeRefreshLayout.setRefreshing(true);
+                    break;
+                case UNSET_REFRESHING:
+                    mSwipeRefreshLayout.setRefreshing(false);
                     break;
                 default:
                     super.handleMessage(msg);
