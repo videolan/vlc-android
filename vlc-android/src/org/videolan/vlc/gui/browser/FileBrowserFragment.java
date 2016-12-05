@@ -170,7 +170,6 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                 }
 
                 CustomDirectories.addCustomDirectory(f.getAbsolutePath());
-                refresh();
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
             }
         });
