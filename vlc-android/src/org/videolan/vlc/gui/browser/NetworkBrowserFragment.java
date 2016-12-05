@@ -33,10 +33,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -64,13 +62,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (mMrl == null)
             mMrl = ROOT;
         mRoot = ROOT.equals(mMrl);
-        skipRefresh = !mAdapter.isEmpty();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-        return v;
     }
 
     public void onStart(){
@@ -78,7 +69,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        mSkipRefresh = !mAdapter.isEmpty();
         getActivity().registerReceiver(networkReceiver, filter);
+        if (mSkipRefresh)
+            parseSubDirectories();
         if (mRoot) {
             mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
             mFAB.setImageResource(R.drawable.ic_fab_add);
@@ -263,7 +257,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         dialog.show(fm, "fragment_add_server");
     }
 
-    private boolean skipRefresh = false;
+    private boolean mSkipRefresh = false;
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
         boolean connected = true;
         @Override
@@ -280,8 +274,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                             return; //block consecutive calls when disconnected
                     } else
                         connected = true;
-                    if (skipRefresh)
-                        skipRefresh = false;
+                    if (mSkipRefresh)
+                        mSkipRefresh = false;
                     else
                         refresh();
                 }

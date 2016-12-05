@@ -252,7 +252,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         if (save)
-            ft.addToBackStack(mMrl);
+            ft.addToBackStack(media.getLocation());
         ft.commit();
     }
 
@@ -571,7 +571,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mCurrentParsedPosition = 0;
         MediaLibraryItem item;
         MediaWrapper mw;
-        while (mCurrentParsedPosition <mAdapter.getItemCount()){
+        while (mCurrentParsedPosition < mAdapter.getItemCount()) {
             item = mAdapter.getItem(mCurrentParsedPosition);
             if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
                 mw = new MediaWrapper(((Storage) item).getUri());
