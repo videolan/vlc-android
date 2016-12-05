@@ -64,6 +64,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (mMrl == null)
             mMrl = ROOT;
         mRoot = ROOT.equals(mMrl);
+        skipRefresh = !mAdapter.isEmpty();
     }
 
     @Override
@@ -262,6 +263,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         dialog.show(fm, "fragment_add_server");
     }
 
+    private boolean skipRefresh = false;
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
         boolean connected = true;
         @Override
@@ -278,7 +280,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                             return; //block consecutive calls when disconnected
                     } else
                         connected = true;
-                    refresh();
+                    if (skipRefresh)
+                        skipRefresh = false;
+                    else
+                        refresh();
                 }
             }
         }
