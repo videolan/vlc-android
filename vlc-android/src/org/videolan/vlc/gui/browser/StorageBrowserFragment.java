@@ -120,9 +120,12 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         }
         customLoop:
         for (String customDir : customDirectories) {
-            for (String mediaDirLocation : storages)
+            for (String mediaDirLocation : storages) {
+                if (TextUtils.isEmpty(mediaDirLocation))
+                    continue;
                 if (customDir.startsWith(mediaDirLocation))
                     continue customLoop;
+            }
             storage = new Storage(Uri.parse(customDir));
             mAdapter.addItem(storage, false, false);
         }
