@@ -112,7 +112,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter = new BaseBrowserAdapter(this);
     }
 
-    public void onCreate(Bundle bundle){
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
         if (bundle == null)
@@ -162,6 +162,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         if (mFAB != null)
             mFAB.setImageResource(R.drawable.ic_fab_play);
+        if (!mAdapter.isEmpty()) {
+            updateEmptyView();
+            mAdapter.notifyItemRangeInserted(0, mAdapter.getItemCount());
+            parseSubDirectories();
+        }
     }
 
     @Override
@@ -285,7 +290,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     /**
      * Update views visibility and emptiness info
      */
-    protected void updateEmptyView(){
+    protected void updateEmptyView() {
         if (mAdapter.isEmpty()){
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mEmptyView.setText(R.string.loading);
