@@ -241,7 +241,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             @Override
             public void run() {
                 final MediaLibraryItem[] oldList = isEmpty() ? null : Arrays.copyOf(getAll(), getItemCount());
-                final MediaLibraryItem[] newList = generateList(items);
+                final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
                 mContext.runOnUiThread(new Runnable() {
                     @Override
