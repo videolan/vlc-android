@@ -90,7 +90,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     private TextView mEmptyView;
     private List<View> mLists;
     private FastScroller mFastScroller;
-    private FloatingActionButton mFabPlayShuffleAll;
     private View mSearchButtonView;
 
     public static final int REFRESH = 101;
@@ -175,22 +174,13 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     public void onStart() {
         super.onStart();
-        mFabPlayShuffleAll = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        mFabPlayShuffleAll.setImageResource(R.drawable.ic_fab_shuffle);
+        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
-        mFabPlayShuffleAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabPlayAllClick(v);
-            }
-        });
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mFabPlayShuffleAll.setOnClickListener(null);
-        mFabPlayShuffleAll.setVisibility(View.INVISIBLE);
     }
 
     private void setupTabLayout() {
@@ -384,7 +374,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             return false;
     }
 
-    public void onFabPlayAllClick(View view) {
+    @Override
+    public void onFabPlayClick(View view) {
         List<MediaWrapper> list = ((List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems());
         int count = list.size();
         if (count > 0) {
@@ -398,7 +389,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     }
 
     public void setFabPlayShuffleAllVisibility() {
-        mFabPlayShuffleAll.setVisibility(mViewPager.getCurrentItem() == MODE_SONG ? View.VISIBLE : View.INVISIBLE);
+        setFabPlayVisibility(mViewPager.getCurrentItem() == MODE_SONG);
     }
 
     /**

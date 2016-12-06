@@ -142,15 +142,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     public void onStart() {
         super.onStart();
-        mFabPlayAll = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        mFabPlayAll.setImageResource(R.drawable.ic_fab_play);
-        setFabPlayAllVisibility(true);
-        mFabPlayAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabPlayAllClick(v);
-            }
-        });
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+        setFabPlayVisibility(true);
     }
 
     @Override
@@ -333,11 +326,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         }
     }
 
-    public void setFabPlayAllVisibility(boolean enable) {
-        mFabPlayAll.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
-    }
-
-    public void onFabPlayAllClick(View view) {
+    @Override
+    public void onFabPlayClick(View view) {
         ArrayList<MediaWrapper> playList = new ArrayList<>();
         MediaUtils.openList(getActivity(), playList, mVideoAdapter.getListWithPosition(playList, 0));
     }
@@ -498,7 +488,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             stopActionMode();
             return false;
         }
-        setFabPlayAllVisibility(false);
         boolean honeComb = AndroidUtil.isHoneycombOrLater();
         int count = mVideoAdapter.getSelectedPositions().size();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
@@ -543,7 +532,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mVideoAdapter.setActionMode(false);
-        setFabPlayAllVisibility(true);
     }
 
     private static final int UPDATE_LIST = 14;

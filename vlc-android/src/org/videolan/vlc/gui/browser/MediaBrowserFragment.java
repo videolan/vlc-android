@@ -27,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
@@ -53,6 +54,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     protected volatile boolean mReadyToDisplay = true;
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
+    public FloatingActionButton mFabPlay;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,28 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
             activity.getSupportActionBar().setSubtitle(getSubTitle());
             getActivity().supportInvalidateOptionsMenu();
         }
+        mFabPlay = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        setFabPlayVisibility(false);
+        mFabPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFabPlayClick(v);
+            }
+        });
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFabPlay.setOnClickListener(null);
+        setFabPlayVisibility(false);
+    }
+
+    public void setFabPlayVisibility(boolean enable) {
+        mFabPlay.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    public void onFabPlayClick(View view) {}
 
     public void setReadyToDisplay(boolean ready) {
         if (ready && !mReadyToDisplay)
@@ -156,11 +179,13 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void startActionMode() {
         mActionMode = ((AppCompatActivity)getActivity()).startSupportActionMode(this);
+        setFabPlayVisibility(false);
     }
 
     protected void stopActionMode() {
         if (mActionMode != null)
             mActionMode.finish();
+        setFabPlayVisibility(true);
     }
 
     public void invalidateActionMode() {
