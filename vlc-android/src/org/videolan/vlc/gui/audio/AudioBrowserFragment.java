@@ -229,7 +229,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_AUDIO_EMPTY);
         if (mArtistsAdapter.isEmpty() || mGenresAdapter.isEmpty() ||
                 mAlbumsAdapter.isEmpty() || mSongsAdapter.isEmpty())
-            updateLists();
+            mHandler.sendEmptyMessage(UPDATE_LIST);
         else {
             updateEmptyView(mViewPager.getCurrentItem());
             updatePlaylists();
@@ -669,6 +669,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     private void updateLists() {
             mTabLayout.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
+            mHandler.removeMessages(UPDATE_LIST);
 
             VLCApplication.runBackground(new Runnable() {
                 @Override
@@ -741,12 +742,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     public void onParsingStatsUpdated(int percent) {
         mParsing = percent < 100;
         if (percent == 100) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateLists();
-                }
-            });
+            mHandler.sendEmptyMessage(UPDATE_LIST);
             hideProgressBar();
         } else if (!mSwipeRefreshLayout.isRefreshing())
             mHandler.sendEmptyMessage(SET_REFRESHING);
