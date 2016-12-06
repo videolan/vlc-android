@@ -116,8 +116,12 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mEditText.setOnEditorActionListener(this);
         mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
-        mEmptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+        updateEmptyView();
         return view;
+    }
+
+    void updateEmptyView() {
+        mEmptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -176,4 +180,9 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
 
     @Override
     public void invalidateActionMode() {}
+
+    @Override
+    public void onUpdateFinished(AudioBrowserAdapter adapter) {
+        updateEmptyView();
+    }
 }

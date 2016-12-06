@@ -70,7 +70,6 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.gui.view.CoverMediaSwitcher;
 import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
-import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
@@ -157,7 +156,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSearchText.getEditText().addTextChangedListener(this);
 
         mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
-        final LinearLayoutManager layoutManager = new NpaLinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mPlaylist.setLayoutManager(layoutManager);
         mPlaylist.setAdapter(mPlaylistAdapter);

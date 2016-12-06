@@ -16,6 +16,7 @@ import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
@@ -40,6 +41,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         void onCtxClick(View v, int position, MediaLibraryItem item);
         void startActionMode();
         void invalidateActionMode();
+        void onUpdateFinished(AudioBrowserAdapter adapter);
     }
 
     private MediaLibraryItem[] mDataList;
@@ -153,37 +155,42 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void addAll(MediaLibraryItem[] items) {
+        addAll(items, mMakeSections);
+    }
+
+    public void addAll(MediaLibraryItem[] items, boolean generateSections) {
         if (mContext == null)
             return;
         mOriginalDataSet = null;
-        if (mMakeSections) {
-            ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
-            boolean isLetter;
-            String currentLetter = null;
-            for (MediaLibraryItem item : items) {
-                if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                    continue;
-                String title = item.getTitle();
-                if (TextUtils.isEmpty(title))
-                    continue;
-                String firstLetter = title.substring(0, 1).toUpperCase();
-                isLetter = Character.isLetter(title.charAt(0));
-                if (currentLetter == null) {
-                    currentLetter = isLetter ? firstLetter : "#";
-                    DummyItem sep = new DummyItem(currentLetter);
-                    datalist.add(sep);
-                }
-                //Add a new separator
-                if (isLetter && !TextUtils.equals(currentLetter, firstLetter)) {
-                    currentLetter = firstLetter;
-                    DummyItem sep = new DummyItem(currentLetter);
-                    datalist.add(sep);
-                }
-                datalist.add(item);
+        mDataList = generateSections ? generateList(items) : items;
+    }
+
+    private MediaLibraryItem[] generateList(MediaLibraryItem[] items) {
+        ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
+        boolean isLetter;
+        String currentLetter = null;
+        for (MediaLibraryItem item : items) {
+            if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
+                continue;
+            String title = item.getTitle();
+            if (TextUtils.isEmpty(title))
+                continue;
+            String firstLetter = title.substring(0, 1).toUpperCase();
+            isLetter = Character.isLetter(title.charAt(0));
+            if (currentLetter == null) {
+                currentLetter = isLetter ? firstLetter : "#";
+                DummyItem sep = new DummyItem(currentLetter);
+                datalist.add(sep);
             }
-            mDataList = datalist.toArray(new MediaLibraryItem[datalist.size()]);
-        } else
-            mDataList = items;
+            //Add a new separator
+            if (isLetter && !TextUtils.equals(currentLetter, firstLetter)) {
+                currentLetter = firstLetter;
+                DummyItem sep = new DummyItem(currentLetter);
+                datalist.add(sep);
+            }
+            datalist.add(item);
+        }
+        return datalist.toArray(new MediaLibraryItem[datalist.size()]);
     }
 
     public void remove(final int position) {
@@ -228,14 +235,21 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             dispatchUpdate(mOriginalDataSet);
     }
 
-    void dispatchUpdate(final MediaLibraryItem[] newList) {
-        final MediaLibraryItem[] oldList = isEmpty() ? null : Arrays.copyOf(getAll(), getItemCount());
-        addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, getAll()));
-        mContext.runOnUiThread(new Runnable() {
+    void dispatchUpdate(final MediaLibraryItem[] items) {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                final MediaLibraryItem[] oldList = isEmpty() ? null : Arrays.copyOf(getAll(), getItemCount());
+                final MediaLibraryItem[] newList = generateList(items);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addAll(newList, false);
+                        result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                        mEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
+                    }
+                });
             }
         });
     }

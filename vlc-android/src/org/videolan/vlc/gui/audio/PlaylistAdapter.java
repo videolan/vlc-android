@@ -124,14 +124,19 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public void dispatchUpdate(final List<MediaWrapper> newList) {
-        final ArrayList<MediaWrapper> oldList = new ArrayList<>(mDataSet);
-        clear();
-        addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
-        mHandler.post(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                result.dispatchUpdatesTo(PlaylistAdapter.this);
+                final ArrayList<MediaWrapper> oldList = new ArrayList<>(mDataSet);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        clear();
+                        addAll(newList);
+                        result.dispatchUpdatesTo(PlaylistAdapter.this);
+                    }
+                });
             }
         });
     }

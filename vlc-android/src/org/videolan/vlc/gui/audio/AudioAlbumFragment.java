@@ -203,6 +203,9 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
     }
 
     @Override
+    public void onUpdateFinished(AudioBrowserAdapter adapter) {}
+
+    @Override
     protected AudioBrowserAdapter getCurrentAdapter() {
         return mAdapter;
     }

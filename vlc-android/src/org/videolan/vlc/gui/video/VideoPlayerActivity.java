@@ -116,7 +116,6 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -807,7 +806,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistAdapter.setService(mService);
-            final LinearLayoutManager layoutManager = new NpaLinearLayoutManager(this);
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mPlaylist.setLayoutManager(layoutManager);
             mPlaylistToggle.setVisibility(View.VISIBLE);

@@ -514,15 +514,27 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         view.setLayoutParams(layoutParams);
     }
 
-    void dispatchUpdate(final ArrayList<MediaWrapper> newList) {
-        final ArrayList<MediaWrapper> oldList = getAll();
-        mVideos.clear();
-        addAll(newList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, getAll()));
-        mHandler.post(new Runnable() {
+    void dispatchUpdate(final ArrayList<MediaWrapper> items) {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                result.dispatchUpdatesTo(VideoListAdapter.this);
+                final ArrayList<MediaWrapper> oldList = getAll();
+                final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
+                newSortedList.addAll(items);
+                final ArrayList<MediaWrapper> newList = new ArrayList<>(newSortedList.size());
+                for (int i = 0; i < newSortedList.size(); ++i)
+                    newList.add(newSortedList.get(i));
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, newList));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideos.clear();
+                        mVideos = newSortedList;
+                        mOriginalData = null;
+                        result.dispatchUpdatesTo(VideoListAdapter.this);
+                        mFragment.updateEmptyView();
+                    }
+                });
             }
         });
     }

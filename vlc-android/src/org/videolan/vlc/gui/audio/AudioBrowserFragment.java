@@ -259,7 +259,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             MediaLibraryItem mediaItem = adapter.getItem(position);
             if (pos == MODE_PLAYLIST )
                 item.setVisible(true);
-            else if (pos == MODE_SONG){
+            else if (pos == MODE_SONG) {
                 String location = ((MediaWrapper)mediaItem).getLocation();
                 item.setVisible(FileUtils.canWrite(location));
             }
@@ -571,6 +571,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
         getCurrentRV().openContextMenu(position);
+    }
+
+    @Override
+    public void onUpdateFinished(AudioBrowserAdapter adapter) {
+        if (adapter == getCurrentAdapter())
+            updateEmptyView(mViewPager.getCurrentItem());
     }
 
     @Override

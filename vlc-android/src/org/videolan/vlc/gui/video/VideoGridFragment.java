@@ -346,7 +346,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     @Override
                     public void run() {
                         mVideoAdapter.update(mw);
-                        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+                        updateEmptyView();
                     }
                 });
     }
@@ -376,11 +376,14 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     public void run() {
                         stopRefresh();
                         mVideoAdapter.dispatchUpdate(displayList);
-                        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
                     }
                 });
             }
         });
+    }
+
+    void updateEmptyView() {
+        mViewNomedia.setVisibility(mVideoAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     @Override
