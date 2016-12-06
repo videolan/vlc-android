@@ -734,8 +734,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        if (!mParsing && mSwipeRefreshLayout.isRefreshing())
-            mHandler.sendEmptyMessage(UPDATE_LIST);
+        mHandler.sendEmptyMessage(mParsing ? SET_REFRESHING : UNSET_REFRESHING);
     }
 
     @Override
