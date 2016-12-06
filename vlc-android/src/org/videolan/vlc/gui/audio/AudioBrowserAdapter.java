@@ -161,7 +161,6 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     public void addAll(MediaLibraryItem[] items, boolean generateSections) {
         if (mContext == null)
             return;
-        mOriginalDataSet = null;
         mDataList = generateSections ? generateList(items) : items;
     }
 
@@ -231,8 +230,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void restoreList() {
-        if (mOriginalDataSet != null)
-            dispatchUpdate(mOriginalDataSet);
+        if (mOriginalDataSet != null) {
+            dispatchUpdate(Arrays.copyOf(mOriginalDataSet, mOriginalDataSet.length));
+            mOriginalDataSet = null;
+        }
     }
 
     void dispatchUpdate(final MediaLibraryItem[] items) {
@@ -375,10 +376,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            MediaLibraryItem[] oldlist = Arrays.copyOf(mDataList, mDataList.length);
-            mDataList = ((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]);
-            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldlist, mDataList));
-            result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+            dispatchUpdate(((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
         }
     }
 }

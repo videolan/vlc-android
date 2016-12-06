@@ -474,8 +474,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     void restoreList() {
-        if (mOriginalData != null)
-            dispatchUpdate(mOriginalData);
+        if (mOriginalData != null) {
+            dispatchUpdate(new ArrayList<>(mOriginalData));
+            mOriginalData = null;
+        }
     }
 
     private class ItemFilter extends MediaItemFilter {
@@ -492,17 +494,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            final ArrayList<MediaWrapper> oldList = getAll();
-            final ArrayList<MediaWrapper> newList = (ArrayList<MediaWrapper>) filterResults.values;
-            mVideos.clear();
-            mVideos.addAll(newList);
-            final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, newList));
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    result.dispatchUpdatesTo(VideoListAdapter.this);
-                }
-            });
+            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
     @BindingAdapter({"time", "resolution"})
@@ -530,7 +522,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     public void run() {
                         mVideos.clear();
                         mVideos = newSortedList;
-                        mOriginalData = null;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
                         mFragment.updateEmptyView();
                     }
