@@ -144,29 +144,24 @@ public class AsyncImageLoader {
     }
 
     private static void updateTargetImage(final Bitmap bitmap, final View target, final ViewDataBinding vdb) {
+        if (bitmap == null || bitmap.getWidth() <= 1 || bitmap.getHeight() <= 1)
+            return;
         if (vdb != null) {
-            if (bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1) {
-                vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-                vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                vdb.setVariable(BR.protocol, null);
-            }
+            vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
+            vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            vdb.setVariable(BR.protocol, null);
         } else {
-            final boolean isBitmapValid = bitmap != null && bitmap.getWidth() != 1 && bitmap.getHeight() != 1;
             sHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (target instanceof ImageView) {
                         ImageView iv = (ImageView) target;
                         iv.setVisibility(View.VISIBLE);
-                        if (isBitmapValid) {
-                            iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                            iv.setImageBitmap(bitmap);
-                        }
+                        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        iv.setImageBitmap(bitmap);
                     } else if (target instanceof TextView) {
-                        if (isBitmapValid) {
-                            target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-                            ((TextView) target).setText(null);
-                        }
+                        target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                        ((TextView) target).setText(null);
                     }
                 }
             });
