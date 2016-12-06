@@ -229,8 +229,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     void dispatchUpdate(final MediaLibraryItem[] newList) {
-        final MediaLibraryItem[] oldList = getAll();
-        clear();
+        final MediaLibraryItem[] oldList = isEmpty() ? null : Arrays.copyOf(getAll(), getItemCount());
         addAll(newList);
         final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, getAll()));
         mContext.runOnUiThread(new Runnable() {
