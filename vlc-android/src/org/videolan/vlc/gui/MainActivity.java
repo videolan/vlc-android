@@ -232,7 +232,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
         /* Reload the latest preferences */
         reloadPreferences();
-        mScanNeeded = mSettings.getBoolean("auto_rescan", true);
+        mScanNeeded = savedInstanceState == null && mSettings.getBoolean("auto_rescan", true);
     }
 
     private void setupNavigationView() {
