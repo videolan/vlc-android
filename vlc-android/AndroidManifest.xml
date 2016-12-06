@@ -470,7 +470,9 @@
                  android:process=":logger" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
-            android:configChanges="orientation|screenSize"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.VLC.Player" />

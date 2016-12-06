@@ -585,7 +585,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSize.setOnClickListener(null);
 
         /* Stop the earliest possible to avoid vout error */
-        if (isFinishing() || (AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
+        if ((!AndroidUtil.isNougatOrLater() || !isInPictureInPictureMode()) &&
+                (isFinishing() || (AndroidDevices.isAndroidTv() && !requestVisibleBehind(true))))
             stopPlayback();
     }
 
@@ -1840,6 +1841,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
+    @Override
+    public boolean isInPictureInPictureMode() {
+        return AndroidUtil.isNougatOrLater() && super.isInPictureInPictureMode();
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
+        changeMediaPlayerLayout(mVideoWidth, mVideoHeight);
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void changeSurfaceLayout() {
         int sw;
@@ -1879,7 +1891,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         LayoutParams lp = surface.getLayoutParams();
 
-        if (mVideoWidth * mVideoHeight == 0) {
+        if (mVideoWidth * mVideoHeight == 0 || isInPictureInPictureMode()) {
             /* Case of OpenGL vouts: handles the placement of the video using MediaPlayer API */
             lp.width  = LayoutParams.MATCH_PARENT;
             lp.height = LayoutParams.MATCH_PARENT;

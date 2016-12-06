@@ -22,6 +22,7 @@
  */
 package org.videolan.vlc.gui.dialogs;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -31,7 +32,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
@@ -47,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -443,6 +447,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
 
 
+    @TargetApi(Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -473,10 +478,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case ID_POPUP_VIDEO:
-                if (Permissions.canDrawOverlays(mActivity))
-                    ((VideoPlayerActivity)getActivity()).switchToPopupMode();
-                else
-                    Permissions.checkDrawOverlaysPermission(mActivity);
+                if (VLCApplication.showTvUi()) {
+                    getActivity().enterPictureInPictureMode();
+                } else {
+                    if (Permissions.canDrawOverlays(mActivity))
+                        ((VideoPlayerActivity)getActivity()).switchToPopupMode();
+                    else
+                        Permissions.checkDrawOverlaysPermission(mActivity);
+                }
                 break;
             case ID_EQUALIZER:
                 Intent i = new Intent(getActivity(), SecondaryActivity.class);
@@ -549,7 +558,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, getString(R.string.play_as_audio)));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay, getString(R.string.spu_delay)));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay, getString(R.string.audio_delay)));
-            if (!tvUi)
+            if (!tvUi || AndroidUtil.isNougatOrLater())
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim, getString(R.string.popup_playback_title)));
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat, getString(R.string.repeat_title)));
             if (mService.canShuffle())
