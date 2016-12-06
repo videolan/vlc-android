@@ -134,7 +134,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public void sort() {
         if (!isEmpty())
             try {
-                resetSorting();
+                dispatchUpdate(getAll());
             } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
     }
 
@@ -359,19 +359,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         mVideoComparator.sortBy(sortby);
     }
 
-    private void resetSorting() {
-        final ArrayList<MediaWrapper> oldList = getAll();
-        mVideos.clear();
-        mVideos.addAll(oldList);
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(oldList, getAll()));
-        mFragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                result.dispatchUpdatesTo(VideoListAdapter.this);
-            }
-        });
-    }
-
     class VideoComparator extends SortedList.Callback<MediaWrapper> {
 
         private static final String KEY_SORT_BY =  "sort_by";
@@ -423,7 +410,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     mSortDirection = 1;
                     break;
             }
-            resetSorting();
+            dispatchUpdate(getAll());
 
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putInt(KEY_SORT_BY, mSortBy);
