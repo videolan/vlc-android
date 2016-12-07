@@ -510,13 +510,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaWrapper> oldList = getAll();
                 final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
                 newSortedList.addAll(items);
                 final ArrayList<MediaWrapper> newList = new ArrayList<>(newSortedList.size());
                 for (int i = 0; i < newSortedList.size(); ++i)
                     newList.add(newSortedList.get(i));
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(oldList, newList));
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(getAll(), newList));
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
