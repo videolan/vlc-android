@@ -712,6 +712,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 (Build.VERSION.SDK_INT <= 16) &&
                 (Build.MANUFACTURER.compareTo("LGE") == 0)) {
             return true;
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            MenuItemCompat.expandActionView(mMenu.findItem(R.id.ml_menu_filter));
         }
         return super.onKeyDown(keyCode, event);
     }
