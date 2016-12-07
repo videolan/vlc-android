@@ -736,7 +736,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
     @Override
     public Cursor runQuery(final CharSequence constraint) {
-        return MediaDatabase.getInstance().queryMedia(constraint.toString());
+        return null;
     }
 
     //Filtering

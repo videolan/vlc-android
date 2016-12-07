@@ -39,7 +39,6 @@ import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
@@ -116,8 +115,6 @@ public class VLCApplication extends Application {
 
         instance = this;
 
-        // Initialize the database soon enough to avoid any race condition and crash
-        MediaDatabase.getInstance();
         // Prepare cache folder constants
         AudioUtil.prepareCacheFolder(this);
 

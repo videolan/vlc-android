@@ -53,7 +53,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
-import org.videolan.vlc.media.MediaDatabase;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.Callback {
 
@@ -295,17 +294,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mService).edit();
         // Save position
-        if (mService.isSeekable()) {
-            if(MediaDatabase.getInstance().mediaItemExists(uri)) {
-                MediaDatabase.getInstance().updateMedia(
-                        uri,
-                        MediaDatabase.INDEX_MEDIA_TIME,
-                        time);
-            } else {
-                // Video file not in media library, store time just for onResume()
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
-            }
-        }
+        if (mService.isSeekable() && time != -1)
+            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
     }
 
     private void showNotification() {

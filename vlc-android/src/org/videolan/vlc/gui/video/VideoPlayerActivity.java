@@ -2539,10 +2539,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     public boolean onTrackSelected(int trackID) {
                         if (trackID < -1 || mService == null)
                             return false;
-                        MediaDatabase.getInstance().updateMedia(
-                                mUri,
-                                MediaDatabase.INDEX_MEDIA_AUDIOTRACK,
-                                trackID);
                         mService.setAudioTrack(trackID);
                         return true;
                     }
@@ -2557,11 +2553,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     public boolean onTrackSelected(int trackID) {
                         if (trackID < -1 || mService == null)
                             return false;
-
-                        MediaDatabase.getInstance().updateMedia(
-                                mUri,
-                                MediaDatabase.INDEX_MEDIA_SPUTRACK,
-                                trackID);
                         mService.setSpuTrack(trackID);
                         return true;
                     }
@@ -2896,7 +2887,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         int time = (int) getTime();
         int length = (int) mService.getLength();
         if (length == 0) {
-            MediaWrapper media = MediaDatabase.getInstance().getMedia(mUri);
+            MediaWrapper media = mService.getCurrentMediaWrapper();
+            if (media.getId() == 0)
+                media = VLCApplication.getMLInstance().getMedia(mUri.getPath());
             if (media != null)
                 length = (int) media.getLength();
         }

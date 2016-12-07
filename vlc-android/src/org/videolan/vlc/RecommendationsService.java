@@ -1,7 +1,7 @@
 /*****************************************************************************
  * RecommendationsService.java
  *****************************************************************************
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2016 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,50 +28,48 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Message;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
-import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WeakHandler;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
     private static final int MAX_RECOMMENDATIONS = 3;
 
     private NotificationManager mNotificationManager;
-    private MediaDatabase mMediaDatabase = MediaDatabase.getInstance();
     private Context mContext;
 
     public RecommendationsService() {
-        super("RecommendationsService");
+        super("RecommendationService");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager)
                     VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        }
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent != null && !doRecommendations()) {
-            MediaLibrary.getInstance().addUpdateHandler(mHandler);
-            MediaLibrary.getInstance().scanMediaItems();
-        }
+        doRecommendations();
     }
+
     private void buildRecommendation(MediaWrapper movie, int id, int priority) {
         if (movie == null)
             return;
@@ -89,8 +88,8 @@ public class RecommendationsService extends IntentService {
                         .setPriority(priority)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(mContext.getResources().getColor(R.color.orange800))
-                        .setCategory("recommendation")
+                        .setColor(ContextCompat.getColor(this, R.color.orange800))
+                        .setCategory(Notification.CATEGORY_RECOMMENDATION)
                         .setLargeIcon(BitmapUtil.getPicture(movie))
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(buildPendingIntent(movie, id))
@@ -107,36 +106,21 @@ public class RecommendationsService extends IntentService {
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_FROM_START, false);
 
-        PendingIntent pi = PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        return pi;
-    }
-
-    RecommendationsHandler mHandler = new RecommendationsHandler(this);
-
-    private class RecommendationsHandler extends WeakHandler<RecommendationsService> {
-        public RecommendationsHandler(RecommendationsService owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            doRecommendations();
-        }
+        return PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private boolean doRecommendations() {
         mNotificationManager.cancelAll();
         int id = 0;
-        ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
+        List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getVideos());
         if (Util.isListEmpty(videoList))
             return false;
         Bitmap pic;
         Collections.shuffle(videoList);
         for (MediaWrapper mediaWrapper : videoList){
-            pic = mMediaDatabase.getPicture(mediaWrapper.getUri());
-            if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
+            pic = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaWrapper.getArtworkMrl())), 256);
+            if (pic != null && pic.getByteCount() > 4)
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
-            }
             if (id == MAX_RECOMMENDATIONS)
                 break;
         }

@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Build;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -102,9 +101,6 @@ public class BitmapUtil {
         final BitmapCache cache = BitmapCache.getInstance();
 
         Bitmap picture = readCoverBitmap(media.getArtworkURL());
-        if (picture == null) {
-            picture = MediaDatabase.getInstance().getPicture(media.getUri());
-        }
         cache.addBitmapToMemCache(media.getLocation(), picture);
         return picture;
     }

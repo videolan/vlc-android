@@ -20,8 +20,10 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.audioplayer;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +38,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -43,13 +46,12 @@ import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
-import org.videolan.vlc.media.MediaLibrary;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
         PlaybackService.Callback, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";

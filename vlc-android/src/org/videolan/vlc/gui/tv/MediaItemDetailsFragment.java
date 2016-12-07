@@ -41,6 +41,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -50,9 +51,7 @@ import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.media.MediaLibrary;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.FileUtils;
 
 import java.util.ArrayList;
@@ -176,7 +175,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
         } else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
             // Add images and action buttons to the details view
-            Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
+            Bitmap cover = AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 480);
             if (cover == null)
                 detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
             else
