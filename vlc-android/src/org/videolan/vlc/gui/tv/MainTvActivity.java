@@ -31,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -53,6 +54,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
@@ -79,7 +81,7 @@ import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MainTvActivity extends BaseTvActivity implements OnItemViewSelectedListener,
-        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback, MediaUpdatedCb {
+        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback, MediaUpdatedCb, DevicesDiscoveryCb {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -100,7 +102,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     public static final String TAG = "VLC/MainTvActivity";
 
-    private Handler mHandler = new Handler();
     protected BrowseFragment mBrowseFragment;
     private ProgressBar mProgressBar;
     private ArrayObjectAdapter mRowsAdapter = null;
@@ -138,7 +139,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         // Set display parameters for the BrowseFragment
         mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
         mBrowseFragment.setTitle(getString(R.string.app_name));
-        mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.icon));
+        mBrowseFragment.setBadgeDrawable(ContextCompat.getDrawable(this, R.drawable.icon));
 
         // add a listener for selected items
         mBrowseFragment.setOnItemViewClickedListener(this);
@@ -198,18 +199,23 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         if (mService != null)
             mService.addCallback(this);
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
+        mMediaLibrary.addDeviceDiscoveryCb(this);
+        update();
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
+        mMediaLibrary.removeDeviceDiscoveryCb(this);
     }
 
     @Override
@@ -276,27 +282,26 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
             mUpdateTask = new AsyncUpdate();
             mUpdateTask.execute();
-        } else {
-            mUpdateTask.AskRefresh();
         }
     }
 
     @Override
     public void onMediaUpdated(final MediaWrapper[] mediaList) {
-        if (mVideoAdapter.size() > NUM_ITEMS_PREVIEW)
+        if (mVideoAdapter == null || mVideoAdapter.size() > NUM_ITEMS_PREVIEW)
             return;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 for (MediaWrapper media : mediaList)
-                    if (media != null)
-                        updateItem(media);
+                    updateItem(media);
             }
         });
     }
 
     public void updateItem(MediaWrapper item) {
-        if (mVideoAdapter != null && item != null) {
+        if (item == null)
+            return;
+        if (mVideoAdapter != null) {
             if (mVideoIndex.containsKey(item.getLocation())) {
                 mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(item.getLocation()), 1);
             } else {
@@ -305,7 +310,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 mVideoIndex.put(item.getLocation(), position);
             }
         }
-        if (mHistoryAdapter != null && item != null) {
+        if (mHistoryAdapter != null) {
             if (mHistoryIndex.containsKey(item.getLocation())) {
                 mHistoryAdapter.notifyArrayItemRangeChanged(mHistoryIndex.get(item.getLocation()), 1);
             }
@@ -349,26 +354,54 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         startActivity(intent);
     }
 
+    @Override
+    public void onDiscoveryStarted(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryProgress(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryCompleted(String entryPoint) {}
+
+    @Override
+    public void onParsingStatsUpdated(int percent) {
+        if (percent == 100)
+            update();
+        else if (mProgressBar.getVisibility() != View.VISIBLE)
+            mHandler.sendEmptyMessage(SHOW_LOADING);
+    }
+
+    private static final int SHOW_LOADING = 0;
+    private static final int HIDE_LOADING = 1;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SHOW_LOADING:
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    break;
+                case HIDE_LOADING:
+                    removeMessages(SHOW_LOADING);
+                    mProgressBar.setVisibility(View.GONE);
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
+
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
-        private boolean askRefresh = false;
         boolean showHistory;
         MediaWrapper[] history, videoList;
 
-        AsyncUpdate() {
-        }
-
-        void AskRefresh() { //Ask for refresh while update is ongoing
-            askRefresh = true;
-        }
+        AsyncUpdate() {}
 
         @Override
         protected void onPreExecute() {
-
             showHistory = mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true);
             if (mRowsAdapter != null)
                 mRowsAdapter.clear();
             mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-            mProgressBar.setVisibility(View.VISIBLE);
+            mHandler.sendEmptyMessage(SHOW_LOADING);
             mHistoryIndex.clear();
 
             //Video Section
@@ -385,6 +418,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         @Override
         protected void onPostExecute(Void result) {
+            mHandler.sendEmptyMessage(HIDE_LOADING);
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
@@ -441,16 +475,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_tv_icon_small));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
-
-            mProgressBar.setVisibility(View.GONE);
-            if (askRefresh) { //in case new event occurred while loading view
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        refresh();
-                    }
-                });
-            }
         }
     }
 
