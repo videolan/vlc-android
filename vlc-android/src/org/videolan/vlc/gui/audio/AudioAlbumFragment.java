@@ -206,6 +206,9 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
     public void onUpdateFinished(AudioBrowserAdapter adapter) {}
 
     @Override
+    public void setFabPlayVisibility(boolean enable) {}
+
+    @Override
     protected AudioBrowserAdapter getCurrentAdapter() {
         return mAdapter;
     }

@@ -183,9 +183,10 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     protected void stopActionMode() {
-        if (mActionMode != null)
+        if (mActionMode != null) {
             mActionMode.finish();
-        setFabPlayVisibility(true);
+            setFabPlayVisibility(true);
+        }
     }
 
     public void invalidateActionMode() {

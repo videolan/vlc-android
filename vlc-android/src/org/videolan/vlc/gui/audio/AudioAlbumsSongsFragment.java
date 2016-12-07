@@ -314,6 +314,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
+    public void setFabPlayVisibility(boolean enable) {}
+
+    @Override
     public void onUpdateFinished(AudioBrowserAdapter adapter) {}
 
     @Override
