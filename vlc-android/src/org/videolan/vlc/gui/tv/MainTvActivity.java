@@ -405,7 +405,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                         }
                     }
                 });
-                mVideoAdapter.notifyArrayItemRangeChanged(0, size);
             }
             mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
 
