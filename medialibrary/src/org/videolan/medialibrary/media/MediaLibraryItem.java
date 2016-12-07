@@ -2,6 +2,7 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;
 
@@ -72,6 +73,14 @@ public abstract class MediaLibraryItem implements Parcelable {
     }
 
     public boolean equals(MediaLibraryItem other) {
-        return this == other || (other != null && other.getItemType() == getItemType() && mId == other.getId());
+        if (this == other)
+            return true;
+        if (other == null)
+            return false;
+        if (getItemType() != other.getItemType())
+            return false;
+        if (getItemType() == TYPE_DUMMY)
+            return TextUtils.equals(getTitle(), other.getTitle());
+        return mId == other.getId();
     }
 }
