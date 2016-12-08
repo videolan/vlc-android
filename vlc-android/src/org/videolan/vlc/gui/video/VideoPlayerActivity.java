@@ -1552,7 +1552,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        return false;
+        if (mShowing)
+            hideOverlay(true);
+        else
+            showOverlay();
+        return true;
     }
 
     @Override
@@ -2122,14 +2126,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MotionEvent.ACTION_UP:
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
-
-                if (mTouchAction == TOUCH_NONE) {
-                    if (!mShowing) {
-                        showOverlay();
-                    } else {
-                        hideOverlay(true);
-                    }
-                }
                 // Seek
                 if (mTouchAction == TOUCH_SEEK)
                     doSeekTouch(Math.round(delta_y), xgesturesize, true);
