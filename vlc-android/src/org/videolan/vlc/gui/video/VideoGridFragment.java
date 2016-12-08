@@ -488,11 +488,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             stopActionMode();
             return false;
         }
-        boolean honeComb = AndroidUtil.isHoneycombOrLater();
+        boolean honeyComb = AndroidUtil.isHoneycombOrLater();
         int count = mVideoAdapter.getSelectedPositions().size();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
-        menu.findItem(R.id.action_video_play).setVisible(honeComb || count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(honeComb);
+        menu.findItem(R.id.action_video_play).setVisible(honeyComb || count == 1);
+        menu.findItem(R.id.action_video_append).setVisible(honeyComb);
         return true;
     }
 
