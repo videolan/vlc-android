@@ -22,6 +22,7 @@ import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
@@ -36,24 +37,16 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     private boolean mMakeSections = true, mActionMode;
 
-    public interface EventsHandler {
-        void onClick(View v, int position, MediaLibraryItem item);
-        void onCtxClick(View v, int position, MediaLibraryItem item);
-        void startActionMode();
-        void invalidateActionMode();
-        void onUpdateFinished(AudioBrowserAdapter adapter);
-    }
-
     private MediaLibraryItem[] mDataList;
     private MediaLibraryItem[] mOriginalDataSet = null;
     private List<Integer> mSelectedItems = new LinkedList<>();
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
-    private EventsHandler mEventsHandler;
+    private IEventsHandler mIEventsHandler;
 
-    public AudioBrowserAdapter(Activity context, EventsHandler eventsHandler, boolean sections) {
+    public AudioBrowserAdapter(Activity context, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
-        mEventsHandler = eventsHandler;
+        mIEventsHandler = eventsHandler;
         mMakeSections = sections;
     }
 
@@ -247,7 +240,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                     public void run() {
                         addAll(newList, false);
                         result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                        mEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
+                        mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
                     }
                 });
             }
@@ -303,17 +296,17 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         public void onClick(View v) {
             if (mActionMode) {
                 setSelected();
-                if (mEventsHandler != null)
-                    mEventsHandler.invalidateActionMode();
+                if (mIEventsHandler != null)
+                    mIEventsHandler.invalidateActionMode();
                 return;
             }
-            if (mEventsHandler != null)
-                mEventsHandler.onClick(v, getLayoutPosition(), vdb.getItem());
+            if (mIEventsHandler != null)
+                mIEventsHandler.onClick(v, getLayoutPosition(), vdb.getItem());
         }
 
         public void onMoreClick(View v) {
-            if (mEventsHandler != null)
-                mEventsHandler.onCtxClick(v, getLayoutPosition(), vdb.getItem());
+            if (mIEventsHandler != null)
+                mIEventsHandler.onCtxClick(v, getLayoutPosition(), vdb.getItem());
         }
 
         @Override
@@ -321,7 +314,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             if (mActionMode)
                 return false;
             setSelected();
-            mEventsHandler.startActionMode();
+            mIEventsHandler.startActionMode();
             return true;
         }
 

@@ -61,7 +61,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, AudioBrowserAdapter.EventsHandler, TabLayout.OnTabSelectedListener {
+public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -315,9 +315,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void setFabPlayVisibility(boolean enable) {}
-
-    @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {}
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

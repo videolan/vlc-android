@@ -52,7 +52,7 @@ import org.videolan.vlc.util.FileUtils;
 
 import java.util.ArrayList;
 
-public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClickListener, AudioBrowserAdapter.EventsHandler {
+public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClickListener {
 
     public final static String TAG = "VLC/AudioAlbumFragment";
 
@@ -201,9 +201,6 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
         ((ContextMenuRecyclerView) getView().findViewById(R.id.songs)).openContextMenu(position);
     }
-
-    @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {}
 
     @Override
     public void setFabPlayVisibility(boolean enable) {}

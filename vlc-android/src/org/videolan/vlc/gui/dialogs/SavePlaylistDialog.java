@@ -48,10 +48,11 @@ import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
+import org.videolan.vlc.interfaces.IEventsHandler;
 
 import java.util.ArrayList;
 
-public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, AudioBrowserAdapter.EventsHandler {
+public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, IEventsHandler {
 
     public final static String TAG = "VLC/SavePlaylistDialog";
 
@@ -170,6 +171,11 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onClick(View v, int position, MediaLibraryItem item) {
         mPlaylistId = item.getId();
         mEditText.setText(item.getTitle());
+    }
+
+    @Override
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+        return false;
     }
 
     @Override

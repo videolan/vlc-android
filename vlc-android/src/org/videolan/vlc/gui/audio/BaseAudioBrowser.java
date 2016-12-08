@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.audio;
 import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -33,13 +34,14 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class BaseAudioBrowser extends MediaBrowserFragment {
+public abstract class BaseAudioBrowser extends MediaBrowserFragment implements IEventsHandler {
 
     abstract protected AudioBrowserAdapter getCurrentAdapter();
 
@@ -115,4 +117,18 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment {
     protected boolean playlistModeSelected() {
         return false;
     }
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {}
+
+    @Override
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+        return false;
+    }
+
+    @Override
+    public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {}
+
+    @Override
+    public void onUpdateFinished(AudioBrowserAdapter adapter) {}
 }
