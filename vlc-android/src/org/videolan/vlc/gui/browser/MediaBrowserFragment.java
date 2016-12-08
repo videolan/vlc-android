@@ -94,6 +94,12 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         setFabPlayVisibility(false);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopActionMode();
+    }
+
     public void setFabPlayVisibility(boolean enable) {
         mFabPlay.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
     }
@@ -186,6 +192,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         if (mActionMode != null) {
             mActionMode.finish();
             setFabPlayVisibility(true);
+            mActionMode = null;
         }
     }
 
