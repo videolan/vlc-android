@@ -299,6 +299,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null) {
+            super.onClick(v, position, item);
+            return;
+        }
         if (item instanceof Album) {
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
@@ -310,7 +314,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        ((ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem())).openContextMenu(position);
+        if (mActionMode == null)
+            ((ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem())).openContextMenu(position);
     }
 
     @Override

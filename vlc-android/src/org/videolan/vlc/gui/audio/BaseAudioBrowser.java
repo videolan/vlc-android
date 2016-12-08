@@ -56,19 +56,19 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
         mode.getMenuInflater().inflate(R.menu.action_mode_audio_browser, menu);
         if (playlistModeSelected())
             menu.findItem(R.id.action_mode_audio_add_playlist).setVisible(false);
-        getCurrentAdapter().setActionMode(true);
         return true;
     }
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        if (getCurrentAdapter().getSelectedPositions().isEmpty()) {
+        List<MediaLibraryItem> selection = getCurrentAdapter().getSelection();
+        if (selection.isEmpty()) {
             stopActionMode();
             return false;
         }
-        boolean oneSong = songModeSelected() && getCurrentAdapter().getSelectedPositions().size() == 1;
-        menu.findItem(R.id.action_mode_audio_set_song).setVisible(oneSong && AndroidDevices.isPhone());
-        menu.findItem(R.id.action_mode_audio_info).setVisible(oneSong);
+        boolean isSong = selection.size() == 1 && selection.get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
+        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
+        menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         return true;
     }
 
@@ -104,26 +104,41 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        getCurrentAdapter().setActionMode(false);
+        mActionMode = null;
+        AudioBrowserAdapter adpater = getCurrentAdapter();
+        MediaLibraryItem[] items = getCurrentAdapter().getAll();
+        for (int i = 0; i < items.length; ++i) {
+            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                adpater.notifyItemChanged(i, items[i]);
+            }
+        }
     }
 
     @Override
     public void onRefresh() {}
-
-    protected boolean songModeSelected() {
-        return true;
-    }
 
     protected boolean playlistModeSelected() {
         return false;
     }
 
     @Override
-    public void onClick(View v, int position, MediaLibraryItem item) {}
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null) {
+            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            getCurrentAdapter().notifyItemChanged(position, item);
+            invalidateActionMode();
+        }
+    }
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        return false;
+        if (mActionMode != null)
+            return false;
+        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+        getCurrentAdapter().notifyItemChanged(position, item);
+        startActionMode();
+        return true;
     }
 
     @Override

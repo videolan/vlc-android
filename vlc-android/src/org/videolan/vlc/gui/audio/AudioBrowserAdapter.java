@@ -25,6 +25,7 @@ import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +36,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
-    private boolean mMakeSections = true, mActionMode;
+    private boolean mMakeSections = true;
 
     private MediaLibraryItem[] mDataList;
     private MediaLibraryItem[] mOriginalDataSet = null;
-    private List<Integer> mSelectedItems = new LinkedList<>();
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private IEventsHandler mIEventsHandler;
@@ -68,10 +68,23 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             return;
         holder.vdb.setVariable(BR.item, mDataList[position]);
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            boolean isSelected = mActionMode && mSelectedItems.contains(position);
+            boolean isSelected = mDataList[position].hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus(), isSelected);
         }
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        if (Util.isListEmpty(payloads))
+            super.onBindViewHolder(holder, position, payloads);
+        else {
+            boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            MediaItemViewHolder miv = (MediaItemViewHolder) holder;
+            miv.setCoverlay(isSelected);
+            miv.setViewBackground(miv.itemView.hasFocus(), isSelected);
+        }
+
     }
 
     @Override
@@ -247,26 +260,11 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         });
     }
 
-    void setActionMode(boolean actionMode) {
-        mActionMode = actionMode;
-        if (!actionMode) {
-            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
-            mSelectedItems.clear();
-            for (Integer position : positions)
-                notifyItemChanged(position);
-        }
-    }
-
-    List<Integer> getSelectedPositions() {
-        return mSelectedItems;
-    }
-
     List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
-        for (Integer selected : mSelectedItems) {
-            MediaLibraryItem media = mDataList[selected];
-            selection.add(media);
-        }
+        for (MediaLibraryItem media : mDataList)
+            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+                selection.add(media);
         return selection;
     }
 
@@ -283,50 +281,27 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
     }
 
-    public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnLongClickListener, View.OnFocusChangeListener {
+    public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
-            itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
             vdb.setCover(AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE);
         }
 
         public void onClick(View v) {
-            if (mActionMode) {
-                setSelected();
-                if (mIEventsHandler != null)
-                    mIEventsHandler.invalidateActionMode();
-                return;
-            }
             if (mIEventsHandler != null)
-                mIEventsHandler.onClick(v, getLayoutPosition(), vdb.getItem());
+                mIEventsHandler.onClick(v, getAdapterPosition(), vdb.getItem());
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null)
-                mIEventsHandler.onCtxClick(v, getLayoutPosition(), vdb.getItem());
+                mIEventsHandler.onCtxClick(v, getAdapterPosition(), vdb.getItem());
         }
 
-        @Override
         public boolean onLongClick(View view) {
-            if (mActionMode)
-                return false;
-            setSelected();
-            mIEventsHandler.startActionMode();
-            return true;
-        }
-
-        private void setSelected() {
-            Integer position = getLayoutPosition();
-            boolean selected = !mSelectedItems.contains(position);
-            if (selected)
-                mSelectedItems.add(position);
-            else
-                mSelectedItems.remove(position);
-            setCoverlay(mSelectedItems.contains(position));
-            setViewBackground(itemView.hasFocus(), selected);
+            return mIEventsHandler.onLongClick(view, getAdapterPosition(), vdb.getItem());
         }
 
         private void setCoverlay(boolean selected) {
@@ -339,7 +314,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus, mSelectedItems.contains(getLayoutPosition()));
+            setViewBackground(hasFocus, vdb.getItem().hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         }
 
         private void setViewBackground(boolean focused, boolean selected) {

@@ -193,13 +193,16 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
-        if (mService != null)
+        if (mActionMode != null)
+            super.onClick(v, position, item);
+        else if (mService != null)
             mService.load(mAlbum.getTracks(mMediaLibrary), position);
     }
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        ((ContextMenuRecyclerView) getView().findViewById(R.id.songs)).openContextMenu(position);
+        if (mActionMode == null)
+            ((ContextMenuRecyclerView) getView().findViewById(R.id.songs)).openContextMenu(position);
     }
 
     @Override

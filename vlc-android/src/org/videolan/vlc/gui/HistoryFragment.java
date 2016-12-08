@@ -200,10 +200,14 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        mActionMode = null;
         int index = -1;
         for (MediaWrapper media : mHistoryAdapter.getAll()) {
-            media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-            mHistoryAdapter.notifyItemChanged(++index, media);
+            ++index;
+            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                mHistoryAdapter.notifyItemChanged(index, media);
+            }
         }
     }
 

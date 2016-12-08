@@ -104,7 +104,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     private final static int MODE_TOTAL = 5; // Number of audio browser modes
 
     public final static int MSG_LOADING = 0;
-    private volatile boolean mDisplaying = false;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -248,7 +247,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             MediaLibraryItem mediaItem = adapter.getItem(position);
             if (pos == MODE_PLAYLIST )
                 item.setVisible(true);
-            else if (pos == MODE_SONG) {
+            else {
                 String location = ((MediaWrapper)mediaItem).getLocation();
                 item.setVisible(FileUtils.canWrite(location));
             }
@@ -457,7 +456,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mEmptyView.setText(position == MODE_PLAYLIST ? R.string.noplaylist : R.string.nomedia);
     }
 
-    ArrayList<MediaWrapper> mTracksToAppend = new ArrayList<MediaWrapper>(); //Playlist tracks to append
+    ArrayList<MediaWrapper> mTracksToAppend = new ArrayList<>(); //Playlist tracks to append
 
     @Override
     public void onMediaAdded(int index, Media media) {
@@ -540,6 +539,10 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null) {
+            super.onClick(v, position, item);
+            return;
+        }
         if (item.getItemType() == MediaLibraryItem.TYPE_ARTIST || item.getItemType() == MediaLibraryItem.TYPE_GENRE) {
             Intent i = new Intent(getActivity(), SecondaryActivity.class);
             i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
@@ -560,7 +563,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
-        getCurrentRV().openContextMenu(position);
+        if (mActionMode == null)
+            getCurrentRV().openContextMenu(position);
     }
 
     @Override
@@ -688,10 +692,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 mPlaylistAdapter.dispatchUpdate(mMediaLibrary.getPlaylists());
             }
         });
-    }
-
-    protected boolean songModeSelected() {
-        return mViewPager.getCurrentItem() == MODE_SONG;
     }
 
     protected boolean playlistModeSelected() {
