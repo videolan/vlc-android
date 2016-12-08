@@ -138,8 +138,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
-        GestureDetector.OnDoubleTapListener, IPlaybackSettingsController,
-        PlaybackService.Client.Callback, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
+        IPlaybackSettingsController, PlaybackService.Client.Callback, PlaybackService.Callback,
+        PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -1550,31 +1550,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        if (mShowing)
-            hideOverlay(true);
-        else
-            showOverlay();
-        return true;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        if (mService == null)
-            return false;
-        if (!mIsLocked) {
-            doPlayPause();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
-    }
-
     /* PlaybackService.Callback */
 
     @Override
@@ -2032,7 +2007,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (event.getAction() == MotionEvent.ACTION_UP)
                 endPlaybackSetting();
             return true;
-        } else if(mPlaylist.getVisibility() == View.VISIBLE) {
+        } else if (mPlaylist.getVisibility() == View.VISIBLE) {
             togglePlaylist();
             return true;
         }
@@ -2583,7 +2558,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlayPause.setImageResource(R.drawable.ic_play_circle_disable_o);
         else {
             mDetector = new GestureDetectorCompat(this, mGestureListener);
-            mDetector.setOnDoubleTapListener(this);
+            mDetector.setOnDoubleTapListener(mGestureListener);
         }
         mScaleGestureDetector = new ScaleGestureDetector(this, this);
     }
@@ -3514,30 +3489,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         supportInvalidateOptionsMenu();
     }
 
-    private GestureDetector.OnGestureListener mGestureListener = new GestureDetector.OnGestureListener() {
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {}
+    private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            return false;
+        if (mShowing)
+            hideOverlay(true);
+        else
+            showOverlay();
+            return true;
         }
 
         @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {}
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onDoubleTap(MotionEvent e) {
+            if (mService == null)
+                return false;
+            if (!mIsLocked) {
+                doPlayPause();
+                return true;
+            }
             return false;
         }
     };
