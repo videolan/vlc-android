@@ -2118,7 +2118,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mTouchX = event.getRawX();
                     mTouchAction = TOUCH_MOVE;
                     float yaw = mFov * -x_changed/(float)mSurfaceXDisplayRange;
-                    float pitch = mFov * -y_changed/(float)mSurfaceYDisplayRange;
+                    float pitch = mFov * -y_changed/(float)mSurfaceXDisplayRange;
                     mService.updateViewpoint(yaw, pitch, 0, 0, false);
                 }
                 break;
