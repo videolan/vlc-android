@@ -34,15 +34,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.media.MediaUtils;
 
-public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
+import java.util.List;
+
+public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     public final static String TAG = "VLC/HistoryFragment";
 
@@ -54,7 +60,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() {
-        mHistoryAdapter = new HistoryAdapter();
+        mHistoryAdapter = new HistoryAdapter(this);
     }
 
     @Override
@@ -154,16 +160,86 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        return false;
+        mode.getMenuInflater().inflate(R.menu.action_mode_history, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        int selectionCount = mHistoryAdapter.getSelection().size();
+        if (selectionCount == 0) {
+            stopActionMode();
+            return false;
+        }
+        boolean honeyComb = AndroidUtil.isHoneycombOrLater();
+        menu.findItem(R.id.action_history_info).setVisible(selectionCount == 1);
+        menu.findItem(R.id.action_history_play).setVisible(honeyComb || selectionCount == 1);
+        menu.findItem(R.id.action_history_append).setVisible(honeyComb);
+        return true;
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.action_history_play:
+                MediaUtils.openList(getActivity(), mHistoryAdapter.getSelection(), 0);
+                break;
+            case R.id.action_history_append:
+                MediaUtils.appendMedia(getActivity(), mHistoryAdapter.getSelection());
+                break;
+            case R.id.action_history_info:
+                showInfoDialog(mHistoryAdapter.getSelection().get(0));
+                break;
+            default:
+                stopActionMode();
+                return false;
+        }
+        stopActionMode();
+        return true;
     }
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        int index = -1;
+        for (MediaWrapper media : mHistoryAdapter.getAll()) {
+            media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            mHistoryAdapter.notifyItemChanged(++index, media);
+        }
+    }
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null) {
+            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            mHistoryAdapter.notifyItemChanged(position, item);
+            invalidateActionMode();
+            return;
+        }
+
+        if (position != 0) {
+            List<MediaWrapper> mediaList = mHistoryAdapter.getAll();
+            mediaList.remove(position);
+            mediaList.add(0, (MediaWrapper) item);
+            mHistoryAdapter.notifyItemMoved(position, 0);
+        }
+        MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
+    }
+
+    @Override
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null)
+            return false;
+        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+        mHistoryAdapter.notifyItemChanged(position, item);
+        startActionMode();
+        return true;
+    }
+
+    @Override
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {}
+
+    @Override
+    public void onUpdateFinished(AudioBrowserAdapter adapter) {
 
     }
 }

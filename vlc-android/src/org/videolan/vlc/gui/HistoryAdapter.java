@@ -20,23 +20,30 @@
 package org.videolan.vlc.gui;
 
 import android.databinding.DataBindingUtil;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.ListItemBinding;
-import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     public final static String TAG = "VLC/HistoryAdapter";
 
+    private IEventsHandler mEventsHandler;
     private ArrayList<MediaWrapper> mMediaList = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,22 +54,35 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             binding = DataBindingUtil.bind(itemView);
         }
 
-        public void onClick(View v){
-            int position = getAdapterPosition();
-            MediaWrapper mw = mMediaList.get(position);
-
-            if (position != 0) {
-                mMediaList.remove(position);
-                mMediaList.add(0, mw);
-                notifyItemMoved(position, 0);
-            }
-            MediaUtils.openMedia(v.getContext(), mw);
+        public void onClick(View v, MediaWrapper mw){
+            mEventsHandler.onClick(v, getAdapterPosition(), mw);
         }
+
+        public boolean onLongClick(View v, MediaWrapper mw) {
+            return mEventsHandler.onLongClick(v, getAdapterPosition(), mw);
+        }
+    }
+
+    HistoryAdapter(IEventsHandler eventsHandler) {
+        mEventsHandler = eventsHandler;
     }
 
     public void setList(MediaWrapper[] list) {
         mMediaList = new ArrayList<>(Arrays.asList(list));
         notifyDataSetChanged();
+    }
+
+    List<MediaWrapper> getSelection() {
+        List<MediaWrapper> selection = new LinkedList<>();
+        for (MediaWrapper media : mMediaList) {
+            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+                selection.add(media);
+        }
+        return selection;
+    }
+
+    List<MediaWrapper> getAll() {
+        return mMediaList;
     }
 
     @Override
@@ -75,8 +95,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MediaWrapper media = mMediaList.get(position);
+        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
         holder.binding.setHolder(holder);
+        holder.binding.setBgColor(ContextCompat.getColor(holder.itemView.getContext(), isSelected ? R.color.orange200transparent : R.color.transparent));
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        if (Util.isListEmpty(payloads))
+            super.onBindViewHolder(holder, position, payloads);
+        else
+            holder.binding.setBgColor(((MediaLibraryItem) payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED) ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_BG_TRANSPARENT);
     }
 
     @Override
@@ -94,13 +124,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public void clear() {
-//        VLCApplication.runBackground(new Runnable() {
-//            @Override
-//            public void run() {
-                //TODO
-                //MediaDatabase.getInstance().clearHistory();
-//            }
-//        });
         mMediaList.clear();
         notifyDataSetChanged();
     }

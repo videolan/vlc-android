@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_history_play"
+        android:title="@string/play"
+        android:icon="@drawable/ic_play_w" />
+    <item
+        android:id="@+id/action_history_append"
+        android:title="@string/append"
+        android:icon="@drawable/ic_next_w" />
+    <item
+        android:id="@+id/action_history_info"
+        android:visible="false"
+        android:title="@string/info"
+        android:icon="@drawable/ic_info_outline_white"/>
+</menu>

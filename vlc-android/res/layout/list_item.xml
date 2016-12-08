@@ -13,6 +13,10 @@
         <variable
             name="position"
             type="int"/>
+
+        <variable
+            name="bgColor"
+            type="int" />
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -22,17 +26,19 @@
         card_view:cardElevation="1sp"
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true"
+        android:background="?attr/background_default"
         android:clickable="true"
-        android:onClick="@{holder::onClick}">
+        android:onClick="@{(view) -> holder.onClick(view, media)}"
+        android:onLongClick="@{(view) -> holder.onLongClick(view, media)}" >
         <LinearLayout
-            android:background="?attr/background_default"
             android:id="@+id/layout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="70dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@{bgColor}" >
 
             <ImageView
                 android:id="@+id/icon"
