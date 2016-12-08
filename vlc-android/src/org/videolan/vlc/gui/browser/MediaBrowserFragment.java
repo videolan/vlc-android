@@ -77,21 +77,25 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
             activity.getSupportActionBar().setSubtitle(getSubTitle());
             getActivity().supportInvalidateOptionsMenu();
         }
-        mFabPlay = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        setFabPlayVisibility(false);
-        mFabPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabPlayClick(v);
-            }
-        });
+        mFabPlay = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        if (mFabPlay != null) {
+            setFabPlayVisibility(false);
+            mFabPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFabPlayClick(v);
+                }
+            });
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mFabPlay.setOnClickListener(null);
-        setFabPlayVisibility(false);
+        if (mFabPlay != null) {
+            mFabPlay.setOnClickListener(null);
+            setFabPlayVisibility(false);
+        }
     }
 
     @Override
@@ -101,7 +105,8 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     public void setFabPlayVisibility(boolean enable) {
-        mFabPlay.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
+        if (mFabPlay != null)
+            mFabPlay.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void onFabPlayClick(View view) {}
