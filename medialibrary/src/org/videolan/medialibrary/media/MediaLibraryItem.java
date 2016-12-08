@@ -17,12 +17,16 @@ public abstract class MediaLibraryItem implements Parcelable {
     public static final int TYPE_STORAGE = 6;
     public static final int TYPE_HISTORY = 7;
 
+    public static final int FLAG_NONE = 0;
+    public static final int FLAG_SELECTED = 1;
+
 
     public abstract MediaWrapper[] getTracks(Medialibrary ml);
     public abstract int getItemType();
 
     long mId;
     protected String mTitle, mDescription;
+    int mFlags;
 
     protected MediaLibraryItem() {}
 
@@ -56,6 +60,30 @@ public abstract class MediaLibraryItem implements Parcelable {
     public void setDescription(String description) {
         mDescription = description;
     }
+
+    public void setStateFlags(int flags) {
+        mFlags = flags;
+    }
+
+    public void addStateFlags(int flags) {
+        mFlags |= flags;
+    }
+
+    public boolean hasStateFlags(int flags) {
+        return (mFlags & flags) != 0;
+    }
+
+    public void toggleStateFlag(int flag) {
+        if (hasStateFlags(flag))
+            removeStateFlags(flag);
+        else
+            addStateFlags(flag);
+    }
+
+    public void removeStateFlags(int flags) {
+        mFlags &= ~flags;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(mId);
