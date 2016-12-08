@@ -37,7 +37,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -158,7 +157,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected void onResume() {
         super.onResume();
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
-            liftContentOverPlayer();
+            mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
     }
 
     @Override
@@ -244,14 +243,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             mActionBar.collapseActionView();
             mAppBarLayout.setExpanded(false, true);
-            liftContentOverPlayer();
         }
-    }
-
-    private void liftContentOverPlayer() {
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFragmentContainer.getLayoutParams();
-        lp.bottomMargin = mBottomSheetBehavior.getPeekHeight();
-        mFragmentContainer.setLayoutParams(lp);
     }
 
     /**
@@ -282,9 +274,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     public void hideAudioPlayer() {
         mBottomSheetBehavior.setHideable(true);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFragmentContainer.getLayoutParams();
-        lp.bottomMargin = 0;
-        mFragmentContainer.setLayoutParams(lp);
     }
 
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
@@ -322,6 +311,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
                     mAudioPlayer.setUserVisibleHint(false);
                     removeTipViewIfDisplayed();
+                    mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
                     break;
                 case BottomSheetBehavior.STATE_EXPANDED:
                     mBottomSheetBehavior.setHideable(false);
@@ -331,6 +321,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();
+                    mFragmentContainer.setPadding(0, 0, 0, 0);
                     break;
             }
         }
