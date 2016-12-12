@@ -38,7 +38,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -243,7 +242,5 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     public void onCtxClick(View v, int position, MediaLibraryItem item) {}
 
     @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {
-
-    }
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {}
 }

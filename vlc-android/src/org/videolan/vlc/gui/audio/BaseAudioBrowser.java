@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,12 +106,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        AudioBrowserAdapter adpater = getCurrentAdapter();
-        MediaLibraryItem[] items = getCurrentAdapter().getAll();
+        final AudioBrowserAdapter adapter = getCurrentAdapter();
+        MediaLibraryItem[] items = adapter.getAll();
         for (int i = 0; i < items.length; ++i) {
             if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                adpater.notifyItemChanged(i, items[i]);
+                adapter.notifyItemChanged(i, items[i]);
             }
         }
     }
@@ -145,5 +146,5 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {}
 
     @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {}
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {}
 }

@@ -21,10 +21,12 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -36,6 +38,7 @@ import android.support.annotation.MainThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -55,9 +58,12 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
@@ -65,6 +71,7 @@ import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
@@ -74,7 +81,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable, IEventsHandler {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -478,18 +485,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_video, menu);
-        mVideoAdapter.setActionMode(true);
         return true;
     }
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        if (mVideoAdapter.getSelectedPositions().isEmpty()) {
+        List<MediaWrapper> selection = mVideoAdapter.getSelection();
+        if (selection.isEmpty()) {
             stopActionMode();
             return false;
         }
         boolean honeyComb = AndroidUtil.isHoneycombOrLater();
-        int count = mVideoAdapter.getSelectedPositions().size();
+        int count = selection.size();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
         menu.findItem(R.id.action_video_play).setVisible(honeyComb || count == 1);
         menu.findItem(R.id.action_video_append).setVisible(honeyComb);
@@ -508,10 +515,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             case R.id.action_video_info:
                 showInfoDialog(mVideoAdapter.getSelection().get(0));
                 break;
-            case R.id.action_video_delete:
-                for (int position : mVideoAdapter.getSelectedPositions())
-                    removeVideo(position, mVideoAdapter.getItem(position));
-                break;
+//            case R.id.action_video_delete:
+//                for (int position : mVideoAdapter.getSelectedPositions())
+//                    removeVideo(position, mVideoAdapter.getItem(position));
+//                break;
             case R.id.action_video_download_subtitles:
                 MediaUtils.getSubs(getActivity(), mVideoAdapter.getSelection());
                 break;
@@ -531,7 +538,15 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mVideoAdapter.setActionMode(false);
+        mActionMode = null;
+        ArrayList<MediaWrapper> items = mVideoAdapter.getAll();
+        for (int i = 0; i < items.size(); ++i) {
+            MediaWrapper mw = items.get(i);
+            if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                mVideoAdapter.notifyItemChanged(i, mw);
+            }
+        }
     }
 
     private static final int UPDATE_LIST = 14;
@@ -556,4 +571,51 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             }
         }
     };
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        MediaWrapper media = (MediaWrapper) item;
+            if (mActionMode != null) {
+                item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+                mVideoAdapter.notifyItemChanged(position, item);
+                invalidateActionMode();
+                return;
+            }
+            Activity activity = getActivity();
+            if (media instanceof MediaGroup) {
+                String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+                ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+            } else {
+                media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+                if (settings.getBoolean("force_play_all", false)) {
+                    ArrayList<MediaWrapper> playList = new ArrayList<>();
+                    MediaUtils.openList(activity, playList, mVideoAdapter.getListWithPosition(playList, position));
+                } else {
+                    MediaUtils.openMedia(activity, media);
+                }
+            }
+    }
+
+    @Override
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+            if (mActionMode != null)
+                return false;
+            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            mVideoAdapter.notifyItemChanged(position, item);
+            startActionMode();
+            return true;
+    }
+
+    @Override
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {
+            if (mActionMode != null)
+                return;
+            mGridView.openContextMenu(position);
+    }
+
+    @Override
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        updateEmptyView();
+    }
 }

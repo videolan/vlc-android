@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
@@ -50,12 +49,10 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
-import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Strings;
@@ -77,9 +74,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private final static int TYPE_GRID = 1;
 
     public final static int SORT_BY_DATE = 2;
-    private boolean mListMode = false, mActionMode;
-    private List<Integer> mSelectedItems = new LinkedList<>();
-    private VideoGridFragment mFragment;
+    private boolean mListMode = false;
+    private IEventsHandler mEventsHandler;
     private VideoComparator mVideoComparator = new VideoComparator();
     private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
     private ArrayList<MediaWrapper> mOriginalData = null;
@@ -87,9 +83,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     private int mGridCardWidth = 0;
-    VideoListAdapter(VideoGridFragment fragment) {
+    VideoListAdapter(IEventsHandler eventsHandler) {
         super();
-        mFragment = fragment;
+        mEventsHandler = eventsHandler;
     }
 
     @Override
@@ -113,8 +109,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
-        boolean isSelected = mActionMode && mSelectedItems.contains(position);
-        holder.setOverlay(mActionMode && isSelected);
+        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+        holder.setOverlay(isSelected);
         holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
     }
 
@@ -122,8 +118,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
         if (payloads.isEmpty())
             super.onBindViewHolder(holder, position, payloads);
-        else
-            fillView(holder, (MediaWrapper) payloads.get(0));
+        else {
+            MediaWrapper media = (MediaWrapper) payloads.get(0);
+            boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            holder.setOverlay(isSelected);
+            holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
+            fillView(holder, media);
+        }
     }
 
     @Override
@@ -181,18 +182,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return list;
     }
 
-    List<Integer> getSelectedPositions() {
-        return mSelectedItems;
-    }
-
     List<MediaWrapper> getSelection() {
         List<MediaWrapper> selection = new LinkedList<>();
-        for (Integer selected : mSelectedItems) {
-            MediaWrapper media = mVideos.get(selected);
-            if (media instanceof MediaGroup)
-                selection.addAll(((MediaGroup)media).getAll());
-            else
-                selection.add(media);
+        for (int i = 0; i < mVideos.size(); ++i) {
+            MediaWrapper mw = mVideos.get(i);
+            if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                if (mw instanceof MediaGroup)
+                    selection.addAll(((MediaGroup) mw).getAll());
+                else
+                    selection.add(mw);
+            }
+
         }
         return selection;
     }
@@ -288,17 +288,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return position+offset;
     }
 
-    void setActionMode(boolean actionMode) {
-        mActionMode = actionMode;
-        if (!actionMode) {
-            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
-            mSelectedItems.clear();
-            for (Integer position : positions)
-                notifyItemChanged(position);
-        }
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnFocusChangeListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener {
         public ViewDataBinding binding;
         private ImageView thumbView;
 
@@ -308,56 +298,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             thumbView = (ImageView) itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
             binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
-            itemView.setOnLongClickListener(this);
             itemView.setOnFocusChangeListener(this);
         }
 
         public void onClick(View v, MediaWrapper media) {
-            if (mActionMode) {
-                setSelected();
-                mFragment.invalidateActionMode();
-                return;
-            }
-            Activity activity = mFragment.getActivity();
-            if (media instanceof MediaGroup) {
-                String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
-            } else {
-                media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-                if (settings.getBoolean("force_play_all", false)) {
-                    ArrayList<MediaWrapper> playList = new ArrayList<>();
-                    MediaUtils.openList(itemView.getContext(), playList, getListWithPosition(playList, getAdapterPosition()));
-                } else {
-                    MediaUtils.openMedia(itemView.getContext(), media);
-                }
-            }
+            mEventsHandler.onClick(v, getAdapterPosition(), media);
         }
 
         public void onMoreClick(View v){
-            if (mActionMode || mFragment == null)
-                return;
-            mFragment.mGridView.openContextMenu(getLayoutPosition());
+            mEventsHandler.onCtxClick(v, getAdapterPosition(), null);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            if (mActionMode || mFragment == null)
-                return false;
-            setSelected();
-            mFragment.startActionMode();
-            return true;
-        }
-
-        private void setSelected() {
-            Integer position = getLayoutPosition();
-            boolean selected = !mSelectedItems.contains(position);
-            if (selected)
-                mSelectedItems.add(position);
-            else
-                mSelectedItems.remove(position);
-            setOverlay(itemView.hasFocus() || mSelectedItems.contains(position));
-            binding.setVariable(BR.bgColor, mListMode && selected ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_BG_TRANSPARENT);
+        public boolean onLongClick(View v, MediaWrapper media) {
+            return mEventsHandler.onLongClick(v, getAdapterPosition(), media);
         }
 
         private void setOverlay(boolean selected) {
@@ -366,7 +319,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus || mSelectedItems.contains(getLayoutPosition()));
+            setViewBackground(hasFocus || mVideos.get(getAdapterPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         }
 
         private void setViewBackground(boolean highlight) {
@@ -544,7 +497,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                         mVideos.clear();
                         mVideos = newSortedList;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
-                        mFragment.updateEmptyView();
+                        mEventsHandler.onUpdateFinished(null);
                     }
                 });
             }

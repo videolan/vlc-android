@@ -182,13 +182,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onCtxClick(View v, int position, MediaLibraryItem item) {}
 
     @Override
-    public void startActionMode() {}
-
-    @Override
-    public void invalidateActionMode() {}
-
-    @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
         updateEmptyView();
     }
 }

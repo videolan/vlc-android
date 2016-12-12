@@ -49,6 +49,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{(view) -> holder.onClick(view, media)}"
+        android:onLongClick="@{(view) -> holder.onLongClick(view, media)}"
         android:longClickable="true"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"

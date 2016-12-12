@@ -50,6 +50,8 @@ import java.util.LinkedList;
 
 public abstract class MediaBrowserFragment extends PlaybackServiceFragment implements android.support.v7.view.ActionMode.Callback {
 
+    public final static String TAG = "VLC/MediaBrowserFragment";
+
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
     protected Medialibrary mMediaLibrary;
@@ -196,8 +198,8 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     protected void stopActionMode() {
         if (mActionMode != null) {
             mActionMode.finish();
+            onDestroyActionMode(mActionMode);
             setFabPlayVisibility(true);
-            mActionMode = null;
         }
     }
 

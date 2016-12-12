@@ -513,6 +513,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
+        onDestroyActionMode(tab.getPosition());
         mMainActivity.closeSearchView();
         ((AudioBrowserAdapter)((RecyclerView)mLists.get(tab.getPosition())).getAdapter()).restoreList();
     }
@@ -568,7 +569,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     }
 
     @Override
-    public void onUpdateFinished(AudioBrowserAdapter adapter) {
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
         if (adapter == getCurrentAdapter())
             updateEmptyView(mViewPager.getCurrentItem());
     }
@@ -742,5 +743,17 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             hideProgressBar();
         } else if (!mSwipeRefreshLayout.isRefreshing())
             mHandler.sendEmptyMessage(SET_REFRESHING);
+    }
+
+    public void onDestroyActionMode(int position) {
+        mActionMode = null;
+        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists.get(position)).getAdapter();
+        MediaLibraryItem[] items = adapter.getAll();
+        for (int i = 0; i < items.length; ++i) {
+            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                adapter.notifyItemChanged(i, items[i]);
+            }
+        }
     }
 }
