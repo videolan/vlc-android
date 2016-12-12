@@ -82,4 +82,24 @@ public class Util {
                 PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
+
+    public static void removePositionInArray(Object[] array, int position, Object[] destArray) {
+        int offset = 0, count = destArray.length;
+        for (int i = 0; i<count; ++i) {
+            if (i == position)
+                ++offset;
+            destArray[i] = array[i+offset];
+        }
+    }
+
+    public static void addItemInArray(Object[] array, int position, Object item, Object[] destArray) {
+        int offset = 0, count = destArray.length;
+        for (int i = 0; i < count; ++i) {
+            if (i == position) {
+                ++offset;
+                destArray[i] = item;
+            } else
+                destArray[i] = array[i-offset];
+        }
+    }
 }
