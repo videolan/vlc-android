@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -242,7 +243,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     void dispatchUpdate(final MediaLibraryItem[] items) {
-        VLCApplication.runBackground(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
@@ -256,7 +257,11 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                     }
                 });
             }
-        });
+        };
+        if (Looper.myLooper() == Looper.getMainLooper())
+            VLCApplication.runBackground(runnable);
+        else
+            runnable.run();
     }
 
     List<MediaLibraryItem> getSelection() {

@@ -380,12 +380,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     for (MediaGroup item : MediaGroup.group(itemList))
                         displayList.add(item.getMedia());
                 }
+                mVideoAdapter.dispatchUpdate(displayList);
 
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         stopRefresh();
-                        mVideoAdapter.dispatchUpdate(displayList);
                     }
                 });
             }

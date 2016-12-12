@@ -488,6 +488,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
+
     @BindingAdapter({"time", "resolution"})
     public static void setLayoutHeight(View view, String time, String resolution) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
@@ -498,7 +499,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     void dispatchUpdate(final ArrayList<MediaWrapper> items) {
-        VLCApplication.runBackground(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
@@ -517,7 +518,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     }
                 });
             }
-        });
+        };
+        if (Looper.myLooper() == Looper.getMainLooper())
+            VLCApplication.runBackground(runnable);
+        else
+            runnable.run();
     }
 
     private class VideoItemDiffCallback extends MediaItemDiffCallback {
