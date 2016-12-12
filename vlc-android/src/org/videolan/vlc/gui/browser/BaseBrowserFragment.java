@@ -74,7 +74,6 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 
 public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
@@ -694,13 +693,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        List<MediaWrapper> selection = mAdapter.getSelection();
-        if (selection.isEmpty()) {
+        int count = mAdapter.getSelectionCount();
+        if (count == 0) {
             stopActionMode();
             return false;
         }
-        boolean single = this instanceof FileBrowserFragment && selection.size() == 1;
-        int type = single ? selection.get(0).getType() : -1;
+        boolean single = this instanceof FileBrowserFragment && count == 1;
+        int type = single ? mAdapter.getSelection().get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
         return true;
     }
@@ -741,6 +740,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mAdapter.notifyItemChanged(index, media);
             }
         }
+        mAdapter.resetSelectionCount();
     }
 
 
@@ -751,6 +751,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
                         mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
                     item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+                    mAdapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
                     mAdapter.notifyItemChanged(position, item);
                     invalidateActionMode();
                 }
@@ -773,6 +774,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             if (mActionMode != null)
                 return false;
             item.setStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            mAdapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mAdapter.notifyItemChanged(position, item);
             startActionMode();
         } else

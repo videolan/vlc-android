@@ -490,13 +490,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        List<MediaWrapper> selection = mVideoAdapter.getSelection();
-        if (selection.isEmpty()) {
+        int count = mVideoAdapter.getSelectionCount();
+        if (count == 0) {
             stopActionMode();
             return false;
         }
         boolean honeyComb = AndroidUtil.isHoneycombOrLater();
-        int count = selection.size();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
         menu.findItem(R.id.action_video_play).setVisible(honeyComb || count == 1);
         menu.findItem(R.id.action_video_append).setVisible(honeyComb);
@@ -544,6 +543,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             MediaWrapper mw = items.get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                mVideoAdapter.resetSelectionCount();
                 mVideoAdapter.notifyItemChanged(i, mw);
             }
         }
@@ -577,6 +577,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         MediaWrapper media = (MediaWrapper) item;
             if (mActionMode != null) {
                 item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+                mVideoAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
                 mVideoAdapter.notifyItemChanged(position, item);
                 invalidateActionMode();
                 return;
@@ -602,6 +603,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             if (mActionMode != null)
                 return false;
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            mVideoAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mVideoAdapter.notifyItemChanged(position, item);
             startActionMode();
             return true;

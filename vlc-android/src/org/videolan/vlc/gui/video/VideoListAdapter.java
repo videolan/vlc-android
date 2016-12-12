@@ -81,6 +81,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    private int mSelectionCount = 0;
 
     private int mGridCardWidth = 0;
     VideoListAdapter(IEventsHandler eventsHandler) {
@@ -195,6 +196,21 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         }
         return selection;
+    }
+
+    @MainThread
+    int getSelectionCount() {
+        return mSelectionCount;
+    }
+
+    @MainThread
+    void resetSelectionCount() {
+        mSelectionCount = 0;
+    }
+
+    @MainThread
+    void updateSelectionCount(boolean selected) {
+        mSelectionCount += selected ? 1 : -1;
     }
 
     @MainThread

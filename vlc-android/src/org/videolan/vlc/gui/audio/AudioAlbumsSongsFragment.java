@@ -329,6 +329,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
+        onDestroyActionMode(tab.getPosition());
     }
 
     @Override
@@ -346,5 +347,18 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     protected boolean songModeSelected() {
         return mViewPager.getCurrentItem() == MODE_SONG;
+    }
+
+    public void onDestroyActionMode(int position) {
+        mActionMode = null;
+        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists.get(position)).getAdapter();
+        MediaLibraryItem[] items = adapter.getAll();
+        for (int i = 0; i < items.length; ++i) {
+            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                adapter.notifyItemChanged(i, items[i]);
+            }
+        }
+        adapter.resetSelectionCount();
     }
 }

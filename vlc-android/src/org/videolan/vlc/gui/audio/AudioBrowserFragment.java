@@ -755,5 +755,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 adapter.notifyItemChanged(i, items[i]);
             }
         }
+        adapter.resetSelectionCount();
     }
 }

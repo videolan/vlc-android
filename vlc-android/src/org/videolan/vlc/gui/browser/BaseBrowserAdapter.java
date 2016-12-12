@@ -26,6 +26,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.MainThread;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,8 +68,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
     ArrayList<MediaLibraryItem> mOriginalData = null;
     BaseBrowserFragment fragment;
-    private int mTop = 0;
-    private int mMediaCount = 0;
+    private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
@@ -344,6 +344,20 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return selection;
     }
 
+    @MainThread
+    int getSelectionCount() {
+        return mSelectionCount;
+    }
+
+    @MainThread
+    void resetSelectionCount() {
+        mSelectionCount = 0;
+    }
+
+    @MainThread
+    void updateSelectionCount(boolean selected) {
+        mSelectionCount += selected ? 1 : -1;
+    }
 
     @Override
     public Filter getFilter() {

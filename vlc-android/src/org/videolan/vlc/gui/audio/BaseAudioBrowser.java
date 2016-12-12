@@ -62,12 +62,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        List<MediaLibraryItem> selection = getCurrentAdapter().getSelection();
-        if (selection.isEmpty()) {
+        int count = getCurrentAdapter().getSelectionCount();
+        if (count == 0) {
             stopActionMode();
             return false;
         }
-        boolean isSong = selection.size() == 1 && selection.get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
+        boolean isSong = count == 1 && getCurrentAdapter().getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         return true;
@@ -114,6 +114,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
                 adapter.notifyItemChanged(i, items[i]);
             }
         }
+        getCurrentAdapter().resetSelectionCount();
     }
 
     @Override
@@ -127,6 +128,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
     public void onClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode != null) {
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             getCurrentAdapter().notifyItemChanged(position, item);
             invalidateActionMode();
         }
@@ -137,6 +139,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
         if (mActionMode != null)
             return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         getCurrentAdapter().notifyItemChanged(position, item);
         startActionMode();
         return true;

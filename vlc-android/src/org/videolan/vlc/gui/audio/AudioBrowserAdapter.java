@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.MainThread;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -43,6 +44,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private IEventsHandler mIEventsHandler;
+    private int mSelectionCount = 0;
 
     public AudioBrowserAdapter(Activity context, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
@@ -263,6 +265,21 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
                 selection.add(media);
         return selection;
+    }
+
+    @MainThread
+    int getSelectionCount() {
+        return mSelectionCount;
+    }
+
+    @MainThread
+    void resetSelectionCount() {
+        mSelectionCount = 0;
+    }
+
+    @MainThread
+    void updateSelectionCount(boolean selected) {
+        mSelectionCount += selected ? 1 : -1;
     }
 
     public class ViewHolder< T extends ViewDataBinding> extends RecyclerView.ViewHolder {
