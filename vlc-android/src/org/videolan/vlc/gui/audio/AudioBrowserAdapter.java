@@ -199,38 +199,35 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void remove(final int position) {
-        MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-        int offset = 0;
-        for (int i = 0; i < getItemCount(); ++i) {
-            if (i == position)
-                ++offset;
-            else
-                dataList[i] = mDataList[i+offset];
-        }
-        mDataList = dataList;
-        mContext.runOnUiThread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                notifyItemRemoved(position);
+                final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
+                Util.removePositionInArray(mDataList, position, dataList);
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDataList = dataList;
+                        notifyItemRemoved(position);
+                    }
+                });
             }
         });
     }
 
-    public void addItem(final int position, MediaLibraryItem item) {
-        MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-        int offset = 0;
-        for (int i = 0; i < getItemCount(); ++i) {
-            if (i == position) {
-                dataList[position] = item;
-                ++offset;
-            } else
-                dataList[i] = mDataList[i-offset];
-        }
-        mDataList = dataList;
-        mContext.runOnUiThread(new Runnable() {
+    public void addItem(final int position, final MediaLibraryItem item) {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                notifyItemInserted(position);
+                final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
+                Util.addItemInArray(mDataList, position, item, dataList);
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDataList = dataList;
+                        notifyItemInserted(position);
+                    }
+                });
             }
         });
     }
