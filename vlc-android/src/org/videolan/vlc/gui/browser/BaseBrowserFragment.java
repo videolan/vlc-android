@@ -35,6 +35,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
+import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
@@ -72,9 +74,10 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static String ROOT = "smb";
@@ -686,18 +689,18 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_browser_file, menu);
-        mAdapter.setActionMode(true);
         return true;
     }
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        if (mAdapter.getSelectedPositions().isEmpty()) {
+        List<MediaWrapper> selection = mAdapter.getSelection();
+        if (selection.isEmpty()) {
             stopActionMode();
             return false;
         }
-        boolean single = this instanceof FileBrowserFragment && mAdapter.getSelectedPositions().size() == 1;
-        int type = single ? ((MediaWrapper) mAdapter.getItem(mAdapter.getSelectedPositions().get(0))).getType() : -1;
+        boolean single = this instanceof FileBrowserFragment && selection.size() == 1;
+        int type = single ? selection.get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
         return true;
     }
@@ -729,6 +732,59 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mAdapter.setActionMode(false);
+        mActionMode = null;
+        int index = -1;
+        for (MediaLibraryItem media : mAdapter.getAll()) {
+            ++index;
+            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                mAdapter.notifyItemChanged(index, media);
+            }
+        }
+    }
+
+
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        MediaWrapper mediaWrapper = (MediaWrapper) item;
+            if (mActionMode != null) {
+                if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
+                        mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
+                        mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
+                    item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+                    mAdapter.notifyItemChanged(position, item);
+                    invalidateActionMode();
+                }
+            } else {
+                mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR)
+                    browse(mediaWrapper, position, true);
+                else
+                    MediaUtils.openMedia(v.getContext(), mediaWrapper);
+            }
+    }
+
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null)
+            return false;
+        MediaWrapper mediaWrapper = (MediaWrapper) item;
+        if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
+                mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
+                mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
+            if (mActionMode != null)
+                return false;
+            item.setStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            mAdapter.notifyItemChanged(position, item);
+            startActionMode();
+        } else
+            mRecyclerView.openContextMenu(position);
+        return true;
+    }
+
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode == null)
+            mRecyclerView.openContextMenu(position);
+    }
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        updateEmptyView();
     }
 }

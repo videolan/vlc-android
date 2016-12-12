@@ -44,14 +44,13 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
+import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
 public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
@@ -71,8 +70,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     private int mTop = 0;
     private int mMediaCount = 0;
     private ItemFilter mFilter = new ItemFilter();
-    private boolean mActionMode;
-    private List<Integer> mSelectedItems = new LinkedList<>();
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -109,10 +106,11 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
         if (payloads.isEmpty())
             onBindViewHolder(holder, position);
-        else {
+        else if (payloads.get(0) instanceof CharSequence){
             ((MediaViewHolder) holder).binding.text.setVisibility(View.VISIBLE);
             ((MediaViewHolder) holder).binding.text.setText((CharSequence) payloads.get(0));
-        }
+        } else if (payloads.get(0) instanceof MediaWrapper)
+            ((MediaViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), ((MediaWrapper)payloads.get(0)).hasStateFlags(FLAG_SELECTED));
     }
 
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
@@ -123,7 +121,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
             vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media));
         vh.setContextMenuListener();
-        vh.setViewBackground(vh.itemView.hasFocus(), mSelectedItems.contains(position));
+        vh.setViewBackground(vh.itemView.hasFocus(), media.hasStateFlags(FLAG_SELECTED));
     }
 
     @Override
@@ -185,46 +183,16 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         }
 
         public void onClick(View v){
-            if (mActionMode) {
-                MediaWrapper mediaWrapper = (MediaWrapper) getItem(getLayoutPosition());
-                if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
-                        mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
-                        mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
-                    setSelected();
-                    fragment.invalidateActionMode();
-                }
-            } else
-                openMediaFromView(this, v);
+            fragment.onClick(v, getAdapterPosition(), binding.getItem());
         }
 
         public void onMoreClick(View v) {
-            fragment.openContextMenu(getLayoutPosition());
+            fragment.onCtxClick(v, getAdapterPosition(), binding.getItem());
         }
 
         @Override
         public boolean onLongClick(View v) {
-            int position = getLayoutPosition();
-            MediaWrapper mediaWrapper = (MediaWrapper) getItem(position);
-            if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
-                    mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
-                    mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
-                if (mActionMode)
-                    return false;
-                setSelected();
-                fragment.startActionMode();
-            } else
-                fragment.mRecyclerView.openContextMenu(position);
-            return true;
-        }
-
-        private void setSelected() {
-            Integer position = getLayoutPosition();
-            boolean selected = !mSelectedItems.contains(position);
-            if (selected)
-                mSelectedItems.add(position);
-            else
-                mSelectedItems.remove(position);
-            setViewBackground(itemView.hasFocus(), mSelectedItems.contains(position));
+            return fragment.onLongClick(v, getAdapterPosition(), binding.getItem());
         }
 
         private void setViewBackground(boolean focus, boolean selected) {
@@ -367,38 +335,11 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     protected void checkBoxAction(View v, String path){}
 
-    protected void openMediaFromView(MediaViewHolder holder, View v) {
-        final MediaWrapper mw = (MediaWrapper) getItem(holder.getAdapterPosition());
-        if (mw == null)
-            return;
-        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-
-        if (mw.getType() == MediaWrapper.TYPE_DIR)
-            fragment.browse(mw, holder.getAdapterPosition(), true);
-        else
-            MediaUtils.openMedia(v.getContext(), mw);
-
-    }
-
-    void setActionMode(boolean actionMode) {
-        mActionMode = actionMode;
-        if (!actionMode) {
-            LinkedList<Integer> positions = new LinkedList<>(mSelectedItems);
-            mSelectedItems.clear();
-            for (Integer position : positions)
-                notifyItemChanged(position);
-        }
-    }
-
-    List<Integer> getSelectedPositions() {
-        return mSelectedItems;
-    }
-
     ArrayList<MediaWrapper> getSelection() {
         ArrayList<MediaWrapper> selection = new ArrayList<>();
-        for (Integer selected : mSelectedItems) {
-            MediaWrapper media = (MediaWrapper) mMediaList.get(selected);
-            selection.add(media);
+        for (MediaLibraryItem item : mMediaList) {
+            if (item.hasStateFlags(FLAG_SELECTED))
+                selection.add((MediaWrapper) item);
         }
         return selection;
     }

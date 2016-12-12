@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -34,10 +35,12 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
@@ -181,6 +184,13 @@ public class StorageBrowserFragment extends FileBrowserFragment {
                 inflater.inflate(R.menu.directory_custom_dir, menu);
         } else
             super.setContextMenuItems(menu, position);
+    }
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        MediaWrapper mw = new MediaWrapper(((Storage) item).getUri());
+        mw.setType(MediaWrapper.TYPE_DIR);
+        browse(mw, position, ((DirectoryViewItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.isChecked());
     }
 
     @Override
