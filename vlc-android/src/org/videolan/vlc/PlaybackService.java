@@ -122,6 +122,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public static final String ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC+"LastVideoPlaylist";
     public static final String ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC+"SwitchToVideo";
 
+    private static final int DELAY_DOUBLE_CLICK = 800;
+    private static final int DELAY_LONG_CLICK = 1000;
+
     public interface Callback {
         void update();
         void updateProgress();
@@ -1061,11 +1064,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             break;
                         case KeyEvent.ACTION_UP:
                             if (AndroidDevices.hasTsp()) { //no backward/forward on TV
-                                if (time - mHeadsetDownTime >= 1000) { // long click
+                                if (time - mHeadsetDownTime >= DELAY_LONG_CLICK) { // long click
                                     mHeadsetUpTime = time;
                                     previous(false);
                                     return true;
-                                } else if (time - mHeadsetUpTime <= 500) { // double click
+                                } else if (time - mHeadsetUpTime <= DELAY_DOUBLE_CLICK) { // double click
                                     mHeadsetUpTime = time;
                                     next();
                                     return true;
