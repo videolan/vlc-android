@@ -1266,7 +1266,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             Log.w(TAG, "Warning: invalid next index, aborted !");
             //Close video player if started
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(VideoPlayerActivity.EXIT_PLAYER));
-            showNotification();
+            stop();
             return;
         }
         mVideoBackground = !isVideoPlaying() && canSwitchToVideo();
