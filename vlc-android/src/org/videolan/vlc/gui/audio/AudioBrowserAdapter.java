@@ -114,15 +114,16 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     ArrayList<MediaLibraryItem> getMediaItems() {
         ArrayList<MediaLibraryItem> list = new ArrayList<>();
-        for (MediaLibraryItem item : mDataList)
-            if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY))
-                list.add(item);
+        int count = getItemCount();
+        for (int i = 0; i < count; ++i)
+            if (!(mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY))
+                list.add(mDataList[i]);
         return list;
     }
 
     int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
-        int offset = 0;
-        for (int i = 0; i < mDataList.length; ++i)
+        int offset = 0, count = getItemCount();
+        for (int i = 0; i < count; ++i)
             if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
@@ -149,8 +150,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     public String getSectionforPosition(int position) {
         if (mMakeSections)
             for (int i = position; i >= 0; --i)
-                if (getItem(i).getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                    return getItem(i).getTitle();
+                if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY)
+                    return mDataList[i].getTitle();
         return "";
     }
 
@@ -177,7 +178,9 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
         boolean isLetter;
         String currentLetter = null;
-        for (MediaLibraryItem item : items) {
+        int count = items.length;
+        for (int i = 0; i < count; ++i) {
+            MediaLibraryItem item = items[i];
             if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
                 continue;
             String title = item.getTitle();
@@ -266,9 +269,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
-        for (MediaLibraryItem media : mDataList)
-            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
-                selection.add(media);
+        int count = getItemCount();
+        for (int i = 0; i < count; ++i)
+            if (mDataList[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+                selection.add(mDataList[i]);
         return selection;
     }
 
