@@ -28,7 +28,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -61,6 +60,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
@@ -68,21 +68,19 @@ public class AudioUtil {
     /**
      * Cache directory (/sdcard/Android/data/...)
      */
-    public static String CACHE_DIR = null;
+    private static String CACHE_DIR = null;
     /**
      * VLC embedded art storage location
      */
-    public static String ART_DIR = null;
+    private static AtomicReference<String> ART_DIR = new AtomicReference<>();
     /**
      * Cover caching directory
      */
-    public static String COVER_DIR = null;
-    /**
-     * User-defined playlist storage directory
-     */
-    public static String PLAYLIST_DIR = null;
-
-    public static final BitmapDrawable DEFAULT_COVER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.icon));
+    private static AtomicReference<String> COVER_DIR = new AtomicReference<>();
+//    /**
+//     * User-defined playlist storage directory
+//     */
+//    public static AtomicReference<String> PLAYLIST_DIR = new AtomicReference<>();
 
     public static void setRingtone(MediaWrapper song, Activity context){
         if (!Permissions.canWriteSettings(context)) {
@@ -132,28 +130,32 @@ public class AudioUtil {
     }
 
     @SuppressLint("NewApi")
-    public static void prepareCacheFolder(Context context) {
-        try {
-            if (AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
-                CACHE_DIR = context.getExternalCacheDir().getPath();
-            else
-                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
-        } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
-            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
-        }
-        ART_DIR = CACHE_DIR + "/art/";
-        COVER_DIR = CACHE_DIR + "/covers/";
-        PLAYLIST_DIR = CACHE_DIR + "/playlists/";
-
-        for(String path : Arrays.asList(ART_DIR, COVER_DIR)) {
-            File file = new File(path);
-            if (!file.exists())
-                file.mkdirs();
-        }
+    public static void prepareCacheFolder(final Context context) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
+                        CACHE_DIR = context.getExternalCacheDir().getPath();
+                    else
+                        CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+                } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
+                    CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+                }
+                ART_DIR.set(CACHE_DIR + "/art/");
+                COVER_DIR.set(CACHE_DIR + "/covers/");
+//        PLAYLIST_DIR.set(CACHE_DIR + "/playlists/");
+                for(String path : Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
+                    File file = new File(path);
+                    if (!file.exists())
+                        file.mkdirs();
+                }
+            }
+        });
     }
 
     public static void clearCacheFolders() {
-        for(String path : Arrays.asList(ART_DIR, COVER_DIR)) {
+        for(String path : Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
             File file = new File(path);
             if (file.exists())
                 deleteContent(file, false);
@@ -222,10 +224,10 @@ public class AudioUtil {
                     titleHash = "0" + titleHash;
                 }
                 /* Use generated hash to find art */
-                artworkURL = ART_DIR + "/arturl/" + titleHash + "/art.png";
+                artworkURL = ART_DIR.get() + "/arturl/" + titleHash + "/art.png";
             } else {
                 /* Otherwise, it was cached by artist and album */
-                artworkURL = ART_DIR + "/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
+                artworkURL = ART_DIR.get() + "/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
             }
 
             return artworkURL;
@@ -281,7 +283,7 @@ public class AudioUtil {
 
     private static String getCoverCachePath(Context context, MediaWrapper media, int width) {
         final int hash = MurmurHash.hash32(MediaUtils.getMediaArtist(context, media) + MediaUtils.getMediaAlbum(context, media));
-        return COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+        return COVER_DIR.get() + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
     }
 
     public static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
