@@ -165,9 +165,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(getActivity()));
             registerForContextMenu(rv);
         }
-
         mViewPager.setOnTouchListener(mSwipeFilter);
-        mFastScroller.setRecyclerView(getCurrentRV());
     }
 
     public void onStart() {
@@ -570,8 +568,10 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        if (adapter == getCurrentAdapter())
+        if (adapter == getCurrentAdapter()) {
             updateEmptyView(mViewPager.getCurrentItem());
+            mFastScroller.setRecyclerView(getCurrentRV());
+        }
     }
 
     @Override
