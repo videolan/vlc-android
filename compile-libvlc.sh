@@ -16,6 +16,8 @@ checkfail()
 # ARGUMENTS #
 #############
 
+MEDIALIBRARY_HASH=fca3c80
+
 RELEASE=0
 ASAN=0
 while [ $# -gt 0 ]; do
@@ -783,6 +785,12 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     checkfail "medialibrary source: git clone failed"
+else
+    cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
+    if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
+      git pull --rebase
+    fi
+    cd -
 fi
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/libvlcpp" ]; then
