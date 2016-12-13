@@ -23,20 +23,18 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
@@ -50,6 +48,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrowserFragment {
 
@@ -94,12 +93,12 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
 
     @Override
     protected void browseRoot() {
-        final Activity context = getActivity();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 String storages[] = AndroidDevices.getMediaDirectories();
                 MediaWrapper directory;
+                ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
                 for (String mediaDirLocation : storages) {
                     if (!(new File(mediaDirLocation).exists()))
                         continue;
@@ -107,17 +106,10 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                     directory.setType(MediaWrapper.TYPE_DIR);
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                         directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+                    devices.add(directory);
                     mAdapter.addItem(directory, false, false);
-                }
-                if (mReadyToDisplay && context != null) {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateEmptyView();
-                            mAdapter.notifyDataSetChanged();
-                            parseSubDirectories();
-                        }
-                    });
+                    mAdapter.dispatchUpdate(devices);
+                    parseSubDirectories();
                 }
                 mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
             }
