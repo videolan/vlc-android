@@ -26,10 +26,12 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.MainThread;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +47,10 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
@@ -70,6 +72,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -216,9 +219,8 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         }
     }
 
-    public void clear(){
-        mMediaList.clear();
-        notifyDataSetChanged();
+    public void clear() {
+        dispatchUpdate(new ArrayList<MediaLibraryItem>());
     }
 
     public boolean isEmpty(){
@@ -364,12 +366,31 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return mFilter;
     }
 
+    void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items));
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMediaList = items;
+                        result.dispatchUpdatesTo(BaseBrowserAdapter.this);
+                        fragment.onUpdateFinished(null);
+                    }
+                });
+            }
+        };
+        if (Looper.myLooper() == Looper.getMainLooper())
+            VLCApplication.runBackground(runnable);
+        else
+            runnable.run();
+    }
+
     void restoreList() {
         if (mOriginalData != null) {
-            mMediaList.clear();
-            mMediaList.addAll(mOriginalData);
+            dispatchUpdate(new ArrayList<>(mOriginalData));
             mOriginalData = null;
-            notifyDataSetChanged();
         }
     }
 
@@ -379,15 +400,12 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         protected List<MediaLibraryItem> initData() {
             if (mOriginalData == null)
                 mOriginalData = new ArrayList<>(mMediaList);
-            Log.d(TAG, "initData: "+mOriginalData.size());
             return mOriginalData;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            mMediaList.clear();
-            mMediaList.addAll((Collection<MediaWrapper>) filterResults.values);
-            notifyDataSetChanged();
+            dispatchUpdate((ArrayList<MediaLibraryItem>) filterResults.values);
         }
     }
 }
