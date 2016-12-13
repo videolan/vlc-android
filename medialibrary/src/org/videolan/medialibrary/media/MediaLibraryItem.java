@@ -107,8 +107,12 @@ public abstract class MediaLibraryItem implements Parcelable {
             return false;
         if (getItemType() != other.getItemType())
             return false;
+        if (mId != 0)
+            return mId == other.getId();
         if (getItemType() == TYPE_DUMMY)
             return TextUtils.equals(getTitle(), other.getTitle());
-        return mId == other.getId();
+        if (getItemType() == TYPE_MEDIA)
+            return TextUtils.equals(((MediaWrapper)this).getLocation(), ((MediaWrapper)other).getLocation());
+        return false;
     }
 }
