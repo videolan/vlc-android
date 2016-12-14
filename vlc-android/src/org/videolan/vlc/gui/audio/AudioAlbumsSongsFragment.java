@@ -27,6 +27,7 @@ import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,7 +51,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
-import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
@@ -139,12 +139,24 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for (View rv : mLists) {
-            ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(view.getContext()));
-            registerForContextMenu(rv);
-        }
+        for (View rv : mLists)
+            ((RecyclerView) rv).setLayoutManager(new LinearLayoutManager(view.getContext()));
         mTabLayout.addOnTabSelectedListener(this);
         updateList();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        for (View rv : mLists)
+            registerForContextMenu(rv);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        for (View rv : mLists)
+            unregisterForContextMenu(rv);
     }
 
     @Override

@@ -59,7 +59,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
-import org.videolan.vlc.gui.view.NpaLinearLayoutManager;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IBrowser;
@@ -161,10 +160,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for (View rv : mLists) {
-            ((RecyclerView) rv).setLayoutManager(new NpaLinearLayoutManager(getActivity()));
-            registerForContextMenu(rv);
-        }
+        for (View rv : mLists)
+            ((RecyclerView) rv).setLayoutManager(new LinearLayoutManager(getActivity()));
         mViewPager.setOnTouchListener(mSwipeFilter);
     }
 
@@ -172,11 +169,15 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         super.onStart();
         mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
+        for (View rv : mLists)
+            registerForContextMenu(rv);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        for (View rv : mLists)
+            unregisterForContextMenu(rv);
     }
 
     private void setupTabLayout() {
@@ -749,6 +750,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mActionMode = null;
         AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists.get(position)).getAdapter();
         MediaLibraryItem[] items = adapter.getAll();
+        if (items == null)
+            return;
         for (int i = 0; i < items.length; ++i) {
             if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);

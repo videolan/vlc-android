@@ -134,7 +134,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        registerForContextMenu(mGridView);
 
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
@@ -151,6 +150,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         super.onStart();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         setFabPlayVisibility(true);
+        registerForContextMenu(mGridView);
     }
 
     @Override
@@ -170,6 +170,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mMediaLibrary.removeDeviceDiscoveryCb(this);
         mMediaLibrary.removeMediaUpdatedCb();
         mMediaLibrary.removeMediaAddedCb();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unregisterForContextMenu(mGridView);
     }
 
     @Override
@@ -212,17 +218,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
         // Select between grid or list
         if (!listMode) {
-            mGridView.setNumColumns(-1);
             int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, res.getDimensionPixelSize(R.dimen.default_margin)));
             mVideoAdapter.setGridCardWidth(mGridView.getColumnWidth());
-            mGridView.removeItemDecoration(mDividerItemDecoration);
-        } else {
-            mGridView.setNumColumns(1);
-            mGridView.addItemDecoration(mDividerItemDecoration);
         }
-        if (mVideoAdapter.isListMode() != listMode)
+        mGridView.setNumColumns(listMode ? 1 : -1);
+        if (mVideoAdapter.isListMode() != listMode) {
+            if (listMode)
+                mGridView.addItemDecoration(mDividerItemDecoration);
+            else
+                mGridView.removeItemDecoration(mDividerItemDecoration);
             mVideoAdapter.setListMode(listMode);
+        }
     }
 
 

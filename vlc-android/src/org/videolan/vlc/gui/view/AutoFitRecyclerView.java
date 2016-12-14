@@ -34,7 +34,7 @@ import org.videolan.vlc.VLCApplication;
 
 public class AutoFitRecyclerView extends ContextMenuRecyclerView {
 
-    private NpaGridLayoutManager mGridLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private int mColumnWidth = -1;
     private int mSpanCount = -1;
 
@@ -63,7 +63,7 @@ public class AutoFitRecyclerView extends ContextMenuRecyclerView {
             array.recycle();
         }
 
-        mGridLayoutManager = new NpaGridLayoutManager(getContext(), 1);
+        mGridLayoutManager = new GridLayoutManager(getContext(), 1);
         setLayoutManager(mGridLayoutManager);
     }
 
