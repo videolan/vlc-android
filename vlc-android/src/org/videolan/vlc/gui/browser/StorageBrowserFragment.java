@@ -45,6 +45,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class StorageBrowserFragment extends FileBrowserFragment {
 
@@ -113,13 +114,14 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         String[] storages = mMediaLibrary.getDevices();
         String[] customDirectories = CustomDirectories.getCustomDirectories();
         Storage storage;
+        ArrayList storagesList = new ArrayList();
         for (String mediaDirLocation : storages) {
             if (TextUtils.isEmpty(mediaDirLocation))
                 continue;
             storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 storage.setName(getString(R.string.internal_memory));
-            mAdapter.addItem(storage, false, false);
+            storagesList.add(storage);
         }
         customLoop:
         for (String customDir : customDirectories) {
@@ -130,13 +132,10 @@ public class StorageBrowserFragment extends FileBrowserFragment {
                     continue customLoop;
             }
             storage = new Storage(Uri.parse(customDir));
-            mAdapter.addItem(storage, false, false);
+            storagesList.add(storage);
         }
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        if (mReadyToDisplay) {
-            updateEmptyView();
-            mAdapter.notifyDataSetChanged();
-        }
+        mAdapter.dispatchUpdate(storagesList);
     }
 
     @Override
