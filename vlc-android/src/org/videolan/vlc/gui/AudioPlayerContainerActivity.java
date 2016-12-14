@@ -119,6 +119,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mAudioPLayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
         mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPLayerContainer);
         mBottomSheetBehavior.setHideable(true);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
     }
@@ -164,9 +165,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected void onStop() {
         super.onStop();
         unregisterReceiver(storageReceiver);
-        try {
-            unregisterReceiver(messageReceiver);
-        } catch (IllegalArgumentException e) {}
+        unregisterReceiver(messageReceiver);
         mHelper.onStop();
     }
 
@@ -238,11 +237,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Show the audio player.
      */
     public void showAudioPlayer() {
-        mAudioPLayerContainer.setVisibility(View.VISIBLE);
+        if (mAudioPLayerContainer.getVisibility() == View.GONE) {
+            mAudioPLayerContainer.setVisibility(View.VISIBLE);
+            mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+        }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             mActionBar.collapseActionView();
-            mAppBarLayout.setExpanded(false, true);
         }
     }
 
@@ -332,7 +333,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     private static class StorageHandler extends WeakHandler<AudioPlayerContainerActivity> {
 
-        public StorageHandler(AudioPlayerContainerActivity owner) {
+        StorageHandler(AudioPlayerContainerActivity owner) {
             super(owner);
         }
 
