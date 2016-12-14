@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.content.Context;
+import android.support.annotation.Keep;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +36,10 @@ import android.view.View;
 
 import org.videolan.vlc.R;
 
+@Keep
 public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior {
+
+    private static final String TAG = "VLC/FloatingActionButtonBehavior";
 
     public FloatingActionButtonBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,7 +52,7 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        if (dependency.getId() == R.id.audio_player_container) {
+        if (dependency.getId() == R.id.audio_player_container && dependency.getVisibility() == View.VISIBLE) {
             int childHeight = ((CoordinatorLayout.LayoutParams)child.getLayoutParams()).bottomMargin + child.getHeight();
             ViewCompat.setY(child, ViewCompat.getY(dependency) - childHeight);
             return true;
