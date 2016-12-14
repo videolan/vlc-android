@@ -35,7 +35,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
@@ -96,8 +95,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     private VideoListAdapter mVideoAdapter;
     private DividerItemDecoration mDividerItemDecoration;
 
-    private FloatingActionButton mFabPlayAll;
-
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
 
@@ -149,7 +146,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onStart() {
         super.onStart();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
-        setFabPlayVisibility(true);
         registerForContextMenu(mGridView);
     }
 
@@ -447,6 +443,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mVideoAdapter.clear();
     }
 
+    @Override
+    public void setFabPlayVisibility(boolean enable) {
+        super.setFabPlayVisibility(!mVideoAdapter.isEmpty() && enable);
+    }
+
     boolean mParsing = false;
     @Override
     public void onDiscoveryStarted(String entryPoint) {}
@@ -626,5 +627,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         updateEmptyView();
+        setFabPlayVisibility(true);
     }
 }
