@@ -51,14 +51,11 @@ public class AudioPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View page = mLists.get(position);
-        container.addView(page);
-        return page;
+        return mLists.get(position);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
         mLists.remove(position);
     }
 
