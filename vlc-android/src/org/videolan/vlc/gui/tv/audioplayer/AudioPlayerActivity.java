@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.InputDevice;
@@ -45,7 +46,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setOnFocusChangeListener(this);
         if (mMediaList == null)
             mMediaList = new ArrayList<>();

@@ -37,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -67,7 +68,6 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -123,7 +123,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST);
+        mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL);
         mGridView.setAdapter(mVideoAdapter);
         if (mVideoAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);

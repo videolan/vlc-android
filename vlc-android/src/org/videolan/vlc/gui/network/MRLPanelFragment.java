@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -42,7 +43,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.DividerItemDecoration;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaUtils;
 
@@ -72,7 +72,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MRLAdapter();
