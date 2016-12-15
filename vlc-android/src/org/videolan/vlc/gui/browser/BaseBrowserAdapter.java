@@ -44,8 +44,8 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
-import org.videolan.vlc.databinding.DirectoryViewItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -84,7 +84,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         View v;
         if (viewType == MediaLibraryItem.TYPE_MEDIA) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.directory_view_item, parent, false);
+                    .inflate(R.layout.browser_item, parent, false);
             vh = new MediaViewHolder(v);
         } else {
             v = LayoutInflater.from(parent.getContext())
@@ -149,7 +149,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     }
 
-    class MediaViewHolder extends ViewHolder<DirectoryViewItemBinding> implements View.OnLongClickListener {
+    class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnLongClickListener {
 
         MediaViewHolder(View v) {
             super(v);

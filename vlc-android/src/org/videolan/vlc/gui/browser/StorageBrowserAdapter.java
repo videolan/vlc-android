@@ -59,7 +59,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         ViewHolder vh;
         View v;
         v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.directory_view_item, parent, false);
+                .inflate(R.layout.browser_item, parent, false);
         vh = new MediaViewHolder(v);
         return vh;
     }

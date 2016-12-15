@@ -40,7 +40,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.databinding.DirectoryViewItemBinding;
+import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
@@ -134,6 +134,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             storage = new Storage(Uri.parse(customDir));
             storagesList.add(storage);
         }
+        parseSubDirectories();
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         mAdapter.dispatchUpdate(storagesList);
     }
@@ -189,7 +190,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     public void onClick(View v, int position, MediaLibraryItem item) {
         MediaWrapper mw = new MediaWrapper(((Storage) item).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
-        browse(mw, position, ((DirectoryViewItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.isChecked());
+        browse(mw, position, ((BrowserItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.isChecked());
     }
 
     @Override
