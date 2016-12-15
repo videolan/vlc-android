@@ -117,7 +117,7 @@ class AWindow implements IVLCVout {
         }
 
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-        private void releaseSurfaceTexture() {
+        private void releaseTextureView() {
             if (mTextureView != null)
                 mTextureView.setSurfaceTextureListener(null);
         }
@@ -127,7 +127,7 @@ class AWindow implements IVLCVout {
             setNativeSurface(mId, null);
             if (mSurfaceHolder != null)
                 mSurfaceHolder.removeCallback(mSurfaceHolderCallback);
-            releaseSurfaceTexture();
+            releaseTextureView();
         }
 
         public boolean isReady() {
