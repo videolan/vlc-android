@@ -585,4 +585,133 @@ class AWindow implements IVLCVout {
             }
         });
     }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private static class SurfaceTextureThread extends Thread
+            implements SurfaceTexture.OnFrameAvailableListener {
+        SurfaceTexture mSurfaceTexture = null;
+
+        final int mTexName;
+        boolean mFrameAvailable = false;
+        Looper mLooper = null;
+
+        private SurfaceTextureThread(int texName) {
+            mTexName = texName;
+        }
+
+        @Override
+        public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+            synchronized (this) {
+                if (mFrameAvailable)
+                    throw new IllegalStateException("An available frame was not updated");
+                mFrameAvailable = true;
+                notify();
+            }
+        }
+
+        @Override
+        public void run() {
+            Looper.prepare();
+
+            synchronized (this) {
+                mLooper = Looper.myLooper();
+                mSurfaceTexture = new SurfaceTexture(mTexName);
+                mSurfaceTexture.setOnFrameAvailableListener(this);
+                notify();
+            }
+
+            Looper.loop();
+
+            mSurfaceTexture.setOnFrameAvailableListener(null);
+            mSurfaceTexture.release();
+        }
+
+        void release() {
+            synchronized (this) {
+                while (mLooper == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+            mLooper.quit();
+            try {
+                join();
+            } catch (InterruptedException ignored) {
+            }
+        }
+
+        boolean waitAndUpdateTexImage(float[] transformMatrix) {
+            synchronized (this) {
+                while (!mFrameAvailable) {
+                    try {
+                        wait(500);
+                        if (!mFrameAvailable)
+                            return false;
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+                mFrameAvailable = false;
+            }
+            mSurfaceTexture.updateTexImage();
+            mSurfaceTexture.getTransformMatrix(transformMatrix);
+            return true;
+        }
+
+        Surface getSurface() {
+            synchronized (this) {
+                while (mSurfaceTexture == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+                return new Surface(mSurfaceTexture);
+            }
+        }
+    }
+
+    /**
+     * Create a SurfaceTextureThread
+     *
+     * @param texName the OpenGL texture object name (e.g. generated via glGenTextures)
+     * @return a valid and started SurfaceTextureThread
+     */
+    @SuppressWarnings("unused") /* used by JNI */
+    static private SurfaceTextureThread SurfaceTextureThread_create(int texName) {
+        if (AndroidUtil.isICSOrLater()) {
+            final SurfaceTextureThread st = new SurfaceTextureThread(texName);
+            st.start();
+            return st;
+        } else
+            return null;
+    }
+
+    /**
+     * Release the SurfaceTexture and join the thread
+     */
+    @SuppressWarnings("unused") /* used by JNI */
+    static private void SurfaceTextureThread_release(SurfaceTextureThread st) {
+        st.release();
+    }
+
+    /**
+     * Wait for a frame and update the TexImage
+     *
+     * @return true on success, false on error or timeout
+     */
+    @SuppressWarnings("unused") /* used by JNI */
+    static private boolean SurfaceTextureThread_waitAndUpdateTexImage(SurfaceTextureThread st,
+                                                                      float[] transformMatrix) {
+        return st.waitAndUpdateTexImage(transformMatrix);
+    }
+
+    /**
+     * Get a Surface from the SurfaceTexture
+     */
+    @SuppressWarnings("unused") /* used by JNI */
+    static private Surface SurfaceTextureThread_getSurface(SurfaceTextureThread st) {
+        return st.getSurface();
+    }
 }
