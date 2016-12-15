@@ -374,7 +374,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param libVLC a valid libVLC
      */
     public MediaPlayer(LibVLC libVLC) {
-        nativeNewFromLibVlc(libVLC, mWindow.getNativeHandler());
+        nativeNewFromLibVlc(libVLC, mWindow);
     }
 
     /**
@@ -387,7 +387,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             throw new IllegalArgumentException("Media is null or released");
         mMedia = media;
         mMedia.retain();
-        nativeNewFromMedia(mMedia, mWindow.getNativeHandler());
+        nativeNewFromMedia(mMedia, mWindow);
     }
 
     /**
@@ -817,7 +817,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @param rate
      */
-    public native void setRate(float rate);
+        public native void setRate(float rate);
 
     /**
      * Get the current playback speed
@@ -938,8 +938,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /* JNI */
-    private native void nativeNewFromLibVlc(LibVLC libVLC, AWindowNativeHandler window);
-    private native void nativeNewFromMedia(Media media, AWindowNativeHandler window);
+    private native void nativeNewFromLibVlc(LibVLC libVLC, AWindow window);
+    private native void nativeNewFromMedia(Media media, AWindow window);
     private native void nativeRelease();
     private native void nativeSetMedia(Media media);
     private native void nativePlay();
