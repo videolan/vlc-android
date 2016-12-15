@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-
+#include <mutex>
 
 class AndroidDeviceLister : public medialibrary::IDeviceLister
 {
@@ -17,6 +17,9 @@ public:
 
 private:
     std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> m_devices;
+
+private:
+    mutable std::mutex m_mutex;
 };
 
 #endif // ANDROIDDEVICELISTER_H

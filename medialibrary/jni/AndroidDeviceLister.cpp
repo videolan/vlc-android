@@ -1,11 +1,7 @@
 #include "AndroidDeviceLister.h"
 
-#include <mutex>
-
 #define LOG_TAG "VLC/JNI/AndroidDeviceLister"
 #include "log.h"
-
-static std::mutex m_mutex;
 
 AndroidDeviceLister::AndroidDeviceLister()
 {
