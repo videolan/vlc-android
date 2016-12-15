@@ -125,6 +125,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
         mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL_LIST);
         mGridView.setAdapter(mVideoAdapter);
+        if (mVideoAdapter.isListMode())
+            mGridView.addItemDecoration(mDividerItemDecoration);
         return v;
     }
 
