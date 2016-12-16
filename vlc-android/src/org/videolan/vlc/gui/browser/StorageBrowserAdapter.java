@@ -74,8 +74,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
         vh.binding.setItem(storage);
         vh.binding.setHasContextMenu(hasContextMenu);
-        vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory ||
-                (isRoot && Util.isListEmpty(mMediaDirsLocation)) || mMediaDirsLocation.contains(storagePath));
+        vh.binding.setChecked(((StorageBrowserFragment) fragment).mScannedDirectory || mMediaDirsLocation.contains(storagePath));
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         if (hasContextMenu)
             vh.setContextMenuListener();
