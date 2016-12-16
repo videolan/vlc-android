@@ -9,6 +9,12 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
 ext {
     buildToolsVersion = "25.0.2"
     compileSdkVersion = 24
