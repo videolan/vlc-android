@@ -54,6 +54,6 @@ android {
 
 dependencies {
     compile project(':libvlc')
-    compile 'com.android.support:support-compat:24.2.1'
-    compile 'com.android.support:support-fragment:24.2.1'
+    compile 'com.android.support:support-compat:25.1.0'
+    compile 'com.android.support:support-fragment:25.1.0'
 }

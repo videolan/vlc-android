@@ -210,11 +210,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-def buildTime() {
+static def buildTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
-def hostName() {
+static def hostName() {
     return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
 }
 

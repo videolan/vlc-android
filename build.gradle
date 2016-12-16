@@ -5,19 +5,11 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.jakewharton.sdkmanager:sdk-manager-plugin:1.5.0-SNAPSHOT'
+        classpath 'com.android.tools.build:gradle:2.3.0-beta1'
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-    apply plugin: 'android-sdk-manager'
 }
 
 ext {
-    buildToolsVersion = "24.0.1"
+    buildToolsVersion = "25.0.2"
     compileSdkVersion = 24
 }
