@@ -80,12 +80,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             vh.setContextMenuListener();
     }
 
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        final MediaViewHolder vh = (MediaViewHolder) holder;
-        vh.binding.setItem(null);
-    }
-
     public void addItem(MediaLibraryItem item, boolean notify, boolean top) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
              item = new Storage(((MediaWrapper)item).getUri());

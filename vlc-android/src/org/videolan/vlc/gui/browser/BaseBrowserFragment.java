@@ -317,7 +317,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void update(boolean force){
         if (mReadyToDisplay) {
-            updateEmptyView();
             if (force || mAdapter.isEmpty()) {
                 refresh();
             } else {
@@ -327,6 +326,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected void updateDisplay() {
+        updateEmptyView();
         if (!mAdapter.isEmpty()) {
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
@@ -349,7 +349,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void refresh() {
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
-        mAdapter.clear();
+        if (!mRoot)
+            mAdapter.clear();
         mFoldersContentLists.clear();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
@@ -391,12 +392,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             switch (msg.what){
                 case MSG_SHOW_LOADING:
                     fragment.mSwipeRefreshLayout.setRefreshing(true);
-                    fragment.updateEmptyView();
                     break;
                 case MSG_HIDE_LOADING:
                     removeMessages(MSG_SHOW_LOADING);
                     fragment.mSwipeRefreshLayout.setRefreshing(false);
-                    fragment.updateEmptyView();
                     break;
                 case MSG_REFRESH:
                     if (getOwner() != null && !getOwner().isDetached())
