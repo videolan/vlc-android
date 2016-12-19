@@ -158,6 +158,12 @@ if [ ! -f local.properties ]; then
     echo ndk.dir=$ANDROID_NDK >> local.properties
 fi
 
+# Download build tools, Android SDK version & Android AppCompat
+for i in "build-tools;25.0.2" "platforms;android-24" "extras;google;m2repository"; do
+    echo "Downloading $i"
+    $ANDROID_SDK/tools/bin/sdkmanager $i
+done
+
 ####################
 # Fetch VLC source #
 ####################
