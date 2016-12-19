@@ -130,28 +130,6 @@ if [ ! -d "gradle/wrapper" ]; then
     rm -rf gradle-${GRADLE_VERSION}-all.zip
 fi
 
-###############
-# SDK Manager #
-###############
-
-if [ ! -f "gradle/plugins/sdk-manager-plugin.jar" ]; then
-    cd gradle/
-    if [ -d "sdk-manager-plugin" ]; then
-        rm -rf sdk-manager-plugin
-    fi
-    git clone https://github.com/JakeWharton/sdk-manager-plugin.git
-    cd sdk-manager-plugin
-    git reset --hard 1d29782dd6ffa18880c8cbada748fb3dea45e7be
-    ./gradlew assemble
-    cd ..
-    if [ ! -d "plugins" ]; then
-        mkdir plugins
-    fi
-    mv sdk-manager-plugin/build/libs/sdk-manager-plugin-1.5.0-SNAPSHOT.jar plugins/sdk-manager-plugin.jar
-    rm -rf sdk-manager-plugin
-    cd ..
-fi
-
 ####################
 # Configure gradle #
 ####################
