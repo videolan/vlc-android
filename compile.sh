@@ -107,7 +107,7 @@ fi
 
 if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
-    GRADLE_VERSION=2.14.1
+    GRADLE_VERSION=3.2.1
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-all.zip
     wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
@@ -127,7 +127,7 @@ if [ ! -d "gradle/wrapper" ]; then
     mv gradle-${GRADLE_VERSION}/gradle/wrapper/ gradle
     mv gradle-${GRADLE_VERSION}/gradlew .
     chmod a+x gradlew
-    rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
+    rm -rf gradle-${GRADLE_VERSION}-all.zip
 fi
 
 ###############
