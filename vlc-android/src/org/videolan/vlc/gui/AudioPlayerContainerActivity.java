@@ -43,12 +43,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ViewStubCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
@@ -60,7 +63,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
 
-public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback  {
+public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback, PlaybackService.Callback {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
     public static final String ACTION_SHOW_PLAYER = Strings.buildPkgString("gui.ShowPlayer");
@@ -82,7 +85,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
-    private FrameLayout mAudioPLayerContainer;
+    private FrameLayout mAudioPlayerContainer;
     protected SharedPreferences mSettings;
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -98,9 +101,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         /* Theme must be applied before super.onCreate */
         applyTheme();
 
-        /* Set up the audio player */
-        mAudioPlayer = new AudioPlayer();
-
         MediaUtils.updateSubsDownloaderActivity(this);
 
         super.onCreate(savedInstanceState);
@@ -114,12 +114,14 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         mAppBarLayout.setExpanded(true);
 
+        mAudioPlayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
+    }
+
+    private void initAudioPlayer() {
+        ((ViewStubCompat)findViewById(R.id.audio_player_stub)).inflate();
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mAudioPlayer.setUserVisibleHint(false);
-        mAudioPLayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
-        mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPLayerContainer);
-        mBottomSheetBehavior.setHideable(true);
-        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
     }
@@ -157,7 +159,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     @Override
     protected void onResume() {
         super.onResume();
-        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+        if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
             mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
     }
 
@@ -236,9 +238,11 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     /**
      * Show the audio player.
      */
-    public void showAudioPlayer() {
-        if (mAudioPLayerContainer.getVisibility() == View.GONE) {
-            mAudioPLayerContainer.setVisibility(View.VISIBLE);
+    public synchronized void showAudioPlayer() {
+        if (!isAudioPlayerReady())
+            initAudioPlayer();
+        if (mAudioPlayerContainer.getVisibility() == View.GONE) {
+            mAudioPlayerContainer.setVisibility(View.VISIBLE);
             mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
         }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
@@ -252,6 +256,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * @return true on success else false.
      */
     public boolean slideDownAudioPlayer() {
+        if (!isAudioPlayerReady())
+            return false;
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             return true;
@@ -263,6 +269,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Slide up and down the audio player depending on its current state.
      */
     public void slideUpOrDownAudioPlayer() {
+        if (!isAudioPlayerReady())
+            return;
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN)
             return;
         mBottomSheetBehavior.setState(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED?
@@ -273,6 +281,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Hide the audio player.
      */
     public void hideAudioPlayer() {
+        if (!isAudioPlayerReady())
+            return;
         mBottomSheetBehavior.setHideable(true);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
@@ -302,6 +312,25 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     private static final int ACTION_MEDIA_MOUNTED = 1337;
     private static final int ACTION_MEDIA_UNMOUNTED = 1338;
+
+    @Override
+    public void update() {}
+
+    @Override
+    public void updateProgress() {
+        if (!isAudioPlayerReady())
+            showAudioPlayer();
+    }
+
+    @Override
+    public void onMediaEvent(Media.Event event) {}
+
+    @Override
+    public void onMediaPlayerEvent(MediaPlayer.Event event) {}
+
+    public boolean isAudioPlayerReady() {
+        return mAudioPlayer != null;
+    }
 
     private class AudioPlayerBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
         @Override
@@ -365,11 +394,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     @Override
     public void onConnected(PlaybackService service) {
+        service.addCallback(this);
         mService = service;
     }
 
     @Override
     public void onDisconnected() {
+        mService.removeCallback(this);
         mService = null;
     }
 }

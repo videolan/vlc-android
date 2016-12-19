@@ -433,7 +433,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         }
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (mAudioPlayer.clearSearch() || slideDownAudioPlayer())
+        if (isAudioPlayerReady() && (mAudioPlayer.clearSearch() || slideDownAudioPlayer()))
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.

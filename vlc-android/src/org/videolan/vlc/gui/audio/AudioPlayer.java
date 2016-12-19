@@ -529,7 +529,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void show() {
         AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
-        if (activity != null)
+        if (activity != null && activity.isAudioPlayerReady())
             activity.showAudioPlayer();
     }
 
