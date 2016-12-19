@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -45,6 +44,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class StorageBrowserFragment extends FileBrowserFragment {
 
@@ -77,18 +77,16 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     public void onStart() {
         super.onStart();
         if (mRoot) {
-            mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-            mFAB.setImageResource(R.drawable.ic_fab_add);
-            mFAB.setVisibility(View.VISIBLE);
-            mFAB.setOnClickListener(this);
+            mFabPlay.setImageResource(R.drawable.ic_fab_add);
+            mFabPlay.setOnClickListener(this);
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mFAB.setVisibility(View.GONE);
-        mFAB.setOnClickListener(null);
+        mFabPlay.setVisibility(View.GONE);
+        mFabPlay.setOnClickListener(null);
     }
 
     @Override
@@ -96,7 +94,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         super.onViewCreated(view, savedInstanceState);
         if (VLCApplication.showTvUi()) {
             if (mRoot)
-                mFAB.requestFocus();
+                mFabPlay.requestFocus();
             else
                 mRecyclerView.requestFocus();
         }
@@ -113,13 +111,14 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         String[] storages = mMediaLibrary.getDevices();
         String[] customDirectories = CustomDirectories.getCustomDirectories();
         Storage storage;
+        ArrayList<MediaLibraryItem> storagesList = new ArrayList<>();
         for (String mediaDirLocation : storages) {
             if (TextUtils.isEmpty(mediaDirLocation))
                 continue;
             storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 storage.setName(getString(R.string.internal_memory));
-            mAdapter.addItem(storage, true, false);
+            storagesList.add(storage);
         }
         customLoop:
         for (String customDir : customDirectories) {
@@ -130,17 +129,10 @@ public class StorageBrowserFragment extends FileBrowserFragment {
                     continue customLoop;
             }
             storage = new Storage(Uri.parse(customDir));
-            mAdapter.addItem(storage, true, false);
+            storagesList.add(storage);
         }
-        updateEmptyView();
-        parseSubDirectories();
+        mAdapter.dispatchUpdate(storagesList);
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-    }
-
-    @Override
-    protected void update() {
-        ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
-        super.update();
     }
 
     @Override
@@ -148,20 +140,6 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         if (media.getType() != Media.Type.Directory)
             return;
         super.onMediaAdded(index, media);
-    }
-
-    protected void updateDisplay() {
-        updateEmptyView();
-        parseSubDirectories();
-        if (isRootDirectory())
-            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
-        if (!mAdapter.isEmpty()) {
-            if (mSavedPosition > 0) {
-                mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
-                mSavedPosition = 0;
-            }
-        }
-        mAdapter.notifyDataSetChanged();
     }
 
     public void browse (MediaWrapper media, int position, boolean scanned){

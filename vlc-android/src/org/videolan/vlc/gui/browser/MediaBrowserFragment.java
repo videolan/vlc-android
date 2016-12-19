@@ -92,15 +92,6 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (mFabPlay != null) {
-            mFabPlay.setOnClickListener(null);
-            setFabPlayVisibility(false);
-        }
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         stopActionMode();

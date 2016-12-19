@@ -30,7 +30,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
@@ -74,10 +73,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (mSkipRefresh)
             parseSubDirectories();
         if (mRoot) {
-            mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-            mFAB.setImageResource(R.drawable.ic_fab_add);
-            mFAB.setVisibility(View.VISIBLE);
-            mFAB.setOnClickListener(this);
+            mFabPlay.setImageResource(R.drawable.ic_fab_add);
+            mFabPlay.setOnClickListener(this);
         }
     }
 
@@ -91,15 +88,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
         if (mRoot) {
-            mFAB.setVisibility(View.INVISIBLE);
-            mFAB.setOnClickListener(null);
+            mFabPlay.setVisibility(View.INVISIBLE);
+            mFabPlay.setOnClickListener(null);
         }
-    }
-
-    protected void updateDisplay() {
-        if (mRoot)
-            updateFavorites();
-        super.updateDisplay();
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
@@ -113,13 +104,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 db = MediaDatabase.getInstance();
                 db.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory())
-                    updateDisplay();
+                    updateFavorites();
                 return true;
             case R.id.network_remove_favorite:
                 db = MediaDatabase.getInstance();
                 db.deleteNetworkFav(mw.getUri());
                 if (isRootDirectory())
-                    updateDisplay();
+                    updateFavorites();
                 return true;
             case R.id.network_edit_favorite:
                 showAddServerDialog(mw);

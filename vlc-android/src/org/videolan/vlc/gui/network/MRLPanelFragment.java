@@ -83,6 +83,7 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
 
     public void onStart(){
         super.onStart();
+        getActivity().findViewById(R.id.fab).setVisibility(View.INVISIBLE);
         getActivity().supportInvalidateOptionsMenu();
         updateHistory();
     }

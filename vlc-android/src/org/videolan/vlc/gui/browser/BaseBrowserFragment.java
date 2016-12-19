@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -86,7 +85,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static final String KEY_CONTENT_LIST = "key_content_list";
     public static final String KEY_POSITION = "key_list";
 
-    protected FloatingActionButton mFAB;
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
@@ -161,14 +159,18 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        if (mFAB != null)
-            mFAB.setImageResource(R.drawable.ic_fab_play);
         if (!mAdapter.isEmpty()) {
-            updateEmptyView();
             mAdapter.notifyItemRangeInserted(0, mAdapter.getItemCount());
-            parseSubDirectories();
-        }
+            onUpdateFinished(mAdapter);
+        } else if (!(this instanceof NetworkBrowserFragment))
+            refresh();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+        updateFab();
     }
 
     @Override
@@ -226,16 +228,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return mCurrentMedia != null ? mrl : null;
     }
 
-    @Override
-    protected void display() {
-        if (!mReadyToDisplay) {
-            mReadyToDisplay = true;
-            update();
-            return;
-        }
-        updateDisplay();
-    }
-
     public void goBack(){
         if (!mRoot)
             getActivity().getSupportFragmentManager().popBackStack();
@@ -260,11 +252,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaAdded(int index, Media media) {
-        boolean empty = mAdapter.isEmpty();
-        mAdapter.addItem(new MediaWrapper(media), mReadyToDisplay && mRoot, false);
-        if (empty && mReadyToDisplay)
-            updateEmptyView();
-        if (mRoot && (empty || mSwipeRefreshLayout.isRefreshing()))
+        boolean wasEmtpy = mAdapter.isEmpty();
+        mAdapter.addItem(new MediaWrapper(media), true, false);
+        if (!wasEmtpy)
+            return;
+        updateEmptyView();
+        if (wasEmtpy)
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
@@ -276,9 +269,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onBrowseEnd() {
         releaseBrowser();
+        onUpdateFinished(mAdapter);
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        if (mReadyToDisplay)
-            display();
         if (!isResumed())
             goBack = true;
     }
@@ -311,46 +303,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
     }
 
-    protected void update(){
-        update(false);
-    }
-
-    protected void update(boolean force){
-        if (mReadyToDisplay) {
-            if (force || mAdapter.isEmpty()) {
-                refresh();
-            } else {
-                updateDisplay();
-            }
-        }
-    }
-
-    protected void updateDisplay() {
-        updateEmptyView();
-        if (!mAdapter.isEmpty()) {
-            if (mSavedPosition > 0) {
-                mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
-                mSavedPosition = 0;
-            }
-        }
-        mAdapter.notifyDataSetChanged();
-        parseSubDirectories();
-        if (mFAB != null) {
-            if (mAdapter.getMediaCount() > 0) {
-                mFAB.setVisibility(View.VISIBLE);
-                mFAB.setOnClickListener(this);
-            } else {
-                mFAB.setVisibility(View.INVISIBLE);
-                mFAB.setOnClickListener(null);
-            }
-        }
-    }
-
     @Override
     public void refresh() {
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
-        if (!mRoot)
-            mAdapter.clear();
+        mAdapter.clear();
         mFoldersContentLists.clear();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
@@ -375,7 +331,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         return MediaBrowser.Flag.Interact;
     }
 
-    protected static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
+    static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
 
         static final int MSG_SHOW_LOADING = 0;
         static final int MSG_HIDE_LOADING = 1;
@@ -785,7 +741,28 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (mActionMode == null)
             mRecyclerView.openContextMenu(position);
     }
+
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        parseSubDirectories();
         updateEmptyView();
+        if (!mAdapter.isEmpty()) {
+            if (mSavedPosition > 0) {
+                mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
+                mSavedPosition = 0;
+            }
+        }
+        updateFab();
+    }
+
+    private void updateFab() {
+        if (mFabPlay != null) {
+            if (mAdapter.getMediaCount() > 0) {
+                mFabPlay.setVisibility(View.VISIBLE);
+                mFabPlay.setOnClickListener(this);
+            } else {
+                mFabPlay.setVisibility(View.INVISIBLE);
+                mFabPlay.setOnClickListener(null);
+            }
+        }
     }
 }

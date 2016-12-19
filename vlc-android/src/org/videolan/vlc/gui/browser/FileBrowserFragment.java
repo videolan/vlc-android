@@ -107,24 +107,11 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                         directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
                     devices.add(directory);
-                    mAdapter.addItem(directory, false, false);
-                    mAdapter.dispatchUpdate(devices);
-                    parseSubDirectories();
                 }
+                mAdapter.dispatchUpdate(devices);
                 mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
             }
         });
-    }
-
-    public void onStart(){
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mReadyToDisplay)
-            update();
     }
 
     @Override
@@ -147,9 +134,7 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
         builder.setView(input);
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                return;
-            }
+            public void onClick(DialogInterface dialogInterface, int which) {}
         });
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
