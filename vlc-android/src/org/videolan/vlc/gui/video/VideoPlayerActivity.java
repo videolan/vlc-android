@@ -523,6 +523,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         resetHudLayout();
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
+        mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
+        mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
     }
 
     @Override
@@ -624,6 +626,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!AndroidUtil.isHoneycombOrLater())
             changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
+        getWindowManager().getDefaultDisplay().getMetrics(mScreen);
+        mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
+        mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
         resetHudLayout();
     }
 
@@ -2027,11 +2032,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mScaleGestureDetector.isInProgress() || (mDetector != null && mDetector.onTouchEvent(event)))
             return true;
 
-        if (mSurfaceYDisplayRange == 0)
-            mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
-        if (mSurfaceXDisplayRange == 0)
-            mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
-
         float x_changed, y_changed;
         if (mTouchX != -1f && mTouchY != -1f) {
             y_changed = event.getRawY() - mTouchY;
@@ -2075,12 +2075,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         mTouchY = event.getRawY();
                         mTouchX = event.getRawX();
                         // Volume (Up or Down - Right side)
-                        if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * mSurfaceXDisplayRange / 7))){
+                        if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * mScreen.widthPixels / 7f))){
                             doVolumeTouch(y_changed);
                             hideOverlay(true);
                         }
                         // Brightness (Up or Down - Left side)
-                        if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * mSurfaceXDisplayRange / 7))){
+                        if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * mScreen.widthPixels / 7f))){
                             doBrightnessTouch(y_changed);
                             hideOverlay(true);
                         }
@@ -2152,7 +2152,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void doVolumeTouch(float y_changed) {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME)
             return;
-        float delta = - ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
+        float delta = - ((y_changed / (float) mScreen.heightPixels) * mAudioMax);
         mVol += delta;
         int vol = (int) Math.min(Math.max(mVol, 0), mAudioMax);
         if (delta != 0f) {
