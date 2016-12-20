@@ -200,7 +200,6 @@ class AWindow implements IVLCVout {
     private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
     private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private final Object mNativeLock = new Object();
     /* synchronized Surfaces accessed by an other thread from JNI */
     private final Surface[] mSurfaces;
     private long mCallbackNativeHandle = 0;
@@ -312,9 +311,9 @@ class AWindow implements IVLCVout {
         if (mSurfacesState.get() != SURFACE_STATE_INIT || mSurfaceHelpers[ID_VIDEO] == null)
             throw new IllegalStateException("already attached or video view not configured");
         mSurfacesState.set(SURFACE_STATE_ATTACHED);
-        synchronized (mBuffersGeometryCond) {
-            mBuffersGeometryCond.configured = false;
-            mBuffersGeometryCond.abort = false;
+        synchronized (mNativeLock) {
+            mNativeLock.buffersGeometryConfigured = false;
+            mNativeLock.buffersGeometryAbort = false;
         }
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
@@ -330,9 +329,9 @@ class AWindow implements IVLCVout {
             return;
         mSurfacesState.set(SURFACE_STATE_INIT);
         mHandler.removeCallbacksAndMessages(null);
-        synchronized (mBuffersGeometryCond) {
-            mBuffersGeometryCond.abort = true;
-            mBuffersGeometryCond.notifyAll();
+        synchronized (mNativeLock) {
+            mNativeLock.buffersGeometryAbort = true;
+            mNativeLock.notifyAll();
         }
         for (int id = 0; id < ID_MAX; ++id) {
             final SurfaceHelper surfaceHelper = mSurfaceHelpers[id];
@@ -416,11 +415,11 @@ class AWindow implements IVLCVout {
         }
     }
 
-    private static class BuffersGeometryCond {
-        private boolean configured = false;
-        private boolean abort = false;
+    private static class NativeLock {
+        private boolean buffersGeometryConfigured = false;
+        private boolean buffersGeometryAbort = false;
     }
-    private final BuffersGeometryCond mBuffersGeometryCond = new BuffersGeometryCond();
+    private final NativeLock mNativeLock = new NativeLock();
 
     @Override
     public void addCallback(IVLCVout.Callback callback) {
@@ -516,8 +515,8 @@ class AWindow implements IVLCVout {
             return false;
         Log.d(TAG, "configureSurface: " + width + "x" + height);
 
-        synchronized (mBuffersGeometryCond) {
-            if (mBuffersGeometryCond.configured || mBuffersGeometryCond.abort)
+        synchronized (mNativeLock) {
+            if (mNativeLock.buffersGeometryConfigured || mNativeLock.buffersGeometryAbort)
                 return false;
         }
 
@@ -544,18 +543,18 @@ class AWindow implements IVLCVout {
                     }
                 }
 
-                synchronized (mBuffersGeometryCond) {
-                    mBuffersGeometryCond.configured = true;
-                    mBuffersGeometryCond.notifyAll();
+                synchronized (mNativeLock) {
+                    mNativeLock.buffersGeometryConfigured = true;
+                    mNativeLock.notifyAll();
                 }
             }
         });
 
         try {
-            synchronized (mBuffersGeometryCond) {
-                while (!mBuffersGeometryCond.configured && !mBuffersGeometryCond.abort)
-                    mBuffersGeometryCond.wait();
-                mBuffersGeometryCond.configured = false;
+            synchronized (mNativeLock) {
+                while (!mNativeLock.buffersGeometryConfigured && !mNativeLock.buffersGeometryAbort)
+                    mNativeLock.wait();
+                mNativeLock.buffersGeometryConfigured = false;
             }
         } catch (InterruptedException e) {
             return false;
