@@ -581,8 +581,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     uri = convertedUri;
             }
             mUri = uri;
-            updateSeekable(mService.isSeekable());
-            updatePausable(mService.isPausable());
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
             if (mPlaylist.getVisibility() == View.VISIBLE) {
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
