@@ -376,8 +376,8 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
             index = -1;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
-                if (!((type == medialibrary::IMedia::Type::AudioType && m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO) ||
-                        (type == medialibrary::IMedia::Type::VideoType && m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO)))
+                if (!((type == medialibrary::IMedia::Type::Audio && m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO) ||
+                        (type == medialibrary::IMedia::Type::Video && m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO)))
                     continue;
                 jobject item = mediaToMediaWrapper(env, p_fields, media);
                 env->SetObjectArrayElement(mediaRefs, ++index, item);
@@ -418,8 +418,8 @@ void AndroidMediaLibrary::onMediaUpdated( std::vector<medialibrary::MediaPtr> me
             index = -1;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
-                if (!((type == medialibrary::IMedia::Type::AudioType && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO) ||
-                        (type == medialibrary::IMedia::Type::VideoType && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO)))
+                if (!((type == medialibrary::IMedia::Type::Audio && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO) ||
+                        (type == medialibrary::IMedia::Type::Video && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO)))
                     continue;
                 jobject item = mediaToMediaWrapper(env, p_fields, media);
                 env->SetObjectArrayElement(mediaRefs, ++index, item);

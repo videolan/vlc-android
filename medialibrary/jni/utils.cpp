@@ -21,10 +21,10 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     //TODO get track, audio & spu track numbers
     jint type;
     switch (mediaPtr->type()) {
-    case medialibrary::IMedia::Type::AudioType:
+    case medialibrary::IMedia::Type::Audio:
         type = 1; //MediaWrapper.TYPE_AUDIO
         break;
-    case medialibrary::IMedia::Type::VideoType:
+    case medialibrary::IMedia::Type::Video:
         type = 0; //MediaWrapper.TYPE_VIDEO
         break;
     default:
