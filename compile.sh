@@ -157,12 +157,11 @@ if [ ! -f local.properties ]; then
     echo sdk.dir=$ANDROID_SDK > local.properties
     echo ndk.dir=$ANDROID_NDK >> local.properties
 fi
-
-# Download build tools, Android SDK version & Android AppCompat
-for i in "build-tools;25.0.2" "platforms;android-24" "extras;google;m2repository"; do
-    echo "Checking and/or downloading '$i'"
-    yes | $ANDROID_SDK/tools/bin/sdkmanager $i
-done
+if [ ! -d "$ANDROID_SDK/licenses" ]; then
+    mkdir "$ANDROID_SDK/licenses"
+    echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_SDK/licenses/android-sdk-license"
+    echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
+fi
 
 ####################
 # Fetch VLC source #
