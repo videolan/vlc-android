@@ -386,11 +386,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
          * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
          */
         if (current == null) {
+            String tag = getTag(mCurrentFragmentId);
             mNavigationView.setCheckedItem(mCurrentFragmentId);
             Fragment ff = getFragment(mCurrentFragmentId);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, ff, getTag(mCurrentFragmentId));
-            ft.commit();
+            getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_placeholder, ff, tag)
+                .addToBackStack(tag)
+                .commit();
         }
     }
 
@@ -454,6 +456,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         Fragment frag = getSupportFragmentManager().findFragmentByTag(getTag(id));
         if (frag != null)
             return frag;
+        return getNewFragment(id);
+    }
+
+    @NonNull
+    private Fragment getNewFragment(int id) {
         switch (id) {
             case R.id.nav_audio:
                 return new AudioBrowserFragment();
@@ -945,10 +952,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
                 /* Switch the fragment */
                     Fragment fragment = getFragment(id);
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, fragment, tag);
-                    ft.addToBackStack(getTag(mCurrentFragmentId));
-                    ft.commit();
+                    fm.beginTransaction()
+                        .remove(current)
+                        .add(R.id.fragment_placeholder, fragment, tag)
+                        .addToBackStack(tag)
+                        .commit();
                     mCurrentFragmentId = id;
             }
         }
