@@ -75,6 +75,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
 
     public void setVLCVOut(IVLCVout vout) {
         mVLCVout = vout;
+        mVLCVout.setWindowSize(mPopupWidth, mPopupHeight);
     }
 
     /*
@@ -108,15 +109,19 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mLayoutParams.width = width;
         mLayoutParams.height = height;
         mWindowManager.updateViewLayout(this, mLayoutParams);
+        if (mVLCVout != null)
+            mVLCVout.setWindowSize(mPopupWidth, mPopupHeight);
     }
 
     @SuppressWarnings("deprecation")
     private void init(Context context) {
         mWindowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 
+        mPopupWidth = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width);
+        mPopupHeight = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_heigth);
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_width),
-                VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.video_pip_heigth),
+                mPopupWidth,
+                mPopupHeight,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.OPAQUE);
@@ -193,8 +198,6 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
     public void onScaleEnd(ScaleGestureDetector detector) {
         setViewSize(mPopupWidth, mPopupHeight);
         mScaleFactor = 1.0d;
-        if (mVLCVout != null)
-            mVLCVout.setWindowSize(mPopupWidth, mPopupHeight);
     }
 
     private void containInScreen(int width, int height) {

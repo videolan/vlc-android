@@ -179,7 +179,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         }
 
         if (width == 0 || height == 0) {
-            vlcVout.setWindowSize(displayW, displayH);
             mRootView.setViewSize(displayW, displayH);
             return;
         }
@@ -205,7 +204,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         width = (int) Math.floor(dw);
         height = (int) Math.floor(dh);
-        vlcVout.setWindowSize(width, height);
         mRootView.setViewSize(width, height);
     }
 
