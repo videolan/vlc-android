@@ -110,7 +110,7 @@ AndroidMediaLibrary::entryPoints()
 bool
 AndroidMediaLibrary::isWorking()
 {
-    return m_nbDiscovery > 0 || m_progress > 0 && m_progress < 100;
+    return m_nbDiscovery > 0 || (m_progress > 0 && m_progress < 100);
 }
 
 void
