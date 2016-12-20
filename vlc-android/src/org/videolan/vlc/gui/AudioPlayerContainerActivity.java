@@ -400,7 +400,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     @Override
     public void onDisconnected() {
-        mService.removeCallback(this);
+        if (mService != null)
+            mService.removeCallback(this);
         mService = null;
     }
 }
