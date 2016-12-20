@@ -2027,7 +2027,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         if (mFov != 0f && mScaleGestureDetector != null)
             mScaleGestureDetector.onTouchEvent(event);
-        if (mScaleGestureDetector.isInProgress() || (mDetector != null && mDetector.onTouchEvent(event)))
+        if ((mScaleGestureDetector != null && mScaleGestureDetector.isInProgress()) ||
+                (mDetector != null && mDetector.onTouchEvent(event)))
             return true;
 
         float x_changed, y_changed;
