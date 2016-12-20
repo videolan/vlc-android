@@ -60,8 +60,10 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -603,7 +605,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     ArrayList<MediaWrapper> playList = new ArrayList<>();
                     MediaUtils.openList(activity, playList, mVideoAdapter.getListWithPosition(playList, position));
                 } else {
-                    MediaUtils.openMedia(activity, media);
+                    if (activity instanceof PlaybackService.Callback)
+                        mService.removeCallback((PlaybackService.Callback) activity);
+                    VideoPlayerActivity.start(activity, media.getUri());
                 }
             }
     }
