@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_video_play_audio"
         android:title="@string/play_as_audio"
-        android:icon="@drawable/ic_playasaudio_on_normal_w"/>
+        android:icon="@drawable/ic_am_playasaudio_w"/>
     <item
         android:id="@+id/action_video_info"
         android:visible="false"
