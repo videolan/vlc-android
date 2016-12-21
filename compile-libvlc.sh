@@ -115,7 +115,7 @@ VLC_CONFIGURE_ARGS="\
     --enable-avcodec \
     --enable-opus \
     --enable-opensles \
-    --enable-mkv \
+    --enable-matroska \
     --enable-taglib \
     --enable-dvbpsi \
     --disable-vlc --disable-shared \
@@ -125,7 +125,6 @@ VLC_CONFIGURE_ARGS="\
     --enable-lua \
     --disable-vcd \
     --disable-v4l2 \
-    --disable-gnomevfs \
     --enable-dvdread \
     --enable-dvdnav \
     --disable-bluray \
@@ -150,7 +149,6 @@ VLC_CONFIGURE_ARGS="\
     --disable-samplerate \
     --disable-sdl \
     --disable-xcb \
-    --disable-atmo \
     --disable-qt \
     --disable-skins2 \
     --disable-mtp \
@@ -160,8 +158,6 @@ VLC_CONFIGURE_ARGS="\
     --disable-udev \
     --enable-libxml2 \
     --disable-caca \
-    --disable-glx \
-    --enable-egl \
     --enable-gles2 \
     --disable-goom \
     --disable-projectm \
