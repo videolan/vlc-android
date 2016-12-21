@@ -1,8 +1,5 @@
 #include "AndroidDeviceLister.h"
 
-#define LOG_TAG "VLC/JNI/AndroidDeviceLister"
-#include "log.h"
-
 AndroidDeviceLister::AndroidDeviceLister()
 {
 }
