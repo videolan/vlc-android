@@ -25,5 +25,5 @@
     <item
         android:id="@+id/action_video_download_subtitles"
         android:title="@string/download_subtitles"
-        android:icon="@drawable/ic_subtitledelay_normal_w"/>
+        android:icon="@drawable/ic_am_downsub_w"/>
 </menu>
