@@ -508,7 +508,7 @@ checkfail "contribs: bootstrap failed"
 echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
 echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
 
-make fetch
+make $MAKEFLAGS fetch
 checkfail "contribs: make fetch failed"
 
 # We already have zlib available in the NDK
