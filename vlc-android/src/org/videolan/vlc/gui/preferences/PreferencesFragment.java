@@ -63,7 +63,6 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equalsIgnoreCase("hardware_acceleration")) {
-            VLCInstance.restart();
             if (getActivity() != null )
                 ((PreferencesActivity)getActivity()).restartMediaPlayer();
         }
