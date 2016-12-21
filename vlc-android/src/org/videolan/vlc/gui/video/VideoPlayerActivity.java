@@ -2345,16 +2345,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
 
         mPlaylistAdapter.dispatchUpdate(mService.getMedias());
-
-        final int selectionIndex = mService.getCurrentMediaPosition();
-        mPlaylist.post(new Runnable() {
-            @Override
-            public void run() {
-                mPlaylistAdapter.setCurrentIndex(selectionIndex);
-                mPlaylist.scrollToPosition(selectionIndex);
-            }
-        });
-}
+    }
 
     @Override
     public void onSelectionSet(int position) {

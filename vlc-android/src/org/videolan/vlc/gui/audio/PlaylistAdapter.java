@@ -134,6 +134,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                         clear();
                         addAll(newList);
                         result.dispatchUpdatesTo(PlaylistAdapter.this);
+                        if (mService != null)
+                            setCurrentIndex(mService.getCurrentMediaPosition());
                     }
                 });
             }
