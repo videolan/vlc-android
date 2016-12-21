@@ -233,6 +233,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
+        Activity activity = getActivity();
+        if (activity instanceof PlaybackService.Callback)
+            mService.removeCallback((PlaybackService.Callback) activity);
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
         VideoPlayerActivity.start(getActivity(), media.getUri(), fromStart);
     }
@@ -604,9 +607,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     ArrayList<MediaWrapper> playList = new ArrayList<>();
                     MediaUtils.openList(activity, playList, mVideoAdapter.getListWithPosition(playList, position));
                 } else {
-                    if (activity instanceof PlaybackService.Callback)
-                        mService.removeCallback((PlaybackService.Callback) activity);
-                    VideoPlayerActivity.start(activity, media.getUri());
+                    playVideo(media, false);
                 }
             }
     }
