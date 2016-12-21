@@ -54,7 +54,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 
-public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.Callback {
+public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener,
+        View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener {
 
     private static final String TAG ="VLC/PopupManager";
 
@@ -83,7 +84,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.detachViews();
-        vlcVout.removeCallback(this);
         mRootView.close();
         mRootView = null;
     }
@@ -105,12 +105,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
-        vlcVout.attachViews();
+        vlcVout.attachViews(this);
         mRootView.setVLCVOut(vlcVout);
         mService.setVideoAspectRatio(null);
         mService.setVideoScale(0);
         mService.setVideoTrackEnabled(true);
-        vlcVout.addCallback(this);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
         mService.startService(new Intent(mService, PlaybackService.class));
@@ -169,7 +168,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     }
 
     @Override
-    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+    public void onNewVideoLayout(IVLCVout vlcVout, int width, int height,
+                                 int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
         int displayW = mRootView.getWidth(), displayH = mRootView.getHeight();
 
         // sanity check
@@ -206,10 +206,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         height = (int) Math.floor(dh);
         mRootView.setViewSize(width, height);
     }
-
-    @Override public void onSurfacesCreated(IVLCVout vlcVout) {}
-
-    @Override public void onSurfacesDestroyed(IVLCVout vlcVout) {}
 
     @Override
     public void update() {}

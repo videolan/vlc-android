@@ -137,7 +137,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
+public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback, IVLCVout.OnNewVideoLayoutListener,
         IPlaybackSettingsController, PlaybackService.Client.Callback, PlaybackService.Callback,
         PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
 
@@ -793,7 +793,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
         }
         vlcVout.addCallback(this);
-        vlcVout.attachViews();
+        vlcVout.attachViews(this);
         mService.setVideoTrackEnabled(true);
 
         initUI();
@@ -3523,7 +3523,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+    public void onNewVideoLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
         // store video size
         mVideoWidth = width;
         mVideoHeight = height;

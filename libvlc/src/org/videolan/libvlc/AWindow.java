@@ -37,7 +37,8 @@ import org.videolan.libvlc.util.AndroidUtil;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class AWindow implements IVLCVout {
+@SuppressWarnings("WeakerAccess")
+public class AWindow implements IVLCVout {
     private static final String TAG = "AWindow";
 
     private static final int ID_VIDEO = 0;
@@ -198,6 +199,7 @@ class AWindow implements IVLCVout {
     private final SurfaceHelper[] mSurfaceHelpers;
     private final SurfaceCallback mSurfaceCallback;
     private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
+    private OnNewVideoLayoutListener mOnNewVideoLayoutListener = null;
     private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     /* synchronized Surfaces accessed by an other thread from JNI */
@@ -206,7 +208,14 @@ class AWindow implements IVLCVout {
     private int mMouseAction = -1, mMouseButton = -1, mMouseX = -1, mMouseY = -1;
     private int mWindowWidth = -1, mWindowHeight = -1;
 
-    AWindow(SurfaceCallback surfaceCallback) {
+    /**
+     * Create an AWindow
+     *
+     * You call this directly only if you use the libvlc_media_player native API (and not the Java
+     * MediaPlayer class).
+     * @param surfaceCallback
+     */
+    public AWindow(SurfaceCallback surfaceCallback) {
         mSurfaceCallback = surfaceCallback;
         mSurfaceHelpers = new SurfaceHelper[ID_MAX];
         mSurfaceHelpers[ID_VIDEO] = null;
@@ -307,11 +316,12 @@ class AWindow implements IVLCVout {
 
     @Override
     @MainThread
-    public void attachViews() {
+    public void attachViews(OnNewVideoLayoutListener onNewVideoLayoutListener) {
         if (mSurfacesState.get() != SURFACE_STATE_INIT || mSurfaceHelpers[ID_VIDEO] == null)
             throw new IllegalStateException("already attached or video view not configured");
         mSurfacesState.set(SURFACE_STATE_ATTACHED);
         synchronized (mNativeLock) {
+            mOnNewVideoLayoutListener = onNewVideoLayoutListener;
             mNativeLock.buffersGeometryConfigured = false;
             mNativeLock.buffersGeometryAbort = false;
         }
@@ -324,12 +334,20 @@ class AWindow implements IVLCVout {
 
     @Override
     @MainThread
+    public void attachViews() {
+        attachViews(null);
+    }
+
+    @Override
+    @MainThread
     public void detachViews() {
         if (mSurfacesState.get() == SURFACE_STATE_INIT)
             return;
+
         mSurfacesState.set(SURFACE_STATE_INIT);
         mHandler.removeCallbacksAndMessages(null);
         synchronized (mNativeLock) {
+            mOnNewVideoLayoutListener = null;
             mNativeLock.buffersGeometryAbort = true;
             mNativeLock.notifyAll();
         }
@@ -435,7 +453,7 @@ class AWindow implements IVLCVout {
     /**
      * Callback called from {@link IVLCVout#sendMouseEvent}.
      *
-     * @param nativeHandle handle passed by {@link #setCallback}.
+     * @param nativeHandle handle passed by {@link #registerNative(long)}.
      * @param action see ACTION_* in {@link android.view.MotionEvent}.
      * @param button see BUTTON_* in {@link android.view.MotionEvent}.
      * @param x x coordinate.
@@ -447,7 +465,7 @@ class AWindow implements IVLCVout {
     /**
      * Callback called from {@link IVLCVout#setWindowSize}.
      *
-     * @param nativeHandle handle passed by {@link #setCallback}.
+     * @param nativeHandle handle passed by {@link #registerNative(long)}.
      * @param width width of the window.
      * @param height height of the window.
      */
@@ -475,26 +493,43 @@ class AWindow implements IVLCVout {
 
     }
 
+    private final static int AWINDOW_REGISTER_ERROR = 0;
+    private final static int AWINDOW_REGISTER_FLAGS_SUCCESS = 0x1;
+    private final static int AWINDOW_REGISTER_FLAGS_HAS_VIDEO_LAYOUT_LISTENER = 0x2;
+
     /**
      * Set a callback in order to receive {@link #nativeOnMouseEvent} and {@link #nativeOnWindowSize} events.
      *
-     * @param nativeHandle native Handle passed by {@link #nativeOnMouseEvent} and {@link #nativeOnWindowSize}
+     * @param nativeHandle native Handle passed by {@link #nativeOnMouseEvent} and {@link #nativeOnWindowSize}, cannot be NULL
      * @return true if callback was successfully registered
      */
     @SuppressWarnings("unused") /* used by JNI */
-    private boolean setCallback(long nativeHandle) {
+    private int registerNative(long nativeHandle) {
+        if (nativeHandle == 0)
+            throw new IllegalArgumentException("nativeHandle is null");
         synchronized (mNativeLock) {
-            if (mCallbackNativeHandle != 0 && nativeHandle != 0)
-                return false;
+            if (mCallbackNativeHandle != 0)
+                return AWINDOW_REGISTER_ERROR;
             mCallbackNativeHandle = nativeHandle;
-            if (mCallbackNativeHandle != 0) {
-                if (mMouseAction != -1)
-                    nativeOnMouseEvent(mCallbackNativeHandle, mMouseAction, mMouseButton, mMouseX, mMouseY);
-                if (mWindowWidth != -1 && mWindowHeight != -1)
-                    nativeOnWindowSize(mCallbackNativeHandle, mWindowWidth, mWindowHeight);
-            }
+            if (mMouseAction != -1)
+                nativeOnMouseEvent(mCallbackNativeHandle, mMouseAction, mMouseButton, mMouseX, mMouseY);
+            if (mWindowWidth != -1 && mWindowHeight != -1)
+                nativeOnWindowSize(mCallbackNativeHandle, mWindowWidth, mWindowHeight);
+            int flags = AWINDOW_REGISTER_FLAGS_SUCCESS;
+
+            if (mOnNewVideoLayoutListener != null)
+                flags |= AWINDOW_REGISTER_FLAGS_HAS_VIDEO_LAYOUT_LISTENER;
+            return flags;
         }
-        return true;
+    }
+
+    @SuppressWarnings("unused") /* used by JNI */
+    private void unregisterNative() {
+        synchronized (mNativeLock) {
+            if (mCallbackNativeHandle == 0)
+                throw new IllegalArgumentException("unregister called when not registered");
+            mCallbackNativeHandle = 0;
+        }
     }
 
     /**
@@ -563,8 +598,9 @@ class AWindow implements IVLCVout {
     }
 
     /**
-     * Set the window Layout.
-     * This call will result of {@link IVLCVout.Callback#onNewLayout} being called from the main thread.
+     * Set the video Layout.
+     * This call will result of{@link IVLCVout.OnNewVideoLayoutListener#onNewVideoLayout(IVLCVout, int, int, int, int, int, int)}
+     * being called from the main thread.
      *
      * @param width Frame width
      * @param height Frame height
@@ -574,13 +610,15 @@ class AWindow implements IVLCVout {
      * @param sarDen Surface aspect ratio denominator
      */
     @SuppressWarnings("unused") /* used by JNI */
-    private void setWindowLayout(final int width, final int height, final int visibleWidth,
-                                 final int visibleHeight, final int sarNum, final int sarDen) {
+    private void setVideoLayout(final int width, final int height, final int visibleWidth,
+                                final int visibleHeight, final int sarNum, final int sarDen) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
-                    cb.onNewLayout(AWindow.this, width, height, visibleWidth, visibleHeight, sarNum, sarDen);
+                /* No need to synchronize here, mOnNewVideoLayoutListener is only set from MainThread */
+                if (mOnNewVideoLayoutListener != null)
+                    mOnNewVideoLayoutListener.onNewVideoLayout(AWindow.this, width, height,
+                            visibleWidth, visibleHeight, sarNum, sarDen);
             }
         });
     }

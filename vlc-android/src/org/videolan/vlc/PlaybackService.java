@@ -502,11 +502,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     };
 
-
-    @Override
-    public void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-    }
-
     @Override
     public void onSurfacesCreated(IVLCVout vlcVout) {
         hideNotification();

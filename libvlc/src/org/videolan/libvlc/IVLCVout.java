@@ -31,9 +31,12 @@ import android.view.TextureView;
 
 @SuppressWarnings("unused")
 public interface IVLCVout {
-    interface Callback {
+    interface OnNewVideoLayoutListener {
         /**
-         * This callback is called when the native vout call request a new Layout.
+         * This listener is called when the "android-display" "vout display" module request a new
+         * video layout. The implementation should take care of changing the surface
+         * LayoutsParams accordingly. If width and height are 0, LayoutParams should be reset to the
+         * initial state (MATCH_PARENT).
          *
          * @param vlcVout vlcVout
          * @param width Frame width
@@ -44,8 +47,11 @@ public interface IVLCVout {
          * @param sarDen Surface aspect ratio denominator
          */
         @MainThread
-        void onNewLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen);
+        void onNewVideoLayout(IVLCVout vlcVout, int width, int height,
+                              int visibleWidth, int visibleHeight, int sarNum, int sarDen);
+    }
 
+    interface Callback {
         /**
          * This callback is called when surfaces are created.
          */
@@ -128,13 +134,33 @@ public interface IVLCVout {
     void setSubtitlesSurface(SurfaceTexture subtitlesSurfaceTexture);
 
     /**
-     * Attach views previously set by setVideoView, setSubtitlesView, setVideoSurface, setSubtitleSurface
+     * Attach views with an OnNewVideoLayoutListener
+     *
+     * This must be called afters views are set and before the MediaPlayer is first started.
+     *
+     * If onNewVideoLayoutListener is not null, the caller will handle the video layout that is
+     * needed by the "android-display" "vout display" module. Even if that case, the OpenGL ES2
+     * could still be used.
+     *
+     * If onNewVideoLayoutListener is null, the caller won't handle the video layout that is
+     * needed by the "android-display" "vout display" module. Therefore, only the OpenGL ES2
+     * "vout display" module will be used (for hardware and software decoding).
+     *
+     * @see OnNewVideoLayoutListener
      * @see #setVideoView(SurfaceView)
      * @see #setVideoView(TextureView)
      * @see #setVideoSurface(Surface, SurfaceHolder)
      * @see #setSubtitlesView(SurfaceView)
      * @see #setSubtitlesView(TextureView)
      * @see #setSubtitlesSurface(Surface, SurfaceHolder)
+     */
+    @MainThread
+    void attachViews(OnNewVideoLayoutListener onNewVideoLayoutListener);
+
+    /**
+     * Attach views without an OnNewVideoLayoutListener
+     *
+     * @see #attachViews(OnNewVideoLayoutListener)
      */
     @MainThread
     void attachViews();
@@ -153,7 +179,8 @@ public interface IVLCVout {
     boolean areViewsAttached();
 
     /**
-     * Add a callback to receive {@link Callback#onNewLayout} events.
+     * Add a callback to receive {@link Callback#onSurfacesCreated} and
+     * {@link Callback#onSurfacesDestroyed(IVLCVout)} events.
      */
     @MainThread
     void addCallback(Callback callback);
