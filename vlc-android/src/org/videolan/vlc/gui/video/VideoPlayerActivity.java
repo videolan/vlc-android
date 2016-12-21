@@ -2006,6 +2006,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public boolean onTouchEvent(MotionEvent event) {
         if (mService == null)
             return false;
+        if (mDetector == null) {
+            mDetector = new GestureDetectorCompat(this, mGestureListener);
+            mDetector.setOnDoubleTapListener(mGestureListener);
+        }
+        if (mFov != 0f && mScaleGestureDetector == null)
+            mScaleGestureDetector = new ScaleGestureDetector(this, this);
         if (mPlaybackSetting != DelayState.OFF) {
             if (event.getAction() == MotionEvent.ACTION_UP)
                 endPlaybackSetting();
@@ -2555,11 +2561,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlayPause.setEnabled(pausable);
         if (!pausable)
             mPlayPause.setImageResource(R.drawable.ic_play_circle_disable_o);
-        else {
-            mDetector = new GestureDetectorCompat(this, mGestureListener);
-            mDetector.setOnDoubleTapListener(mGestureListener);
-        }
-        mScaleGestureDetector = new ScaleGestureDetector(this, this);
     }
 
     private void doPlayPause() {
