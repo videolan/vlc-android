@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_video_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_next_w" />
+        android:icon="@drawable/ic_am_append_w" />
     <item
         android:id="@+id/action_video_play_audio"
         android:title="@string/play_as_audio"
