@@ -186,16 +186,19 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         }
 
         public void onClick(View v){
-            fragment.onClick(v, getAdapterPosition(), binding.getItem());
+            int position = getAdapterPosition();
+            fragment.onClick(v, position, mMediaList.get(position));
         }
 
         public void onMoreClick(View v) {
-            fragment.onCtxClick(v, getAdapterPosition(), binding.getItem());
+            int position = getAdapterPosition();
+            fragment.onCtxClick(v, position, mMediaList.get(position));
         }
 
         @Override
         public boolean onLongClick(View v) {
-            return fragment.onLongClick(v, getAdapterPosition(), binding.getItem());
+            int position = getAdapterPosition();
+            return fragment.onLongClick(v, position, mMediaList.get(position));
         }
 
         private void setViewBackground(boolean focus, boolean selected) {

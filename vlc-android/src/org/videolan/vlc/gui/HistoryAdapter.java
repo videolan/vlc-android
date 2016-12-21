@@ -54,12 +54,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             binding = DataBindingUtil.bind(itemView);
         }
 
-        public void onClick(View v, MediaWrapper mw){
-            mEventsHandler.onClick(v, getAdapterPosition(), mw);
+        public void onClick(View v){
+            int position = getAdapterPosition();
+            mEventsHandler.onClick(v, position, mMediaList.get(position));
         }
 
-        public boolean onLongClick(View v, MediaWrapper mw) {
-            return mEventsHandler.onLongClick(v, getAdapterPosition(), mw);
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            return mEventsHandler.onLongClick(v, position, mMediaList.get(position));
         }
     }
 

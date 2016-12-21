@@ -314,17 +314,22 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
 
         public void onClick(View v) {
-            if (mIEventsHandler != null)
-                mIEventsHandler.onClick(v, getAdapterPosition(), vdb.getItem());
+            if (mIEventsHandler != null) {
+                int position = getAdapterPosition();
+                mIEventsHandler.onClick(v, position, mDataList[position]);
+            }
         }
 
         public void onMoreClick(View v) {
-            if (mIEventsHandler != null)
-                mIEventsHandler.onCtxClick(v, getAdapterPosition(), vdb.getItem());
+            if (mIEventsHandler != null) {
+                int position = getAdapterPosition();
+                mIEventsHandler.onCtxClick(v, position, mDataList[position]);
+            }
         }
 
         public boolean onLongClick(View view) {
-            return mIEventsHandler.onLongClick(view, getAdapterPosition(), vdb.getItem());
+            int position = getAdapterPosition();
+            return mIEventsHandler.onLongClick(view, position, mDataList[position]);
         }
 
         private void setCoverlay(boolean selected) {

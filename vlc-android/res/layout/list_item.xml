@@ -28,8 +28,8 @@
         card_view:cardUseCompatPadding="true"
         android:background="?attr/background_default"
         android:clickable="true"
-        android:onClick="@{(view) -> holder.onClick(view, media)}"
-        android:onLongClick="@{(view) -> holder.onLongClick(view, media)}" >
+        android:onClick="@{holder::onClick}"
+        android:onLongClick="@{holder::onLongClick}" >
         <LinearLayout
             android:id="@+id/layout_item"
             android:layout_width="match_parent"

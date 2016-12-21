@@ -317,16 +317,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             itemView.setOnFocusChangeListener(this);
         }
 
-        public void onClick(View v, MediaWrapper media) {
-            mEventsHandler.onClick(v, getAdapterPosition(), media);
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mEventsHandler.onClick(v, position, mVideos.get(position));
         }
 
         public void onMoreClick(View v){
             mEventsHandler.onCtxClick(v, getAdapterPosition(), null);
         }
 
-        public boolean onLongClick(View v, MediaWrapper media) {
-            return mEventsHandler.onLongClick(v, getAdapterPosition(), media);
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            return mEventsHandler.onLongClick(v, position, mVideos.get(position));
         }
 
         private void setOverlay(boolean selected) {
