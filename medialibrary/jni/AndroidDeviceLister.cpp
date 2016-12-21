@@ -1,9 +1,5 @@
 #include "AndroidDeviceLister.h"
 
-AndroidDeviceLister::AndroidDeviceLister()
-{
-}
-
 std::vector<std::tuple<std::string, std::string, bool>>
 AndroidDeviceLister::devices() const
 {
