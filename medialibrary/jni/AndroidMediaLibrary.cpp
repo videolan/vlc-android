@@ -62,7 +62,7 @@ AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbs
 }
 
 void
-AndroidMediaLibrary::addDevice(std::string uuid, std::string path, bool removable)
+AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
     p_lister->addDevice(uuid, path, removable);
     p_DeviceListerCb->onDevicePlugged(uuid, path);
@@ -75,7 +75,7 @@ AndroidMediaLibrary::devices()
 }
 
 bool
-AndroidMediaLibrary::removeDevice(std::string uuid)
+AndroidMediaLibrary::removeDevice(const std::string& uuid)
 {
     bool removed = p_lister->removeDevice(uuid);
     if (removed)
