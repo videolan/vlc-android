@@ -7,11 +7,11 @@
     <item
         android:id="@+id/action_mode_audio_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_next_w"/>
+        android:icon="@drawable/ic_am_append_w"/>
     <item
         android:id="@+id/action_mode_audio_info"
         android:title="@string/info"
-        android:icon="@drawable/ic_info_outline_white"/>
+        android:icon="@drawable/ic_am_information_w"/>
     <item
         android:id="@+id/action_mode_audio_add_playlist"
         android:title="@string/add_to_playlist"
