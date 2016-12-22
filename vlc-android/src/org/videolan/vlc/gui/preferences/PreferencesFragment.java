@@ -24,16 +24,14 @@
 package org.videolan.vlc.gui.preferences;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.util.VLCInstance;
 
-public class PreferencesFragment extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesFragment extends BasePreferenceFragment {
 
     public final static String TAG = "VLC/PreferencesFragment";
 
@@ -52,20 +50,11 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
     @Override
     public void onStart() {
         super.onStart();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("hardware_acceleration")) {
-            if (getActivity() != null )
-                ((PreferencesActivity)getActivity()).restartMediaPlayer();
-        }
     }
 
     @Override
