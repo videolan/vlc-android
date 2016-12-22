@@ -855,6 +855,11 @@ cd ${SRC_DIR}
 
 echo -e "ndk-build medialibrary"
 
+MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc \
+-L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
+-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
+-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3"
+
 $ANDROID_NDK/ndk-build -C medialibrary \
     APP_STL="c++_shared" \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
@@ -866,12 +871,8 @@ $ANDROID_NDK/ndk-build -C medialibrary \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG} \
-    VLC_LIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc" \
-    MEDIALIBRARY_LIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary" \
-    LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
-    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
-    MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
-    SQLITE3_DIR=${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}/build-$ANDROID_ABI/.libs
+    MEDIALIBRARY_LDLIBS="${MEDIALIBRARY_LDLIBS}" \
+    MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include
 
 checkfail "ndk-build failed"
 
