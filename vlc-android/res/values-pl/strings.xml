@@ -312,9 +312,6 @@
     <string name="save_video_always">Zapisz prędkość między sesjami</string>
     <string name="auto_rescan">Automatyczne przeszukiwanie</string>
     <string name="auto_rescan_summary">Automatycznie przeszukuj urządzenie za nowymi lub usuniętymi plikami podczas uruchomienia programu</string>
-    <string name="vout">Wyjście wideo</string>
-    <string name="vout_summary">Zmiana metody, której VLC używa do wyjścia wideo.</string>
-    <string name="vout_android_surface">Powierzchnia Androida</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
     <string name="clear_history">Wyczyść historię wyszukiwania</string>
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>

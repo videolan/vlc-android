@@ -265,9 +265,6 @@
     <string name="save_video_none">ไม่ต้องจัดเก็บความเร็ว</string>
     <string name="auto_rescan">ตรวจรายการสื่ออัตโนมัติ</string>
     <string name="auto_rescan_summary">ตรวจดูรายการสื่อวว่ามีสื่อใดเพื่มหรือลบออกไป ในตอนที่เริ่มโปรแกรม</string>
-    <string name="vout">ส่วนแสดงวีดิทัศน์</string>
-    <string name="vout_summary">เปลี่ยนวิธีการที่ VLC ใช้ในการแสดงผลภาพวีดิทัศน์</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
     <string name="clear_history">ล้างประวัติการค้นหา</string>
     <string name="media_db_cleared">ล้างฐานข้อมูลสื่อเรียบร้อยแล้ว</string>

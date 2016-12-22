@@ -304,9 +304,6 @@
     <string name="save_video_always">Conserver la vitesse entre les sessions</string>
     <string name="auto_rescan">Rescanner automatiquement</string>
     <string name="auto_rescan_summary">Scanner automatiquement au démarrage de l\'application les médias ajoutés ou supprimés sur l\'appareil</string>
-    <string name="vout">Sortie vidéo</string>
-    <string name="vout_summary">Modifier la méthode utilisée par VLC pour la sortie vidéo.</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>

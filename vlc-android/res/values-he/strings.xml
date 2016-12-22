@@ -305,9 +305,6 @@
     <string name="save_video_always">שמירת המהירות בין ההפעלות</string>
     <string name="auto_rescan">סריקה מחודשת אוטו׳</string>
     <string name="auto_rescan_summary">סריקת האחסון במכשיר לאיתור מדיה שנוספה או הוסרה עם הפעלת היישומון</string>
-    <string name="vout">פלט וידאו</string>
-    <string name="vout_summary">החלפת השיטה בה נעשה שימוש ב־VLC לצורך הצגת פלט וידאו.</string>
-    <string name="vout_android_surface">משטח אנדרויד</string>
     <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
     <string name="clear_history">מחיקת היסטוריית החיפוש</string>
     <string name="media_db_cleared">מסד נתוני המדיה פונה!</string>

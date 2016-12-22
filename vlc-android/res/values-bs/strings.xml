@@ -248,9 +248,6 @@
     <string name="advanced_prefs_category">Napredno</string>
     <string name="auto_rescan">Automatsko ponovno skeniranje</string>
     <string name="auto_rescan_summary">Automatski skeniraj uređaj za nove ili izbrisane medije pri pokretanju aplikacije</string>
-    <string name="vout">Video izlaz</string>
-    <string name="vout_summary">Izmijeni metodu koju VLC koristi za izlaz videa.</string>
-    <string name="vout_android_surface">Android površina</string>
     <string name="clear_media_db">Očisti medijsku bazu podataka</string>
     <string name="clear_history">Očisti historiju pretraživanja</string>
     <string name="media_db_cleared">Medijska baza podataka očišćena!</string>

@@ -166,7 +166,6 @@
     <string name="performance_prefs_category">কার্যকারিতা</string>
     <string name="advanced_prefs_category">উন্নত</string>
     <string name="aout">ভিডিও আউটপুট</string>
-    <string name="vout">ভিডিও আউটপুট</string>
     <string name="clear_media_db">মিডিয়া ডাটাবেজ মুছে ফেলুন</string>
     <string name="clear_history">অনুসন্ধান ইতিহাস মুছে ফেলুন</string>
     <string name="media_db_cleared">মিডিয়া ডাটাবেজ মুছে ফেলা হয়েছে!</string>

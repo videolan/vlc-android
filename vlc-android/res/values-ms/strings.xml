@@ -294,9 +294,6 @@
     <string name="save_video_always">Simpan kelajuan merentasi sesi</string>
     <string name="auto_rescan">Auto imbas semula</string>
     <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
-    <string name="vout">Output video</string>
-    <string name="vout_summary">Ubah kaedah yang VLC gunakan untuk video outout.</string>
-    <string name="vout_android_surface">Permukaan Android</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_history">Kosongkan sejarah gelintar</string>
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>

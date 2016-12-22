@@ -172,8 +172,6 @@
     <string name="performance_prefs_category">ਕਾਰਗੁਜ਼ਾਰੀ</string>
     <string name="advanced_prefs_category">ਤਕਨੀਕੀ</string>
     <string name="aout">ਆਡੀਓ ਇਨਪੁਟ</string>
-    <string name="vout">ਵਿਡੀਓ ਆਉਟਪੁੱਟ</string>
-    <string name="vout_android_surface">ਐਂਡਰਾਇਡ ਇੰਟਰਫੇਸ</string>
     <string name="clear_media_db">ਮੀਡੀਆ ਡਾਟਾਬੇਸ ਸਾਫ਼ ਕਰੋ</string>
     <string name="clear_history">ਖੋਜ ਅਤੀਤ ਸਾਫ਼ ਕਰੋ</string>
     <string name="media_db_cleared">ਮੀਡਿਆ ਡਾਟਾਬੇਸ ਸਾਫ਼ ਕੀਤਾ!</string>

@@ -312,9 +312,6 @@
     <string name="save_video_always">Ukladať rýchlosť naprieč reláciami</string>
     <string name="auto_rescan">Automatické opätovné skenovanie</string>
     <string name="auto_rescan_summary">Pri spustení aplikácie automaticky vyhľadať v zariadení nové alebo vymazané médiá</string>
-    <string name="vout">Výstup videa</string>
-    <string name="vout_summary">Zmeniť spôsob, ktorú používa VLC pre výstup videa.</string>
-    <string name="vout_android_surface">Rozhranie a vzhľad systému Android</string>
     <string name="clear_media_db">Vyčistiť databázu médií</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="media_db_cleared">Databáza médií bola vyčistená!</string>

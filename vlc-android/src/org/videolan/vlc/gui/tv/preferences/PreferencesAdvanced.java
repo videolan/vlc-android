@@ -68,17 +68,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
         }
         findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
                 (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
-
-        // Video output
-//        FIXME : This setting is disable until OpenGL is fixed
-//        ListPreference voutPref = (ListPreference) findPreference("vout");
-//        int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
-//        int voutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
-//        voutPref.setEntries(voutEntriesId);
-//        voutPref.setEntryValues(voutEntriesIdValues);
-//        if (voutPref.getValue() == null)
-//            voutPref.setValue("0"  VOUT_ANDROID_SURFACE );
-        // Network caching
     }
 
     @Override
@@ -145,7 +134,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 }
                 editor.apply();
                 // No break because need VLCInstance.restart();
-            case "vout":
             case "chroma_format":
             case "deblocking":
             case "enable_frame_skip":

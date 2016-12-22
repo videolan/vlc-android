@@ -231,9 +231,6 @@
     <string name="advanced_prefs_category">Avancuar</string>
     <string name="aout">Dalja audio</string>
     <string name="aout_summary">Ndrysho mënyrën qe VLC përdor për të shfaqur audio</string>
-    <string name="vout">Dalja Video</string>
-    <string name="vout_summary">Ndrysho mënyrën qe VLC përdor për të shfaqur video.</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Fshij databazen e medias</string>
     <string name="clear_history">Fshij historinë</string>
     <string name="media_db_cleared">Database-i Media u pastrua!</string>

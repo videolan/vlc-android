@@ -2,10 +2,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/advanced_prefs_category">
-    <!--<ListPreference-->
-    <!--android:key="vout"-->
-    <!--android:summary="@string/vout_summary"-->
-    <!--android:title="@string/vout" />-->
 
     <CheckBoxPreference
         android:defaultValue="true"

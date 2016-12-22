@@ -295,9 +295,6 @@
     <string name="save_video_always">Faasje bewarje oer sesjes hinne</string>
     <string name="auto_rescan">Automatysk opnij skanne</string>
     <string name="auto_rescan_summary">Apparaat automatysk skanne op nije of fuortsmiten media by it starten fan de tapassing</string>
-    <string name="vout">Fideo-útfier</string>
-    <string name="vout_summary">Wizigje de fideo-útfiermetoade dy\'t VLC brûkt.</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Media-database wiskje</string>
     <string name="clear_history">Sykskiednis wiskje</string>
     <string name="media_db_cleared">Media-database wiske!</string>

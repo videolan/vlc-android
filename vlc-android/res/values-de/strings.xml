@@ -305,9 +305,6 @@
     <string name="save_video_always">Geschwindigkeit über mehrere Sitzungen hinweg speichern</string>
     <string name="auto_rescan">Automatisch durchsuchen</string>
     <string name="auto_rescan_summary">Gerät beim Start der Anwendung automatisch nach neuen oder gelöschten Medien durchsuchen</string>
-    <string name="vout">Videoausgabe</string>
-    <string name="vout_summary">Die Methode ändern, die VLC zur Video-Ausgabe benutzt.</string>
-    <string name="vout_android_surface">Android-Oberfläche </string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
     <string name="clear_history">Suchverlauf löschen</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>

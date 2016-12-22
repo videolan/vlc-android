@@ -301,9 +301,6 @@
     <string name="save_video_always">Spara hastigheten för alla sessioner</string>
     <string name="auto_rescan">Sök automatiskt</string>
     <string name="auto_rescan_summary">Sök igenom enheten automatiskt efter ny eller raderad media vid uppstart</string>
-    <string name="vout">Videoutmatning</string>
-    <string name="vout_summary">Ändra metoden som VLC använder för att mata ut video.</string>
-    <string name="vout_android_surface">Android Surface</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
     <string name="clear_history">Rensa sökhistorik</string>
     <string name="media_db_cleared">Mediadatabas rensad!</string>

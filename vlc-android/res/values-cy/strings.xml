@@ -318,9 +318,6 @@
     <string name="save_video_always">Cadw\'r cyflymder ar draws sesiynau</string>
     <string name="auto_rescan">Ail-sganio awtomatig</string>
     <string name="auto_rescan_summary">Sganio\'r ddyfais yn awtomatig am newid i ffeiliau cyfryngau wrth ddechrau\'r ap</string>
-    <string name="vout">Allbwn fideo</string>
-    <string name="vout_summary">Newidiwch y dull mae VLC yn allbwn sain.</string>
-    <string name="vout_android_surface">Arwyneb Android</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
     <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>

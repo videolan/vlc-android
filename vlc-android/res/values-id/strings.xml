@@ -228,9 +228,6 @@
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="auto_rescan">Pindai ulang otomatis</string>
     <string name="auto_rescan_summary">Secara otomatis memindai perangkat untuk media baru atau dihapus pada saat aplikasi dijalankan</string>
-    <string name="vout">Keluaran video</string>
-    <string name="vout_summary">Ubah metode yang digunakan VLC untuk keluaran video.</string>
-    <string name="vout_android_surface">Permukaan Android</string>
     <string name="clear_media_db">Bersihkan basis data media</string>
     <string name="clear_history">Bersihkan riwayat pencarian</string>
     <string name="media_db_cleared">Basis data media dibersihkan!</string>

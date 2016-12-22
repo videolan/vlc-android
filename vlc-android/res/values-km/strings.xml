@@ -173,9 +173,6 @@
     <string name="advanced_prefs_category">កម្រិត​ខ្ពស់</string>
     <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
     <string name="aout_summary">ប្ដូរ​វិធីសាស្ត្រ​ដែល​ VLC ប្រើ​ដើម្បី​​បង្ហាញ​លទ្ធផល​អូឌីយ៉ូ។</string>
-    <string name="vout">ការ​បង្ហាញ​វីដេអូ</string>
-    <string name="vout_summary">ប្ដូរ​វិធី​ដែល VLC ប្រើ​ដើម្បី​បង្ហាញ​វីដេអូ។</string>
-    <string name="vout_android_surface">ផ្ទៃ​របស់ Android</string>
     <string name="clear_media_db">សម្អាត​មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ</string>
     <string name="clear_history">សម្អាត​ប្រវត្តិ​ស្វែងរក</string>
     <string name="media_db_cleared">បាន​សម្អាត​មូលដ្ឋាន​ទិន្នន័យ!</string>

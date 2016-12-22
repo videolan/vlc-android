@@ -319,9 +319,6 @@
     <string name="save_video_always">Запоминать скорость после выхода</string>
     <string name="auto_rescan">Автосканирование</string>
     <string name="auto_rescan_summary">Автоматически сканировать устройство и выявлять новые или удалённые медиафайлы при запуске приложения</string>
-    <string name="vout">Вывод видео</string>
-    <string name="vout_summary">Выберите режим вывода видео в VLC</string>
-    <string name="vout_android_surface">Буфер Android Surface</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="clear_history">Очистить историю поиска</string>
     <string name="media_db_cleared">База метаданных очищена.</string>

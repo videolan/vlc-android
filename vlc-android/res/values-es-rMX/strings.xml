@@ -295,9 +295,6 @@
     <string name="save_video_always">Guardar velocidad entre sesiones</string>
     <string name="auto_rescan">Auto reescanear</string>
     <string name="auto_rescan_summary">Escanear automáticamente el disposiivo por nuevos o eliminados archivos al iniciar VLC</string>
-    <string name="vout">Salida de vídeo</string>
-    <string name="vout_summary">Cambia el método que VLC usa para sacar video.</string>
-    <string name="vout_android_surface">Superficie Android</string>
     <string name="clear_media_db">Limpiar base de datos multimedia</string>
     <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="media_db_cleared">¡Base de datos multimedia limpiada!</string>

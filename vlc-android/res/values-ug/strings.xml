@@ -201,9 +201,6 @@
     <string name="advanced_prefs_category">ئالىي</string>
     <string name="aout">ئۈن چىقىرىش</string>
     <string name="aout_summary">VLC نىڭ ئۈن چىقىرىدىغان ئۇسۇلىنى ئۆزگەرتىدۇ.</string>
-    <string name="vout">سىن چىقىرىش</string>
-    <string name="vout_summary">VLC چىقارغان سىننى ئۆزگەرتىشتە قوللىنىدىغان ئۇسۇل.</string>
-    <string name="vout_android_surface">Android ئارايۈز</string>
     <string name="clear_media_db">ۋاستە سانداننى تازىلا</string>
     <string name="clear_history">ئىزدەش تارىخىنى تازىلا</string>
     <string name="media_db_cleared">ۋاستە ساندان تازىلاندى!</string>

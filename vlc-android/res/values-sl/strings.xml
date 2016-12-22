@@ -319,9 +319,6 @@
     <string name="save_video_always">Shrani hitrost za vsa predvajanja</string>
     <string name="auto_rescan">Samodejno preišči</string>
     <string name="auto_rescan_summary">Ob zagonu samodejno preišči napravo za novo ali izbrisano predstavno vsebino</string>
-    <string name="vout">Video odvod</string>
-    <string name="vout_summary">Spreminjanje načina odvoda videa med predvajanjem v predvajalniku VLC.</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
     <string name="clear_history">Počisti zgodovino iskanja</string>
     <string name="media_db_cleared">Podatkovna zbirka predstavnih vsebin je počiščena!</string>

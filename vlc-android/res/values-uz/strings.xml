@@ -211,9 +211,6 @@
     <string name="advanced_prefs_category">Qo‘shimcha</string>
     <string name="aout">Audio chiqarish</string>
     <string name="aout_summary">VLC foydalanadigan chiquvchi audio uslubini oʻzgartirish.</string>
-    <string name="vout">Video chiqish</string>
-    <string name="vout_summary">VLC foydalanadigan chiquvchi video uslubini oʻzgartirish.</string>
-    <string name="vout_android_surface">Android yuzasi</string>
     <string name="clear_media_db">Media ma’lumotlar bazasini tozalash</string>
     <string name="clear_history">Qidiruv tarixini tozalash</string>
     <string name="media_db_cleared">Media ma’lumotlar bazasi tozalandi!</string>

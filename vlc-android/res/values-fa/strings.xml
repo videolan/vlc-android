@@ -288,9 +288,6 @@
     <string name="save_video_always">ذخیره سرعت در میان نشست ها</string>
     <string name="auto_rescan">گشتن مجدد خودکار</string>
     <string name="auto_rescan_summary">جستجوی خودکار دستگاه برای رسانه های جدید یا حذف شده در شروع برنامه</string>
-    <string name="vout">خروجی تصویر</string>
-    <string name="vout_summary">تغییر روش خروجی تصویری مورد استفاده VLC.</string>
-    <string name="vout_android_surface">رویه اندروید</string>
     <string name="clear_media_db">پاک کردن بانک اطلاعاتی رسانه</string>
     <string name="clear_history">پاک کردن سابقه جستجو</string>
     <string name="media_db_cleared">بانک رسانه حذف شد!</string>

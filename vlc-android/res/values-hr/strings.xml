@@ -307,9 +307,6 @@
     <string name="save_video_always">Spremi brzinu za sve sesije</string>
     <string name="auto_rescan">Automatsko ponovno pretraživanje</string>
     <string name="auto_rescan_summary">Automatski pretražuje uređaj za nove obrisane medije pri pokretanju aplikacije.</string>
-    <string name="vout">Video izlaz</string>
-    <string name="vout_summary">Promjena načina izlaza koji VLC koristi za video zapis.</string>
-    <string name="vout_android_surface">Android površina</string>
     <string name="clear_media_db">Obriši medijsku bazu podataka</string>
     <string name="clear_history">Obriši povijest pretraživanja</string>
     <string name="media_db_cleared">Baza medijskih podataka je obrisana!</string>

@@ -290,9 +290,6 @@
     <string name="save_video_none">Não salvar velocidade</string>
     <string name="auto_rescan">Verificação automática</string>
     <string name="auto_rescan_summary">Verifica um dispositivo automaticamente para encontrar mídias novas ou excluídas, na inicialização do aplicativo</string>
-    <string name="vout">Saída de vídeo</string>
-    <string name="vout_summary">Alterar o método que o VLC usa para reproduzir vídeo.</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="media_db_cleared">Banco de mídias limpo!</string>

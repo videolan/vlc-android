@@ -231,9 +231,6 @@
     <string name="advanced_prefs_category">Дадаткова</string>
     <string name="aout">Аўдыявывад</string>
     <string name="aout_summary">Змяніць спосаб вываду аўдыё</string>
-    <string name="vout">Вывад відэа</string>
-    <string name="vout_summary">Змяніць спосаб вываду відэа</string>
-    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Ачысціць медыятэку</string>
     <string name="clear_history">Ачысціць гісторыю пошуку</string>
     <string name="media_db_cleared">Медыятэка ачышчана!</string>

@@ -305,9 +305,6 @@
     <string name="save_video_always">Farklı oturumlardaki hızlar kaydedilsin</string>
     <string name="auto_rescan">Otomatik yeniden tarama</string>
     <string name="auto_rescan_summary">Uygulama başlangıcında aygıtı yeni ya da silinmiş ortamlar için tarar</string>
-    <string name="vout">Görüntü çıkışı</string>
-    <string name="vout_summary">VLC tarafından kullanılan görüntü çıkışı yöntemini değiştirir.</string>
-    <string name="vout_android_surface">Android yüzeyi</string>
     <string name="clear_media_db">Ortam veritabanını temizle</string>
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>

@@ -304,9 +304,6 @@
     <string name="save_video_always">Guardar la velocidad entre sesiones</string>
     <string name="auto_rescan">Autoescanear</string>
     <string name="auto_rescan_summary">Escanear automáticamente el dispositivo en busca de medios nuevos o eliminados al iniciar la aplicación</string>
-    <string name="vout">Salida de vídeo</string>
-    <string name="vout_summary">Cambiar el método que usa VLC para la salida de vídeo.</string>
-    <string name="vout_android_surface">Superficie Android</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>

@@ -278,9 +278,6 @@
     <string name="save_video_none">இயக்க வேகத்தை நினைவிற்கொள்ள வேண்டாம்</string>
     <string name="auto_rescan">தானாக மறுசோதனை</string>
     <string name="auto_rescan_summary">ஒவ்வொரு முறையும் செயலியை இயக்கும் பொழுது புதிதாக சேர்க்கப் பட்ட அல்லது நீக்கப்பட்ட ஊடக கோப்புகளுக்காக சாதனத்தை சோதனையிடவும்</string>
-    <string name="vout">காணொளி வெளியீடு</string>
-    <string name="vout_summary">காணொளியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
-    <string name="vout_android_surface">ஆண்ட்ராய்டு மேற்பரப்பு</string>
     <string name="clear_media_db">ஊடக தரவுத்தளம் துடை</string>
     <string name="clear_history">தேடல் வரலாற்றை துடை</string>
     <string name="media_db_cleared">ஊடக தரவுத்தளம் துடைக்கப்பட்டது!</string>

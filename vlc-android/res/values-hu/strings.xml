@@ -288,9 +288,6 @@
     <string name="advanced_prefs_category">Haladó</string>
     <string name="auto_rescan">Automatikus újraátvizsgálás</string>
     <string name="auto_rescan_summary">Automatikusan átvizsgálja az eszközt új és törölt médiák után az alkalmazás indításakor.</string>
-    <string name="vout">Videókimenet</string>
-    <string name="vout_summary">Változtassa meg a VLC videókimenetét.</string>
-    <string name="vout_android_surface">Android felület</string>
     <string name="clear_media_db">Média adatbázis törlése</string>
     <string name="clear_history">Keresési napló törlése</string>
     <string name="media_db_cleared">Média adatbázis törölve!</string>

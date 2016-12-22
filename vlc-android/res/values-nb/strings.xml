@@ -304,9 +304,6 @@
     <string name="save_video_always">Lagre takt på tvers av økter</string>
     <string name="auto_rescan">Automatisk oppfriskningssøk</string>
     <string name="auto_rescan_summary">Søk automatisk på enheten etter nye og slettede mediafiler ved oppstart av programmet</string>
-    <string name="vout">Videoutgang</string>
-    <string name="vout_summary">Endre metoden VLC bruker for videoutgang.</string>
-    <string name="vout_android_surface">Android brukerflate</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="clear_history">Tøm søkehistorie</string>
     <string name="media_db_cleared">Mediedatabase tømt!</string>
