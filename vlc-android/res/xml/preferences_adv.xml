@@ -37,6 +37,13 @@
             android:summary="@string/enable_time_stretching_audio_summary"
             android:title="@string/enable_time_stretching_audio" />
         <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/opengl_list"
+            android:entryValues="@array/opengl_values"
+            android:key="opengl"
+            android:summary="@string/opengl_summary"
+            android:title="@string/opengl_title" />
+        <ListPreference
             android:defaultValue="@string/chroma_format_default"
             android:entries="@array/chroma_formats"
             android:entryValues="@array/chroma_formats_values"

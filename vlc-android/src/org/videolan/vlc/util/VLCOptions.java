@@ -80,6 +80,7 @@ public class VLCOptions {
         final String freetypeRelFontsize = pref.getString("subtitles_size", "16");
         final String freetypeColor = pref.getString("subtitles_color", "16777215");
         final boolean freetypeBackground = pref.getBoolean("subtitles_background", false);
+        final int opengl = Integer.parseInt(pref.getString("opengl", "-1"));
 
         /* CPU intensive plugin, setting for slow devices */
         options.add(timeStreching ? "--audio-time-stretch" : "--no-audio-time-stretch");
@@ -106,6 +107,10 @@ public class VLCOptions {
             options.add("--freetype-background-opacity=128");
         else
             options.add("--freetype-background-opacity=0");
+        if (opengl == 1)
+            options.add("--vout=gles2,none");
+        else if (opengl == 0)
+            options.add("--vout=android_display,none");
 
         /* Configure keystore */
         options.add("--keystore");

@@ -634,6 +634,22 @@
         <item>1</item>
     </string-array>
 
+    <string name="opengl_title">OpenGL ES2 usage</string>
+    <string name="opengl_summary">By default, OpenGL ES2 is used for software decoding and hardware decoding when needed (360° videos).</string>
+    <string-array name="opengl_list">
+        <item>@string/opengl_automatic</item>
+        <item>@string/opengl_on</item>
+        <item>@string/opengl_off</item>
+    </string-array>
+    <string-array name="opengl_values" translatable="false">
+        <item>-1</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="opengl_automatic">Automatic</string>
+    <string name="opengl_on">Force On</string>
+    <string name="opengl_off">Force Off</string>
+
     <string-array name="chroma_formats_values" translatable="false">
         <item>RV32</item>
         <item>RV16</item>
