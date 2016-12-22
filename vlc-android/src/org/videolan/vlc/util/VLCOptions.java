@@ -62,7 +62,7 @@ public class VLCOptions {
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
         String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
-        if (chroma != null && chroma.equals("YV12"))
+        if (chroma.equals("YV12"))
             chroma = "";
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
@@ -96,7 +96,7 @@ public class VLCOptions {
         if (networkCaching > 0)
             options.add("--network-caching=" + networkCaching);
         options.add("--android-display-chroma");
-        options.add(chroma != null ? chroma : "RV32");
+        options.add(chroma);
         options.add("--audio-resampler");
         options.add(getResampler());
 
