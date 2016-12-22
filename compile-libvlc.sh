@@ -401,11 +401,13 @@ NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
 if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" -o "${PLATFORM_SHORT_ARCH}" = "mips64" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}64"
 fi
+NDK_LIB_UNWIND=""
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}/armv7-a"
+    NDK_LIB_UNWIND="-lunwind"
 fi
 
-VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi"
+VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
 
 # Release or not?
 if [ "$RELEASE" = 1 ]; then
@@ -858,7 +860,8 @@ echo -e "ndk-build medialibrary"
 MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc \
 -L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
--L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3"
+-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
+-L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
 
 $ANDROID_NDK/ndk-build -C medialibrary \
     APP_STL="c++_shared" \
