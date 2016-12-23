@@ -80,9 +80,9 @@ public class Medialibrary {
         nativeSetup();
     }
 
-    public void init(Context context) {
-        nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
-        mIsInitiated = true;
+    public boolean init(Context context) {
+        mIsInitiated = nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
+        return mIsInitiated;
     }
 
     public void banFolder(String path) {
@@ -172,10 +172,11 @@ public class Medialibrary {
     }
 
     public Playlist getPlaylist(long playlistId) {
-        return nativeGetPlaylist(playlistId);
+        return mIsInitiated ? nativeGetPlaylist(playlistId) : null;
     }
+
     public Playlist createPlaylist(String name) {
-        return nativePlaylistCreate(name);
+        return mIsInitiated ? nativePlaylistCreate(name) : null;
     }
 
     public void pauseBackgroundOperations() {
@@ -215,10 +216,10 @@ public class Medialibrary {
     }
 
     public MediaWrapper getMedia(long id) {
-        return nativeGetMedia(id);
+        return mIsInitiated ? nativeGetMedia(id) : null;
     }
     public MediaWrapper getMedia(String mrl) {
-        return nativeGetMediaFromMrl(mrl);
+        return mIsInitiated ? nativeGetMediaFromMrl(mrl) : null;
     }
 
     public long getId() {
@@ -374,10 +375,12 @@ public class Medialibrary {
     }
 
     public SearchAggregate search(String query) {
-        return nativeSearch(query);
+        return mIsInitiated ? nativeSearch(query) : null;
     }
 
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
+        if (!mIsInitiated)
+            return;
         devicesDiscoveryCbList.add(cb);
     }
 
@@ -402,7 +405,7 @@ public class Medialibrary {
 
     // Native methods
     private native void nativeSetup();
-    private native void nativeInit(String dbPath, String thumbsPath);
+    private native boolean nativeInit(String dbPath, String thumbsPath);
     private native void nativeRelease();
     private native void nativeBanFolder(String path);
     private native void nativeAddDevice(String uuid, String path, boolean removable);
