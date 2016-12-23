@@ -54,6 +54,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
@@ -74,7 +75,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.PopupManager;
@@ -1016,13 +1016,17 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void initMediaSession() {
-         ComponentName mediaButtonEventReceiver = new ComponentName(this,
-                    RemoteControlClientReceiver.class);
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+
+        mediaButtonIntent.setClass(this, MediaButtonReceiver.class);
+        PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+
         mSessionCallback = new MediaSessionCallback();
-        mMediaSession = new MediaSessionCompat(this, "VLC", mediaButtonEventReceiver, null);
+        mMediaSession = new MediaSessionCompat(this, "VLC");
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setCallback(mSessionCallback);
+        mMediaSession.setMediaButtonReceiver(mbrIntent);
         try {
             mMediaSession.setActive(true);
             setSessionToken(mMediaSession.getSessionToken());
