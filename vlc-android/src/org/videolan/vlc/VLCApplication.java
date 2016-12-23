@@ -235,17 +235,18 @@ public class VLCApplication extends Application {
         String[] storages = AndroidDevices.getMediaDirectories();
         for (String storage : storages)
             ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
-        ml.init(getAppContext());
-        for (String storage : storages)
-            for (String folder : Medialibrary.banList)
-                ml.banFolder(storage+folder);
-        if (ml.getFoldersList().length == 0) {
-            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
-            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
-            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
-            ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
-            for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                ml.discover(externalStorage);
+        if (ml.init(getAppContext())) {
+            for (String storage : storages)
+                for (String folder : Medialibrary.banList)
+                    ml.banFolder(storage+folder);
+            if (ml.getFoldersList().length == 0) {
+                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
+                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
+                for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
+                    ml.discover(externalStorage);
+            }
         }
     }
 }

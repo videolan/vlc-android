@@ -55,10 +55,10 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
     delete p_ml;
 }
 
-void
+bool
 AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbsPath)
 {
-    p_ml->initialize(dbPath, thumbsPath, this);
+    return p_ml->initialize(dbPath, thumbsPath, this);
 }
 
 void
