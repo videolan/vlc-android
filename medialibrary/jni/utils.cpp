@@ -34,23 +34,27 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
     jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL;
     if (p_albumTrack) {
-        if (p_albumTrack->artist() != NULL)
-            artist = env->NewStringUTF(p_albumTrack->artist()->name().c_str());
-        if (p_albumTrack->genre() != NULL)
-            genre = env->NewStringUTF(p_albumTrack->genre()->name().c_str());
+        medialibrary::ArtistPtr artistPtr = p_albumTrack->artist();
+        medialibrary::GenrePtr genrePtr = p_albumTrack->genre();
         medialibrary::AlbumPtr albumPtr = p_albumTrack->album();
+        if (artistPtr != NULL)
+            artist = env->NewStringUTF(artistPtr->name().c_str());
+        if (genrePtr != NULL)
+            genre = env->NewStringUTF(genrePtr->name().c_str());
         if (albumPtr!= NULL) {
             album = env->NewStringUTF(albumPtr->title().c_str());
-            if (albumPtr->albumArtist() != NULL)
-                albumArtist = env->NewStringUTF(albumPtr->albumArtist()->name().c_str());
+            medialibrary::ArtistPtr albumArtistPtr = albumPtr->albumArtist();
+            if (albumArtistPtr != NULL)
+                albumArtist = env->NewStringUTF(albumArtistPtr->name().c_str());
         }
     }
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
     mrl = mediaPtr->files().at(0)->mrl().empty() ? NULL : env->NewStringUTF(mediaPtr->files().at(0)->mrl().c_str());
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
-    bool hasVideoTracks = !mediaPtr->videoTracks().empty();
-    unsigned int width = hasVideoTracks ? mediaPtr->videoTracks().at(0)->width() : 0;
-    unsigned int height = hasVideoTracks ? mediaPtr->videoTracks().at(0)->height() : 0;
+    std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks();
+    bool hasVideoTracks = !videoTracks.empty();
+    unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
+    unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
     int64_t progress = duration* mediaPtr->progress();
 
