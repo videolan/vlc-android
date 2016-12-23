@@ -1029,7 +1029,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mMediaSession.setMediaButtonReceiver(mbrIntent);
         try {
             mMediaSession.setActive(true);
-            setSessionToken(mMediaSession.getSessionToken());
         } catch (NullPointerException e) {
             // Some versions of KitKat do not support AudioManager.registerMediaButtonIntent
             // with a PendingIntent. They will throw a NullPointerException, in which case
@@ -1039,6 +1038,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
             mMediaSession.setActive(true);
         }
+        setSessionToken(mMediaSession.getSessionToken());
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
