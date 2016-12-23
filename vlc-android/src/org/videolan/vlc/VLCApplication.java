@@ -252,11 +252,10 @@ public class VLCApplication extends Application {
                     medialibrary.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
                 if (medialibrary.init(getAppContext())) {
                     LocalBroadcastManager.getInstance(instance).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
-                    //FIXME ban causes crash after app force stop
-//                    for (String storage : storages)
-//                        for (String folder : Medialibrary.banList)
-//                            medialibrary.banFolder(storage+folder);
                     if (medialibrary.getFoldersList().length == 0) {
+                        for (String storage : storages)
+                            for (String folder : Medialibrary.banList)
+                                medialibrary.banFolder(storage+folder);
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
