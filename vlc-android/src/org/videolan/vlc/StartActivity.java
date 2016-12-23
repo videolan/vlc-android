@@ -50,8 +50,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static org.videolan.vlc.VLCApplication.getMLInstance;
-
 public class StartActivity extends Activity {
 
     public final static String TAG = "VLC/StartActivity";
@@ -67,12 +65,12 @@ public class StartActivity extends Activity {
             else
                 MediaUtils.openMediaNoUi(intent.getData());
         } else {
+            if (Permissions.canReadStorage())
+                VLCApplication.setupMedialibrary(null);
             if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
                 startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
             else
                 startActivity(new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class));
-            if (!getMLInstance().isInitiated() && Permissions.canReadStorage())
-                VLCApplication.setupMedialibrary(getMLInstance());
         }
         finish();
     }

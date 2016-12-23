@@ -23,7 +23,10 @@ package org.videolan.vlc.gui.tv;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -44,6 +47,7 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -204,8 +208,10 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         super.onResume();
         if (mService != null)
             mService.addCallback(this);
-        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-        mMediaLibrary.addDeviceDiscoveryCb(this);
+        if (mMediaLibrary.isInitiated()) {
+            setmedialibraryListeners();
+        } else
+            setupMediaLibraryReceiver();
         update();
     }
 
@@ -226,7 +232,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mMediaLibrary.init(this);
                     ((VLCApplication) VLCApplication.getAppContext()).setupMedialibrary(mMediaLibrary);
                 } else {
                     Permissions.showStoragePermissionDialog(this, false);
@@ -581,4 +586,19 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
     }
 
+    private void setmedialibraryListeners() {
+        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
+        mMediaLibrary.addDeviceDiscoveryCb(this);
+    }
+
+    private void setupMediaLibraryReceiver() {
+        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocalBroadcastManager.getInstance(MainTvActivity.this).unregisterReceiver(this);
+                setmedialibraryListeners();
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+    }
 }

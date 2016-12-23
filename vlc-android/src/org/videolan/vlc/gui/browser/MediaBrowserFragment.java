@@ -23,11 +23,16 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
@@ -202,5 +207,17 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         return false;
+    }
+
+    protected void fillView() {};
+    protected void setupMediaLibraryReceiver() {
+        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
+                fillView();
+            }
+        };
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
 }

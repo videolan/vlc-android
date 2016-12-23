@@ -22,9 +22,11 @@ package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -45,6 +47,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -116,7 +119,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
 
     private Medialibrary mMediaLibrary;
-
     private HackyDrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -163,8 +165,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         }
 
         Permissions.checkReadStoragePermission(this, false);
-
-        mMediaLibrary = VLCApplication.getMLInstance();
 
         /*** Start initializing the UI ***/
 
@@ -233,6 +233,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         /* Reload the latest preferences */
         reloadPreferences();
         mScanNeeded = savedInstanceState == null && mSettings.getBoolean("auto_rescan", true);
+
+        mMediaLibrary = VLCApplication.getMLInstance();
     }
 
     private void setupNavigationView() {
@@ -253,7 +255,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mMediaLibrary.init(this);
                     ((VLCApplication) VLCApplication.getAppContext()).setupMedialibrary(mMediaLibrary);
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
@@ -353,16 +354,29 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     @Override
     protected void onResume() {
         super.onResume();
-        mMediaLibrary.addDeviceDiscoveryCb(this);
+        if (mMediaLibrary.isInitiated()) {
+            mMediaLibrary.addDeviceDiscoveryCb(this);
+            /* Load media items from database and storage */
+            if (mScanNeeded && Permissions.canReadStorage())
+                mMediaLibrary.reload();
+            else
+                restoreCurrentList();
+        } else
+            setupMediaLibraryReceiver();
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        /* Load media items from database and storage */
-        if (mScanNeeded && Permissions.canReadStorage())
-            mMediaLibrary.reload();
-        else
-            restoreCurrentList();
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
+    }
+
+    private void setupMediaLibraryReceiver() {
+        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocalBroadcastManager.getInstance(MainActivity.this).unregisterReceiver(this);
+                mMediaLibrary.addDeviceDiscoveryCb(MainActivity.this);
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
 
     @Override

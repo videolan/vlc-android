@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,6 +53,8 @@ import java.util.concurrent.TimeUnit;
 
 public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
+
+    public final static String ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication";
     private static VLCApplication instance;
 
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
@@ -114,18 +117,23 @@ public class VLCApplication extends Application {
 
         instance = this;
 
-        // Prepare cache folder constants
-        AudioUtil.prepareCacheFolder(this);
+        runBackground(new Runnable() {
+            @Override
+            public void run() {
+                // Prepare cache folder constants
+                AudioUtil.prepareCacheFolder(instance);
 
-        sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
+                sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
 
-        if (!VLCInstance.testCompatibleCPU(this))
-            return;
-        Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
+                if (!VLCInstance.testCompatibleCPU(instance))
+                    return;
+                Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
 
-        // Disable remote control receiver on Fire TV.
-        if (!AndroidDevices.hasTsp())
-            AndroidDevices.setRemoteControlReceiverEnabled(false);
+                // Disable remote control receiver on Fire TV.
+                if (!AndroidDevices.hasTsp())
+                    AndroidDevices.setRemoteControlReceiverEnabled(false);
+            }
+        });
     }
 
     /**
@@ -227,26 +235,37 @@ public class VLCApplication extends Application {
     }
 
     public static synchronized Medialibrary getMLInstance() {
+        VLCInstance.get(); //ensure VLC is loaded before medialibrary
         return Medialibrary.getInstance();
     }
 
     public static void setupMedialibrary(final Medialibrary ml) {
-        ml.setup();
-        String[] storages = AndroidDevices.getMediaDirectories();
-        for (String storage : storages)
-            ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
-        if (ml.init(getAppContext())) {
-            for (String storage : storages)
-                for (String folder : Medialibrary.banList)
-                    ml.banFolder(storage+folder);
-            if (ml.getFoldersList().length == 0) {
-                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
-                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
-                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
-                ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
-                for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                    ml.discover(externalStorage);
+        runBackground(new Runnable() {
+            @Override
+            public void run() {
+                Medialibrary medialibrary = ml != null ? ml : getMLInstance();
+                if (medialibrary.isInitiated())
+                    return;
+                medialibrary.setup();
+                String[] storages = AndroidDevices.getMediaDirectories();
+                for (String storage : storages)
+                    medialibrary.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+                if (medialibrary.init(getAppContext())) {
+                    LocalBroadcastManager.getInstance(instance).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
+                    //FIXME ban causes crash after app force stop
+//                    for (String storage : storages)
+//                        for (String folder : Medialibrary.banList)
+//                            medialibrary.banFolder(storage+folder);
+                    if (medialibrary.getFoldersList().length == 0) {
+                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
+                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
+                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
+                            medialibrary.discover(externalStorage);
+                    }
+                }
             }
-        }
+        });
     }
 }

@@ -209,6 +209,20 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         super.onResume();
         setSearchVisibility(false);
         mViewPager.addOnPageChangeListener(this);
+        if (mMediaLibrary.isInitiated())
+            fillView();
+        else
+            setupMediaLibraryReceiver();
+        final RecyclerView current = getCurrentRV();
+        current.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)current.getLayoutManager()).findFirstVisibleItemPosition() == 0);
+                }
+            });
+    }
+
+    protected void fillView() {
         mMediaLibrary.addDeviceDiscoveryCb(this);
         mMediaLibrary.setArtistsAddedCb(this);
         mMediaLibrary.setAlbumsAddedCb(this);
@@ -221,13 +235,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             updateEmptyView(mViewPager.getCurrentItem());
             updatePlaylists();
         }
-        final RecyclerView current = getCurrentRV();
-        current.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)current.getLayoutManager()).findFirstVisibleItemPosition() == 0);
-                }
-            });
     }
 
     protected void setContextMenuItems(Menu menu, int position) {

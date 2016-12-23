@@ -156,11 +156,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onResume() {
         super.onResume();
         setSearchVisibility(false);
-        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-        mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
-        mMediaLibrary.addDeviceDiscoveryCb(this);
         updateViewMode();
-        mHandler.sendEmptyMessage(UPDATE_LIST);
+        if (mMediaLibrary.isInitiated())
+            fillView();
+        else
+            setupMediaLibraryReceiver();
     }
 
     @Override
@@ -193,6 +193,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onDestroy() {
         super.onDestroy();
         mVideoAdapter.clear();
+    }
+
+    protected void fillView() {
+        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
+        mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
+        mMediaLibrary.addDeviceDiscoveryCb(this);
+        mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     protected String getTitle(){
