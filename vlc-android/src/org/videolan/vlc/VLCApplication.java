@@ -261,6 +261,7 @@ public class VLCApplication extends Application {
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
                         medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
+                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath());
                         for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
                             medialibrary.discover(externalStorage);
                     }
