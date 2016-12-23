@@ -910,7 +910,7 @@ MediaLibrary_getInstance(JNIEnv *env, jobject thiz)
 {
     AndroidMediaLibrary *p_obj = MediaLibrary_getInstanceInternal(env, thiz);
     if (!p_obj)
-        throw_IllegalStateException(env, "can't get VLCObject instance");
+        throw_IllegalStateException(env, "can't get AndroidMediaLibrary instance");
     return p_obj;
 }
 
