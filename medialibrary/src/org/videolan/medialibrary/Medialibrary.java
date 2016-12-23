@@ -189,11 +189,13 @@ public class Medialibrary {
     }
 
     public void reload() {
-        nativeReload();
+        if (mIsInitiated)
+            nativeReload();
     }
 
     public void reload(String entryPoint) {
-        nativeReload(entryPoint);
+        if (mIsInitiated)
+            nativeReload(entryPoint);
     }
 
     public MediaWrapper[] lastMediaPlayed() {
