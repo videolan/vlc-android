@@ -25,7 +25,7 @@
         <item
             android:id="@+id/action_mode_audio_set_song"
             android:title="@string/set_song"
-            android:icon="@drawable/ic_music_note_white"
+            android:icon="@drawable/ic_am_ringtone_w"
             android:visible="false" />
     </group>
 </menu>
