@@ -23,13 +23,18 @@ static void
 MediaLibrary_setInstance(JNIEnv *env, jobject thiz, AndroidMediaLibrary *p_obj);
 
 void
+setup(JNIEnv* env, jobject thiz) {
+    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz);
+    MediaLibrary_setInstance(env, thiz, aml);
+}
+
+void
 init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 {
     const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
     const std::string stringDbPath(db_utfchars), stringThumbsPath(thumbs_utfchars);
-    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz);
-    MediaLibrary_setInstance(env, thiz, aml);
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     aml->initML(stringDbPath, stringThumbsPath);
     env->ReleaseStringUTFChars(dbPath, db_utfchars);
     env->ReleaseStringUTFChars(thumbsPath, thumbs_utfchars);
@@ -580,6 +585,7 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
   * JNI stuff
   */
 static JNINativeMethod methods[] = {
+    {"nativeSetup", "()V", (void*)setup },
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)V", (void*)init },
     {"nativeRelease", "()V", (void*)release },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },

@@ -76,6 +76,10 @@ public class Medialibrary {
         System.loadLibrary("mla");
     }
 
+    public void setup() {
+        nativeSetup();
+    }
+
     public void init(Context context) {
         nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
         mIsInitiated = true;
@@ -92,8 +96,6 @@ public class Medialibrary {
 
     public void addDevice(String uuid, String path, boolean removable) {
         nativeAddDevice(uuid, path, removable);
-        for (String folder : banList)
-            nativeBanFolder(path+folder);
     }
 
     public void discover(String path) {
@@ -397,6 +399,7 @@ public class Medialibrary {
 
 
     // Native methods
+    private native void nativeSetup();
     private native void nativeInit(String dbPath, String thumbsPath);
     private native void nativeRelease();
     private native void nativeBanFolder(String path);

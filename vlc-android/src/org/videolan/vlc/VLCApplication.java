@@ -231,9 +231,14 @@ public class VLCApplication extends Application {
     }
 
     public static void setupMedialibrary(final Medialibrary ml) {
-        ml.init(getAppContext());
-        for (String storage : AndroidDevices.getMediaDirectories())
+        ml.setup();
+        String[] storages = AndroidDevices.getMediaDirectories();
+        for (String storage : storages)
             ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+        ml.init(getAppContext());
+        for (String storage : storages)
+            for (String folder : Medialibrary.banList)
+                ml.banFolder(storage+folder);
         if (ml.getFoldersList().length == 0) {
             ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
             ml.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
