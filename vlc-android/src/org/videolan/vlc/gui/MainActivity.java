@@ -254,7 +254,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mMediaLibrary.init(this);
-                    ((VLCApplication) VLCApplication.getAppContext()).discoverStorages(mMediaLibrary);
+                    ((VLCApplication) VLCApplication.getAppContext()).setupMedialibrary(mMediaLibrary);
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
                 break;

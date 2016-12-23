@@ -42,12 +42,15 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import static org.videolan.vlc.VLCApplication.getMLInstance;
 
 public class StartActivity extends Activity {
 
@@ -63,10 +66,14 @@ public class StartActivity extends Activity {
                 startActivity(intent.setClass(this, VideoPlayerActivity.class));
             else
                 MediaUtils.openMediaNoUi(intent.getData());
-        } else if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER)) {
-            startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
-        } else
-            startActivity(new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class));
+        } else {
+            if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
+                startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
+            else
+                startActivity(new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class));
+            if (!getMLInstance().isInitiated() && Permissions.canReadStorage())
+                VLCApplication.setupMedialibrary(getMLInstance());
+        }
         finish();
     }
 

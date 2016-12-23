@@ -76,12 +76,6 @@ public class Medialibrary {
         System.loadLibrary("mla");
     }
 
-    private Medialibrary(Context context) {
-        context = context instanceof Application ? context : context.getApplicationContext();
-        if (canReadStorage(context))
-            init(context);
-    }
-
     public void init(Context context) {
         nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
         mIsInitiated = true;
@@ -95,6 +89,7 @@ public class Medialibrary {
     public String[] getDevices() {
         return nativeDevices();
     }
+
     public void addDevice(String uuid, String path, boolean removable) {
         nativeAddDevice(uuid, path, removable);
         for (String folder : banList)
@@ -119,14 +114,14 @@ public class Medialibrary {
 
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
         if (mIsInitiated)
             nativeRelease();
+        super.finalize();
     }
 
-    public static synchronized Medialibrary getInstance(Context context) {
+    public static synchronized Medialibrary getInstance() {
         if (sInstance == null)
-            sInstance = new Medialibrary(context);
+            sInstance = new Medialibrary();
         return sInstance;
     }
 
@@ -228,6 +223,10 @@ public class Medialibrary {
 
     public boolean isWorking() {
         return !mIsInitiated || nativeIsWorking();
+    }
+
+    public boolean isInitiated() {
+        return mIsInitiated;
     }
 
     public boolean increasePlayCount(long mediaId) {

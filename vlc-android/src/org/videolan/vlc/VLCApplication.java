@@ -40,7 +40,6 @@ import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -127,9 +126,6 @@ public class VLCApplication extends Application {
         // Disable remote control receiver on Fire TV.
         if (!AndroidDevices.hasTsp())
             AndroidDevices.setRemoteControlReceiverEnabled(false);
-
-        if (Permissions.canReadStorage())
-            discoverStorages(getMLInstance());
     }
 
     /**
@@ -231,10 +227,11 @@ public class VLCApplication extends Application {
     }
 
     public static synchronized Medialibrary getMLInstance() {
-        return Medialibrary.getInstance(instance);
+        return Medialibrary.getInstance();
     }
 
-    public void discoverStorages(final Medialibrary ml) {
+    public static void setupMedialibrary(final Medialibrary ml) {
+        ml.init(getAppContext());
         for (String storage : AndroidDevices.getMediaDirectories())
             ml.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
         if (ml.getFoldersList().length == 0) {
