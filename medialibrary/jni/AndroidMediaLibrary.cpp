@@ -165,7 +165,7 @@ AndroidMediaLibrary::updateProgress(int64_t mediaId, int64_t time)
     if (progress > 0.95)
         progress = 0.0;
     LOGD("update progress %f", progress);
-    return media->setProgress(progress);
+    return media->setMetadata( medialibrary::IMedia::MetadataType::Progress, progress * 100 );
 }
 
 std::vector<medialibrary::MediaPtr>
