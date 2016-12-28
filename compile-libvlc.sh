@@ -760,7 +760,8 @@ if [ ! -d "build-$ANDROID_ABI" ]; then
     mkdir "build-$ANDROID_ABI";
 fi;
 cd "build-$ANDROID_ABI";
-if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
+
+if [ ! -e ./config.status -o "$RELEASE" = 1 ]; then
 ../configure \
     --host=$TARGET_TUPLE \
     --disable-shared \
