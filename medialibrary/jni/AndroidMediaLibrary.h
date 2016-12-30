@@ -15,7 +15,6 @@
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IArtist.h>
 #include <medialibrary/IGenre.h>
-#include <medialibrary/IHistoryEntry.h>
 #include <medialibrary/IPlaylist.h>
 #include <medialibrary/IFolder.h>
 #include <medialibrary/Types.h>

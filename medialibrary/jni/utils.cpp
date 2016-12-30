@@ -208,10 +208,11 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
 jobject
 convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr const& historyPtr)
 {
-    jstring mrl = env->NewStringUTF(historyPtr->mrl().c_str());
-    jstring title = env->NewStringUTF(historyPtr->title().c_str());
+    auto media = historyPtr->media().get();
+    jstring mrl = env->NewStringUTF(media->files()[0]->mrl().c_str());
+    jstring title = env->NewStringUTF(media->title().c_str());
     jobject item = env->NewObject(fields->HistoryItem.clazz, fields->HistoryItem.initID, mrl, title,
-                          (jlong) historyPtr->insertionDate(), (jboolean) historyPtr->isFavorite());
+                          (jlong) historyPtr->insertionDate(), (jboolean) false);
     env->DeleteLocalRef(mrl);
     return item;
 }
