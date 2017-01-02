@@ -79,7 +79,7 @@ bool
 AndroidMediaLibrary::removeDevice(const std::string& uuid)
 {
     bool removed = p_lister->removeDevice(uuid);
-    if (removed)
+    if (removed && p_DeviceListerCb != nullptr)
         p_DeviceListerCb->onDeviceUnplugged(uuid);
     return removed;
 }
