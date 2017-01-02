@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Environment;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -44,6 +43,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -254,13 +254,11 @@ public class VLCApplication extends Application {
                     LocalBroadcastManager.getInstance(instance).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
                     if (medialibrary.getFoldersList().length == 0) {
                         for (String storage : storages)
-                            for (String folder : Medialibrary.banList)
+                            for (String folder : Medialibrary.getBlackList())
                                 medialibrary.banFolder(storage+folder);
-                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
-                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath());
-                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
-                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).getPath());
-                        medialibrary.discover(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath());
+                        for (File folder : Medialibrary.getDefaultFolders())
+                            if (folder.exists())
+                                medialibrary.discover(folder.getPath());
                         for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
                             medialibrary.discover(externalStorage);
                     }

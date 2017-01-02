@@ -1,7 +1,6 @@
 package org.videolan.medialibrary;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -22,6 +21,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +38,6 @@ public class Medialibrary {
     public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 5;
 
     private static final String extDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-    public static final String[] banList = {
-            "/Android/data/",
-            "/Android/media/",
-            "/Alarms/",
-            "/Ringtones/",
-            "/Notifications/",
-            "/alarms/",
-            "/ringtones/",
-            "/notifications/",
-            "/audio/Alarms/",
-            "/audio/Ringtones/",
-            "/audio/Notifications/",
-            "/audio/alarms/",
-            "/audio/ringtones/",
-            "/audio/notifications/",
-            "/WhatsApp/",
-    };
 
     private static final MediaWrapper[] EMPTY_COLLECTION = {};
 
@@ -86,7 +69,7 @@ public class Medialibrary {
     }
 
     public void banFolder(String path) {
-        if (mIsInitiated)
+        if (mIsInitiated && new File(path).exists())
             nativeBanFolder(path);
     }
 
@@ -394,6 +377,36 @@ public class Medialibrary {
         if (!mIsInitiated)
             return;
         setMediaAddedCb(null, 0);
+    }
+
+    public static String[] getBlackList() {
+        return new String[] {
+                "/Android/data/",
+                "/Android/media/",
+                "/Alarms/",
+                "/Ringtones/",
+                "/Notifications/",
+                "/alarms/",
+                "/ringtones/",
+                "/notifications/",
+                "/audio/Alarms/",
+                "/audio/Ringtones/",
+                "/audio/Notifications/",
+                "/audio/alarms/",
+                "/audio/ringtones/",
+                "/audio/notifications/",
+                "/WhatsApp/",
+        };
+    }
+
+    public static File[] getDefaultFolders() {
+        return new File[]{
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS),
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+        };
     }
 
     /* used only before API 13: substitute for NewWeakGlobalRef */
