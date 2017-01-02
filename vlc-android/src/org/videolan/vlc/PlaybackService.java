@@ -1936,7 +1936,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void append(MediaWrapper media) {
-        ArrayList<MediaWrapper> arrayList = new ArrayList<MediaWrapper>();
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
         arrayList.add(media);
         append(arrayList);
     }
@@ -1977,8 +1977,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
-    public List<MediaWrapper> getMedias() {
-        final ArrayList<MediaWrapper> ml = new ArrayList<MediaWrapper>();
+    public ArrayList<MediaWrapper> getMedias() {
+        final ArrayList<MediaWrapper> ml = new ArrayList<>();
         for (int i = 0; i < mMediaList.size(); i++) {
             ml.add(mMediaList.getMedia(i));
         }
@@ -1987,7 +1987,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public List<String> getMediaLocations() {
-        ArrayList<String> medias = new ArrayList<String>();
+        ArrayList<String> medias = new ArrayList<>();
         for (int i = 0; i < mMediaList.size(); i++) {
             medias.add(mMediaList.getMRL(i));
         }
