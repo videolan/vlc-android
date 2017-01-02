@@ -29,7 +29,6 @@ AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject
     p_lister = std::make_shared<AndroidDeviceLister>();
     p_ml->setLogger( new AndroidMediaLibraryLogger );
     p_ml->setVerbosity(medialibrary::LogLevel::Info);
-    p_DeviceListerCb = p_ml->setDeviceLister(p_lister);
     pthread_once(&key_once, key_init);
     JNIEnv *env = getEnv();
     if (env == NULL)
@@ -58,6 +57,7 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
 bool
 AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbsPath)
 {
+    p_DeviceListerCb = p_ml->setDeviceLister(p_lister);
     return p_ml->initialize(dbPath, thumbsPath, this);
 }
 
@@ -65,7 +65,8 @@ void
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
     p_lister->addDevice(uuid, path, removable);
-    p_DeviceListerCb->onDevicePlugged(uuid, path);
+    if (p_DeviceListerCb != nullptr)
+        p_DeviceListerCb->onDevicePlugged(uuid, path);
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>
