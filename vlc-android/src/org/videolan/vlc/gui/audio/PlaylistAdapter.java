@@ -115,10 +115,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return item == null ? "" : item.getLocation();
     }
 
-    List<MediaWrapper> getMedias() {
-        return mDataSet;
-    }
-
     public void addAll(List<MediaWrapper> playList) {
         mDataSet.addAll(playList);
     }
@@ -142,16 +138,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         });
     }
 
-    public void add(MediaWrapper mw) {
-        mDataSet.add(mw);
-    }
-
     @MainThread
     public void remove(int position) {
         if (mService == null)
             return;
-        mDataSet.remove(position);
         mService.remove(position);
+        mDataSet.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -164,7 +156,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public void setCurrentIndex(int position) {
-        if (position == mCurrentIndex || position < 0 || position >= mDataSet.size())
+        if (position == mCurrentIndex || position < 0 || position >= getItemCount())
             return;
         int former = mCurrentIndex;
         mCurrentIndex = position;

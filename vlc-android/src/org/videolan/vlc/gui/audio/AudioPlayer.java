@@ -29,6 +29,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -72,8 +73,6 @@ import org.videolan.vlc.gui.view.CoverMediaSwitcher;
 import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
-
-import java.util.List;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
@@ -156,18 +155,24 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlaylistSearchText.getEditText().addTextChangedListener(this);
 
         mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mPlaylist.setLayoutManager(layoutManager);
+
+        mSwitcher = (ViewSwitcher) v.findViewById(R.id.view_switcher);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPlaylist.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mPlaylist.setAdapter(mPlaylistAdapter);
 
         ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mPlaylist);
 
-        mSwitcher = (ViewSwitcher) v.findViewById(R.id.view_switcher);
-        mSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in);
-        mSwitcher.setOutAnimation(getActivity(), android.R.anim.fade_out);
+        mSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
+        mSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
 
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
@@ -219,10 +224,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             }
         });
         mNext.setOnTouchListener(new LongSeekListener(true,
-                UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_next),
+                UiTools.getResourceFromAttribute(view.getContext(), R.attr.ic_next),
                 R.drawable.ic_next_pressed));
         mPrevious.setOnTouchListener(new LongSeekListener(false,
-                UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_previous),
+                UiTools.getResourceFromAttribute(view.getContext(), R.attr.ic_previous),
                 R.drawable.ic_previous_pressed));
         mShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,18 +252,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             public void onClick(View v) {
                 mSwitcher.showNext();
                 if (mSwitcher.getDisplayedChild() == 0)
-                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(getActivity(),
+                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
                             R.attr.ic_playlist_on));
                 else
-                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(getActivity(),
+                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
                             R.attr.ic_playlist));
             }
         });
         registerForContextMenu(mPlaylist);
 
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        return v;
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -364,20 +367,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mShuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
-        if (playlistDiffer())
-            updateList();
-    }
-
-    private boolean playlistDiffer() {
-        int serviceListSize = mService.getMediaListSize();
-        if (serviceListSize != mPlaylistAdapter.getItemCount())
-            return true;
-        List<MediaWrapper> adapterList = mPlaylistAdapter.getMedias();
-        List<MediaWrapper> serviceList = mService.getMedias();
-        for (int i = 0 ; i < serviceListSize ; ++i)
-            if (serviceList.get(i) != adapterList.get(i))
-                return true;
-        return false;
+        updateList();
     }
 
     @Override
@@ -416,9 +406,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void updateList() {
         hideSearchField();
-        if (mService == null)
-            return;
-        mPlaylistAdapter.dispatchUpdate(mService.getMedias());
+        if (mService != null)
+            mPlaylistAdapter.dispatchUpdate(mService.getMedias());
     }
 
     @Override
