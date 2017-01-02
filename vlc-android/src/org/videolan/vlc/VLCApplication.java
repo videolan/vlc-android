@@ -260,7 +260,8 @@ public class VLCApplication extends Application {
                             if (folder.exists())
                                 medialibrary.discover(folder.getPath());
                         for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                            medialibrary.discover(externalStorage);
+                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
+                                medialibrary.discover(externalStorage);
                     }
                 }
             }
