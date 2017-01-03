@@ -206,7 +206,7 @@ public class Medialibrary {
     }
 
     public MediaWrapper addMedia(String mrl) {
-        return nativeAddMedia(mrl);
+        return mIsInitiated ? nativeAddMedia(mrl) : null;
     }
 
     public long getId() {
