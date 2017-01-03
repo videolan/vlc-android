@@ -292,8 +292,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
         if (id == R.id.audio_list_browser_delete) {
             final MediaLibraryItem mediaLibraryItem = adapter.getItem(position);
-            final MediaLibraryItem previous = position> 0 ? adapter.getItem(position-1) : null;
-            final MediaLibraryItem next = position < adapter.getItemCount() ? adapter.getItem(position+1) : null;
+            final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
+            final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
             String message;
             Runnable action;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
