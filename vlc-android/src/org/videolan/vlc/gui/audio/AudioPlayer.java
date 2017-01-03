@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,12 +33,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -48,12 +47,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -61,6 +56,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.AudioPlayerBinding;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
@@ -69,37 +65,15 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
-import org.videolan.vlc.gui.view.CoverMediaSwitcher;
-import org.videolan.vlc.gui.view.HeaderMediaSwitcher;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
-public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, View.OnClickListener, PlaylistAdapter.IPlayer, TextWatcher {
+public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
 
     public static final int SEARCH_TIMEOUT_MILLIS = 5000;
 
-    private ProgressBar mProgressBar;
-    private HeaderMediaSwitcher mHeaderMediaSwitcher;
-    private CoverMediaSwitcher mCoverMediaSwitcher;
-    private TextView mTime;
-    private TextView mHeaderTime;
-    private TextView mLength;
-    private ImageButton mResumeToVideo;
-    private ImageButton mPlayPause;
-    private ImageButton mHeaderPlayPause;
-    private ImageButton mNext;
-    private ImageButton mPrevious;
-    private ImageButton mShuffle;
-    private ImageButton mRepeat;
-    private ImageButton mAdvFunc;
-    private ImageButton mPlaylistSwitch;
-    private SeekBar mTimeline;
-    private ImageButton mPlaylistSearchButton;
-    private TextInputLayout mPlaylistSearchText;
-    private RecyclerView mPlaylist;
-
-    ViewSwitcher mSwitcher;
+    private AudioPlayerBinding mBinding;
 
     private boolean mShowRemainingTime = false;
     private boolean mPreviewingSeek = false;
@@ -127,52 +101,25 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.audio_player, container, false);
-
-        mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
-
-        mHeaderMediaSwitcher = (HeaderMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
-        mHeaderMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
-        mCoverMediaSwitcher = (CoverMediaSwitcher) v.findViewById(R.id.cover_media_switcher);
-        mCoverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
-
-        mTime = (TextView) v.findViewById(R.id.time);
-        mHeaderTime = (TextView) v.findViewById(R.id.header_time);
-        mLength = (TextView) v.findViewById(R.id.length);
-        mResumeToVideo = (ImageButton) v.findViewById(R.id.playlist_playasaudio_off);
-        mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
-        mHeaderPlayPause = (ImageButton) v.findViewById(R.id.header_play_pause);
-        mNext = (ImageButton) v.findViewById(R.id.next);
-        mPrevious = (ImageButton) v.findViewById(R.id.previous);
-        mShuffle = (ImageButton) v.findViewById(R.id.shuffle);
-        mRepeat = (ImageButton) v.findViewById(R.id.repeat);
-        mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
-        mPlaylistSwitch = (ImageButton) v.findViewById(R.id.playlist_switch);
-        mTimeline = (SeekBar) v.findViewById(R.id.timeline);
-        mPlaylistSearchButton = (ImageButton) v.findViewById(R.id.playlist_search);
-        mPlaylistSearchText = (TextInputLayout) v.findViewById(R.id.playlist_search_text);
-        mPlaylistSearchButton.setOnClickListener(this);
-        mPlaylistSearchText.getEditText().addTextChangedListener(this);
-
-        mPlaylist = (RecyclerView) v.findViewById(R.id.songs_list);
-
-        mSwitcher = (ViewSwitcher) v.findViewById(R.id.view_switcher);
-
-        return v;
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.audio_player, container, false);
+        mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
+        mBinding.songsList.setAdapter(mPlaylistAdapter);
+        mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
+        mBinding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
+        return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPlaylist.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mPlaylist.setAdapter(mPlaylistAdapter);
+        mBinding.playlistSearchText.getEditText().addTextChangedListener(this);
 
         ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(mPlaylist);
+        touchHelper.attachToRecyclerView(mBinding.songsList);
 
-        mSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
-        mSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
+        mBinding.viewSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
+        mBinding.viewSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
 
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
@@ -181,86 +128,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mProgressBarVisible = true;
         mHeaderTimeVisible = true;
         restoreHeaderButtonVisibilities();
+        mBinding.setFragment(this);
 
-        mTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTimeLabelClick(v);
-            }
-        });
-        mResumeToVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mService != null && mService.hasMedia()) {
-                    mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                    mService.switchToVideo();
-                }
-            }
-        });
-        mPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPlayPauseClick(v);
-            }
-        });
-        mPlayPause.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onStopClick(v);
-                return true;
-            }
-        });
-        mHeaderPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPlayPauseClick(v);
-            }
-        });
-        mHeaderPlayPause.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onStopClick(v);
-                return true;
-            }
-        });
-        mNext.setOnTouchListener(new LongSeekListener(true,
+        mBinding.next.setOnTouchListener(new LongSeekListener(true,
                 UiTools.getResourceFromAttribute(view.getContext(), R.attr.ic_next),
                 R.drawable.ic_next_pressed));
-        mPrevious.setOnTouchListener(new LongSeekListener(false,
+        mBinding.previous.setOnTouchListener(new LongSeekListener(false,
                 UiTools.getResourceFromAttribute(view.getContext(), R.attr.ic_previous),
                 R.drawable.ic_previous_pressed));
-        mShuffle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onShuffleClick(v);
-            }
-        });
-        mRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRepeatClick(v);
-            }
-        });
-        mAdvFunc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAdvancedOptions(v);
-            }
-        });
-        mPlaylistSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSwitcher.showNext();
-                if (mSwitcher.getDisplayedChild() == 0)
-                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
-                            R.attr.ic_playlist_on));
-                else
-                    mPlaylistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
-                            R.attr.ic_playlist));
-            }
-        });
-        registerForContextMenu(mPlaylist);
 
+        registerForContextMenu(mBinding.songsList);
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
@@ -324,48 +201,48 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             return;
         }
 
-        mHeaderMediaSwitcher.updateMedia(mService);
-        mCoverMediaSwitcher.updateMedia(mService);
+        mBinding.audioMediaSwitcher.updateMedia(mService);
+        mBinding.coverMediaSwitcher.updateMedia(mService);
 
         FragmentActivity act = getActivity();
-        mResumeToVideo.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
+        mBinding.playlistPlayasaudioOff.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
 
         if (mService.isPlaying()) {
-            mPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
-            mPlayPause.setContentDescription(getString(R.string.pause));
-            mHeaderPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
-            mHeaderPlayPause.setContentDescription(getString(R.string.pause));
+            mBinding.playPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
+            mBinding.playPause.setContentDescription(getString(R.string.pause));
+            mBinding.headerPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
+            mBinding.headerPlayPause.setContentDescription(getString(R.string.pause));
         } else {
-            mPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
-            mPlayPause.setContentDescription(getString(R.string.play));
-            mHeaderPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
-            mHeaderPlayPause.setContentDescription(getString(R.string.play));
+            mBinding.playPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
+            mBinding.playPause.setContentDescription(getString(R.string.play));
+            mBinding.headerPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
+            mBinding.headerPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mService.isShuffling()) {
-            mShuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
-            mShuffle.setContentDescription(getResources().getString(R.string.shuffle_on));
+            mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
+            mBinding.shuffle.setContentDescription(getResources().getString(R.string.shuffle_on));
         } else {
-            mShuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle));
-            mShuffle.setContentDescription(getResources().getString(R.string.shuffle));
+            mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle));
+            mBinding.shuffle.setContentDescription(getResources().getString(R.string.shuffle));
         }
         switch(mService.getRepeatType()) {
             case PlaybackService.REPEAT_NONE:
-                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
-                mRepeat.setContentDescription(getResources().getString(R.string.repeat));
+                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
+                mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat));
                 break;
             case PlaybackService.REPEAT_ONE:
-                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
-                mRepeat.setContentDescription(getResources().getString(R.string.repeat_single));
+                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
+                mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat_single));
                 break;
             default:
             case PlaybackService.REPEAT_ALL:
-                mRepeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
-                mRepeat.setContentDescription(getResources().getString(R.string.repeat_all));
+                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
+                mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat_all));
                 break;
         }
 
-        mShuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
-        mTimeline.setOnSeekBarChangeListener(mTimelineListner);
+        mBinding.shuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
+        mBinding.timeline.setOnSeekBarChangeListener(mTimelineListner);
 
         updateList();
     }
@@ -377,15 +254,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         int time = (int) mService.getTime();
         int length = (int) mService.getLength();
 
-        mHeaderTime.setText(Strings.millisToString(time));
-        mLength.setText(Strings.millisToString(length));
-        mTimeline.setMax(length);
-        mProgressBar.setMax(length);
+        mBinding.headerTime.setText(Strings.millisToString(time));
+        mBinding.length.setText(Strings.millisToString(length));
+        mBinding.timeline.setMax(length);
+        mBinding.progressBar.setMax(length);
 
-        if(!mPreviewingSeek) {
-            mTime.setText(Strings.millisToString(mShowRemainingTime ? time-length : time));
-            mTimeline.setProgress(time);
-            mProgressBar.setProgress(time);
+        if (!mPreviewingSeek) {
+            mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? time-length : time));
+            mBinding.timeline.setProgress(time);
+            mBinding.progressBar.setProgress(time);
         }
     }
 
@@ -412,7 +289,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onSelectionSet(int position) {
-        mPlaylist.smoothScrollToPosition(position);
+        mBinding.songsList.smoothScrollToPosition(position);
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
@@ -427,8 +304,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
             if (fromUser && mService != null) {
                 mService.setTime(prog);
-                mTime.setText(Strings.millisToString(mShowRemainingTime ? prog- mService.getLength() : prog));
-                mHeaderTime.setText(Strings.millisToString(prog));
+                mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? prog- mService.getLength() : prog));
+                mBinding.headerTime.setText(Strings.millisToString(prog));
             }
         }
     };
@@ -448,9 +325,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         }
     }
 
-    public void onStopClick(View view) {
-        if (mService != null)
-            mService.stop();
+    public boolean onStopClick(View view) {
+        if (mService == null)
+            return false;
+        mService.stop();
+        return true;
     }
 
     public void onNextClick(View view) {
@@ -490,10 +369,23 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         update();
     }
 
+    public void onPlaylistSwitchClick(View view) {
+        mBinding.viewSwitcher.showNext();
+        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
+                mBinding.viewSwitcher.getDisplayedChild() == 0 ? R.attr.ic_playlist_on : R.attr.ic_playlist));
+    }
+
     public void onShuffleClick(View view) {
         if (mService != null)
             mService.shuffle();
         update();
+    }
+
+    public void onResumeToVideoClick(View v) {
+        if (mService != null && mService.hasMedia()) {
+            mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            mService.switchToVideo();
+        }
     }
 
     public void showAdvancedOptions(View v) {
@@ -519,13 +411,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             activity.hideAudioPlayer();
     }
 
-    /**
-     * Set the visibilities of the player header elements.
-     * @param advFuncVisible
-     * @param playlistSwitchVisible
-     * @param headerPlayPauseVisible
-     */
-    public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
+   public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                       boolean headerPlayPauseVisible, boolean progressBarVisible,
                                       boolean headerTimeVisible, boolean searchVisible) {
         mAdvFuncVisible = advFuncVisible;
@@ -538,20 +424,21 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     private void restoreHeaderButtonVisibilities() {
-        mAdvFunc.setVisibility(mAdvFuncVisible ? View.VISIBLE : View.GONE);
-        mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? View.VISIBLE : View.GONE);
-        mPlaylistSearchButton.setVisibility(mSearchVisible ? View.VISIBLE : View.GONE);
-        mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? View.VISIBLE : View.GONE);
-        mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
-        mHeaderTime.setVisibility(mHeaderTimeVisible ? TextView.VISIBLE : TextView.GONE);
+        mBinding.advFunction.setVisibility(mAdvFuncVisible ? View.VISIBLE : View.GONE);
+        mBinding.playlistSwitch.setVisibility(mPlaylistSwitchVisible ? View.VISIBLE : View.GONE);
+        mBinding.playlistSearch.setVisibility(mSearchVisible ? View.VISIBLE : View.GONE);
+        mBinding.headerPlayPause.setVisibility(mHeaderPlayPauseVisible ? View.VISIBLE : View.GONE);
+        mBinding.progressBar.setVisibility(mProgressBarVisible ? View.VISIBLE : View.GONE);
+        mBinding.headerTime.setVisibility(mHeaderTimeVisible ? View.VISIBLE : View.GONE);
     }
 
     private void hideHeaderButtons() {
-        mAdvFunc.setVisibility(View.GONE);
-        mPlaylistSwitch.setVisibility(View.GONE);
-        mPlaylistSearchButton.setVisibility(View.GONE);
-        mHeaderPlayPause.setVisibility(View.GONE);
-        mHeaderTime.setVisibility(TextView.GONE);
+        mBinding.advFunction.setVisibility(View.GONE);
+        mBinding.playlistSwitch.setVisibility(View.GONE);
+        mBinding.playlistSearch.setVisibility(View.GONE);
+        mBinding.headerPlayPause.setVisibility(View.GONE);
+        mBinding.progressBar.setVisibility(View.GONE);
+        mBinding.headerTime.setVisibility(View.GONE);
     }
 
     private final AudioMediaSwitcherListener mHeaderMediaSwitcherListener = new AudioMediaSwitcherListener() {
@@ -611,18 +498,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         public void onTouchClick() {}
     };
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.playlist_search:
-                mPlaylistSearchButton.setVisibility(View.GONE);
-                mPlaylistSearchText.setVisibility(View.VISIBLE);
-                mPlaylistSearchText.getEditText().requestFocus();
-                InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mPlaylistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
-                mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
-                break;
-        }
+    public void onSearchClick(View v) {
+        mBinding.playlistSearch.setVisibility(View.GONE);
+        mBinding.playlistSearchText.setVisibility(View.VISIBLE);
+        if (mBinding.playlistSearchText.getEditText() != null)
+            mBinding.playlistSearchText.getEditText().requestFocus();
+        InputMethodManager imm = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mBinding.playlistSearchText.getEditText(), InputMethodManager.SHOW_IMPLICIT);
+        mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS);
     }
 
     @Override
@@ -634,14 +517,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public boolean hideSearchField() {
-        if (mPlaylistSearchText.getVisibility() != View.VISIBLE)
+        if (mBinding.playlistSearchText.getVisibility() != View.VISIBLE)
             return false;
-        mPlaylistSearchText.getEditText().removeTextChangedListener(this);
-        mPlaylistSearchText.getEditText().setText("");
-        mPlaylistSearchText.getEditText().addTextChangedListener(this);
-        UiTools.setKeyboardVisibility(mPlaylistSearchText, false);
-        mPlaylistSearchButton.setVisibility(View.VISIBLE);
-        mPlaylistSearchText.setVisibility(View.GONE);
+        if (mBinding.playlistSearchText.getEditText() != null) {
+            mBinding.playlistSearchText.getEditText().removeTextChangedListener(this);
+            mBinding.playlistSearchText.getEditText().setText("");
+            mBinding.playlistSearchText.getEditText().addTextChangedListener(this);
+        }
+        UiTools.setKeyboardVisibility(mBinding.playlistSearchText, false);
+        mBinding.playlistSearch.setVisibility(View.VISIBLE);
+        mBinding.playlistSearchText.setVisibility(View.GONE);
         return true;
     }
 
@@ -684,12 +569,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         super.onStop();
     }
 
-    class LongSeekListener implements View.OnTouchListener {
+    private class LongSeekListener implements View.OnTouchListener {
         boolean forward;
         int normal, pressed;
         long length;
 
-        public LongSeekListener(boolean forwards, int normalRes, int pressedRes) {
+        private LongSeekListener(boolean forwards, int normalRes, int pressedRes) {
             this.forward = forwards;
             this.normal = normalRes;
             this.pressed = pressedRes;
@@ -719,9 +604,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                         possibleSeek = 0;
                 }
 
-                mTime.setText(Strings.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
-                mTimeline.setProgress(possibleSeek);
-                mProgressBar.setProgress(possibleSeek);
+                mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
+                mBinding.timeline.setProgress(possibleSeek);
+                mBinding.progressBar.setProgress(possibleSeek);
                 handler.postDelayed(seekRunnable, 50);
             }
         };
@@ -734,7 +619,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 return false;
             switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                (forward ? mNext : mPrevious).setImageResource(this.pressed);
+                (forward ? mBinding.next : mBinding.previous).setImageResource(this.pressed);
 
                 possibleSeek = (int) mService.getTime();
 
@@ -746,7 +631,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 return true;
 
             case MotionEvent.ACTION_UP:
-                (forward ? mNext : mPrevious).setImageResource(this.normal);
+                (forward ? mBinding.next : mBinding.previous).setImageResource(this.normal);
                 handler.removeCallbacks(seekRunnable);
                 mPreviewingSeek = false;
 
