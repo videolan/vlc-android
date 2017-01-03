@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -95,13 +94,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mPlaylistAdapter = new PlaylistAdapter(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.audio_player, container, false);
+        mBinding = AudioPlayerBinding.inflate(inflater);
         mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
         mBinding.songsList.setAdapter(mPlaylistAdapter);
         mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
@@ -121,13 +119,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mBinding.viewSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
         mBinding.viewSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
 
-        mAdvFuncVisible = false;
-        mPlaylistSwitchVisible = false;
-        mSearchVisible = false;
-        mHeaderPlayPauseVisible = true;
-        mProgressBarVisible = true;
-        mHeaderTimeVisible = true;
-        restoreHeaderButtonVisibilities();
+        setHeaderVisibilities(false, false, false, false, false, false);
         mBinding.setFragment(this);
 
         mBinding.next.setOnTouchListener(new LongSeekListener(true,
@@ -207,24 +199,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         FragmentActivity act = getActivity();
         mBinding.playlistPlayasaudioOff.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
 
-        if (mService.isPlaying()) {
-            mBinding.playPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
-            mBinding.playPause.setContentDescription(getString(R.string.pause));
-            mBinding.headerPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_pause));
-            mBinding.headerPlayPause.setContentDescription(getString(R.string.pause));
-        } else {
-            mBinding.playPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
-            mBinding.playPause.setContentDescription(getString(R.string.play));
-            mBinding.headerPlayPause.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_play));
-            mBinding.headerPlayPause.setContentDescription(getString(R.string.play));
-        }
-        if (mService.isShuffling()) {
-            mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
-            mBinding.shuffle.setContentDescription(getResources().getString(R.string.shuffle_on));
-        } else {
-            mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_shuffle));
-            mBinding.shuffle.setContentDescription(getResources().getString(R.string.shuffle));
-        }
+        boolean playing = mService.isPlaying();
+        int imageResId = UiTools.getResourceFromAttribute(act, playing ? R.attr.ic_pause : R.attr.ic_play);
+        String text = getString(playing ? R.string.pause : R.string.play);
+        mBinding.playPause.setImageResource(imageResId);
+        mBinding.playPause.setContentDescription(text);
+        mBinding.headerPlayPause.setImageResource(imageResId);
+        mBinding.headerPlayPause.setContentDescription(text);
+        mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, mService.isShuffling() ? R.attr.ic_shuffle_on : R.attr.ic_shuffle));
+        mBinding.shuffle.setContentDescription(getResources().getString(mService.isShuffling() ? R.string.shuffle_on : R.string.shuffle));
         switch(mService.getRepeatType()) {
             case PlaybackService.REPEAT_NONE:
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
@@ -240,10 +223,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat_all));
                 break;
         }
-
         mBinding.shuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
         mBinding.timeline.setOnSeekBarChangeListener(mTimelineListner);
-
         updateList();
     }
 
