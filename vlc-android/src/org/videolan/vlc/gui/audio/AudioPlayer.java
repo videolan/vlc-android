@@ -119,7 +119,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mBinding.viewSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
         mBinding.viewSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
 
-        setHeaderVisibilities(false, false, false, false, false, false);
+        setHeaderVisibilities(false, false, true, false, true, false);
         mBinding.setFragment(this);
 
         mBinding.next.setOnTouchListener(new LongSeekListener(true,
