@@ -303,6 +303,15 @@ getMediaFromMrl(JNIEnv* env, jobject thiz, jstring mrl) {
     return mw;
 }
 
+jobject
+addMedia(JNIEnv* env, jobject thiz, jstring mrl) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
+    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addMedia(char_mrl));
+    env->ReleaseStringUTFChars(mrl, char_mrl);
+    return mw;
+}
+
 jobjectArray
 getAlbums(JNIEnv* env, jobject thiz)
 {
@@ -609,6 +618,7 @@ static JNINativeMethod methods[] = {
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromMrl },
+    {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addMedia },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
     {"nativeGetAlbums", "()[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },

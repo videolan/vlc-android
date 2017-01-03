@@ -218,6 +218,13 @@ AndroidMediaLibrary::media(const std::string& mrl)
     return p_ml->media(mrl);
 }
 
+
+medialibrary::MediaPtr
+AndroidMediaLibrary::addMedia(const std::string& mrl)
+{
+    return p_ml->addMedia(mrl);
+}
+
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::videoFiles( medialibrary::SortingCriteria sort, bool desc )
 {

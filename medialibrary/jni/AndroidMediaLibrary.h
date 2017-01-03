@@ -54,6 +54,7 @@ public:
     medialibrary::SearchAggregate search(const std::string& query);
     medialibrary::MediaPtr media(long id);
     medialibrary::MediaPtr media(const std::string& mrl);
+    medialibrary::MediaPtr addMedia(const std::string& mrl);
     std::vector<medialibrary::MediaPtr> videoFiles( medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false );
     std::vector<medialibrary::MediaPtr> audioFiles( medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false );
     std::vector<medialibrary::AlbumPtr> albums();

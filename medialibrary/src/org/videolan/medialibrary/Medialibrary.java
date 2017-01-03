@@ -205,6 +205,10 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetMediaFromMrl(mrl) : null;
     }
 
+    public MediaWrapper addMedia(String mrl) {
+        return nativeAddMedia(mrl);
+    }
+
     public long getId() {
         return mInstanceID;
     }
@@ -433,6 +437,7 @@ public class Medialibrary {
     private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
+    private native MediaWrapper nativeAddMedia(String mrl);
     private native MediaWrapper[] nativeGetVideos();
     private native MediaWrapper[] nativeGetAudio();
     private native int nativeGetVideoCount();
