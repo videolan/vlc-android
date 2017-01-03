@@ -205,37 +205,17 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void remove(final int position) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-                Util.removePositionInArray(mDataList, position, dataList);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataList = dataList;
-                        notifyItemRemoved(position);
-                    }
-                });
-            }
-        });
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
+        Util.removePositionInArray(mDataList, position, dataList);
+        mDataList = dataList;
+        notifyItemRemoved(position);
     }
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-                Util.addItemInArray(mDataList, position, item, dataList);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataList = dataList;
-                        notifyItemInserted(position);
-                    }
-                });
-            }
-        });
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
+        Util.addItemInArray(mDataList, position, item, dataList);
+        mDataList = dataList;
+        notifyItemInserted(position);
     }
 
     public void restoreList() {
