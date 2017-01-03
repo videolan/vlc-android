@@ -56,7 +56,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 
@@ -227,7 +226,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_SAVE_PLAYLIST:
                 newFragment = new SavePlaylistDialog();
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, (ArrayList<MediaWrapper>) mService.getMedias());
+                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, mService.getMedias());
                 newFragment.setArguments(args);
                 tag = "fragment_save_playlist";
                 break;
