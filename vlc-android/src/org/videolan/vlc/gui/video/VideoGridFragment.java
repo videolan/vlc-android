@@ -125,9 +125,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL);
-        mGridView.setAdapter(mVideoAdapter);
         if (mVideoAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);
+        mGridView.setAdapter(mVideoAdapter);
         return v;
     }
 
@@ -397,13 +397,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                         displayList.add(item.getMedia());
                 }
                 mVideoAdapter.dispatchUpdate(displayList);
-
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        stopRefresh();
-                    }
-                });
+                mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });
     }
@@ -438,11 +432,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             }
         }
     };
-
-    public void stopRefresh() {
-        mHandler.removeMessages(SET_REFRESHING);
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
 
     @Override
     public void onRefresh() {
@@ -585,6 +574,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     mSwipeRefreshLayout.setRefreshing(true);
                     break;
                 case UNSET_REFRESHING:
+                    removeMessages(SET_REFRESHING);
                     mSwipeRefreshLayout.setRefreshing(false);
                     break;
                 default:

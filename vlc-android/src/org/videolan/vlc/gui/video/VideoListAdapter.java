@@ -70,9 +70,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
 
-    private final static int TYPE_LIST = 0;
-    private final static int TYPE_GRID = 1;
-
     public final static int SORT_BY_DATE = 2;
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
@@ -118,7 +115,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
         if (payloads.isEmpty())
-            super.onBindViewHolder(holder, position, payloads);
+            onBindViewHolder(holder, position);
         else {
             MediaWrapper media = (MediaWrapper) payloads.get(0);
             boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
@@ -135,9 +132,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public void sort() {
         if (!isEmpty())
-            try {
-                dispatchUpdate(getAll());
-            } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
+            dispatchUpdate(getAll());
     }
 
     public boolean isEmpty()
@@ -153,6 +148,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             return mVideos.get(position);
     }
 
+    @MainThread
     public void add(MediaWrapper item) {
         int position = mVideos.add(item);
         notifyItemInserted(position);
@@ -166,6 +162,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         notifyItemRemoved(position);
     }
 
+    @MainThread
     public void addAll(Collection<MediaWrapper> items) {
         mVideos.addAll(items);
         mOriginalData = null;
@@ -225,6 +222,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         }
     }
 
+    @MainThread
     public void clear() {
         mVideos.clear();
         mOriginalData = null;
@@ -232,7 +230,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
         String text = "";
-        String resolution = "";
+        String resolution;
         int max = 0;
         int progress = 0;
 
@@ -265,7 +263,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         mListMode = value;
     }
 
-    public void setGridCardWidth(int gridCardWidth) {
+    void setGridCardWidth(int gridCardWidth) {
         mGridCardWidth = gridCardWidth;
     }
 
@@ -352,7 +350,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         mVideoComparator.sortBy(sortby);
     }
 
-    class VideoComparator extends SortedList.Callback<MediaWrapper> {
+    private class VideoComparator extends SortedList.Callback<MediaWrapper> {
 
         private static final String KEY_SORT_BY =  "sort_by";
         private static final String KEY_SORT_DIRECTION =  "sort_direction";
@@ -453,11 +451,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         public boolean areItemsTheSame(MediaWrapper item1, MediaWrapper item2) {
-            if (item1 == item2)
-                return true;
-            if (item1 == null ^ item2 == null)
-                return false;
-            return item1.equals(item2);
+            return  (item1 == item2) || ((item1 == null) == (item2 == null)) && item1.equals(item2);
         }
     }
 
@@ -466,6 +460,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return mFilter;
     }
 
+    @MainThread
     void restoreList() {
         if (mOriginalData != null) {
             dispatchUpdate(new ArrayList<>(mOriginalData));
@@ -487,6 +482,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            //noinspection unchecked
             dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
@@ -495,8 +491,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public static void setLayoutHeight(View view, String time, String resolution) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = TextUtils.isEmpty(time) && TextUtils.isEmpty(resolution) ?
-                layoutParams.MATCH_PARENT :
-                layoutParams.WRAP_CONTENT;
+                ViewGroup.LayoutParams.MATCH_PARENT :
+                ViewGroup.LayoutParams.WRAP_CONTENT;
         view.setLayoutParams(layoutParams);
     }
 
@@ -513,7 +509,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mVideos.clear();
                         mVideos = newSortedList;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
                         mEventsHandler.onUpdateFinished(null);
