@@ -25,7 +25,8 @@ public abstract class MediaLibraryItem implements Parcelable {
     public abstract int getItemType();
 
     long mId;
-    protected String mTitle, mDescription;
+    protected String mTitle;
+    String mDescription;
     int mFlags;
 
     protected MediaLibraryItem() {}
@@ -41,6 +42,10 @@ public abstract class MediaLibraryItem implements Parcelable {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public String getArtworkMrl() {
