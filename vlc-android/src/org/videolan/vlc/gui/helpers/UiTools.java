@@ -244,4 +244,9 @@ public class UiTools {
         savePlaylistDialog.setArguments(args);
         savePlaylistDialog.show(activity.getSupportFragmentManager(), "fragment_add_to_playlist");
     }
+
+    public static void checkMainThread() {
+        if (Looper.getMainLooper() != Looper.myLooper())
+            throw new IllegalThreadStateException();
+    }
 }
