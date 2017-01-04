@@ -172,22 +172,34 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         if (mContext == null)
             return;
         mDataList = generateSections ? generateList(items) : items;
+        int count = Math.min(3, getItemCount());
+        for (int i = 0; i<count; ++i) {
+            if (mDataList[i].getTitle().isEmpty()) {
+                if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ARTIST) {
+                    if (mDataList[i].getId() == 1L)
+                        mDataList[i].setTitle(mContext.getString(R.string.unknown_artist));
+                    else if (mDataList[i].getId() == 2L)
+                        mDataList[i].setTitle(mContext.getString(R.string.various_artists));
+                } else if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ALBUM)
+                    mDataList[i].setTitle(mContext.getString(R.string.unknown_album));
+            }
+        }
     }
 
     private MediaLibraryItem[] generateList(MediaLibraryItem[] items) {
         ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
-        boolean isLetter;
-        String currentLetter = null;
+        boolean isLetter, emptyTitle;
+        String firstLetter = null, currentLetter = null;
         int count = items.length;
         for (int i = 0; i < count; ++i) {
             MediaLibraryItem item = items[i];
             if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
                 continue;
             String title = item.getTitle();
-            if (TextUtils.isEmpty(title))
-                continue;
-            String firstLetter = title.substring(0, 1).toUpperCase();
-            isLetter = Character.isLetter(title.charAt(0));
+            emptyTitle = title.isEmpty();
+            isLetter = !emptyTitle && Character.isLetter(title.charAt(0));
+            if (isLetter)
+                firstLetter = title.substring(0, 1).toUpperCase();
             if (currentLetter == null) {
                 currentLetter = isLetter ? firstLetter : "#";
                 DummyItem sep = new DummyItem(currentLetter);
