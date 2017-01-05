@@ -75,6 +75,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        stopActionMode();
         List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
         ArrayList<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
@@ -96,10 +97,8 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
                 AudioUtil.setRingtone((MediaWrapper) getCurrentAdapter().getSelection().get(0), getActivity());
                 break;
             default:
-                stopActionMode();
                 return false;
         }
-        stopActionMode();
         return true;
     }
 

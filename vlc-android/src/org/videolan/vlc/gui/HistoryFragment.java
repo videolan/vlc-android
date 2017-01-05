@@ -179,6 +179,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_history_play:
                 MediaUtils.openList(getActivity(), mHistoryAdapter.getSelection(), 0);
@@ -190,10 +191,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
                 showInfoDialog(mHistoryAdapter.getSelection().get(0));
                 break;
             default:
-                stopActionMode();
                 return false;
         }
-        stopActionMode();
         return true;
     }
 

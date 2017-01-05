@@ -514,6 +514,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_video_play:
                 MediaUtils.openList(getActivity(), mVideoAdapter.getSelection(), 0);
@@ -538,10 +539,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 MediaUtils.openList(getActivity(), list, 0);
                 break;
             default:
-                stopActionMode();
                 return false;
         }
-        stopActionMode();
         return true;
     }
 

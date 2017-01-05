@@ -661,6 +661,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_file_play:
                 mService.load(mAdapter.getSelection(), 0);
