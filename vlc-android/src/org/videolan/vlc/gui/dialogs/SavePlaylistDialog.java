@@ -49,6 +49,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -58,7 +59,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public final static String TAG = "VLC/SavePlaylistDialog";
 
     public static final String KEY_TRACKS = "PLAYLIST_TRACKS";
-    public static final String KEY_NEW_TRACKS = "PLAYLIST_TRACKS";
+    public static final String KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS";
 
     EditText mEditText;
     RecyclerView mListView;
@@ -142,17 +143,17 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         VLCApplication.runBackground(new Runnable() {
             public void run() {
                 final String name = mEditText.getText().toString().trim();
-                boolean addTracks = mNewTrack != null;
+                boolean addTracks = !Util.isListEmpty(mNewTrack);
                 Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
                 boolean exists = playlist != null;
                 ArrayList<MediaWrapper> tracks;
+                if (!exists)
+                    playlist = mMedialibrary.createPlaylist(name);
                 if (addTracks) {
-                    if (!exists)
-                        playlist = mMedialibrary.createPlaylist(name);
                     tracks = mNewTrack;
                 } else {//Save a playlist
-                    if (exists)
-                        playlist.delete(mMedialibrary);
+                    for (MediaWrapper mw : playlist.getTracks(mMedialibrary))
+                        playlist.remove(mMedialibrary, mw.getId());
                     tracks = mTracks;
                 }
                 LinkedList<Long> ids = new LinkedList<>();
