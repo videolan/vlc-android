@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
 
+import java.util.List;
+
 public class Playlist extends MediaLibraryItem {
 
     protected Playlist(long id, String name) {
@@ -28,8 +30,15 @@ public class Playlist extends MediaLibraryItem {
         return nativePlaylistAppend(ml, mId, mediaId);
     }
 
-    public boolean append(Medialibrary ml, long[] mediaId) {
-        return nativePlaylistAppendGroup(ml, mId, mediaId);
+    public boolean append(Medialibrary ml, long[] mediaIds) {
+        return nativePlaylistAppendGroup(ml, mId, mediaIds);
+    }
+
+    public boolean append(Medialibrary ml, List<Long> mediaIds) {
+        long[] ids = new long[mediaIds.size()];
+        for (int i = 0; i < ids.length; ++i)
+            ids[i] = mediaIds.get(i).longValue();
+        return nativePlaylistAppendGroup(ml, mId, ids);
     }
 
     public boolean add(Medialibrary ml, long mediaId, int position) {
