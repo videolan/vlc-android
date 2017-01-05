@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
@@ -78,7 +79,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mPreviewingSeek = false;
 
     private PlaylistAdapter mPlaylistAdapter;
-    private Handler mHandler = new Handler();
 
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
@@ -92,24 +92,19 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPlaylistAdapter = new PlaylistAdapter(this);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = AudioPlayerBinding.inflate(inflater);
-        mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
-        mBinding.songsList.setAdapter(mPlaylistAdapter);
-        mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
-        mBinding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
         return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mPlaylistAdapter = new PlaylistAdapter(this);
+        mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
+        mBinding.songsList.setAdapter(mPlaylistAdapter);
+        mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
+        mBinding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
         mBinding.playlistSearchText.getEditText().addTextChangedListener(this);
 
         ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
@@ -175,6 +170,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void update() {
+        mHandler.removeMessages(UPDATE);
+        mHandler.sendEmptyMessageDelayed(UPDATE, 50);
+    }
+
+    public void doUpdate() {
         if (mService == null || getActivity() == null)
             return;
 
@@ -660,4 +660,18 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (getFragmentManager() != null)
             super.setUserVisibleHint(isVisibleToUser);
     }
+
+    private static final int UPDATE = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE:
+                    doUpdate();
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
 }
