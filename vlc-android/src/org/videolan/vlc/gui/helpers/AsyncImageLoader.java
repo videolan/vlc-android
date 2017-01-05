@@ -32,6 +32,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -160,7 +161,7 @@ public class AsyncImageLoader {
                         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         iv.setImageBitmap(bitmap);
                     } else if (target instanceof TextView) {
-                        target.setBackgroundDrawable(new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+                        ViewCompat.setBackground(target, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
                         ((TextView) target).setText(null);
                     }
                 }
