@@ -50,6 +50,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
@@ -273,8 +274,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void prepareActionBar() {
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override

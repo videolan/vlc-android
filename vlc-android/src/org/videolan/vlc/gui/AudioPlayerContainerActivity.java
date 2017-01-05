@@ -39,7 +39,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -81,7 +80,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected static final String ID_PREFERENCES = "preferences";
     protected static final String ID_ABOUT = "about";
 
-    protected ActionBar mActionBar;
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
@@ -110,7 +108,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         mAppBarLayout.setExpanded(true);
 
@@ -247,7 +244,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            mActionBar.collapseActionView();
         }
     }
 
