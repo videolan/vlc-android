@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.interfaces.IEventsHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, IEventsHandler {
 
@@ -144,36 +145,30 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                 boolean addTracks = mNewTrack != null;
                 Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
                 boolean exists = playlist != null;
-                long[] ids;
+                ArrayList<MediaWrapper> tracks;
                 if (addTracks) {
                     if (!exists)
                         playlist = mMedialibrary.createPlaylist(name);
-                    ids = new long[mNewTrack.size()];
-                    for (int i = 0 ; i < mNewTrack.size(); ++i) {
-                        ids[i] = mNewTrack.get(i).getId();
-                        if (ids[i] == 0) {
-                            MediaWrapper media = mMedialibrary.getMedia(mNewTrack.get(i).getLocation());
-                            if (media != null && media.getId() != 0)
-                                ids[i] = media.getId();
-                            else
-                                ids[i] = mMedialibrary.addMedia(mNewTrack.get(i).getLocation()).getId();
-                        }
-                    }
-                } else { //Save a playlist
+                    tracks = mNewTrack;
+                } else {//Save a playlist
                     if (exists)
                         playlist.delete(mMedialibrary);
-                    playlist = mMedialibrary.createPlaylist(name);
-                    ids = new long[mTracks.size()];
-                    for (int i = 0; i < mTracks.size(); ++i) {
-                        ids[i] = mTracks.get(i).getId();
-                        if (ids[i] == 0) {
-                            MediaWrapper media = mMedialibrary.getMedia(mNewTrack.get(i).getLocation());
-                            if (media != null && media.getId() != 0)
-                                ids[i] = media.getId();
-                            else
-                                ids[i] = mMedialibrary.addMedia(mNewTrack.get(i).getLocation()).getId();
+                    tracks = mTracks;
+                }
+                LinkedList<Long> ids = new LinkedList<>();
+                for (MediaWrapper mw : tracks) {
+                    long id = mw.getId();
+                    if (id == 0) {
+                        MediaWrapper media = mMedialibrary.getMedia(mw.getLocation());
+                        if (media != null)
+                            ids.add(media.getId());
+                        else {
+                            media = mMedialibrary.addMedia(mw.getLocation());
+                            if (media != null)
+                                ids.add(media.getId());
                         }
-                    }
+                    } else
+                        ids.add(id);
                 }
                 playlist.append(mMedialibrary, ids);
                 if (mCallBack != null)
