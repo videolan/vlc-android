@@ -202,6 +202,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private ComponentName mRemoteControlClientReceiverComponent;
     private PopupManager mPopupManager;
 
+    /* boolean indicating if the player is in benchmark mode */
+    private boolean mIsBenchmark = false;
+    /* boolenan indication if the player is in hardware mode */
+    private boolean mIsHardware = false;
+
     private static LibVLC LibVLC() {
         return VLCInstance.get();
     }
@@ -541,6 +546,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     };
 
+    public void setBenchmark() { mIsBenchmark = true; }
+    public void setHardware() { mIsHardware = true; }
+
     /**
      * Update current media meta and return true if player needs to be updated
      *
@@ -554,6 +562,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mw != null)
             mw.updateMeta(mMediaPlayer);
         return id != Media.Meta.NowPlaying || getCurrentMedia().getNowPlaying() != null;
+    }
+
+    private Media.Stats previousMediaStats = null;
+
+    public Media.Stats getLastStats() {
+       return previousMediaStats;
     }
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
@@ -606,6 +620,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.EndReached:
                     mMedialibrary.updateProgress(getCurrentMediaWrapper(), 0L);
                     executeUpdateProgress();
+                    previousMediaStats = mMediaPlayer.getMedia().getStats();
                     determinePrevAndNextIndices(true);
                     next();
                     if (mWakeLock.isHeld())
@@ -1794,6 +1809,16 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mPausable = mSeekable = true;
         final Media media = new Media(VLCInstance.get(), mw.getUri());
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
+
+        /* keeping only video during benchmark */
+        if (mIsBenchmark) {
+            media.addOption(":no-audio");
+            media.addOption(":no-spu");
+            if (mIsHardware) {
+                media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none");
+                mIsHardware = false;
+            }
+        }
 
         if (mw.getSlaves() != null) {
             for (Media.Slave slave : mw.getSlaves())
