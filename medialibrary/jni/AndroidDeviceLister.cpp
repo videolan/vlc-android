@@ -4,7 +4,8 @@ std::vector<std::tuple<std::string, std::string, bool>>
 AndroidDeviceLister::devices() const
 {
     std::lock_guard<std::mutex> guard(m_mutex);
-    std::vector<std::tuple<std::string, std::string, bool>> devices(m_devices.size());
+    std::vector<std::tuple<std::string, std::string, bool>> devices;
+    devices.reserve( m_devices.size() );
     for(auto kv : m_devices)
         devices.push_back(kv.second);
     return devices;
