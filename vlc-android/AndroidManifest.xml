@@ -528,7 +528,14 @@
                 <action android:name="_PACKAGENAME_.remote.PlayPause" />
             </intent-filter>
         </receiver>
-        
+
+        <activity
+            android:name=".gui.video.benchmark.BenchActivity"
+            android:screenOrientation="landscape"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.VLC.Player" />
+
         <!-- TV components -->
         <activity
             android:name="org.videolan.vlc.gui.tv.MainTvActivity"
