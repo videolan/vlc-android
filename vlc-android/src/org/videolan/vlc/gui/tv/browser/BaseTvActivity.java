@@ -95,8 +95,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (mMediaLibrary.isWorking())
-                return;
             if (mRegistering) {
                 mRegistering = false;
                 return;
@@ -109,8 +107,13 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                     onNetworkUpdated();
 
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
+                String path = intent.getData().getPath();
+                mMediaLibrary.addDevice(path, path, true);
+                mMediaLibrary.discover(path);
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
+                mMediaLibrary.removeDevice(intent.getData().getPath());
+                mMediaLibrary.reload();
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 2000); //Delay to cancel it in case of MOUNT
             }
         }
