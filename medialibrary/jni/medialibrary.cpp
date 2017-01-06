@@ -106,6 +106,7 @@ entryPoints(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
+    entryPoints.erase(std::remove_if( begin( entryPoints ), end( entryPoints ), []( const medialibrary::FolderPtr f ) { return f->isPresent() == false; } ));
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(entryPoints.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& entrypoint : entryPoints) {
