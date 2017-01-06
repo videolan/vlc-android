@@ -167,12 +167,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
-    private PlaybackService mService;
+    protected PlaybackService mService;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
     private View mRootView;
     private FrameLayout mSurfaceFrame;
-    private MediaRouter mMediaRouter;
+    protected MediaRouter mMediaRouter;
     private MediaRouter.SimpleCallback mMediaRouterCallback;
     private SecondaryDisplay mPresentation;
     private int mPresentationDisplayId = -1;
@@ -244,7 +244,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mPlaybackSettingMinus;
     private View mObjectFocused;
     private boolean mEnableBrightnessGesture;
-    private boolean mEnableCloneMode;
+    protected boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime;
     private int mScreenOrientation;
     private int mScreenOrientationLock;
@@ -1044,7 +1044,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    private void exit(int resultCode){
+    protected void exit(int resultCode){
         if (isFinishing())
             return;
         Intent resultIntent = new Intent(ACTION_RESULT);
@@ -2589,7 +2589,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         return mForcedTime == -1 ? time : mForcedTime;
     }
 
-    private void seek(long position) {
+    protected void seek(long position) {
         seek(position, mService.getLength());
     }
 
@@ -2936,7 +2936,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     @TargetApi(12)
     @SuppressWarnings({ "unchecked" })
-    private void loadMedia() {
+    protected void loadMedia() {
         if (mService == null)
             return;
         mUri = null;
