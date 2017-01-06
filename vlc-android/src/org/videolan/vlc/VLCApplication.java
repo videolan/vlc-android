@@ -248,8 +248,10 @@ public class VLCApplication extends Application {
                     return;
                 medialibrary.setup();
                 String[] storages = AndroidDevices.getMediaDirectories();
-                for (String storage : storages)
-                    medialibrary.addDevice(storage, storage, TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+                for (String storage : storages) {
+                    boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                    medialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
+                }
                 if (medialibrary.init(getAppContext())) {
                     LocalBroadcastManager.getInstance(instance).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
                     if (medialibrary.getFoldersList().length == 0) {
