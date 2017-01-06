@@ -108,11 +108,12 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 String path = intent.getData().getPath();
-                mMediaLibrary.addDevice(path, path, true);
+                String uuid = intent.getData().getLastPathSegment();
+                mMediaLibrary.addDevice(uuid, path, true);
                 mMediaLibrary.discover(path);
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
-                mMediaLibrary.removeDevice(intent.getData().getPath());
+                mMediaLibrary.removeDevice(intent.getData().getLastPathSegment());
                 mMediaLibrary.reload();
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 2000); //Delay to cancel it in case of MOUNT
             }
