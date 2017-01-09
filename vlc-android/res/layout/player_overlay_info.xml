@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_overlay_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/video_list_length_bg"
+    android:visibility="invisible">
+    <FrameLayout
+        android:id="@+id/verticalbar"
+        android:layout_width="20dp"
+        android:layout_height="100dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:orientation="vertical"
+            android:weightSum="100"
+            android:gravity="bottom">
+
+            <View android:id="@+id/verticalbar_progress"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/orange500transparent" />
+        </LinearLayout>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/player_overlay_textinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="36sp" />
+</LinearLayout>

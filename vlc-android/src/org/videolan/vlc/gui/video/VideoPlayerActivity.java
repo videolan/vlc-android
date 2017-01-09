@@ -423,12 +423,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mTime = (TextView) findViewById(R.id.player_overlay_time);
         mLength = (TextView) findViewById(R.id.player_overlay_length);
 
-        // the info textView is not on the overlay
-        mInfo = (TextView) findViewById(R.id.player_overlay_textinfo);
-        mOverlayInfo = findViewById(R.id.player_overlay_info);
-        mVerticalBar = findViewById(R.id.verticalbar);
-        mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
-
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
 
@@ -523,7 +517,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
-
     }
 
     @Override
@@ -1350,11 +1343,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void initPlaybackSettingInfo() {
+        initInfoOverlay();
         if (mPresentation == null) {
             UiTools.setViewVisibility(mVerticalBar, View.GONE);
             UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         } else
-            mInfo.setVisibility(View.VISIBLE);
+            UiTools.setViewVisibility(mInfo, View.VISIBLE);
         String text = "";
         if (mPlaybackSetting == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
@@ -1393,7 +1387,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPresentation == null)
             UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         else
-            mInfo.setVisibility(View.INVISIBLE);
+            UiTools.setViewVisibility(mInfo, View.INVISIBLE);
         mInfo.setText("");
         mPlayPause.requestFocus();
     }
@@ -1502,6 +1496,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * @param duration
      */
     private void showInfo(String text, int duration) {
+        initInfoOverlay();
         if (mPresentation == null) {
             UiTools.setViewVisibility(mVerticalBar, View.GONE);
             UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
@@ -1512,7 +1507,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
     }
 
+    private void initInfoOverlay() {
+        ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_info_stub);
+        if (vsc != null) {
+            vsc.inflate();
+            // the info textView is not on the overlay
+            mInfo = (TextView) findViewById(R.id.player_overlay_textinfo);
+            mOverlayInfo = findViewById(R.id.player_overlay_info);
+            mVerticalBar = findViewById(R.id.verticalbar);
+            mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
+        }
+    }
+
     private void showInfo(int textid, int duration) {
+        initInfoOverlay();
         if (mPresentation == null) {
             UiTools.setViewVisibility(mVerticalBar, View.GONE);
             UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
@@ -1545,7 +1553,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         VideoPlayerActivity.this, android.R.anim.fade_out));
                 UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
             }
-        } else if (mInfo.getVisibility() == View.VISIBLE) {
+        } else if (mInfo != null && mInfo.getVisibility() == View.VISIBLE) {
             mInfo.startAnimation(AnimationUtils.loadAnimation(
                     VideoPlayerActivity.this, android.R.anim.fade_out));
             mInfo.setVisibility(View.INVISIBLE);
