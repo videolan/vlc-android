@@ -377,10 +377,9 @@ public class AudioUtil {
         }
     }
 
-    public static Bitmap readCoverBitmap(String path, int dipWidth) {
+    public static Bitmap readCoverBitmap(String path, int width) {
         Bitmap cover = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
-        int width = UiTools.convertDpToPx(dipWidth);
 
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true;
