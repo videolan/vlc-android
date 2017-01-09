@@ -61,6 +61,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ViewStubCompat;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -497,12 +498,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPresentation == null) {
             // Orientation
             // Tips
-            mOverlayTips = findViewById(R.id.player_overlay_tips);
-            if(BuildConfig.DEBUG || VLCApplication.showTvUi() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
-                mOverlayTips.setVisibility(View.GONE);
-            else {
-                mOverlayTips.bringToFront();
-                mOverlayTips.invalidate();
+            if (!BuildConfig.DEBUG && !VLCApplication.showTvUi() && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)) {
+                ((ViewStubCompat) findViewById(R.id.player_overlay_tips)).inflate();
+                mOverlayTips = findViewById(R.id.overlay_tips_layout);
             }
 
             //Set margins for TV overscan
@@ -525,6 +523,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
+
     }
 
     @Override
@@ -3443,11 +3442,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void onClickOverlayTips(View v) {
-        mOverlayTips.setVisibility(View.GONE);
+        UiTools.setViewVisibility(mOverlayTips, View.GONE);
     }
 
     public void onClickDismissTips(View v) {
-        mOverlayTips.setVisibility(View.GONE);
+        UiTools.setViewVisibility(mOverlayTips, View.GONE);
         Editor editor = mSettings.edit();
         editor.putBoolean(PREF_TIPS_SHOWN, true);
         editor.apply();
