@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -77,6 +79,7 @@ public class VLCApplication extends Application {
             return thread;
         }
     };
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     private static int sDialogCounter = 0;
 
@@ -177,6 +180,10 @@ public class VLCApplication extends Application {
 
     public static void runBackground(Runnable runnable) {
         instance.mThreadPool.execute(runnable);
+    }
+
+    public static void runOnMainThread(Runnable runnable) {
+        instance.mHandler.post(runnable);
     }
 
     public static boolean removeTask(Runnable runnable) {
