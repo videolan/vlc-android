@@ -24,6 +24,8 @@
 package org.videolan.vlc.gui.audio;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -49,6 +52,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 
@@ -92,14 +96,31 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updateList();
 
-        ImageView coverView = (ImageView) view.findViewById(R.id.album_cover);
-        Bitmap cover = AudioUtil.readCoverBitmap(mAlbum.getArtworkMrl(), 64);
-        if (cover != null)
-            coverView.setImageBitmap(cover);
+        final ImageView coverView = (ImageView) view.findViewById(R.id.album_cover);
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                int width;
+                if (AndroidUtil.isHoneycombMr2OrLater()) {
+                    Point point = new Point();
+                    getActivity().getWindowManager().getDefaultDisplay().getSize(point);
+                    width = point.x;
+                } else
+                    width = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+                final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mAlbum.getArtworkMrl())), width);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (cover != null)
+                            coverView.setImageBitmap(cover);
+                    }
+                });
+            }
+        });
     }
 
     @Override
