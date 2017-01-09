@@ -121,6 +121,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
+        mAudioPlayer.showAudioPlayerTips();
     }
 
     @Override
@@ -188,25 +189,21 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     /**
      * Show a tip view.
-     * @param layoutId the layout of the tip view
+     * @param stubId the stub of the tip view
      * @param settingKey the setting key to check if the view must be displayed or not.
      */
-    public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
+    public void showTipViewIfNeeded(final int stubId, final String settingKey) {
         if (BuildConfig.DEBUG)
             return;
-        if (!mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
-            removeTipViewIfDisplayed();
-            View v = LayoutInflater.from(this).inflate(layoutId, null);
-            ViewGroup root = (ViewGroup) findViewById(R.id.coordinator).getParent();
-            root.addView(v, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+        ViewStubCompat vsc = (ViewStubCompat) findViewById(stubId);
+        if (vsc != null && !mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
+            View v = vsc.inflate();
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     removeTipViewIfDisplayed();
                 }
             });
-
             TextView okGotIt = (TextView) v.findViewById(R.id.okgotit_button);
             okGotIt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -224,12 +221,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
      * Remove the current tip view if there is one displayed.
      */
     public void removeTipViewIfDisplayed() {
-            ViewGroup root = (ViewGroup) findViewById(R.id.coordinator).getParent();
-        if (root.getChildCount() > 2){
-            for (int i = 0 ; i< root.getChildCount() ; ++i){
-                if (root.getChildAt(i).getId() == R.id.audio_tips)
-                    root.removeViewAt(i);
-            }
+        View tips = findViewById(R.id.audio_tips);
+        if (tips == null)
+            return;
+        ViewGroup root = (ViewGroup) tips.getParent();
+        for (int i = 0; i < root.getChildCount(); ++i){
+            if (root.getChildAt(i).getId() == R.id.audio_tips)
+                root.removeViewAt(i);
         }
     }
     /**
@@ -343,7 +341,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     mBottomSheetBehavior.setHideable(false);
                     mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
                     mAudioPlayer.setUserVisibleHint(true);
-                    mAudioPlayer.showAudioPlayerTips();
+                    mAudioPlayer.showPlaylistTips();
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();

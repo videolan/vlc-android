@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:vlc="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include layout="@layout/toolbar"/>
-
-    <FrameLayout
-        android:id="@+id/fragment_placeholder"
-        android:layout_width="fill_parent"
-        vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent" />
-
-    <FrameLayout
-        android:id="@+id/audio_player_container"
+    android:layout_height="match_parent" >
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        vlc:layout_behavior="android.support.design.widget.BottomSheetBehavior">
-        <android.support.v7.widget.ViewStubCompat
-            android:id="@+id/audio_player_stub"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar"/>
+
+        <FrameLayout
+            android:id="@+id/fragment_placeholder"
+            android:layout_width="fill_parent"
+            vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/audio_player_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout="@layout/audioplayer"/>
-    </FrameLayout>
+            android:visibility="gone"
+            vlc:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+            <android.support.v7.widget.ViewStubCompat
+                android:id="@+id/audio_player_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/audioplayer"/>
+        </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        vlc:borderWidth="0dp"
-        vlc:rippleColor="@color/orange50"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_fab_add"
-        android:tint="@color/grey50"
-        vlc:layout_anchor="@+id/fragment_placeholder"
-        vlc:layout_anchorGravity="bottom|end"
-        vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-        android:visibility="invisible"
-        android:layout_margin="16dp"/>
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.FloatingActionButton
+            vlc:borderWidth="0dp"
+            vlc:rippleColor="@color/orange50"
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_add"
+            android:tint="@color/grey50"
+            vlc:layout_anchor="@+id/fragment_placeholder"
+            vlc:layout_anchorGravity="bottom|end"
+            vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
+            android:visibility="invisible"
+            android:layout_margin="16dp"/>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/audio_playlist_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/audio_playlist_tips"/>
+
+    <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/audio_player_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/audio_player_tips"/>
+</merge>

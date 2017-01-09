@@ -642,14 +642,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void showPlaylistTips() {
         AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
-        if(activity != null)
-            activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
+        if (activity != null)
+            activity.showTipViewIfNeeded(R.id.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
     }
 
     public void showAudioPlayerTips() {
         AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
-        if(activity != null)
-            activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
+        if (activity != null)
+            activity.showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
 
     /*

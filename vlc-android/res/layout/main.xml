@@ -91,4 +91,16 @@
         app:itemTextColor="?attr/navigationview_item_color"
         app:itemIconTint="?attr/navigationview_item_color" />
 
+    <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/audio_playlist_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/audio_playlist_tips"/>
+
+    <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/audio_player_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/audio_player_tips"/>
+
 </org.videolan.vlc.gui.view.HackyDrawerLayout>
