@@ -494,10 +494,10 @@
             android:label="@string/widget_name_w" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="_PACKAGENAME_.widget.INIT" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE_COVER" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE_POSITION" />
+                <action android:name="${applicationId}.widget.INIT" />
+                <action android:name="${applicationId}.widget.UPDATE" />
+                <action android:name="${applicationId}.widget.UPDATE_COVER" />
+                <action android:name="${applicationId}.widget.UPDATE_POSITION" />
             </intent-filter>
 
             <meta-data
@@ -510,10 +510,10 @@
             android:label="@string/widget_name_b" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="_PACKAGENAME_.widget.INIT" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE_COVER" />
-                <action android:name="_PACKAGENAME_.widget.UPDATE_POSITION" />
+                <action android:name="${applicationId}.widget.INIT" />
+                <action android:name="${applicationId}.widget.UPDATE" />
+                <action android:name="${applicationId}.widget.UPDATE_COVER" />
+                <action android:name="${applicationId}.widget.UPDATE_POSITION" />
             </intent-filter>
 
             <meta-data
@@ -525,7 +525,7 @@
             android:process=":main">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="_PACKAGENAME_.remote.PlayPause" />
+                <action android:name="${applicationId}.remote.PlayPause" />
             </intent-filter>
         </receiver>
 

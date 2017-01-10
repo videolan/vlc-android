@@ -165,17 +165,10 @@ android {
         //Custom APK name
         variant.outputs.each { output ->
             def outputName = "VLC-Android-"
-            if (!variant.productFlavors.get(0).name.equals("vanilla"))
+            if (variant.productFlavors.get(0).name != "vanilla")
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += vlcVersion + "-" + variant.productFlavors.get(1).name + ".apk"
             output.outputFile = new File(output.outputFile.parentFile, outputName);
-
-            //set intents with correct package name
-            output.processManifest.doLast{
-                def manifestOutFile = output.processManifest.manifestOutputFile
-                def newFileContents = manifestOutFile.getText('UTF-8').replace("_PACKAGENAME_", variant.applicationId)
-                manifestOutFile.write(newFileContents, 'UTF-8')
-            }
         }
     }
 
