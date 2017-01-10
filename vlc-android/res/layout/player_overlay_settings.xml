@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/player_delay_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus_circle"
+        android:focusable="true"
+        android:visibility="invisible"/>
+    <ImageView
+        android:id="@+id/player_delay_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:src="@drawable/ic_minus_circle"
+        android:focusable="true"
+        android:visibility="invisible"/>
+</LinearLayout>

@@ -66,26 +66,14 @@
             android:layout_marginBottom="@dimen/default_margin"
             android:layout="@layout/player_overlay_info"/>
 
-        <ImageView
-            android:id="@+id/player_delay_minus"
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/player_overlay_settings_stub"
+            android:layout="@layout/player_overlay_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/progress_overlay"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/default_margin"
-            android:src="@drawable/ic_minus_circle"
-            android:focusable="true"
-            android:visibility="invisible"/>
-        <ImageView
-            android:id="@+id/player_delay_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_above="@+id/player_delay_minus"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_plus_circle"
-            android:focusable="true"
-            android:visibility="invisible"/>
+            android:layout_marginRight="@dimen/default_margin" />
 
         <include layout="@layout/player_hud"/>
 

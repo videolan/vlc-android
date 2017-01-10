@@ -442,9 +442,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mSettings.getBoolean("enable_seek_buttons", false))
             initSeekButton();
 
-        mPlaybackSettingPlus = (ImageView) findViewById(R.id.player_delay_plus);
-        mPlaybackSettingMinus = (ImageView) findViewById(R.id.player_delay_minus);
-
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
 
@@ -1332,6 +1329,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mTouchAction = TOUCH_NONE;
         if (mPresentation != null)
             showOverlayTimeout(OVERLAY_INFINITE);
+        ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_overlay_settings_stub);
+        if (vsc != null) {
+            vsc.inflate();
+            mPlaybackSettingPlus = (ImageView) findViewById(R.id.player_delay_plus);
+            mPlaybackSettingMinus = (ImageView) findViewById(R.id.player_delay_minus);
+
+        }
         mPlaybackSettingMinus.setOnClickListener(this);
         mPlaybackSettingPlus.setOnClickListener(this);
         mPlaybackSettingMinus.setOnTouchListener(new OnRepeatListener(this));
