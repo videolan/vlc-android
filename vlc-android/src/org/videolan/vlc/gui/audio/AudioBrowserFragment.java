@@ -156,8 +156,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         for (int i = 0; i< mLists.length; ++i) {
-            mLists[i].setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+            llm.setRecycleChildrenOnDetach(true);
+            mLists[i].setLayoutManager(llm);
+            mLists[i].setRecycledViewPool(rvp);
             mLists[i].setAdapter(mAdapters[i]);
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
