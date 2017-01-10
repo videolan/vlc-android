@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     style="@style/Theme.VLC"
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/info_dialog_peek_height"
+        android:layout_height="wrap_content"
         android:paddingTop="5dp">
 
         <TextView
@@ -90,8 +90,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/info_dialog_peek_height">
+        android:orientation="horizontal" >
 
         <RelativeLayout
             android:id="@+id/image_layout"
@@ -102,19 +101,19 @@
             <FrameLayout
                 android:id="@+id/image_container"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">
 
                 <ProgressBar
                     android:id="@+id/image_progress"
                     style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
 
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="36dp"
@@ -145,4 +144,4 @@
             android:nestedScrollingEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding" />
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

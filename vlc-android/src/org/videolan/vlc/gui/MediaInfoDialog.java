@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
@@ -24,11 +25,9 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoAdapter;
 import org.videolan.vlc.media.MediaUtils;
@@ -37,7 +36,6 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
-import java.nio.ByteBuffer;
 
 public class MediaInfoDialog extends BottomSheetDialogFragment {
 
@@ -113,8 +111,11 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
         mTitle.setText(mItem.getTitle());
         mCheckFileTask = (MediaInfoDialog.CheckFileTask) new MediaInfoDialog.CheckFileTask().execute();
         mLoadImageTask = (MediaInfoDialog.LoadImageTask) new MediaInfoDialog.LoadImageTask().execute();
-        mLengthView.setText(mItem.getLength() > 0l ? Strings.millisToString(mItem.getLength()) : "");
+        mLengthView.setText(mItem.getLength() > 0L ? Strings.millisToString(mItem.getLength()) : "");
         mPathView.setText(Uri.decode(mItem.getUri().getPath()));
+        //Expand dialog
+        View bottomSheetInternal = getDialog().findViewById(android.support.design.R.id.design_bottom_sheet);
+        BottomSheetBehavior.from(bottomSheetInternal).setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     public void onStop() {
@@ -148,8 +149,8 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
             String[] subFolders = {"/Subtitles", "/subtitles", "/Subs", "/subs"};
             String[] files = itemFile.getParentFile().list();
             int filesLength = files == null ? 0 : files.length;
-            for (int i = 0 ; i < subFolders.length ; ++i){
-                File subFolder = new File(parentPath+subFolders[i]);
+            for (String subFolderName : subFolders){
+                File subFolder = new File(parentPath+subFolderName);
                 if (!subFolder.exists())
                     continue;
                 String[] subFiles = subFolder.list();
@@ -205,22 +206,20 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
     }
 
     private class LoadImageTask extends AsyncTask<Void, Void, Bitmap> {
+        ImageView imageView;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (getView() != null)
+                imageView = (ImageView) getView().findViewById(R.id.image);
+        }
 
         @Override
         protected Bitmap doInBackground(Void... params) {
 
             final LibVLC libVlc = VLCInstance.get();
-            if (libVlc == null)
-                return null;
-            int videoHeight = mItem.getHeight();
-            int videoWidth = mItem.getWidth();
-            if (videoWidth <= 0 || videoHeight <= 0) {
-                //FIXME : find a better way to display media info without video size
-                videoWidth = 16;
-                videoHeight = 9;
-            }
-
-            if (isCancelled())
+            if (libVlc == null || isCancelled())
                 return null;
 
             mMedia = new Media(libVlc, mItem.getUri());
@@ -231,51 +230,29 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
 
             DisplayMetrics screen = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
-            int width, height;
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            int width;
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
                 width = Math.min(screen.widthPixels, screen.heightPixels);
-            } else {
+            else
                 width = screen.widthPixels /2 ;
-            }
-            height = width * videoHeight/videoWidth;
-
-            Bitmap image = null;
-            if (!isCancelled()) {
-                if (mItem.getType() == MediaWrapper.TYPE_VIDEO) {
-                    // Get the thumbnail.
-                    image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-                    byte[] b = VLCUtil.getThumbnail(mMedia, width, height);
-
-                    if (b == null || isCancelled()) // We were not able to create a thumbnail for this item.
-                        return null;
-                    image.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-                    image = BitmapUtil.cropBorders(image, width, height);
-                } else if (mItem.getType() == MediaWrapper.TYPE_AUDIO)
-                    image = AudioUtil.getCover(getActivity(), mItem, width);
-            }
-            return image;
+            return isCancelled() ? null : AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mItem.getArtworkMrl())), width);
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             mProgress.setVisibility(View.GONE);
-            ImageView imageView = (ImageView) getView().findViewById(R.id.image);
-            imageView.setImageBitmap(bitmap);
-            if (bitmap == null) {
-                RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.image_layout);
-                if (layout != null) {
-                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) layout.getLayoutParams();
-                    lp.weight = 0f;
-                    layout.setLayoutParams(lp);
+            if (imageView != null) {
+                imageView.setImageBitmap(bitmap);
+                if (bitmap == null && getView() != null) {
+                    RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.image_layout);
+                    if (layout != null) {
+                        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) layout.getLayoutParams();
+                        lp.weight = 0f;
+                        layout.setLayoutParams(lp);
+                    }
+                    return;
                 }
-                return;
             }
-            ViewGroup.LayoutParams lp = imageView.getLayoutParams();
-            lp.height = bitmap.getHeight();
-            lp.width = bitmap.getWidth();
-            imageView.setLayoutParams(lp);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mLoadImageTask = null;
         }
 
@@ -304,7 +281,7 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
     private Handler mHandler = new MediaInfoDialog.MediaInfoHandler(this);
 
     private static class MediaInfoHandler extends WeakHandler<MediaInfoDialog> {
-        public MediaInfoHandler(MediaInfoDialog owner) {
+        MediaInfoHandler(MediaInfoDialog owner) {
             super(owner);
         }
 
