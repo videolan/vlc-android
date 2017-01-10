@@ -261,7 +261,7 @@ public class CardPresenter extends Presenter {
                         break;
                 }
             } else
-                picture = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaLibraryItem.getArtworkMrl())), 384);
+                picture = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaLibraryItem.getArtworkMrl())), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
             if (picture == null) {
                 int resId;
                 switch (mediaLibraryItem.getItemType()) {

@@ -137,7 +137,7 @@ public class BrowserProvider {
             for (MediaLibraryItem libraryItem : list) {
                 if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                     continue;
-                Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(libraryItem.getArtworkMrl())), 128);
+                Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(libraryItem.getArtworkMrl())), 256);
                 if (cover == null)
                     cover = DEFAULT_AUDIO_COVER;
                 item.setTitle(libraryItem.getTitle())

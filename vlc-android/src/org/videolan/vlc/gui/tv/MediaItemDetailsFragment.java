@@ -175,7 +175,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
 
         } else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
             // Add images and action buttons to the details view
-            Bitmap cover = AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 480);
+            Bitmap cover = AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512);
             if (cover == null)
                 detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
             else
