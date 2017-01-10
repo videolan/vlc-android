@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
+import org.videolan.libvlc.util.VLCUtil;
 
 import java.io.FileDescriptor;
 
@@ -425,7 +426,7 @@ public class Media extends VLCObject<Media.Event> {
      */
     public Media(LibVLC libVLC, String path) {
         nativeNewFromPath(libVLC, path);
-        mUri = UriFromMrl(nativeGetMrl());
+        mUri = VLCUtil.UriFromMrl(nativeGetMrl());
     }
 
     /**
@@ -435,7 +436,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param uri a valid RFC 2396 Uri
      */
     public Media(LibVLC libVLC, Uri uri) {
-        nativeNewFromLocation(libVLC, locationFromUri(uri));
+        nativeNewFromLocation(libVLC, VLCUtil.locationFromUri(uri));
         mUri = uri;
     }
 
@@ -447,7 +448,7 @@ public class Media extends VLCObject<Media.Event> {
      */
     public Media(LibVLC libVLC, FileDescriptor fd) {
         nativeNewFromFd(libVLC, fd);
-        mUri = UriFromMrl(nativeGetMrl());
+        mUri = VLCUtil.UriFromMrl(nativeGetMrl());
     }
 
     /**
@@ -461,57 +462,7 @@ public class Media extends VLCObject<Media.Event> {
         if (!ml.isLocked())
             throw new IllegalStateException("MediaList should be locked");
         nativeNewFromMediaList(ml, index);
-        mUri = UriFromMrl(nativeGetMrl());
-    }
-
-    private static final String URI_AUTHORIZED_CHARS = "!'()*";
-
-    /**
-     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
-     * Therefore, decode the characters authorized by Android Uri when creating an Uri from VLC.
-     */
-    private static Uri UriFromMrl(String mrl) {
-        final char array[] = mrl.toCharArray();
-        final StringBuilder sb = new StringBuilder(array.length);
-
-        for (int i = 0; i < array.length; ++i) {
-            final char c = array[i];
-            if (c == '%') {
-                if (array.length - i >= 3) {
-                    try {
-                        final int hex = Integer.parseInt(new String(array, i + 1, 2), 16);
-                        if (URI_AUTHORIZED_CHARS.indexOf(hex) != -1) {
-                            sb.append((char) hex);
-                            i += 2;
-                            continue;
-                        }
-                    } catch (NumberFormatException ignored) {
-                    }
-                }
-
-            }
-            sb.append(c);
-        }
-
-        return Uri.parse(sb.toString());
-    }
-
-    /**
-     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
-     * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
-     */
-    protected static String locationFromUri(Uri uri) {
-        final char array[] = uri.toString().toCharArray();
-        final StringBuilder sb = new StringBuilder(array.length * 2);
-
-        for (final char c : array) {
-            if (URI_AUTHORIZED_CHARS.indexOf(c) != -1)
-                sb.append("%").append(Integer.toHexString(c));
-            else
-                sb.append(c);
-        }
-
-        return sb.toString();
+        mUri = VLCUtil.UriFromMrl(nativeGetMrl());
     }
 
     public void setEventListener(EventListener listener) {
@@ -652,7 +603,7 @@ public class Media extends VLCObject<Media.Event> {
      * event (only if this methods returned true).
      *
      * @param flags see {@link Parse}
-     * @param imeout maximum time allowed to preparse the media. If -1, the
+     * @param timeout maximum time allowed to preparse the media. If -1, the
      * default "preparse-timeout" option will be used as a timeout. If 0, it will
      * wait indefinitely. If > 0, the timeout will be used (in milliseconds).
      * @return true in case of success, false otherwise.

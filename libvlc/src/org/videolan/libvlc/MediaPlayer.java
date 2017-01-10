@@ -24,6 +24,8 @@ package org.videolan.libvlc;
 
 import android.net.Uri;
 
+import org.videolan.libvlc.util.VLCUtil;
+
 import java.io.File;
 
 @SuppressWarnings("unused, JniMissingFunction")
@@ -798,7 +800,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public boolean addSlave(int type, Uri uri, boolean select) {
-        return nativeAddSlave(type, Media.locationFromUri(uri), select);
+        return nativeAddSlave(type, VLCUtil.locationFromUri(uri), select);
     }
 
     /**

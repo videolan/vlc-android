@@ -517,6 +517,56 @@ public class VLCUtil {
         return ret;
     }
 
+    private static final String URI_AUTHORIZED_CHARS = "!'()*";
+
+    /**
+     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
+     * Therefore, decode the characters authorized by Android Uri when creating an Uri from VLC.
+     */
+    public static Uri UriFromMrl(String mrl) {
+        final char array[] = mrl.toCharArray();
+        final StringBuilder sb = new StringBuilder(array.length);
+
+        for (int i = 0; i < array.length; ++i) {
+            final char c = array[i];
+            if (c == '%') {
+                if (array.length - i >= 3) {
+                    try {
+                        final int hex = Integer.parseInt(new String(array, i + 1, 2), 16);
+                        if (URI_AUTHORIZED_CHARS.indexOf(hex) != -1) {
+                            sb.append((char) hex);
+                            i += 2;
+                            continue;
+                        }
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+
+            }
+            sb.append(c);
+        }
+
+        return Uri.parse(sb.toString());
+    }
+
+    /**
+     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
+     * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
+     */
+    public static String locationFromUri(Uri uri) {
+        final char array[] = uri.toString().toCharArray();
+        final StringBuilder sb = new StringBuilder(array.length * 2);
+
+        for (final char c : array) {
+            if (URI_AUTHORIZED_CHARS.indexOf(c) != -1)
+                sb.append("%").append(Integer.toHexString(c));
+            else
+                sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
     /**
      * Get a media thumbnail.
      * @return a bytearray with the RGBA thumbnail data inside.
