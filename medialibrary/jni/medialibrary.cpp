@@ -110,7 +110,7 @@ entryPoints(JNIEnv* env, jobject thiz)
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(entryPoints.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& entrypoint : entryPoints) {
-        env->SetObjectArrayElement(mediaRefs, ++index, env->NewStringUTF(entrypoint->path().c_str()));
+        env->SetObjectArrayElement(mediaRefs, ++index, env->NewStringUTF(entrypoint->mrl().c_str()));
     }
     return mediaRefs;
 }

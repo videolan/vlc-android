@@ -94,7 +94,7 @@ public class AsyncImageLoader {
             if (!isMedia && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
                 return;
             if (item.getId() == 0L && (isMedia) && "file".equals(uri.getScheme())) {
-                MediaWrapper mw = VLCApplication.getMLInstance().getMedia(uri.getPath());
+                MediaWrapper mw = VLCApplication.getMLInstance().getMedia(uri.toString());
                 if (mw != null)
                     item = mw;
             }
