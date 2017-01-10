@@ -13,6 +13,12 @@ android {
         pickFirst 'lib/mips64/libc++_shared.so'
     }
 
+    dexOptions {
+        maxProcessCount 8
+        javaMaxHeapSize "1g"
+        preDexLibraries true
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
