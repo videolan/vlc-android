@@ -36,9 +36,6 @@ import org.videolan.vlc.gui.audio.AudioPagerAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Util;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class AboutFragment extends Fragment {
     public final static String TAG = "VLC/AboutActivity";
 
@@ -63,7 +60,7 @@ public class AboutFragment extends Fragment {
 
         UiTools.fillAboutView(v);
 
-        List<View> lists = Arrays.asList(aboutMain, webView);
+        View[] lists = new View[]{aboutMain, webView};
         String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);

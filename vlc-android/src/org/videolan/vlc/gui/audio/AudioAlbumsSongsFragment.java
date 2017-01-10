@@ -59,7 +59,6 @@ import org.videolan.vlc.util.FileUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
@@ -73,7 +72,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
     TabLayout mTabLayout;
-    private List<View> mLists;
+    private View[] mLists;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
     private FastScroller mFastScroller;
@@ -113,7 +112,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         ContextMenuRecyclerView albumsList = (ContextMenuRecyclerView) v.findViewById(R.id.albums);
         ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) v.findViewById(R.id.songs);
 
-        mLists = Arrays.asList((View)albumsList, songsList);
+        mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
         mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), this, false);
         mSongsAdapter = new AudioBrowserAdapter(getActivity(), this, false);
@@ -280,7 +279,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mFastScroller.setRecyclerView((RecyclerView) mLists.get(mViewPager.getCurrentItem()));
+                        mFastScroller.setRecyclerView((RecyclerView) mLists[mViewPager.getCurrentItem()]);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -327,7 +326,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
         if (mActionMode == null)
-            ((ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem())).openContextMenu(position);
+            ((ContextMenuRecyclerView)mLists[mViewPager.getCurrentItem()]).openContextMenu(position);
     }
 
     @Override
@@ -335,7 +334,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        mFastScroller.setRecyclerView((RecyclerView) mLists.get(tab.getPosition()));
+        mFastScroller.setRecyclerView((RecyclerView) mLists[tab.getPosition()]);
     }
 
     @Override
@@ -346,7 +345,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        ((RecyclerView)mLists.get(tab.getPosition())).smoothScrollToPosition(0);
+        ((RecyclerView)mLists[tab.getPosition()]).smoothScrollToPosition(0);
     }
 
     protected AudioBrowserAdapter getCurrentAdapter() {
@@ -354,7 +353,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     private ContextMenuRecyclerView getCurrentRV() {
-        return (ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem());
+        return (ContextMenuRecyclerView)mLists[mViewPager.getCurrentItem()];
     }
 
     protected boolean songModeSelected() {
@@ -363,7 +362,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     public void onDestroyActionMode(int position) {
         mActionMode = null;
-        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists.get(position)).getAdapter();
+        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists[position]).getAdapter();
         MediaLibraryItem[] items = adapter.getAll();
         for (int i = 0; i < items.length; ++i) {
             if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {

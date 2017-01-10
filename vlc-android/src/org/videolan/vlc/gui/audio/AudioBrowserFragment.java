@@ -86,7 +86,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TextView mEmptyView;
-    private List<View> mLists;
+    private ContextMenuRecyclerView[] mLists;
+    private AudioBrowserAdapter[] mAdapters;
     private FastScroller mFastScroller;
     private View mSearchButtonView;
 
@@ -116,6 +117,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), this, true);
         mGenresAdapter = new AudioBrowserAdapter(getActivity(), this, true);
         mPlaylistAdapter = new AudioBrowserAdapter(getActivity(), this, true);
+        mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
     }
 
     @Override
@@ -133,13 +135,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
         mFastScroller = (FastScroller) v.findViewById(R.id.songs_fast_scroller);
 
-        mLists = Arrays.asList((View)artistList, albumList, songsList, genreList, playlistsList);
-
-        songsList.setAdapter(mSongsAdapter);
-        artistList.setAdapter(mArtistsAdapter);
-        albumList.setAdapter(mAlbumsAdapter);
-        genreList.setAdapter(mGenresAdapter);
-        playlistsList.setAdapter(mPlaylistAdapter);
+        mLists = new ContextMenuRecyclerView[]{artistList, albumList, songsList, genreList, playlistsList};
 
         String[] titles = new String[] {getString(R.string.artists), getString(R.string.albums),
                 getString(R.string.songs), getString(R.string.genres), getString(R.string.playlists)};
@@ -160,8 +156,10 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for (View rv : mLists)
-            ((RecyclerView) rv).setLayoutManager(new LinearLayoutManager(getActivity()));
+        for (int i = 0; i< mLists.length; ++i) {
+            mLists[i].setLayoutManager(new LinearLayoutManager(getActivity()));
+            mLists[i].setAdapter(mAdapters[i]);
+        }
         mViewPager.setOnTouchListener(mSwipeFilter);
     }
 
@@ -513,7 +511,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        mFastScroller.setRecyclerView((RecyclerView) mLists.get(tab.getPosition()));
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
     }
 
     @Override
@@ -521,12 +519,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         stopActionMode();
         onDestroyActionMode(tab.getPosition());
         mMainActivity.closeSearchView();
-        ((AudioBrowserAdapter)((RecyclerView)mLists.get(tab.getPosition())).getAdapter()).restoreList();
+        mAdapters[tab.getPosition()].restoreList();
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        ((RecyclerView) mLists.get(tab.getPosition())).smoothScrollToPosition(0);
+        mLists[tab.getPosition()].smoothScrollToPosition(0);
     }
 
     private void deletePlaylist(final Playlist playlist) {
@@ -627,7 +625,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     }
 
     private ContextMenuRecyclerView getCurrentRV() {
-        return (ContextMenuRecyclerView)mLists.get(mViewPager.getCurrentItem());
+        return mLists[mViewPager.getCurrentItem()];
     }
 
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
@@ -755,7 +753,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     public void onDestroyActionMode(int position) {
         mActionMode = null;
-        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists.get(position)).getAdapter();
+        AudioBrowserAdapter adapter = mAdapters[position];
         MediaLibraryItem[] items = adapter.getAll();
         if (items == null)
             return;
