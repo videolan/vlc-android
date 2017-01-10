@@ -3,13 +3,9 @@
     android:id="@+id/progress_overlay"
     android:layout_width="800dp"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
     android:background="@drawable/rounded_corners"
     android:paddingTop="@dimen/overlay_padding_top"
     android:paddingBottom="@dimen/overlay_padding_bottom"
-    android:layout_marginBottom="@dimen/overlay_margin"
-    android:layout_marginRight="@dimen/overlay_margin"
-    android:layout_marginLeft="@dimen/overlay_margin"
     android:visibility="invisible" >
 
     <SeekBar

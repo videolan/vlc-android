@@ -75,7 +75,15 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/default_margin" />
 
-        <include layout="@layout/player_hud"/>
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/player_hud_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout="@layout/player_hud"
+            android:layout_marginBottom="@dimen/overlay_margin"
+            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_marginLeft="@dimen/overlay_margin"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 

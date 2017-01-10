@@ -407,40 +407,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaylistToggle = (ImageView) findViewById(R.id.playlist_toggle);
         mPlaylist = (RecyclerView) findViewById(R.id.video_playlist);
 
-        mOverlayProgress = findViewById(R.id.progress_overlay);
-        RelativeLayout.LayoutParams layoutParams =
-                (RelativeLayout.LayoutParams)mOverlayProgress.getLayoutParams();
-        if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar()) {
-            layoutParams.width = LayoutParams.MATCH_PARENT;
-        } else {
-            layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        }
-        mOverlayProgress.setLayoutParams(layoutParams);
-        mOverlayBackground = findViewById(R.id.player_overlay_background);
-        mOverlayButtons =  findViewById(R.id.player_overlay_buttons);
 
-        // Position and remaining time
-        mTime = (TextView) findViewById(R.id.player_overlay_time);
-        mLength = (TextView) findViewById(R.id.player_overlay_length);
 
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
-
-        mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
-
-        mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
-        mTracks.setOnClickListener(this);
-        mAdvOptions = (ImageView) findViewById(R.id.player_overlay_adv_function);
-        mAdvOptions.setOnClickListener(this);
-        mLock = (ImageView) findViewById(R.id.lock_overlay_button);
-
-        mSize = (ImageView) findViewById(R.id.player_overlay_size);
-        mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
-
-        mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
-
-        if (mSettings.getBoolean("enable_seek_buttons", false))
-            initSeekButton();
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
@@ -449,8 +419,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
-
-        mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
 
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
@@ -510,7 +478,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         }
 
-        resetHudLayout();
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
@@ -522,17 +489,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
-        mSeekbar.setOnSeekBarChangeListener(mSeekListener);
-        mLock.setOnClickListener(this);
-        mPlayPause.setOnClickListener(this);
-        mPlayPause.setOnLongClickListener(this);
-        mLength.setOnClickListener(this);
-        mTime.setOnClickListener(this);
-        mSize.setOnClickListener(this);
-        mNavMenu.setOnClickListener(this);
+        setHudClickListeners();
 
         if (mIsLocked && mScreenOrientation == 99)
             setRequestedOrientation(mScreenOrientationLock);
+    }
+
+    private void setHudClickListeners() {
+        if (mSeekbar != null)
+            mSeekbar.setOnSeekBarChangeListener(mSeekListener);
+        if (mLock != null)
+            mLock.setOnClickListener(this);
+        if (mPlayPause != null)
+            mPlayPause.setOnClickListener(this);
+        if (mPlayPause != null)
+            mPlayPause.setOnLongClickListener(this);
+        if (mLength != null)
+            mLength.setOnClickListener(this);
+        if (mTime != null)
+            mTime.setOnClickListener(this);
+        if (mSize != null)
+            mSize.setOnClickListener(this);
+        if (mNavMenu != null)
+            mNavMenu.setOnClickListener(this);
     }
 
     @Override
@@ -588,13 +567,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onPause() {
         super.onPause();
         hideOverlay(true);
-        mSeekbar.setOnSeekBarChangeListener(null);
-        mLock.setOnClickListener(null);
-        mPlayPause.setOnClickListener(null);
-        mPlayPause.setOnLongClickListener(null);
-        mLength.setOnClickListener(null);
-        mTime.setOnClickListener(null);
-        mSize.setOnClickListener(null);
+        if (mSeekbar != null)
+            mSeekbar.setOnSeekBarChangeListener(null);
+        if (mLock != null)
+            mLock.setOnClickListener(null);
+        if (mPlayPause != null)
+            mPlayPause.setOnClickListener(null);
+        if (mPlayPause != null)
+            mPlayPause.setOnLongClickListener(null);
+        if (mLength != null)
+            mLength.setOnClickListener(null);
+        if (mTime != null)
+            mTime.setOnClickListener(null);
+        if (mSize != null)
+            mSize.setOnClickListener(null);
 
         /* Stop the earliest possible to avoid vout error */
         if (isFinishing() || (AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
@@ -620,6 +606,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void resetHudLayout() {
+        if (mOverlayButtons == null)
+            return;
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mOverlayButtons.getLayoutParams();
         int orientation = getScreenOrientation(100);
         boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
@@ -2555,11 +2543,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     ? R.drawable.ic_forward_circle
                     : R.drawable.ic_forward_circle_disable_o);
         }
-        if (!mIsLocked)
+        if (!mIsLocked && mSeekbar != null)
             mSeekbar.setEnabled(seekable);
     }
 
     private void updatePausable(boolean pausable) {
+        if (mPlayPause == null)
+            return;
         mPlayPause.setEnabled(pausable);
         if (!pausable)
             mPlayPause.setImageResource(R.drawable.ic_play_circle_disable_o);
@@ -2687,6 +2677,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void showOverlayTimeout(int timeout) {
         if (mService == null)
             return;
+        initOverlay();
         if (timeout != 0)
             mOverlayTimeout = timeout;
         if (mOverlayTimeout == 0)
@@ -2720,6 +2711,45 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mObjectFocused.isFocusable())
                 mObjectFocused.requestFocus();
             mObjectFocused =  null;
+        }
+    }
+
+    private void initOverlay() {
+        ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_hud_stub);
+        if (vsc != null) {
+            vsc.inflate();
+            mOverlayProgress = findViewById(R.id.progress_overlay);
+            RelativeLayout.LayoutParams layoutParams =
+                    (RelativeLayout.LayoutParams)mOverlayProgress.getLayoutParams();
+            if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar()) {
+                layoutParams.width = LayoutParams.MATCH_PARENT;
+            } else {
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+            }
+            mOverlayProgress.setLayoutParams(layoutParams);
+            mOverlayBackground = findViewById(R.id.player_overlay_background);
+            mOverlayButtons =  findViewById(R.id.player_overlay_buttons);
+            // Position and remaining time
+            mTime = (TextView) findViewById(R.id.player_overlay_time);
+            mLength = (TextView) findViewById(R.id.player_overlay_length);
+            mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
+            mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
+            mTracks.setOnClickListener(this);
+            mAdvOptions = (ImageView) findViewById(R.id.player_overlay_adv_function);
+            mAdvOptions.setOnClickListener(this);
+            mLock = (ImageView) findViewById(R.id.lock_overlay_button);
+            mSize = (ImageView) findViewById(R.id.player_overlay_size);
+            mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
+            mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
+            if (mSettings.getBoolean("enable_seek_buttons", false))
+                initSeekButton();
+            mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
+            resetHudLayout();
+            updateOverlayPausePlay();
+            updateSeekable(mService.isSeekable());
+            updatePausable(mService.isPausable());
+            updateNavStatus();
+            setHudClickListeners();
         }
     }
 
@@ -2843,7 +2873,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void updateOverlayPausePlay() {
-        if (mService == null)
+        if (mService == null || mPlayPause == null)
             return;
         if (mService.isPausable())
             mPlayPause.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_circle
@@ -3491,7 +3521,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         else if (mMenuIdx != -1)
             setESTracks();
 
-        mNavMenu.setVisibility(mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
+        UiTools.setViewVisibility(mNavMenu, mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
         supportInvalidateOptionsMenu();
     }
 
