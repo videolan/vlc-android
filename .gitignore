@@ -43,6 +43,7 @@ java-libs/appcompat/.project
 # Android Studio
 .idea
 *.iml
+captures/
 
 #Qt Creator
 *.config
