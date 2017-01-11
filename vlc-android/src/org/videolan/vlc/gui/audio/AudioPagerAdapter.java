@@ -27,10 +27,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.vlc.util.Util;
-
-import java.util.Arrays;
-
 public class AudioPagerAdapter extends PagerAdapter {
 
     private View[] mLists;
@@ -54,11 +50,6 @@ public class AudioPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         return mLists[position];
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        Util.removePositionInArray(Arrays.copyOf(mLists, mLists.length), position, mLists);
     }
 
     @Override
