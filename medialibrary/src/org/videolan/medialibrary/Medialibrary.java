@@ -70,7 +70,7 @@ public class Medialibrary {
 
     public void banFolder(String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeBanFolder(path);
+            nativeBanFolder(Tools.encodeMrl(path));
     }
 
     public String[] getDevices() {
@@ -78,15 +78,15 @@ public class Medialibrary {
     }
 
     public void addDevice(String uuid, String path, boolean removable) {
-        nativeAddDevice(uuid, path, removable);
+        nativeAddDevice(uuid, Tools.encodeMrl(path), removable);
     }
 
     public void discover(String path) {
-        nativeDiscover(path);
+        nativeDiscover(Tools.encodeMrl(path));
     }
 
     public void removeFolder(String path) {
-        nativeRemoveEntryPoint(path);
+        nativeRemoveEntryPoint(Tools.encodeMrl(path));
     }
 
     public String[] getFoldersList() {
@@ -202,11 +202,11 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetMedia(id) : null;
     }
     public MediaWrapper getMedia(String mrl) {
-        return mIsInitiated ? nativeGetMediaFromMrl(mrl) : null;
+        return mIsInitiated ? nativeGetMediaFromMrl(Tools.encodeMrl(mrl)) : null;
     }
 
     public MediaWrapper addMedia(String mrl) {
-        return mIsInitiated ? nativeAddMedia(mrl) : null;
+        return mIsInitiated ? nativeAddMedia(Tools.encodeMrl(mrl)) : null;
     }
 
     public long getId() {

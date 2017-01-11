@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 
@@ -15,6 +16,7 @@ import java.util.Locale;
 
 public class Tools {
 
+    private static StringBuilder sb = new StringBuilder();
 
     /*
      * Convert file:// uri from real path to emulated FS path.
@@ -99,5 +101,13 @@ public class Tools {
                 time = (negative ? "-" : "") + min + ":" + format.format(sec);
         }
         return time;
+    }
+
+    public static String encodeMrl(String mrl) {
+        sb.setLength(0);
+        if (mrl.startsWith("/"))
+            sb.append("file://");
+        sb.append(VLCUtil.UriFromMrl(mrl).toString());
+        return sb.toString();
     }
 }
