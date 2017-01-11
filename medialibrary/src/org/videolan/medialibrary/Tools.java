@@ -124,11 +124,15 @@ public class Tools {
         return sb.toString();
     }
 
-    public static String encodeMrl(String mrl) {
-        sb.setLength(0);
-        if (mrl.startsWith("/"))
-            sb.append("file://");
+    public static Uri decodeMrl(String mrl) {
         sb.append(VLCUtil.UriFromMrl(mrl).toString());
-        return sb.toString();
+        return VLCUtil.UriFromMrl(mrl);
+    }
+
+    public static String encodeVLCMrl(String mrl) {
+        if (mrl.startsWith("/"))
+            mrl = "file://"+mrl;
+        return VLCUtil.locationFromUri(Uri.parse(mrl));
+
     }
 }

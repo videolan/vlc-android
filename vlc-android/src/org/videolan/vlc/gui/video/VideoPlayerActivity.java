@@ -2893,7 +2893,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (length == 0) {
             MediaWrapper media = mService.getCurrentMediaWrapper();
             if (media.getId() == 0)
-                media = VLCApplication.getMLInstance().getMedia(mUri.toString());
+                media = VLCApplication.getMLInstance().getMedia(mUri);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -3046,11 +3046,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             MediaWrapper media;
             if (openedMedia == null || openedMedia.getId() <= 0L) {
                 Medialibrary ml = VLCApplication.getMLInstance();
-                media = ml.getMedia(mUri.toString());
+                media = ml.getMedia(mUri);
                 if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                         mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
                     mUri = FileUtils.convertLocalUri(mUri);
-                    media = ml.getMedia(mUri.toString());
+                    media = ml.getMedia(mUri);
                 }
             } else
                 media = openedMedia;

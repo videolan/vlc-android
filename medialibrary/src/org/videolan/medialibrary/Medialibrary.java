@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
@@ -70,7 +71,7 @@ public class Medialibrary {
 
     public void banFolder(String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeBanFolder(Tools.encodeMrl(path));
+            nativeBanFolder(Tools.encodeVLCMrl(path));
     }
 
     public String[] getDevices() {
@@ -78,15 +79,15 @@ public class Medialibrary {
     }
 
     public void addDevice(String uuid, String path, boolean removable) {
-        nativeAddDevice(uuid, Tools.encodeMrl(path), removable);
+        nativeAddDevice(uuid, Tools.encodeVLCMrl(path), removable);
     }
 
     public void discover(String path) {
-        nativeDiscover(Tools.encodeMrl(path));
+        nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
     public void removeFolder(String path) {
-        nativeRemoveEntryPoint(Tools.encodeMrl(path));
+        nativeRemoveEntryPoint(Tools.encodeVLCMrl(path));
     }
 
     public String[] getFoldersList() {
@@ -201,12 +202,18 @@ public class Medialibrary {
     public MediaWrapper getMedia(long id) {
         return mIsInitiated ? nativeGetMedia(id) : null;
     }
+
+    public MediaWrapper getMedia(Uri uri) {
+        return mIsInitiated ? nativeGetMediaFromMrl(VLCUtil.locationFromUri(uri)) : null;
+    }
+
     public MediaWrapper getMedia(String mrl) {
-        return mIsInitiated ? nativeGetMediaFromMrl(Tools.encodeMrl(mrl)) : null;
+        Log.d(TAG, "getMedia: "+Tools.encodeVLCMrl(mrl));
+        return mIsInitiated ? nativeGetMediaFromMrl(Tools.encodeVLCMrl(mrl)) : null;
     }
 
     public MediaWrapper addMedia(String mrl) {
-        return mIsInitiated ? nativeAddMedia(Tools.encodeMrl(mrl)) : null;
+        return mIsInitiated ? nativeAddMedia(Tools.encodeVLCMrl(mrl)) : null;
     }
 
     public long getId() {
@@ -230,11 +237,11 @@ public class Medialibrary {
             return false;
         if (mw != null && mw.getId() == 0) {
             Uri uri = mw.getUri();
-            mw = nativeGetMediaFromMrl(uri.getPath());
+            mw = getMedia(uri);
             if (mw == null  && TextUtils.equals("file", uri.getScheme()) &&
                     uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
                 uri = Tools.convertLocalUri(uri);
-                mw = nativeGetMediaFromMrl(uri.getPath());
+                mw = getMedia(uri);
             }
         }
         return mw != null && nativeUpdateProgress(mw.getId(), time);

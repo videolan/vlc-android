@@ -421,7 +421,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
         Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
-        MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri.toString()) : null;
+        MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri) : null;
         final MediaWrapper mw = mwFromMl != null ? mwFromMl : (MediaWrapper) mAdapter.getItem(position);
         switch (id){
             case R.id.directory_view_play_all:

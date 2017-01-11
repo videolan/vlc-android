@@ -160,7 +160,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                 for (MediaWrapper mw : tracks) {
                     long id = mw.getId();
                     if (id == 0) {
-                        MediaWrapper media = mMedialibrary.getMedia(mw.getLocation());
+                        MediaWrapper media = mMedialibrary.getMedia(mw.getUri());
                         if (media != null)
                             ids.add(media.getId());
                         else {
