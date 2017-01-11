@@ -72,7 +72,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
     TabLayout mTabLayout;
-    private View[] mLists;
+    private ContextMenuRecyclerView[] mLists;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
     private FastScroller mFastScroller;
@@ -138,8 +138,15 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for (View rv : mLists)
-            ((RecyclerView) rv).setLayoutManager(new LinearLayoutManager(view.getContext()));
+        RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
+        for (ContextMenuRecyclerView rv : mLists) {
+            rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+            llm.setRecycleChildrenOnDetach(true);
+            rv.setLayoutManager(llm);
+            rv.setRecycledViewPool(rvp);
+        }
+
         mTabLayout.addOnTabSelectedListener(this);
         updateList();
     }
