@@ -167,7 +167,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if ((mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
+        if (mMediaLibrary.isInitiated() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
             update();
         else {
             updateBrowsers();
@@ -210,9 +210,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mService.addCallback(this);
         if (mMediaLibrary.isInitiated()) {
             setmedialibraryListeners();
+            update();
         } else
             setupMediaLibraryReceiver();
-        update();
     }
 
     @Override
@@ -597,6 +597,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             public void onReceive(Context context, Intent intent) {
                 LocalBroadcastManager.getInstance(MainTvActivity.this).unregisterReceiver(this);
                 setmedialibraryListeners();
+                update();
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
