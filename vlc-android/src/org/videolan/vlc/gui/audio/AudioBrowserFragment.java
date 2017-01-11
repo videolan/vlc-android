@@ -127,19 +127,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
         mEmptyView = (TextView) v.findViewById(R.id.no_media);
 
-        ContextMenuRecyclerView songsList = (ContextMenuRecyclerView)v.findViewById(R.id.songs_list);
-        ContextMenuRecyclerView artistList = (ContextMenuRecyclerView)v.findViewById(R.id.artists_list);
-        ContextMenuRecyclerView albumList = (ContextMenuRecyclerView)v.findViewById(R.id.albums_list);
-        ContextMenuRecyclerView genreList = (ContextMenuRecyclerView)v.findViewById(R.id.genres_list);
-        ContextMenuRecyclerView playlistsList = (ContextMenuRecyclerView)v.findViewById(R.id.playlists_list);
-
+        mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mFastScroller = (FastScroller) v.findViewById(R.id.songs_fast_scroller);
-
-        mLists = new ContextMenuRecyclerView[]{artistList, albumList, songsList, genreList, playlistsList};
+        mLists = new ContextMenuRecyclerView[MODE_TOTAL];
+        for (int i = 0; i < MODE_TOTAL; i++)
+            mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
 
         String[] titles = new String[] {getString(R.string.artists), getString(R.string.albums),
                 getString(R.string.songs), getString(R.string.genres), getString(R.string.playlists)};
-        mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
@@ -157,7 +152,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
-        for (int i = 0; i< mLists.length; ++i) {
+        for (int i = 0; i< MODE_TOTAL; ++i) {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setRecycleChildrenOnDetach(true);
             mLists[i].setLayoutManager(llm);

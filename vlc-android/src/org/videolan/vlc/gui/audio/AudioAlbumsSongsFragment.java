@@ -109,8 +109,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 
-        ContextMenuRecyclerView albumsList = (ContextMenuRecyclerView) v.findViewById(R.id.albums);
-        ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) v.findViewById(R.id.songs);
+        mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        ContextMenuRecyclerView albumsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_ALBUM);
+        ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_SONG);
 
         mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
@@ -119,7 +120,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         songsList.setAdapter(mSongsAdapter);
         albumsList.setAdapter(mAlbumsAdapter);
-        mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
