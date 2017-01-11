@@ -13,7 +13,7 @@
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="ic_browser_video_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,14 +28,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="19.026992"
+     inkscape:cx="8.1564563"
      inkscape:cy="9.1843418"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="1920"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
@@ -60,9 +60,9 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 19.194444,1032.3622 -3.5,0.6389 1.444445,2.8889 2.611111,-0.5 -0.555556,-3.0278 z m -5.25,0.9723 -3.5,0.6388 1.444445,2.8889 3.5,-0.6388 -1.444445,-2.8889 z m -5.2499996,0.9444 -3.5,0.6389 1.4444445,2.8888 3.5000001,-0.6388 -1.4444446,-2.8889 z M 4,1035.0289 4,1041.2511 4.8888889,1038.14 4,1035.0289 z m 0,6.2222 0,5.3333 c 0,0.9849 0.7928889,1.7778 1.7777778,1.7778 l 12.4444442,0 c 0.984889,0 1.777778,-0.7929 1.777778,-1.7778 l 0,-5.3333 0,-3.1111 -2.666667,0 -0.888889,3.1111 -1.777777,0 0.888889,-3.1111 -3.555556,0 -0.888889,3.1111 -1.7777777,0 0.8888887,-3.1111 -3.5555553,0 -0.8888889,3.1111 -1.7777778,0 z"
-       id="rect6936"
+       id="path7483"
+       d="m 5.0000001,1033.3622 c -1.108,0 -2.0000001,0.892 -2.0000001,2 l 0,10 c 0,1.108 0.8920001,2 2.0000001,2 l 13.9999999,0 c 1.108,0 2,-0.892 2,-2 l 0,-10 0,-2 -2,0 -1.25,0 1.75,3.5 -3,0 -1.75,-3.5 -1.5,0 1.75,3.5 -3,0 -1.75,-3.5 -1.4999999,0 1.7499999,3.5 -2.9999999,0 -1.75,-3.5 -0.75,0 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        inkscape:connector-curvature="0" />
   </g>
 </svg>

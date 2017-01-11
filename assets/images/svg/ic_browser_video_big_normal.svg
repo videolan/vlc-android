@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="ic_browser_video_big_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-16.217084"
+     inkscape:cx="15.613273"
      inkscape:cy="27.939419"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,9 +56,9 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <path
-       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 38.388888,1012.3622 -7,1.2778 2.88889,5.7778 5.222222,-1 -1.111112,-6.0556 z m -10.5,1.9446 -7,1.2776 2.88889,5.7778 7,-1.2776 -2.88889,-5.7778 z m -10.5,1.8888 -7,1.2778 2.88889,5.7776 7,-1.2776 -2.88889,-5.7778 z M 8,1017.6956 8,1030.14 9.777778,1023.9178 8,1017.6956 z m 0,12.4444 0,10.6666 c 0,1.9698 1.585778,3.5556 3.555556,3.5556 l 24.888888,0 c 1.969778,0 3.555556,-1.5858 3.555556,-3.5556 l 0,-10.6666 0,-6.2222 -5.333334,0 -1.777778,6.2222 -3.555554,0 1.777778,-6.2222 -7.111112,0 -1.777778,6.2222 -3.555556,0 1.777778,-6.2222 -7.111112,0 -1.777776,6.2222 -3.555556,0 z"
-       id="rect6936"
+       id="path7483"
+       d="M 11.555556,1015.9178 C 9.585778,1015.9178 8,1017.5035 8,1019.4733 l 0,17.7778 c 0,1.9698 1.585778,3.5556 3.555556,3.5556 l 24.888888,0 c 1.969778,0 3.555556,-1.5858 3.555556,-3.5556 l 0,-17.7778 0,-3.5555 -3.555556,0 -2.222222,0 3.111111,6.2221 -5.333333,0 -3.111111,-6.2221 -2.666667,0 3.111111,6.2221 -5.333333,0 -3.111111,-6.2221 -2.666667,0 3.111111,6.2221 -5.333333,0 -3.111111,-6.2221 -1.333333,0 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        inkscape:connector-curvature="0" />
   </g>
 </svg>
