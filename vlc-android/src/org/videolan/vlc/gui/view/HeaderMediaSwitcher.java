@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.view.AudioMediaSwitcher;
 
 public class HeaderMediaSwitcher extends AudioMediaSwitcher {
 
@@ -51,6 +50,8 @@ public class HeaderMediaSwitcher extends AudioMediaSwitcher {
 
         titleView.setText(title);
         artistView.setText(artist);
+        titleView.setSelected(true);
+        artistView.setSelected(true);
 
         addView(v);
     }
