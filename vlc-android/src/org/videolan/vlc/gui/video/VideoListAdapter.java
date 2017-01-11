@@ -247,7 +247,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     max = (int) (media.getLength() / 1000);
                     progress = (int) (lastTime / 1000);
                 } else {
-                    text = Strings.millisToText(media.getLength());
+                    text = Tools.millisToText(media.getLength());
                 }
             }
             resolution = Tools.getResolution(media);

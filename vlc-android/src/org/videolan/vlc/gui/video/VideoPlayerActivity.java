@@ -102,6 +102,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
@@ -2146,8 +2147,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             //Show the jump's size
             showInfo(String.format("%s%s (%s)%s",
                     jump >= 0 ? "+" : "",
-                    Strings.millisToString(jump),
-                    Strings.millisToString(time + jump),
+                    Tools.millisToString(jump),
+                    Tools.millisToString(time + jump),
                     coef > 1 ? String.format(" x%.1g", 1.0/coef) : ""), 50);
         else
             showInfo(R.string.unseekable_stream, 1000);
@@ -2267,8 +2268,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (!isFinishing() && fromUser && mService.isSeekable()) {
                 seek(progress);
                 setOverlayProgress();
-                mTime.setText(Strings.millisToString(progress));
-                showInfo(Strings.millisToString(progress), 1000);
+                mTime.setText(Tools.millisToString(progress));
+                showInfo(Tools.millisToString(progress), 1000);
             }
         }
     };
@@ -2607,7 +2608,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long position = getTime() + delta;
         if (position < 0) position = 0;
             seek(position);
-        showInfo(Strings.millisToString(mService.getTime())+"/"+Strings.millisToString(mService.getLength()), 1000);
+        showInfo(Tools.millisToString(mService.getTime())+"/"+Tools.millisToString(mService.getLength()), 1000);
     }
 
     private void initSeekButton() {
@@ -2902,10 +2903,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSeekbar.setProgress(time);
         if (mSysTime != null)
             mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
-        if (time >= 0) mTime.setText(Strings.millisToString(time));
+        if (time >= 0) mTime.setText(Tools.millisToString(time));
         if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
-                ? "-" + '\u00A0' + Strings.millisToString(length - time)
-                : Strings.millisToString(length));
+                ? "-" + '\u00A0' + Tools.millisToString(length - time)
+                : Tools.millisToString(length));
 
         return time;
     }

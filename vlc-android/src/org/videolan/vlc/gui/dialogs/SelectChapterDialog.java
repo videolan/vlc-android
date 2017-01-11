@@ -33,11 +33,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.Tools;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +99,7 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
                 name = getResources().getString(R.string.chapter) + " " + i;
             else
                 name = chapters[i].name;
-            chapterList.add(putData(name, Strings.millisToString(chapters[i].timeOffset)));
+            chapterList.add(putData(name, Tools.millisToString(chapters[i].timeOffset)));
         }
 
         String[] from = { "name", "time" };

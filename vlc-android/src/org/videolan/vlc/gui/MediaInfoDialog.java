@@ -25,6 +25,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -111,7 +112,7 @@ public class MediaInfoDialog extends BottomSheetDialogFragment {
         mTitle.setText(mItem.getTitle());
         mCheckFileTask = (MediaInfoDialog.CheckFileTask) new MediaInfoDialog.CheckFileTask().execute();
         mLoadImageTask = (MediaInfoDialog.LoadImageTask) new MediaInfoDialog.LoadImageTask().execute();
-        mLengthView.setText(mItem.getLength() > 0L ? Strings.millisToString(mItem.getLength()) : "");
+        mLengthView.setText(mItem.getLength() > 0L ? Tools.millisToString(mItem.getLength()) : "");
         mPathView.setText(Uri.decode(mItem.getUri().getPath()));
         //Expand dialog
         View bottomSheetInternal = getDialog().findViewById(android.support.design.R.id.design_bottom_sheet);

@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -190,9 +191,9 @@ public class MediaUtils {
                 : media.getArtist();
         if (media.getLength() > 0L) {
             if (TextUtils.isEmpty(subtitle))
-                subtitle = Strings.millisToString(media.getLength());
+                subtitle = Tools.millisToString(media.getLength());
             else
-                subtitle = subtitle + "  -  " +  Strings.millisToString(media.getLength());
+                subtitle = subtitle + "  -  " +  Tools.millisToString(media.getLength());
         }
         return subtitle;
     }

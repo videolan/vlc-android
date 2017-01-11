@@ -52,6 +52,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -66,7 +67,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Strings;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
@@ -235,13 +235,13 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         int time = (int) mService.getTime();
         int length = (int) mService.getLength();
 
-        mBinding.headerTime.setText(Strings.millisToString(time));
-        mBinding.length.setText(Strings.millisToString(length));
+        mBinding.headerTime.setText(Tools.millisToString(time));
+        mBinding.length.setText(Tools.millisToString(length));
         mBinding.timeline.setMax(length);
         mBinding.progressBar.setMax(length);
 
         if (!mPreviewingSeek) {
-            mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? time-length : time));
+            mBinding.time.setText(Tools.millisToString(mShowRemainingTime ? time-length : time));
             mBinding.timeline.setProgress(time);
             mBinding.progressBar.setProgress(time);
         }
@@ -282,11 +282,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
+        public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
             if (fromUser && mService != null) {
-                mService.setTime(prog);
-                mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? prog- mService.getLength() : prog));
-                mBinding.headerTime.setText(Strings.millisToString(prog));
+                mService.setTime(progress);
+                mBinding.time.setText(Tools.millisToString(mShowRemainingTime ? progress-mService.getLength() : progress));
+                mBinding.headerTime.setText(Tools.millisToString(progress));
             }
         }
     };
@@ -585,7 +585,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                         possibleSeek = 0;
                 }
 
-                mBinding.time.setText(Strings.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
+                mBinding.time.setText(Tools.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
                 mBinding.timeline.setProgress(possibleSeek);
                 mBinding.progressBar.setProgress(possibleSeek);
                 handler.postDelayed(seekRunnable, 50);

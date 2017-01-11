@@ -17,6 +17,10 @@ import java.util.Locale;
 public class Tools {
 
     private static StringBuilder sb = new StringBuilder();
+    private static DecimalFormat format = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+    static {
+        format.applyPattern("00");
+    }
 
     /*
      * Convert file:// uri from real path to emulated FS path.
@@ -38,6 +42,24 @@ public class Tools {
         return String.format("%s / %s",
                 millisToString(lastTime, true),
                 millisToString(media.getLength(), true));
+    }
+
+    /**
+     * Convert time to a string
+     * @param millis e.g.time/length from file
+     * @return formated string (hh:)mm:ss
+     */
+    public static String millisToString(long millis) {
+        return millisToString(millis, false);
+    }
+
+    /**
+     * Convert time to a string
+     * @param millis e.g.time/length from file
+     * @return formated string "[hh]h[mm]min" / "[mm]min[s]s"
+     */
+    public static String millisToText(long millis) {
+        return millisToString(millis, true);
     }
 
     public static String getResolution(MediaWrapper media) {
@@ -72,9 +94,12 @@ public class Tools {
         }
     }
 
-    static String millisToString(long millis, boolean text) {
-        boolean negative = millis < 0;
-        millis = java.lang.Math.abs(millis);
+    public static String millisToString(long millis, boolean text) {
+        sb.setLength(0);
+        if (millis < 0) {
+            millis = -millis;
+            sb.append("-");
+        }
 
         millis /= 1000;
         int sec = (int) (millis % 60);
@@ -83,24 +108,20 @@ public class Tools {
         millis /= 60;
         int hours = (int) millis;
 
-        String time;
-        DecimalFormat format = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-        format.applyPattern("00");
         if (text) {
             if (millis > 0)
-                time = (negative ? "-" : "") + hours + "h" + format.format(min) + "min";
+                sb.append(hours).append('h').append(format.format(min)).append("min");
             else if (min > 0)
-                time = (negative ? "-" : "") + min + "min";
+                sb.append(min).append("min");
             else
-                time = (negative ? "-" : "") + sec + "s";
-        }
-        else {
+                sb.append(sec).append("s");
+        } else {
             if (millis > 0)
-                time = (negative ? "-" : "") + hours + ":" + format.format(min) + ":" + format.format(sec);
+                sb.append(hours).append(':').append(format.format(min)).append(':').append(format.format(sec));
             else
-                time = (negative ? "-" : "") + min + ":" + format.format(sec);
+                sb.append(min).append(':').append(format.format(sec));
         }
-        return time;
+        return sb.toString();
     }
 
     public static String encodeMrl(String mrl) {
