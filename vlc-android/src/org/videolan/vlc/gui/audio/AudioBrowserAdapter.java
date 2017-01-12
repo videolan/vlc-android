@@ -1,9 +1,31 @@
+/*
+ * *************************************************************************
+ *  BaseAdapter.java
+ * **************************************************************************
+ *  Copyright © 2016-2017 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *  ***************************************************************************
+ */
+
 package org.videolan.vlc.gui.audio;
 
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +43,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
+import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
@@ -34,7 +57,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -155,17 +178,24 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return "";
     }
 
+    @MainThread
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
 
     public void clear() {
-        mDataList = null;
-        mOriginalDataSet = null;
+        if (acquireDispatchLock()) {
+            mDataList = null;
+            mOriginalDataSet = null;
+            releaseDispatchLock();
+        }
     }
 
     public void addAll(MediaLibraryItem[] items) {
-        addAll(items, mMakeSections);
+        if (acquireDispatchLock()) {
+            addAll(items, mMakeSections);
+            releaseDispatchLock();
+        }
     }
 
     public void addAll(MediaLibraryItem[] items, boolean generateSections) {
@@ -216,18 +246,25 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return datalist.toArray(new MediaLibraryItem[datalist.size()]);
     }
 
-    public void remove(final int position) {
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-        Util.removePositionInArray(mDataList, position, dataList);
-        mDataList = dataList;
-        notifyItemRemoved(position);
+    void remove(int position) {
+        if (acquireDispatchLock()) {
+            final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
+            Util.removePositionInArray(mDataList, position, dataList);
+            mDataList = dataList;
+            notifyItemRemoved(position);
+            releaseDispatchLock();
+
+        }
     }
 
-    public void addItem(final int position, final MediaLibraryItem item) {
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-        Util.addItemInArray(mDataList, position, item, dataList);
-        mDataList = dataList;
-        notifyItemInserted(position);
+    void addItem(final int position, final MediaLibraryItem item) {
+        if (acquireDispatchLock()) {
+            final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
+            Util.addItemInArray(mDataList, position, item, dataList);
+            mDataList = dataList;
+            notifyItemInserted(position);
+            releaseDispatchLock();
+        }
     }
 
     public void restoreList() {
@@ -238,27 +275,27 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     void dispatchUpdate(final MediaLibraryItem[] items) {
-        Runnable runnable = new Runnable() {
+        queueBackground(new Runnable() {
             @Override
             public void run() {
-                final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(getAll(), newList));
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addAll(newList, false);
-                        result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                        mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-                    }
-                });
+                if (acquireDispatchLock()) {
+                    final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
+                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(getAll(), newList));
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addAll(newList, false);
+                            result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                            mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
+                            releaseDispatchLock();
+                        }
+                    });
+                }
             }
-        };
-        if (Looper.myLooper() == Looper.getMainLooper())
-            VLCApplication.runBackground(runnable);
-        else
-            runnable.run();
+        }, false);
     }
 
+    @MainThread
     List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
         int count = getItemCount();

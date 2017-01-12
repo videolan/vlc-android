@@ -72,8 +72,6 @@ public class VLCApplication extends Application {
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, AndroidUtil.isJellyBeanMR1OrLater() ? Runtime.getRuntime().availableProcessors() : 2, 2, TimeUnit.SECONDS,
             new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
-    private ThreadPoolExecutor mThreadPoolSingle = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
     public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         @Override
         public Thread newThread(Runnable runnable) {
@@ -183,12 +181,6 @@ public class VLCApplication extends Application {
 
     public static void runBackground(Runnable runnable) {
         instance.mThreadPool.execute(runnable);
-    }
-
-    public static void queueBackground(Runnable runnable, boolean clear) {
-        if (clear)
-            instance.mThreadPoolSingle.getQueue().clear();
-        instance.mThreadPoolSingle.execute(runnable);
     }
 
     public static void runOnMainThread(Runnable runnable) {

@@ -2,7 +2,7 @@
  * *************************************************************************
  *  PlaylistAdapter.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
+ *  Copyright © 2015-2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
+import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
 
@@ -119,36 +120,24 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mDataSet.addAll(playList);
     }
 
-    private boolean mDispatching = false;
     public void dispatchUpdate(final List<MediaWrapper> newList) {
-        VLCApplication.queueBackground(new Runnable() {
+        queueBackground(new Runnable() {
             @Override
             public void run() {
-                synchronized (PlaylistAdapter.this) {
-                    if (mDispatching) {
-                        try {
-                            PlaylistAdapter.this.wait(1000);
-                        } catch (InterruptedException ignored) {
-                            return;
+                if (acquireDispatchLock()) {
+                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList));
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDataSet.clear();
+                            addAll(newList);
+                            result.dispatchUpdatesTo(PlaylistAdapter.this);
+                            if (mService != null)
+                                setCurrentIndex(mService.getCurrentMediaPosition());
+                            releaseDispatchLock();
                         }
-                    }
-                    mDispatching = true;
+                    });
                 }
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList));
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        clear();
-                        addAll(newList);
-                        result.dispatchUpdatesTo(PlaylistAdapter.this);
-                        if (mService != null)
-                            setCurrentIndex(mService.getCurrentMediaPosition());
-                        synchronized (PlaylistAdapter.this) {
-                            mDispatching = false;
-                            PlaylistAdapter.this.notify();
-                        }
-                    }
-                });
             }
         }, true);
     }
@@ -157,13 +146,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void remove(int position) {
         if (mService == null)
             return;
-        mService.remove(position);
-        mDataSet.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void clear(){
-        mDataSet.clear();
+        if (acquireDispatchLock()) {
+            mService.remove(position);
+            mDataSet.remove(position);
+            notifyItemRemoved(position);
+            releaseDispatchLock();
+        }
     }
 
     public int getCurrentIndex() {
@@ -174,16 +162,22 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (position == mCurrentIndex || position < 0 || position >= getItemCount())
             return;
         int former = mCurrentIndex;
-        mCurrentIndex = position;
-        notifyItemChanged(former);
-        notifyItemChanged(position);
+        if (acquireDispatchLock()) {
+            mCurrentIndex = position;
+            notifyItemChanged(former);
+            notifyItemChanged(position);
+            releaseDispatchLock();
+        }
         mAudioPlayer.onSelectionSet(position);
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mDataSet, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+        if (acquireDispatchLock()) {
+            Collections.swap(mDataSet, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+            releaseDispatchLock();
+        }
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
 
@@ -196,9 +190,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             Runnable cancelAction = new Runnable() {
                 @Override
                 public void run() {
-                    mDataSet.add(position, media);
-                    notifyItemInserted(position);
-                    mService.insertItem(position, media);
+                    if (acquireDispatchLock()) {
+                        mDataSet.add(position, media);
+                        notifyItemInserted(position);
+                        mService.insertItem(position, media);
+                        releaseDispatchLock();
+                    }
                 }
             };
             UiTools.snackerWithCancel(v, message, null, cancelAction);

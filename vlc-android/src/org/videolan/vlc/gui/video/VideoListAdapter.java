@@ -49,13 +49,13 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,7 +63,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -150,22 +150,31 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void add(MediaWrapper item) {
-        int position = mVideos.add(item);
-        notifyItemInserted(position);
+        if (acquireDispatchLock()) {
+            int position = mVideos.add(item);
+            notifyItemInserted(position);
+            releaseDispatchLock();
+        }
     }
 
     @MainThread
     public void remove(int position) {
         if (position == -1)
             return;
-        mVideos.removeItemAt(position);
-        notifyItemRemoved(position);
+        if (acquireDispatchLock()) {
+            mVideos.removeItemAt(position);
+            notifyItemRemoved(position);
+            releaseDispatchLock();
+        }
     }
 
     @MainThread
     public void addAll(Collection<MediaWrapper> items) {
-        mVideos.addAll(items);
-        mOriginalData = null;
+        if (acquireDispatchLock()) {
+            mVideos.addAll(items);
+            mOriginalData = null;
+            releaseDispatchLock();
+        }
     }
 
     public boolean contains(MediaWrapper mw) {
@@ -212,20 +221,26 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void update(MediaWrapper item) {
-        int position = mVideos.indexOf(item);
-        if (position != -1) {
-            if (!(mVideos.get(position) instanceof MediaGroup))
-                mVideos.updateItemAt(position, item);
-            notifyItemChanged(position);
-        } else {
-            notifyItemInserted(mVideos.add(item));
+        if (acquireDispatchLock()) {
+            int position = mVideos.indexOf(item);
+            if (position != -1) {
+                if (!(mVideos.get(position) instanceof MediaGroup))
+                    mVideos.updateItemAt(position, item);
+                notifyItemChanged(position);
+            } else {
+                notifyItemInserted(mVideos.add(item));
+            }
+            releaseDispatchLock();
         }
     }
 
     @MainThread
     public void clear() {
-        mVideos.clear();
-        mOriginalData = null;
+        if (acquireDispatchLock()) {
+            mVideos.clear();
+            mOriginalData = null;
+            releaseDispatchLock();
+        }
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
@@ -497,29 +512,28 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     void dispatchUpdate(final ArrayList<MediaWrapper> items) {
-        Runnable runnable = new Runnable() {
+        queueBackground(new Runnable() {
             @Override
             public void run() {
-                final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
-                newSortedList.addAll(items);
-                final ArrayList<MediaWrapper> newList = new ArrayList<>(newSortedList.size());
-                for (int i = 0; i < newSortedList.size(); ++i)
-                    newList.add(newSortedList.get(i));
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(getAll(), newList));
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mVideos = newSortedList;
-                        result.dispatchUpdatesTo(VideoListAdapter.this);
-                        mEventsHandler.onUpdateFinished(null);
-                    }
-                });
+                if (acquireDispatchLock()) {
+                    final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
+                    newSortedList.addAll(items);
+                    final ArrayList<MediaWrapper> newList = new ArrayList<>(newSortedList.size());
+                    for (int i = 0; i < newSortedList.size(); ++i)
+                        newList.add(newSortedList.get(i));
+                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(getAll(), newList));
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mVideos = newSortedList;
+                            result.dispatchUpdatesTo(VideoListAdapter.this);
+                            mEventsHandler.onUpdateFinished(null);
+                            releaseDispatchLock();
+                        }
+                    });
+                }
             }
-        };
-        if (Looper.myLooper() == Looper.getMainLooper())
-            VLCApplication.runBackground(runnable);
-        else
-            runnable.run();
+        }, false);
     }
 
     private class VideoItemDiffCallback extends MediaItemDiffCallback {

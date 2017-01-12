@@ -46,6 +46,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
+import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -57,7 +58,7 @@ import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -250,12 +251,15 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
             return;
 
-        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-            mMediaCount++;
+        if (acquireDispatchLock()) {
+            if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+                mMediaCount++;
 
-        mMediaList.add(position, item);
-        if (notify)
-            notifyItemInserted(position);
+            mMediaList.add(position, item);
+            if (notify)
+                notifyItemInserted(position);
+            releaseDispatchLock();
+        }
     }
 
     public void setTop (int top) {
@@ -263,23 +267,30 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
-        mMediaList.clear();
-        boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
-        for (MediaWrapper mw : mediaList) {
-            mMediaList.add(mw);
-            if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
-                mMediaCount++;
+        if (acquireDispatchLock()) {
+            mMediaList.clear();
+            boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
+            for (MediaWrapper mw : mediaList) {
+                mMediaList.add(mw);
+                if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
+                    mMediaCount++;
+            }
+            releaseDispatchLock();
         }
     }
 
     void removeItem(int position, boolean notify){
-        MediaLibraryItem item = mMediaList.get(position);
-        mMediaList.remove(position);
-        if (notify) {
-            notifyItemRemoved(position);
+        MediaLibraryItem item = null;
+        if (acquireDispatchLock()) {
+            item = mMediaList.get(position);
+            mMediaList.remove(position);
+            if (notify) {
+                notifyItemRemoved(position);
+            }
+            if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+                mMediaCount--;
+            releaseDispatchLock();
         }
-        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-            mMediaCount--;
     }
 
     void removeItem(String path, boolean notify){
@@ -372,24 +383,23 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
-        Runnable runnable = new Runnable() {
+        queueBackground(new Runnable() {
             @Override
             public void run() {
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items));
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mMediaList = items;
-                        result.dispatchUpdatesTo(BaseBrowserAdapter.this);
-                        fragment.onUpdateFinished(null);
-                    }
-                });
+                if (acquireDispatchLock()) {
+                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items));
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMediaList = items;
+                            result.dispatchUpdatesTo(BaseBrowserAdapter.this);
+                            fragment.onUpdateFinished(null);
+                            releaseDispatchLock();
+                        }
+                    });
+                }
             }
-        };
-        if (Looper.myLooper() == Looper.getMainLooper())
-            VLCApplication.runBackground(runnable);
-        else
-            runnable.run();
+        }, false);
     }
 
     void restoreList() {
