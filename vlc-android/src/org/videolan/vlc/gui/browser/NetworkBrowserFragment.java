@@ -75,6 +75,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         if (mRoot) {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
+            setFabPlayVisibility(true);
         }
     }
 
@@ -88,7 +89,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
         if (mRoot) {
-            mFabPlay.setVisibility(View.INVISIBLE);
+            setFabPlayVisibility(false);
             mFabPlay.setOnClickListener(null);
         }
     }

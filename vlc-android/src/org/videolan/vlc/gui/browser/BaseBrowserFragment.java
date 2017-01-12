@@ -169,7 +169,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onStart() {
         super.onStart();
-        if (mFabPlay != null) {
+        if (!mRoot && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
         }
@@ -755,7 +755,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mSavedPosition = 0;
             }
         }
-        updateFab();
+        if (!mRoot)
+            updateFab();
     }
 
     private void updateFab() {
