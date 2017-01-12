@@ -119,10 +119,21 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mDataSet.addAll(playList);
     }
 
+    private boolean mDispatching = false;
     public void dispatchUpdate(final List<MediaWrapper> newList) {
-        VLCApplication.runBackground(new Runnable() {
+        VLCApplication.queueBackground(new Runnable() {
             @Override
             public void run() {
+                synchronized (PlaylistAdapter.this) {
+                    if (mDispatching) {
+                        try {
+                            PlaylistAdapter.this.wait(1000);
+                        } catch (InterruptedException ignored) {
+                            return;
+                        }
+                    }
+                    mDispatching = true;
+                }
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList));
                 mHandler.post(new Runnable() {
                     @Override
@@ -132,10 +143,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                         result.dispatchUpdatesTo(PlaylistAdapter.this);
                         if (mService != null)
                             setCurrentIndex(mService.getCurrentMediaPosition());
+                        synchronized (PlaylistAdapter.this) {
+                            mDispatching = false;
+                            PlaylistAdapter.this.notify();
+                        }
                     }
                 });
             }
-        });
+        }, true);
     }
 
     @MainThread
