@@ -784,18 +784,17 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     checkfail "medialibrary source: git clone failed"
+    cd ${SRC_DIR}/medialibrary/medialibrary/libvlcpp
+    git submodule update --init
+    cd -
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
     if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
       git pull --rebase
+      rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
+      rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
     fi
-    cd -
-fi
-
-if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/libvlcpp" ]; then
-    echo -e "\e[1m\e[32mlibvlcpp source not found, cloning\e[0m"
-    git clone http://code.videolan.org/videolan/libvlcpp.git "${MEDIALIBRARY_MODULE_DIR}/libvlcpp"
-    checkfail "libvlcpp source: git clone failed"
+    cd ${SRC_DIR}
 fi
 
 echo -e "\e[1m\e[36mCFLAGS:            ${CFLAGS}\e[0m"
@@ -812,7 +811,7 @@ echo -e "\e[1m\e[36mEXTRA_CFLAGS:      ${EXTRA_CFLAGS}\e[0m"
 
 cd ${MEDIALIBRARY_BUILD_DIR}
 
-sed "s#@prefix@#${MEDIALIBRARY_MODULE_DIR}/libvlcpp#g" $SRC_DIR/pkgs/libvlcpp.pc.in > \
+sed "s#@prefix@#${MEDIALIBRARY_MODULE_DIR}/medialibrary/libvlcpp#g" $SRC_DIR/pkgs/libvlcpp.pc.in > \
     $SRC_DIR/pkgs/libvlcpp.pc;
 sed "s#@libdir@#$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI#g" $SRC_DIR/pkgs/libvlc.pc.in > \
     $SRC_DIR/pkgs/libvlc.pc;
