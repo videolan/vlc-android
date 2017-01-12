@@ -223,7 +223,8 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     public void clear() {
-        dispatchUpdate(new ArrayList<MediaLibraryItem>(0));
+        if (!isEmpty())
+            dispatchUpdate(new ArrayList<MediaLibraryItem>(0));
     }
 
     public boolean isEmpty(){
