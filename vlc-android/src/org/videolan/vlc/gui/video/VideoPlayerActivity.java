@@ -782,8 +782,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         initVideoParams();
 
+        initPlaylistUi();
+    }
+
+    private void initPlaylistUi() {
         if (mService.hasPlaylist()) {
             mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
+            if (mPlaylistPrevious == null)
+                return; //player HUD not yet inflated
             mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistAdapter.setService(mService);
@@ -806,7 +812,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mPlaylistNext.setImageResource(R.drawable.ic_playlist_previous_circle);
             }
         }
-
     }
 
     private void initUI() {
@@ -2751,6 +2756,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updatePausable(mService.isPausable());
             updateNavStatus();
             setHudClickListeners();
+            initPlaylistUi();
         }
     }
 
