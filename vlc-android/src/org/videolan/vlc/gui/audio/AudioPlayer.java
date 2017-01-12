@@ -32,6 +32,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -86,6 +87,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mHeaderPlayPauseVisible;
     private boolean mProgressBarVisible;
     private boolean mHeaderTimeVisible;
+    private int mPlayerState;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -270,7 +272,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onSelectionSet(int position) {
-        mBinding.songsList.smoothScrollToPosition(position);
+        if (mPlayerState != BottomSheetBehavior.STATE_COLLAPSED && mPlayerState != BottomSheetBehavior.STATE_HIDDEN)
+            mBinding.songsList.smoothScrollToPosition(position);
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
@@ -650,6 +653,22 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null)
             activity.showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
+    }
+
+    public void onStateChanged(int newState) {
+        mPlayerState = newState;
+        switch (newState) {
+                case BottomSheetBehavior.STATE_COLLAPSED:
+                    setHeaderVisibilities(false, false, true, true, true, false);
+                    setUserVisibleHint(false);
+                    break;
+                case BottomSheetBehavior.STATE_EXPANDED:
+                    setHeaderVisibilities(true, true, false, false, false, true);
+                    setUserVisibleHint(true);
+                    showPlaylistTips();
+                    mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+                    break;
+        }
     }
 
     /*

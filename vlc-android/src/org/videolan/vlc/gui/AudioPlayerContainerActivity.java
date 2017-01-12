@@ -329,19 +329,15 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     private class AudioPlayerBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            mAudioPlayer.onStateChanged(newState);
             switch (newState) {
                 case BottomSheetBehavior.STATE_COLLAPSED:
                     mBottomSheetBehavior.setHideable(false);
-                    mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
-                    mAudioPlayer.setUserVisibleHint(false);
                     removeTipViewIfDisplayed();
                     mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
                     break;
                 case BottomSheetBehavior.STATE_EXPANDED:
                     mBottomSheetBehavior.setHideable(false);
-                    mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
-                    mAudioPlayer.setUserVisibleHint(true);
-                    mAudioPlayer.showPlaylistTips();
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();
