@@ -108,7 +108,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
 
     @Override
     protected void browseRoot() {
-        String[] storages = mMediaLibrary.getDevices();
+        String[] storages = AndroidDevices.getMediaDirectories();
         String[] customDirectories = CustomDirectories.getCustomDirectories();
         Storage storage;
         ArrayList<MediaLibraryItem> storagesList = new ArrayList<>();

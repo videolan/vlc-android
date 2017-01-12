@@ -55,6 +55,7 @@ import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
+import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
 public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
@@ -175,7 +176,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         }
 
         public void onCheckBoxClick(View v){
-            if (getItem(getAdapterPosition()) instanceof Storage) {
+            if (getItem(getAdapterPosition()).getItemType() == TYPE_STORAGE) {
                 checkBoxAction(v, ((Storage) getItem(getAdapterPosition())).getUri().getPath());
             }
         }

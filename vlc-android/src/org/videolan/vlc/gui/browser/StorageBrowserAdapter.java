@@ -45,12 +45,13 @@ import java.util.Arrays;
 public class StorageBrowserAdapter extends BaseBrowserAdapter {
 
     boolean isRoot;
-    ArrayList<String> mMediaDirsLocation = new ArrayList<>();
-    ArrayList<String> mCustomDirsLocation;
+    private static ArrayList<String> mMediaDirsLocation;
+    private static ArrayList<String> mCustomDirsLocation;
 
     public StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
-        updateMediaDirs();
+        if (mMediaDirsLocation == null && mCustomDirsLocation == null)
+            updateMediaDirs();
         isRoot = fragment.isRootDirectory();
     }
 
@@ -133,9 +134,14 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         });
     }
 
-    void updateMediaDirs(){
-        mMediaDirsLocation.clear();
-        mMediaDirsLocation = new ArrayList<>(Arrays.asList(VLCApplication.getMLInstance().getFoldersList()));
+    void updateMediaDirs() {
+        if (mMediaDirsLocation != null)
+            mMediaDirsLocation.clear();
+        String folders[] = VLCApplication.getMLInstance().getFoldersList();
+        mMediaDirsLocation = new ArrayList<>(folders.length);
+        for (String folder : folders) {
+            mMediaDirsLocation.add(folder.substring(7));
+        }
         mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
     }
 
