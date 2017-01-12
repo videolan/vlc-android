@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
@@ -92,6 +91,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
     private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
+
+    private Handler mHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,11 +173,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void update() {
-        mHandler.removeMessages(UPDATE);
-        mHandler.sendEmptyMessageDelayed(UPDATE, 50);
-    }
-
-    public void doUpdate() {
         if (mService == null || getActivity() == null)
             return;
 
@@ -679,18 +675,4 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (getFragmentManager() != null)
             super.setUserVisibleHint(isVisibleToUser);
     }
-
-    private static final int UPDATE = 0;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case UPDATE:
-                    doUpdate();
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
-        }
-    };
 }
