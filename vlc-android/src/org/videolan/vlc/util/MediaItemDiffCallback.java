@@ -33,7 +33,7 @@ public class MediaItemDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList[oldItemPosition].equals(newList[newItemPosition]);
+        return !(oldList[oldItemPosition] != null ^ newList[newItemPosition] !=null) && oldList[oldItemPosition].equals(newList[newItemPosition]);
     }
 
     @Override
