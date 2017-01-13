@@ -36,8 +36,8 @@ import android.widget.RemoteViews;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Locale;
@@ -54,8 +54,6 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_WIDGET_UPDATE_COVER = ACTION_WIDGET_PREFIX+"UPDATE_COVER";
     public static final String ACTION_WIDGET_UPDATE_POSITION = ACTION_WIDGET_PREFIX+"UPDATE_POSITION";
 
-    public static final String VLC_PACKAGE = BuildConfig.APPLICATION_ID;
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -66,7 +64,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
 
         /* ask a refresh from the service if there is one */
         i = new Intent(ACTION_WIDGET_INIT);
-        i.setPackage(VLC_PACKAGE);
+        i.setPackage(BuildConfig.APPLICATION_ID);
         context.sendBroadcast(i);
     }
 
@@ -88,7 +86,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
             Intent iStop = new Intent(ACTION_REMOTE_STOP);
             Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            Intent iVlc = new Intent(VLCApplication.getAppContext(), MainActivity.class);
+            Intent iVlc = new Intent(VLCApplication.getAppContext(), StartActivity.class);
 
             PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
