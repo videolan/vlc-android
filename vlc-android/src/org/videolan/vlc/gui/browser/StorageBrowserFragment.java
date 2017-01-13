@@ -76,7 +76,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (mRoot) {
+        if (mRoot && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
         }
@@ -85,15 +85,17 @@ public class StorageBrowserFragment extends FileBrowserFragment {
     @Override
     public void onStop() {
         super.onStop();
-        mFabPlay.setVisibility(View.GONE);
-        mFabPlay.setOnClickListener(null);
+        if (mFabPlay != null) {
+            mFabPlay.setVisibility(View.GONE);
+            mFabPlay.setOnClickListener(null);
+        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (VLCApplication.showTvUi()) {
-            if (mRoot)
+            if (mRoot && mFabPlay != null)
                 mFabPlay.requestFocus();
             else
                 mRecyclerView.requestFocus();
