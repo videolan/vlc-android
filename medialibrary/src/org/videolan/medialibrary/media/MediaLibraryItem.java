@@ -8,14 +8,14 @@ import org.videolan.medialibrary.Medialibrary;
 
 public abstract class MediaLibraryItem implements Parcelable {
 
-    public static final int TYPE_ALBUM = 0;
-    public static final int TYPE_ARTIST = 1;
-    public static final int TYPE_GENRE = 2;
-    public static final int TYPE_PLAYLIST = 3;
-    public static final int TYPE_MEDIA = 4;
-    public static final int TYPE_DUMMY = 5;
-    public static final int TYPE_STORAGE = 6;
-    public static final int TYPE_HISTORY = 7;
+    public static final int TYPE_ALBUM    = 1 << 1;
+    public static final int TYPE_ARTIST   = 1 << 2;
+    public static final int TYPE_GENRE    = 1 << 3;
+    public static final int TYPE_PLAYLIST = 1 << 4;
+    public static final int TYPE_MEDIA    = 1 << 5;
+    public static final int TYPE_DUMMY    = 1 << 6;
+    public static final int TYPE_STORAGE  = 1 << 7;
+    public static final int TYPE_HISTORY  = 1 << 9;
 
     public static final int FLAG_NONE = 0;
     public static final int FLAG_SELECTED = 1;
