@@ -37,7 +37,8 @@
             android:layout_height="@dimen/audio_browser_item_size"
             android:layout_gravity="center"
             vlc:media="@{item}"
-            android:background="@{cover}" />
+            android:background="@{cover}"
+            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE}"/>
 
         <LinearLayout
             android:id="@+id/audio_item_meta"
@@ -49,8 +50,8 @@
             android:layout_toEndOf="@+id/media_cover"
             android:layout_toLeftOf="@+id/item_more"
             android:layout_toStartOf="@+id/item_more"
-            android:paddingLeft="15dp"
-            android:paddingStart="15dp"
+            android:paddingLeft="@dimen/half_default_margin"
+            android:paddingStart="@dimen/half_default_margin"
             android:orientation="vertical" >
 
             <!-- TextView must be set to singleLine

@@ -79,7 +79,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMedialibrary = VLCApplication.getMLInstance();
-        mAdapter = new AudioBrowserAdapter(getActivity(), this, false);
+        mAdapter = new AudioBrowserAdapter(getActivity(),MediaLibraryItem.TYPE_PLAYLIST,  this, false);
         mAdapter.addAll(mMedialibrary.getPlaylists());
         mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
         mNewTrack = getArguments().getParcelableArrayList(KEY_NEW_TRACKS);

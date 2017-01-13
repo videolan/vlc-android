@@ -112,11 +112,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSongsAdapter = new AudioBrowserAdapter(getActivity(), this, true);
-        mArtistsAdapter = new AudioBrowserAdapter(getActivity(), this, true);
-        mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), this, true);
-        mGenresAdapter = new AudioBrowserAdapter(getActivity(), this, true);
-        mPlaylistAdapter = new AudioBrowserAdapter(getActivity(), this, true);
+        mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, true);
+        mArtistsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ARTIST, this, true);
+        mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, true);
+        mGenresAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_GENRE, this, true);
+        mPlaylistAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_PLAYLIST, this, true);
         mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
     }
 

@@ -74,7 +74,7 @@ public class AudioAlbumFragment extends BaseAudioBrowser implements View.OnClick
         mAlbum = (Album) (savedInstanceState != null ?
                 savedInstanceState.getParcelable(TAG_ITEM) :
                 getArguments().getParcelable(TAG_ITEM));
-        mAdapter = new AudioBrowserAdapter(getActivity(), this, false);
+        mAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, false);
     }
 
     @Override
