@@ -147,8 +147,9 @@
         android:layout_weight="1"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:nextFocusUp="@+id/button_play"
+        android:nextFocusUp="@+id/playlist"
         android:nextFocusLeft="@+id/button_shuffle"
         android:nextFocusRight="@+id/button_play"
+        android:nextFocusDown="@+id/playlist"
         android:scrollbars="vertical" />
 </LinearLayout>
