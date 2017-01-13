@@ -784,8 +784,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     checkfail "medialibrary source: git clone failed"
-    cd ${SRC_DIR}/medialibrary/medialibrary/libvlcpp
-    git submodule update --init
+    cd ${SRC_DIR}/medialibrary/medialibrary
+    git submodule update --init libvlcpp
     cd -
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
