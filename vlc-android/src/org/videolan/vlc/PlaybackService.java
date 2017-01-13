@@ -828,16 +828,18 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
                     AudioUtil.getCover(this, getCurrentMedia(), 512);
             if (cover == null)
-                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.icon);
+                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.ic_no_media);
             Notification notification;
 
             //Watch notification dismissed
             PendingIntent piStop = PendingIntent.getBroadcast(this, 0,
                     new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
 
+            MediaWrapper mw = getCurrentMedia();
+            boolean video = mw != null && mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO);
             // add notification to status bar
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setSmallIcon(R.drawable.ic_stat_vlc)
+            builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
                 .setContentText(getMediaDescription(artist, album))
