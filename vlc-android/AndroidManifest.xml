@@ -535,30 +535,38 @@
             android:name="org.videolan.vlc.gui.tv.MainTvActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV" />
         <activity
             android:name="org.videolan.vlc.gui.tv.DetailsActivity"
             android:exported="true"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.Leanback.Details" />
         <activity
             android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"  />
         <activity
             android:name="org.videolan.vlc.gui.tv.SearchActivity"
             android:exported="true"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"  />
         <activity
             android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
             android:exported="true"
             android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:allowTaskReparenting="true"
             android:theme="@style/Theme.VLC.TV"  />
         <activity android:name=".gui.tv.preferences.PreferencesActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.Leanback.Preferences" />
         <activity android:name=".gui.tv.AboutActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"  />
         <activity android:name=".gui.tv.LicenceActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"  />
 
         <service
