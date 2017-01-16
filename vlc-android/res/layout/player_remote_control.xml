@@ -39,16 +39,14 @@
         android:background="@color/grey850"
         android:fitsSystemWindows="true" >
 
-        <TextView
-            android:id="@+id/player_overlay_textinfo"
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/player_info_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_above="@+id/progress_overlay"
             android:layout_centerHorizontal="true"
-            android:padding="5dp"
-            android:textColor="#ffffff"
-            android:textSize="36sp"
-            android:visibility="invisible" />
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout="@layout/player_overlay_info"/>
 
         <ImageView
             android:id="@+id/player_remote_tips_background"
@@ -74,27 +72,27 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/player_delay_minus"
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/player_overlay_settings_stub"
+            android:layout="@layout/player_overlay_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:layout_above="@+id/progress_overlay"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_minus_circle"
-            android:visibility="invisible"/>
-        <ImageView
-            android:id="@+id/player_delay_plus"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"/>
+
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/player_hud_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_above="@+id/player_delay_minus"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_plus_circle"
-            android:visibility="invisible"/>
-
-        <include layout="@layout/player_hud" />
+            android:layout="@layout/player_hud"
+            android:layout_marginBottom="@dimen/overlay_margin"
+            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_marginLeft="@dimen/overlay_margin"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 

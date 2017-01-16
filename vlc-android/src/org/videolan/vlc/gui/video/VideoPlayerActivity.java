@@ -1342,11 +1342,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void initPlaybackSettingInfo() {
         initInfoOverlay();
-        if (mPresentation == null) {
-            UiTools.setViewVisibility(mVerticalBar, View.GONE);
-            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
-        } else
-            UiTools.setViewVisibility(mInfo, View.VISIBLE);
+        UiTools.setViewVisibility(mVerticalBar, View.GONE);
+        UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         String text = "";
         if (mPlaybackSetting == DelayState.AUDIO) {
             text += getString(R.string.audio_delay)+"\n";
@@ -1382,10 +1379,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackSettingPlus.setOnClickListener(null);
         mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
         mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
-        if (mPresentation == null)
-            UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
-        else
-            UiTools.setViewVisibility(mInfo, View.INVISIBLE);
+        UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         mInfo.setText("");
         mPlayPause.requestFocus();
     }
@@ -1428,7 +1422,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Lock screen rotation
      */
     private void lockScreen() {
-        if(mScreenOrientation != 100) {
+        if (mScreenOrientation != 100) {
             mScreenOrientationLock = getRequestedOrientation();
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
@@ -1495,11 +1489,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void showInfo(String text, int duration) {
         initInfoOverlay();
-        if (mPresentation == null) {
-            UiTools.setViewVisibility(mVerticalBar, View.GONE);
-            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
-        } else
-            mInfo.setVisibility(View.VISIBLE);
+        UiTools.setViewVisibility(mVerticalBar, View.GONE);
+        UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
@@ -1519,11 +1510,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void showInfo(int textid, int duration) {
         initInfoOverlay();
-        if (mPresentation == null) {
-            UiTools.setViewVisibility(mVerticalBar, View.GONE);
-            UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
-        } else
-            mInfo.setVisibility(View.VISIBLE);
+        UiTools.setViewVisibility(mVerticalBar, View.GONE);
+        UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
         mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
@@ -1545,16 +1533,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void fadeOutInfo() {
-        if (mPresentation == null) {
-            if (mOverlayInfo != null && mOverlayInfo.getVisibility() == View.VISIBLE) {
-                mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
-                        VideoPlayerActivity.this, android.R.anim.fade_out));
-                UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
-            }
-        } else if (mInfo != null && mInfo.getVisibility() == View.VISIBLE) {
-            mInfo.startAnimation(AnimationUtils.loadAnimation(
+        if (mOverlayInfo != null && mOverlayInfo.getVisibility() == View.VISIBLE) {
+            mOverlayInfo.startAnimation(AnimationUtils.loadAnimation(
                     VideoPlayerActivity.this, android.R.anim.fade_out));
-            mInfo.setVisibility(View.INVISIBLE);
+            UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         }
     }
 
