@@ -64,7 +64,7 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
 
     private boolean mMakeSections = true;
 
-    private MediaLibraryItem[] mDataList;
+    private volatile MediaLibraryItem[] mDataList;
     private MediaLibraryItem[] mOriginalDataSet = null;
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
@@ -191,17 +191,17 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
     }
 
     public void clear() {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mDataList = null;
             mOriginalDataSet = null;
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
     public void addAll(MediaLibraryItem[] items) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             addAll(items, mMakeSections);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -254,23 +254,23 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
     }
 
     void remove(int position) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
             Util.removePositionInArray(mDataList, position, dataList);
             mDataList = dataList;
             notifyItemRemoved(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
 
         }
     }
 
     void addItem(final int position, final MediaLibraryItem item) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
             Util.addItemInArray(mDataList, position, item, dataList);
             mDataList = dataList;
             notifyItemInserted(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -285,7 +285,7 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
         queueBackground(new Runnable() {
             @Override
             public void run() {
-                if (acquireDispatchLock()) {
+                if (acquireDatasetLock()) {
                     final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
                     final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(getAll(), newList));
                     VLCApplication.runOnMainThread(new Runnable() {
@@ -294,7 +294,7 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
                             addAll(newList, false);
                             result.dispatchUpdatesTo(AudioBrowserAdapter.this);
                             mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-                            releaseDispatchLock();
+                            releaseDatasetLock();
                         }
                     });
                 }

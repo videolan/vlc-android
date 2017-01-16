@@ -150,10 +150,10 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
 
     @MainThread
     public void add(MediaWrapper item) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             int position = mVideos.add(item);
             notifyItemInserted(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -161,19 +161,19 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
     public void remove(int position) {
         if (position == -1)
             return;
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mVideos.removeItemAt(position);
             notifyItemRemoved(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
     @MainThread
     public void addAll(Collection<MediaWrapper> items) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mVideos.addAll(items);
             mOriginalData = null;
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -221,7 +221,7 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
 
     @MainThread
     public void update(MediaWrapper item) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             int position = mVideos.indexOf(item);
             if (position != -1) {
                 if (!(mVideos.get(position) instanceof MediaGroup))
@@ -230,16 +230,16 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
             } else {
                 notifyItemInserted(mVideos.add(item));
             }
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
     @MainThread
     public void clear() {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mVideos.clear();
             mOriginalData = null;
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -515,7 +515,7 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
         queueBackground(new Runnable() {
             @Override
             public void run() {
-                if (acquireDispatchLock()) {
+                if (acquireDatasetLock()) {
                     final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
                     newSortedList.addAll(items);
                     final ArrayList<MediaWrapper> newList = new ArrayList<>(newSortedList.size());
@@ -528,7 +528,7 @@ public class VideoListAdapter extends BaseAdapter<VideoListAdapter.ViewHolder> i
                             mVideos = newSortedList;
                             result.dispatchUpdatesTo(VideoListAdapter.this);
                             mEventsHandler.onUpdateFinished(null);
-                            releaseDispatchLock();
+                            releaseDatasetLock();
                         }
                     });
                 }

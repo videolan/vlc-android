@@ -39,25 +39,25 @@ public abstract class BaseAdapter<V extends RecyclerView.ViewHolder> extends Rec
     private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(0, 1, 2, TimeUnit.SECONDS,
             new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
 
-    private boolean mDispatching = false;
+    private boolean mDatasetLocked = false;
 
-    protected boolean acquireDispatchLock() {
+    protected boolean acquireDatasetLock() {
         synchronized (BaseAdapter.this) {
-            if (mDispatching) {
+            if (mDatasetLocked) {
                 try {
                     BaseAdapter.this.wait(1000);
                 } catch (InterruptedException ignored) {
                     return false;
                 }
             }
-            mDispatching = true;
+            mDatasetLocked = true;
         }
         return true;
     }
 
-    protected void releaseDispatchLock() {
+    protected void releaseDatasetLock() {
         synchronized (BaseAdapter.this) {
-            mDispatching = false;
+            mDatasetLocked = false;
             BaseAdapter.this.notify();
         }
     }

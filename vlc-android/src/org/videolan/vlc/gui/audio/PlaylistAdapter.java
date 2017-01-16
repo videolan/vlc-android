@@ -61,7 +61,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
     private PlaybackService mService = null;
     private IPlayer mAudioPlayer;
 
-    private ArrayList<MediaWrapper> mDataSet = new ArrayList<>();
+    private volatile ArrayList<MediaWrapper> mDataSet = new ArrayList<>();
     private ArrayList<MediaWrapper> mOriginalDataSet;
     private int mCurrentIndex = 0;
 
@@ -124,7 +124,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         queueBackground(new Runnable() {
             @Override
             public void run() {
-                if (acquireDispatchLock()) {
+                if (acquireDatasetLock()) {
                     final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList));
                     mHandler.post(new Runnable() {
                         @Override
@@ -134,7 +134,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
                             result.dispatchUpdatesTo(PlaylistAdapter.this);
                             if (mService != null)
                                 setCurrentIndex(mService.getCurrentMediaPosition());
-                            releaseDispatchLock();
+                            releaseDatasetLock();
                         }
                     });
                 }
@@ -146,11 +146,11 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
     public void remove(int position) {
         if (mService == null)
             return;
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mService.remove(position);
             mDataSet.remove(position);
             notifyItemRemoved(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -162,21 +162,21 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         if (position == mCurrentIndex || position < 0 || position >= getItemCount())
             return;
         int former = mCurrentIndex;
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mCurrentIndex = position;
             notifyItemChanged(former);
             notifyItemChanged(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
         mAudioPlayer.onSelectionSet(position);
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             Collections.swap(mDataSet, fromPosition, toPosition);
             notifyItemMoved(fromPosition, toPosition);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
@@ -190,11 +190,11 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
             Runnable cancelAction = new Runnable() {
                 @Override
                 public void run() {
-                    if (acquireDispatchLock()) {
+                    if (acquireDatasetLock()) {
                         mDataSet.add(position, media);
                         notifyItemInserted(position);
                         mService.insertItem(position, media);
-                        releaseDispatchLock();
+                        releaseDatasetLock();
                     }
                 }
             };

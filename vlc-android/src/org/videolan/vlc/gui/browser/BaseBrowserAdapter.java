@@ -69,9 +69,9 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
     private static final BitmapDrawable IMAGE_SUBTITLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_subtitle_normal));
     private static final BitmapDrawable IMAGE_UNKNOWN = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_unknown_normal));
 
-    ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
-    ArrayList<MediaLibraryItem> mOriginalData = null;
-    BaseBrowserFragment fragment;
+    volatile ArrayList<MediaLibraryItem> mMediaList = new ArrayList<>();
+    private ArrayList<MediaLibraryItem> mOriginalData = null;
+    protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -251,14 +251,14 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
             return;
 
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
                 mMediaCount++;
 
             mMediaList.add(position, item);
             if (notify)
                 notifyItemInserted(position);
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -267,7 +267,7 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             mMediaList.clear();
             boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
             for (MediaWrapper mw : mediaList) {
@@ -275,13 +275,13 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
                 if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
                     mMediaCount++;
             }
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
     void removeItem(int position, boolean notify){
         MediaLibraryItem item = null;
-        if (acquireDispatchLock()) {
+        if (acquireDatasetLock()) {
             item = mMediaList.get(position);
             mMediaList.remove(position);
             if (notify) {
@@ -289,7 +289,7 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
             }
             if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
                 mMediaCount--;
-            releaseDispatchLock();
+            releaseDatasetLock();
         }
     }
 
@@ -386,7 +386,7 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         queueBackground(new Runnable() {
             @Override
             public void run() {
-                if (acquireDispatchLock()) {
+                if (acquireDatasetLock()) {
                     final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items));
                     mHandler.post(new Runnable() {
                         @Override
@@ -394,7 +394,7 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
                             mMediaList = items;
                             result.dispatchUpdatesTo(BaseBrowserAdapter.this);
                             fragment.onUpdateFinished(null);
-                            releaseDispatchLock();
+                            releaseDatasetLock();
                         }
                     });
                 }
