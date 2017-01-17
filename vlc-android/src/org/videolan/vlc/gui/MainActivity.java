@@ -103,7 +103,7 @@ import org.videolan.vlc.util.WeakHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements DevicesDiscoveryCb, FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public final static String TAG = "VLC/MainActivity";
 
     private static final String PREF_FIRST_RUN = "first_run";
@@ -124,18 +124,13 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private View mInfoLayout;
-    private ProgressBar mInfoProgress;
-    private TextView mInfoText;
     private int mCurrentFragmentId;
 
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
     private boolean mScanNeeded = false;
-    private boolean mParsing = false;
 
-    private Handler mHandler = new MainActivityHandler(this);
-    Menu mMenu;
+    private Menu mMenu;
     private SearchView mSearchView;
 
     // Extensions management
@@ -182,12 +177,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
                 mNavigationView.setCheckedItem(mCurrentFragmentId);
         }
 
-
-        /* Initialize UI variables */
-        mInfoLayout = findViewById(R.id.info_layout);
-        mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
-        mInfoText = (TextView) findViewById(R.id.info_text);
-
         /* Set up the action bar */
         prepareActionBar();
 
@@ -223,7 +212,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
              * the info dialog. If (for any reason) the dialog is not shown,
              * open the menu after a short delay.
              */
-            mHandler.postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mDrawerLayout.openDrawer(mNavigationView);
@@ -357,28 +346,15 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     protected void onResume() {
         super.onResume();
         if (mMediaLibrary.isInitiated()) {
-            mMediaLibrary.addDeviceDiscoveryCb(this);
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage())
                 mMediaLibrary.reload();
             else
                 restoreCurrentList();
-        } else
-            setupMediaLibraryReceiver();
+        }
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
-    }
-
-    private void setupMediaLibraryReceiver() {
-        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                LocalBroadcastManager.getInstance(MainActivity.this).unregisterReceiver(this);
-                mMediaLibrary.addDeviceDiscoveryCb(MainActivity.this);
-            }
-        };
-        LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
 
     @Override
@@ -418,7 +394,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
     @Override
     protected void onPause() {
         super.onPause();
-        mMediaLibrary.removeDeviceDiscoveryCb(this);
         mNavigationView.setNavigationItemSelectedListener(null);
         if (getChangingConfigurations() == 0) {
             /* Check for an ongoing scan that needs to be resumed during onResume */
@@ -816,99 +791,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Device
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
         if (current instanceof Filterable)
             ((Filterable) current).setSearchVisibility(visible);
-    }
-
-    private static class MainActivityHandler extends WeakHandler<MainActivity> {
-        public MainActivityHandler(MainActivity owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            MainActivity ma = getOwner();
-            if(ma == null) return;
-
-            switch (msg.what) {
-                case ACTIVITY_SHOW_INFOLAYOUT:
-                    if (ma.mInfoLayout.getVisibility() != View.VISIBLE)
-                    ma.mInfoLayout.setVisibility(View.VISIBLE);
-                    break;
-                case ACTIVITY_HIDE_INFOLAYOUT:
-                    removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
-                    ma.mInfoLayout.setVisibility(View.GONE);
-                    break;
-                case ACTIVITY_SHOW_PROGRESSBAR:
-                    ma.mInfoProgress.setVisibility(View.VISIBLE);
-                    ma.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    break;
-                case ACTIVITY_HIDE_PROGRESSBAR:
-                    ma.mInfoProgress.setVisibility(View.GONE);
-                    ma.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                    break;
-                case ACTIVITY_UPDATE_PROGRESS:
-                    ma.mInfoProgress.setVisibility(View.VISIBLE);
-                    ma.mInfoLayout.setVisibility(View.VISIBLE);
-                    int max = msg.arg1;
-                    int progress = msg.arg2;
-                    ma.mInfoProgress.setMax(max);
-                    ma.mInfoProgress.setProgress(progress);
-                    ma.mInfoText.setText("");
-                    break;
-                case ACTIVITY_SHOW_TEXTINFO:
-                    String info = (String) msg.obj;
-                    ma.mInfoText.setText(info);
-
-                    if (info == null) {
-                    /* Cancel any upcoming visibility change */
-                        removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
-                        ma.mInfoLayout.setVisibility(View.GONE);
-                    } else {
-                    /* Slightly delay the appearance of the progress bar to avoid unnecessary flickering */
-                        if (!hasMessages(ACTIVITY_SHOW_INFOLAYOUT))
-                            sendEmptyMessageDelayed(ACTIVITY_SHOW_INFOLAYOUT, 300);
-                    }
-                    break;
-            }
-        }
-    }
-
-    public void showProgressBar() {
-        mHandler.obtainMessage(ACTIVITY_SHOW_PROGRESSBAR).sendToTarget();
-    }
-
-    public void hideProgressBar() {
-        mHandler.obtainMessage(ACTIVITY_HIDE_PROGRESSBAR).sendToTarget();
-    }
-
-    public void sendTextInfo(String info, int progress, int max) {
-        mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, max, progress, info).sendToTarget();
-    }
-
-    public void clearTextInfo() {
-        mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, 0, 100, null).sendToTarget();
-    }
-
-    @Override
-    public void onDiscoveryStarted(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryProgress(String entryPoint) {
-        mHandler.obtainMessage(ACTIVITY_SHOW_TEXTINFO, entryPoint).sendToTarget();
-    }
-
-    @Override
-    public void onDiscoveryCompleted(String entryPoint) {
-        if (!mParsing)
-            mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
-    }
-
-    @Override
-    public void onParsingStatsUpdated(int percent) {
-        mParsing = percent < 100;
-        if (mParsing)
-            mHandler.obtainMessage(ACTIVITY_UPDATE_PROGRESS, 100, percent).sendToTarget();
-        else
-            mHandler.obtainMessage(ACTIVITY_HIDE_INFOLAYOUT).sendToTarget();
     }
 
     @Override

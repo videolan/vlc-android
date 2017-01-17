@@ -61,7 +61,6 @@ import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
@@ -71,7 +70,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, IBrowser, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
+public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -475,26 +474,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             mService.append(mTracksToAppend);
     }
 
-    @Override
-    public void showProgressBar() {
-        mMainActivity.showProgressBar();
-    }
-
-    @Override
-    public void hideProgressBar() {
-        mMainActivity.hideProgressBar();
-    }
-
-    @Override
-    public void clearTextInfo() {
-        mMainActivity.clearTextInfo();
-    }
-
-    @Override
-    public void sendTextInfo(String info, int progress, int max) {
-        mMainActivity.sendTextInfo(info, progress, max);
-    }
-
     TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
 
     @Override
@@ -745,7 +724,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mParsing = percent < 100;
         if (percent == 100) {
             mHandler.sendEmptyMessage(UPDATE_LIST);
-            hideProgressBar();
         } else if (!mSwipeRefreshLayout.isRefreshing())
             mHandler.sendEmptyMessage(SET_REFRESHING);
     }
