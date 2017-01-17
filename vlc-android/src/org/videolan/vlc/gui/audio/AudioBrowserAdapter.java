@@ -209,8 +209,9 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
         if (mContext == null)
             return;
         mDataList = generateSections ? generateList(items) : items;
-        int count = Math.min(3, getItemCount());
-        for (int i = 0; i<count; ++i) {
+        for (int i = 0; i<getItemCount(); ++i) {
+            if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY)
+                continue;
             if (mDataList[i].getTitle().isEmpty()) {
                 if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ARTIST) {
                     if (mDataList[i].getId() == 1L)
@@ -219,7 +220,8 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
                         mDataList[i].setTitle(mContext.getString(R.string.various_artists));
                 } else if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ALBUM)
                     mDataList[i].setTitle(mContext.getString(R.string.unknown_album));
-            }
+            } else
+                break;
         }
     }
 
