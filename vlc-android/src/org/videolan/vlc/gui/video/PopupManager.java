@@ -296,7 +296,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
                 new Intent(PlaybackService.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
-                .setSmallIcon(R.drawable.ic_stat_vlc)
+                .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(mService.getTitle())
                 .setContentText(mService.getString(R.string.popup_playback))
