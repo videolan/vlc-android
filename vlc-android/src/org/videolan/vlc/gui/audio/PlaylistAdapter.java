@@ -148,8 +148,6 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
             return;
         if (acquireDatasetLock()) {
             mService.remove(position);
-            mDataSet.remove(position);
-            notifyItemRemoved(position);
             releaseDatasetLock();
         }
     }
@@ -191,8 +189,6 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
                 @Override
                 public void run() {
                     if (acquireDatasetLock()) {
-                        mDataSet.add(position, media);
-                        notifyItemInserted(position);
                         mService.insertItem(position, media);
                         releaseDatasetLock();
                     }
@@ -281,7 +277,6 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
                         ++to;
                     service.moveItem(from, to);
                     from = to = -1;
-                    getOwner().mAudioPlayer.updateList();
                     break;
             }
         }

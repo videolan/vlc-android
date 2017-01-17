@@ -1544,6 +1544,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void update() {
+        updateList();
     }
 
     @Override
@@ -2328,7 +2329,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void updateList() {
-        if (mService == null)
+        if (mService == null || mPlaylistAdapter == null)
             return;
 
         mPlaylistAdapter.dispatchUpdate(mService.getMedias());
