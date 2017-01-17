@@ -102,6 +102,11 @@ public:
     void onDiscoveryStarted( const std::string& entryPoint );
     void onDiscoveryProgress( const std::string& entryPoint );
     void onDiscoveryCompleted( const std::string& entryPoint );
+    void onReloadStarted( const std::string& entryPoint );
+    void onReloadCompleted( const std::string& entryPoint );
+    void onEntryPointBanned( const std::string& entryPoint, bool success );
+    void onEntryPointUnbanned( const std::string& entryPoint, bool success );
+    void onEntryPointRemoved( const std::string& entryPoint, bool success );
     void onParsingStatsUpdated( uint32_t percent);
 
 private:

@@ -622,6 +622,31 @@ void AndroidMediaLibrary::onDiscoveryCompleted( const std::string& entryPoint )
     env->DeleteLocalRef(ep);
 }
 
+void AndroidMediaLibrary::onReloadStarted( const std::string& entryPoint )
+{
+
+}
+
+void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint )
+{
+
+}
+
+void AndroidMediaLibrary::onEntryPointBanned( const std::string& entryPoint, bool success )
+{
+
+}
+
+void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, bool success )
+{
+
+}
+
+void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bool success )
+{
+
+}
+
 void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
 {
     m_progress = percent;
