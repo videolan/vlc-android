@@ -289,7 +289,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mService).edit();
         // Save position
         if (mService.isSeekable() && time != -1)
-            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
+            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time).apply();
     }
 
     private void showNotification() {
