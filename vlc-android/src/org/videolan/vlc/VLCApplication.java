@@ -30,9 +30,7 @@ import android.os.Looper;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
@@ -46,7 +44,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -243,38 +240,7 @@ public class VLCApplication extends Application {
     }
 
     public static synchronized Medialibrary getMLInstance() {
-        VLCInstance.get(); //ensure VLC is loaded before medialibrary
+        VLCInstance.get(); // ensure VLC is loaded before medialibrary
         return Medialibrary.getInstance();
-    }
-
-    public static void setupMedialibrary(final Medialibrary ml) {
-        runBackground(new Runnable() {
-            @Override
-            public void run() {
-                Medialibrary medialibrary = ml != null ? ml : getMLInstance();
-                if (medialibrary.isInitiated())
-                    return;
-                medialibrary.setup();
-                String[] storages = AndroidDevices.getMediaDirectories();
-                for (String storage : storages) {
-                    boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                    medialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
-                }
-                if (medialibrary.init(getAppContext())) {
-                    LocalBroadcastManager.getInstance(instance).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
-                    if (medialibrary.getFoldersList().length == 0) {
-                        for (String storage : storages)
-                            for (String folder : Medialibrary.getBlackList())
-                                medialibrary.banFolder(storage+folder);
-                        for (File folder : Medialibrary.getDefaultFolders())
-                            if (folder.exists())
-                                medialibrary.discover(folder.getPath());
-                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-                                medialibrary.discover(externalStorage);
-                    }
-                }
-            }
-        });
     }
 }

@@ -66,7 +66,7 @@ public class StartActivity extends Activity {
                 MediaUtils.openMediaNoUi(intent.getData());
         } else {
             if (Permissions.canReadStorage())
-                VLCApplication.setupMedialibrary(null);
+                startService(new Intent(this, MediaParsingService.class));
             if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
                 startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
             else

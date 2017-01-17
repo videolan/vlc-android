@@ -106,7 +106,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
             if (isOrderedBroadcast())
                 abortBroadcast();
             if (i != null)
-                context.sendBroadcast(i);
+                context.startService(i);
         } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
             intent = new Intent(context, PlaybackService.class);
             intent.setAction(PlaybackService.ACTION_REMOTE_PLAYPAUSE);

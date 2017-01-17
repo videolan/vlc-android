@@ -482,6 +482,7 @@
                 <action android:name="android.media.browse.MediaBrowserService" />
              </intent-filter>
         </service>
+        <service android:name=".MediaParsingService" />
         <receiver
             android:name=".widget.VLCAppWidgetProviderWhite"
             android:exported="false"

@@ -71,6 +71,7 @@ import android.widget.TextView;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -245,7 +246,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    ((VLCApplication) VLCApplication.getAppContext()).setupMedialibrary(mMediaLibrary);
+                    startService(new Intent(this, MediaParsingService.class));
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
                 break;

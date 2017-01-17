@@ -685,6 +685,9 @@
     <string name="videos">videos</string>
     <string name="clear_playback_history">Clear playback history</string>
     <string name="various_artists">Various Artists</string>
+    <string name="ml_scanning">Scanning for media files</string>
+    <string name="ml_parse_media">Parsing media</string>
+    <string name="ml_discovering">Discovering</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>

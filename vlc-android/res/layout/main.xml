@@ -37,35 +37,6 @@
                     android:layout="@layout/audioplayer"/>
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/info_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone" >
-
-                <ProgressBar
-                    android:id="@+id/info_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:progressDrawable="@drawable/progress"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/info_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:shadowColor="#CC000000"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:shadowRadius="1.5"
-                    android:singleLine="true"
-                    android:textColor="#FFFFFFFF" />
-            </FrameLayout>
-
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
