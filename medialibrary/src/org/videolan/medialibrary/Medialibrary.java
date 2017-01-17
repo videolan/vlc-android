@@ -91,6 +91,8 @@ public class Medialibrary {
     }
 
     public String[] getFoldersList() {
+        if (!mIsInitiated)
+            return new String[0];
         return nativeEntryPoints();
     }
 
@@ -174,7 +176,7 @@ public class Medialibrary {
     }
 
     public void reload() {
-        if (mIsInitiated)
+        if (mIsInitiated && !isWorking())
             nativeReload();
     }
 
@@ -373,14 +375,10 @@ public class Medialibrary {
     }
 
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
-        if (!mIsInitiated)
-            return;
         devicesDiscoveryCbList.add(cb);
     }
 
     public void removeDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
-        if (!mIsInitiated)
-            return;
         devicesDiscoveryCbList.remove(cb);
     }
 
