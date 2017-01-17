@@ -210,7 +210,6 @@ public class Medialibrary {
     }
 
     public MediaWrapper getMedia(String mrl) {
-        Log.d(TAG, "getMedia: "+Tools.encodeVLCMrl(mrl));
         return mIsInitiated ? nativeGetMediaFromMrl(Tools.encodeVLCMrl(mrl)) : null;
     }
 
@@ -298,28 +297,24 @@ public class Medialibrary {
         if (!devicesDiscoveryCbList.isEmpty())
             for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                 cb.onDiscoveryStarted(entryPoint);
-         Log.d(TAG, "onDiscoveryStarted: "+entryPoint);
     }
 
     public void onDiscoveryProgress(String entryPoint) {
         if (!devicesDiscoveryCbList.isEmpty())
             for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                 cb.onDiscoveryProgress(entryPoint);
-         Log.d(TAG, "onDiscoveryProgress: "+entryPoint);
     }
 
     public void onDiscoveryCompleted(String entryPoint) {
         if (!devicesDiscoveryCbList.isEmpty())
             for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                 cb.onDiscoveryCompleted(entryPoint);
-         Log.d(TAG, "onDiscoveryCompleted: "+entryPoint);
     }
 
     public void onParsingStatsUpdated(int percent) {
         if (!devicesDiscoveryCbList.isEmpty())
             for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                 cb.onParsingStatsUpdated(percent);
-         Log.d(TAG, "onParsingStatsUpdated: "+percent);
     }
 
     public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {
