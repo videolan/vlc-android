@@ -12,6 +12,7 @@ import android.util.Log;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
+import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
@@ -51,7 +52,8 @@ public class Medialibrary {
     private ArtistsModifiedCb mArtistsModifiedCb = null;
     private AlbumsAddedCb mAlbumsAddedCb = null;
     private AlbumsModifiedCb mAlbumsModifiedCb = null;
-    private volatile List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
+    private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
+    private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
 
     private static Medialibrary sInstance;
 
@@ -294,43 +296,88 @@ public class Medialibrary {
     }
 
     public void onDiscoveryStarted(String entryPoint) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onDiscoveryStarted(entryPoint);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryStarted(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryStarted(entryPoint);
+        }
     }
 
     public void onDiscoveryProgress(String entryPoint) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onDiscoveryProgress(entryPoint);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryProgress(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryProgress(entryPoint);
+        }
     }
 
     public void onDiscoveryCompleted(String entryPoint) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onDiscoveryCompleted(entryPoint);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryCompleted(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryCompleted(entryPoint);
+        }
     }
 
     public void onParsingStatsUpdated(int percent) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onParsingStatsUpdated(percent);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onParsingStatsUpdated(percent);
+        }
     }
 
     void onReloadStarted(String entryPoint) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onReloadStarted(entryPoint);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onReloadStarted(entryPoint);
+        }
     }
     void onReloadCompleted(String entryPoint) {
-        if (!devicesDiscoveryCbList.isEmpty())
-            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
-                cb.onReloadCompleted(entryPoint);
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onReloadCompleted(entryPoint);
+        }
     }
 
-    void onEntryPointBanned(String entryPoint, boolean success) {}
-    void onEntryPointUnbanned(String entryPoint, boolean success) {}
-    void onEntryPointRemoved(String entryPoint, boolean success) {}
+    void onEntryPointBanned(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointBanned(entryPoint, success);
+        }
+    }
+    void onEntryPointUnbanned(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointUnbanned(entryPoint, success);
+        }
+    }
+    void onEntryPointRemoved(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointRemoved(entryPoint, success);
+        }
+    }
 
     public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {
         if (!mIsInitiated)
@@ -385,11 +432,27 @@ public class Medialibrary {
     }
 
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
-        devicesDiscoveryCbList.add(cb);
+        synchronized (devicesDiscoveryCbList) {
+            devicesDiscoveryCbList.add(cb);
+        }
     }
 
     public void removeDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
-        devicesDiscoveryCbList.remove(cb);
+        synchronized (devicesDiscoveryCbList) {
+            devicesDiscoveryCbList.remove(cb);
+        }
+    }
+
+    public void addEntryPointsEventsCb(EntryPointsEventsCb cb) {
+        synchronized (entryPointsEventsCbList) {
+            entryPointsEventsCbList.add(cb);
+        }
+    }
+
+    public void removeEntryPointsEventsCb(EntryPointsEventsCb cb) {
+        synchronized (entryPointsEventsCbList) {
+            entryPointsEventsCbList.remove(cb);
+        }
     }
 
     public void removeMediaAddedCb() {
