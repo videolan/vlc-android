@@ -28,12 +28,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
@@ -46,11 +49,12 @@ import org.videolan.vlc.util.CustomDirectories;
 import java.io.File;
 import java.util.ArrayList;
 
-public class StorageBrowserFragment extends FileBrowserFragment {
+public class StorageBrowserFragment extends FileBrowserFragment implements EntryPointsEventsCb {
 
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
     boolean mScannedDirectory = false;
+    SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
 
     public StorageBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
@@ -80,6 +84,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
         }
+        VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
     }
 
     @Override
@@ -89,6 +94,7 @@ public class StorageBrowserFragment extends FileBrowserFragment {
             mFabPlay.setVisibility(View.GONE);
             mFabPlay.setOnClickListener(null);
         }
+        VLCApplication.getMLInstance().removeEntryPointsEventsCb(this);
     }
 
     @Override
@@ -180,8 +186,61 @@ public class StorageBrowserFragment extends FileBrowserFragment {
         }
     }
 
+    void processEvent(CheckBox cbp, String path) {
+        cbp.setEnabled(false);
+        mProcessingFolders.put(path, cbp);
+    }
+
     @Override
     protected String getCategoryTitle() {
         return getString(R.string.directories_summary);
+    }
+
+    @Override
+    public void onEntryPointBanned(String entryPoint, boolean success) {}
+
+    @Override
+    public void onEntryPointUnbanned(String entryPoint, boolean success) {}
+
+    @Override
+    public void onEntryPointRemoved(String entryPoint, final boolean success) {
+        String path = Uri.parse(entryPoint).getPath();
+        if (path.endsWith("/"))
+            path = path.substring(0, path.length()-1);
+        if (mProcessingFolders.containsKey(path)) {
+            final String finalPath = path;
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mProcessingFolders.get(finalPath).setEnabled(true);
+                    if (!success)
+                        mProcessingFolders.get(finalPath).setChecked(false);
+                }
+            });
+            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
+        }
+    }
+
+    @Override
+    public void onDiscoveryStarted(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryProgress(String entryPoint) {}
+
+    @Override
+    public void onDiscoveryCompleted(String entryPoint) {
+        String path = Uri.parse(entryPoint).getPath();
+        if (path.endsWith("/"))
+            path = path.substring(0, path.length()-1);
+        if (mProcessingFolders.containsKey(path)) {
+            final String finalPath = path;
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mProcessingFolders.get(finalPath).setEnabled(true);
+                }
+            });
+            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
+        }
     }
 }

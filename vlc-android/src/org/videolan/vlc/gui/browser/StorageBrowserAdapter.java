@@ -23,21 +23,17 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +44,7 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     private static ArrayList<String> mMediaDirsLocation;
     private static ArrayList<String> mCustomDirsLocation;
 
-    public StorageBrowserAdapter(BaseBrowserFragment fragment) {
+    StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
         if (mMediaDirsLocation == null && mCustomDirsLocation == null)
             updateMediaDirs();
@@ -91,47 +87,13 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                //if media dir list was empty, we add all others
-                if (mMediaDirsLocation.isEmpty()) {
-                    Storage storage;
-                    String pathString;
-                    for (Object item : mMediaList) {
-                        storage = (Storage) item;
-                        if (!TextUtils.equals(path, storage.getUri().getPath())) {
-                            pathString = storage.getUri().getPath();
-                            VLCApplication.getMLInstance().discover(pathString);
-                        }
-                    }
-                } else {
-                    VLCApplication.getMLInstance().removeFolder(path);
-                }
-                updateMediaDirs();
-                if (isRoot && mMediaDirsLocation.isEmpty() && getItemCount() > 1)
-                    refreshFragment();
+                VLCApplication.getMLInstance().removeFolder(path);
             }
         });
     }
 
     private void addDir(final String path) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                Medialibrary ml = VLCApplication.getMLInstance();
-                ml.discover(path);
-                //No need to check for parents for now
-                String parentPath = FileUtils.getParent(path);
-                while (parentPath != null && !TextUtils.equals(parentPath, "/")) {
-                    ml.removeFolder(parentPath);
-                    parentPath = FileUtils.getParent(parentPath);
-                }
-                //Remove subfolders, it would be redundant
-                for (String customDirPath : mMediaDirsLocation) {
-                    if (customDirPath.startsWith(path + "/"))
-                        ml.removeFolder(customDirPath);
-                }
-                updateMediaDirs();
-            }
-        });
+                VLCApplication.getMLInstance().discover(path);
     }
 
     void updateMediaDirs() {
@@ -143,16 +105,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
             mMediaDirsLocation.add(folder.substring(7));
         }
         mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
-    }
-
-    void refreshFragment(){
-        fragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (Util.isListEmpty(mMediaDirsLocation))
-                    fragment.refresh();
-            }
-        });
     }
 
     protected void openMediaFromView(MediaViewHolder holder, View v) {
@@ -167,5 +119,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
                 addDir(path);
             else
                 removeDir(path);
+        ((StorageBrowserFragment)fragment).processEvent((CheckBox) v, path);
     }
 }

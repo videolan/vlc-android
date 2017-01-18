@@ -177,9 +177,8 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         }
 
         public void onCheckBoxClick(View v){
-            if (getItem(getAdapterPosition()).getItemType() == TYPE_STORAGE) {
+            if (getItem(getAdapterPosition()).getItemType() == TYPE_STORAGE)
                 checkBoxAction(v, ((Storage) getItem(getAdapterPosition())).getUri().getPath());
-            }
         }
 
         @Override
