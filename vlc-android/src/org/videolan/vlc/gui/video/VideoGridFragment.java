@@ -472,6 +472,16 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     }
 
     @Override
+    public void onReloadStarted(String entryPoint) {
+            mHandler.sendEmptyMessage(SET_REFRESHING);
+    }
+
+    @Override
+    public void onReloadCompleted(String entryPoint) {
+            mHandler.sendEmptyMessage(UNSET_REFRESHING);
+    }
+
+    @Override
     public boolean enableSearchOption() {
         return true;
     }

@@ -317,6 +317,21 @@ public class Medialibrary {
                 cb.onParsingStatsUpdated(percent);
     }
 
+    void onReloadStarted(String entryPoint) {
+        if (!devicesDiscoveryCbList.isEmpty())
+            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                cb.onReloadStarted(entryPoint);
+    }
+    void onReloadCompleted(String entryPoint) {
+        if (!devicesDiscoveryCbList.isEmpty())
+            for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                cb.onReloadCompleted(entryPoint);
+    }
+
+    void onEntryPointBanned(String entryPoint, boolean success) {}
+    void onEntryPointUnbanned(String entryPoint, boolean success) {}
+    void onEntryPointRemoved(String entryPoint, boolean success) {}
+
     public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {
         if (!mIsInitiated)
             return;

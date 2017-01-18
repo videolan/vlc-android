@@ -728,6 +728,16 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             mHandler.sendEmptyMessage(SET_REFRESHING);
     }
 
+    @Override
+    public void onReloadStarted(String entryPoint) {
+        mHandler.sendEmptyMessage(SET_REFRESHING);
+    }
+
+    @Override
+    public void onReloadCompleted(String entryPoint) {
+        mHandler.sendEmptyMessage(UNSET_REFRESHING);
+    }
+
     public void onDestroyActionMode(int position) {
         mActionMode = null;
         AudioBrowserAdapter adapter = mAdapters[position];

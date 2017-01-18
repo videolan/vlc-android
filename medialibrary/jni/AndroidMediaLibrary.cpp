@@ -624,27 +624,77 @@ void AndroidMediaLibrary::onDiscoveryCompleted( const std::string& entryPoint )
 
 void AndroidMediaLibrary::onReloadStarted( const std::string& entryPoint )
 {
-
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jobject thiz = getWeakReference(env);
+    if (thiz) {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onReloadStartedId, ep);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint )
 {
-
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jobject thiz = getWeakReference(env);
+    if (thiz) {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onReloadCompletedId, ep);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointBanned( const std::string& entryPoint, bool success )
 {
-
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jobject thiz = getWeakReference(env);
+    if (thiz) {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onEntryPointBannedId, ep, success);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, bool success )
 {
-
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jobject thiz = getWeakReference(env);
+    if (thiz) {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onEntryPointUnbannedId, ep, success);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bool success )
 {
-
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    jobject thiz = getWeakReference(env);
+    if (thiz) {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onEntryPointRemovedId, ep, success);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+    env->DeleteLocalRef(ep);
 }
 
 void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)

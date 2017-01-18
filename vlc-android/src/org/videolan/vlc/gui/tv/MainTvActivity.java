@@ -377,6 +377,16 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mHandler.sendEmptyMessage(SHOW_LOADING);
     }
 
+    @Override
+    public void onReloadStarted(String entryPoint) {
+            mHandler.sendEmptyMessage(SHOW_LOADING);
+    }
+
+    @Override
+    public void onReloadCompleted(String entryPoint) {
+            mHandler.sendEmptyMessage(HIDE_LOADING);
+    }
+
     private static final int SHOW_LOADING = 0;
     private static final int HIDE_LOADING = 1;
     private Handler mHandler = new Handler() {

@@ -29,9 +29,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
-    private boolean mDiscovering = false;
     private int mParsing = 0;
-    private String mCurrentProgress;
+    private String mCurrentProgress = null;
     private StringBuilder sb = new StringBuilder();
 
     @Nullable
@@ -85,8 +84,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         sb.setLength(0);
         if (mParsing > 0)
             sb.append(getString(R.string.ml_parse_media)).append(' ').append(mParsing).append("%");
-        else
+        else if (mCurrentProgress != null)
             sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentProgress)));
+        else
+            sb.append(getString(R.string.ml_parse_media));
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MediaParsingService.this)
                 .setSmallIcon(R.drawable.ic_notif_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -110,14 +111,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onDiscoveryProgress(String entryPoint) {
-        mDiscovering = true;
         mCurrentProgress = entryPoint;
         showNotification();
     }
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        if (mDiscovering && mParsing == 0 && entryPoint.isEmpty())
+        if (mCurrentProgress != null && mParsing == 0 && entryPoint.isEmpty())
             stopSelf();
     }
 
@@ -128,6 +128,18 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             stopSelf();
         else
             showNotification();
+    }
+
+    @Override
+    public void onReloadStarted(String entryPoint) {
+        showNotification();
+    }
+
+    @Override
+    public void onReloadCompleted(String entryPoint) {
+        if (mCurrentProgress != null && mParsing == 0) {
+            stopSelf();
+        }
     }
 
     @Override

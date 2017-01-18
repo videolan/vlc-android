@@ -53,6 +53,11 @@ struct fields {
         jmethodID onDiscoveryProgressId;
         jmethodID onDiscoveryCompletedId;
         jmethodID onParsingStatsUpdatedId;
+        jmethodID onReloadStartedId;
+        jmethodID onReloadCompletedId;
+        jmethodID onEntryPointBannedId;
+        jmethodID onEntryPointUnbannedId;
+        jmethodID onEntryPointRemovedId;
     } MediaLibrary;
     struct WeakReference {
         jclass clazz;

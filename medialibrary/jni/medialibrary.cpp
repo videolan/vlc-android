@@ -880,6 +880,26 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.onParsingStatsUpdatedId,
            ml_fields.MediaLibrary.clazz,
            "onParsingStatsUpdated", "(I)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onReloadStartedId,
+           ml_fields.MediaLibrary.clazz,
+           "onReloadStarted", "(Ljava/lang/String;)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onReloadCompletedId,
+           ml_fields.MediaLibrary.clazz,
+           "onReloadCompleted", "(Ljava/lang/String;)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onEntryPointBannedId,
+           ml_fields.MediaLibrary.clazz,
+           "onEntryPointBanned", "(Ljava/lang/String;Z)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onEntryPointUnbannedId,
+           ml_fields.MediaLibrary.clazz,
+           "onEntryPointUnbanned", "(Ljava/lang/String;Z)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onEntryPointRemovedId,
+           ml_fields.MediaLibrary.clazz,
+           "onEntryPointRemoved", "(Ljava/lang/String;Z)V");
 
 #undef GET_CLASS
 #undef GET_ID
