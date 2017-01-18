@@ -29,7 +29,7 @@ public class Album extends MediaLibraryItem {
 
     @Override
     public String getDescription() {
-        return albumArtist;
+        return mDescription == null ? albumArtist : mDescription;
     }
 
     public int getReleaseYear() {

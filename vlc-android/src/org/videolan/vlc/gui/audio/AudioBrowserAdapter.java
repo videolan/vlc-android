@@ -218,8 +218,11 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
                         mDataList[i].setTitle(mContext.getString(R.string.unknown_artist));
                     else if (mDataList[i].getId() == 2L)
                         mDataList[i].setTitle(mContext.getString(R.string.various_artists));
-                } else if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ALBUM)
+                } else if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ALBUM) {
                     mDataList[i].setTitle(mContext.getString(R.string.unknown_album));
+                    if (TextUtils.isEmpty(mDataList[i].getDescription()))
+                        mDataList[i].setDescription(mContext.getString(R.string.unknown_artist));
+                }
             } else
                 break;
         }
