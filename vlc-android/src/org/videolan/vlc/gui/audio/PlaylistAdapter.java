@@ -37,12 +37,12 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
-import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
 
@@ -99,6 +99,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         return mDataSet.size();
     }
 
+    @MainThread
     public MediaWrapper getItem(int position) {
         if (position >= 0 && position < getItemCount())
             return mDataSet.get(position);
@@ -116,40 +117,26 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         return item == null ? "" : item.getLocation();
     }
 
+    @MainThread
     public void addAll(List<MediaWrapper> playList) {
         mDataSet.addAll(playList);
     }
 
+    @MainThread
     public void dispatchUpdate(final List<MediaWrapper> newList) {
-        queueBackground(new Runnable() {
-            @Override
-            public void run() {
-                if (acquireDatasetLock()) {
-                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList));
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDataSet.clear();
-                            addAll(newList);
-                            result.dispatchUpdatesTo(PlaylistAdapter.this);
-                            if (mService != null)
-                                setCurrentIndex(mService.getCurrentMediaPosition());
-                            releaseDatasetLock();
-                        }
-                    });
-                }
-            }
-        }, true);
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), AndroidUtil.isICSOrLater());
+        mDataSet.clear();
+        addAll(newList);
+        result.dispatchUpdatesTo(this);
+        if (mService != null)
+            setCurrentIndex(mService.getCurrentMediaPosition());
     }
 
     @MainThread
     public void remove(int position) {
         if (mService == null)
             return;
-        if (acquireDatasetLock()) {
-            mService.remove(position);
-            releaseDatasetLock();
-        }
+        mService.remove(position);
     }
 
     public int getCurrentIndex() {
@@ -160,22 +147,16 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         if (position == mCurrentIndex || position < 0 || position >= getItemCount())
             return;
         int former = mCurrentIndex;
-        if (acquireDatasetLock()) {
-            mCurrentIndex = position;
-            notifyItemChanged(former);
-            notifyItemChanged(position);
-            releaseDatasetLock();
-        }
+        mCurrentIndex = position;
+        notifyItemChanged(former);
+        notifyItemChanged(position);
         mAudioPlayer.onSelectionSet(position);
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (acquireDatasetLock()) {
-            Collections.swap(mDataSet, fromPosition, toPosition);
-            notifyItemMoved(fromPosition, toPosition);
-            releaseDatasetLock();
-        }
+        Collections.swap(mDataSet, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
 
@@ -188,10 +169,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
             Runnable cancelAction = new Runnable() {
                 @Override
                 public void run() {
-                    if (acquireDatasetLock()) {
-                        mService.insertItem(position, media);
-                        releaseDatasetLock();
-                    }
+                    mService.insertItem(position, media);
                 }
             };
             UiTools.snackerWithCancel(v, message, null, cancelAction);
@@ -239,6 +217,7 @@ public class PlaylistAdapter extends BaseAdapter<PlaylistAdapter.ViewHolder> imp
         }
     }
 
+    @MainThread
     public void restoreList() {
         if (mOriginalDataSet != null) {
             dispatchUpdate(new ArrayList<>(mOriginalDataSet));

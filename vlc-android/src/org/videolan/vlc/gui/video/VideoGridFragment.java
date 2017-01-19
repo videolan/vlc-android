@@ -36,6 +36,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.util.SortedList;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -396,7 +397,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     for (MediaGroup item : MediaGroup.group(itemList))
                         displayList.add(item.getMedia());
                 }
-                mVideoAdapter.dispatchUpdate(displayList);
+                final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoAdapter.getComparator());
+                newSortedList.addAll(displayList);
+                mVideoAdapter.dispatchUpdate(newSortedList);
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });

@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
@@ -44,7 +45,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
-import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
@@ -58,7 +58,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -191,18 +191,12 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
     }
 
     public void clear() {
-        if (acquireDatasetLock()) {
-            mDataList = null;
-            mOriginalDataSet = null;
-            releaseDatasetLock();
-        }
+        mDataList = null;
+        mOriginalDataSet = null;
     }
 
     public void addAll(MediaLibraryItem[] items) {
-        if (acquireDatasetLock()) {
-            addAll(items, mMakeSections);
-            releaseDatasetLock();
-        }
+        addAll(items, mMakeSections);
     }
 
     public void addAll(MediaLibraryItem[] items, boolean generateSections) {
@@ -259,24 +253,17 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
     }
 
     void remove(int position) {
-        if (acquireDatasetLock()) {
-            final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-            Util.removePositionInArray(mDataList, position, dataList);
-            mDataList = dataList;
-            notifyItemRemoved(position);
-            releaseDatasetLock();
-
-        }
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
+        Util.removePositionInArray(mDataList, position, dataList);
+        mDataList = dataList;
+        notifyItemRemoved(position);
     }
 
     void addItem(final int position, final MediaLibraryItem item) {
-        if (acquireDatasetLock()) {
-            final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-            Util.addItemInArray(mDataList, position, item, dataList);
-            mDataList = dataList;
-            notifyItemInserted(position);
-            releaseDatasetLock();
-        }
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
+        Util.addItemInArray(mDataList, position, item, dataList);
+        mDataList = dataList;
+        notifyItemInserted(position);
     }
 
     public void restoreList() {
@@ -287,24 +274,17 @@ public class AudioBrowserAdapter extends BaseAdapter<AudioBrowserAdapter.ViewHol
     }
 
     void dispatchUpdate(final MediaLibraryItem[] items) {
-        queueBackground(new Runnable() {
+        VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                if (acquireDatasetLock()) {
-                    final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
-                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(getAll(), newList));
-                    VLCApplication.runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            addAll(newList, false);
-                            result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                            mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-                            releaseDatasetLock();
-                        }
-                    });
-                }
+                final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), AndroidUtil.isICSOrLater());
+                addAll(newList, false);
+                result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
+
             }
-        }, false);
+        });
     }
 
     @MainThread

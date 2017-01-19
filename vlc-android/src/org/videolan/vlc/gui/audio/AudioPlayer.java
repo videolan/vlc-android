@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
@@ -91,8 +92,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
     private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
-
-    private Handler mHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -173,6 +172,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void update() {
+        mHandler.removeMessages(UPDATE);
+        mHandler.sendEmptyMessage(UPDATE);
+    }
+
+    public void doUpdate() {
         if (mService == null || getActivity() == null)
             return;
 
@@ -587,11 +591,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mBinding.time.setText(Tools.millisToString(mShowRemainingTime ? possibleSeek-length : possibleSeek));
                 mBinding.timeline.setProgress(possibleSeek);
                 mBinding.progressBar.setProgress(possibleSeek);
-                handler.postDelayed(seekRunnable, 50);
+                mHandler.postDelayed(seekRunnable, 50);
             }
         };
-
-        Handler handler = new Handler();
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -607,12 +609,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 vibrated = false;
                 length = mService.getLength();
 
-                handler.postDelayed(seekRunnable, 1000);
+                mHandler.postDelayed(seekRunnable, 1000);
                 return true;
 
             case MotionEvent.ACTION_UP:
                 (forward ? mBinding.next : mBinding.previous).setImageResource(this.normal);
-                handler.removeCallbacks(seekRunnable);
+                mHandler.removeCallbacks(seekRunnable);
                 mPreviewingSeek = false;
 
                 if(event.getEventTime()-event.getDownTime() < 1000) {
@@ -675,4 +677,17 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (getFragmentManager() != null)
             super.setUserVisibleHint(isVisibleToUser);
     }
+
+    static final int UPDATE = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE:
+                    doUpdate();
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
 }

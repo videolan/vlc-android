@@ -46,7 +46,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
-import org.videolan.vlc.gui.BaseAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -58,7 +57,7 @@ import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -236,11 +235,11 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         addItem(item, notify, top, -1);
     }
 
-    public void addItem(MediaLibraryItem item, boolean notify, int position){
+    void addItem(MediaLibraryItem item, boolean notify, int position){
         addItem(item, notify, false, position);
     }
 
-    public void addItem(MediaLibraryItem item, boolean notify, boolean top, int positionTo){
+    void addItem(MediaLibraryItem item, boolean notify, boolean top, int positionTo){
         int position;
         if (positionTo != -1)
             position = positionTo;
@@ -250,15 +249,12 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
             return;
 
-        if (acquireDatasetLock()) {
-            if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-                mMediaCount++;
+        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+            mMediaCount++;
 
-            mMediaList.add(position, item);
-            if (notify)
-                notifyItemInserted(position);
-            releaseDatasetLock();
-        }
+        mMediaList.add(position, item);
+        if (notify)
+            notifyItemInserted(position);
     }
 
     public void setTop (int top) {
@@ -266,33 +262,26 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
     }
 
     public void addAll(ArrayList<MediaWrapper> mediaList){
-        if (acquireDatasetLock()) {
-            mMediaList.clear();
-            boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
-            for (MediaWrapper mw : mediaList) {
-                mMediaList.add(mw);
-                if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
-                    mMediaCount++;
-            }
-            releaseDatasetLock();
+        mMediaList.clear();
+        boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
+        for (MediaWrapper mw : mediaList) {
+            mMediaList.add(mw);
+            if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
+                mMediaCount++;
         }
     }
 
     void removeItem(int position, boolean notify){
         MediaLibraryItem item = null;
-        if (acquireDatasetLock()) {
-            item = mMediaList.get(position);
-            mMediaList.remove(position);
-            if (notify) {
-                notifyItemRemoved(position);
-            }
-            if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-                mMediaCount--;
-            releaseDatasetLock();
-        }
+        item = mMediaList.get(position);
+        mMediaList.remove(position);
+        if (notify)
+            notifyItemRemoved(position);
+        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+            mMediaCount--;
     }
 
-    void removeItem(String path, boolean notify){
+    void removeItem(String path, boolean notify) {
         int position = -1;
         for (int i = 0; i< getItemCount(); ++i) {
             MediaLibraryItem item = mMediaList.get(i);
@@ -305,9 +294,8 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
         if (position == -1)
             return;
         mMediaList.remove(position);
-        if (notify) {
+        if (notify)
             notifyItemRemoved(position);
-        }
     }
 
     public ArrayList<MediaLibraryItem> getAll(){
@@ -382,23 +370,15 @@ public class BaseBrowserAdapter extends BaseAdapter<BaseBrowserAdapter.ViewHolde
     }
 
     void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
-        queueBackground(new Runnable() {
+        VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                if (acquireDatasetLock()) {
-                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items));
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMediaList = items;
-                            result.dispatchUpdatesTo(BaseBrowserAdapter.this);
-                            fragment.onUpdateFinished(null);
-                            releaseDatasetLock();
-                        }
-                    });
-                }
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), AndroidUtil.isICSOrLater());
+                mMediaList = items;
+                result.dispatchUpdatesTo(BaseBrowserAdapter.this);
+                fragment.onUpdateFinished(null);
             }
-        }, false);
+        });
     }
 
     void restoreList() {
