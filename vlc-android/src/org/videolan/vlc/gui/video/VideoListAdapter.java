@@ -118,13 +118,15 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             onBindViewHolder(holder, position);
         else {
             MediaWrapper media = mVideos.get(position);
-            boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
-            holder.setOverlay(isSelected);
-            holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
             for (Object data : payloads) {
                 if (data instanceof String) {
                     media.setArtworkURL((String) payloads.get(0));
                     AsyncImageLoader.loadPicture(holder.thumbView, media);
+                } else if (data instanceof MediaWrapper) {
+                    media = (MediaWrapper) data;
+                    boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                    holder.setOverlay(isSelected);
+                    holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
                 } else {
                     media.setTime((Long) data);
                     fillView(holder, media);
