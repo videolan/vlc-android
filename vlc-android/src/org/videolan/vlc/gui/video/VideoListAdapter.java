@@ -117,11 +117,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (payloads.isEmpty())
             onBindViewHolder(holder, position);
         else {
-            MediaWrapper media = (MediaWrapper) payloads.get(0);
+            MediaWrapper media = mVideos.get(position);
             boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             holder.setOverlay(isSelected);
             holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
-            fillView(holder, media);
+            for (Object data : payloads) {
+                if (data instanceof String) {
+                    media.setArtworkURL((String) payloads.get(0));
+                    AsyncImageLoader.loadPicture(holder.thumbView, media);
+                } else {
+                    media.setTime((Long) data);
+                    fillView(holder, media);
+                }
+            }
         }
     }
 
@@ -145,7 +153,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         return isPositionValid(position) ? mVideos.get(position) : null;
     }
 
-    boolean isPositionValid(int position) {
+    private boolean isPositionValid(int position) {
         return position >= 0 && position < mVideos.size();
     }
 
@@ -216,7 +224,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (position != -1) {
             if (!(mVideos.get(position) instanceof MediaGroup))
                 mVideos.updateItemAt(position, item);
-            notifyItemChanged(position);
+            notifyItemChanged(position, item.getArtworkMrl());
         } else
             notifyItemInserted(mVideos.add(item));
     }
@@ -539,14 +547,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             MediaWrapper oldItem = oldList.get(oldItemPosition);
             MediaWrapper newItem = newList.get(newItemPosition);
-            return oldItem.getTime() == newItem.getTime();
+            return oldItem.getTime() == newItem.getTime() && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl());
         }
 
         @Nullable
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            oldList.get(oldItemPosition).setTime(newList.get(newItemPosition).getTime());
-            return oldList.get(oldItemPosition);
+            MediaWrapper oldItem = oldList.get(oldItemPosition);
+            MediaWrapper newItem = newList.get(newItemPosition);
+            if (oldItem.getTime() != newItem.getTime())
+                return newItem.getTime();
+            else
+                return newItem.getArtworkMrl();
+
         }
     }
 }
