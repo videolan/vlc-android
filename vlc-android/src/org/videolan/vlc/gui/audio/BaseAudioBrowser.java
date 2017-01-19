@@ -55,6 +55,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_audio_browser, menu);
+        menu.findItem(R.id.action_mode_audio_append).setVisible(!mService.isPlaying());
         if (playlistModeSelected())
             menu.findItem(R.id.action_mode_audio_add_playlist).setVisible(false);
         return true;

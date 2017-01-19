@@ -521,7 +521,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         boolean honeyComb = AndroidUtil.isHoneycombOrLater();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
         menu.findItem(R.id.action_video_play).setVisible(honeyComb || count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(honeyComb);
+        menu.findItem(R.id.action_video_append).setVisible(!mService.isPlaying() && honeyComb);
         return true;
     }
 

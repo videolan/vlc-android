@@ -645,6 +645,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_browser_file, menu);
+        menu.findItem(R.id.action_mode_file_append).setVisible(!mService.isPlaying());
         return true;
     }
 
