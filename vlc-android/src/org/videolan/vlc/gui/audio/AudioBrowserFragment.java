@@ -51,6 +51,7 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
@@ -400,7 +401,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onRefresh() {
         mMainActivity.closeSearchView();
-        mMediaLibrary.reload();
+        VLCApplication.getAppContext().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, VLCApplication.getAppContext(), MediaParsingService.class));
     }
 
     @Override

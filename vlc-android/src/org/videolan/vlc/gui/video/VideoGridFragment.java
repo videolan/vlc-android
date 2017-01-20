@@ -61,6 +61,7 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -438,7 +439,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onRefresh() {
-        mMediaLibrary.reload();
+        getActivity().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
     }
 
     @Override

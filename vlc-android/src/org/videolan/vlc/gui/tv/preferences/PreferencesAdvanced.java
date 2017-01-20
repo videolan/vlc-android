@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
@@ -107,7 +108,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                         .setNegativeButton(android.R.string.cancel, null).show();
                 return true;
             case "clear_media_db":
-                VLCApplication.getMLInstance().reload();
+                getActivity().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
                 BitmapCache.getInstance().clear();
                 AudioUtil.clearCacheFolders();
                 Toast.makeText(VLCApplication.getAppContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();

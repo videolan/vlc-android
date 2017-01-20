@@ -246,7 +246,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startService(new Intent(this, MediaParsingService.class));
+                    startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
                 break;
@@ -349,7 +349,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage())
-                mMediaLibrary.reload();
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
             else
                 restoreCurrentList();
         }
@@ -676,7 +676,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             if(current != null && current instanceof IRefreshable)
                 ((IRefreshable) current).refresh();
             else
-                mMediaLibrary.reload();
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
         }
     }
 
@@ -688,7 +688,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 for (Fragment fragment : getSupportFragmentManager().getFragments())
                     if (fragment instanceof MediaBrowserFragment)
                         ((MediaBrowserFragment) fragment).clear();
-                mMediaLibrary.reload();
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
             } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 finish();

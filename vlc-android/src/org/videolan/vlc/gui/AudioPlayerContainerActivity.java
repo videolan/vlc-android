@@ -52,6 +52,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -364,13 +365,16 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     ml.addDevice(path, path, true);
-                    ml.discover(path);
+                    Intent intent = new Intent(MediaParsingService.ACTION_RELOAD, null, getOwner(), MediaParsingService.class);
+                    intent.putExtra(MediaParsingService.EXTRA_PATH, path);
+                    getOwner().startService(intent);
                     getOwner().updateLib();
-                    ml.reload();
+                    Intent mlIntent = new Intent(MediaParsingService.ACTION_DISCOVER, null, getOwner(), MediaParsingService.class);
+                    mlIntent.putExtra(MediaParsingService.EXTRA_PATH, path);
+                    getOwner().startService(mlIntent);
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
-                    ml.removeDevice(((Uri) msg.obj).getPath());
-                    ml.reload();
+                    getOwner().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getOwner(), MediaParsingService.class));
                     getOwner().updateLib();
                     break;
             }

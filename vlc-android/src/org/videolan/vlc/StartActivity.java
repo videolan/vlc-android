@@ -66,7 +66,7 @@ public class StartActivity extends Activity {
                 MediaUtils.openMediaNoUi(intent.getData());
         } else {
             if (Permissions.canReadStorage())
-                startService(new Intent(this, MediaParsingService.class));
+                startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
             if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
                 startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
             else

@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import android.widget.CheckBox;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.CustomDirectories;
@@ -93,7 +95,9 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     private void addDir(final String path) {
-                VLCApplication.getMLInstance().discover(path);
+        Intent intent = new Intent(MediaParsingService.ACTION_DISCOVER, null, VLCApplication.getAppContext(), MediaParsingService.class);
+        intent.putExtra(MediaParsingService.EXTRA_PATH, path);
+        VLCApplication.getAppContext().startService(intent);
     }
 
     void updateMediaDirs() {

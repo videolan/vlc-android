@@ -27,6 +27,13 @@ import static org.videolan.vlc.VLCApplication.runBackground;
 public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String TAG = "VLC/MediaParsingService";
 
+
+    public final static String ACTION_INIT = "medialibrary_init";
+    public final static String ACTION_RELOAD = "medialibrary_reload";
+    public final static String ACTION_DISCOVER = "medialibrary_discover";
+
+    public final static String EXTRA_PATH = "extra_path";
+
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
     private int mParsing = 0;
@@ -41,8 +48,30 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        setupMedialibrary();
+        switch (intent.getAction()) {
+            case ACTION_INIT:
+                setupMedialibrary();
+                break;
+            case ACTION_RELOAD:
+                reload();
+                break;
+            case ACTION_DISCOVER:
+                discover(intent.getStringExtra(EXTRA_PATH));
+                break;
+        }
         return START_NOT_STICKY;
+    }
+
+    private void discover(String path) {
+        mMedialibrary = getMLInstance();
+        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
+        mMedialibrary.discover(path);
+    }
+
+    private void reload() {
+        mMedialibrary = getMLInstance();
+        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
+        mMedialibrary.reload();
     }
 
     private void setupMedialibrary() {

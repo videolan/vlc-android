@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumFragment;
@@ -101,7 +102,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                VLCApplication.getMLInstance().reload();
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
             }
         }
     }
@@ -134,7 +135,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             case R.id.ml_menu_refresh:
                 Medialibrary ml = VLCApplication.getMLInstance();
                 if (!ml.isWorking())
-                    ml.reload();
+                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
