@@ -44,7 +44,6 @@ public:
     void reload();
     void reload( const std::string& entryPoint );
     bool increasePlayCount(int64_t mediaId);
-    bool updateProgress(int64_t mediaId, int64_t time);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
     bool addToHistory( const std::string& mrl, const std::string& title );

@@ -235,10 +235,9 @@ public class Medialibrary {
         return mIsInitiated && mediaId > 0 && nativeIncreasePlayCount(mediaId);
     }
 
-    public boolean updateProgress(MediaWrapper mw, long time) {
-        if (!mIsInitiated)
-            return false;
-        if (mw != null && mw.getId() == 0) {
+    // If media is not in ML, find it with its path
+    public MediaWrapper findMedia(MediaWrapper mw) {
+        if (mIsInitiated && mw != null && mw.getId() == 0L) {
             Uri uri = mw.getUri();
             mw = getMedia(uri);
             if (mw == null  && TextUtils.equals("file", uri.getScheme()) &&
@@ -247,7 +246,7 @@ public class Medialibrary {
                 mw = getMedia(uri);
             }
         }
-        return mw != null && nativeUpdateProgress(mw.getId(), time);
+        return mw;
     }
 
     public void onMediaAdded(MediaWrapper[] mediaList) {
@@ -535,7 +534,6 @@ public class Medialibrary {
     private native void nativeReload();
     private native void nativeReload(String entryPoint);
     private native boolean nativeIncreasePlayCount(long mediaId);
-    private native boolean nativeUpdateProgress(long mediaId, long time);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);

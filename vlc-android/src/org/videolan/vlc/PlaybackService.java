@@ -105,6 +105,8 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static android.R.attr.id;
+
 public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
@@ -188,7 +190,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mShuffling = false;
     private int mRepeating = REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
-    private long mSavedTime = 0l;
+    private long mSavedTime = 0L;
     private boolean mHasAudioFocus = false;
     // RemoteControlClient-related
     /**
@@ -577,9 +579,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
-                    if(mSavedTime != 0l)
+                    if(mSavedTime != 0L)
                         seek(mSavedTime);
-                    mSavedTime = 0l;
+                    mSavedTime = 0L;
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
@@ -609,7 +611,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     break;
                 case MediaPlayer.Event.Stopped:
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
-                    mMedialibrary.updateProgress(getCurrentMediaWrapper(), getTime());
+                    saveMediaMeta();
                     executeUpdate();
                     publishState();
                     executeUpdateProgress();
@@ -618,7 +620,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     changeAudioFocus(false);
                     break;
                 case MediaPlayer.Event.EndReached:
-                    mMedialibrary.updateProgress(getCurrentMediaWrapper(), 0L);
+                    saveMediaMeta();
                     executeUpdateProgress();
                     previousMediaStats = mMediaPlayer.getMedia().getStats();
                     determinePrevAndNextIndices(true);
@@ -658,11 +660,35 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.SeekableChanged:
                     mSeekable = event.getSeekable();
                     break;
+                case MediaPlayer.Event.MediaChanged:
+                    Log.d(TAG, "onEvent: MediaChanged");
             }
             for (Callback callback : mCallbacks)
                 callback.onMediaPlayerEvent(event);
         }
     };
+
+    private void saveMediaMeta() {
+        MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());
+        if (media == null || media.getId() == 0)
+            return;
+        if (canSwitchToVideo()) {
+            //Save progress
+            long time = getTime();
+            float progress = time / (float)media.getLength();
+            if (progress > 0.95f)
+                progress = 0f;
+            media.setTime(progress == 0f ? 0L : time);
+            media.setLongMeta(mMedialibrary, MediaWrapper.META_PROGRESS, (long) (progress*100));
+        }
+    }
+
+    private void loadMediaMeta() {
+        MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());
+        if (media == null || media.getId() == 0)
+            return;
+        mMediaPlayer.setAudioDelay(media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIODELAY));
+    }
 
     private final MediaWrapperList.EventListener mListEventListener = new MediaWrapperList.EventListener() {
 
@@ -936,7 +962,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
-            mMedialibrary.updateProgress(getCurrentMedia(), getTime());
+            saveMediaMeta();
             media.setEventListener(null);
             mMediaPlayer.setEventListener(null);
             mMediaPlayer.stop();

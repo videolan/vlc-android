@@ -156,19 +156,6 @@ AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
     return p_ml->media(mediaId)->increasePlayCount();
 }
 
-bool
-AndroidMediaLibrary::updateProgress(int64_t mediaId, int64_t time)
-{
-    medialibrary::MediaPtr media = p_ml->media(mediaId);
-    if (media->duration() == 0)
-        return false;
-    float progress = time/(double)media->duration();
-    if (progress > 0.95)
-        progress = 0.0;
-    LOGD("update progress %f", progress);
-    return media->setMetadata( medialibrary::IMedia::MetadataType::Progress, progress * 100 );
-}
-
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::lastMediaPlayed()
 {

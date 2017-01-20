@@ -54,6 +54,30 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int MEDIA_PAUSED = 0x4;
     public final static int MEDIA_FORCE_AUDIO = 0x8;
 
+    //MetaData flags
+    public final static int META_RATING = 1;
+    //Playback
+    public final static int META_PROGRESS = 50;
+    public final static int META_SPEED = 51;
+    public final static int META_TITLE = 52;
+    public final static int META_CHAPTER = 53;
+    public final static int META_PROGRAM = 54;
+    //video
+    public final static int META_VIDEOTRACK = 100;
+    public final static int META_ASPECT_RATIO = 101;
+    public final static int META_ZOOM = 102;
+    public final static int META_CROP = 103;
+    public final static int META_DEINTERLACE = 104;
+    public final static int META_VIDEOFILTER = 105;
+    //Audio
+    public final static int META_AUDIOTRACK = 150;
+    public final static int META_GAIN = 151;
+    public final static int META_AUDIODELAY = 152;
+    //Spu
+    public final static int META_SUBTITLE_TRACK = 200;
+    //Various
+    public final static int META_APPLICATION_SPECIFIC = 250;
+
     private static final StringBuilder sb = new StringBuilder();
 
     protected String mDisplayTitle;
@@ -537,6 +561,30 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public void removeFlags(int flags) {
         mFlags &= ~flags;
     }
+
+    public long getMetaLong(Medialibrary ml, int metaDataType) {
+        return mId == 0 ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
+    }
+    public String getMetaString(Medialibrary ml, int metaDataType) {
+        return mId == 0 ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
+    }
+
+    public boolean setLongMeta(Medialibrary ml, int metaDataType, long metadataValue) {
+        if (mId != 0)
+            nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
+        return mId != 0;
+    }
+
+    public boolean setStringMeta(Medialibrary ml, int metaDataType, String metadataValue) {
+        if (mId != 0)
+            nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
+        return mId != 0;
+    }
+
+    private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
+    private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
+    private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
+    private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
 
     @Nullable
     public Media.Slave[] getSlaves() {

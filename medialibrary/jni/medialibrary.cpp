@@ -184,12 +184,6 @@ increasePlayCount(JNIEnv* env, jobject thiz, jlong id)
     return MediaLibrary_getInstance(env, thiz)->increasePlayCount((int64_t)id);
 }
 
-jboolean
-updateProgress(JNIEnv* env, jobject thiz, jlong id, jlong time)
-{
-    return MediaLibrary_getInstance(env, thiz)->updateProgress((int64_t)id, (int64_t) time);
-}
-
 jobjectArray
 lastMediaPLayed(JNIEnv* env, jobject thiz)
 {
@@ -530,6 +524,46 @@ getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 
 
 /*
+ * Media methods
+ */
+
+jlong
+getMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    const medialibrary::IMediaMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
+    return metadata.isSet() ? metadata.integer() : 0L;
+}
+
+jobject
+getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    const medialibrary::IMediaMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
+    return metadata.isSet() ? env->NewStringUTF(metadata.str().c_str()) : nullptr;
+}
+
+void
+setMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType, jstring meta)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    const char *char_meta = env->GetStringUTFChars(meta, JNI_FALSE);
+    medialibrary::MediaPtr media = aml->media(id);
+    media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, char_meta);
+    env->ReleaseStringUTFChars(meta, char_meta);
+}
+
+void
+setMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType, jlong meta)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, meta);
+}
+
+/*
  * Playlist methods
  */
 
@@ -636,10 +670,16 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "()V", (void*)reload },
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeIncreasePlayCount", "(J)Z", (void*)increasePlayCount },
-    {"nativeUpdateProgress", "(JJ)Z", (void*)updateProgress },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/Playlist;", (void*)playlistCreate },
+};
+
+static JNINativeMethod media_methods[] = {
+    {"nativeGetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JI)J", (void*)getMediaLongMetadata },
+    {"nativeGetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JI)Ljava/lang/String;", (void*)getMediaStringMetadata },
+    {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
+    {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
 };
 
 static JNINativeMethod album_methods[] = {
@@ -769,7 +809,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 
     GET_CLASS(ml_fields.MediaWrapper.clazz,
               "org/videolan/medialibrary/media/MediaWrapper", true);
-
+    if (env->RegisterNatives(ml_fields.MediaWrapper.clazz, media_methods, sizeof(media_methods) / sizeof(media_methods[0])) < 0) {
+        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/MediaWrapper");
+        return -1;
+    }
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
