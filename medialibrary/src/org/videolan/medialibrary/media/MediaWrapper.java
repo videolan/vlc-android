@@ -75,6 +75,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int META_AUDIODELAY = 152;
     //Spu
     public final static int META_SUBTITLE_TRACK = 200;
+    public final static int META_SUBTITLE_DELAY = 201;
     //Various
     public final static int META_APPLICATION_SPECIFIC = 250;
 
