@@ -375,7 +375,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         Log.i(TAG, "AUDIOFOCUS_GAIN: ");
                         // Resume playback
                         if (mLossTransient) {
-                            if (wasPlaying)
+                            if (wasPlaying && mSettings.getBoolean("resume_playback", true))
                                 mMediaPlayer.play();
                             mLossTransient = false;
                         }

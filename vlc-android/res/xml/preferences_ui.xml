@@ -35,6 +35,12 @@
         android:summary="@string/set_locale_detail"
         android:title="@string/set_locale" />
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="resume_playback"
+        android:summary="@string/resume_playback_summary"
+        android:title="@string/resume_playback_title" />
+
     <PreferenceCategory
         android:title="@string/interface_secondary_display_category_title"
         android:key="secondary_display_category">
