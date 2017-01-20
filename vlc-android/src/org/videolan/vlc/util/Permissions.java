@@ -95,7 +95,7 @@ public class Permissions {
     }
 
     public static void checkWriteSettingsPermission(Activity activity, int mode) {
-        if (AndroidUtil.isMarshMallowOrLater() && !canWriteSettings(activity)) {
+        if (!canWriteSettings(activity)) {
             showSettingsPermissionDialog(activity, mode);
         }
     }
