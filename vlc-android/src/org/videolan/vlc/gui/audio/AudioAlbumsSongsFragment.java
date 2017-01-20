@@ -286,7 +286,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mFastScroller.setRecyclerView((RecyclerView) mLists[mViewPager.getCurrentItem()]);
+                        mFastScroller.setRecyclerView(mLists[mViewPager.getCurrentItem()]);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -333,7 +333,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
         if (mActionMode == null)
-            ((ContextMenuRecyclerView)mLists[mViewPager.getCurrentItem()]).openContextMenu(position);
+            mLists[mViewPager.getCurrentItem()].openContextMenu(position);
     }
 
     @Override
@@ -341,18 +341,18 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        mFastScroller.setRecyclerView((RecyclerView) mLists[tab.getPosition()]);
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
-        onDestroyActionMode(tab.getPosition());
+        onDestroyActionMode((AudioBrowserAdapter) mLists[tab.getPosition()].getAdapter());
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        ((RecyclerView)mLists[tab.getPosition()]).smoothScrollToPosition(0);
+        mLists[tab.getPosition()].smoothScrollToPosition(0);
     }
 
     protected AudioBrowserAdapter getCurrentAdapter() {
@@ -360,23 +360,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     private ContextMenuRecyclerView getCurrentRV() {
-        return (ContextMenuRecyclerView)mLists[mViewPager.getCurrentItem()];
+        return mLists[mViewPager.getCurrentItem()];
     }
 
     protected boolean songModeSelected() {
         return mViewPager.getCurrentItem() == MODE_SONG;
-    }
-
-    public void onDestroyActionMode(int position) {
-        mActionMode = null;
-        AudioBrowserAdapter adapter = (AudioBrowserAdapter) ((ContextMenuRecyclerView)mLists[position]).getAdapter();
-        MediaLibraryItem[] items = adapter.getAll();
-        for (int i = 0; i < items.length; ++i) {
-            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                adapter.notifyItemChanged(i, items[i]);
-            }
-        }
-        adapter.resetSelectionCount();
     }
 }

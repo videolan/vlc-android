@@ -103,18 +103,22 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
         return true;
     }
 
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
+    public void onDestroyActionMode(ActionMode actionMode) {
+        onDestroyActionMode(getCurrentAdapter());
+    }
+
+    public void onDestroyActionMode(AudioBrowserAdapter adapter) {
         mActionMode = null;
-        final AudioBrowserAdapter adapter = getCurrentAdapter();
         MediaLibraryItem[] items = adapter.getAll();
-        for (int i = 0; i < items.length; ++i) {
-            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                adapter.notifyItemChanged(i, items[i]);
+        if (items != null) {
+            for (int i = 0; i < items.length; ++i) {
+                if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                    items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                    adapter.notifyItemChanged(i, items[i]);
+                }
             }
         }
-        getCurrentAdapter().resetSelectionCount();
+        adapter.resetSelectionCount();
     }
 
     @Override

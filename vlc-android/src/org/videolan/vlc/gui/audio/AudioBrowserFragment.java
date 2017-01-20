@@ -495,7 +495,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
-        onDestroyActionMode(tab.getPosition());
+        onDestroyActionMode((AudioBrowserAdapter) mLists[tab.getPosition()].getAdapter());
         mMainActivity.closeSearchView();
         mAdapters[tab.getPosition()].restoreList();
     }
@@ -738,20 +738,5 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onReloadCompleted(String entryPoint) {
         mHandler.sendEmptyMessage(UNSET_REFRESHING);
-    }
-
-    public void onDestroyActionMode(int position) {
-        mActionMode = null;
-        AudioBrowserAdapter adapter = mAdapters[position];
-        MediaLibraryItem[] items = adapter.getAll();
-        if (items == null)
-            return;
-        for (int i = 0; i < items.length; ++i) {
-            if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                adapter.notifyItemChanged(i, items[i]);
-            }
-        }
-        adapter.resetSelectionCount();
     }
 }
