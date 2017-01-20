@@ -579,6 +579,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
+                    loadMediaMeta();
                     if(mSavedTime != 0L)
                         seek(mSavedTime);
                     mSavedTime = 0L;
@@ -680,6 +681,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 progress = 0f;
             media.setTime(progress == 0f ? 0L : time);
             media.setLongMeta(mMedialibrary, MediaWrapper.META_PROGRESS, (long) (progress*100));
+            //Save audio delay
+            if (mSettings.getBoolean("save_individual_audio_delay", false))
+                media.setLongMeta(mMedialibrary, MediaWrapper.META_AUDIODELAY, mMediaPlayer.getAudioDelay());
         }
     }
 
@@ -687,7 +691,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());
         if (media == null || media.getId() == 0)
             return;
-        mMediaPlayer.setAudioDelay(media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIODELAY));
+        if (mSettings.getBoolean("save_individual_audio_delay", false))
+                mMediaPlayer.setAudioDelay(media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIODELAY));
     }
 
     private final MediaWrapperList.EventListener mListEventListener = new MediaWrapperList.EventListener() {
