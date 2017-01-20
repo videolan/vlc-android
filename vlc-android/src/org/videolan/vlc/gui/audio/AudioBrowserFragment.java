@@ -589,13 +589,15 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onMediaAdded(MediaWrapper[] mediaList) {
         mSongsAdapter.dispatchUpdate(mMediaLibrary.getAudio());
-        mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        if (mViewPager.getCurrentItem() == MODE_SONG)
+            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onMediaUpdated(MediaWrapper[] mediaList) {
         mSongsAdapter.dispatchUpdate(mMediaLibrary.getAudio());
-        mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        if (mViewPager.getCurrentItem() == MODE_SONG)
+            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     protected AudioBrowserAdapter getCurrentAdapter() {
