@@ -1846,7 +1846,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mParsed = false;
         mSwitchingToVideo = false;
         mPausable = mSeekable = true;
-        final Media media = new Media(VLCInstance.get(), mw.getUri());
+        final Media media = new Media(VLCInstance.get(), FileUtils.getUri(mw.getUri()));
         VLCOptions.setMediaOptions(media, this, flags | mw.getFlags());
 
         /* keeping only video during benchmark */
@@ -1897,7 +1897,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        mMedialibrary.increasePlayCount(mw .getId());
+                        long id = mw.getId();
+                        if (id == 0) {
+                            MediaWrapper media = mMedialibrary.getMedia(mw.getUri());
+                            if (media != null)
+                                id = media.getId();
+                        }
+                        mMedialibrary.increasePlayCount(id);
                     }
                 });
         } else {//Start VideoPlayer for first video, it will trigger playIndex when ready.

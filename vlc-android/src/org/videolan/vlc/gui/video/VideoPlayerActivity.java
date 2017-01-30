@@ -2968,7 +2968,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         mUri = null;
         mIsPlaying = false;
-        String title = getResources().getString(R.string.title);
+        String title = null;
         boolean fromStart = false;
         String itemTitle = null;
         int positionInPlaylist = -1;
@@ -3111,7 +3111,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             getSubtitles();
 
             // Get the title
-            if (itemTitle == null)
+            if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
         } else {
             mService.addCallback(this);
@@ -3154,7 +3154,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 } catch (ClassNotFoundException | IOException ignored) {}
             }
 
-            if (!TextUtils.equals(mUri.getScheme(), "fd"))
+            if (!TextUtils.equals(mUri.getScheme(), "content"))
                 prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
 
             return prefsList;

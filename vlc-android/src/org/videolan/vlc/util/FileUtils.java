@@ -25,16 +25,20 @@ package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -51,6 +55,8 @@ import java.nio.LongBuffer;
 import java.nio.channels.FileChannel;
 
 public class FileUtils {
+
+    public final static String TAG = "VLC/FileUtils";
 
     public static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
     /**
@@ -317,5 +323,74 @@ public class FileUtils {
         while (longBuffer.hasRemaining())
             hash += longBuffer.get();
         return hash;
+    }
+
+
+    public static Uri getUri(Uri data) {
+        Uri uri = data;
+        if (data != null && TextUtils.equals(data.getScheme(), "content")) {
+            // Mail-based apps - download the stream to a temporary file and play it
+            if(data.getHost().equals("com.fsck.k9.attachmentprovider")
+                    || data.getHost().equals("gmail-ls")) {
+                InputStream is = null;
+                OutputStream os = null;
+                try {
+                    Cursor cursor = VLCApplication.getAppContext().getContentResolver().query(data,
+                            new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
+                        cursor.close();
+                        Log.i(TAG, "Getting file " + filename + " from content:// URI");
+
+                        is = VLCApplication.getAppContext().getContentResolver().openInputStream(data);
+                        os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = 0;
+                        while((bytesRead = is.read(buffer)) >= 0) {
+                            os.write(buffer, 0, bytesRead);
+                        }
+                        uri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Couldn't download file from mail URI");
+                    return data;
+                } finally {
+                    Util.close(is);
+                    Util.close(os);
+                }
+            }
+            // Media or MMS URI
+            else if (TextUtils.equals(data.getAuthority(), "media")){
+                uri = MediaUtils.getContentMediaUri(data);
+            } else {
+                ParcelFileDescriptor inputPFD;
+                try {
+                    inputPFD = VLCApplication.getAppContext().getContentResolver().openFileDescriptor(data, "r");
+                    if (AndroidUtil.isHoneycombMr1OrLater())
+                        uri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
+                    else {
+                        String fdString = inputPFD.getFileDescriptor().toString();
+                        uri = AndroidUtil.LocationToUri("fd://" + fdString.substring(15, fdString.length() - 1));
+                    }
+//                    Cursor returnCursor =
+//                            getContentResolver().query(data, null, null, null, null);
+//                    if (returnCursor != null) {
+//                        if (returnCursor.getCount() > 0) {
+//                            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+//                            if (nameIndex > -1) {
+//                                returnCursor.moveToFirst();
+//                                title = returnCursor.getString(nameIndex);
+//                            }
+//                        }
+//                        returnCursor.close();
+//                    }
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "Couldn't understand the intent");
+                    return data;
+                }
+            }
+        }
+        return uri;
     }
 }
