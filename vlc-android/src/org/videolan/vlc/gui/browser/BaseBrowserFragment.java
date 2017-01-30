@@ -645,7 +645,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_browser_file, menu);
-        menu.findItem(R.id.action_mode_file_append).setVisible(!mService.isPlaying());
         return true;
     }
 
@@ -659,6 +658,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         boolean single = this instanceof FileBrowserFragment && count == 1;
         int type = single ? mAdapter.getSelection().get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
+        menu.findItem(R.id.action_mode_file_append).setVisible(mService.hasMedia());
         return true;
     }
 

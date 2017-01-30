@@ -173,7 +173,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         boolean honeyComb = AndroidUtil.isHoneycombOrLater();
         menu.findItem(R.id.action_history_info).setVisible(selectionCount == 1);
         menu.findItem(R.id.action_history_play).setVisible(honeyComb || selectionCount == 1);
-        menu.findItem(R.id.action_history_append).setVisible(!mService.isPlaying() && honeyComb);
+        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia() && honeyComb);
         return true;
     }
 
