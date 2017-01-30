@@ -19,11 +19,6 @@ import org.videolan.vlc.util.Strings;
 
 import java.io.File;
 
-import static org.videolan.vlc.VLCApplication.ACTION_MEDIALIBRARY_READY;
-import static org.videolan.vlc.VLCApplication.getAppContext;
-import static org.videolan.vlc.VLCApplication.getMLInstance;
-import static org.videolan.vlc.VLCApplication.runBackground;
-
 public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String TAG = "VLC/MediaParsingService";
 
@@ -39,7 +34,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private Medialibrary mMedialibrary;
     private int mParsing = 0;
     private String mCurrentProgress = null;
-    private long mLastNotificationTime = 0;
+    private long mLastNotificationTime;
 
     @Nullable
     @Override
@@ -49,6 +44,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mLastNotificationTime = System.currentTimeMillis();
         switch (intent.getAction()) {
             case ACTION_INIT:
                 setupMedialibrary();
@@ -64,25 +60,25 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(String path) {
-        mMedialibrary = getMLInstance();
+        mMedialibrary = VLCApplication.getMLInstance();
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.discover(path);
     }
 
     private void reload() {
-        mMedialibrary = getMLInstance();
+        mMedialibrary = VLCApplication.getMLInstance();
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.reload();
     }
 
     private void setupMedialibrary() {
-        mMedialibrary = getMLInstance();
+        mMedialibrary = VLCApplication.getMLInstance();
         if (mMedialibrary.isInitiated()) {
             stopSelf();
             return;
         }
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
-        runBackground(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 mMedialibrary.setup();
@@ -91,9 +87,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                     mMedialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
                 }
-                if (mMedialibrary.init(getAppContext())) {
+                if (mMedialibrary.init(VLCApplication.getAppContext())) {
                     showNotification();
-                    LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(ACTION_MEDIALIBRARY_READY));
+                    LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
                     if (mMedialibrary.getFoldersList().length == 0) {
                         for (String storage : storages)
                             for (String folder : Medialibrary.getBlackList())
