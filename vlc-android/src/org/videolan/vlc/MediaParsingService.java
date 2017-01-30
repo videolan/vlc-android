@@ -33,12 +33,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_DISCOVER = "medialibrary_discover";
 
     public final static String EXTRA_PATH = "extra_path";
+    public static final long NOTIFICATION_DELAY = 1000L;
 
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
     private int mParsing = 0;
     private String mCurrentProgress = null;
-    private StringBuilder sb = new StringBuilder();
+    private long mLastNotificationTime = 0;
 
     @Nullable
     @Override
@@ -110,29 +111,47 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void showNotification() {
-        sb.setLength(0);
-        if (mParsing > 0)
-            sb.append(getString(R.string.ml_parse_media)).append(' ').append(mParsing).append("%");
-        else if (mCurrentProgress != null)
-            sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentProgress)));
-        else
-            sb.append(getString(R.string.ml_parse_media));
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MediaParsingService.this)
-                .setSmallIcon(R.drawable.ic_notif_scan)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(getString(R.string.ml_scanning))
-                .setContentText(sb.toString())
-                .setAutoCancel(false)
-                .setOngoing(true);
+        final long currentTime = System.currentTimeMillis();
+        synchronized (this) {
+            if (mLastNotificationTime == -1L || currentTime-mLastNotificationTime < NOTIFICATION_DELAY)
+                return;
+            mLastNotificationTime = currentTime;
+        }
+        VLCApplication.runBackground(new Runnable() {
+            final StringBuilder sb = new StringBuilder();
+            @Override
+            public void run() {
+                if (mParsing > 0)
+                    sb.append(getString(R.string.ml_parse_media)).append(' ').append(mParsing).append("%");
+                else if (mCurrentProgress != null)
+                    sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentProgress)));
+                else
+                    sb.append(getString(R.string.ml_parse_media));
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(MediaParsingService.this)
+                        .setSmallIcon(R.drawable.ic_notif_scan)
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                        .setContentTitle(getString(R.string.ml_scanning))
+                        .setContentText(sb.toString())
+                        .setAutoCancel(false)
+                        .setOngoing(true);
 
-        Notification notification = builder.build();
-        try {
-            NotificationManagerCompat.from(MediaParsingService.this).notify(43, notification);
-        } catch (IllegalArgumentException ignored) {}
+                final Notification notification = builder.build();
+                synchronized (MediaParsingService.this) {
+                    if (mLastNotificationTime != -1L) {
+                        try {
+                            NotificationManagerCompat.from(MediaParsingService.this).notify(43, notification);
+                        } catch (IllegalArgumentException ignored) {}
+                    }
+                }
+            }
+        });
     }
 
     private void hideNotification() {
-        NotificationManagerCompat.from(MediaParsingService.this).cancel(43);
+        synchronized (this) {
+            mLastNotificationTime = -1L;
+            NotificationManagerCompat.from(MediaParsingService.this).cancel(43);
+        }
     }
 
     @Override
