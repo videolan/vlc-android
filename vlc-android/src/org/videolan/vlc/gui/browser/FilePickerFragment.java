@@ -52,6 +52,12 @@ public class FilePickerFragment extends FileBrowserFragment {
 
     @Override
     public void onCreate(Bundle bundle) {
+        if (getActivity().getIntent() != null) {
+            Uri uri = getActivity().getIntent().getData();
+            if (uri == null || !TextUtils.equals(uri.getScheme(), "file")) {
+                getActivity().setIntent(null);
+            }
+        }
         super.onCreate(bundle);
         mAdapter = new FilePickerAdapter(this);
         mRoot = defineIsRoot();
@@ -100,9 +106,8 @@ public class FilePickerFragment extends FileBrowserFragment {
                     return false;
             }
             return true;
-        } else if (TextUtils.isEmpty(Uri.parse(mMrl).getPath()))
+        } else
             return true;
-        return false;
     }
 
     @Override

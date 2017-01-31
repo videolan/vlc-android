@@ -2265,7 +2265,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
         popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
         //FIXME network subs cannot be enabled & screen cast display is broken with picker
-        popupMenu.getMenu().findItem(R.id.video_menu_subtitles_picker).setEnabled(!TextUtils.equals(mUri.getScheme(), "http") && mPresentation == null);
+        popupMenu.getMenu().findItem(R.id.video_menu_subtitles_picker).setEnabled(mPresentation == null);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -2279,8 +2279,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     if (mUri == null)
                         return false;
                     Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    if (!TextUtils.equals(mUri.getScheme(), "http"))
-                        filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
+                    filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
                 } else if (item.getItemId() == R.id.video_menu_subtitles_download) {
