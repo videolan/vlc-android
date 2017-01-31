@@ -277,7 +277,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                final MediaLibraryItem[] newList = hasSections() ? generateList(items) : items;
+                final MediaLibraryItem[] newList = mOriginalDataSet == null && hasSections() ? generateList(items) : items;
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), AndroidUtil.isICSOrLater());
                 addAll(newList, false);
                 result.dispatchUpdatesTo(AudioBrowserAdapter.this);
