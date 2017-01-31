@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,9 +37,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -52,6 +51,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
@@ -248,5 +248,19 @@ public class UiTools {
     public static void checkMainThread() {
         if (Looper.getMainLooper() != Looper.myLooper())
             throw new IllegalThreadStateException();
+    }
+
+    public static BitmapDrawable getDefaultCover(MediaLibraryItem item) {
+        switch (item.getItemType()) {
+            case MediaLibraryItem.TYPE_ARTIST:
+                return AsyncImageLoader.DEFAULT_COVER_ARTIST_DRAWABLE;
+            case MediaLibraryItem.TYPE_ALBUM:
+                return AsyncImageLoader.DEFAULT_COVER_ALBUM_DRAWABLE;
+            case MediaLibraryItem.TYPE_MEDIA:
+                if (((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)
+                    return AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE;
+            default:
+                return AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE;
+        }
     }
 }
