@@ -160,6 +160,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
                 @Override
                 public boolean onLongClick(View v) {
                     binding.browserCheckbox.toggle();
+                    onCheckBoxClick(binding.browserCheckbox);
                     return true;
                 }
             });
@@ -175,7 +176,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
             fragment.browse(mw, getAdapterPosition(), binding.browserCheckbox.isChecked());
         }
 
-        public void onCheckBoxClick(View v){
+        public void onCheckBoxClick(View v) {
             if (getItem(getAdapterPosition()).getItemType() == TYPE_STORAGE)
                 checkBoxAction(v, ((Storage) getItem(getAdapterPosition())).getUri().getPath());
         }
