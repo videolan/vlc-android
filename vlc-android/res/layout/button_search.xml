@@ -14,5 +14,6 @@
     android:text="@string/search_global"
     android:gravity="center_horizontal"
     android:textAppearance="@style/Result.Title"
+    android:focusable="true"
     android:onClick="onClick"
     android:visibility="gone" />
