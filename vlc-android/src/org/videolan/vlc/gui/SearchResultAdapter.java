@@ -2,11 +2,13 @@ package org.videolan.vlc.gui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.databinding.SearchItemBinding;
+import org.videolan.vlc.gui.helpers.UiTools;
 
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
@@ -22,6 +24,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (TextUtils.isEmpty(mDataList[position].getArtworkMrl()))
+            holder.binding.setCover(UiTools.getDefaultCover(mDataList[position]));
         holder.binding.setItem(mDataList[position]);
     }
 
