@@ -231,6 +231,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public void onCreate() {
         super.onCreate();
 
+        hideNotification();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mMediaPlayer = newMediaPlayer();
         mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
