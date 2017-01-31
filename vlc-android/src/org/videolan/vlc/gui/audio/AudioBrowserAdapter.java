@@ -45,7 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
-import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -71,15 +71,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     private IEventsHandler mIEventsHandler;
     private int mSelectionCount = 0;
     private int mType;
-    private BitmapDrawable mNoCover = null;
+    private BitmapDrawable mDefaultCover;
 
     public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
         mIEventsHandler = eventsHandler;
         mMakeSections = sections;
         mType = type;
-        if ((mType & (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0)
-            mNoCover = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), getIconResId()));
+        mDefaultCover = getIconDrawable();
     }
 
     @Override
@@ -121,8 +120,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        if (mNoCover != null)
-            holder.vdb.setVariable(BR.cover, mNoCover);
+        if (mDefaultCover != null)
+            holder.vdb.setVariable(BR.cover, mDefaultCover);
     }
 
     @Override
@@ -312,16 +311,16 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         mSelectionCount += selected ? 1 : -1;
     }
 
-    private int getIconResId() {
+    private BitmapDrawable getIconDrawable() {
         switch (mType) {
             case MediaLibraryItem.TYPE_ALBUM:
-                return R.drawable.ic_no_album;
+                return AsyncImageLoader.DEFAULT_COVER_ALBUM_DRAWABLE;
             case MediaLibraryItem.TYPE_ARTIST:
-                return R.drawable.ic_no_artist;
+                return AsyncImageLoader.DEFAULT_COVER_ARTIST_DRAWABLE;
             case MediaLibraryItem.TYPE_MEDIA:
-                return R.drawable.ic_no_song;
+                return AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE;
             default:
-                return 0;
+                return null;
         }
     }
 
@@ -344,8 +343,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
             super(binding);
             binding.setHolder(this);
             itemView.setOnFocusChangeListener(this);
-            if (mNoCover != null)
-                binding.setCover(mNoCover);
+            if (mDefaultCover != null)
+                binding.setCover(mDefaultCover);
         }
 
         public void onClick(View v) {
