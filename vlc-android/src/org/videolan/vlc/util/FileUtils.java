@@ -388,6 +388,9 @@ public class FileUtils {
                 } catch (FileNotFoundException e) {
                     Log.e(TAG, "Couldn't understand the intent");
                     return data;
+                } catch (SecurityException e) {
+                    Log.e(TAG, "Permission is no longer valid");
+                    return data;
                 }
             }
         }
