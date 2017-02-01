@@ -482,6 +482,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
+        mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
     }
 
     @Override
@@ -2723,7 +2724,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mAdvOptions.setOnClickListener(this);
             mLock = (ImageView) findViewById(R.id.lock_overlay_button);
             mSize = (ImageView) findViewById(R.id.player_overlay_size);
-            mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
             mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
             if (mSettings.getBoolean("enable_seek_buttons", false))
                 initSeekButton();
