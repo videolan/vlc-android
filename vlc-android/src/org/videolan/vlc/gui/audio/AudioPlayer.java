@@ -128,6 +128,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         registerForContextMenu(mBinding.songsList);
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        setUserVisibleHint(true);
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -658,11 +659,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         switch (newState) {
                 case BottomSheetBehavior.STATE_COLLAPSED:
                     setHeaderVisibilities(false, false, true, true, true, false);
-                    setUserVisibleHint(false);
                     break;
                 case BottomSheetBehavior.STATE_EXPANDED:
                     setHeaderVisibilities(true, true, false, false, false, true);
-                    setUserVisibleHint(true);
                     showPlaylistTips();
                     mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                     break;
