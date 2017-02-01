@@ -24,25 +24,22 @@
 package org.videolan.vlc.gui.browser;
 
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.MediaParsingService;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.CustomDirectories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StorageBrowserAdapter extends BaseBrowserAdapter {
+class StorageBrowserAdapter extends BaseBrowserAdapter {
 
-    boolean isRoot;
+    private boolean isRoot;
     private static ArrayList<String> mMediaDirsLocation;
     private static ArrayList<String> mCustomDirsLocation;
 
@@ -51,16 +48,6 @@ public class StorageBrowserAdapter extends BaseBrowserAdapter {
         if (mMediaDirsLocation == null && mCustomDirsLocation == null)
             updateMediaDirs();
         isRoot = fragment.isRootDirectory();
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder vh;
-        View v;
-        v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.browser_item, parent, false);
-        vh = new MediaViewHolder(v);
-        return vh;
     }
 
     @Override

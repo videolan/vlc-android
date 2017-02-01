@@ -22,12 +22,9 @@
  */
 package org.videolan.vlc.gui.browser;
 
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +70,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -81,18 +77,11 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder vh;
-        View v;
-        if (viewType == MediaLibraryItem.TYPE_MEDIA) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.browser_item, parent, false);
-            vh = new MediaViewHolder(v);
-        } else {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.browser_item_separator, parent, false);
-            vh = new SeparatorViewHolder(v);
-        }
-        return vh;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == MediaLibraryItem.TYPE_MEDIA || viewType == MediaLibraryItem.TYPE_STORAGE)
+            return new MediaViewHolder(BrowserItemBinding.inflate(inflater, parent, false));
+        else
+            return new SeparatorViewHolder(BrowserItemSeparatorBinding.inflate(inflater, parent, false));
     }
 
     @Override
@@ -152,11 +141,11 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnLongClickListener {
 
-        MediaViewHolder(View v) {
-            super(v);
-            binding = DataBindingUtil.bind(v);
+        MediaViewHolder(final BrowserItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
             binding.setHolder(this);
-            v.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     binding.browserCheckbox.toggle();
@@ -212,9 +201,9 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     private class SeparatorViewHolder extends ViewHolder<BrowserItemSeparatorBinding> {
 
-        SeparatorViewHolder(View v) {
-            super(v);
-            binding = DataBindingUtil.bind(v);
+        SeparatorViewHolder(BrowserItemSeparatorBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         @Override
