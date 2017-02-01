@@ -39,7 +39,6 @@ import java.util.Arrays;
 
 class StorageBrowserAdapter extends BaseBrowserAdapter {
 
-    private boolean isRoot;
     private static ArrayList<String> mMediaDirsLocation;
     private static ArrayList<String> mCustomDirsLocation;
 
@@ -47,7 +46,6 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         super(fragment);
         if (mMediaDirsLocation == null && mCustomDirsLocation == null)
             updateMediaDirs();
-        isRoot = fragment.isRootDirectory();
     }
 
     @Override
