@@ -1,8 +1,12 @@
 package org.videolan.vlc;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -28,6 +32,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_DISCOVER = "medialibrary_discover";
 
     public final static String EXTRA_PATH = "extra_path";
+
+    public final static String ACTION_RESUME_SCAN = "action_resume_scan";
+    public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
     public static final long NOTIFICATION_DELAY = 1000L;
 
     private final IBinder mBinder = new LocalBinder();
@@ -35,6 +42,23 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private int mParsing = 0;
     private String mCurrentProgress = null;
     private long mLastNotificationTime;
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case ACTION_PAUSE_SCAN:
+                    mMedialibrary.pauseBackgroundOperations();
+                    break;
+                case ACTION_RESUME_SCAN:
+                    mMedialibrary.resumeBackgroundOperations();
+                    break;
+                default:
+                    return;
+            }
+            mLastNotificationTime = 0L;
+            showNotification();
+        }
+    };
 
     @Nullable
     @Override
@@ -44,6 +68,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mMedialibrary = VLCApplication.getMLInstance();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_PAUSE_SCAN);
+        filter.addAction(ACTION_RESUME_SCAN);
+        registerReceiver(mReceiver, filter);
         mLastNotificationTime = System.currentTimeMillis();
         switch (intent.getAction()) {
             case ACTION_INIT:
@@ -60,50 +89,46 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(String path) {
-        mMedialibrary = VLCApplication.getMLInstance();
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.discover(path);
     }
 
     private void reload() {
-        mMedialibrary = VLCApplication.getMLInstance();
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.reload();
     }
 
     private void setupMedialibrary() {
-        mMedialibrary = VLCApplication.getMLInstance();
-        if (mMedialibrary.isInitiated()) {
-            stopSelf();
-            return;
-        }
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMedialibrary.setup();
-                String[] storages = AndroidDevices.getMediaDirectories();
-                for (String storage : storages) {
-                    boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                    mMedialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
-                }
-                if (mMedialibrary.init(VLCApplication.getAppContext())) {
-                    showNotification();
-                    LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                    if (mMedialibrary.getFoldersList().length == 0) {
-                        for (String storage : storages)
-                            for (String folder : Medialibrary.getBlackList())
-                                mMedialibrary.banFolder(storage+folder);
-                        for (File folder : Medialibrary.getDefaultFolders())
-                            if (folder.exists())
-                                mMedialibrary.discover(folder.getPath());
-                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-                                mMedialibrary.discover(externalStorage);
+        if (mMedialibrary.isInitiated())
+            mMedialibrary.resumeBackgroundOperations();
+        else
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    mMedialibrary.setup();
+                    String[] storages = AndroidDevices.getMediaDirectories();
+                    for (String storage : storages) {
+                        boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                        mMedialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
+                    }
+                    if (mMedialibrary.init(VLCApplication.getAppContext())) {
+                        showNotification();
+                        LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
+                        if (mMedialibrary.getFoldersList().length == 0) {
+                            for (String storage : storages)
+                                for (String folder : Medialibrary.getBlackList())
+                                    mMedialibrary.banFolder(storage+folder);
+                            for (File folder : Medialibrary.getDefaultFolders())
+                                if (folder.exists())
+                                    mMedialibrary.discover(folder.getPath());
+                            for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
+                                if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
+                                    mMedialibrary.discover(externalStorage);
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     private void showNotification() {
@@ -131,6 +156,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         .setAutoCancel(false)
                         .setOngoing(true);
 
+                boolean isWorking = mMedialibrary.isWorking();
+                PendingIntent pi = PendingIntent.getBroadcast(MediaParsingService.this, 0, new Intent(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN), PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Action playpause = isWorking ? new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi)
+                        : new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi);
+                builder.addAction(playpause);
                 final Notification notification = builder.build();
                 synchronized (MediaParsingService.this) {
                     if (mLastNotificationTime != -1L) {
@@ -189,6 +219,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     @Override
     public void onDestroy() {
         mMedialibrary.removeDeviceDiscoveryCb(this);
+        unregisterReceiver(mReceiver);
         hideNotification();
         super.onDestroy();
     }
