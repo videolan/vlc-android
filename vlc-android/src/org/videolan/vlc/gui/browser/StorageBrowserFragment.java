@@ -83,6 +83,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         if (mRoot && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
+            setFabPlayVisibility(true);
         }
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
     }
