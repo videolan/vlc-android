@@ -122,6 +122,7 @@ private:
     medialibrary::IDeviceListerCb* p_DeviceListerCb = nullptr;
     std::string mainStorage = "";
     bool discoveryEnded = false;
+    bool m_paused = false;
     uint32_t m_nbDiscovery = 0, m_progress = 0, m_mediaAddedType = 0, m_mediaUpdatedType = 0;
 };
 #endif // ANDROIDMEDIALIBRARY_H

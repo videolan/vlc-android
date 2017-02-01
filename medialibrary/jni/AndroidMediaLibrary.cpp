@@ -111,13 +111,14 @@ AndroidMediaLibrary::entryPoints()
 bool
 AndroidMediaLibrary::isWorking()
 {
-    return m_nbDiscovery > 0 || (m_progress > 0 && m_progress < 100);
+    return !m_paused && (m_nbDiscovery > 0 || (m_progress > 0 && m_progress < 100));
 }
 
 void
 AndroidMediaLibrary::pauseBackgroundOperations()
 {
     p_ml->pauseBackgroundOperations();
+    m_paused = true;
 }
 
 void
@@ -136,6 +137,7 @@ void
 AndroidMediaLibrary::resumeBackgroundOperations()
 {
     p_ml->resumeBackgroundOperations();
+    m_paused = false;
 }
 
 void
