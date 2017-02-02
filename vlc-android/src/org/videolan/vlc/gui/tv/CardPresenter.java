@@ -75,19 +75,18 @@ public class CardPresenter extends Presenter {
         public ViewHolder(View view) {
             super(view);
             mCardView = (ImageCardView) view;
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
-        void updateCardViewImage(MediaLibraryItem mediaWrapper) {
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (!TextUtils.isEmpty(mediaWrapper.getArtworkMrl()) && mediaWrapper.getArtworkMrl().startsWith("http")) {
-                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaWrapper.getArtworkMrl()), mCardView);
+        void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
+            if (!TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl()) && mediaLibraryItem.getArtworkMrl().startsWith("http")) {
+                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaLibraryItem.getArtworkMrl()), mCardView);
             } else {
-                AsyncImageLoader.LoadImage(new CoverFetcher(mediaWrapper), mCardView);
+                AsyncImageLoader.LoadImage(new CoverFetcher(mediaLibraryItem), mCardView);
             }
         }
 
         void updateCardViewImage(Drawable image) {
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
             mCardView.setMainImage(image);
         }
     }
