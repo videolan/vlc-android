@@ -2,25 +2,26 @@ Changes between 2.0.0 and 2.1.0:
 ----------------------------------
 
 Application:
+ * 360° videos support
  * Android Auto implementation
  * DayNight mode integration
+ * New Search activity and integration with Google Now
  * Option to filter in current media list
  * Restored double/long click on remote play to skip songs
  * Added multiselection mode
  * Removed sound lowering on notification
- * New Search activity and integration with Google Now
  * Redesigned audio and video lists/grid
  * Media Info view is now a BottomSheet pane
  * Force previous song on audioplayer swipe
  * Refactored MediaLibrary
- * Refactored AudioPlayer to get rid of SlidingPane layout
  * CoordinatorLayout integration
  * Transparent theme for smoother startup
  * PlaybackService now persists
  * Fix audioplayer layout for black theme and RTL
  * Fix notification content when no artist nor album
  * Update notification when playlist is ended
- * Upgraded AppCompat to version 24.2.1
+ * Upgraded AppCompat to version 25.1.1
+ * Improve app & video player startup speed
 
 Core
  * Switch to clang and libc++_shared using ndk13
