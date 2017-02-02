@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
@@ -66,6 +67,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_BROWSE = 5;
     private static final int ID_DL_SUBS = 6;
     private static final int ID_PLAY_ALL = 7;
+    private static final int ID_PLAY_FROM_START = 8;
     private ArrayObjectAdapter mRowsAdapter;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
@@ -123,6 +125,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         break;
                     case ID_PLAY:
                         TvUtil.playMedia(getActivity(), media);
+                        getActivity().finish();
                         break;
                     case ID_FAVORITE_ADD:
                         mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
@@ -153,6 +156,11 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         MediaUtils.openList(activity, mediaList, position);
                         if (media.getType() == MediaWrapper.TYPE_AUDIO)
                             getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
+                        getActivity().finish();
+                        break;
+                    case ID_PLAY_FROM_START:
+                        VideoPlayerActivity.start(getActivity(), media.getUri(), true);
+                        getActivity().finish();
                         break;
                 }
             }
@@ -194,6 +202,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                 detailsOverview.setImageBitmap(getActivity(), cover);
 
             detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
+            detailsOverview.addAction(new Action(ID_PLAY_FROM_START, getString(R.string.play_from_start)));
             if (FileUtils.canWrite(media.getUri()))
                 detailsOverview.addAction(new Action(ID_DL_SUBS, getString(R.string.download_subtitles)));
             if (mediaList != null && mediaList.contains(media))
