@@ -25,7 +25,6 @@ package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -205,9 +204,10 @@ public class FileUtils {
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (AndroidUtil.isHoneycombOrLater()){
             ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
-            String[] selectionArgs = { path };
-            deleted = cr.delete(MediaStore.Files.getContentUri("external"),
-                    MediaStore.Files.FileColumns.DATA + "=?", selectionArgs) > 0;
+            try {
+                deleted = cr.delete(MediaStore.Files.getContentUri("external"),
+                        MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
+            } catch (IllegalArgumentException ignored) {} // Can happen on some devices...
         }
         File file = new File(path);
         if (file.exists())
