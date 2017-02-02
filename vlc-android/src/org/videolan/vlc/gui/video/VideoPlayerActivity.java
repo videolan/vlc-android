@@ -2883,12 +2883,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         // Update all view elements
-        mSeekbar.setMax(length);
-        mSeekbar.setProgress(time);
+        if (mSeekbar != null) {
+            mSeekbar.setMax(length);
+            mSeekbar.setProgress(time);
+        }
         if (mSysTime != null)
             mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
-        if (time >= 0) mTime.setText(Tools.millisToString(time));
-        if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
+        if (mTime != null &&  time >= 0) mTime.setText(Tools.millisToString(time));
+        if (mLength != null &&  length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
                 ? "-" + '\u00A0' + Tools.millisToString(length - time)
                 : Tools.millisToString(length));
 
