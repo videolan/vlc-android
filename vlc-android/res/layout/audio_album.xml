@@ -6,17 +6,21 @@
 
     <ImageView
         android:id="@+id/album_cover"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="150dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
         android:src="@drawable/background_cone" />
     <org.videolan.vlc.gui.view.ContextMenuRecyclerView
         android:id="@+id/songs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/album_cover"
-        android:nestedScrollingEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:clipToPadding="false"
         android:fastScrollEnabled="true"
         android:paddingBottom="@dimen/listview_bottom_padding"
@@ -35,7 +39,11 @@
         android:layout_marginEnd="25dp"
         android:src="@drawable/ic_fab_play"
         android:tint="@color/grey50" />
-    <include layout="@layout/shadow_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/shadow_top"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>
