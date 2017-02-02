@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 import java.io.File;
@@ -110,7 +111,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     String[] storages = AndroidDevices.getMediaDirectories();
                     for (String storage : storages) {
                         boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                        mMedialibrary.addDevice(isMainStorage ? "main-storage" : storage, storage, !isMainStorage);
+                        mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
                     }
                     if (mMedialibrary.init(VLCApplication.getAppContext())) {
                         showNotification();
