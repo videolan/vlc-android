@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
     <data>
         <import type="org.videolan.medialibrary.media.MediaWrapper"/>
+        <import type="android.text.TextUtils"/>
         <import type="android.view.View"/>
         <variable
             name="holder"
@@ -18,70 +18,57 @@
             name="bgColor"
             type="int" />
     </data>
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        card_view:cardElevation="1sp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true"
-        android:background="?attr/background_default"
+        android:orientation="horizontal"
+        android:background="@{bgColor}"
         android:clickable="true"
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
+
         <LinearLayout
-            android:id="@+id/layout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="70dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:orientation="horizontal"
-            android:background="@{bgColor}" >
+            android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/icon"
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}" />
+                android:text="@{media.title}"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?attr/list_title"
+                android:textSize="16sp"
+                android:maxLines="1" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_marginTop="5dip"
-                    android:text="@{media.title}"
-                    android:layout_gravity="center_vertical|start"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="?attr/list_title"
-                    android:textSize="16sp"
-                    android:singleLine="true"
-                    android:scrollHorizontally="true"/>
-
-                <TextView
-                    android:id="@+id/subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dip"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:text="@{media.artist}"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="?attr/list_subtitle"
-                    android:singleLine="true"
-                    android:ellipsize="start"
-                    android:visibility="@{media.artist == null ? View.INVISIBLE : View.VISIBLE}"/>
-            </LinearLayout>
+                android:text="@{media.artist}"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?attr/list_subtitle"
+                android:maxLines="1"
+                android:ellipsize="start"
+                android:visibility="@{TextUtils.isEmpty(media.artist) ? View.GONE : View.VISIBLE}"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </layout>
