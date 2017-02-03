@@ -400,7 +400,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 }
                 final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoAdapter.getComparator());
                 newSortedList.addAll(displayList);
-                mVideoAdapter.dispatchUpdate(newSortedList);
+                mVideoAdapter.dispatchUpdate(newSortedList, false);
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });

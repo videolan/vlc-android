@@ -124,7 +124,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @MainThread
     public void dispatchUpdate(final List<MediaWrapper> newList) {
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), AndroidUtil.isICSOrLater());
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), false);
         mDataSet.clear();
         addAll(newList);
         result.dispatchUpdatesTo(this);

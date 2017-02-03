@@ -363,7 +363,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), AndroidUtil.isICSOrLater());
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
                 mMediaList = items;
                 result.dispatchUpdatesTo(BaseBrowserAdapter.this);
                 fragment.onUpdateFinished(null);

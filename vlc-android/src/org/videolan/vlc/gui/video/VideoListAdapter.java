@@ -140,11 +140,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
-    public void sort() {
-        if (!isEmpty())
-            dispatchUpdate(getAll());
-    }
-
     public boolean isEmpty()
     {
         return mVideos.size() == 0;
@@ -410,7 +405,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     mSortDirection = 1;
                     break;
             }
-            dispatchUpdate(getAll());
+            dispatchUpdate(getAll(), true);
 
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putInt(KEY_SORT_BY, mSortBy);
@@ -472,7 +467,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @MainThread
     void restoreList() {
         if (mOriginalData != null) {
-            dispatchUpdate(new ArrayList<>(mOriginalData));
+            dispatchUpdate(new ArrayList<>(mOriginalData), false);
             mOriginalData = null;
         }
     }
@@ -492,7 +487,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             //noinspection unchecked
-            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
+            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values, false);
         }
     }
 
@@ -505,17 +500,17 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         view.setLayoutParams(layoutParams);
     }
 
-    void dispatchUpdate(final ArrayList<MediaWrapper> items) {
+    void dispatchUpdate(final ArrayList<MediaWrapper> items, boolean detectMoves) {
         final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
         newSortedList.addAll(items);
-        dispatchUpdate(newSortedList);
+        dispatchUpdate(newSortedList, detectMoves);
     }
 
-    void dispatchUpdate(final SortedList<MediaWrapper> items) {
+    void dispatchUpdate(final SortedList<MediaWrapper> items, final boolean detectMoves) {
         VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), AndroidUtil.isICSOrLater());
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), detectMoves);
                 mVideos = items;
                 result.dispatchUpdatesTo(VideoListAdapter.this);
                 mEventsHandler.onUpdateFinished(null);
