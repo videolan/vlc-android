@@ -222,7 +222,6 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         switch (mProtocols[position]) {
             case "SMB":
                 addressHint = R.string.server_share_hint;
-                portEnabled = false;
                 userEnabled = false;
                 break;
             case "NFS":
