@@ -140,7 +140,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
-    public void sort() {mVideos.addAll();
+    public void sort() {
         if (!isEmpty())
             dispatchUpdate(getAll());
     }
