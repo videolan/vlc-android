@@ -568,7 +568,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
                 mVideoAdapter.resetSelectionCount();
-                mVideoAdapter.notifyItemChanged(i, mw);
+                mVideoAdapter.notifyItemChanged(i, VideoListAdapter.UPDATE_SELECTION);
             }
         }
     }
@@ -603,7 +603,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             if (mActionMode != null) {
                 item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
                 mVideoAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-                mVideoAdapter.notifyItemChanged(position, item);
+                mVideoAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
                 invalidateActionMode();
                 return;
             }
@@ -629,7 +629,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 return false;
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
             mVideoAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            mVideoAdapter.notifyItemChanged(position, item);
+            mVideoAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
             startActionMode();
             return true;
     }

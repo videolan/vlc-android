@@ -41,7 +41,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -68,6 +67,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public final static int SORT_BY_LENGTH = 1;
 
     public final static int SORT_BY_DATE = 2;
+
+    public final static int UPDATE_SELECTION = 0;
+    public final static int UPDATE_THUMB = 1;
+    public final static int UPDATE_TIME = 2;
+
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
     private VideoComparator mVideoComparator = new VideoComparator();
@@ -119,17 +123,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         else {
             MediaWrapper media = mVideos.get(position);
             for (Object data : payloads) {
-                if (data instanceof String) {
-                    media.setArtworkURL((String) payloads.get(0));
-                    AsyncImageLoader.loadPicture(holder.thumbView, media);
-                } else if (data instanceof MediaWrapper) {
-                    media = (MediaWrapper) data;
-                    boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                    holder.setOverlay(isSelected);
-                    holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
-                } else {
-                    media.setTime((Long) data);
-                    fillView(holder, media);
+                switch ((int) data) {
+                    case UPDATE_THUMB:
+                        AsyncImageLoader.loadPicture(holder.thumbView, media);
+                        break;
+                    case UPDATE_TIME:
+                        fillView(holder, media);
+                        break;
+                    case UPDATE_SELECTION:
+                        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                        holder.setOverlay(isSelected);
+                        holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
+                        break;
                 }
             }
         }
@@ -553,10 +558,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             MediaWrapper oldItem = oldList.get(oldItemPosition);
             MediaWrapper newItem = newList.get(newItemPosition);
             if (oldItem.getTime() != newItem.getTime())
-                return newItem.getTime();
+                return UPDATE_TIME;
             else
-                return newItem.getArtworkMrl();
-
+                return UPDATE_THUMB;
         }
     }
 }
