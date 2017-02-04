@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MediaItemDiffCallback extends DiffUtil.Callback {
     private static final String TAG = "MediaItemDiffCallback";
-    protected MediaLibraryItem[] oldList, newList;
+    private MediaLibraryItem[] oldList, newList;
 
     public MediaItemDiffCallback(List<? extends MediaLibraryItem> oldList, List<? extends MediaLibraryItem> newList) {
         this.oldList = oldList.toArray(new MediaLibraryItem[oldList.size()]);
@@ -33,7 +33,7 @@ public class MediaItemDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return !(oldList[oldItemPosition] != null ^ newList[newItemPosition] !=null) && oldList[oldItemPosition].equals(newList[newItemPosition]);
+        return (oldList[oldItemPosition] == null ) == ( newList[newItemPosition] == null) && oldList[oldItemPosition].equals(newList[newItemPosition]);
     }
 
     @Override
