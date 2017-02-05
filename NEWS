@@ -25,6 +25,11 @@ Application:
 
 Core
  * Switch to clang and libc++_shared using ndk13
+ * 360° videos support
+ * OpenGLES 2.0 is now used to render video (for software decoders)
+ * AV1 codec support
+ * Support for VP8/VP9/VP10 in MP4
+ * e-AC3 HDMI passthrough
 
 
 Changes between 1.9.13 and 2.0.0:
