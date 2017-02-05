@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <import type="org.videolan.medialibrary.media.MediaWrapper"/>
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
+        <variable
+            name="holder"
+            type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder"/>
+        <variable
+            name="media"
+            type="MediaWrapper"/>
+        <variable
+            name="bgColor"
+            type="int" />
+    </data>
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@{bgColor}"
+    android:clickable="true"
+    android:onClick="@{holder::onClick}"
+    android:onLongClick="@{holder::onLongClick}"  >
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@{media.type == MediaWrapper.TYPE_VIDEO ? @drawable/ic_browser_video_normal : @drawable/ic_browser_audio_normal}"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{media.title}"
+        android:fontFamily="sans-serif-light"
+        android:textColor="?attr/list_title"
+        android:textSize="16sp"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/subtitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{media.artist}"
+        android:fontFamily="sans-serif-light"
+        android:textColor="?attr/list_subtitle"
+        android:maxLines="1"
+        android:ellipsize="start"
+        android:visibility="@{TextUtils.isEmpty(media.artist) ? View.GONE : View.VISIBLE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
+</layout>

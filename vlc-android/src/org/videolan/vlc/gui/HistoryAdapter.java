@@ -19,7 +19,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import android.databinding.DataBindingUtil;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +28,7 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.databinding.ListItemBinding;
+import org.videolan.vlc.databinding.HistoryItemBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
@@ -45,13 +44,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     private IEventsHandler mEventsHandler;
     private ArrayList<MediaWrapper> mMediaList = new ArrayList<>();
+    private LayoutInflater mLayoutInflater;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ListItemBinding binding;
+        HistoryItemBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            binding = DataBindingUtil.bind(itemView);
+        public ViewHolder(HistoryItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.setHolder(this);
         }
 
         public void onClick(View v){
@@ -89,9 +90,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
-        return new ViewHolder(v);
+        if (mLayoutInflater == null)
+            mLayoutInflater = LayoutInflater.from(parent.getContext());
+        return new ViewHolder(HistoryItemBinding.inflate(mLayoutInflater, parent, false));
     }
 
     @Override
@@ -99,7 +100,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         final MediaWrapper media = mMediaList.get(position);
         boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
-        holder.binding.setHolder(holder);
         holder.binding.setBgColor(ContextCompat.getColor(holder.itemView.getContext(), isSelected ? R.color.orange200transparent : R.color.transparent));
     }
 
