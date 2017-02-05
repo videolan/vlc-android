@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,9 +50,12 @@ public class HeaderMediaSwitcher extends AudioMediaSwitcher {
         }
 
         titleView.setText(title);
-        artistView.setText(artist);
         titleView.setSelected(true);
-        artistView.setSelected(true);
+        boolean hasArtist = TextUtils.isEmpty(artist);
+        if (hasArtist)
+            artistView.setText(artist);
+        artistView.setSelected(hasArtist);
+        artistView.setVisibility(hasArtist ? GONE : VISIBLE);
 
         addView(v);
     }
