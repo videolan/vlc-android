@@ -4,6 +4,7 @@
     <style name="Theme.VLC" parent="Theme.VLC.7"/>
     <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="android:textViewStyle">@style/TextView</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
@@ -96,6 +97,7 @@
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:textViewStyle">@style/TextView</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
@@ -244,6 +246,10 @@
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
+    </style>
+
+    <style name="TextView" parent="android:Widget.TextView">
+        <item name="android:textDirection">locale</item>
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
