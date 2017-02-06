@@ -226,7 +226,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         if (position != -1) {
             if (!(mVideos.get(position) instanceof MediaGroup))
                 mVideos.updateItemAt(position, item);
-            notifyItemChanged(position, item.getArtworkMrl());
+            notifyItemChanged(position, UPDATE_THUMB);
         } else
             notifyItemInserted(mVideos.add(item));
     }
