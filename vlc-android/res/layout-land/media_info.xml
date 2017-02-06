@@ -90,6 +90,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -115,9 +116,10 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="250dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="36dp"
-                    android:scaleType="centerCrop" />
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="fitCenter" />
             </FrameLayout>
             <ImageView
                 android:id="@+id/info_subtitles"
@@ -127,7 +129,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_below="@+id/image_container"
                 android:src="@drawable/ic_audiosub_circle_normal_o"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="20dp" />
