@@ -101,6 +101,9 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-microdns \
     --enable-fluidlite \
     --disable-mad \
+    --disable-vncclient \
+    --disable-vnc \
+    --enable-jpeg \
 "
 
 ###########################
@@ -166,6 +169,9 @@ VLC_CONFIGURE_ARGS="\
     --disable-faad \
     --disable-x264 \
     --disable-schroedinger \
+    --disable-vncclient \
+    --disable-vnc \
+    --enable-jpeg \
 "
 
 ########################
