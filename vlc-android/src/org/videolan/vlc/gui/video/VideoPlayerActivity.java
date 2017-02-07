@@ -3013,10 +3013,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
 
-        if (mService.hasPlaylist()) {
-            fromStart = true;
-        }
-
         if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
             mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
         if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
