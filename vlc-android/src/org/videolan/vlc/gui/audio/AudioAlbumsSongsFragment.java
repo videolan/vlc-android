@@ -45,6 +45,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
@@ -63,8 +64,6 @@ import java.util.LinkedList;
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
-
-    public final static String TAG_ITEM = "ML_ITEM";
 
     private Medialibrary mMediaLibrary;
     protected Handler mHandler = new Handler(Looper.getMainLooper());
@@ -92,8 +91,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mMediaLibrary = VLCApplication.getMLInstance();
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
-                            savedInstanceState.getParcelable(TAG_ITEM) :
-                            getArguments().getParcelable(TAG_ITEM));
+                            savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
+                            getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
     }
 
     @Override
@@ -172,7 +171,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(TAG_ITEM, mItem);
+        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mItem);
         super.onSaveInstanceState(outState);
     }
 
@@ -322,9 +321,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             return;
         }
         if (item instanceof Album) {
-            Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
-            i.putExtra(AudioAlbumFragment.TAG_ITEM, item);
+            Intent i = new Intent(getActivity(), PlaylistActivity.class);
+            i.putExtra(AudioBrowserFragment.TAG_ITEM, item);
             startActivity(i);
         } else
             MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);

@@ -55,6 +55,7 @@ import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -104,6 +105,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     private final static int MODE_TOTAL = 5; // Number of audio browser modes
 
     public final static int MSG_LOADING = 0;
+
+    public final static String TAG_ITEM = "ML_ITEM";
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -527,21 +530,27 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             super.onClick(v, position, item);
             return;
         }
-        if (item.getItemType() == MediaLibraryItem.TYPE_ARTIST || item.getItemType() == MediaLibraryItem.TYPE_GENRE) {
-            Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
-            i.putExtra(AudioAlbumsSongsFragment.TAG_ITEM, item);
-            startActivity(i);
-        } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
             mService.load((MediaWrapper) item);
-        } else if (item.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
-            Intent i = new Intent(getActivity(), SecondaryActivity.class);
-            i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUM);
-            i.putExtra(AudioAlbumFragment.TAG_ITEM, item);
-            startActivity(i);
-        } else if (item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST) {
-            mService.load(item.getTracks(mMediaLibrary), 0);
+            return;
         }
+        Intent i;
+        switch (item.getItemType()) {
+            case MediaLibraryItem.TYPE_ARTIST:
+            case MediaLibraryItem.TYPE_GENRE:
+                i = new Intent(getActivity(), SecondaryActivity.class);
+                i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.ALBUMS_SONGS);
+                i.putExtra(TAG_ITEM, item);
+                break;
+            case MediaLibraryItem.TYPE_ALBUM:
+            case MediaLibraryItem.TYPE_PLAYLIST:
+                i = new Intent(getActivity(), PlaylistActivity.class);
+                i.putExtra(TAG_ITEM, item);
+                break;
+            default:
+                return;
+        }
+        startActivity(i);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

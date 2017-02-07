@@ -1,0 +1,374 @@
+/*
+ * *************************************************************************
+ *  PlaylistActivity.java
+ * **************************************************************************
+ *  Copyright © 2017 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *  ***************************************************************************
+ */
+
+package org.videolan.vlc.gui;
+
+import android.annotation.TargetApi;
+import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.PlaylistActivityBinding;
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
+import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Strings;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener {
+
+    public final static String TAG = "VLC/PlaylistActivity";
+
+    private AudioBrowserAdapter mAdapter;
+    private MediaLibraryItem mPlaylist;
+    private Medialibrary mMediaLibrary = VLCApplication.getMLInstance();
+    private PlaylistActivityBinding mBinding;
+    private ActionMode mActionMode;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBinding = DataBindingUtil.setContentView(this, R.layout.playlist_activity);
+
+        initAudioPlayerContainerActivity();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mPlaylist = (MediaLibraryItem) (savedInstanceState != null ?
+                savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
+                getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
+        mBinding.setPlaylist(mPlaylist);
+        mAdapter = new AudioBrowserAdapter(this, MediaLibraryItem.TYPE_MEDIA, this, false);
+        mBinding.setCover(new BitmapDrawable(getResources(), BitmapCache.getFromResource(getResources(), R.drawable.background_cone)));
+
+        mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.songs.setAdapter(mAdapter);
+
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                int width;
+                if (AndroidUtil.isHoneycombMr2OrLater()) {
+                    Point point = new Point();
+                    getWindowManager().getDefaultDisplay().getSize(point);
+                    width = point.x;
+                } else
+                    width = getWindowManager().getDefaultDisplay().getWidth();
+                final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), width);
+                if (cover != null)
+                    mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
+            }
+        });
+        mBinding.fab.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mFragmentContainer = mBinding.songs;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateList();
+        registerForContextMenu(mBinding.songs);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopActionMode();
+        unregisterForContextMenu(mBinding.songs);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mPlaylist);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void updateList() {
+        if (mPlaylist != null)
+            mAdapter.addAll(mPlaylist.getTracks(mMediaLibrary));
+    }
+
+    @Override
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null) {
+            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+            mAdapter.notifyItemChanged(position, item);
+            invalidateActionMode();
+        } else if (mService != null)
+            mService.load(mPlaylist.getTracks(mMediaLibrary), position);
+    }
+
+    @Override
+    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+        if (mActionMode != null)
+            return false;
+        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+        mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+        mAdapter.notifyItemChanged(position, item);
+        startActionMode();
+        return true;
+    }
+
+    @Override
+    public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
+        if (mActionMode == null)
+            mBinding.songs.openContextMenu(position);
+    }
+
+    @Override
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {}
+
+    @Override
+    protected void onPlayerStateChanged(View bottomSheet, int newState) {
+        if (newState == BottomSheetBehavior.STATE_EXPANDED)
+            mAppBarLayout.setExpanded(false, true);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void startActionMode() {
+        mActionMode = startSupportActionMode(this);
+    }
+
+    protected void stopActionMode() {
+        if (mActionMode != null) {
+            mActionMode.finish();
+            onDestroyActionMode(mActionMode);
+        }
+    }
+
+    public void invalidateActionMode() {
+        if (mActionMode != null)
+            mActionMode.invalidate();
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mode.getMenuInflater().inflate(R.menu.action_mode_audio_browser, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        int count = mAdapter.getSelectionCount();
+        if (count == 0) {
+            stopActionMode();
+            return false;
+        }
+        boolean isSong = count == 1 && mAdapter.getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
+        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
+        menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
+        menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        List<MediaLibraryItem> list = mAdapter.getSelection();
+        ArrayList<MediaWrapper> tracks = new ArrayList<>();
+        for (MediaLibraryItem mediaItem : list)
+            tracks.addAll(Arrays.asList(mediaItem.getTracks(mMediaLibrary)));
+        stopActionMode();
+        switch (item.getItemId()) {
+            case R.id.action_mode_audio_play:
+                mService.load(tracks, 0);
+                break;
+            case R.id.action_mode_audio_append:
+                mService.append(tracks);
+                break;
+            case R.id.action_mode_audio_add_playlist:
+                UiTools.addToPlaylist(this, tracks);
+                break;
+            case R.id.action_mode_audio_info:
+                showInfoDialog((MediaWrapper) list.get(0));
+                break;
+            case R.id.action_mode_audio_set_song:
+                AudioUtil.setRingtone((MediaWrapper) list.get(0), this);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        mActionMode = null;
+        MediaLibraryItem[] items = mAdapter.getAll();
+        if (items != null) {
+            for (int i = 0; i < items.length; ++i) {
+                if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                    items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                    mAdapter.notifyItemChanged(i, items[i]);
+                }
+            }
+        }
+        mAdapter.resetSelectionCount();
+    }
+
+    protected void showInfoDialog(MediaWrapper media) {
+        BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
+        bottomSheetDialogFragment.setArguments(args);
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+    protected void setContextMenuItems(Menu menu, int position) {
+        menu.setGroupVisible(R.id.songs_view_only, true);
+        menu.findItem(R.id.audio_list_browser_play_all).setVisible(false);
+        menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
+        //Hide delete if we cannot
+        String location = ((MediaWrapper)mAdapter.getItem(position)).getLocation();
+        menu.findItem(R.id.audio_list_browser_delete).setVisible(FileUtils.canWrite(location));
+    }
+
+    protected boolean handleContextItemSelected(MenuItem item, final int position) {
+        int id = item.getItemId();
+
+        final MediaWrapper media = (MediaWrapper) mAdapter.getItem(position);
+
+        if (id == R.id.audio_list_browser_set_song) {
+            AudioUtil.setRingtone(media, this);
+            return true;
+        } else if (id == R.id.audio_list_browser_append) {
+            mService.append(media);
+            return true;
+        } else if (id == R.id.audio_list_browser_delete) {
+            mAdapter.remove(position);
+            UiTools.snackerWithCancel(getWindow().getDecorView(), getString(R.string.file_deleted), new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(media);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addItem(position, media);
+                }
+            });
+            return true;
+        } else if (id == R.id.audio_view_info) {
+            showInfoDialog(media);
+            return true;
+        } else if (id == R.id.audio_view_add_playlist) {
+            ArrayList<MediaWrapper> medias = new ArrayList<>();
+            medias.add(media);
+            FragmentManager fm = getSupportFragmentManager();
+            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+            savePlaylistDialog.setArguments(args);
+            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (menuInfo == null)
+            return;
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
+        getMenuInflater().inflate(R.menu.audio_list_browser, menu);
+
+        setContextMenuItems(menu, info.position);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menu) {
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
+
+        return info != null && handleContextItemSelected(menu, info.position);
+    }
+
+    protected void deleteMedia(final MediaLibraryItem mw) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final LinkedList<String> foldersToReload = new LinkedList<>();
+                final LinkedList<String> mediaPaths = new LinkedList<>();
+                for (MediaWrapper media : mw.getTracks(mMediaLibrary)) {
+                    String path = media.getUri().getPath();
+                    mediaPaths.add(media.getLocation());
+                    String parentPath = FileUtils.getParent(path);
+                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath))
+                        foldersToReload.add(parentPath);
+                }
+                for (String folder : foldersToReload)
+                    mMediaLibrary.reload(folder);
+                if (mService != null) {
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (String path : mediaPaths)
+                                mService.removeLocation(path);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        mService.load(mPlaylist.getTracks(mMediaLibrary), 0);
+    }
+}

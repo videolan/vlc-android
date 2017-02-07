@@ -33,8 +33,8 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioAlbumFragment;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -49,10 +49,8 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
 
     public static final String KEY_FRAGMENT = "fragment";
-    public static final String KEY_FILTER = "filter";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
-    public static final String ALBUM = "album";
     public static final String EQUALIZER = "equalizer";
     public static final String ABOUT = "about";
     public static final String VIDEO_GROUP_LIST = "videoGroupList";
@@ -119,13 +117,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
 
         // Handle item selection
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-                if (current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).goBack();
-                else
-                    finish();
-                return true;
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
                 ((ISortable) mFragment).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
@@ -145,12 +136,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
         if (id.equals(ALBUMS_SONGS)) {
             mFragment = new AudioAlbumsSongsFragment();
             Bundle args = new Bundle();
-            args.putParcelable(AudioAlbumsSongsFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioAlbumsSongsFragment.TAG_ITEM));
-            mFragment.setArguments(args);
-        } else if(id.equals(ALBUM)) {
-            mFragment = new AudioAlbumFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(AudioAlbumFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioAlbumFragment.TAG_ITEM));
+            args.putParcelable(AudioBrowserFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
             mFragment.setArguments(args);
         } else if(id.equals(EQUALIZER)) {
             mFragment = new EqualizerFragment();

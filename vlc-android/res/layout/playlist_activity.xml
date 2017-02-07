@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="playlist"
+            type="org.videolan.medialibrary.media.MediaLibraryItem" />
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable"/>
+    </data>
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            vlc:theme="@style/Toolbar.VLC"
+            android:fitsSystemWindows="true">
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                vlc:title="@{playlist.title}"
+                vlc:contentScrim="?attr/background_actionbar"
+                vlc:expandedTitleMarginEnd="64dp"
+                vlc:expandedTitleMarginStart="48dp"
+                vlc:layout_scrollFlags="scroll|enterAlways" >
+                <ImageView
+                    android:id="@+id/playlist_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@{cover}"
+                    vlc:layout_collapseMode="parallax" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/main_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    vlc:navigationContentDescription="@string/abc_action_bar_up_description"
+                    vlc:popupTheme="?attr/toolbar_popup_style"
+                    vlc:navigationIcon="?attr/homeAsUpIndicator"
+                    vlc:titleMarginStart="@dimen/default_margin"
+                    vlc:layout_scrollFlags="scroll|enterAlways"
+                    vlc:layout_collapseMode="pin"/>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+            android:id="@+id/songs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fastScrollEnabled="true"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
+            style="@style/Theme.VLC.List" />
+
+        <android.support.design.widget.FloatingActionButton
+            vlc:rippleColor="@color/orange50"
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
+            vlc:layout_anchor="@+id/appbar"
+            vlc:layout_anchorGravity="bottom|right|end"
+            android:src="@drawable/ic_fab_play"
+            android:tint="@color/grey50" />
+
+        <FrameLayout
+            android:id="@+id/audio_player_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            vlc:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+            <android.support.v7.widget.ViewStubCompat
+                android:id="@+id/audio_player_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/audioplayer"/>
+        </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

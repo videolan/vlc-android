@@ -251,14 +251,14 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         return datalist.toArray(new MediaLibraryItem[datalist.size()]);
     }
 
-    void remove(int position) {
+    public void remove(int position) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
         Util.removePositionInArray(mDataList, position, dataList);
         mDataList = dataList;
         notifyItemRemoved(position);
     }
 
-    void addItem(final int position, final MediaLibraryItem item) {
+    public void addItem(final int position, final MediaLibraryItem item) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
         Util.addItemInArray(mDataList, position, item, dataList);
         mDataList = dataList;
@@ -287,7 +287,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     @MainThread
-    List<MediaLibraryItem> getSelection() {
+    public List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
         int count = getItemCount();
         for (int i = 0; i < count; ++i)
@@ -297,17 +297,17 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     @MainThread
-    int getSelectionCount() {
+    public int getSelectionCount() {
         return mSelectionCount;
     }
 
     @MainThread
-    void resetSelectionCount() {
+    public void resetSelectionCount() {
         mSelectionCount = 0;
     }
 
     @MainThread
-    void updateSelectionCount(boolean selected) {
+    public void updateSelectionCount(boolean selected) {
         mSelectionCount += selected ? 1 : -1;
     }
 

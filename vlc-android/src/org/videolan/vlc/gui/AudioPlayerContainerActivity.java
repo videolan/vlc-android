@@ -43,6 +43,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -57,6 +58,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
+import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
@@ -88,7 +90,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
     protected BottomSheetBehavior mBottomSheetBehavior;
-    private FrameLayout mFragmentContainer;
+    protected View mFragmentContainer;
 
     protected boolean mPreventRescan = false;
 
@@ -127,7 +129,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mFragmentContainer = (FrameLayout) findViewById(R.id.fragment_placeholder);
+        mFragmentContainer = findViewById(R.id.fragment_placeholder);
     }
 
     @Override
@@ -169,6 +171,13 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         mHelper.onStop();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (slideDownAudioPlayer())
+            return;
+        super.onBackPressed();
+    }
+
     private void applyTheme() {
         boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
         if (VLCApplication.showTvUi() || enableBlackTheme) {
@@ -185,6 +194,23 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
         if (current != null && current instanceof IRefreshable)
             ((IRefreshable) current).refresh();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+                if (current instanceof StorageBrowserFragment)
+                    ((StorageBrowserFragment) current).goBack();
+                else
+                    finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     /**
@@ -329,6 +355,7 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     private class AudioPlayerBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            AudioPlayerContainerActivity.this.onPlayerStateChanged(bottomSheet, newState);
             mAudioPlayer.onStateChanged(newState);
             switch (newState) {
                 case BottomSheetBehavior.STATE_COLLAPSED:
@@ -349,6 +376,8 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         @Override
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
     }
+
+    protected void onPlayerStateChanged(View bottomSheet, int newState) {}
 
     private static class StorageHandler extends WeakHandler<AudioPlayerContainerActivity> {
 
