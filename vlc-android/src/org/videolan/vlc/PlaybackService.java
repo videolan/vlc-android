@@ -1326,6 +1326,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mVideoBackground = !isVideoPlaying() && canSwitchToVideo();
         playIndex(mCurrentIndex, 0);
         saveCurrentMedia();
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
     }
 
     @MainThread
@@ -1345,6 +1346,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             saveCurrentMedia();
         } else
             setPosition(0f);
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
     }
 
     @MainThread
