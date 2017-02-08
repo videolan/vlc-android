@@ -65,7 +65,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public void onStart(){
         super.onStart();
-
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         mSkipRefresh = !mAdapter.isEmpty();
@@ -124,13 +123,17 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     protected void browseRoot() {
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
-        if (AndroidDevices.hasLANConnection())
+        if (allowLAN())
             mMediaBrowser.discoverNetworkShares();
         else {
             if (!mAdapter.isEmpty())
                 mAdapter.removeItem(mAdapter.getItemCount() - 1, true);
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         }
+    }
+
+    private boolean allowLAN() {
+        return AndroidDevices.hasLANConnection() || AndroidDevices.isVPNActive();
     }
 
     @Override
@@ -152,7 +155,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
         if (newSize == 0 && mFavorites == 0)
             return;
-        if (!AndroidDevices.hasLANConnection()) {
+        if (!allowLAN()) {
             ArrayList<MediaWrapper> toRemove = new ArrayList<>();
             List<String> schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https");
             for (MediaWrapper mw : favs)
@@ -215,7 +218,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                     mRecyclerView.setVisibility(View.GONE);
                 } else {
                     if (mRoot)
-                        mEmptyView.setText(AndroidDevices.hasLANConnection() ? R.string.network_shares_discovery : R.string.network_connection_needed);
+                        mEmptyView.setText(allowLAN() ? R.string.network_shares_discovery : R.string.network_connection_needed);
                     else
                         mEmptyView.setText(R.string.network_empty);
                     mEmptyView.setVisibility(View.VISIBLE);
