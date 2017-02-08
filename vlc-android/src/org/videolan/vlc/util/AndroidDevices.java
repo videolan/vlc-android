@@ -25,6 +25,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -36,18 +38,21 @@ import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -217,6 +222,29 @@ public class AndroidDevices {
             return true;
         } catch (PackageManager.NameNotFoundException e) {}
         return false;
+    }
+
+    public static boolean isVPNActive() {
+        if (AndroidUtil.isLolliPopOrLater()) {
+            ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            for (Network network : cm.getAllNetworks()) {
+                if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_VPN))
+                    return true;
+            }
+            return false;
+        } else {
+            try {
+                Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+                while (networkInterfaces.hasMoreElements()) {
+                    NetworkInterface networkInterface = networkInterfaces.nextElement();
+                    String name = networkInterface.getDisplayName();
+                    if (name.startsWith("ppp") || name.startsWith("tun") || name.startsWith("tap"))
+                        return true;
+                }
+            } catch (SocketException ignored) {}
+            return false;
+        }
     }
 
     public static boolean hasLANConnection() {
