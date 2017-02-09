@@ -193,8 +193,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         mFavorites = newSize; //update count
         if (newSize != 0)
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        else
-           updateEmptyView();
+        updateEmptyView();
     }
 
     public void toggleFavorite() {
