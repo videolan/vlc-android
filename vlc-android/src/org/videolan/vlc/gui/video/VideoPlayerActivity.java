@@ -1852,8 +1852,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
-        changeMediaPlayerLayout(mVideoWidth, mVideoHeight);
         super.onPictureInPictureModeChanged(isInPictureInPictureMode);
+        changeSurfaceLayout();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -1904,7 +1904,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             lp.width  = LayoutParams.MATCH_PARENT;
             lp.height = LayoutParams.MATCH_PARENT;
             surfaceFrame.setLayoutParams(lp);
-            if (mService != null)
+            if (mService != null && mVideoWidth * mVideoHeight == 0)
                 changeMediaPlayerLayout(sw, sh);
             return;
         }
