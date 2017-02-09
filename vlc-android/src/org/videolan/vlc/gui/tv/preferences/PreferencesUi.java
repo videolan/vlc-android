@@ -72,7 +72,13 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("set_locale"))
-            UiTools.snacker(getView(), R.string.set_locale_popup);
+            switch (key) {
+                case "set_locale":
+                    UiTools.snacker(getView(), R.string.set_locale_popup);
+                    break;
+                case "tv_ui":
+                    ((PreferencesActivity) getActivity()).setRestartApp();
+                    break;
+            }
     }
 }

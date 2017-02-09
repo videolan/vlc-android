@@ -43,6 +43,7 @@ public class PreferencesActivity extends Activity implements PlaybackService.Cli
 
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
     public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
+    public final static int RESULT_RESTART_APP = RESULT_FIRST_USER + 3;
 
     private PlaybackService.Client mClient = new PlaybackService.Client(this, this);
     private PlaybackService mService;
@@ -107,6 +108,10 @@ public class PreferencesActivity extends Activity implements PlaybackService.Cli
 
     public void setRestart(){
         setResult(RESULT_RESTART);
+    }
+
+    public void setRestartApp(){
+        setResult(RESULT_RESTART_APP);
     }
 
     public void exitAndRescan(){

@@ -247,14 +247,18 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                VLCApplication.getMLInstance().reload();
-                update();
-            } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                Intent intent = getIntent();
-                intent.setClass(this, StartActivity.class);
-                finish();
-                startActivity(intent);
+            switch (resultCode) {
+                case PreferencesActivity.RESULT_RESCAN:
+                    VLCApplication.getMLInstance().reload();
+                    update();
+                    break;
+                case PreferencesActivity.RESULT_RESTART:
+                case PreferencesActivity.RESULT_RESTART_APP:
+                    Intent intent = getIntent();
+                    intent.setClass(this, resultCode == PreferencesActivity.RESULT_RESTART_APP ? StartActivity.class : MainTvActivity.class);
+                    finish();
+                    startActivity(intent);
+                    break;
             }
         }
     }

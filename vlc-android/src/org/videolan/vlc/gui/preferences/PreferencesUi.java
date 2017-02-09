@@ -31,7 +31,6 @@ import android.support.v7.preference.SwitchPreferenceCompat;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
 
 public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -71,7 +70,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
             return false;
         switch (preference.getKey()){
             case "tv_ui":
-                ((PreferencesActivity) getActivity()).setRestart();
+                ((PreferencesActivity) getActivity()).setRestartApp();
                 return true;
             case "enable_black_theme":
                 ((PreferencesActivity) getActivity()).exitAndRescan();

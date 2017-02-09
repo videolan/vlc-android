@@ -51,6 +51,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     public static final String KEY_AUDIO_PLAYBACK_SPEED_PERSIST = "playback_speed";
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
     public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
+    public final static int RESULT_RESTART_APP = RESULT_FIRST_USER + 3;
 
     private PlaybackService.Client mClient = new PlaybackService.Client(this, this);
     private PlaybackService mService;
@@ -125,6 +126,10 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
 
     public void setRestart(){
         setResult(RESULT_RESTART);
+    }
+
+    public void setRestartApp(){
+        setResult(RESULT_RESTART_APP);
     }
 
     public void detectHeadset(boolean detect){

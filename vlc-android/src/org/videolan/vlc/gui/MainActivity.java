@@ -74,6 +74,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
@@ -684,15 +685,19 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                for (Fragment fragment : getSupportFragmentManager().getFragments())
-                    if (fragment instanceof MediaBrowserFragment)
-                        ((MediaBrowserFragment) fragment).clear();
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
-            } else if (resultCode == PreferencesActivity.RESULT_RESTART) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                finish();
-                startActivity(intent);
+            switch (resultCode) {
+                case PreferencesActivity.RESULT_RESCAN:
+                    for (Fragment fragment : getSupportFragmentManager().getFragments())
+                        if (fragment instanceof MediaBrowserFragment)
+                            ((MediaBrowserFragment) fragment).clear();
+                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                    break;
+                case PreferencesActivity.RESULT_RESTART:
+                case PreferencesActivity.RESULT_RESTART_APP:
+                    Intent intent = new Intent(MainActivity.this, resultCode == PreferencesActivity.RESULT_RESTART_APP ? StartActivity.class : MainActivity.class);
+                    finish();
+                    startActivity(intent);
+                    break;
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());
