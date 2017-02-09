@@ -934,12 +934,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private PendingIntent getSessionPendingIntent() {
-        if (mVideoBackground || (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) {
+        if (mMediaPlayer.getVLCVout().areViewsAttached()) { //PIP
+            final Intent notificationIntent = new Intent(this, VideoPlayerActivity.class);
+            return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        } if (mVideoBackground || (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) { //resume video playback
             /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
             final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
             return PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
-            /* Resume AudioPlayerActivity */
+            /* Show audio player */
             final Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
             notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
