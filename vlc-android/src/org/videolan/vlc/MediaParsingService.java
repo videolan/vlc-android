@@ -150,6 +150,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 else
                     sb.append(getString(R.string.ml_parse_media));
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(MediaParsingService.this)
+                        .setContentIntent(PendingIntent.getActivity(MediaParsingService.this, 0, new Intent(MediaParsingService.this, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setSmallIcon(R.drawable.ic_notif_scan)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                         .setContentTitle(getString(R.string.ml_scanning))
