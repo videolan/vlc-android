@@ -34,11 +34,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +58,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -91,27 +95,50 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
         mBinding.setPlaylist(mPlaylist);
         mAdapter = new AudioBrowserAdapter(this, MediaLibraryItem.TYPE_MEDIA, this, false);
-        mBinding.setCover(new BitmapDrawable(getResources(), BitmapCache.getFromResource(getResources(), R.drawable.background_cone)));
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
+        mBinding.appbar.setExpanded(false);
+        ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
 
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                int width;
-                if (AndroidUtil.isHoneycombMr2OrLater()) {
-                    Point point = new Point();
-                    getWindowManager().getDefaultDisplay().getSize(point);
-                    width = point.x;
-                } else
-                    width = getWindowManager().getDefaultDisplay().getWidth();
-                final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), width);
-                if (cover != null)
-                    mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
-            }
-        });
+        if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    int width;
+                    if (AndroidUtil.isHoneycombMr2OrLater()) {
+                        Point point = new Point();
+                        getWindowManager().getDefaultDisplay().getSize(point);
+                        width = point.x;
+                    } else
+                        width = getWindowManager().getDefaultDisplay().getWidth();
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), width);
+                    if (cover != null) {
+                        mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
+                        VLCApplication.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBinding.songs.setNestedScrollingEnabled(true);
+                                mBinding.appbar.setExpanded(true, true);
+                            }
+                        });
+                    } else
+                        fabFallback();
+                }
+            });
+        } else
+            fabFallback();
         mBinding.fab.setOnClickListener(this);
+    }
+
+    private void fabFallback() {
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
+        lp.setAnchorId(mBinding.songs.getId());
+        lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
+        lp.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_margin);
+        lp.setBehavior(new FloatingActionButtonBehavior(PlaylistActivity.this, null));
+        mBinding.fab.setLayoutParams(lp);
+        mBinding.fab.setVisibility(View.VISIBLE);
     }
 
     @Override

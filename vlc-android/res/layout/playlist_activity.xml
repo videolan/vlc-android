@@ -18,7 +18,6 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            vlc:theme="@style/Toolbar.VLC"
             android:fitsSystemWindows="true">
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
@@ -26,10 +25,11 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 vlc:title="@{playlist.title}"
+                vlc:theme="@style/Toolbar.VLC"
                 vlc:contentScrim="?attr/background_actionbar"
                 vlc:expandedTitleMarginEnd="64dp"
                 vlc:expandedTitleMarginStart="48dp"
-                vlc:layout_scrollFlags="scroll|enterAlways" >
+                vlc:layout_scrollFlags="scroll|exitUntilCollapsed" >
                 <ImageView
                     android:id="@+id/playlist_cover"
                     android:layout_width="match_parent"
@@ -43,6 +43,7 @@
                     android:layout_height="?attr/actionBarSize"
                     vlc:navigationContentDescription="@string/abc_action_bar_up_description"
                     vlc:popupTheme="?attr/toolbar_popup_style"
+                    vlc:theme="@style/Toolbar.VLC"
                     vlc:navigationIcon="?attr/homeAsUpIndicator"
                     vlc:titleMarginStart="@dimen/default_margin"
                     vlc:layout_scrollFlags="scroll|enterAlways"
