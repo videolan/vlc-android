@@ -70,7 +70,9 @@ public class Permissions {
     }
 
     public static boolean canReadStorage() {
-        return !AndroidUtil.isMarshMallowOrLater() ||ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+        if (!AndroidUtil.isICSOrLater())
+            return VLCApplication.getAppContext().getExternalFilesDir(null) != null;
+        return !AndroidUtil.isMarshMallowOrLater() || ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
