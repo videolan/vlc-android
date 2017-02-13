@@ -165,7 +165,7 @@ AndroidMediaLibrary::lastMediaPlayed()
 }
 
 bool
-AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& )
+AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& title)
 {
     auto media = p_ml->media( mrl );
     if ( media == nullptr )
@@ -174,6 +174,7 @@ AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& )
         if ( media == nullptr )
             return false;
     }
+    media->setTitle(title);
     return p_ml->addToStreamHistory( media );
 }
 
