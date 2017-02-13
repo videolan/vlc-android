@@ -104,7 +104,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
 
     public void setFabPlayVisibility(boolean enable) {
         if (mFabPlay != null)
-            mFabPlay.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
+            mFabPlay.setVisibility(enable ? View.VISIBLE : View.GONE);
     }
 
     public void onFabPlayClick(View view) {}

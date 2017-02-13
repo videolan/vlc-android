@@ -46,7 +46,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaylistActivity;
-import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -333,9 +332,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         if (mActionMode == null)
             mLists[mViewPager.getCurrentItem()].openContextMenu(position);
     }
-
-    @Override
-    public void setFabPlayVisibility(boolean enable) {}
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

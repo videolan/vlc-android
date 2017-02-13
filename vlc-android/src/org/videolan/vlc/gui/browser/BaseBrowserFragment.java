@@ -766,7 +766,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mFabPlay.setVisibility(View.VISIBLE);
                 mFabPlay.setOnClickListener(this);
             } else {
-                mFabPlay.setVisibility(View.INVISIBLE);
+                mFabPlay.setVisibility(View.GONE);
                 mFabPlay.setOnClickListener(null);
             }
         }

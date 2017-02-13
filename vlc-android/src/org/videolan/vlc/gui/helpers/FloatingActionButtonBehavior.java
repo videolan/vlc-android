@@ -41,13 +41,29 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
 
     private static final String TAG = "VLC/FloatingActionButtonBehavior";
 
+    // Listener to workaroud AppCompat 25.x bug
+    // FAB doesn't receive any callback when set to GONE.
+    private final FloatingActionButton.OnVisibilityChangedListener mOnVisibilityChangedListener;
+
     public FloatingActionButtonBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mOnVisibilityChangedListener = new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                fab.setVisibility(View.INVISIBLE);
+            }
+
+        };
     }
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
         return dependency.getId() == R.id.audio_player_container || dependency instanceof Snackbar.SnackbarLayout || dependency instanceof AppBarLayout;
+    }
+
+    @Override
+    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
+        return true;
     }
 
     @Override
@@ -58,5 +74,14 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
             return true;
         } else
             return super.onDependentViewChanged(parent, child, dependency);
+    }
+
+    @Override
+    public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE)
+            child.hide(mOnVisibilityChangedListener);
+        else if (dyConsumed < 0 && child.getVisibility() == View.INVISIBLE)
+            child.show();
     }
 }
