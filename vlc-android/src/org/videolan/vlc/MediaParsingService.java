@@ -77,7 +77,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mLastNotificationTime = System.currentTimeMillis();
         switch (intent.getAction()) {
             case ACTION_INIT:
-                setupMedialibrary();
+                setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
                 break;
             case ACTION_RELOAD:
                 reload();
@@ -99,7 +99,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mMedialibrary.reload();
     }
 
-    private void setupMedialibrary() {
+    private void setupMedialibrary(final boolean upgrade) {
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         if (mMedialibrary.isInitiated())
             mMedialibrary.resumeBackgroundOperations();
@@ -126,6 +126,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
                                 if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
                                     mMedialibrary.discover(externalStorage);
+                        } else if (upgrade) {
+                            mMedialibrary.forceParserRetry();
                         }
                     }
                 }
