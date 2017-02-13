@@ -152,6 +152,12 @@ AndroidMediaLibrary::reload( const std::string& entryPoint )
     p_ml->reload(entryPoint);
 }
 
+void
+AndroidMediaLibrary::forceParserRetry()
+{
+    p_ml->forceParserRetry();
+}
+
 bool
 AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
 {

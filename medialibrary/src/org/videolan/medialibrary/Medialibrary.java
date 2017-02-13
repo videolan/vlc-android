@@ -187,6 +187,11 @@ public class Medialibrary {
             nativeReload(entryPoint);
     }
 
+    public void forceParserRetry() {
+        if (mIsInitiated)
+            nativeForceParserRetry();
+    }
+
     public MediaWrapper[] lastMediaPlayed() {
         return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
     }
@@ -533,6 +538,7 @@ public class Medialibrary {
     private native void nativeResumeBackgroundOperations();
     private native void nativeReload();
     private native void nativeReload(String entryPoint);
+    private native void nativeForceParserRetry();
     private native boolean nativeIncreasePlayCount(long mediaId);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
