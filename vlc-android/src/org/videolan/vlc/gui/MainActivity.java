@@ -108,8 +108,6 @@ import java.util.List;
 public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public final static String TAG = "VLC/MainActivity";
 
-    private static final String PREF_FIRST_RUN = "first_run";
-
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_RESULT_OPEN = 2;
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
@@ -128,8 +126,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private int mCurrentFragmentId;
 
-    private int mVersionNumber = -1;
-    private boolean mFirstRun = false;
     private boolean mScanNeeded = false;
 
     private Menu mMenu;
@@ -150,17 +146,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         }
         /* Enable the indeterminate progress feature */
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-        /* Get the current version from package */
-        mVersionNumber = BuildConfig.VERSION_CODE;
-
-        /* Check if it's the first run */
-        mFirstRun = mSettings.getInt(PREF_FIRST_RUN, -1) != mVersionNumber;
-        if (mFirstRun) {
-            Editor editor = mSettings.edit();
-            editor.putInt(PREF_FIRST_RUN, mVersionNumber);
-            editor.apply();
-        }
 
         Permissions.checkReadStoragePermission(this, false);
 
@@ -208,7 +193,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        if (mFirstRun) {
+        if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
             /*
              * The sliding menu is automatically opened when the user closes
              * the info dialog. If (for any reason) the dialog is not shown,

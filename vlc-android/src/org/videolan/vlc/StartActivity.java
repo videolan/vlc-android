@@ -25,6 +25,7 @@ package org.videolan.vlc;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -43,9 +44,23 @@ public class StartActivity extends Activity {
 
     public final static String TAG = "VLC/StartActivity";
 
+    private static final String PREF_FIRST_RUN = "first_run";
+    public static final String EXTRA_FIRST_RUN = "extra_first_run";
+    public static final String EXTRA_UPGRADE = "extra_upgrade";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* Get the current version from package */
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        int currentVersionNumber = BuildConfig.VERSION_CODE;
+        int savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1);
+        /* Check if it's the first run */
+        boolean firstRun = savedVersionNumber == -1;
+        boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
+        if (upgrade)
+            settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply();
+
         Intent intent = getIntent();
         if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
             intent.setDataAndType(intent.getData(), intent.getType());
@@ -58,8 +73,14 @@ public class StartActivity extends Activity {
                 startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
             if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
                 startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
-            else
-                startActivity(new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class));
+            else {
+                Intent activityIntent = new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class);
+                if (firstRun)
+                    activityIntent.putExtra(EXTRA_FIRST_RUN, true);
+                if (upgrade)
+                    activityIntent.putExtra(EXTRA_UPGRADE, true);
+                startActivity(activityIntent);
+            }
         }
         finish();
     }
