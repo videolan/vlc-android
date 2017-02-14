@@ -390,8 +390,10 @@ public class AudioUtil {
             options.inSampleSize = 1;
 
             // Find the best decoding scale for the bitmap
-            while( options.outWidth / options.inSampleSize > width)
-                options.inSampleSize = options.inSampleSize * 2;
+            if (width > 0) {
+                while (options.outWidth / options.inSampleSize > width)
+                    options.inSampleSize = options.inSampleSize * 2;
+            }
 
             // Decode the file (with memory allocation this time)
             cover = BitmapFactory.decodeFile(path, options);
