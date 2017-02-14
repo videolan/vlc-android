@@ -205,6 +205,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     mDrawerLayout.openDrawer(mNavigationView);
                 }
             }, 500);
+            getIntent().removeExtra(StartActivity.EXTRA_UPGRADE);
         }
 
         /* Reload the latest preferences */
