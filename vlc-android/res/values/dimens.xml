@@ -13,6 +13,7 @@
     <dimen name="grid_card_subtitle_text_size">10sp</dimen>
     <dimen name="grid_card_vertical_spacing">0dp</dimen>
     <dimen name="tab_layout_horizontal_padding">5dp</dimen>
+    <dimen name="info_appbar_height">150dp</dimen>
 
     <!-- Video Player -->
     <dimen name="overlay_padding_bottom">8dip</dimen>
@@ -53,6 +54,8 @@
     <dimen name="very_small_margin">4dp</dimen>
     <dimen name="left_right_1610_margin">8dp</dimen>
     <dimen name="top_bottom_1610_margin">5dp</dimen>
+    <dimen name="info_progress_end_margin">74dp</dimen>
+    <dimen name="info_default_margin">16dp</dimen>
 
     <dimen name="actionBarSize">56dp</dimen>
     <dimen name="info_dialog_peek_height">120dip</dimen>

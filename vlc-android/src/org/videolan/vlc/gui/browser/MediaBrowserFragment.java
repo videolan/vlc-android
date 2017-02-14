@@ -30,7 +30,6 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MediaInfoDialog;
+import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -177,12 +176,10 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         });
     }
 
-    protected void showInfoDialog(MediaWrapper media) {
-        BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-        Bundle args = new Bundle();
-        args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
-        bottomSheetDialogFragment.setArguments(args);
-        bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+    protected void showInfoDialog(MediaLibraryItem item) {
+        Intent i = new Intent(getActivity(), InfoActivity.class);
+        i.putExtra(InfoActivity.TAG_ITEM, item);
+        startActivity(i);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

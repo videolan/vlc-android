@@ -23,12 +23,12 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -54,7 +54,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MediaInfoDialog;
+import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -494,11 +494,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private void showMediaInfo(MediaWrapper mw) {
-        BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-        Bundle args = new Bundle();
-        args.putParcelable(MediaInfoDialog.ITEM_KEY, mw);
-        bottomSheetDialogFragment.setArguments(args);
-        bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+        Intent i = new Intent(getActivity(), InfoActivity.class);
+        i.putExtra(InfoActivity.TAG_ITEM, mw);
+        startActivity(i);
     }
 
     private void playAll(MediaWrapper mw) {

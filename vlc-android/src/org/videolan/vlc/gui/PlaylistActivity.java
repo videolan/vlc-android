@@ -24,16 +24,15 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
@@ -47,7 +46,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -98,27 +96,17 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        mBinding.appbar.setExpanded(false);
-        ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    int width;
-                    if (AndroidUtil.isHoneycombMr2OrLater()) {
-                        Point point = new Point();
-                        getWindowManager().getDefaultDisplay().getSize(point);
-                        width = point.x;
-                    } else
-                        width = getWindowManager().getDefaultDisplay().getWidth();
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), width);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), 0);
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
                         VLCApplication.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
-                                mBinding.songs.setNestedScrollingEnabled(true);
                                 mBinding.appbar.setExpanded(true, true);
                             }
                         });
@@ -132,6 +120,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void fabFallback() {
+        mBinding.appbar.setExpanded(false);
+        ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
         lp.setAnchorId(mBinding.songs.getId());
         lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
@@ -291,11 +281,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     protected void showInfoDialog(MediaWrapper media) {
-        BottomSheetDialogFragment bottomSheetDialogFragment = new MediaInfoDialog();
-        Bundle args = new Bundle();
-        args.putParcelable(MediaInfoDialog.ITEM_KEY, media);
-        bottomSheetDialogFragment.setArguments(args);
-        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+        Intent i = new Intent(this, InfoActivity.class);
+        i.putExtra(InfoActivity.TAG_ITEM, media);
+        startActivity(i);
     }
 
     protected void setContextMenuItems(Menu menu, int position) {

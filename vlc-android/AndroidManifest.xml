@@ -442,7 +442,9 @@
             android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.PlaylistActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.VLC"/>
+        <activity
+            android:name=".gui.InfoActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.SearchActivity"

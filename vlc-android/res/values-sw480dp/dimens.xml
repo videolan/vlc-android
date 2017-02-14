@@ -8,4 +8,5 @@
     <dimen name="grid_card_thumb_height">110dp</dimen>
     <dimen name="default_margin">16dp</dimen>
     <dimen name="half_default_margin">8dp</dimen>
+    <dimen name="info_progress_end_margin">64dp</dimen>
 </resources>

@@ -21,22 +21,21 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_marginRight="@dimen/half_default_margin"
+            android:layout_marginEnd="@dimen/half_default_margin"
+            android:layout_marginTop="@dimen/half_default_margin"
             android:gravity="center_vertical"
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
             android:scrollHorizontally="true"/>
-
         <TextView
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:layout_marginLeft="@dimen/half_default_margin"
+            android:layout_marginRight="@dimen/half_default_margin"
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
             android:ellipsize="start" />
