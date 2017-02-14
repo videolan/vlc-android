@@ -664,26 +664,29 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_mode_file_play:
-                mService.load(mAdapter.getSelection(), 0);
-                break;
-            case R.id.action_mode_file_append:
-                mService.append(mAdapter.getSelection());
-                break;
-            case R.id.action_mode_file_delete:
-                for (MediaWrapper media : mAdapter.getSelection())
-                    deleteMedia(media, true);
-                break;
-            case R.id.action_mode_file_add_playlist:
-                UiTools.addToPlaylist(getActivity(), mAdapter.getSelection());
-                break;
-            case R.id.action_mode_file_info:
-                showMediaInfo(mAdapter.getSelection().get(0));
-                break;
-            default:
-                stopActionMode();
-                return false;
+        ArrayList<MediaWrapper> list = mAdapter.getSelection();
+        if (!list.isEmpty()) {
+            switch (item.getItemId()) {
+                case R.id.action_mode_file_play:
+                    mService.load(list, 0);
+                    break;
+                case R.id.action_mode_file_append:
+                    mService.append(list);
+                    break;
+                case R.id.action_mode_file_delete:
+                    for (MediaWrapper media : list)
+                        deleteMedia(media, true);
+                    break;
+                case R.id.action_mode_file_add_playlist:
+                    UiTools.addToPlaylist(getActivity(), list);
+                    break;
+                case R.id.action_mode_file_info:
+                    showMediaInfo(list.get(0));
+                    break;
+                default:
+                    stopActionMode();
+                    return false;
+            }
         }
         stopActionMode();
         return true;

@@ -528,32 +528,34 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_video_play:
-                MediaUtils.openList(getActivity(), mVideoAdapter.getSelection(), 0);
-                break;
-            case R.id.action_video_append:
-                MediaUtils.appendMedia(getActivity(), mVideoAdapter.getSelection());
-                break;
-            case R.id.action_video_info:
-                showInfoDialog(mVideoAdapter.getSelection().get(0));
-                break;
-//            case R.id.action_video_delete:
-//                for (int position : mVideoAdapter.getSelectedPositions())
-//                    removeVideo(position, mVideoAdapter.getItem(position));
-//                break;
-            case R.id.action_video_download_subtitles:
-                MediaUtils.getSubs(getActivity(), mVideoAdapter.getSelection());
-                break;
-            case R.id.action_video_play_audio:
-                List<MediaWrapper> list = mVideoAdapter.getSelection();
-                for (MediaWrapper media : list)
-                    media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openList(getActivity(), list, 0);
-                break;
-            default:
-                stopActionMode();
-                return false;
+        List<MediaWrapper> list = mVideoAdapter.getSelection();
+        if (!list.isEmpty()) {
+            switch (item.getItemId()) {
+                case R.id.action_video_play:
+                    MediaUtils.openList(getActivity(), list, 0);
+                    break;
+                case R.id.action_video_append:
+                    MediaUtils.appendMedia(getActivity(), list);
+                    break;
+                case R.id.action_video_info:
+                    showInfoDialog(list.get(0));
+                    break;
+    //            case R.id.action_video_delete:
+    //                for (int position : mVideoAdapter.getSelectedPositions())
+    //                    removeVideo(position, mVideoAdapter.getItem(position));
+    //                break;
+                case R.id.action_video_download_subtitles:
+                    MediaUtils.getSubs(getActivity(), list);
+                    break;
+                case R.id.action_video_play_audio:
+                    for (MediaWrapper media : list)
+                        media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                    MediaUtils.openList(getActivity(), list, 0);
+                    break;
+                default:
+                    stopActionMode();
+                    return false;
+            }
         }
         stopActionMode();
         return true;

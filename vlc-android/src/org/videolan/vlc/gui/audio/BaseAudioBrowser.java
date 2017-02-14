@@ -77,28 +77,30 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
-        ArrayList<MediaWrapper> tracks = new ArrayList<>();
-        for (MediaLibraryItem mediaItem : list)
-            tracks.addAll(Arrays.asList(mediaItem.getTracks(mMediaLibrary)));
         stopActionMode();
-        switch (item.getItemId()) {
-            case R.id.action_mode_audio_play:
-                mService.load(tracks, 0);
-                break;
-            case R.id.action_mode_audio_append:
-                mService.append(tracks);
-                break;
-            case R.id.action_mode_audio_add_playlist:
-                UiTools.addToPlaylist(getActivity(), tracks);
-                break;
-            case R.id.action_mode_audio_info:
-                showInfoDialog((MediaWrapper) list.get(0));
-                break;
-            case R.id.action_mode_audio_set_song:
-                AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
-                break;
-            default:
-                return false;
+        if (!list.isEmpty()) {
+            ArrayList<MediaWrapper> tracks = new ArrayList<>();
+            for (MediaLibraryItem mediaItem : list)
+                tracks.addAll(Arrays.asList(mediaItem.getTracks(mMediaLibrary)));
+            switch (item.getItemId()) {
+                case R.id.action_mode_audio_play:
+                    mService.load(tracks, 0);
+                    break;
+                case R.id.action_mode_audio_append:
+                    mService.append(tracks);
+                    break;
+                case R.id.action_mode_audio_add_playlist:
+                    UiTools.addToPlaylist(getActivity(), tracks);
+                    break;
+                case R.id.action_mode_audio_info:
+                    showInfoDialog((MediaWrapper) list.get(0));
+                    break;
+                case R.id.action_mode_audio_set_song:
+                    AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
+                    break;
+                default:
+                    return false;
+            }
         }
         return true;
     }
