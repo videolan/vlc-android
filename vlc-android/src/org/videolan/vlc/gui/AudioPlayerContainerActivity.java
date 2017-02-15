@@ -352,6 +352,10 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         return mAudioPlayer != null;
     }
 
+    public boolean isAudioPlayerExpanded() {
+        return isAudioPlayerReady() && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
+    }
+
     private class AudioPlayerBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {

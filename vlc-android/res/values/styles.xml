@@ -33,6 +33,7 @@
         <item name="background_player">@color/grey100</item>
         <item name="background_header">@color/grey300</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
+        <item name="audio_player_background_tint">@color/whitetransparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
@@ -125,6 +126,7 @@
         <item name="background_player">@color/grey850</item>
         <item name="background_header">@color/grey900</item>
         <item name="background_audio_tips">@color/grey900transparent</item>
+        <item name="audio_player_background_tint">@color/grey900transparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>

@@ -168,7 +168,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             MediaWrapper mw = mService.getCurrentMediaWrapper();
             Bitmap cover = AudioUtil.getCover(this, mw, mCover.getWidth());
             if (cover == null)
-                cover = mService.getCover();
+                cover = AudioUtil.getCover(this, mService.getCurrentMediaWrapper(), 512);
             if (cover == null)
                 mCover.setImageResource(R.drawable.ic_tv_icon_big);
             else

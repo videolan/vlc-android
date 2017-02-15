@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.VLCApplication;
 
 
 public abstract class AudioMediaSwitcher extends FlingViewGroup {
@@ -41,37 +42,48 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
         setOnViewSwitchedListener(mViewSwitchListener);
     }
 
-    public void updateMedia(PlaybackService service) {
-        removeAllViews();
+    public void updateMedia(final PlaybackService service) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap coverPrev = service.getCoverPrev(), coverCurrent = service.getCover(), coverNext = service.getCoverNext();
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        removeAllViews();
 
-        hasPrevious = false;
-        previousPosition = 0;
+                        hasPrevious = false;
+                        previousPosition = 0;
 
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (service.hasPrevious()) {
-            addMediaView(inflater,
-                    service.getTitlePrev(),
-                    service.getArtistPrev(),
-                    service.getCoverPrev());
-            hasPrevious = true;
-        }
-        if (service.hasMedia())
-            addMediaView(inflater,
-                    service.getTitle(),
-                    service.getArtist(),
-                    service.getCover());
-        if (service.hasNext())
-            addMediaView(inflater,
-                    service.getTitleNext(),
-                    service.getArtistNext(),
-                    service.getCoverNext());
+                        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        if (service.hasPrevious()) {
+                            addMediaView(inflater,
+                                    service.getTitlePrev(),
+                                    service.getArtistPrev(),
+                                    coverPrev);
+                            hasPrevious = true;
+                        }
+                        if (service.hasMedia())
+                            addMediaView(inflater,
+                                    service.getTitle(),
+                                    service.getArtist(),
+                                    coverCurrent);
+                        if (service.hasNext())
+                            addMediaView(inflater,
+                                    service.getTitleNext(),
+                                    service.getArtistNext(),
+                                    coverNext);
 
-        if (service.hasPrevious() && service.hasMedia()) {
-            previousPosition = 1;
-            scrollTo(1);
-        }
-        else
-            scrollTo(0);
+                        if (service.hasPrevious() && service.hasMedia()) {
+                            previousPosition = 1;
+                            scrollTo(1);
+                        }
+                        else
+                            scrollTo(0);
+                    }
+                });
+            }
+        });
     }
 
     protected abstract void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover);

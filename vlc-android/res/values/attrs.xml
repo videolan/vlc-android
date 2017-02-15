@@ -26,6 +26,7 @@
     <attr name="list_title_last" format="reference|color" />
     <attr name="list_title" format="reference|color" />
     <attr name="color_menu_button" format="reference|color" />
+    <attr name="audio_player_background_tint" format="reference|color" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />

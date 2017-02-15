@@ -40,7 +40,7 @@
     <color name="grey900transparent">#80212121</color>
 
     <color name="blacktransparent">#b4000000</color>
-    <color name="whitetransparent">#dcffffff</color>
+    <color name="whitetransparent">#b4ffffff</color>
     <color name="transparent">#00000000</color>
 
 

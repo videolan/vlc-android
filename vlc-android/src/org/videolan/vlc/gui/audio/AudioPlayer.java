@@ -21,11 +21,15 @@
 package org.videolan.vlc.gui.audio;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -53,6 +57,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
@@ -68,10 +73,12 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
 
+    private static int DEFAULT_BACKGROUND_ID;
     public static final int SEARCH_TIMEOUT_MILLIS = 5000;
 
     private AudioPlayerBinding mBinding;
@@ -102,6 +109,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default_darker);
         mPlaylistAdapter = new PlaylistAdapter(this);
         mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
         mBinding.songsList.setAdapter(mPlaylistAdapter);
@@ -177,7 +185,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void doUpdate() {
         if (mService == null || getActivity() == null)
             return;
-
         if (mService.hasMedia() && !mService.isVideoPlaying()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             //Check fragment resumed to not restore video on device turning off
@@ -226,6 +233,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mBinding.shuffle.setVisibility(mService.canShuffle() ? View.VISIBLE : View.INVISIBLE);
         mBinding.timeline.setOnSeekBarChangeListener(mTimelineListner);
         updateList();
+        updateBackground();
     }
 
     @Override
@@ -260,6 +268,37 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 hide();
                 break;
         }
+    }
+
+    private void updateBackground() {
+        if (AndroidUtil.isJellyBeanMR1OrLater()) {
+            final MediaWrapper mw = mService.getCurrentMediaWrapper();
+            if (mw == null || TextUtils.isEmpty(mw.getArtworkMrl())) {
+                mBinding.backgroundView.setImageResource(DEFAULT_BACKGROUND_ID);
+                mBinding.backgroundView.clearColorFilter();
+            } else {
+                VLCApplication.runBackground(new Runnable() {
+                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    @Override
+                    public void run() {
+                        final Bitmap blurredCover = UiTools.blurBitmap(AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mw.getArtworkMrl())), mBinding.contentLayout.getWidth()));
+                        if (blurredCover != null)
+                            VLCApplication.runOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (((AudioPlayerContainerActivity)getActivity()).isAudioPlayerExpanded())
+                                        mBinding.header.setBackgroundResource(0);
+                                    mBinding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(mBinding.backgroundView.getContext(), R.attr.audio_player_background_tint));
+                                    mBinding.backgroundView.setImageBitmap(blurredCover);
+                                }
+                            });
+                    }
+                });
+            }
+        }
+        if (((AudioPlayerContainerActivity)getActivity()).isAudioPlayerExpanded())
+            setHeaderVisibilities(true, true, false, false, false, true);
+
     }
 
     public void updateList() {
@@ -657,13 +696,17 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlayerState = newState;
         switch (newState) {
             case BottomSheetBehavior.STATE_COLLAPSED:
+                mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID);
                 setHeaderVisibilities(false, false, true, true, true, false);
                 break;
             case BottomSheetBehavior.STATE_EXPANDED:
+                mBinding.header.setBackgroundResource(0);
                 setHeaderVisibilities(true, true, false, false, false, true);
                 showPlaylistTips();
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                 break;
+            default:
+                mBinding.header.setBackgroundResource(0);
         }
     }
 
