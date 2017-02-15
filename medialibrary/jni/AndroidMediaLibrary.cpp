@@ -638,9 +638,12 @@ void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint )
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
+    discoveryEnded = true;
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     jobject thiz = getWeakReference(env);
     if (thiz) {
+        if (m_progress)
+            env->CallVoidMethod(thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, m_progress);
         env->CallVoidMethod(thiz, p_fields->MediaLibrary.onReloadCompletedId, ep);
         if (weak_compat)
             env->DeleteLocalRef(thiz);
