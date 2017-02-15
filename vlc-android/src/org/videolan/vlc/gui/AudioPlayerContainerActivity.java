@@ -394,9 +394,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     ml.addDevice(path, path, true);
-                    Intent intent = new Intent(MediaParsingService.ACTION_RELOAD, null, getOwner(), MediaParsingService.class);
-                    intent.putExtra(MediaParsingService.EXTRA_PATH, path);
-                    getOwner().startService(intent);
                     getOwner().updateLib();
                     Intent mlIntent = new Intent(MediaParsingService.ACTION_DISCOVER, null, getOwner(), MediaParsingService.class);
                     mlIntent.putExtra(MediaParsingService.EXTRA_PATH, path);
