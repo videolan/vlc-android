@@ -113,9 +113,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mBinding.songsList);
 
-        mBinding.viewSwitcher.setInAnimation(view.getContext(), android.R.anim.fade_in);
-        mBinding.viewSwitcher.setOutAnimation(view.getContext(), android.R.anim.fade_out);
-
         setHeaderVisibilities(false, false, true, false, true, false);
         mBinding.setFragment(this);
 
@@ -355,9 +352,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void onPlaylistSwitchClick(View view) {
-        mBinding.viewSwitcher.showNext();
+        boolean showCover = mBinding.songsList.getVisibility() == View.VISIBLE;
         mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
-                mBinding.viewSwitcher.getDisplayedChild() == 0 ? R.attr.ic_playlist_on : R.attr.ic_playlist));
+                showCover ? R.attr.ic_playlist : R.attr.ic_playlist_on));
+        mBinding.songsList.setVisibility(showCover ? View.GONE : View.VISIBLE);
+        mBinding.coverMediaSwitcher.setVisibility(showCover ? View.VISIBLE : View.GONE);
     }
 
     public void onShuffleClick(View view) {
@@ -396,7 +395,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             activity.hideAudioPlayer();
     }
 
-   public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
+    public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                       boolean headerPlayPauseVisible, boolean progressBarVisible,
                                       boolean headerTimeVisible, boolean searchVisible) {
         mAdvFuncVisible = advFuncVisible;
@@ -575,7 +574,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             public void run() {
                 if(!vibrated) {
                     ((android.os.Vibrator) VLCApplication.getAppContext().getSystemService(Context.VIBRATOR_SERVICE))
-                                .vibrate(80);
+                            .vibrate(80);
                     vibrated = true;
                 }
 
@@ -601,42 +600,42 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             if (mService == null)
                 return false;
             switch(event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                (forward ? mBinding.next : mBinding.previous).setImageResource(this.pressed);
+                case MotionEvent.ACTION_DOWN:
+                    (forward ? mBinding.next : mBinding.previous).setImageResource(this.pressed);
 
-                possibleSeek = (int) mService.getTime();
+                    possibleSeek = (int) mService.getTime();
 
-                mPreviewingSeek = true;
-                vibrated = false;
-                length = mService.getLength();
+                    mPreviewingSeek = true;
+                    vibrated = false;
+                    length = mService.getLength();
 
-                mHandler.postDelayed(seekRunnable, 1000);
-                return true;
+                    mHandler.postDelayed(seekRunnable, 1000);
+                    return true;
 
-            case MotionEvent.ACTION_UP:
-                (forward ? mBinding.next : mBinding.previous).setImageResource(this.normal);
-                mHandler.removeCallbacks(seekRunnable);
-                mPreviewingSeek = false;
+                case MotionEvent.ACTION_UP:
+                    (forward ? mBinding.next : mBinding.previous).setImageResource(this.normal);
+                    mHandler.removeCallbacks(seekRunnable);
+                    mPreviewingSeek = false;
 
-                if(event.getEventTime()-event.getDownTime() < 1000) {
-                    if(forward)
-                        onNextClick(v);
-                    else
-                        onPreviousClick(v);
-                } else {
-                    if(forward) {
-                        if(possibleSeek < mService.getLength())
-                            mService.setTime(possibleSeek);
-                        else
+                    if(event.getEventTime()-event.getDownTime() < 1000) {
+                        if(forward)
                             onNextClick(v);
-                    } else {
-                        if(possibleSeek > 0)
-                            mService.setTime(possibleSeek);
                         else
                             onPreviousClick(v);
+                    } else {
+                        if(forward) {
+                            if(possibleSeek < mService.getLength())
+                                mService.setTime(possibleSeek);
+                            else
+                                onNextClick(v);
+                        } else {
+                            if(possibleSeek > 0)
+                                mService.setTime(possibleSeek);
+                            else
+                                onPreviousClick(v);
+                        }
                     }
-                }
-                return true;
+                    return true;
             }
             return false;
         }
@@ -657,14 +656,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onStateChanged(int newState) {
         mPlayerState = newState;
         switch (newState) {
-                case BottomSheetBehavior.STATE_COLLAPSED:
-                    setHeaderVisibilities(false, false, true, true, true, false);
-                    break;
-                case BottomSheetBehavior.STATE_EXPANDED:
-                    setHeaderVisibilities(true, true, false, false, false, true);
-                    showPlaylistTips();
-                    mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
-                    break;
+            case BottomSheetBehavior.STATE_COLLAPSED:
+                setHeaderVisibilities(false, false, true, true, true, false);
+                break;
+            case BottomSheetBehavior.STATE_EXPANDED:
+                setHeaderVisibilities(true, true, false, false, false, true);
+                showPlaylistTips();
+                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+                break;
         }
     }
 

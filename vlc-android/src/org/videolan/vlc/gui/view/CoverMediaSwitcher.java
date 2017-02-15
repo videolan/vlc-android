@@ -28,7 +28,6 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.view.AudioMediaSwitcher;
 
 public class CoverMediaSwitcher extends AudioMediaSwitcher {
 
@@ -43,7 +42,7 @@ public class CoverMediaSwitcher extends AudioMediaSwitcher {
 
         ImageView imageView = new ImageView(getContext());
         imageView.setImageBitmap(cover);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         addView(imageView);
     }
 }

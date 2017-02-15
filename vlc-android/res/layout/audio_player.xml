@@ -6,8 +6,9 @@
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
     </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/background_default_darker" >
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -144,28 +145,26 @@
 
         </LinearLayout>
 
-        <ViewSwitcher
-            android:id="@+id/view_switcher"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/songs_list"
+            android:layout_width="@dimen/playlist_width"
             android:layout_height="match_parent"
             android:layout_below="@+id/header"
             android:layout_above="@+id/player_controls"
-            android:background="?attr/background_default_darker">
+            android:layout_centerHorizontal="true"
+            android:clipToPadding="false"
+            android:layout_gravity="center_horizontal"
+            android:background="?attr/background_default"
+            android:paddingBottom="@dimen/listview_bottom_padding" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/songs_list"
-                android:layout_width="@dimen/playlist_width"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:layout_gravity="center_horizontal"
-                android:background="?attr/background_default"
-                android:paddingBottom="@dimen/listview_bottom_padding" />
-
-            <org.videolan.vlc.gui.view.CoverMediaSwitcher
-                android:id="@+id/cover_media_switcher"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"/>
-        </ViewSwitcher>
+        <org.videolan.vlc.gui.view.CoverMediaSwitcher
+            android:id="@+id/cover_media_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/header"
+            android:layout_above="@+id/player_controls"
+            android:visibility="gone"/>
 
         <include layout="@layout/shadow_top"
             android:layout_width="match_parent"
