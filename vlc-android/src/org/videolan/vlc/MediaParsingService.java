@@ -40,7 +40,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
-    private int mParsing = 0;
+    private int mParsing = 0, mReload = 0;
     private String mCurrentProgress = null;
     private long mLastNotificationTime;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -95,6 +95,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void reload() {
+        if (mReload > 0)
+            return;
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.reload();
     }
@@ -210,12 +212,17 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onReloadStarted(String entryPoint) {
+        if (TextUtils.isEmpty(entryPoint))
+            ++mReload;
+        mLastNotificationTime = System.currentTimeMillis();
         showNotification();
     }
 
     @Override
     public void onReloadCompleted(String entryPoint) {
-        if (mCurrentProgress != null && mParsing == 0) {
+        if (TextUtils.isEmpty(entryPoint))
+            --mReload;
+        if (mParsing == 0) {
             stopSelf();
         }
     }
