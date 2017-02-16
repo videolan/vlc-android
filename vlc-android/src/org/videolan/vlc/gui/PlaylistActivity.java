@@ -195,8 +195,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     protected void onPlayerStateChanged(View bottomSheet, int newState) {
-        if (newState == BottomSheetBehavior.STATE_EXPANDED)
-            mAppBarLayout.setExpanded(false, true);
+        int visibility = mBinding.fab.getVisibility();
+        if (visibility == View.VISIBLE && newState != BottomSheetBehavior.STATE_COLLAPSED && newState != BottomSheetBehavior.STATE_HIDDEN)
+            mBinding.fab.setVisibility(View.INVISIBLE);
+        else if (visibility == View.INVISIBLE && (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN))
+            mBinding.fab.show();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

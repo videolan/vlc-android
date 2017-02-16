@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
@@ -119,6 +120,15 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
     public void onClick(View v) {
         mService.load(mItem.getTracks(VLCApplication.getMLInstance()), 0);
         finish();
+    }
+
+    @Override
+    protected void onPlayerStateChanged(View bottomSheet, int newState) {
+        int visibility = mBinding.fab.getVisibility();
+        if (visibility == View.VISIBLE && newState != BottomSheetBehavior.STATE_COLLAPSED && newState != BottomSheetBehavior.STATE_HIDDEN)
+            mBinding.fab.setVisibility(View.INVISIBLE);
+        else if (visibility == View.INVISIBLE && (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN))
+            mBinding.fab.show();
     }
 
     private class CheckFileTask extends AsyncTask<Void, Void, File> {
