@@ -73,9 +73,10 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="fill:#bdbdbd;fill-opacity:1;stroke:none"
-       d="M 13 4 C 12.44772 4 12.02399 4.4651625 12 5.0390625 L 12 14.40625 A 3 3 0 0 0 10.5 14 A 3 3 0 0 0 7.5 17 A 3 3 0 0 0 10.5 20 A 3 3 0 0 0 13.5 17 L 13.5 7 L 15.5 7 C 16.05228 7 16.5 6.5523 16.5 6 L 16.5 4 L 13.5 4 L 13 4 z "
-       transform="translate(0,1028.3622)"
-       id="path7615" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#bdbdbd;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.77165353;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m 17.75,1032.3628 c -2.87091,1.2764 -5.54576,2.4607 -8.25781,3.6699 -0.74219,0.331 -0.74219,1.3301 -0.74219,1.3301 l 0,6.5156 c -0.083,-0.01 -0.16644,-0.015 -0.25,-0.016 -1.24264,0 -2.25,1.0074 -2.25,2.25 0,1.2427 1.00736,2.25 2.25,2.25 1.24264,0 2.25,-1.0073 2.25,-2.25 l 0,-7.75 5,-2 0,5.7656 c -0.083,-0.01 -0.16644,-0.015 -0.25,-0.016 -1.24264,0 -2.25,1.0074 -2.25,2.25 0,1.2427 1.00736,2.25 2.25,2.25 1.24264,0 2.25,-1.0073 2.25,-2.25 l 0,-12 z"
+       id="path7165"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cscccsssccccssscc" />
   </g>
 </svg>
