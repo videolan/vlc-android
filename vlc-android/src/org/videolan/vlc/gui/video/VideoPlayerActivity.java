@@ -585,13 +585,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSize.setOnClickListener(null);
 
         /* Stop the earliest possible to avoid vout error */
-        if (!isInPictureInPictureMode() && (isFinishing() || !requestVisibleBehind(true)))
+        if (!isInPictureInPictureMode() && (isFinishing() || (AndroidDevices.isAndroidTv() && !requestVisibleBehind(true))))
             stopPlayback();
-    }
-
-    @Override
-    public boolean requestVisibleBehind(boolean visible) {
-        return AndroidDevices.isAndroidTv() && super.requestVisibleBehind(visible);
     }
 
     @Override
