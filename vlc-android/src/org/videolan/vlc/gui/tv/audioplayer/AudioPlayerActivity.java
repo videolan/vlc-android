@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.tv.audioplayer;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -42,11 +43,14 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +75,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private boolean mShuffling = false;
 
     private TextView mTitleTv, mArtistTv;
-    private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat;
+    private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat, mBackground;
     private ProgressBar mProgressBar;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mRepeat = (ImageView)findViewById(R.id.button_repeat);
         mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
         mCover = (ImageView)findViewById(R.id.album_cover);
+        mBackground = (ImageView)findViewById(R.id.background);
     }
 
 
@@ -131,6 +136,8 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mService.load(mMediaList, mCurrentlyPlaying);
         } else {
             mMediaList = medias;
+            if (mCurrentlyPlaying != mService.getCurrentMediaPosition())
+                mService.playIndex(mCurrentlyPlaying);
             update();
             mAdapter = new PlaylistAdapter(this, mMediaList);
             mRecyclerView.setAdapter(mAdapter);
@@ -165,17 +172,29 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mTitleTv.setText(mService.getTitle());
             mArtistTv.setText(mService.getArtist());
             mProgressBar.setMax((int) mService.getLength());
-            MediaWrapper mw = mService.getCurrentMediaWrapper();
-            Bitmap cover = AudioUtil.getCover(this, mw, mCover.getWidth());
-            if (cover == null)
-                cover = AudioUtil.getCover(this, mService.getCurrentMediaWrapper(), 512);
-            if (cover == null)
-                mCover.setImageResource(R.drawable.ic_tv_icon_big);
-            else
-                mCover.setImageBitmap(cover);
-
-            mCurrentlyPlaying=mService.getCurrentMediaPosition();
+            mCurrentlyPlaying = mService.getCurrentMediaPosition();
             selectItem(mCurrentlyPlaying);
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mService.getCurrentMediaWrapper().getArtworkMrl())), mCover.getWidth());
+                    final Bitmap blurredCover = UiTools.blurBitmap(cover);
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (cover == null) {
+                                mCover.setImageResource(R.drawable.ic_tv_icon_big);
+                                mBackground.clearColorFilter();
+                                mBackground.setImageResource(0);
+                            } else {
+                                mCover.setImageBitmap(cover);
+                                mBackground.setColorFilter(UiTools.getColorFromAttribute(mBackground.getContext(), R.attr.audio_player_background_tint));
+                                mBackground.setImageBitmap(blurredCover);
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 

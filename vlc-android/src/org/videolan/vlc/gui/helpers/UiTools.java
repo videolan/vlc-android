@@ -274,6 +274,8 @@ public class UiTools {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Bitmap blurBitmap(Bitmap bitmap){
+        if (bitmap == null)
+            return null;
 
 		//Let's create an empty bitmap with the same size of the bitmap we want to blur
 		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
