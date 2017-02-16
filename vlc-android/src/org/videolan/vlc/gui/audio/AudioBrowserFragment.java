@@ -213,13 +213,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             fillView();
         else
             setupMediaLibraryReceiver();
-        final RecyclerView current = getCurrentRV();
-        current.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)current.getLayoutManager()).findFirstVisibleItemPosition() == 0);
-                }
-            });
     }
 
     protected void fillView() {
@@ -563,6 +556,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         if (adapter == getCurrentAdapter()) {
+            mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView(mViewPager.getCurrentItem());
             mFastScroller.setRecyclerView(getCurrentRV());
         }
