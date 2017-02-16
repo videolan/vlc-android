@@ -292,7 +292,7 @@ public class UiTools {
 		Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
 		//Set the radius of the blur
-		blurScript.setRadius(25.f);
+		blurScript.setRadius(15.f);
 
 		//Perform the Renderscript
 		blurScript.setInput(allIn);
