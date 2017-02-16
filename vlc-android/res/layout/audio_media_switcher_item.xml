@@ -44,7 +44,6 @@
             android:singleLine="true"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
-            android:text="@string/artist"
             android:textColor="?attr/font_light"
             android:background="#00000000"
             android:textSize="14sp"

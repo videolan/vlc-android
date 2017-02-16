@@ -51,11 +51,10 @@ public class HeaderMediaSwitcher extends AudioMediaSwitcher {
 
         titleView.setText(title);
         titleView.setSelected(true);
-        boolean hasArtist = TextUtils.isEmpty(artist);
-        if (hasArtist)
-            artistView.setText(artist);
+        boolean hasArtist = !TextUtils.isEmpty(artist);
+        artistView.setText(artist);
         artistView.setSelected(hasArtist);
-        artistView.setVisibility(hasArtist ? GONE : VISIBLE);
+        artistView.setVisibility(hasArtist ? VISIBLE : GONE);
 
         addView(v);
     }
