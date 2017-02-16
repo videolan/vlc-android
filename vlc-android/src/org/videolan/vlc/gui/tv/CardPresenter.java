@@ -45,7 +45,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.util.HttpImageLoader;
 import org.videolan.vlc.util.Strings;
 
@@ -239,26 +238,12 @@ public class CardPresenter extends Presenter {
         @Override
         public Bitmap getImage() {
             Bitmap picture = null;
-            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) mediaLibraryItem).getType() == MediaWrapper.TYPE_DIR) {
                 MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
-                switch (mediaWrapper.getType()) {
-                    case MediaWrapper.TYPE_AUDIO:
-                        picture = AudioUtil.getCover(VLCApplication.getAppContext(), mediaWrapper, 320);
-                        if (picture == null)
-                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_big_normal);
-                        break;
-                    case MediaWrapper.TYPE_VIDEO:
-                        picture = BitmapUtil.getPicture(mediaWrapper);
-                        if (picture == null)
-                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_big_normal);
-                        break;
-                    case MediaWrapper.TYPE_DIR:
-                        if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
-                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
-                        else
-                            picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
-                        break;
-                }
+                if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
+                else
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
             } else
                 picture = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaLibraryItem.getArtworkMrl())), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
             if (picture == null) {
