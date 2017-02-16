@@ -23,8 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.view.View;
-
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 
@@ -55,13 +53,5 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
     //TODO update with different filter types in other cases than subtitles selection
     private boolean filter(MediaWrapper mediaWrapper) {
         return mediaWrapper.getType() == MediaWrapper.TYPE_DIR || mediaWrapper.getType() == MediaWrapper.TYPE_SUBTITLE;
-    }
-
-    protected void openMediaFromView(MediaViewHolder holder, View v) {
-        final MediaWrapper media = (MediaWrapper) getItem(holder.getAdapterPosition());
-        if (media.getType() == MediaWrapper.TYPE_DIR)
-            fragment.browse(media, holder.getAdapterPosition(), true);
-        else
-            ((FilePickerFragment)fragment).pickFile(media);
     }
 }

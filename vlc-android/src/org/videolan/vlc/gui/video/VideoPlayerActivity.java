@@ -112,6 +112,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
+import org.videolan.vlc.gui.browser.FilePickerFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
@@ -945,17 +946,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if(data == null) return;
 
-        if(data.getData() == null)
-            Log.d(TAG, "Subtitle selection dialog was cancelled");
-        else {
-            mService.addSubtitleTrack(data.getData(), true);
+        if(data.hasExtra(FilePickerFragment.EXTRA_MRL)) {
+            mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragment.EXTRA_MRL)), true);
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getDataString());
+                    MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
                 }
             });
-        }
+        } else
+            Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
     public static void start(Context context, Uri uri) {

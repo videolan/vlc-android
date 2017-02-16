@@ -32,14 +32,17 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.R;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
 public class FilePickerFragment extends FileBrowserFragment {
+
+    public static final String EXTRA_MRL = "sub_mrl";
 
     private static String[] rootDirectories = AndroidDevices.getMediaDirectories();
 
@@ -77,8 +80,18 @@ public class FilePickerFragment extends FileBrowserFragment {
         getActivity().setTitle(getTitle());
     }
 
+    public void onClick(View v, int position, MediaLibraryItem item) {
+        final MediaWrapper media = (MediaWrapper) item;
+        if (media.getType() == MediaWrapper.TYPE_DIR)
+            browse(media, position, true);
+        else
+            pickFile(media);
+
+    }
     void pickFile(MediaWrapper mw){
-        getActivity().setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, mw.getUri()));
+        Intent i = new Intent(Intent.ACTION_PICK);
+        i.putExtra(EXTRA_MRL, mw.getLocation());
+        getActivity().setResult(Activity.RESULT_OK, i);
         getActivity().finish();
     }
 
