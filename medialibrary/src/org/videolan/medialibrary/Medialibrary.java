@@ -437,7 +437,8 @@ public class Medialibrary {
 
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
         synchronized (devicesDiscoveryCbList) {
-            devicesDiscoveryCbList.add(cb);
+            if (!devicesDiscoveryCbList.contains(cb))
+                devicesDiscoveryCbList.add(cb);
         }
     }
 
@@ -449,7 +450,8 @@ public class Medialibrary {
 
     public void addEntryPointsEventsCb(EntryPointsEventsCb cb) {
         synchronized (entryPointsEventsCbList) {
-            entryPointsEventsCbList.add(cb);
+            if (!entryPointsEventsCbList.contains(cb))
+                entryPointsEventsCbList.add(cb);
         }
     }
 
