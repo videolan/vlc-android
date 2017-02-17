@@ -134,6 +134,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             });
     }
 
+    private NotificationCompat.Builder builder;
+    private boolean wasWorking;
+    final StringBuilder sb = new StringBuilder();
     private void showNotification() {
         final long currentTime = System.currentTimeMillis();
         synchronized (this) {
@@ -142,29 +145,35 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             mLastNotificationTime = currentTime;
         }
         VLCApplication.runBackground(new Runnable() {
-            final StringBuilder sb = new StringBuilder();
             @Override
             public void run() {
+                sb.setLength(0);
                 if (mParsing > 0)
                     sb.append(getString(R.string.ml_parse_media)).append(' ').append(mParsing).append("%");
                 else if (mCurrentProgress != null)
                     sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentProgress)));
                 else
                     sb.append(getString(R.string.ml_parse_media));
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(MediaParsingService.this)
-                        .setContentIntent(PendingIntent.getActivity(MediaParsingService.this, 0, new Intent(MediaParsingService.this, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
-                        .setSmallIcon(R.drawable.ic_notif_scan)
-                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .setContentTitle(getString(R.string.ml_scanning))
-                        .setContentText(sb.toString())
-                        .setAutoCancel(false)
-                        .setOngoing(true);
+                if (builder == null) {
+                    builder = new NotificationCompat.Builder(MediaParsingService.this)
+                            .setContentIntent(PendingIntent.getActivity(MediaParsingService.this, 0, new Intent(MediaParsingService.this, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
+                            .setSmallIcon(R.drawable.ic_notif_scan)
+                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                            .setContentTitle(getString(R.string.ml_scanning))
+                            .setAutoCancel(false)
+                            .setOngoing(true);
+                }
+                builder.setContentText(sb.toString());
 
                 boolean isWorking = mMedialibrary.isWorking();
-                PendingIntent pi = PendingIntent.getBroadcast(MediaParsingService.this, 0, new Intent(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN), PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Action playpause = isWorking ? new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi)
-                        : new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi);
-                builder.addAction(playpause);
+                if (wasWorking != isWorking) {
+                    wasWorking = isWorking;
+                    PendingIntent pi = PendingIntent.getBroadcast(MediaParsingService.this, 0, new Intent(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN), PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Action playpause = isWorking ? new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi)
+                            : new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi);
+                    builder.mActions.clear();
+                    builder.addAction(playpause);
+                }
                 final Notification notification = builder.build();
                 synchronized (MediaParsingService.this) {
                     if (mLastNotificationTime != -1L) {
