@@ -95,6 +95,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mProgressBarVisible;
     private boolean mHeaderTimeVisible;
     private int mPlayerState;
+    private String mCurrentCoverArt;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -273,6 +274,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private void updateBackground() {
         if (AndroidUtil.isJellyBeanMR1OrLater()) {
             final MediaWrapper mw = mService.getCurrentMediaWrapper();
+            if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
+                return;
+            mCurrentCoverArt = mw.getArtworkMrl();
             if (mw == null || TextUtils.isEmpty(mw.getArtworkMrl())) {
                 mBinding.backgroundView.setImageResource(DEFAULT_BACKGROUND_ID);
                 mBinding.backgroundView.clearColorFilter();

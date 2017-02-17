@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -73,6 +74,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private long mLastMove;
     private int mCurrentlyPlaying, mPositionSaved = 0;
     private boolean mShuffling = false;
+    private String mCurrentCoverArt;
 
     private TextView mTitleTv, mArtistTv;
     private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat, mBackground;
@@ -174,10 +176,14 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             mProgressBar.setMax((int) mService.getLength());
             mCurrentlyPlaying = mService.getCurrentMediaPosition();
             selectItem(mCurrentlyPlaying);
+            final MediaWrapper mw = mService.getCurrentMediaWrapper();
+            if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
+                return;
+            mCurrentCoverArt = mw.getArtworkMrl();
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mService.getCurrentMediaWrapper().getArtworkMrl())), mCover.getWidth());
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mCurrentCoverArt)), mCover.getWidth());
                     final Bitmap blurredCover = UiTools.blurBitmap(cover);
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
