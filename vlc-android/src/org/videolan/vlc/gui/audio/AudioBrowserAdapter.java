@@ -37,7 +37,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
@@ -216,7 +215,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                     if (TextUtils.isEmpty(mDataList[i].getDescription()))
                         mDataList[i].setDescription(mContext.getString(R.string.unknown_artist));
                 }
-            } else
+            } else if (generateSections)
                 break;
         }
     }
