@@ -8,20 +8,28 @@ Application:
  * New Search activity and integration with Google Now
  * Option to filter in current media list
  * Restored double/long click on remote play to skip songs
+ * Allow network browsing & discovery when connected to a VPN
  * Added multiselection mode
  * Removed sound lowering on notification
- * Redesigned audio and video lists/grid
- * Media Info view is now a BottomSheet pane
+ * Redesigned audio, video & history lists/grid
+ * Redesigned Info and album/playlist views
+ * New icons
+ * Audio player background is now filled with blurred cover
  * Force previous song on audioplayer swipe
  * Refactored MediaLibrary
  * CoordinatorLayout integration
  * Transparent theme for smoother startup
  * PlaybackService now persists
+ * Improve RTL support
  * Fix audioplayer layout for black theme and RTL
  * Fix notification content when no artist nor album
  * Update notification when playlist is ended
  * Upgraded AppCompat to version 25.1.1
  * Improve app & video player startup speed
+
+TV:
+ * Picture-In-Picture mode integration
+ * Improved theme
 
 Core
  * Switch to clang and libc++_shared using ndk13
