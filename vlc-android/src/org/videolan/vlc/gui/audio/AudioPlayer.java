@@ -290,7 +290,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                             VLCApplication.runOnMainThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (((AudioPlayerContainerActivity)getActivity()).isAudioPlayerExpanded())
+                                    AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) getActivity();
+                                    if (activity == null)
+                                        return;
+                                    if (activity.isAudioPlayerExpanded())
                                         mBinding.header.setBackgroundResource(0);
                                     mBinding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(mBinding.backgroundView.getContext(), R.attr.audio_player_background_tint));
                                     mBinding.backgroundView.setImageBitmap(blurredCover);
