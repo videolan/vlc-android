@@ -75,6 +75,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         filter.addAction(ACTION_RESUME_SCAN);
         registerReceiver(mReceiver, filter);
         mLastNotificationTime = System.currentTimeMillis();
+        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
                 setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
@@ -90,19 +91,16 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(String path) {
-        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.discover(path);
     }
 
     private void reload() {
         if (mReload > 0)
             return;
-        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         mMedialibrary.reload();
     }
 
     private void setupMedialibrary(final boolean upgrade) {
-        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         if (mMedialibrary.isInitiated())
             mMedialibrary.resumeBackgroundOperations();
         else
@@ -222,9 +220,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public void onReloadCompleted(String entryPoint) {
         if (TextUtils.isEmpty(entryPoint))
             --mReload;
-        if (mParsing == 0) {
-            stopSelf();
-        }
     }
 
     @Override
