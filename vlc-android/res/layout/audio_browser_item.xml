@@ -22,8 +22,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:longClickable="true"
         android:clickable="true"
         android:focusable="@{item.getItemType() != MediaLibraryItem.TYPE_DUMMY}"

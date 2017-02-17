@@ -381,8 +381,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         private void setViewBackground(boolean focused, boolean selected) {
             itemView.setBackgroundColor(focused ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
             int selectionColor = selected ? UiTools.ITEM_SELECTION_ON : 0;
-            vdb.audioItemMeta.setBackgroundColor(selectionColor);
-            vdb.itemMore.setBackgroundColor(selectionColor);
+            itemView.setBackgroundColor(selectionColor);
         }
     }
 
