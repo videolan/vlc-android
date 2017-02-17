@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -277,7 +278,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mAlbumsAdapter.dispatchUpdate(albums);
                 LinkedList<MediaLibraryItem> songs = new LinkedList<>();
                 for (Album album : albums) {
-                    songs.add(new DummyItem(album.getTitle()));
+                    String title = album.getTitle();
+                    if (TextUtils.isEmpty(title))
+                        title = getString(R.string.unknown_album);
+                    songs.add(new DummyItem(title));
                     songs.addAll(Arrays.asList(album.getTracks(mMediaLibrary)));
                 }
                 mSongsAdapter.dispatchUpdate(songs.toArray(new MediaLibraryItem[songs.size()]));
