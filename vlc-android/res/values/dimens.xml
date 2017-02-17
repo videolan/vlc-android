@@ -69,4 +69,5 @@
     <dimen name="fastscroller_track_height">30dp</dimen>
     <dimen name="fastscroller_track_width">6dp</dimen>
     <dimen name="fastscroller_track_padding">5dp</dimen>
+    <dimen name="audio_player_cover_margin">30dp</dimen>
 </resources>
