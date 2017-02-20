@@ -52,10 +52,12 @@ import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
@@ -71,6 +73,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     private int mSelectionCount = 0;
     private int mType;
     private BitmapDrawable mDefaultCover;
+    private Queue<MediaLibraryItem[]> mPendingUpdates = new ArrayDeque<>();
 
     public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
@@ -253,15 +256,13 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     public void remove(int position) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
         Util.removePositionInArray(mDataList, position, dataList);
-        mDataList = dataList;
-        notifyItemRemoved(position);
+        dispatchUpdate(dataList);
     }
 
     public void addItem(final int position, final MediaLibraryItem item) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
         Util.addItemInArray(mDataList, position, item, dataList);
-        mDataList = dataList;
-        notifyItemInserted(position);
+        dispatchUpdate(dataList);
     }
 
     public void restoreList() {
@@ -272,17 +273,27 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     void dispatchUpdate(final MediaLibraryItem[] items) {
-        VLCApplication.runOnMainThread(new Runnable() {
+        mPendingUpdates.add(items);
+        if (mPendingUpdates.size() > 1)
+            return;
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 final MediaLibraryItem[] newList = mOriginalDataSet == null && hasSections() ? generateList(items) : items;
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), false);
-                addAll(newList, false);
-                result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPendingUpdates.remove();
+                        addAll(newList, false);
+                        result.dispatchUpdatesTo(AudioBrowserAdapter.this);
+                        mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
+                        if (mPendingUpdates.size() > 0)
+                            dispatchUpdate(mPendingUpdates.peek());
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     @MainThread
