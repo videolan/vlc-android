@@ -37,6 +37,7 @@ import java.io.File;
 public class InfoActivity extends AudioPlayerContainerActivity implements View.OnClickListener {
 
     public final static String TAG_ITEM = "ML_ITEM";
+    public final static String TAG_FAB_VISIBILITY= "FAB";
 
     private MediaWrapper mItem;
     private MediaInfoAdapter mAdapter;
@@ -60,6 +61,8 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                 savedInstanceState.getParcelable(TAG_ITEM) :
                 getIntent().getParcelableExtra(TAG_ITEM));
         mBinding.setItem(mItem);
+        final int fabVisibility =  savedInstanceState != null
+            ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         mAdapter = new MediaInfoAdapter(this);
         mBinding.list.setAdapter(mAdapter);
@@ -76,6 +79,8 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                             public void run() {
                                 ViewCompat.setNestedScrollingEnabled(mBinding.container, true);
                                 mBinding.appbar.setExpanded(true, true);
+                                if (fabVisibility != -1)
+                                    mBinding.fab.setVisibility(fabVisibility);
                             }
                         });
                     } else
@@ -102,6 +107,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(TAG_ITEM, mItem);
+        outState.putInt(TAG_FAB_VISIBILITY, mBinding.fab.getVisibility());
     }
 
     private void noCoverFallback() {

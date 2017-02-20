@@ -72,6 +72,7 @@ import java.util.List;
 public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener {
 
     public final static String TAG = "VLC/PlaylistActivity";
+    public final static String TAG_FAB_VISIBILITY= "FAB";
 
     private AudioBrowserAdapter mAdapter;
     private MediaLibraryItem mPlaylist;
@@ -96,6 +97,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
+        final int fabVisibility =  savedInstanceState != null
+            ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
             VLCApplication.runBackground(new Runnable() {
@@ -108,6 +111,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                             @Override
                             public void run() {
                                 mBinding.appbar.setExpanded(true, true);
+                                if (fabVisibility != -1)
+                                    mBinding.fab.setVisibility(fabVisibility);
                             }
                         });
                     } else
@@ -154,6 +159,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mPlaylist);
+        outState.putInt(TAG_FAB_VISIBILITY, mBinding.fab.getVisibility());
         super.onSaveInstanceState(outState);
     }
 
