@@ -30,7 +30,6 @@ import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.util.SortedList;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -53,11 +52,15 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
 
@@ -68,19 +71,20 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     public final static int SORT_BY_DATE = 2;
 
-    public final static int UPDATE_SELECTION = 0;
-    public final static int UPDATE_THUMB = 1;
-    public final static int UPDATE_TIME = 2;
+    final static int UPDATE_SELECTION = 0;
+    final static int UPDATE_THUMB = 1;
+    final static int UPDATE_TIME = 2;
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
     private VideoComparator mVideoComparator = new VideoComparator();
-    private volatile SortedList<MediaWrapper> mVideos = new SortedList<>(MediaWrapper.class, mVideoComparator);
+    private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
+    private Queue<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
-
     private int mGridCardWidth = 0;
+
     VideoListAdapter(IEventsHandler eventsHandler) {
         super();
         mEventsHandler = eventsHandler;
@@ -161,15 +165,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void add(MediaWrapper item) {
-        notifyItemInserted(mVideos.add(item));
+        ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
+        list.add(item);
+        dispatchUpdate(list, false);
     }
 
     @MainThread
     public void remove(int position) {
         if (position == -1)
             return;
-        mVideos.removeItemAt(position);
-        notifyItemRemoved(position);
+        ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
+        list.remove(position);
+        dispatchUpdate(list, false);
     }
 
     @MainThread
@@ -183,11 +190,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     public ArrayList<MediaWrapper> getAll() {
-        int size = mVideos.size();
-        ArrayList<MediaWrapper> list = new ArrayList<>(size);
-        for (int i = 0; i < size; ++i)
-            list.add(mVideos.get(i));
-        return list;
+        return mVideos;
     }
 
     List<MediaWrapper> getSelection() {
@@ -225,10 +228,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         int position = mVideos.indexOf(item);
         if (position != -1) {
             if (!(mVideos.get(position) instanceof MediaGroup))
-                mVideos.updateItemAt(position, item);
+                mVideos.set(position, item);
             notifyItemChanged(position, UPDATE_THUMB);
         } else
-            notifyItemInserted(mVideos.add(item));
+            add(item);
     }
 
     @MainThread
@@ -298,8 +301,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     int getListWithPosition(ArrayList<MediaWrapper>  list, int position) {
         MediaWrapper mw;
         int offset = 0;
-        for (int i = 0; i < getAll().size(); ++i) {
-            mw = getAll().get(i);
+        for (int i = 0; i < getItemCount(); ++i) {
+            mw = mVideos.get(i);
             if (mw instanceof MediaGroup) {
                 for (MediaWrapper item : ((MediaGroup) mw).getAll())
                     list.add(item);
@@ -359,7 +362,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         mVideoComparator.sortBy(sortby);
     }
 
-    private class VideoComparator extends SortedList.Callback<MediaWrapper> {
+    private class VideoComparator implements Comparator<MediaWrapper> {
 
         private static final String KEY_SORT_BY =  "sort_by";
         private static final String KEY_SORT_DIRECTION =  "sort_direction";
@@ -372,6 +375,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
             mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
         }
+
         int sortDirection(int sortby) {
             if (sortby == mSortBy)
                 return  mSortDirection;
@@ -410,12 +414,13 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     mSortDirection = 1;
                     break;
             }
-            dispatchUpdate(getAll(), true);
+            ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
+            dispatchUpdate(list, true);
 
-            SharedPreferences.Editor editor = mSettings.edit();
-            editor.putInt(KEY_SORT_BY, mSortBy);
-            editor.putInt(KEY_SORT_DIRECTION, mSortDirection);
-            editor.apply();
+            mSettings.edit()
+                    .putInt(KEY_SORT_BY, mSortBy)
+                    .putInt(KEY_SORT_DIRECTION, mSortDirection)
+                    .apply();
         }
 
         @Override
@@ -439,28 +444,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     break;
             }
             return mSortDirection * compare;
-        }
-
-        @Override
-        public void onInserted(int position, int count) {}
-
-        @Override
-        public void onRemoved(int position, int count) {}
-
-        @Override
-        public void onMoved(int fromPosition, int toPosition) {}
-
-        @Override
-        public void onChanged(int position, int count) {}
-
-        @Override
-        public boolean areContentsTheSame(MediaWrapper oldItem, MediaWrapper newItem) {
-            return areItemsTheSame(oldItem, newItem);
-        }
-
-        @Override
-        public boolean areItemsTheSame(MediaWrapper item1, MediaWrapper item2) {
-            return  (item1 == item2) || ((item1 == null) == (item2 == null)) && item1.equals(item2);
         }
     }
 
@@ -505,27 +488,33 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         view.setLayoutParams(layoutParams);
     }
 
-    void dispatchUpdate(final ArrayList<MediaWrapper> items, boolean detectMoves) {
-        final SortedList<MediaWrapper> newSortedList = new SortedList<>(MediaWrapper.class, mVideoComparator);
-        newSortedList.addAll(items);
-        dispatchUpdate(newSortedList, detectMoves);
-    }
-
-    void dispatchUpdate(final SortedList<MediaWrapper> items, final boolean detectMoves) {
-        VLCApplication.runOnMainThread(new Runnable() {
+    void dispatchUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
+        mPendingUpdates.add(items);
+        if (mPendingUpdates.size() > 1)
+            return;
+        new Thread(new Runnable() {
             @Override
             public void run() {
+                Collections.sort(items, mVideoComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), detectMoves);
-                mVideos = items;
-                result.dispatchUpdatesTo(VideoListAdapter.this);
-                mEventsHandler.onUpdateFinished(null);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPendingUpdates.remove();
+                        mVideos = items;
+                        result.dispatchUpdatesTo(VideoListAdapter.this);
+                        mEventsHandler.onUpdateFinished(null);
+                        if (mPendingUpdates.size() > 0)
+                            dispatchUpdate(mPendingUpdates.peek(), true);
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     private class VideoItemDiffCallback extends DiffUtil.Callback {
-        SortedList<MediaWrapper> oldList, newList;
-        VideoItemDiffCallback(SortedList<MediaWrapper> oldList, SortedList<MediaWrapper> newList) {
+        ArrayList<MediaWrapper> oldList, newList;
+        VideoItemDiffCallback(ArrayList<MediaWrapper> oldList, ArrayList<MediaWrapper> newList) {
             this.oldList = oldList;
             this.newList = newList;
         }
