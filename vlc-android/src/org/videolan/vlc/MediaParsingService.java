@@ -41,7 +41,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
     private int mParsing = 0, mReload = 0;
-    private String mCurrentProgress = null;
+    private String mCurrentDiscovery = null;
     private long mLastNotificationTime;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -56,7 +56,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 default:
                     return;
             }
-            mLastNotificationTime = 0L;
+            synchronized (this) {
+                mLastNotificationTime = 0L;
+            }
             showNotification();
         }
     };
@@ -74,7 +76,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         filter.addAction(ACTION_PAUSE_SCAN);
         filter.addAction(ACTION_RESUME_SCAN);
         registerReceiver(mReceiver, filter);
-        mLastNotificationTime = System.currentTimeMillis();
+        synchronized (this) {
+            mLastNotificationTime = System.currentTimeMillis();
+        }
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
@@ -150,8 +154,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 sb.setLength(0);
                 if (mParsing > 0)
                     sb.append(getString(R.string.ml_parse_media)).append(' ').append(mParsing).append("%");
-                else if (mCurrentProgress != null)
-                    sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentProgress)));
+                else if (mCurrentDiscovery != null)
+                    sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentDiscovery)));
                 else
                     sb.append(getString(R.string.ml_parse_media));
                 if (builder == null) {
@@ -198,13 +202,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onDiscoveryProgress(String entryPoint) {
-        mCurrentProgress = entryPoint;
+        mCurrentDiscovery = entryPoint;
         showNotification();
     }
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        if (mCurrentProgress != null && mParsing == 0 && entryPoint.isEmpty())
+        if (mCurrentDiscovery != null && mParsing == 0 && entryPoint.isEmpty())
             stopSelf();
     }
 
@@ -221,21 +225,25 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public void onReloadStarted(String entryPoint) {
         if (TextUtils.isEmpty(entryPoint))
             ++mReload;
-        mLastNotificationTime = System.currentTimeMillis();
-        showNotification();
+        synchronized (this) {
+            mLastNotificationTime = System.currentTimeMillis();
+        }
     }
 
     @Override
     public void onReloadCompleted(String entryPoint) {
-        if (TextUtils.isEmpty(entryPoint))
+        if (TextUtils.isEmpty(entryPoint)) {
             --mReload;
+            if (mCurrentDiscovery != null && mParsing == 0)
+                stopSelf();
+        }
     }
 
     @Override
     public void onDestroy() {
+        hideNotification();
         mMedialibrary.removeDeviceDiscoveryCb(this);
         unregisterReceiver(mReceiver);
-        hideNotification();
         super.onDestroy();
     }
 
