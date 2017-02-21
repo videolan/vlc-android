@@ -193,6 +193,11 @@ android {
     }
 }
 
+task generateSources (type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
 dependencies {
     compile project(':libvlc')
     compile project(':medialibrary')

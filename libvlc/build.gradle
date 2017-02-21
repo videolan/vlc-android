@@ -93,6 +93,12 @@ task buildDebugMIPS(type:BuildNative) {
 task buildDebugMIPS64(type:BuildNative) {
     args('-a', "mips64")
 }
+
+task generateSources (type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
 dependencies {
     compile 'com.android.support:support-annotations:25.1.1'
 }
