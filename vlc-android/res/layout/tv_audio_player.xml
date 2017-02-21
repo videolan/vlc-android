@@ -56,7 +56,7 @@
                     android:id="@+id/media_progress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="2dp"
                     android:layout_marginBottom="@dimen/half_default_margin"
                     android:layout_marginTop="@dimen/half_default_margin"
                     android:focusable="true"
