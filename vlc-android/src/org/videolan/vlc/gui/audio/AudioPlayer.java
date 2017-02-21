@@ -311,7 +311,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void updateList() {
         hideSearchField();
         if (mService != null)
-            mPlaylistAdapter.dispatchUpdate(mService.getMedias());
+            mPlaylistAdapter.update(mService.getMedias());
     }
 
     @Override

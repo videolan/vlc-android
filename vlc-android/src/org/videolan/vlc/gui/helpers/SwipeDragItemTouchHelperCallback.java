@@ -2,7 +2,7 @@
  * *************************************************************************
  *  SwipeDragItemTouchHelperCallback.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
+ *  Copyright © 2015-2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,8 @@ public class SwipeDragItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        if (mAdapter.hasPendingUpdates())
+            return 0;
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
         return makeMovementFlags(dragFlags, swipeFlags);

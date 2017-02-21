@@ -37,7 +37,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -49,13 +48,20 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.WeakHandler;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
+
+    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     private ItemFilter mFilter = new ItemFilter();
     private PlaybackService mService = null;
@@ -122,14 +128,41 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mDataSet.addAll(playList);
     }
 
+    private ArrayDeque<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
+
+    public boolean hasPendingUpdates() {
+        return !mPendingUpdates.isEmpty();
+    }
+
     @MainThread
-    public void dispatchUpdate(final List<MediaWrapper> newList) {
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), false);
-        mDataSet.clear();
-        addAll(newList);
-        result.dispatchUpdatesTo(this);
-        if (mService != null)
-            setCurrentIndex(mService.getCurrentMediaPosition());
+    public void update(final ArrayList<MediaWrapper> newList) {
+        mPendingUpdates.add(newList);
+        if (mPendingUpdates.size() == 1)
+            internalUpdate(newList);
+    }
+
+    @MainThread
+    private void internalUpdate(final List<MediaWrapper> newList) {
+        mThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), false);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPendingUpdates.remove();
+                        mDataSet.clear();
+                        addAll(newList);
+                        result.dispatchUpdatesTo(PlaylistAdapter.this);
+                        if (mService != null)
+                            setCurrentIndex(mService.getCurrentMediaPosition());
+                        if (!mPendingUpdates.isEmpty())
+                            internalUpdate(mPendingUpdates.peek());
+                    }
+                });
+            }
+        });
+
     }
 
     @MainThread
@@ -220,7 +253,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     @MainThread
     public void restoreList() {
         if (mOriginalDataSet != null) {
-            dispatchUpdate(new ArrayList<>(mOriginalDataSet));
+            update(new ArrayList<>(mOriginalDataSet));
             mOriginalDataSet = null;
         }
     }
@@ -302,7 +335,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values);
+            update((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
 }

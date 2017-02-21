@@ -2339,7 +2339,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mService == null || mPlaylistAdapter == null)
             return;
 
-        mPlaylistAdapter.dispatchUpdate(mService.getMedias());
+        mPlaylistAdapter.update(mService.getMedias());
     }
 
     @Override
