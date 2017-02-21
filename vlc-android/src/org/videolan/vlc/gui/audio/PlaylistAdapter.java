@@ -42,6 +42,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
+import org.videolan.vlc.gui.ThreadQueueAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
@@ -52,16 +53,10 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+public class PlaylistAdapter extends ThreadQueueAdapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
-
-    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     private ItemFilter mFilter = new ItemFilter();
     private PlaybackService mService = null;
@@ -143,7 +138,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @MainThread
     private void internalUpdate(final List<MediaWrapper> newList) {
-        mThreadPool.execute(new Runnable() {
+        queueTask(new Runnable() {
             @Override
             public void run() {
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataSet, newList), false);

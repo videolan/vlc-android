@@ -43,6 +43,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
+import org.videolan.vlc.gui.ThreadQueueAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -50,15 +51,12 @@ import org.videolan.vlc.util.MediaItemFilter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends ThreadQueueAdapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -74,9 +72,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
-
-    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -365,7 +360,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     private void update(final ArrayList<MediaLibraryItem> items) {
-        mThreadPool.execute(new Runnable() {
+        queueTask(new Runnable() {
             @Override
             public void run() {
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);

@@ -46,6 +46,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.ThreadQueueAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -61,7 +62,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends ThreadQueueAdapter<VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -495,7 +496,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     private void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
-        new Thread(new Runnable() {
+        queueTask(new Runnable() {
             @Override
             public void run() {
                 Collections.sort(items, mVideoComparator);
@@ -512,7 +513,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     }
                 });
             }
-        }).start();
+        });
     }
 
     private class VideoItemDiffCallback extends DiffUtil.Callback {
