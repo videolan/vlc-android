@@ -287,7 +287,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (mAdapter.isEmpty()){
+        if (mAdapter.isEmpty()) {
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mEmptyView.setText(R.string.loading);
                 mEmptyView.setVisibility(View.VISIBLE);
@@ -296,12 +296,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mEmptyView.setText(R.string.directory_empty);
                 mEmptyView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setRefreshing(false);
             }
         } else if (mEmptyView.getVisibility() == View.VISIBLE) {
             mEmptyView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -749,8 +747,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        parseSubDirectories();
+        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         updateEmptyView();
+        parseSubDirectories();
         if (!mAdapter.isEmpty()) {
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
