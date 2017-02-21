@@ -255,7 +255,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onMediaAdded(int index, Media media) {
         boolean wasEmtpy = mAdapter.isEmpty();
-        mAdapter.addItem(new MediaWrapper(media), true, false);
+        mAdapter.addItem(new MediaWrapper(media), false);
         if (!wasEmtpy)
             return;
         updateEmptyView();
@@ -265,7 +265,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onMediaRemoved(int index, Media media) {
-        mAdapter.removeItem(media.getUri().toString(), mReadyToDisplay);
+        mAdapter.removeItem(media.getUri().toString());
     }
 
     @Override
@@ -434,7 +434,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             }
             case R.id.directory_view_delete:
-                mAdapter.removeItem(position, true);
+                mAdapter.removeItem(position);
                 UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                     @Override
                     public void run() {
@@ -565,7 +565,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         @Override
         public void onBrowseEnd() {
-            if (mAdapter.isEmpty()) {
+            if (mAdapter.isEmpty() || getActivity() == null) {
                 mCurrentParsedPosition = -1;
                 releaseBrowser();
                 return;

@@ -160,7 +160,7 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
-                mAdapter.removeItem(position, true);
+                mAdapter.removeItem(position);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
             } else

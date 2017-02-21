@@ -47,8 +47,12 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
@@ -70,6 +74,9 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
+
+    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -221,20 +228,21 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return mMediaList.isEmpty();
     }
 
-    public void addItem(MediaLibraryItem item, boolean notify, boolean top){
-        addItem(item, notify, top, -1);
+    public void addItem(MediaLibraryItem item, boolean top){
+        addItem(item, top, -1);
     }
 
-    void addItem(MediaLibraryItem item, boolean notify, int position){
-        addItem(item, notify, false, position);
+    void addItem(MediaLibraryItem item, int position){
+        addItem(item, false, position);
     }
 
-    void addItem(MediaLibraryItem item, boolean notify, boolean top, int positionTo){
+    void addItem(MediaLibraryItem item, boolean top, int positionTo){
         int position;
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
         if (positionTo != -1)
             position = positionTo;
         else
-            position = top ? mTop : mMediaList.size();
+            position = top ? mTop : list.size();
 
         if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
             return;
@@ -242,50 +250,39 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount++;
 
-        mMediaList.add(position, item);
-        if (notify)
-            notifyItemInserted(position);
+        list.add(position, item);
+        dispatchUpdate(list);
     }
 
     public void setTop (int top) {
         mTop = top;
     }
 
-    public void addAll(ArrayList<MediaWrapper> mediaList){
-        mMediaList.clear();
-        boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
-        for (MediaWrapper mw : mediaList) {
-            mMediaList.add(mw);
-            if (mw.getType() == MediaWrapper.TYPE_AUDIO || (isHoneyComb && mw.getType() == MediaWrapper.TYPE_VIDEO))
-                mMediaCount++;
-        }
+    public void addAll(ArrayList<? extends MediaLibraryItem> mediaList){
+        dispatchUpdate((ArrayList<MediaLibraryItem>) mediaList);
     }
 
-    void removeItem(int position, boolean notify){
-        MediaLibraryItem item = null;
-        item = mMediaList.get(position);
-        mMediaList.remove(position);
-        if (notify)
-            notifyItemRemoved(position);
+    void removeItem(int position) {
+        MediaLibraryItem item = mMediaList.get(position);
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
+        list.remove(position);
+        dispatchUpdate(list);
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
     }
 
-    void removeItem(String path, boolean notify) {
+    void removeItem(String path) {
         int position = -1;
         for (int i = 0; i< getItemCount(); ++i) {
             MediaLibraryItem item = mMediaList.get(i);
             if (item .getItemType() == TYPE_MEDIA && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
                 position = i;
-                if (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO)
-                    mMediaCount--;
+                break;
             }
         }
         if (position == -1)
             return;
-        mMediaList.remove(position);
-        if (notify)
-            notifyItemRemoved(position);
+        removeItem(position);
     }
 
     public ArrayList<MediaLibraryItem> getAll(){
@@ -359,14 +356,35 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return mFilter;
     }
 
+    boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
+    private ArrayDeque<ArrayList<MediaLibraryItem>> mPendingUpdates = new ArrayDeque<>();
     void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
-        VLCApplication.runOnMainThread(new Runnable() {
+        mPendingUpdates.add(items);
+        if (mPendingUpdates.size() == 1)
+            update(items);
+    }
+
+    private void update(final ArrayList<MediaLibraryItem> items) {
+        mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
-                mMediaList = items;
-                result.dispatchUpdatesTo(BaseBrowserAdapter.this);
-                fragment.onUpdateFinished(null);
+                for (MediaLibraryItem item : items) {
+                    if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
+                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (isHoneyComb && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
+                        mMediaCount++;
+                }
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPendingUpdates.remove();
+                        mMediaList = items;
+                        result.dispatchUpdatesTo(BaseBrowserAdapter.this);
+                        fragment.onUpdateFinished(null);
+                        if (!mPendingUpdates.isEmpty())
+                            update(mPendingUpdates.peek());
+                    }
+                });
             }
         });
     }

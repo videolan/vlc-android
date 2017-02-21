@@ -64,10 +64,10 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
             vh.setContextMenuListener();
     }
 
-    public void addItem(MediaLibraryItem item, boolean notify, boolean top) {
+    public void addItem(MediaLibraryItem item, boolean top) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
              item = new Storage(((MediaWrapper)item).getUri());
-        super.addItem(item, notify, top);
+        super.addItem(item, top);
     }
 
     private void removeDir(final String path) {

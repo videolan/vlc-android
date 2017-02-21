@@ -34,11 +34,11 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         super(fragment);
     }
 
-    public void addItem(MediaLibraryItem media, boolean notify, boolean top){
+    public void addItem(MediaLibraryItem media, boolean top){
         if (media.getItemType() != TYPE_MEDIA)
             return;
         if (filter((MediaWrapper) media))
-            super.addItem(media, notify, top);
+            super.addItem(media, top);
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {

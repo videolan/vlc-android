@@ -127,7 +127,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
             mMediaBrowser.discoverNetworkShares();
         else {
             if (!mAdapter.isEmpty())
-                mAdapter.removeItem(mAdapter.getItemCount() - 1, true);
+                mAdapter.removeItem(mAdapter.getItemCount() - 1);
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         }
     }
@@ -175,20 +175,19 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         }
         if (mFavorites != 0 && !mAdapter.isEmpty())
             for (int i = 1 ; i <= mFavorites ; ++i) //remove former favorites
-                mAdapter.removeItem(1, mReadyToDisplay);
+                mAdapter.removeItem(1);
 
         if (newSize == 0 && !mAdapter.isEmpty()) {
-            mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
-            mAdapter.removeItem(0, mReadyToDisplay); //also remove separator if no more fav
+            mAdapter.removeItem(0); //also remove separator if no more fav
+            mAdapter.removeItem(0); //also remove separator if no more fav
         } else {
             boolean isEmpty =  mAdapter.isEmpty();
             if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(new DummyItem(getString(R.string.network_favorites)), false, false,0); //add header if needed
+                mAdapter.addItem(new DummyItem(getString(R.string.network_favorites)), false,0); //add header if needed
             for (int i = 0 ; i < newSize ; )
-                mAdapter.addItem(favs.get(i), false, false, ++i); //add new favorites
+                mAdapter.addItem(favs.get(i), false, ++i); //add new favorites
             if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(new DummyItem(getString(R.string.network_shared_folders)), false, false, newSize + 1); //add header if needed
-            mAdapter.notifyItemRangeChanged(0, newSize+1);
+                mAdapter.addItem(new DummyItem(getString(R.string.network_shared_folders)), false, newSize + 1); //add header if needed
         }
         mFavorites = newSize; //update count
         if (newSize != 0)
