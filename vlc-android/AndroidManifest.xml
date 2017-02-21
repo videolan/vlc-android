@@ -245,6 +245,7 @@
                 <data android:pathPattern=".*\\.rm" />
                 <data android:pathPattern=".*\\.rmvb" />
                 <data android:pathPattern=".*\\.tod" />
+                <data android:pathPattern=".*\\.trp" />
                 <data android:pathPattern=".*\\.ts" />
                 <data android:pathPattern=".*\\.tts" />
                 <data android:pathPattern=".*\\.vob" />
@@ -304,6 +305,7 @@
                 <data android:pathPattern=".*\\.RM" />
                 <data android:pathPattern=".*\\.RMVB" />
                 <data android:pathPattern=".*\\.TOD" />
+                <data android:pathPattern=".*\\.TRP" />
                 <data android:pathPattern=".*\\.TS" />
                 <data android:pathPattern=".*\\.TTS" />
                 <data android:pathPattern=".*\\.VOB" />
