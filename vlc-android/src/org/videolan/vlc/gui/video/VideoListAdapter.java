@@ -60,7 +60,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Queue;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
 
@@ -78,8 +77,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
     private VideoComparator mVideoComparator = new VideoComparator();
-    private volatile ArrayList<MediaWrapper> mVideos = new ArrayList<>();
-    private Queue<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
+    private ArrayList<MediaWrapper> mVideos = new ArrayList<>();
+    private ArrayDeque<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
@@ -165,18 +164,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void add(MediaWrapper item) {
-        ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
+        ArrayList<MediaWrapper> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mVideos : mPendingUpdates.peekLast());
         list.add(item);
-        dispatchUpdate(list, false);
+        update(list, false);
     }
 
     @MainThread
     public void remove(int position) {
         if (position == -1)
             return;
-        ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
+        ArrayList<MediaWrapper> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mVideos : mPendingUpdates.peekLast());
         list.remove(position);
-        dispatchUpdate(list, false);
+        update(list, false);
     }
 
     @MainThread
@@ -415,7 +414,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     break;
             }
             ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
-            dispatchUpdate(list, true);
+            update(list, true);
 
             mSettings.edit()
                     .putInt(KEY_SORT_BY, mSortBy)
@@ -455,7 +454,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     @MainThread
     void restoreList() {
         if (mOriginalData != null) {
-            dispatchUpdate(new ArrayList<>(mOriginalData), false);
+            update(new ArrayList<>(mOriginalData), false);
             mOriginalData = null;
         }
     }
@@ -475,7 +474,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             //noinspection unchecked
-            dispatchUpdate((ArrayList<MediaWrapper>) filterResults.values, false);
+            update((ArrayList<MediaWrapper>) filterResults.values, false);
         }
     }
 
@@ -488,10 +487,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         view.setLayoutParams(layoutParams);
     }
 
-    void dispatchUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
+    @MainThread
+    void update(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
         mPendingUpdates.add(items);
-        if (mPendingUpdates.size() > 1)
-            return;
+        if (mPendingUpdates.size() == 1)
+            internalUpdate(items, detectMoves);
+    }
+
+    private void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -504,8 +507,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                         mVideos = items;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
                         mEventsHandler.onUpdateFinished(null);
-                        if (mPendingUpdates.size() > 0)
-                            dispatchUpdate(mPendingUpdates.peek(), true);
+                        if (!mPendingUpdates.isEmpty())
+                            internalUpdate(mPendingUpdates.peek(), true);
                     }
                 });
             }

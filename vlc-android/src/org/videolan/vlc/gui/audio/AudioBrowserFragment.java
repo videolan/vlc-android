@@ -564,42 +564,42 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onArtistsAdded() {
-        mArtistsAdapter.dispatchUpdate(mMediaLibrary.getArtists());
+        mArtistsAdapter.update(mMediaLibrary.getArtists());
         if (mViewPager.getCurrentItem() == MODE_ARTIST)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onArtistsModified() {
-        mArtistsAdapter.dispatchUpdate(mMediaLibrary.getArtists());
+        mArtistsAdapter.update(mMediaLibrary.getArtists());
         if (mViewPager.getCurrentItem() == MODE_ARTIST)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onAlbumsAdded() {
-        mAlbumsAdapter.dispatchUpdate(mMediaLibrary.getAlbums());
+        mAlbumsAdapter.update(mMediaLibrary.getAlbums());
         if (mViewPager.getCurrentItem() == MODE_ALBUM)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onAlbumsModified() {
-        mAlbumsAdapter.dispatchUpdate(mMediaLibrary.getAlbums());
+        mAlbumsAdapter.update(mMediaLibrary.getAlbums());
         if (mViewPager.getCurrentItem() == MODE_ALBUM)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onMediaAdded(MediaWrapper[] mediaList) {
-        mSongsAdapter.dispatchUpdate(mMediaLibrary.getAudio());
+        mSongsAdapter.update(mMediaLibrary.getAudio());
         if (mViewPager.getCurrentItem() == MODE_SONG)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
 
     @Override
     public void onMediaUpdated(MediaWrapper[] mediaList) {
-        mSongsAdapter.dispatchUpdate(mMediaLibrary.getAudio());
+        mSongsAdapter.update(mMediaLibrary.getAudio());
         if (mViewPager.getCurrentItem() == MODE_SONG)
             mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
     }
@@ -665,11 +665,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    mArtistsAdapter.dispatchUpdate(mMediaLibrary.getArtists());
-                    mAlbumsAdapter.dispatchUpdate(mMediaLibrary.getAlbums());
-                    mSongsAdapter.dispatchUpdate(mMediaLibrary.getAudio());
-                    mGenresAdapter.dispatchUpdate(mMediaLibrary.getGenres());
-                    mPlaylistAdapter.dispatchUpdate(mMediaLibrary.getPlaylists());
+                    mArtistsAdapter.update(mMediaLibrary.getArtists());
+                    mAlbumsAdapter.update(mMediaLibrary.getAlbums());
+                    mSongsAdapter.update(mMediaLibrary.getAudio());
+                    mGenresAdapter.update(mMediaLibrary.getGenres());
+                    mPlaylistAdapter.update(mMediaLibrary.getPlaylists());
                     mHandler.sendEmptyMessage(UNSET_REFRESHING);
                     mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
                 }
@@ -680,7 +680,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                mPlaylistAdapter.dispatchUpdate(mMediaLibrary.getPlaylists());
+                mPlaylistAdapter.update(mMediaLibrary.getPlaylists());
             }
         });
     }

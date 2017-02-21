@@ -397,7 +397,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                     for (MediaGroup item : MediaGroup.group(itemList))
                         displayList.add(item.getMedia());
                 }
-                mVideoAdapter.dispatchUpdate(displayList, false);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoAdapter.update(displayList, false);
+                    }
+                });
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });

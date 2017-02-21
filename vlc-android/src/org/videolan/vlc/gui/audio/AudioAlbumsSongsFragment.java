@@ -275,7 +275,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     albums = ((Genre) mItem).getAlbums(mMediaLibrary);
                 else
                     return;
-                mAlbumsAdapter.dispatchUpdate(albums);
+                mAlbumsAdapter.update(albums);
                 LinkedList<MediaLibraryItem> songs = new LinkedList<>();
                 for (Album album : albums) {
                     String title = album.getTitle();
@@ -284,7 +284,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     songs.add(new DummyItem(title));
                     songs.addAll(Arrays.asList(album.getTracks(mMediaLibrary)));
                 }
-                mSongsAdapter.dispatchUpdate(songs.toArray(new MediaLibraryItem[songs.size()]));
+                mSongsAdapter.update(songs.toArray(new MediaLibraryItem[songs.size()]));
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {

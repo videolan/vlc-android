@@ -57,7 +57,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
@@ -65,7 +64,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     private boolean mMakeSections = true;
 
-    private volatile MediaLibraryItem[] mDataList;
+    private MediaLibraryItem[] mDataList;
     private MediaLibraryItem[] mOriginalDataSet = null;
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
@@ -73,7 +72,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     private int mSelectionCount = 0;
     private int mType;
     private BitmapDrawable mDefaultCover;
-    private Queue<MediaLibraryItem[]> mPendingUpdates = new ArrayDeque<>();
+    private ArrayDeque<MediaLibraryItem[]> mPendingUpdates = new ArrayDeque<>();
 
     public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
@@ -255,27 +254,31 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
     public void remove(int position) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-        Util.removePositionInArray(mDataList, position, dataList);
-        dispatchUpdate(dataList);
+        Util.removePositionInArray(mPendingUpdates.isEmpty() ? mDataList : mPendingUpdates.peekLast(), position, dataList);
+        update(dataList);
     }
 
     public void addItem(final int position, final MediaLibraryItem item) {
         final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-        Util.addItemInArray(mDataList, position, item, dataList);
-        dispatchUpdate(dataList);
+        Util.addItemInArray(mPendingUpdates.isEmpty() ? mDataList : mPendingUpdates.peekLast(), position, item, dataList);
+        update(dataList);
     }
 
     public void restoreList() {
         if (mOriginalDataSet != null) {
-            dispatchUpdate(Arrays.copyOf(mOriginalDataSet, mOriginalDataSet.length));
+            update(Arrays.copyOf(mOriginalDataSet, mOriginalDataSet.length));
             mOriginalDataSet = null;
         }
     }
 
-    void dispatchUpdate(final MediaLibraryItem[] items) {
+    @MainThread
+    void update(final MediaLibraryItem[] items) {
         mPendingUpdates.add(items);
-        if (mPendingUpdates.size() > 1)
-            return;
+        if (mPendingUpdates.size() == 1)
+            internalUpdate(items);
+    }
+
+    private void internalUpdate(final MediaLibraryItem[] items) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -288,8 +291,8 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                         addAll(newList, false);
                         result.dispatchUpdatesTo(AudioBrowserAdapter.this);
                         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-                        if (mPendingUpdates.size() > 0)
-                            dispatchUpdate(mPendingUpdates.peek());
+                        if (!mPendingUpdates.isEmpty())
+                            internalUpdate(mPendingUpdates.peek());
                     }
                 });
             }
@@ -414,7 +417,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            dispatchUpdate(((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
+            update(((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
         }
     }
 }
