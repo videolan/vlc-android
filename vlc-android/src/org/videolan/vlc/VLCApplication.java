@@ -222,7 +222,8 @@ public class VLCApplication extends Application {
 
         @Override
         public void onCanceled(Dialog dialog) {
-            ((DialogFragment)dialog.getContext()).dismiss();
+            if (dialog != null)
+                ((DialogFragment)dialog.getContext()).dismiss();
         }
 
         @Override
