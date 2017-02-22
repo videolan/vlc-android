@@ -50,9 +50,6 @@ import org.videolan.vlc.util.MediaItemFilter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
@@ -74,9 +71,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
-
-    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     BaseBrowserAdapter(BaseBrowserFragment fragment){
         this.fragment = fragment;
@@ -356,7 +350,6 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return mFilter;
     }
 
-    boolean isHoneyComb = AndroidUtil.isHoneycombOrLater();
     private ArrayDeque<ArrayList<MediaLibraryItem>> mPendingUpdates = new ArrayDeque<>();
     void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
         mPendingUpdates.add(items);
@@ -365,13 +358,13 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     private void update(final ArrayList<MediaLibraryItem> items) {
-        mThreadPool.execute(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
                 for (MediaLibraryItem item : items) {
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
-                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (isHoneyComb && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
+                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater() && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
                         mMediaCount++;
                 }
                 VLCApplication.runOnMainThread(new Runnable() {

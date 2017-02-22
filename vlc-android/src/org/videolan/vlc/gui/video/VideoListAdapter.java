@@ -495,7 +495,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     private void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 Collections.sort(items, mVideoComparator);
@@ -512,7 +512,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                     }
                 });
             }
-        }).start();
+        });
     }
 
     private class VideoItemDiffCallback extends DiffUtil.Callback {

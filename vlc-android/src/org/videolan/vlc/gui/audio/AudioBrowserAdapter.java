@@ -279,7 +279,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     private void internalUpdate(final MediaLibraryItem[] items) {
-        new Thread(new Runnable() {
+        VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final MediaLibraryItem[] newList = mOriginalDataSet == null && hasSections() ? generateList(items) : items;
@@ -296,7 +296,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                     }
                 });
             }
-        }).start();
+        });
     }
 
     @MainThread
