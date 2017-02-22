@@ -67,7 +67,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onStart();
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        mSkipRefresh = !mAdapter.isEmpty();
+
+        if (mediaList != null) {
+            mSkipRefresh = !mediaList.isEmpty();
+            mAdapter.addAll(mediaList);
+        }
         getActivity().registerReceiver(networkReceiver, filter);
         if (mSkipRefresh)
             parseSubDirectories();

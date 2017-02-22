@@ -215,7 +215,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     public void clear() {
         if (!isEmpty())
-            dispatchUpdate(new ArrayList<MediaLibraryItem>(0));
+            update(new ArrayList<MediaLibraryItem>(0));
     }
 
     public boolean isEmpty(){
@@ -245,7 +245,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
             mMediaCount++;
 
         list.add(position, item);
-        dispatchUpdate(list);
+        update(list);
     }
 
     public void setTop (int top) {
@@ -253,14 +253,14 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     public void addAll(ArrayList<? extends MediaLibraryItem> mediaList){
-        dispatchUpdate((ArrayList<MediaLibraryItem>) mediaList);
+        update((ArrayList<MediaLibraryItem>) mediaList);
     }
 
     void removeItem(int position) {
         MediaLibraryItem item = mMediaList.get(position);
         ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
         list.remove(position);
-        dispatchUpdate(list);
+        update(list);
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
     }
@@ -351,13 +351,15 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     private ArrayDeque<ArrayList<MediaLibraryItem>> mPendingUpdates = new ArrayDeque<>();
-    void dispatchUpdate(final ArrayList<MediaLibraryItem> items) {
+
+    @MainThread
+    void update(final ArrayList<MediaLibraryItem> items) {
         mPendingUpdates.add(items);
         if (mPendingUpdates.size() == 1)
-            update(items);
+            internalUpdate(items);
     }
 
-    private void update(final ArrayList<MediaLibraryItem> items) {
+    private void internalUpdate(final ArrayList<MediaLibraryItem> items) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -375,7 +377,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
                         result.dispatchUpdatesTo(BaseBrowserAdapter.this);
                         fragment.onUpdateFinished(null);
                         if (!mPendingUpdates.isEmpty())
-                            update(mPendingUpdates.peek());
+                            internalUpdate(mPendingUpdates.peek());
                     }
                 });
             }
@@ -384,7 +386,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     void restoreList() {
         if (mOriginalData != null) {
-            dispatchUpdate(new ArrayList<>(mOriginalData));
+            update(new ArrayList<>(mOriginalData));
             mOriginalData = null;
         }
     }
@@ -400,7 +402,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            dispatchUpdate((ArrayList<MediaLibraryItem>) filterResults.values);
+            update((ArrayList<MediaLibraryItem>) filterResults.values);
         }
     }
 }

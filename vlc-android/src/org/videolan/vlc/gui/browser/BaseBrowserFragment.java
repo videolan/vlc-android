@@ -100,7 +100,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     boolean goBack = false;
 
     private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
-    private ArrayList<MediaWrapper> mediaList;
+    protected ArrayList<MediaWrapper> mediaList;
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -121,10 +121,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mFoldersContentLists = (SparseArray<ArrayList<MediaWrapper>>) VLCApplication.getData(KEY_CONTENT_LIST);
         if (mFoldersContentLists == null)
             mFoldersContentLists = new SparseArray<>();
-        if (bundle != null){
+        if (bundle != null) {
             mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(KEY_MEDIA_LIST);
-            if (mediaList != null)
-                mAdapter.addAll(mediaList);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -162,7 +160,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         if (!mAdapter.isEmpty()) {
             mAdapter.notifyItemRangeInserted(0, mAdapter.getItemCount());
             onUpdateFinished(mAdapter);
-        } else if (!(this instanceof NetworkBrowserFragment))
+        } else if (!(this instanceof NetworkBrowserFragment) && !(this instanceof FileBrowserFragment))
             refresh();
     }
 
@@ -749,8 +747,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         updateEmptyView();
-        parseSubDirectories();
         if (!mAdapter.isEmpty()) {
+            parseSubDirectories();
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
                 mSavedPosition = 0;

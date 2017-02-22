@@ -66,6 +66,15 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (mediaList != null) {
+            mAdapter.addAll(mediaList);
+        } else
+            refresh();
+    }
+
+    @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }
@@ -98,7 +107,7 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
             public void run() {
                 String storages[] = AndroidDevices.getMediaDirectories();
                 MediaWrapper directory;
-                ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
+                final ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
                 for (String mediaDirLocation : storages) {
                     if (!(new File(mediaDirLocation).exists()))
                         continue;
@@ -108,7 +117,12 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                         directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
                     devices.add(directory);
                 }
-                mAdapter.dispatchUpdate(devices);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.update(devices);
+                    }
+                });
                 mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
             }
         });

@@ -140,7 +140,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             storage = new Storage(Uri.parse(customDir));
             storagesList.add(storage);
         }
-        mAdapter.dispatchUpdate(storagesList);
+        mAdapter.update(storagesList);
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
