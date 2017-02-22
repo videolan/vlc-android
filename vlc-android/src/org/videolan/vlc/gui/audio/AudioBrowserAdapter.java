@@ -44,7 +44,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
-import org.videolan.vlc.gui.ThreadQueueAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
@@ -59,7 +58,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends ThreadQueueAdapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -280,7 +279,7 @@ public class AudioBrowserAdapter extends ThreadQueueAdapter<AudioBrowserAdapter.
     }
 
     private void internalUpdate(final MediaLibraryItem[] items) {
-        queueTask(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 final MediaLibraryItem[] newList = mOriginalDataSet == null && hasSections() ? generateList(items) : items;
@@ -297,7 +296,7 @@ public class AudioBrowserAdapter extends ThreadQueueAdapter<AudioBrowserAdapter.
                     }
                 });
             }
-        });
+        }).start();
     }
 
     @MainThread
