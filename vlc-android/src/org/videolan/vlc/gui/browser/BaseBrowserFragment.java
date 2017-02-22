@@ -157,10 +157,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (!mAdapter.isEmpty()) {
-            mAdapter.notifyItemRangeInserted(0, mAdapter.getItemCount());
-            onUpdateFinished(mAdapter);
-        } else if (!(this instanceof NetworkBrowserFragment) && !(this instanceof FileBrowserFragment))
+        if (mediaList != null && !mediaList.isEmpty())
+            mAdapter.addAll(mediaList);
+        else if (!(this instanceof NetworkBrowserFragment))
             refresh();
     }
 

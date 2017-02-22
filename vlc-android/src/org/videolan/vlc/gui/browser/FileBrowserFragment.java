@@ -66,15 +66,6 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (mediaList != null) {
-            mAdapter.addAll(mediaList);
-        } else
-            refresh();
-    }
-
-    @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }

@@ -68,13 +68,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
-        if (mediaList != null) {
-            mSkipRefresh = !mediaList.isEmpty();
-            mAdapter.addAll(mediaList);
-        }
+        mSkipRefresh = mediaList != null && !mediaList.isEmpty();
         getActivity().registerReceiver(networkReceiver, filter);
-        if (mSkipRefresh)
-            parseSubDirectories();
         if (mRoot) {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
