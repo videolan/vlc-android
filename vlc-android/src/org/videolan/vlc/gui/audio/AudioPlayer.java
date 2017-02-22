@@ -78,6 +78,7 @@ import org.videolan.vlc.util.Strings;
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
 
+    private static int DEFAULT_BACKGROUND_DARKER_ID;
     private static int DEFAULT_BACKGROUND_ID;
     public static final int SEARCH_TIMEOUT_MILLIS = 5000;
 
@@ -110,7 +111,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default_darker);
+        if (AndroidUtil.isJellyBeanMR1OrLater()) {
+            DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default_darker);
+            DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default);
+        }
         mPlaylistAdapter = new PlaylistAdapter(this);
         mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
         mBinding.songsList.setAdapter(mPlaylistAdapter);
@@ -274,12 +278,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private void updateBackground() {
         if (AndroidUtil.isJellyBeanMR1OrLater()) {
             final MediaWrapper mw = mService.getCurrentMediaWrapper();
-            if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
+            if (mw == null || TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
                 return;
             mCurrentCoverArt = mw.getArtworkMrl();
-            if (mw == null || TextUtils.isEmpty(mw.getArtworkMrl())) {
-                mBinding.backgroundView.setImageResource(DEFAULT_BACKGROUND_ID);
-                mBinding.backgroundView.clearColorFilter();
+            if (TextUtils.isEmpty(mw.getArtworkMrl())) {
+                mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID);
+                mBinding.backgroundView.setVisibility(View.INVISIBLE);
             } else {
                 VLCApplication.runBackground(new Runnable() {
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -293,10 +297,10 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                                     AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) getActivity();
                                     if (activity == null)
                                         return;
-                                    if (activity.isAudioPlayerExpanded())
-                                        mBinding.header.setBackgroundResource(0);
-                                    mBinding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(mBinding.backgroundView.getContext(), R.attr.audio_player_background_tint));
+                                    mBinding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint));
                                     mBinding.backgroundView.setImageBitmap(blurredCover);
+                                    mBinding.backgroundView.setVisibility(View.VISIBLE);
+                                    mBinding.songsList.setBackgroundResource(0);
                                 }
                             });
                     }
@@ -703,7 +707,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mPlayerState = newState;
         switch (newState) {
             case BottomSheetBehavior.STATE_COLLAPSED:
-                mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID);
+                mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID);
                 setHeaderVisibilities(false, false, true, true, true, false);
                 break;
             case BottomSheetBehavior.STATE_EXPANDED:

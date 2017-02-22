@@ -8,7 +8,8 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="?attr/background_default_darker">
         <ImageView
             android:id="@+id/backgroundView"
             android:layout_width="match_parent"
@@ -160,6 +161,7 @@
             android:layout_centerHorizontal="true"
             android:clipToPadding="false"
             android:layout_gravity="center_horizontal"
+            android:background="?attr/background_default"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
