@@ -88,7 +88,9 @@
             android:resource="@xml/automotive_app_desc"/>
         <meta-data android:name="com.google.android.gms.car.notification.SmallIcon"
             android:resource="@drawable/icon" />
-
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.0" />
         <activity
             android:name=".StartActivity">
             <intent-filter>
