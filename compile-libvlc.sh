@@ -645,6 +645,8 @@ AccessOpen AccessOpen__$name
 AccessClose AccessClose__$name
 StreamOpen StreamOpen__$name
 StreamClose StreamClose__$name
+OpenDemux OpenDemux__$name
+CloseDemux CloseDemux__$name
 DemuxOpen DemuxOpen__$name
 DemuxClose DemuxClose__$name
 OpenFilter OpenFilter__$name
