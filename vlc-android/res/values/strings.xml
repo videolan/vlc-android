@@ -660,7 +660,7 @@
         <item>RV16</item>
         <item>YV12</item>
     </string-array>
-    <string name="chroma_format_default" translatable="false">RV32</string>
+    <string name="chroma_format_default" translatable="false">RV16</string>
     <string name="network_favorites">Network favorites</string>
     <string name="network_shared_folders">Shared folders</string>
     <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>

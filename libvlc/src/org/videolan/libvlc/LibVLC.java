@@ -71,7 +71,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
             }
             if (setChroma) {
                 options.add("--android-display-chroma");
-                options.add("RV32");
+                options.add("RV16");
             }
         }
 
