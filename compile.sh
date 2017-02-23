@@ -183,6 +183,9 @@ else
 EOF
         exit 1
     fi
+    if [ "$RELEASE" = 1 ]; then
+        git reset --hard ${TESTED_HASH}
+    fi
     cd ..
 fi
 
