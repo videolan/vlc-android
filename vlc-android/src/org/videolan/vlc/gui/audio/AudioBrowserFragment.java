@@ -607,7 +607,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(albums);
+                        mAlbumsAdapter.update(albums);
                     }
                 });
             }
@@ -623,7 +623,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(albums);
+                        mAlbumsAdapter.update(albums);
                     }
                 });
             }
@@ -639,7 +639,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(media);
+                        mSongsAdapter.update(media);
                     }
                 });
             }
@@ -655,7 +655,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(media);
+                        mSongsAdapter.update(media);
                     }
                 });
             }
