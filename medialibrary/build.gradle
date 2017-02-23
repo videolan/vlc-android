@@ -59,7 +59,7 @@ task generateSources (type: Jar) {
 
 dependencies {
     compile project(':libvlc')
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:support-compat:25.1.1'
-    compile 'com.android.support:support-fragment:25.1.1'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-compat:25.2.0'
+    compile 'com.android.support:support-fragment:25.2.0'
 }
