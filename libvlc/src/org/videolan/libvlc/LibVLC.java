@@ -24,6 +24,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.util.ArrayList;
@@ -72,6 +73,19 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
                 options.add("--android-display-chroma");
                 options.add("RV32");
             }
+        }
+
+        /* XXX: HACK to remove when we drop 2.3 support: force android_display vout */
+        if (!AndroidUtil.isHoneycombOrLater()) {
+            boolean setVout = true;
+            for (String option : options) {
+                if (option.startsWith("--vout")) {
+                    setVout = false;
+                    break;
+                }
+            }
+            if (setVout)
+                options.add("--vout=android_display,none");
         }
 
         nativeNew(options.toArray(new String[options.size()]), context.getDir("vlc", Context.MODE_PRIVATE).getAbsolutePath());
