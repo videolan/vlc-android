@@ -21,6 +21,7 @@ import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import java.io.File;
 
@@ -120,18 +121,24 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     if (mMedialibrary.init(VLCApplication.getAppContext())) {
                         showNotification();
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (mMedialibrary.getFoldersList().length == 0) {
+                        String[] foldersList = mMedialibrary.getFoldersList();
+                        if (foldersList.length == 0) {
                             for (String storage : storages)
                                 for (String folder : Medialibrary.getBlackList())
-                                    mMedialibrary.banFolder(storage+folder);
+                                    mMedialibrary.banFolder(storage + folder);
                             for (File folder : Medialibrary.getDefaultFolders())
                                 if (folder.exists())
                                     mMedialibrary.discover(folder.getPath());
-                            for (String externalStorage : AndroidDevices.getExternalStorageDirectories())
-                                if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-                                    mMedialibrary.discover(externalStorage);
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
+                        }
+                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
+                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                                    && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")) {
+                                for (String folder : Medialibrary.getBlackList())
+                                    mMedialibrary.banFolder(externalStorage + folder);
+                                mMedialibrary.discover(externalStorage);
+                            }
                         }
                     }
                 }
