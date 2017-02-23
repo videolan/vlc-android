@@ -48,6 +48,9 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
+import org.videolan.medialibrary.media.Album;
+import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -556,6 +559,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         if (adapter == getCurrentAdapter()) {
+            mHandler.sendEmptyMessage(UNSET_REFRESHING);
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView(mViewPager.getCurrentItem());
             mFastScroller.setRecyclerView(getCurrentRV());
@@ -564,44 +568,98 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
     @Override
     public void onArtistsAdded() {
-        mArtistsAdapter.update(mMediaLibrary.getArtists());
-        if (mViewPager.getCurrentItem() == MODE_ARTIST)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final Artist[] artists = mMediaLibrary.getArtists();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(artists);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onArtistsModified() {
-        mArtistsAdapter.update(mMediaLibrary.getArtists());
-        if (mViewPager.getCurrentItem() == MODE_ARTIST)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final Artist[] artists = mMediaLibrary.getArtists();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(artists);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onAlbumsAdded() {
-        mAlbumsAdapter.update(mMediaLibrary.getAlbums());
-        if (mViewPager.getCurrentItem() == MODE_ALBUM)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final Album[] albums = mMediaLibrary.getAlbums();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(albums);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onAlbumsModified() {
-        mAlbumsAdapter.update(mMediaLibrary.getAlbums());
-        if (mViewPager.getCurrentItem() == MODE_ALBUM)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final Album[] albums = mMediaLibrary.getAlbums();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(albums);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onMediaAdded(MediaWrapper[] mediaList) {
-        mSongsAdapter.update(mMediaLibrary.getAudio());
-        if (mViewPager.getCurrentItem() == MODE_SONG)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final MediaWrapper[] media = mMediaLibrary.getAudio();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(media);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onMediaUpdated(MediaWrapper[] mediaList) {
-        mSongsAdapter.update(mMediaLibrary.getAudio());
-        if (mViewPager.getCurrentItem() == MODE_SONG)
-            mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+        VLCApplication.runBackground(new Runnable() {
+            final MediaWrapper[] media = mMediaLibrary.getAudio();
+            @Override
+            public void run() {
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArtistsAdapter.update(media);
+                    }
+                });
+            }
+        });
     }
 
     protected AudioBrowserAdapter getCurrentAdapter() {
@@ -665,13 +723,21 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    mArtistsAdapter.update(mMediaLibrary.getArtists());
-                    mAlbumsAdapter.update(mMediaLibrary.getAlbums());
-                    mSongsAdapter.update(mMediaLibrary.getAudio());
-                    mGenresAdapter.update(mMediaLibrary.getGenres());
-                    mPlaylistAdapter.update(mMediaLibrary.getPlaylists());
-                    mHandler.sendEmptyMessage(UNSET_REFRESHING);
-                    mHandler.sendEmptyMessage(UPDATE_EMPTY_VIEW);
+                    final Artist[] artists = mMediaLibrary.getArtists();
+                    final Album[] albums = mMediaLibrary.getAlbums();
+                    final MediaWrapper[] media = mMediaLibrary.getAudio();
+                    final Genre[] genres = mMediaLibrary.getGenres();
+                    final Playlist[] playlists = mMediaLibrary.getPlaylists();
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mArtistsAdapter.update(artists);
+                            mAlbumsAdapter.update(albums);
+                            mSongsAdapter.update(media);
+                            mGenresAdapter.update(genres);
+                            mPlaylistAdapter.update(playlists);
+                        }
+                    });
                 }
             });
     }
@@ -680,7 +746,13 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                mPlaylistAdapter.update(mMediaLibrary.getPlaylists());
+                final Playlist[] playlists = mMediaLibrary.getPlaylists();
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPlaylistAdapter.update(playlists);
+                    }
+                });
             }
         });
     }

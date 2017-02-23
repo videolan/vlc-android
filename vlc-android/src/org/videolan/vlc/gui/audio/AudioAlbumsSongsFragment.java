@@ -275,8 +275,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     albums = ((Genre) mItem).getAlbums(mMediaLibrary);
                 else
                     return;
-                mAlbumsAdapter.update(albums);
-                LinkedList<MediaLibraryItem> songs = new LinkedList<>();
+                final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
                 for (Album album : albums) {
                     String title = album.getTitle();
                     if (TextUtils.isEmpty(title))
@@ -284,10 +283,11 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     songs.add(new DummyItem(title));
                     songs.addAll(Arrays.asList(album.getTracks(mMediaLibrary)));
                 }
-                mSongsAdapter.update(songs.toArray(new MediaLibraryItem[songs.size()]));
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        mAlbumsAdapter.update(albums);
+                        mSongsAdapter.update(songs.toArray(new MediaLibraryItem[songs.size()]));
                         mFastScroller.setRecyclerView(mLists[mViewPager.getCurrentItem()]);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
