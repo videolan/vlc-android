@@ -46,23 +46,21 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     public LibVLC(Context context, ArrayList<String> options) {
         loadLibraries();
 
+        if (options == null)
+            options = new ArrayList<String>();
         boolean setAout = true, setChroma = true;
         // check if aout/vout options are already set
-        if (options != null) {
-            for (String option : options) {
-                if (option.startsWith("--aout="))
-                    setAout = false;
-                if (option.startsWith("--android-display-chroma"))
-                    setChroma = false;
-                if (!setAout && !setChroma)
-                    break;
-            }
+        for (String option : options) {
+            if (option.startsWith("--aout="))
+                setAout = false;
+            if (option.startsWith("--android-display-chroma"))
+                setChroma = false;
+            if (!setAout && !setChroma)
+                break;
         }
 
         // set aout/vout options if they are not set
         if (setAout || setChroma) {
-            if (options == null)
-                options = new ArrayList<String>();
             if (setAout) {
                 final HWDecoderUtil.AudioOutput hwAout = HWDecoderUtil.getAudioOutputFromDevice();
                 if (hwAout == HWDecoderUtil.AudioOutput.OPENSLES)
