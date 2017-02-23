@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -101,5 +102,14 @@ public class Util {
             } else
                 destArray[i] = array[i-offset];
         }
+    }
+
+    public static boolean arrayContains(Object[] array, Object item) {
+        if (Tools.isArrayEmpty(array))
+            return false;
+        for (Object obj : array)
+            if (obj.equals(item))
+                return true;
+        return false;
     }
 }
