@@ -24,8 +24,9 @@ Application:
  * Fix audioplayer layout for black theme and RTL
  * Fix notification content when no artist nor album
  * Update notification when playlist is ended
- * Upgraded AppCompat to version 25.1.1
+ * Upgraded AppCompat to version 25.2.0
  * Improve app & video player startup speed
+ * Support LG 18:9 aspect ratio
 
 TV:
  * Picture-In-Picture mode integration
