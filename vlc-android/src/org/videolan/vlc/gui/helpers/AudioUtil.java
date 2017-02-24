@@ -378,7 +378,13 @@ public class AudioUtil {
     }
 
     public static Bitmap readCoverBitmap(String path, int width) {
-        Bitmap cover = null;
+        if (path == null)
+            return null;
+        if (path.startsWith("file"))
+            path = path.substring(7);
+        Bitmap cover = BitmapCache.getInstance().getBitmapFromMemCache(path);
+        if (cover != null)
+            return cover;
         BitmapFactory.Options options = new BitmapFactory.Options();
 
         /* Get the resolution of the bitmap without allocating the memory */
@@ -397,6 +403,7 @@ public class AudioUtil {
 
             // Decode the file (with memory allocation this time)
             cover = BitmapFactory.decodeFile(path, options);
+            BitmapCache.getInstance().addBitmapToMemCache(path, cover);
         }
         return cover;
     }
