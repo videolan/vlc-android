@@ -713,7 +713,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 mBinding.header.setBackgroundResource(0);
                 setHeaderVisibilities(true, true, false, false, false, true);
                 showPlaylistTips();
-                mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
+                if (mService != null)
+                    mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                 break;
             default:
                 mBinding.header.setBackgroundResource(0);
