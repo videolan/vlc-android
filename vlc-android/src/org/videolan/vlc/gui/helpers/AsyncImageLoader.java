@@ -85,9 +85,16 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"media"})
     public static void loadPicture(View v, MediaLibraryItem item) {
-        if (item == null)
+        if (item == null || TextUtils.isEmpty(item.getArtworkMrl())
+                || item.getItemType() == MediaLibraryItem.TYPE_GENRE
+                || item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST)
             return;
-        if (item instanceof MediaWrapper) {
+        final Bitmap bitmap = BitmapCache.getInstance().getBitmapFromMemCache(item.getArtworkMrl());
+        if (bitmap != null) {
+            updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
+            return;
+        }
+        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
             if (item instanceof MediaGroup)
                 item = ((MediaGroup) item).getFirstMedia();
             int type = ((MediaWrapper) item).getType();
@@ -99,11 +106,6 @@ public class AsyncImageLoader {
                 MediaWrapper mw = VLCApplication.getMLInstance().getMedia(uri);
                 if (mw != null)
                     item = mw;
-            }
-            final Bitmap bitmap = type == MediaWrapper.TYPE_VIDEO ? BitmapUtil.getPictureFromCache((MediaWrapper) item) : null;
-            if (bitmap != null) {
-                updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
-                return;
             }
         }
         AsyncImageLoader.LoadImage(new MLItemCoverFetcher(v, item), v);
@@ -136,7 +138,7 @@ public class AsyncImageLoader {
             String artworkUrl = item.getArtworkMrl();
             if (!TextUtils.isEmpty(artworkUrl) && artworkUrl.startsWith("http"))
                 return HttpImageLoader.downloadBitmap(artworkUrl);
-            return AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(item.getArtworkMrl())), width);
+            return AudioUtil.readCoverBitmap(Strings.removeFileProtocole(item.getArtworkMrl()), width);
         }
 
         @Override
