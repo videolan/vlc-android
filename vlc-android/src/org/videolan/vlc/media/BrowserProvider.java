@@ -38,7 +38,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +136,7 @@ public class BrowserProvider {
             for (MediaLibraryItem libraryItem : list) {
                 if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                     continue;
-                Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(libraryItem.getArtworkMrl())), 256);
+                Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
                 if (cover == null)
                     cover = DEFAULT_AUDIO_COVER;
                 item.setTitle(libraryItem.getTitle())

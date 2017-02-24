@@ -37,7 +37,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.util.Arrays;
@@ -118,7 +117,7 @@ public class RecommendationsService extends IntentService {
         Bitmap pic;
         Collections.shuffle(videoList);
         for (MediaWrapper mediaWrapper : videoList){
-            pic = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaWrapper.getArtworkMrl())), 256);
+            pic = AudioUtil.readCoverBitmap(Uri.decode(mediaWrapper.getArtworkMrl()), 256);
             if (pic != null && pic.getByteCount() > 4)
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             if (id == MAX_RECOMMENDATIONS)

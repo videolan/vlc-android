@@ -71,7 +71,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mItem.getArtworkMrl())), 0);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mItem.getArtworkMrl()), 0);
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(InfoActivity.this.getResources(), cover));
                         VLCApplication.runOnMainThread(new Runnable() {

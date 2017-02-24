@@ -46,7 +46,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.util.HttpImageLoader;
-import org.videolan.vlc.util.Strings;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -245,7 +244,7 @@ public class CardPresenter extends Presenter {
                 else
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
             } else
-                picture = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mediaLibraryItem.getArtworkMrl())), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
+                picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
             if (picture == null) {
                 int resId;
                 switch (mediaLibraryItem.getItemType()) {

@@ -51,7 +51,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -183,7 +182,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mCurrentCoverArt)), mCover.getWidth());
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mCover.getWidth());
                     final Bitmap blurredCover = UiTools.blurBitmap(cover);
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override

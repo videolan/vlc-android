@@ -104,7 +104,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mPlaylist.getArtworkMrl())), 0);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mPlaylist.getArtworkMrl()), 0);
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
                         VLCApplication.runOnMainThread(new Runnable() {

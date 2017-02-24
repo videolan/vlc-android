@@ -73,7 +73,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Strings;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
@@ -289,7 +288,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
                     @Override
                     public void run() {
-                        final Bitmap blurredCover = UiTools.blurBitmap(AudioUtil.readCoverBitmap(Strings.removeFileProtocole(Uri.decode(mw.getArtworkMrl())), mBinding.contentLayout.getWidth()));
+                        final Bitmap blurredCover = UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), mBinding.contentLayout.getWidth()));
                         if (blurredCover != null)
                             VLCApplication.runOnMainThread(new Runnable() {
                                 @Override
