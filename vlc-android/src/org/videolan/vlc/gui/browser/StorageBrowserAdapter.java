@@ -51,7 +51,9 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MediaViewHolder vh = (MediaViewHolder) holder;
-        final MediaLibraryItem storage = getItem(position);
+        MediaLibraryItem storage = getItem(position);
+        if (storage.getItemType() == MediaLibraryItem.TYPE_MEDIA)
+            storage = new Storage(((MediaWrapper)storage).getUri());
         String storagePath = ((Storage)storage).getUri().getPath();
         if (!storagePath.endsWith("/"))
             storagePath += "/";
@@ -67,6 +69,8 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
     public void addItem(MediaLibraryItem item, boolean top) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
              item = new Storage(((MediaWrapper)item).getUri());
+        else if (item.getItemType() != MediaLibraryItem.TYPE_STORAGE)
+            return;
         super.addItem(item, top);
     }
 
