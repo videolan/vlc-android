@@ -257,6 +257,8 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
     }
 
     void removeItem(int position) {
+        if (position >= getItemCount())
+            return;
         MediaLibraryItem item = mMediaList.get(position);
         ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
         list.remove(position);
