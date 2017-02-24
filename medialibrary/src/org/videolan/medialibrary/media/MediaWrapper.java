@@ -32,6 +32,7 @@ import org.videolan.libvlc.Media.Meta;
 import org.videolan.libvlc.Media.VideoTrack;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 
@@ -129,7 +130,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
             mrl = "file://"+mrl;
         mUri = Uri.parse(mrl);
         mId = id;
-        init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
+        init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu, trackNumber, discNumber, lastModified, null);
         sb.setLength(0);
         if (type == TYPE_AUDIO) {
             String artistMeta = getReferenceArtist();

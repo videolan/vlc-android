@@ -3,6 +3,7 @@ package org.videolan.medialibrary.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 
 public class Album extends MediaLibraryItem {
@@ -16,7 +17,7 @@ public class Album extends MediaLibraryItem {
     public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
         super(id, title);
         this.releaseYear = releaseYear;
-        this.artworkMrl = artworkMrl;
+        this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.albumArtist = albumArtist != null ? albumArtist.trim(): null;
         this.albumArtistId = albumArtistId;
         this.nbTracks = nbTracks;
