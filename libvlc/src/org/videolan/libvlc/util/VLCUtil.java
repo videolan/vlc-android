@@ -525,8 +525,7 @@ public class VLCUtil {
      */
     public static Uri UriFromMrl(String mrl) {
         final char array[] = mrl.toCharArray();
-        final StringBuilder sb = new StringBuilder(array.length);
-
+        final StringBuilder sb = new StringBuilder(array.length*2);
         for (int i = 0; i < array.length; ++i) {
             final char c = array[i];
             if (c == '%') {
@@ -541,7 +540,6 @@ public class VLCUtil {
                     } catch (NumberFormatException ignored) {
                     }
                 }
-
             }
             sb.append(c);
         }
