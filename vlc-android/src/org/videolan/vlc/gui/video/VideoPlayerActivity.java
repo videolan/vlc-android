@@ -2197,6 +2197,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // Initialize the layoutParams screen brightness
         try {
             if (Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+            if (!Permissions.canWriteSettings(this)) {
+                Permissions.checkWriteSettingsPermission(this, Permissions.PERMISSION_SYSTEM_BRIGHTNESS);
+                return;
+            }
                 Settings.System.putInt(getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS_MODE,
                         Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
