@@ -258,7 +258,10 @@ public class CardPresenter extends Presenter {
                         resId = R.drawable.ic_genre_big;
                         break;
                     case MediaLibraryItem.TYPE_MEDIA:
-                        resId = R.drawable.ic_song_big;
+                        if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
+                            resId = R.drawable.ic_browser_video_big_normal;
+                        else
+                            resId = R.drawable.ic_song_big;
                         break;
                     default:
                         resId = R.drawable.ic_browser_unknown_big_normal;
