@@ -190,7 +190,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public void onDisconnected() {
-        mService.removeCallback(this);
+        if (mService != null)
+            mService.removeCallback(this);
         super.onDisconnected();
     }
 
