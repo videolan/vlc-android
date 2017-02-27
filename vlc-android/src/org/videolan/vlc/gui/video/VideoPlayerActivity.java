@@ -2892,7 +2892,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (length == 0) {
             MediaWrapper media = mService.getCurrentMediaWrapper();
             if (media.getId() == 0)
-                media = VLCApplication.getMLInstance().getMedia(mUri);
+                media = VLCApplication.getMLInstance().findMedia(media);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -3011,7 +3011,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (extras != null) {
             if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                 mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
-            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, true);
+            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false);
             mAskResume &= !fromStart;
             positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
         }
@@ -3049,6 +3049,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mUri = FileUtils.convertLocalUri(mUri);
                     media = ml.getMedia(mUri);
                 }
+                if (media != null && media.getId() != 0L && media.getTime() == 0L)
+                    media.setTime((long) (media.getMetaLong(VLCApplication.getMLInstance(), MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
             } else
                 media = openedMedia;
             if (media != null) {
