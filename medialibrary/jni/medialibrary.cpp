@@ -33,9 +33,8 @@ init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 {
     const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
-    const std::string stringDbPath(db_utfchars), stringThumbsPath(thumbs_utfchars);
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    m_IsInitialized = aml->initML(stringDbPath, stringThumbsPath);
+    m_IsInitialized = aml->initML(db_utfchars, thumbs_utfchars);
     env->ReleaseStringUTFChars(dbPath, db_utfchars);
     env->ReleaseStringUTFChars(thumbsPath, thumbs_utfchars);
     return m_IsInitialized;
@@ -54,8 +53,7 @@ banFolder(JNIEnv* env, jobject thiz, jstring folderPath)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *path = env->GetStringUTFChars(folderPath, JNI_FALSE);
-    const std::string stringPath(path);
-    aml->banFolder(stringPath);
+    aml->banFolder(path);
     env->ReleaseStringUTFChars(folderPath, path);
 }
 
@@ -120,8 +118,7 @@ removeDevice(JNIEnv* env, jobject thiz, jstring uuid)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *uuidChar = env->GetStringUTFChars(uuid, JNI_FALSE);
-    const std::string stringUuid(uuidChar);
-    jboolean removed = aml->removeDevice(stringUuid);
+    jboolean removed = aml->removeDevice(uuidChar);
     env->ReleaseStringUTFChars(uuid, uuidChar);
     return removed;
 }
@@ -173,8 +170,7 @@ reloadEntryPoint(JNIEnv* env, jobject thiz, jstring entryPoint)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *path = env->GetStringUTFChars(entryPoint, JNI_FALSE);
-    const std::string stringPath(path);
-    aml->reload(stringPath);
+    aml->reload(path);
     env->ReleaseStringUTFChars(entryPoint, path);
 }
 
@@ -273,8 +269,7 @@ search(JNIEnv* env, jobject thiz, jstring query)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
-    const std::string queryString(queryChar);
-    jobject searchResult = convertSearchAggregateObject(env, &ml_fields, aml->search(queryString));
+    jobject searchResult = convertSearchAggregateObject(env, &ml_fields, aml->search(queryChar));
     env->ReleaseStringUTFChars(query, queryChar);
     return searchResult;
 }
@@ -299,8 +294,7 @@ jobject
 getMediaFromMrl(JNIEnv* env, jobject thiz, jstring mrl) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
-    const std::string stringMrl(char_mrl);
-    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->media(stringMrl));
+    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->media(char_mrl));
     env->ReleaseStringUTFChars(mrl, char_mrl);
     return mw;
 }
@@ -412,10 +406,9 @@ jobject
 playlistCreate(JNIEnv* env, jobject thiz, jstring name)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    const char *buffer = env->GetStringUTFChars(name, JNI_FALSE);
-    const std::string& playlistName(buffer);
-    medialibrary::PlaylistPtr playlist = aml->PlaylistCreate(playlistName);
-    env->ReleaseStringUTFChars(name, buffer);
+    const char *name_cstr = env->GetStringUTFChars(name, JNI_FALSE);
+    medialibrary::PlaylistPtr playlist = aml->PlaylistCreate(name_cstr);
+    env->ReleaseStringUTFChars(name, name_cstr);
     return convertPlaylistObject(env, &ml_fields, playlist);
 }
 

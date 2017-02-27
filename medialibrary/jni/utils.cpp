@@ -92,6 +92,7 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
                           (jlong) albumPtr->id(), title, albumPtr->releaseYear(), artworkMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->duration());
     env->DeleteLocalRef(title);
     env->DeleteLocalRef(artworkMrl);
+    env->DeleteLocalRef(artistName);
     return item;
 }
 
@@ -214,5 +215,6 @@ convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr c
     jobject item = env->NewObject(fields->HistoryItem.clazz, fields->HistoryItem.initID, mrl, title,
                           (jlong) historyPtr->insertionDate(), (jboolean) false);
     env->DeleteLocalRef(mrl);
+    env->DeleteLocalRef(title);
     return item;
 }
