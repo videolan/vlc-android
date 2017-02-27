@@ -43,7 +43,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private Medialibrary mMedialibrary;
     private int mParsing = 0, mReload = 0;
     private String mCurrentDiscovery = null;
-    private long mLastNotificationTime;
+    private long mLastNotificationTime = 0L;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -77,9 +77,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         filter.addAction(ACTION_PAUSE_SCAN);
         filter.addAction(ACTION_RESUME_SCAN);
         registerReceiver(mReceiver, filter);
-        synchronized (this) {
-            mLastNotificationTime = System.currentTimeMillis();
-        }
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
