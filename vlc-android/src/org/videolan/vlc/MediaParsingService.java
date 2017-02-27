@@ -119,7 +119,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
                     }
                     if (mMedialibrary.init(VLCApplication.getAppContext())) {
-                        showNotification();
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
                         String[] foldersList = mMedialibrary.getFoldersList();
                         if (foldersList.length == 0) {
@@ -210,7 +209,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     @Override
     public void onDiscoveryProgress(String entryPoint) {
         mCurrentDiscovery = entryPoint;
-        showNotification();
+        if (mReload == 0)
+            showNotification();
     }
 
     @Override
@@ -232,9 +232,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public void onReloadStarted(String entryPoint) {
         if (TextUtils.isEmpty(entryPoint))
             ++mReload;
-        synchronized (this) {
-            mLastNotificationTime = System.currentTimeMillis();
-        }
     }
 
     @Override
