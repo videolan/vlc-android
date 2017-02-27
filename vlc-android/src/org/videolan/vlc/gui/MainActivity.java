@@ -22,14 +22,11 @@ package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -39,7 +36,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
@@ -47,7 +43,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -63,13 +58,9 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FilterQueryProvider;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
@@ -100,7 +91,6 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -843,8 +833,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 /* Switch the fragment */
                     Fragment fragment = getFragment(id);
                     fm.beginTransaction()
-                        .remove(current)
-                        .add(R.id.fragment_placeholder, fragment, tag)
+                        .replace(R.id.fragment_placeholder, fragment, tag)
                         .addToBackStack(tag)
                         .commit();
                     mCurrentFragmentId = id;
