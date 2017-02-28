@@ -148,6 +148,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
         if (sb.length() > 0)
             mDescription = sb.toString();
+        defineType();
     }
 
     /**
