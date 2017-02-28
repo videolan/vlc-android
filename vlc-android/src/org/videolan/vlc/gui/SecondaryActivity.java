@@ -25,6 +25,7 @@ package org.videolan.vlc.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +77,8 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_placeholder, mFragment)
             .commit();
+            if (VLCApplication.showTvUi() && STORAGE_BROWSER.equals(fragmentId))
+                Snackbar.make(getWindow().getDecorView(), R.string.tv_settings_hint, Snackbar.LENGTH_LONG).show();
         }
 
         if (VLCApplication.showTvUi())

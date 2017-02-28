@@ -695,6 +695,7 @@
     <string name="ml_discovering">Discovering</string>
     <string name="resume">Resume</string>
     <string name="length">Length</string>
+    <string name="tv_settings_hint">Long press OK button to check/uncheck directories</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
