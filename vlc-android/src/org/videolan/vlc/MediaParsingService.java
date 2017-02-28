@@ -43,7 +43,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private Medialibrary mMedialibrary;
     private int mParsing = 0, mReload = 0;
     private String mCurrentDiscovery = null;
+    String mFolderToDiscover = null;
     private long mLastNotificationTime = 0L;
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -93,6 +95,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(String path) {
+        mFolderToDiscover = "";
         mMedialibrary.discover(path);
     }
 
@@ -201,7 +204,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     @Override
-    public void onDiscoveryStarted(String entryPoint) {}
+    public void onDiscoveryStarted(String entryPoint) {
+        if (mFolderToDiscover != null && mFolderToDiscover.isEmpty())
+            mFolderToDiscover = entryPoint;
+    }
 
     @Override
     public void onDiscoveryProgress(String entryPoint) {
@@ -212,7 +218,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        if (mCurrentDiscovery != null && mParsing == 0 && entryPoint.isEmpty())
+        if ((mParsing == 0 && mCurrentDiscovery != null && entryPoint.isEmpty()) || TextUtils.equals(mFolderToDiscover, entryPoint))
             stopSelf();
     }
 
