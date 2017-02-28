@@ -1,3 +1,15 @@
+Changes between 2.1.0 and 2.1.1:
+----------------------------------
+
+Application:
+ - Improve audio categories and images loading performance
+ - Restore runtime permission for brightness change
+ - Fix media discovery crash on some sdcards
+ - Fix resume position for video launched from 3rd party apps
+ - More discrete scan notification
+ - Add network media to history
+ - Tackles various crash, including one when you have more than 500 albums
+
 Changes between 2.0.0 and 2.1.0:
 ----------------------------------
 
