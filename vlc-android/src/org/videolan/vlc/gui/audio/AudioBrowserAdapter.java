@@ -44,6 +44,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
+import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
@@ -52,13 +53,12 @@ import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -72,7 +72,6 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     private int mSelectionCount = 0;
     private int mType;
     private BitmapDrawable mDefaultCover;
-    private ArrayDeque<MediaLibraryItem[]> mPendingUpdates = new ArrayDeque<>();
 
     public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
@@ -253,14 +252,16 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
     }
 
     public void remove(int position) {
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()-1];
-        Util.removePositionInArray(mPendingUpdates.isEmpty() ? mDataList : mPendingUpdates.peekLast(), position, dataList);
+        final MediaLibraryItem[] referenceList = hasPendingUpdates() ? peekLast() : mDataList;
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length-1];
+        Util.removePositionInArray(referenceList, position, dataList);
         update(dataList);
     }
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[getItemCount()+1];
-        Util.addItemInArray(mPendingUpdates.isEmpty() ? mDataList : mPendingUpdates.peekLast(), position, item, dataList);
+        final MediaLibraryItem[] referenceList = hasPendingUpdates() ? peekLast() : mDataList;
+        final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length+1];
+        Util.addItemInArray(referenceList, position, item, dataList);
         update(dataList);
     }
 
@@ -271,14 +272,7 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
         }
     }
 
-    @MainThread
-    void update(final MediaLibraryItem[] items) {
-        mPendingUpdates.add(items);
-        if (mPendingUpdates.size() == 1)
-            internalUpdate(items);
-    }
-
-    private void internalUpdate(final MediaLibraryItem[] items) {
+    protected void internalUpdate(final MediaLibraryItem[] items) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -287,12 +281,10 @@ public class AudioBrowserAdapter extends RecyclerView.Adapter<AudioBrowserAdapte
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPendingUpdates.remove();
                         addAll(newList, false);
                         result.dispatchUpdatesTo(AudioBrowserAdapter.this);
                         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-                        if (!mPendingUpdates.isEmpty())
-                            internalUpdate(mPendingUpdates.peek());
+                        processQueue();
                     }
                 });
             }

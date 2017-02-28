@@ -43,11 +43,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
+import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +55,7 @@ import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibraryItem>, BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
@@ -232,7 +232,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
 
     void addItem(MediaLibraryItem item, boolean top, int positionTo){
         int position;
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(hasPendingUpdates() ? peekLast() : mMediaList);
         if (positionTo != -1)
             position = positionTo;
         else
@@ -260,7 +260,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         if (position >= getItemCount())
             return;
         MediaLibraryItem item = mMediaList.get(position);
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mMediaList : mPendingUpdates.peekLast());
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(hasPendingUpdates() ? peekLast() : mMediaList);
         list.remove(position);
         update(list);
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
@@ -352,16 +352,7 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
         return mFilter;
     }
 
-    private ArrayDeque<ArrayList<MediaLibraryItem>> mPendingUpdates = new ArrayDeque<>();
-
-    @MainThread
-    void update(final ArrayList<MediaLibraryItem> items) {
-        mPendingUpdates.add(items);
-        if (mPendingUpdates.size() == 1)
-            internalUpdate(items);
-    }
-
-    private void internalUpdate(final ArrayList<MediaLibraryItem> items) {
+    protected void internalUpdate(final ArrayList<MediaLibraryItem> items) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -374,12 +365,10 @@ public class BaseBrowserAdapter extends RecyclerView.Adapter<BaseBrowserAdapter.
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPendingUpdates.remove();
                         mMediaList = items;
                         result.dispatchUpdatesTo(BaseBrowserAdapter.this);
                         fragment.onUpdateFinished(null);
-                        if (!mPendingUpdates.isEmpty())
-                            internalUpdate(mPendingUpdates.peek());
+                        processQueue();
                     }
                 });
             }

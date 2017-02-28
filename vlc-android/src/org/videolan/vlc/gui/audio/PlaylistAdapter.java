@@ -42,18 +42,18 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
+import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.WeakHandler;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+public class PlaylistAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>, PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
 
@@ -122,21 +122,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mDataSet.addAll(playList);
     }
 
-    private ArrayDeque<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
-
-    public boolean hasPendingUpdates() {
-        return !mPendingUpdates.isEmpty();
-    }
-
     @MainThread
-    public void update(final ArrayList<MediaWrapper> newList) {
-        mPendingUpdates.add(newList);
-        if (mPendingUpdates.size() == 1)
-            internalUpdate(newList);
-    }
-
-    @MainThread
-    private void internalUpdate(final List<MediaWrapper> newList) {
+    protected void internalUpdate(final ArrayList<MediaWrapper> newList) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -144,14 +131,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPendingUpdates.remove();
                         mDataSet.clear();
                         addAll(newList);
                         result.dispatchUpdatesTo(PlaylistAdapter.this);
                         if (mService != null)
                             setCurrentIndex(mService.getCurrentMediaPosition());
-                        if (!mPendingUpdates.isEmpty())
-                            internalUpdate(mPendingUpdates.peek());
+                        processQueue();
                     }
                 });
             }
