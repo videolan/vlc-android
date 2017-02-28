@@ -877,7 +877,7 @@ $ANDROID_NDK/ndk-build -C medialibrary \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
-    LOCAL_CPP_FEATURES="exceptions" \
+    LOCAL_CPP_FEATURES="rtti exceptions" \
     TARGET_TUPLE=$TARGET_TUPLE \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
