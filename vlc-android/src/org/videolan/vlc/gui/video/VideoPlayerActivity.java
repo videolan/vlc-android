@@ -1376,13 +1376,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             sb.show();
         }
         mPlaybackSetting = DelayState.OFF;
-        mPlaybackSettingMinus.setOnClickListener(null);
-        mPlaybackSettingPlus.setOnClickListener(null);
-        mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
-        mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
+        if (mPlaybackSettingMinus != null) {
+            mPlaybackSettingMinus.setOnClickListener(null);
+            mPlaybackSettingMinus.setVisibility(View.INVISIBLE);
+        }
+        if (mPlaybackSettingPlus != null) {
+            mPlaybackSettingPlus.setOnClickListener(null);
+            mPlaybackSettingPlus.setVisibility(View.INVISIBLE);
+        }
         UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         mInfo.setText("");
-        mPlayPause.requestFocus();
+        if (mPlayPause != null)
+            mPlayPause.requestFocus();
     }
 
     public void delayAudio(long delta){
