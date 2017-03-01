@@ -355,7 +355,6 @@
                 <data android:pathPattern=".*\\.oma" />
                 <data android:pathPattern=".*\\.opus" />
                 <data android:pathPattern=".*\\.ra" />
-                <data android:pathPattern=".*\\.ram" />
                 <data android:pathPattern=".*\\.rmi" />
                 <data android:pathPattern=".*\\.s3m" />
                 <data android:pathPattern=".*\\.spx" />
@@ -403,7 +402,6 @@
                 <data android:pathPattern=".*\\.OMA" />
                 <data android:pathPattern=".*\\.OPUS" />
                 <data android:pathPattern=".*\\.RA" />
-                <data android:pathPattern=".*\\.RAM" />
                 <data android:pathPattern=".*\\.RMI" />
                 <data android:pathPattern=".*\\.S3M" />
                 <data android:pathPattern=".*\\.SPX" />
@@ -425,6 +423,8 @@
                 <data android:pathPattern=".*\\.M3U" />
                 <data android:pathPattern=".*\\.pls" />
                 <data android:pathPattern=".*\\.PLS" />
+                <data android:pathPattern=".*\\.ram" />
+                <data android:pathPattern=".*\\.RAM" />
                 <data android:pathPattern=".*\\.xspf" />
                 <data android:pathPattern=".*\\.XSPF" />
             </intent-filter>
