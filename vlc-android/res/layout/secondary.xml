@@ -17,18 +17,7 @@
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent" />
 
-        <FrameLayout
-            android:id="@+id/audio_player_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            vlc:layout_behavior="org.videolan.vlc.gui.helpers.BottomSheetBehavior">
-            <android.support.v7.widget.ViewStubCompat
-                android:id="@+id/audio_player_stub"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout="@layout/audioplayer"/>
-        </FrameLayout>
+        <include layout="@layout/audioplayercontainer"/>
 
         <android.support.design.widget.FloatingActionButton
             vlc:borderWidth="0dp"

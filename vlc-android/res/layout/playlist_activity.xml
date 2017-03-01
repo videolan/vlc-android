@@ -75,18 +75,6 @@
             android:src="@drawable/ic_fab_play"
             android:tint="@color/grey50" />
 
-        <FrameLayout
-            android:id="@+id/audio_player_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:elevation="@dimen/audio_player_elevation"
-            vlc:layout_behavior="android.support.design.widget.BottomSheetBehavior">
-            <android.support.v7.widget.ViewStubCompat
-                android:id="@+id/audio_player_stub"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout="@layout/audioplayer"/>
-        </FrameLayout>
+        <include layout="@layout/audioplayercontainer"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
