@@ -1390,7 +1390,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlayPause.requestFocus();
     }
 
-    public void delayAudio(long delta){
+    public void delayAudio(long delta) {
+        initInfoOverlay();
         long delay = mService.getAudioDelay()+delta;
         mService.setAudioDelay(delay);
         mInfo.setText(getString(R.string.audio_delay)+"\n"+(delay/1000l)+" ms");
@@ -1401,7 +1402,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
-    public void delaySubs(long delta){
+    public void delaySubs(long delta) {
+        initInfoOverlay();
         long delay = mService.getSpuDelay()+delta;
         mService.setSpuDelay(delay);
         mInfo.setText(getString(R.string.spu_delay) + "\n" + (delay / 1000l) + " ms");
@@ -1413,6 +1415,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void changeSpeed(float delta){
+        initInfoOverlay();
         float rate = Math.round((mService.getRate()+delta)*100f)/100f;
         if (rate < 0.25f || rate > 4f)
             return;
