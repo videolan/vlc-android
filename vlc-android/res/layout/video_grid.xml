@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,6 +43,9 @@
             android:drawablePadding="@dimen/default_margin"
             android:gravity="center"
             android:maxWidth="600dp"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle"
+            android:textAppearance="@style/Result.Title"
             android:text="@string/nomedia"
             android:textSize="20sp"
             android:visibility="visible" />
