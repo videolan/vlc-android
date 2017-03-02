@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -71,7 +72,10 @@ import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.SearchAggregate;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
@@ -88,6 +92,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
+import org.videolan.vlc.util.VoiceSearchParams;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
@@ -105,8 +110,6 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static android.R.attr.id;
-
 public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
@@ -123,6 +126,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public static final String ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC+"LastPlaylist";
     public static final String ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC+"LastVideoPlaylist";
     public static final String ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC+"SwitchToVideo";
+    public static final String ACTION_PLAY_FROM_SEARCH = ACTION_REMOTE_GENERIC+"play_from_search";
+
+    public static final String EXTRA_SEARCH_BUNDLE = ACTION_REMOTE_GENERIC+"extra_search_bundle";
 
     private static final int DELAY_DOUBLE_CLICK = 800;
     private static final int DELAY_LONG_CLICK = 1000;
@@ -296,16 +302,23 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null)
             return START_STICKY;
-        if(ACTION_REMOTE_PLAYPAUSE.equals(intent.getAction())){
+        String action = intent.getAction();
+        if (ACTION_REMOTE_PLAYPAUSE.equals(action)){
             if (hasCurrentMedia())
                 return START_STICKY;
             else
                 loadLastPlaylist(TYPE_AUDIO);
-        } else if (ACTION_REMOTE_PLAY.equals(intent.getAction())) {
+        } else if (ACTION_REMOTE_PLAY.equals(action)) {
             if (hasCurrentMedia())
                 play();
             else
                 loadLastPlaylist(TYPE_AUDIO);
+        } else if (ACTION_PLAY_FROM_SEARCH.equals(action)) {
+            if (mMediaSession == null)
+                initMediaSession();
+            Bundle extras = intent.getBundleExtra(EXTRA_SEARCH_BUNDLE);
+            mMediaSession.getController().getTransportControls()
+                    .playFromSearch(extras.getString(SearchManager.QUERY), extras);
         }
         updateWidget();
         return super.onStartCommand(intent, flags, startId);
@@ -1187,6 +1200,40 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         @Override
         public void onPlayFromUri(Uri uri, Bundle extras) {
             loadUri(uri);
+        }
+
+        @Override
+        public void onPlayFromSearch(String query, Bundle extras) {
+            mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
+            VoiceSearchParams vsp = new VoiceSearchParams(query, extras);
+            MediaLibraryItem[] items = null;
+            MediaWrapper[] tracks = null;
+            if (vsp.isAny) {
+                items = mMedialibrary.getAudio();
+                if (!isShuffling())
+                    shuffle();
+            } else if (vsp.isArtistFocus) {
+                items = mMedialibrary.searchArtist(vsp.artist);
+            } else if (vsp.isAlbumFocus) {
+                items = mMedialibrary.searchAlbum(vsp.album);
+            } else if (vsp.isGenreFocus) {
+                items = mMedialibrary.searchGenre(vsp.genre);
+            } else if (vsp.isSongFocus) {
+                tracks = mMedialibrary.searchMedia(vsp.song).getTracks();
+            }
+            if (Tools.isArrayEmpty(tracks)){
+                SearchAggregate result = mMedialibrary.search(query);
+                if (!Tools.isArrayEmpty(result.getAlbums()))
+                    tracks = result.getAlbums()[0].getTracks(mMedialibrary);
+                else if (!Tools.isArrayEmpty(result.getArtists()))
+                    tracks = result.getArtists()[0].getTracks(mMedialibrary);
+                else if (!Tools.isArrayEmpty(result.getGenres()))
+                    tracks = result.getGenres()[0].getTracks(mMedialibrary);
+            }
+            if (tracks == null && !Tools.isArrayEmpty(items))
+                tracks = items[0].getTracks(mMedialibrary);
+            if (!Tools.isArrayEmpty(tracks))
+                load(tracks, 0);
         }
 
         @Override
