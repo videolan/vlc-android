@@ -390,7 +390,6 @@ public class AWindow implements IVLCVout {
 
     @MainThread
     private void onSurfaceDestroyed() {
-        Log.e("lala", "onSurfaceDestroyed");
         detachViews();
     }
 
