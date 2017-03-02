@@ -75,8 +75,9 @@ devices(JNIEnv* env, jobject thiz)
     jobjectArray deviceRefs = (jobjectArray) env->NewObjectArray(devices.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(auto device : devices) {
-        std::string path = std::get<1>(device);
-        env->SetObjectArrayElement(deviceRefs, ++index, env->NewStringUTF(path.c_str()));
+        jstring path = env->NewStringUTF(std::get<1>(device).c_str());
+        env->SetObjectArrayElement(deviceRefs, ++index, path);
+        env->DeleteLocalRef(path);
     }
     return deviceRefs;
 }
@@ -108,7 +109,9 @@ entryPoints(JNIEnv* env, jobject thiz)
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(entryPoints.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& entrypoint : entryPoints) {
-        env->SetObjectArrayElement(mediaRefs, ++index, env->NewStringUTF(entrypoint->mrl().c_str()));
+        jstring mrl = env->NewStringUTF(entrypoint->mrl().c_str());
+        env->SetObjectArrayElement(mediaRefs, ++index, mrl);
+        env->DeleteLocalRef(mrl);
     }
     return mediaRefs;
 }
