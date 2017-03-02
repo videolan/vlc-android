@@ -55,9 +55,8 @@
         <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.downloadIcon() -->
         <TextView
             android:id="@+id/dvi_icon"
-            android:layout_width="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_height="0dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@{cover}"
             android:contentDescription="@string/cover_art"
             android:gravity="center"
