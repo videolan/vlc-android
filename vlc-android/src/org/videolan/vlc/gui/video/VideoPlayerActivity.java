@@ -3030,7 +3030,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
 
         MediaWrapper openedMedia = null;
-        if (positionInPlaylist != -1 && mService.hasMedia()) {
+        if (positionInPlaylist != -1 && mService.hasMedia() && positionInPlaylist < mService.getMedias().size()) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
             openedMedia = mService.getMedias().get(positionInPlaylist);
