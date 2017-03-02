@@ -28,11 +28,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -51,6 +51,18 @@ public class StartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        boolean tv =  showTvUi();
+        String action = intent != null ? intent.getAction(): null;
+
+        // Route search query
+        if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
+                startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
+            finish();
+            return;
+        }
+
+        // Start application
         /* Get the current version from package */
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         int currentVersionNumber = BuildConfig.VERSION_CODE;
@@ -61,8 +73,7 @@ public class StartActivity extends Activity {
         if (upgrade)
             settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply();
 
-        Intent intent = getIntent();
-        if (intent != null && TextUtils.equals(intent.getAction(), Intent.ACTION_VIEW) && intent.getData() != null) {
+        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
             intent.setDataAndType(intent.getData(), intent.getType());
             if (intent.getType() != null && intent.getType().startsWith("video"))
                 startActivity(intent.setClass(this, VideoPlayerActivity.class));
@@ -74,10 +85,10 @@ public class StartActivity extends Activity {
                 serviceInent.putExtra(EXTRA_UPGRADE, upgrade);
                 startService(serviceInent);
             }
-            if (intent != null && TextUtils.equals(intent.getAction(), AudioPlayerContainerActivity.ACTION_SHOW_PLAYER))
-                startActivity(new Intent(this, showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
+            if (AudioPlayerContainerActivity.ACTION_SHOW_PLAYER.equals(action))
+                startActivity(new Intent(this, tv ? AudioPlayerActivity.class : MainActivity.class));
             else {
-                Intent activityIntent = new Intent(this, showTvUi() ? MainTvActivity.class : MainActivity.class);
+                Intent activityIntent = new Intent(this, tv ? MainTvActivity.class : MainActivity.class);
                 if (firstRun)
                     activityIntent.putExtra(EXTRA_FIRST_RUN, true);
                 if (upgrade)

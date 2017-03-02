@@ -22,6 +22,8 @@ package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.SpeechRecognitionCallback;
@@ -41,15 +43,19 @@ public class SearchActivity extends Activity {
 
         mFragment = (SearchFragment) getFragmentManager()
                 .findFragmentById(R.id.search_fragment);
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()) || "com.google.android.gms.actions.SEARCH_ACTION".equals(intent.getAction())) {
+            mFragment.onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY));
+        } else {
+            SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
 
-        SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
-
-            @Override
-            public void recognizeSpeech() {
-                startActivityForResult(mFragment.getRecognizerIntent(), REQUEST_SPEECH);
-            }
-        };
-        mFragment.setSpeechRecognitionCallback(speechRecognitionCallback);
+                @Override
+                public void recognizeSpeech() {
+                    startActivityForResult(mFragment.getRecognizerIntent(), REQUEST_SPEECH);
+                }
+            };
+            mFragment.setSpeechRecognitionCallback(speechRecognitionCallback);
+        }
     }
 
     @Override
