@@ -124,8 +124,6 @@ public class AWindow implements IVLCVout {
         }
 
         public void release() {
-            if (AndroidUtil.isICSOrLater() && mSurface != null)
-                mSurface.release();
             mSurface = null;
             setNativeSurface(mId, null);
             if (mSurfaceHolder != null)
