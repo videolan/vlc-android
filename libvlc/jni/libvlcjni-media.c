@@ -297,10 +297,11 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
     if (p_tracks->psz_description)
         jdescription = (*env)->NewStringUTF(env, p_tracks->psz_description);
 
+    jobject jobj;
     switch (p_tracks->i_type)
     {
         case libvlc_track_audio:
-            return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+            jobj = (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
                                 fields.Media.createAudioTrackFromNativeID,
                                 jcodec,
                                 joriginalCodec,
@@ -312,8 +313,9 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 jdescription,
                                 (jint)p_tracks->audio->i_channels,
                                 (jint)p_tracks->audio->i_rate);
+            break;
         case libvlc_track_video:
-            return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+            jobj = (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
                                 fields.Media.createVideoTrackFromNativeID,
                                 jcodec,
                                 joriginalCodec,
@@ -331,13 +333,14 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 (jint)p_tracks->video->i_frame_rate_den,
                                 (jint)p_tracks->video->i_orientation,
                                 (jint)p_tracks->video->i_projection);
+            break;
         case libvlc_track_text: {
             jstring jencoding = NULL;
 
             if (p_tracks->subtitle->psz_encoding)
                 jencoding = (*env)->NewStringUTF(env, p_tracks->subtitle->psz_encoding);
 
-            return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+            jobj = (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
                                 fields.Media.createSubtitleTrackFromNativeID,
                                 jcodec,
                                 joriginalCodec,
@@ -348,9 +351,12 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 jlanguage,
                                 jdescription,
                                 jencoding);
+            if (jencoding)
+                (*env)->DeleteLocalRef(env, jencoding);
+            break;
         }
         case libvlc_track_unknown:
-            return (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
+            jobj = (*env)->CallStaticObjectMethod(env, fields.Media.clazz,
                                 fields.Media.createUnknownTrackFromNativeID,
                                 jcodec,
                                 joriginalCodec,
@@ -360,7 +366,18 @@ media_track_to_object(JNIEnv *env, libvlc_media_track_t *p_tracks)
                                 (jint)p_tracks->i_bitrate,
                                 jlanguage,
                                 jdescription);
+            break;
     }
+
+    if (jcodec)
+        (*env)->DeleteLocalRef(env, jcodec);
+    if (joriginalCodec)
+        (*env)->DeleteLocalRef(env, joriginalCodec);
+    if (jlanguage)
+        (*env)->DeleteLocalRef(env, jlanguage);
+    if (jdescription)
+        (*env)->DeleteLocalRef(env, jdescription);
+    return jobj;
 }
 
 jobject
@@ -547,6 +564,7 @@ Java_org_videolan_libvlc_Media_nativeGetSlaves(JNIEnv *env, jobject thiz)
                                            p_slave->i_type, p_slave->i_priority,
                                            juri);
         (*env)->SetObjectArrayElement(env, array, i, jslave);
+        (*env)->DeleteLocalRef(env, juri);
     }
 
 error:

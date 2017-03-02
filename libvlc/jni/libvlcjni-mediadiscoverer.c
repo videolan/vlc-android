@@ -99,9 +99,13 @@ service_to_object(JNIEnv *env, libvlc_media_discoverer_description_t *p_service)
     jname = (*env)->NewStringUTF(env, p_service->psz_name);
     jlongName = (*env)->NewStringUTF(env, p_service->psz_longname);
 
-    return (*env)->CallStaticObjectMethod(env, fields.MediaDiscoverer.clazz,
+    jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaDiscoverer.clazz,
                         fields.MediaDiscoverer.createDescriptionFromNativeID,
                         jname, jlongName, p_service->i_cat);
+
+    (*env)->DeleteLocalRef(env, jname);
+    (*env)->DeleteLocalRef(env, jlongName);
+    return jobj;
 }
 
 jobject

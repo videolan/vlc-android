@@ -49,10 +49,14 @@ display_error_cb(void *p_data, const char *psz_title, const char *psz_text)
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
+    jstring title = (*env)->NewStringUTF(env, psz_title);
+    jstring text = (*env)->NewStringUTF(env, psz_text);
+
     (*env)->CallStaticVoidMethod(env, fields.Dialog.clazz,
-        fields.Dialog.displayErrorFromNativeID,
-        (*env)->NewStringUTF(env, psz_title),
-        (*env)->NewStringUTF(env, psz_text));
+        fields.Dialog.displayErrorFromNativeID, title, text);
+
+    (*env)->DeleteLocalRef(env, title);
+    (*env)->DeleteLocalRef(env, text);
 }
 
 static void
@@ -65,13 +69,18 @@ display_login_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
+    jstring title = (*env)->NewStringUTF(env, psz_title);
+    jstring text = (*env)->NewStringUTF(env, psz_text);
+    jstring default_username = (*env)->NewStringUTF(env, psz_default_username);
+
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayLoginFromNativeID,
-        (jlong)(intptr_t) p_id,
-        (*env)->NewStringUTF(env, psz_title),
-        (*env)->NewStringUTF(env, psz_text),
-        (*env)->NewStringUTF(env, psz_default_username), b_ask_store);
+        (jlong)(intptr_t) p_id, title, text, default_username, b_ask_store);
     dialog_set_context(env, p_id, jdialog);
+
+    (*env)->DeleteLocalRef(env, title);
+    (*env)->DeleteLocalRef(env, text);
+    (*env)->DeleteLocalRef(env, default_username);
 }
 
 static void
@@ -85,15 +94,24 @@ display_question_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
+    jstring title = (*env)->NewStringUTF(env, psz_title);
+    jstring text = (*env)->NewStringUTF(env, psz_text);
+    jstring cancel = (*env)->NewStringUTF(env, psz_cancel);
+    jstring action1 =  psz_action1 ? (*env)->NewStringUTF(env, psz_action1) : NULL;
+    jstring action2 =  psz_action2 ? (*env)->NewStringUTF(env, psz_action2) : NULL;
+
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayQuestionFromNativeID,
-        (jlong)(intptr_t) p_id,
-        (*env)->NewStringUTF(env, psz_title),
-        (*env)->NewStringUTF(env, psz_text), i_type,
-        (*env)->NewStringUTF(env, psz_cancel),
-        psz_action1 ? (*env)->NewStringUTF(env, psz_action1) : NULL,
-        psz_action2 ? (*env)->NewStringUTF(env, psz_action2) : NULL);
+        (jlong)(intptr_t) p_id, title, text, i_type, cancel, action1, action2);
     dialog_set_context(env, p_id, jdialog);
+
+    (*env)->DeleteLocalRef(env, title);
+    (*env)->DeleteLocalRef(env, text);
+    (*env)->DeleteLocalRef(env, cancel);
+    if (action1)
+        (*env)->DeleteLocalRef(env, action1);
+    if (action2)
+        (*env)->DeleteLocalRef(env, action2);
 }
 
 static void
@@ -106,13 +124,18 @@ display_progress_cb(void *p_data, libvlc_dialog_id *p_id, const char *psz_title,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
+    jstring title = (*env)->NewStringUTF(env, psz_title);
+    jstring text = (*env)->NewStringUTF(env, psz_text);
+    jstring cancel = (*env)->NewStringUTF(env, psz_cancel);
+
     jdialog = (*env)->CallStaticObjectMethod(env, fields.Dialog.clazz,
         fields.Dialog.displayProgressFromNativeID,
-        (jlong)(intptr_t) p_id,
-        (*env)->NewStringUTF(env, psz_title),
-        (*env)->NewStringUTF(env, psz_text),
-        b_indeterminate, f_position, (*env)->NewStringUTF(env, psz_cancel));
+        (jlong)(intptr_t) p_id, title, text, b_indeterminate, f_position, cancel);
     dialog_set_context(env, p_id, jdialog);
+
+    (*env)->DeleteLocalRef(env, title);
+    (*env)->DeleteLocalRef(env, text);
+    (*env)->DeleteLocalRef(env, cancel);
 }
 
 static void
@@ -142,9 +165,12 @@ update_progress_cb(void *p_data, libvlc_dialog_id *p_id, float f_position,
     if (!(env = jni_get_env(THREAD_NAME)))
         return;
 
+    jstring text = (*env)->NewStringUTF(env, psz_text);
+
     (*env)->CallStaticVoidMethod(env, fields.Dialog.clazz,
-        fields.Dialog.updateProgressFromNativeID, jdialog, f_position,
-        (*env)->NewStringUTF(env, psz_text));
+        fields.Dialog.updateProgressFromNativeID, jdialog, f_position, text);
+
+    (*env)->DeleteLocalRef(env, text);
 }
 
 static const libvlc_dialog_cbs dialog_cbs = {

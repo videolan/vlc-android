@@ -530,11 +530,15 @@ mediaplayer_title_to_object(JNIEnv *env, libvlc_title_description_t *p_title)
     if (p_title->psz_name)
         jname = (*env)->NewStringUTF(env, p_title->psz_name);
 
-    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+    jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createTitleFromNativeID,
                         p_title->i_duration,
                         jname,
                         p_title->i_flags);
+
+    if (jname)
+        (*env)->DeleteLocalRef(env, jname);
+    return jobj;
 }
 
 jobject
@@ -584,11 +588,15 @@ mediaplayer_chapter_to_object(JNIEnv *env,
     if (p_chapter->psz_name)
         jname = (*env)->NewStringUTF(env, p_chapter->psz_name);
 
-    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+    jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createChapterFromNativeID,
                         p_chapter->i_time_offset,
                         p_chapter->i_duration,
                         jname);
+
+    if (jname)
+        (*env)->DeleteLocalRef(env, jname);
+    return jobj;
 }
 
 jobject
@@ -640,10 +648,14 @@ mediaplayer_track_to_object(JNIEnv *env, libvlc_track_description_t *p_track)
     if (p_track->psz_name)
         jname = (*env)->NewStringUTF(env, p_track->psz_name);
 
-    return (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
+    jobject jobj = (*env)->CallStaticObjectMethod(env, fields.MediaPlayer.clazz,
                         fields.MediaPlayer.createTrackDescriptionFromNativeID,
                         p_track->i_id,
                         jname);
+
+    if (jname)
+        (*env)->DeleteLocalRef(env, jname);
+    return jobj;
 }
 
 static jobject
