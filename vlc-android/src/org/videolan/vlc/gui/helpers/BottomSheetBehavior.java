@@ -25,4 +25,13 @@ public class BottomSheetBehavior<V extends View> extends android.support.design.
             return false;
         }
     }
+
+    @Override
+    public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, V child, View target) {
+        try {
+            super.onStopNestedScroll(coordinatorLayout, child, target);
+        } catch (NullPointerException ignored) {
+            //Same crash, weakref not already set.
+        }
+    }
 }
