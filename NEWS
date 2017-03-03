@@ -2,9 +2,12 @@ Changes between 2.1.1 and 2.1.2:
 ----------------------------------
 
 Application:
+ - Voice search for TV
+ - Voice actions for Auto
  - If collection is empty, show a button to start 'directories' setting page
  - Fix player sliding under action bar in playlist & info views
  - Fix equalizer display
+ - Fix video player stuck after device being locked
  - Tackles some crashes
 
 Changes between 2.1.0 and 2.1.1:
