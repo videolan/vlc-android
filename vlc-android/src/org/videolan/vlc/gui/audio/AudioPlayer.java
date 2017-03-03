@@ -281,8 +281,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                 return;
             mCurrentCoverArt = mw.getArtworkMrl();
             if (TextUtils.isEmpty(mw.getArtworkMrl())) {
-                mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID);
-                mBinding.backgroundView.setVisibility(View.INVISIBLE);
+                setDefaultBackground();
             } else {
                 VLCApplication.runBackground(new Runnable() {
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -302,6 +301,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                                     mBinding.songsList.setBackgroundResource(0);
                                 }
                             });
+                        else
+                            setDefaultBackground();
                     }
                 });
             }
@@ -309,6 +310,11 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (((AudioPlayerContainerActivity)getActivity()).isAudioPlayerExpanded())
             setHeaderVisibilities(true, true, false, false, false, true);
 
+    }
+
+    private void setDefaultBackground() {
+        mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID);
+        mBinding.backgroundView.setVisibility(View.INVISIBLE);
     }
 
     public void updateList() {
