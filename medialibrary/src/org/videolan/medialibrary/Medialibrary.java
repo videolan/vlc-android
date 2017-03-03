@@ -19,6 +19,7 @@ import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.HistoryItem;
+import org.videolan.medialibrary.media.MediaSearchAggregate;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -435,6 +436,26 @@ public class Medialibrary {
         return mIsInitiated ? nativeSearch(query) : null;
     }
 
+    public MediaSearchAggregate searchMedia(String query) {
+        return mIsInitiated ? nativeSearchMedia(query) : null;
+    }
+
+    public Artist[] searchArtist(String query) {
+        return mIsInitiated ? nativeSearchArtist(query) : null;
+    }
+
+    public Album[] searchAlbum(String query) {
+        return mIsInitiated ? nativeSearchAlbum(query) : null;
+    }
+
+    public Genre[] searchGenre(String query) {
+        return mIsInitiated ? nativeSearchGenre(query) : null;
+    }
+
+    public Playlist[] searchPlaylist(String query) {
+        return mIsInitiated ? nativeSearchPlaylist(query) : null;
+    }
+
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.contains(cb))
@@ -545,6 +566,11 @@ public class Medialibrary {
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);
+    private native MediaSearchAggregate nativeSearchMedia(String query);
+    private native Artist[] nativeSearchArtist(String query);
+    private native Album[] nativeSearchAlbum(String query);
+    private native Genre[] nativeSearchGenre(String query);
+    private native Playlist[] nativeSearchPlaylist(String query);
 
     private boolean canReadStorage(Context context) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(context,

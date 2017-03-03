@@ -277,6 +277,84 @@ search(JNIEnv* env, jobject thiz, jstring query)
     return searchResult;
 }
 
+jobject
+searchMedia(JNIEnv* env, jobject thiz, jstring query)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
+    jobject searchResult = convertMediaSearchAggregateObject(env, &ml_fields, aml->searchMedia(queryChar));
+    env->ReleaseStringUTFChars(query, queryChar);
+    return searchResult;
+}
+
+jobjectArray
+searchArtist(JNIEnv* env, jobject thiz, jstring query)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
+    std::vector<medialibrary::ArtistPtr> artists = aml->searchArtists(queryChar);
+    jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
+    int index = -1;
+    for(medialibrary::ArtistPtr const& artist : artists) {
+        jobject item = convertArtistObject(env, &ml_fields, artist);
+        env->SetObjectArrayElement(artistRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(query, queryChar);
+    return artistRefs;
+}
+
+jobjectArray
+searchAlbum(JNIEnv* env, jobject thiz, jstring query)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
+    std::vector<medialibrary::AlbumPtr> albums = aml->searchAlbums(queryChar);
+    jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
+    int index = -1;
+    for(medialibrary::AlbumPtr const& album : albums) {
+        jobject item = convertAlbumObject(env, &ml_fields, album);
+        env->SetObjectArrayElement(albumRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(query, queryChar);
+    return albumRefs;
+}
+
+jobjectArray
+searchGenre(JNIEnv* env, jobject thiz, jstring query)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
+    std::vector<medialibrary::GenrePtr> genres = aml->searchGenre(queryChar);
+    jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
+    int index = -1;
+    for(medialibrary::GenrePtr const& genre : genres) {
+        jobject item = convertGenreObject(env, &ml_fields, genre);
+        env->SetObjectArrayElement(genreRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(query, queryChar);
+    return genreRefs;
+}
+
+jobjectArray
+searchPlaylist(JNIEnv* env, jobject thiz, jstring query)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
+    std::vector<medialibrary::PlaylistPtr> playlists = aml->searchPlaylists(queryChar);
+    jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
+    int index = -1;
+    for(medialibrary::PlaylistPtr const& playlist : playlists) {
+        jobject item = convertPlaylistObject(env, &ml_fields, playlist);
+        env->SetObjectArrayElement(playlistRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(query, queryChar);
+    return playlistRefs;
+}
+
 jint
 getVideoCount(JNIEnv* env, jobject thiz) {
     return MediaLibrary_getInstance(env, thiz)->videoFiles().size();
@@ -654,6 +732,11 @@ static JNINativeMethod methods[] = {
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
+    {"nativeSearchMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaSearchAggregate;", (void*)searchMedia},
+    {"nativeSearchAlbum", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Album;", (void*)searchAlbum },
+    {"nativeSearchArtist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Artist;", (void*)searchArtist },
+    {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Genre;", (void*)searchGenre },
+    {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Playlist;", (void*)searchPlaylist },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromMrl },
     {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addMedia },

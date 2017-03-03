@@ -202,6 +202,36 @@ AndroidMediaLibrary::search(const std::string& query)
     return p_ml->search(query);
 }
 
+medialibrary::MediaSearchAggregate
+AndroidMediaLibrary::searchMedia(const std::string& query)
+{
+    return p_ml->searchMedia(query);
+}
+
+std::vector<medialibrary::PlaylistPtr>
+AndroidMediaLibrary::searchPlaylists(const std::string& query)
+{
+    return p_ml->searchPlaylists(query);
+}
+
+std::vector<medialibrary::AlbumPtr>
+AndroidMediaLibrary::searchAlbums(const std::string& query)
+{
+    return p_ml->searchAlbums(query);
+}
+
+std::vector<medialibrary::GenrePtr>
+AndroidMediaLibrary::searchGenre(const std::string& query)
+{
+    return p_ml->searchGenre(query);
+}
+
+std::vector<medialibrary::ArtistPtr>
+AndroidMediaLibrary::searchArtists(const std::string& query)
+{
+    return p_ml->searchArtists(query);
+}
+
 medialibrary::MediaPtr
 AndroidMediaLibrary::media(long id)
 {

@@ -52,6 +52,11 @@ public:
     bool clearHistory();
 
     medialibrary::SearchAggregate search(const std::string& query);
+    medialibrary::MediaSearchAggregate searchMedia(const std::string& query);
+    std::vector<medialibrary::PlaylistPtr> searchPlaylists(const std::string& query);
+    std::vector<medialibrary::AlbumPtr> searchAlbums(const std::string& query);
+    std::vector<medialibrary::GenrePtr> searchGenre(const std::string& query);
+    std::vector<medialibrary::ArtistPtr> searchArtists(const std::string& query);
     medialibrary::MediaPtr media(long id);
     medialibrary::MediaPtr media(const std::string& mrl);
     medialibrary::MediaPtr addMedia(const std::string& mrl);
