@@ -277,7 +277,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 showInfoDialog(media);
                 return true;
             case R.id.video_list_delete:
-                removeVideo(position, media);
+                removeVideo(media);
                 return true;
             case R.id.video_group_play:
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
@@ -295,8 +295,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         return false;
     }
 
-    private void removeVideo(int position, final MediaWrapper media) {
-        mVideoAdapter.remove(position);
+    private void removeVideo(final MediaWrapper media) {
+        mVideoAdapter.remove(media);
         if (getView() != null)
             UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
                 @Override

@@ -251,10 +251,10 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
         return datalist.toArray(new MediaLibraryItem[datalist.size()]);
     }
 
-    public void remove(int position) {
+    public void remove(final MediaLibraryItem item) {
         final MediaLibraryItem[] referenceList = hasPendingUpdates() ? peekLast() : mDataList;
         final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length-1];
-        Util.removePositionInArray(referenceList, position, dataList);
+        Util.removeItemInArray(referenceList, item, dataList);
         update(dataList);
     }
 

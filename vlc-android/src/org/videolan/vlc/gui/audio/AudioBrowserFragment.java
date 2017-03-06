@@ -294,10 +294,10 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
             String message;
             Runnable action;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
-                    (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? adapter.getItem(position-1) : null;
-            adapter.remove(position);
+                    (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
+            adapter.remove(mediaLibraryItem);
             if (separator != null)
-                adapter.remove(position-1);
+                adapter.remove(separator);
 
             if (mode == MODE_PLAYLIST) {
                 message = getString(R.string.playlist_deleted);

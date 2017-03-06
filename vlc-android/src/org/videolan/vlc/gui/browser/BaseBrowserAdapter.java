@@ -260,11 +260,15 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         if (position >= getItemCount())
             return;
         MediaLibraryItem item = mMediaList.get(position);
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(hasPendingUpdates() ? peekLast() : mMediaList);
-        list.remove(position);
-        update(list);
-        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
+        if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
+        if (hasPendingUpdates())
+            peekLast().remove(mMediaList.get(position));
+        else {
+            ArrayList<MediaLibraryItem> list = new ArrayList<>(mMediaList);
+            list.remove(position);
+            update(list);
+        }
     }
 
     void removeItem(String path) {

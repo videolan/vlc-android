@@ -316,7 +316,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             mService.append(media);
             return true;
         } else if (id == R.id.audio_list_browser_delete) {
-            mAdapter.remove(position);
+            mAdapter.remove(media);
             UiTools.snackerWithCancel(getWindow().getDecorView(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
