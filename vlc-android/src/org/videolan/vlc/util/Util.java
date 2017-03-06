@@ -84,6 +84,15 @@ public class Util {
         return list.size() > 0;
     }
 
+    public static void removeItemInArray(Object[] array, Object item, Object[] destArray) {
+        int offset = 0, count = destArray.length;
+        for (int i = 0; i<count; ++i) {
+            if (array[i].equals(item))
+                offset = 1;
+            destArray[i] = array[i+offset];
+        }
+    }
+
     public static void removePositionInArray(Object[] array, int position, Object[] destArray) {
         int offset = 0, count = destArray.length;
         for (int i = 0; i<count; ++i) {
