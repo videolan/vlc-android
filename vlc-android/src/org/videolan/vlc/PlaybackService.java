@@ -163,7 +163,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mSwitchingToVideo = false;
     private boolean mVideoBackground = false;
 
-    final private ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
+    final private ArrayList<Callback> mCallbacks = new ArrayList<>();
     private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
@@ -554,8 +554,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
             }
             if (update) {
-                for (Callback callback : mCallbacks)
-                    callback.onMediaEvent(event);
+                synchronized (mCallbacks) {
+                    for (Callback callback : mCallbacks)
+                        callback.onMediaEvent(event);
+                }
                 if (mParsed && mMediaSession != null)
                     showNotification();
             }
@@ -678,8 +680,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.MediaChanged:
                     Log.d(TAG, "onEvent: MediaChanged");
             }
-            for (Callback callback : mCallbacks)
-                callback.onMediaPlayerEvent(event);
+            synchronized (mCallbacks) {
+                for (Callback callback : mCallbacks)
+                    callback.onMediaPlayerEvent(event);
+            }
         }
     };
 
@@ -799,8 +803,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void executeUpdate(Boolean updateWidget) {
-        for (Callback callback : mCallbacks) {
-            callback.update();
+        synchronized (mCallbacks) {
+            for (Callback callback : mCallbacks) {
+                callback.update();
+            }
         }
         if (updateWidget)
             updateWidget();
@@ -809,8 +815,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void executeUpdateProgress() {
-        for (Callback callback : mCallbacks) {
-            callback.updateProgress();
+        synchronized (mCallbacks) {
+            for (Callback callback : mCallbacks) {
+                callback.updateProgress();
+            }
         }
     }
 
@@ -843,14 +851,17 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         @Override
         public void handleMessage(Message msg) {
             PlaybackService service = getOwner();
-            if(service == null) return;
+            if (service == null)
+                return;
 
             switch (msg.what) {
                 case SHOW_PROGRESS:
-                    if (service.mCallbacks.size() > 0) {
-                        removeMessages(SHOW_PROGRESS);
-                        service.executeUpdateProgress();
-                        sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+                    synchronized (service.mCallbacks) {
+                        if (service.mCallbacks.size() > 0) {
+                            removeMessages(SHOW_PROGRESS);
+                            service.executeUpdateProgress();
+                            sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
+                        }
                     }
                     break;
                 case SHOW_TOAST:
@@ -1732,16 +1743,20 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public synchronized void addCallback(Callback cb) {
-        if (!mCallbacks.contains(cb)) {
-            mCallbacks.add(cb);
-            if (hasCurrentMedia())
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        synchronized (mCallbacks) {
+            if (!mCallbacks.contains(cb)) {
+                mCallbacks.add(cb);
+                if (hasCurrentMedia())
+                    mHandler.sendEmptyMessage(SHOW_PROGRESS);
+            }
         }
     }
 
     @MainThread
     public synchronized void removeCallback(Callback cb) {
-        mCallbacks.remove(cb);
+        synchronized (mCallbacks) {
+            mCallbacks.remove(cb);
+        }
     }
 
     @MainThread
