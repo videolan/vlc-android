@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -252,7 +253,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onMediaAdded(int index, Media media) {
         boolean wasEmtpy = mAdapter.isEmpty();
-        mAdapter.addItem(new MediaWrapper(media), false);
+        mAdapter.addItem(getMediaWrapper(media), false);
         if (!wasEmtpy)
             return;
         updateEmptyView();
@@ -552,7 +553,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             if (type == Media.Type.Directory)
                 directories.add(new MediaWrapper(media));
             else if (type == Media.Type.File)
-                files.add(new MediaWrapper(media));
+                files.add(getMediaWrapper(media));
         }
 
         @Override
@@ -618,6 +619,17 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             return holderText;
         }
     };
+
+    @NonNull
+    private MediaWrapper getMediaWrapper(Media media) {
+        MediaWrapper mw = null;
+        Uri uri = media.getUri();
+        if (media.getType() == Media.Type.File && "file".equals(uri.getScheme()))
+            mw = mMediaLibrary.getMedia(uri);
+        if (mw == null)
+            mw = new MediaWrapper(media);
+        return mw;
+    }
 
     @Override
     public boolean enableSearchOption() {
