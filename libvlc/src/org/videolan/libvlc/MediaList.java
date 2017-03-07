@@ -69,6 +69,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
      * @param libVLC a valid libVLC
      */
     public MediaList(LibVLC libVLC) {
+        super(libVLC);
         nativeNewFromLibVlc(libVLC);
         init();
     }
@@ -78,6 +79,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
      * @param md Should not be released
      */
     protected MediaList(MediaDiscoverer md) {
+        super(md);
         nativeNewFromMediaDiscoverer(md);
         init();
     }
@@ -87,6 +89,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
      * @param m Should not be released
      */
     protected MediaList(Media m) {
+        super(m);
         nativeNewFromMedia(m);
         init();
     }

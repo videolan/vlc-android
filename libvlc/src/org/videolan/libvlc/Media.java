@@ -425,6 +425,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param path an absolute local path
      */
     public Media(LibVLC libVLC, String path) {
+        super(libVLC);
         nativeNewFromPath(libVLC, path);
         mUri = VLCUtil.UriFromMrl(nativeGetMrl());
     }
@@ -436,6 +437,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param uri a valid RFC 2396 Uri
      */
     public Media(LibVLC libVLC, Uri uri) {
+        super(libVLC);
         nativeNewFromLocation(libVLC, VLCUtil.locationFromUri(uri));
         mUri = uri;
     }
@@ -447,6 +449,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param fd file descriptor object
      */
     public Media(LibVLC libVLC, FileDescriptor fd) {
+        super(libVLC);
         nativeNewFromFd(libVLC, fd);
         mUri = VLCUtil.UriFromMrl(nativeGetMrl());
     }
@@ -457,6 +460,7 @@ public class Media extends VLCObject<Media.Event> {
      * @param index index of the Media from the MediaList
      */
     protected Media(MediaList ml, int index) {
+        super(ml);
         if (ml == null || ml.isReleased())
             throw new IllegalArgumentException("MediaList is null or released");
         if (!ml.isLocked())

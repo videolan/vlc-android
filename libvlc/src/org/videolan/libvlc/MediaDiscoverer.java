@@ -76,6 +76,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
      * @param name Name of the vlc service discovery ("dsm", "upnp", "bonjour"...).
      */
     public MediaDiscoverer(LibVLC libVLC, String name) {
+        super(libVLC);
         nativeNew(libVLC, name);
     }
 

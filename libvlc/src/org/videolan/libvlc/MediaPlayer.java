@@ -376,6 +376,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param libVLC a valid libVLC
      */
     public MediaPlayer(LibVLC libVLC) {
+        super(libVLC);
         nativeNewFromLibVlc(libVLC, mWindow);
     }
 
@@ -385,6 +386,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param media a valid Media object
      */
     public MediaPlayer(Media media) {
+        super(media);
         if (media == null || media.isReleased())
             throw new IllegalArgumentException("Media is null or released");
         mMedia = media;

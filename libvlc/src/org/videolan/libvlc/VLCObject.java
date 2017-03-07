@@ -29,7 +29,20 @@ import java.lang.ref.WeakReference;
 abstract class VLCObject<T extends VLCEvent> {
     private VLCEvent.Listener<T> mEventListener = null;
     private Handler mHandler = null;
+    final LibVLC mLibVLC;
     private int mNativeRefCount = 1;
+
+    protected VLCObject(LibVLC libvlc) {
+        mLibVLC = libvlc;
+    }
+
+    protected VLCObject(VLCObject parent) {
+        mLibVLC = parent.mLibVLC;
+    }
+
+    protected VLCObject() {
+        mLibVLC = null;
+    }
 
     /**
      * Returns true if native object is released
