@@ -23,7 +23,16 @@
 package org.videolan.libvlc;
 
 import android.net.Uri;
+import android.annotation.TargetApi;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.os.Build;
+
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.VLCUtil;
 
 import java.io.File;
@@ -336,10 +345,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
+    private boolean mAudioDeviceFromUser = false;
     private int mVoutCount = 0;
     private boolean mAudioReset = false;
-    private String mAudioOutput = null;
+    private String mAudioOutput = "android_audiotrack";
     private String mAudioOutputDevice = null;
+
+    private boolean mAudioPlugRegistered = false;
 
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
@@ -369,6 +381,43 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 setVideoTrackEnabled(false);
         }
     });
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private BroadcastReceiver createAudioPlugReceiver() {
+        return new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                final String action = intent.getAction();
+                if (action == null)
+                    return;
+                if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
+                    final boolean hasHdmi = intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 0) == 1;
+                    setAudioOutputDeviceInternal(hasHdmi ? "hdmi" : "stereo", false);
+                }
+            }
+        };
+    }
+
+    private final BroadcastReceiver mAudioPlugReceiver =
+            AndroidUtil.isLolliPopOrLater() ? createAudioPlugReceiver() : null;
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void registerAudioPlugV21(boolean register) {
+        if (register) {
+            final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
+            mLibVLC.mAppContext.registerReceiver(mAudioPlugReceiver, intentFilter);
+        } else {
+            mLibVLC.mAppContext.unregisterReceiver(mAudioPlugReceiver);
+        }
+    }
+
+    private void registerAudioPlug(boolean register) {
+        if (register == mAudioPlugRegistered)
+            return;
+        if (mAudioPlugReceiver != null)
+            registerAudioPlugV21(register);
+        mAudioPlugRegistered = register;
+    }
 
     /**
      * Create an empty MediaPlayer
@@ -447,6 +496,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                         nativeSetAudioOutputDevice(mAudioOutputDevice);
                     mAudioReset = false;
                 }
+                if (!mAudioDeviceFromUser)
+                    registerAudioPlug(true);
                 mPlayRequested = true;
                 if (mWindow.areSurfacesWaiting())
                     return;
@@ -547,25 +598,37 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         if (ret) {
             synchronized (this) {
                 mAudioOutput = aout;
+                /* The user forced an output, don't listen to audio plug events and let the user decide */
+                mAudioDeviceFromUser = true;
+                registerAudioPlug(false);
             }
         }
         return ret;
     }
 
-    /**
-     * Configures an explicit audio output device.
-     * Audio output will be moved to the device specified by the device identifier string.
-     *
-     * @return true on success.
-     */
-    public boolean setAudioOutputDevice(String id) {
+    private boolean setAudioOutputDeviceInternal(String id, boolean fromUser) {
         final boolean ret = nativeSetAudioOutputDevice(id);
         if (ret) {
             synchronized (this) {
                 mAudioOutputDevice = id;
+                if (fromUser) {
+                    /* The user forced a device, don't listen to audio plug events and let the user decide */
+                    mAudioDeviceFromUser = true;
+                    registerAudioPlug(false);
+                }
             }
         }
         return ret;
+    }
+
+        /**
+         * Configures an explicit audio output device.
+         * Audio output will be moved to the device specified by the device identifier string.
+         *
+         * @return true on success.
+         */
+    public boolean setAudioOutputDevice(String id) {
+        return setAudioOutputDeviceInternal(id, true);
     }
 
     /**
@@ -936,6 +999,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     @Override
     protected void onReleaseNative() {
+        registerAudioPlug(false);
+
         if (mMedia != null)
             mMedia.release();
         nativeRelease();

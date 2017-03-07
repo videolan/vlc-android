@@ -158,8 +158,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mParsed = false;
     private boolean mSeekable = false;
     private boolean mPausable = false;
-    private boolean mIsAudioTrack = false;
-    private boolean mHasHdmiAudio = false;
     private boolean mSwitchingToVideo = false;
     private boolean mVideoBackground = false;
 
@@ -220,12 +218,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private MediaPlayer newMediaPlayer() {
         final MediaPlayer mp = new MediaPlayer(LibVLC());
         final String aout = VLCOptions.getAout(mSettings);
-        if (mp.setAudioOutput(aout) && aout.equals("android_audiotrack")) {
-            mIsAudioTrack = true;
-            if (mHasHdmiAudio)
-                mp.setAudioOutputDevice("hdmi");
-        } else
-            mIsAudioTrack = false;
+        if (aout != null)
+            mp.setAudioOutput(aout);
         mp.getVLCVout().addCallback(this);
 
         return mp;
@@ -281,7 +275,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
-        registerV21();
 
         boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
 
@@ -338,8 +331,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mWakeLock.isHeld())
             mWakeLock.release();
         unregisterReceiver(mReceiver);
-        if (mReceiverV21 != null)
-            unregisterReceiver(mReceiverV21);
         if (mRemoteControlClientReceiver != null) {
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
@@ -420,29 +411,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     }
 
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void registerV21() {
-        final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
-        registerReceiver(mReceiverV21, intentFilter);
-    }
-
-    private final BroadcastReceiver mReceiverV21 = AndroidUtil.isLolliPopOrLater() ? new BroadcastReceiver()
-    {
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (action == null)
-                return;
-            if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
-                mHasHdmiAudio = intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 0) == 1;
-                if (mMediaPlayer != null && mIsAudioTrack)
-                    mMediaPlayer.setAudioOutputDevice(mHasHdmiAudio ? "hdmi" : "stereo");
-            }
-        }
-    } : null;
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         private boolean wasPlaying = false;
         @Override
@@ -506,9 +474,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             /*
              * headset plug events
              */
-            else if (mDetectHeadset && !mHasHdmiAudio) {
+            else if (mDetectHeadset) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-                    Log.i(TAG, "Headset Removed.");
+                    Log.i(TAG, "Becoming noisy");
                     wasPlaying = isPlaying();
                     if (wasPlaying && hasCurrentMedia())
                         pause();

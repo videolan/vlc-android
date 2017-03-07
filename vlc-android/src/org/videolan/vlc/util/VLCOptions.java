@@ -135,7 +135,7 @@ public class VLCOptions {
         if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
             aout = hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
 
-        return aout == AOUT_OPENSLES ? "opensles_android" : "android_audiotrack";
+        return aout == AOUT_OPENSLES ? "opensles_android" : null /* audiotrack is the default */;
     }
 
     private static int getDeblocking(int deblocking) {
