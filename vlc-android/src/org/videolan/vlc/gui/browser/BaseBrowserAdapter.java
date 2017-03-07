@@ -244,8 +244,10 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount++;
 
-        list.add(position, item);
-        update(list);
+        if (position <= list.size()) {
+            list.add(position, item);
+            update(list);
+        }
     }
 
     public void setTop (int top) {
