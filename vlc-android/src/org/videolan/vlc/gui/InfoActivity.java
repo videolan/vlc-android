@@ -60,6 +60,11 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         mItem = (MediaWrapper) (savedInstanceState != null ?
                 savedInstanceState.getParcelable(TAG_ITEM) :
                 getIntent().getParcelableExtra(TAG_ITEM));
+        if (mItem.getId() == 0L) {
+            MediaWrapper mediaWrapper = VLCApplication.getMLInstance().getMedia(mItem.getUri());
+            if (mediaWrapper != null)
+                mItem = mediaWrapper;
+        }
         mBinding.setItem(mItem);
         final int fabVisibility =  savedInstanceState != null
             ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
