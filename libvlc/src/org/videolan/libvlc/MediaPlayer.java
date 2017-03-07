@@ -24,6 +24,8 @@ package org.videolan.libvlc;
 
 import android.net.Uri;
 import android.annotation.TargetApi;
+import android.media.AudioDeviceCallback;
+import android.media.AudioDeviceInfo;
 import android.media.AudioFormat;
 
 import android.content.BroadcastReceiver;
@@ -32,6 +34,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.util.SparseArray;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.VLCUtil;
@@ -433,7 +438,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     private final BroadcastReceiver mAudioPlugReceiver =
-            AndroidUtil.isLolliPopOrLater() ? createAudioPlugReceiver() : null;
+            AndroidUtil.isLolliPopOrLater() && !AndroidUtil.isMarshMallowOrLater() ? createAudioPlugReceiver() : null;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void registerAudioPlugV21(boolean register) {
@@ -447,10 +452,67 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    private AudioDeviceCallback createAudioDeviceCallback() {
+
+        return new AudioDeviceCallback() {
+
+            private SparseArray<Long> mEncodedDevices = new SparseArray<>();
+
+            private void onAudioDevicesChanged() {
+                long encodingFlags = 0;
+                for (int i = 0; i < mEncodedDevices.size(); ++i)
+                    encodingFlags |= mEncodedDevices.valueAt(i);
+
+                updateAudioOutputDevice(encodingFlags, "pcm");
+            }
+
+            @RequiresApi(Build.VERSION_CODES.M)
+            @Override
+            public void onAudioDevicesAdded(AudioDeviceInfo[] addedDevices) {
+                for (AudioDeviceInfo info : addedDevices) {
+                    if (!info.isSink())
+                        continue;
+                    long encodingFlags = getEncodingFlags(info.getEncodings());
+                    if (encodingFlags != 0)
+                        mEncodedDevices.put(info.getId(), encodingFlags);
+                }
+                onAudioDevicesChanged();
+            }
+
+            @RequiresApi(Build.VERSION_CODES.M)
+            @Override
+            public void onAudioDevicesRemoved(AudioDeviceInfo[] removedDevices) {
+                for (AudioDeviceInfo info : removedDevices) {
+                    if (!info.isSink())
+                        continue;
+                    mEncodedDevices.remove(info.getId());
+                }
+                onAudioDevicesChanged();
+            }
+        };
+    }
+
+    private final AudioDeviceCallback mAudioDeviceCallback =
+            AndroidUtil.isMarshMallowOrLater() ? createAudioDeviceCallback() : null;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void registerAudioPlugV23(boolean register) {
+        AudioManager am = (AudioManager) mLibVLC.mAppContext.getSystemService(Context.AUDIO_SERVICE);
+        if (register) {
+            mAudioDeviceCallback.onAudioDevicesAdded(am.getDevices(AudioManager.GET_DEVICES_OUTPUTS));
+            am.registerAudioDeviceCallback(mAudioDeviceCallback, null);
+        } else {
+            am.unregisterAudioDeviceCallback(mAudioDeviceCallback);
+        }
+    }
+
     private void registerAudioPlug(boolean register) {
         if (register == mAudioPlugRegistered)
             return;
-        if (mAudioPlugReceiver != null)
+        if (mAudioDeviceCallback != null)
+            registerAudioPlugV23(register);
+        else if (mAudioPlugReceiver != null)
             registerAudioPlugV21(register);
         mAudioPlugRegistered = register;
     }
