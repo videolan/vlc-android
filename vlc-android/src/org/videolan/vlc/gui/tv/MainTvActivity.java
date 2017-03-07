@@ -528,7 +528,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (AndroidDevices.hasLANConnection()) {
             final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
-            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_network_big));
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_stream_big));
 
             if (!favs.isEmpty()) {
                 for (MediaWrapper fav : favs) {
