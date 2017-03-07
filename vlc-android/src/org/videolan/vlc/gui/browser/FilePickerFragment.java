@@ -57,7 +57,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     public void onCreate(Bundle bundle) {
         if (getActivity().getIntent() != null) {
             Uri uri = getActivity().getIntent().getData();
-            if (uri == null || !TextUtils.equals(uri.getScheme(), "file")) {
+            if (uri == null || TextUtils.equals(uri.getScheme(), "http")) {
                 getActivity().setIntent(null);
             }
         }
@@ -114,13 +114,13 @@ public class FilePickerFragment extends FileBrowserFragment {
             return true;
         if (mMrl.startsWith("file")) {
             String path = Strings.removeFileProtocole(mMrl);
-            for (int i = 0; i < rootDirectories.length; ++i) {
-                if (path.startsWith(rootDirectories[i]))
+            for (String directory : rootDirectories) {
+                if (path.startsWith(directory))
                     return false;
             }
             return true;
         } else
-            return true;
+            return mMrl.startsWith("http");
     }
 
     @Override
