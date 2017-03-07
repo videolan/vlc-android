@@ -20,12 +20,12 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.network;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,56 +35,42 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.videolan.medialibrary.media.HistoryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.media.MediaUtils;
 
-public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
+public class MRLPanelFragment extends DialogFragment implements View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "VLC/MrlPanelFragment";
     public static final String KEY_MRL = "mrl";
-    private RecyclerView mRecyclerView;
     private MRLAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    TextInputLayout mEditText;
-    ImageView mSend;
-    View mRootView;
+    private TextInputLayout mEditText;
 
     public MRLPanelFragment(){}
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.open_mrl_dialog_title);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        int theme = UiTools.isBlackThemeEnabled() ? R.style.Theme_VLC_Black : R.style.Theme_VLC;
+        setStyle(DialogFragment.STYLE_NO_FRAME, theme);
         View v = inflater.inflate(R.layout.mrl_panel, container, false);
-        mRootView = v.findViewById(R.id.mrl_root);
         mEditText = (TextInputLayout) v.findViewById(R.id.mrl_edit);
-        mSend = (ImageView) v.findViewById(R.id.send);
         mEditText.getEditText().setOnKeyListener(this);
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL));
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new MRLAdapter();
-        mRecyclerView.setAdapter(mAdapter);
-        mSend.setOnClickListener(this);
+        recyclerView.setAdapter(mAdapter);
+        v.findViewById(R.id.send).setOnClickListener(this);
         return v;
     }
 
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        getActivity().findViewById(R.id.fab).setVisibility(View.INVISIBLE);
-        getActivity().supportInvalidateOptionsMenu();
         updateHistory();
     }
 
@@ -112,9 +98,9 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return (keyCode == EditorInfo.IME_ACTION_DONE ||
-            keyCode == EditorInfo.IME_ACTION_GO ||
+                keyCode == EditorInfo.IME_ACTION_GO ||
                 (event.getAction() == KeyEvent.ACTION_DOWN &&
-                event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                 && processUri();
     }
 
@@ -132,15 +118,8 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
         return false;
     }
 
-    public void clearHistory(){
-        VLCApplication.getMLInstance().clearHistory();
-        mAdapter.setList(new HistoryItem[0]);
-        getActivity().supportInvalidateOptionsMenu();
-    }
-
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
         return false;
     }
 
@@ -151,5 +130,13 @@ public class MRLPanelFragment extends Fragment implements IHistory, View.OnKeyLi
     @Override
     public void onClick(View v) {
         processUri();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof DialogActivity)
+            activity.finish();
     }
 }

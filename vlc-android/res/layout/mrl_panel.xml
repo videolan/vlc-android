@@ -4,7 +4,10 @@
     android:layout_height="match_parent" >
     <RelativeLayout
         android:id="@+id/mrl_root"
-        android:layout_width="match_parent" android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/background_default_darker"
+        android:padding="@dimen/default_margin">
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,19 +29,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/mrl_edit"
             android:layout_alignTop="@+id/mrl_edit"
             android:scaleType="center"
             android:src="@drawable/ic_send"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mrl_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:layout_below="@+id/mrl_edit"/>
-
-        <include layout="@layout/shadow_top"/>
+            android:layout_below="@+id/mrl_edit"
+            android:background="?attr/background_default"/>
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

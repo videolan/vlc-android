@@ -11,6 +11,7 @@
     android:paddingEnd="10dp"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:focusable="true"
     android:clickable="true" >
     <TextView
         android:id="@+id/mrl_item_title"

@@ -96,6 +96,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     public static final long HEADER_NETWORK = 3;
     public static final long HEADER_DIRECTORIES = 4;
     public static final long HEADER_MISC = 5;
+    public static final long HEADER_STREAM = 6;
 
     public static final long ID_SETTINGS = 0;
     public static final long ID_ABOUT = 1;
@@ -527,6 +528,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (AndroidDevices.hasLANConnection()) {
             final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_network_big));
 
             if (!favs.isEmpty()) {
                 for (MediaWrapper fav : favs) {

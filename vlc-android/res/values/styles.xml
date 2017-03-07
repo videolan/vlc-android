@@ -251,6 +251,18 @@
         <item name="list_title">@color/bt_list_title</item>
     </style>
 
+    <style name="VLCTransparentTheme" parent="Theme.VLC">
+
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:color/transparent</item>
+    </style>
+
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:textDirection">locale</item>
     </style>

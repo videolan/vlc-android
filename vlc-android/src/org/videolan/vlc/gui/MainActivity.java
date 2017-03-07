@@ -76,6 +76,7 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
+import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -437,8 +438,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 return new FileBrowserFragment();
             case R.id.nav_history:
                 return new HistoryFragment();
-            case R.id.nav_mrl:
-                return new MRLPanelFragment();
             case R.id.nav_network:
                 return new NetworkBrowserFragment();
             default:
@@ -817,6 +816,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     break;
                 case R.id.nav_settings:
                     startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                    break;
+                case R.id.nav_mrl:
+                    new MRLPanelFragment().show(getSupportFragmentManager(), "fragment_mrl");
                     break;
                 case R.id.nav_directories:
                     if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {

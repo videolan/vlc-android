@@ -31,6 +31,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -76,10 +77,15 @@ public class TvUtil {
                 activity.startActivity(intent);
             }
         } else if (item instanceof CardPresenter.SimpleCard){
-            Intent intent = new Intent(activity, VerticalGridActivity.class);
-            intent.putExtra(MainTvActivity.BROWSER_TYPE, ((CardPresenter.SimpleCard) item).getId());
-            intent.setData(((CardPresenter.SimpleCard) item).getUri());
-            activity.startActivity(intent);
+            if (((CardPresenter.SimpleCard) item).getId() == MainTvActivity.HEADER_STREAM) {
+                activity.startActivity(new Intent(activity, DialogActivity.class).setAction(DialogActivity.KEY_STREAM)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } else {
+                Intent intent = new Intent(activity, VerticalGridActivity.class);
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, ((CardPresenter.SimpleCard) item).getId());
+                intent.setData(((CardPresenter.SimpleCard) item).getUri());
+                activity.startActivity(intent);
+            }
         }
     }
 
