@@ -32,6 +32,7 @@ import java.util.ArrayList;
 @SuppressWarnings("unused, JniMissingFunction")
 public class LibVLC extends VLCObject<LibVLC.Event> {
     private static final String TAG = "VLC/LibVLC";
+    final Context mAppContext;
 
     public static class Event extends VLCEvent {
         protected Event(int type) {
@@ -45,6 +46,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      * @param options
      */
     public LibVLC(Context context, ArrayList<String> options) {
+        mAppContext = context.getApplicationContext();
         loadLibraries();
 
         if (options == null)
