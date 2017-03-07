@@ -71,7 +71,7 @@
                 android:background="@color/transparent"
                 android:indeterminate="false"
                 android:max="100"
-                android:progress="@{(int)((long)100*item.time/item.length)}"
+                android:progress="@{item.length == 0 ? 0 : (int)((long)100*item.time/item.length)}"
                 android:secondaryProgress="100"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
