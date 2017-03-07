@@ -168,8 +168,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
 
-    private static boolean mWasPlayingAudio = false; // used only if readPhoneState returns true
-
     // Index management
     /**
      * Stack of previously played indexes, used in shuffle mode
@@ -927,7 +925,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (AndroidDevices.showMediaStyle) {
                 builder.setStyle(new NotificationCompat.MediaStyle()
                                 .setMediaSession(mMediaSession.getSessionToken())
-                                .setShowActionsInCompactView(new int[] {0,1,2})
+                                .setShowActionsInCompactView(0,1,2)
                                 .setShowCancelButton(true)
                                 .setCancelButtonIntent(piStop)
                 );
