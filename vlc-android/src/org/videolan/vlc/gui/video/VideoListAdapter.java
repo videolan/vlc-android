@@ -171,12 +171,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void remove(MediaWrapper item) {
-        if (mPendingUpdates.isEmpty()) {
+        int pendingCount = mPendingUpdates.size();
+        if (pendingCount > 1) {
+            mPendingUpdates.peekLast().remove(item);
+        } else if (pendingCount == 1) {
+            ArrayList<MediaWrapper> refList = new ArrayList<>(mPendingUpdates.peekLast());
+            if (refList.remove(item))
+                update(refList, false);
+        } else {
             int position = mVideos.indexOf(item);
             if (mVideos.remove(item))
                 notifyItemRemoved(position);
-        } else
-            mPendingUpdates.peekLast().remove(item);
+        }
     }
 
     @MainThread

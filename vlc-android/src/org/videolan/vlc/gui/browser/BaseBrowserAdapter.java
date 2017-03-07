@@ -259,30 +259,35 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     void removeItem(int position) {
         if (position >= getItemCount())
             return;
-        MediaLibraryItem item = mMediaList.get(position);
+        removeItem(mMediaList.get(position));
+    }
+
+    void removeItem(MediaLibraryItem item) {
         if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
-        if (hasPendingUpdates())
-            peekLast().remove(mMediaList.get(position));
-        else {
-            ArrayList<MediaLibraryItem> list = new ArrayList<>(mMediaList);
-            list.remove(position);
+        int pendingCount = getPendingCount();
+        if (pendingCount == 0) {
+            mMediaList.remove(item);
+            notifyItemRemoved(mMediaList.indexOf(item));
+        } else if (pendingCount == 1) {
+            ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
+            list.remove(item);
             update(list);
-        }
+        } else
+            peekLast().remove(item);
     }
 
     void removeItem(String path) {
-        int position = -1;
-        for (int i = 0; i< getItemCount(); ++i) {
-            MediaLibraryItem item = mMediaList.get(i);
+
+        MediaLibraryItem mediaItem = null;
+        for (MediaLibraryItem item : mMediaList) {
             if (item .getItemType() == TYPE_MEDIA && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
-                position = i;
+                mediaItem = item;
                 break;
             }
         }
-        if (position == -1)
-            return;
-        removeItem(position);
+        if (mediaItem != null)
+            removeItem(mediaItem);
     }
 
     public ArrayList<MediaLibraryItem> getAll(){

@@ -38,6 +38,11 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
     }
 
     @MainThread
+    public int getPendingCount() {
+        return mPendingUpdates.size();
+    }
+
+    @MainThread
     public T peekLast() {
         return mPendingUpdates.peekLast();
     }
