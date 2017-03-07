@@ -392,7 +392,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                     return;
                 if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
                     final boolean hasHdmi = intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 0) == 1;
-                    setAudioOutputDeviceInternal(hasHdmi ? "hdmi" : "stereo", false);
+                    setAudioOutputDeviceInternal(hasHdmi ? "encoded" : "stereo", false);
                 }
             }
         };
