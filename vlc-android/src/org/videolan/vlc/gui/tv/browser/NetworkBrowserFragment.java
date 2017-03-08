@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.tv.browser;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.media.MediaWrapper;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -35,18 +34,22 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
     public static final String TAG = "VLC/NetworkBrowserFragment";
 
     protected void browseRoot() {
-        mMediaBrowser.discoverNetworkShares();
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                mMediaBrowser.discoverNetworkShares();
+            }
+        });
     }
 
-    protected void addMedia(Media media){
-        MediaWrapper mw = new MediaWrapper(media);
+    protected void addMedia(MediaWrapper mw){
         if (mUri == null)
             mw.setDescription(mw.getUri().getScheme());
         int type = mw.getType();
         if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
             return;
         String letter = mw.getTitle().substring(0, 1).toUpperCase();
-        if (mMediaItemMap.containsKey(letter)){
+        if (mMediaItemMap.containsKey(letter)) {
             mMediaItemMap.get(letter).mediaList.add(mw);
         } else {
             ListItem item = new ListItem(letter, mw);

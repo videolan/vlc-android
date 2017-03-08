@@ -2,7 +2,7 @@
  * ************************************************************************
  *  MediaSortedFragment.java
  * *************************************************************************
- *  Copyright © 2016 VLC authors and VideoLAN
+ *  Copyright © 2016-2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -29,9 +29,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Process;
+import android.support.annotation.NonNull;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -40,6 +47,13 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     protected Uri mUri;
     protected MediaBrowser mMediaBrowser;
     boolean goBack = false;
+    private final Medialibrary mMedialibrary = VLCApplication.getMLInstance();
+
+    private static Handler sBrowserHandler;
+
+    protected void runOnBrowserThread(Runnable runnable) {
+        sBrowserHandler.post(runnable);
+    }
 
     abstract protected void browseRoot();
 
@@ -53,17 +67,27 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
             if (intent != null)
                 mUri = intent.getData();
         }
+        if (sBrowserHandler == null) {
+            HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            handlerThread.start();
+            sBrowserHandler = new Handler(handlerThread.getLooper());
+        }
     }
 
     protected void browse() {
-        mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-        if (mMediaBrowser != null) {
-            if (mUri != null)
-                mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
-            else
-                browseRoot();
-            ((BrowserActivityInterface)getActivity()).showProgress(true);
-        }
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                mMediaBrowser = new MediaBrowser(VLCInstance.get(), MediaSortedFragment.this, sBrowserHandler);
+                if (mMediaBrowser != null) {
+                    if (mUri != null)
+                        mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
+                    else
+                        browseRoot();
+                    ((BrowserActivityInterface)getActivity()).showProgress(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -78,17 +102,20 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
         ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
     }
 
-    private void releaseBrowser() {
-        if (mMediaBrowser != null) {
-            mMediaBrowser.release();
-            mMediaBrowser = null;
+    private Runnable releaseBrowser = new Runnable() {
+        @Override
+        public void run() {
+            if (mMediaBrowser != null) {
+                mMediaBrowser.release();
+                mMediaBrowser = null;
+            }
         }
-    }
+    };
 
     @Override
     public void onStop() {
         super.onStop();
-        releaseBrowser();
+        runOnBrowserThread(releaseBrowser);
     }
 
     @Override
@@ -98,24 +125,46 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
             outState.putParcelable(KEY_URI, mUri);
     }
 
-    public void onMediaAdded(int index, Media media) {
-        addMedia(media);
+    @NonNull
+    private MediaWrapper getMediaWrapper(MediaWrapper media) {
+        MediaWrapper mw = null;
+        Uri uri = media.getUri();
+        if ((media.getType() == MediaWrapper.TYPE_AUDIO
+                || media.getType() == MediaWrapper.TYPE_VIDEO)
+                && "file".equals(uri.getScheme()))
+            mw = mMedialibrary.getMedia(uri);
+        if (mw == null)
+            return media;
+        return mw;
+    }
 
-        if (mUri == null) { // we are at root level
-            sort();
-        }
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
+    public void onMediaAdded(int index, Media media) {
+        final MediaWrapper mw = getMediaWrapper(new MediaWrapper(media));
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                addMedia(mw);
+                if (mUri == null) // we are at root level
+                    sort();
+                ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+                ((BrowserActivityInterface)getActivity()).showProgress(false);
+            }
+        });
     }
 
     public void onMediaRemoved(int index, Media media) {}
 
     public void onBrowseEnd() {
-        releaseBrowser();
-        if (isResumed()) {
-            sort();
-            mHandler.sendEmptyMessage(HIDE_LOADING);
-        } else
-            goBack = true;
+        releaseBrowser.run();
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isResumed()) {
+                    sort();
+                    mHandler.sendEmptyMessage(HIDE_LOADING);
+                } else
+                    goBack = true;
+            }
+        });
     }
 }

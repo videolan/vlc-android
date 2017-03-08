@@ -123,7 +123,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
         if (allowLAN())
-            mMediaBrowser.discoverNetworkShares();
+            runOnBrowserThread(new Runnable() {
+                @Override
+                public void run() {
+                    mMediaBrowser.discoverNetworkShares();
+                }
+            });
         else {
             if (!mAdapter.isEmpty())
                 mAdapter.removeItem(mAdapter.getItemCount() - 1);

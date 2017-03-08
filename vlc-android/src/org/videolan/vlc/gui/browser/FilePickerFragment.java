@@ -38,7 +38,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.VLCInstance;
 
 public class FilePickerFragment extends FileBrowserFragment {
 
@@ -64,8 +63,13 @@ public class FilePickerFragment extends FileBrowserFragment {
         super.onCreate(bundle);
         mAdapter = new FilePickerAdapter(this);
         mRoot = defineIsRoot();
-        mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-        mMediaBrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv");
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                initMediaBrowser(FilePickerFragment.this);
+                mMediaBrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv");
+            }
+        });
     }
 
     @Override
