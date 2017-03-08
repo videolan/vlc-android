@@ -689,6 +689,11 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * Any change will take effect only after playback is stopped and
      * restarted. Audio output cannot be changed while playing.
      *
+     * By default, the "android_audiotrack" is selected. Starting Android 21, passthrough is
+     * enabled for encodings supported by the device/audio system.
+     *
+     * Calling this method will disable the encoding detection.
+     *
      * @return true on success.
      */
     public boolean setAudioOutput(String aout) {
@@ -722,6 +727,16 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         /**
          * Configures an explicit audio output device.
          * Audio output will be moved to the device specified by the device identifier string.
+         *
+         * Available devices for the "android_audiotrack" module (the default) are
+         * "stereo": Up to 2 channels (compat mode).
+         * "pcm": Up to 8 channels.
+         * "encoded": Up to 8 channels, passthrough for every encodings if available.
+         * "encoded:ENCODING_FLAGS_MASK": passthrough for every encodings specified by
+         * ENCODING_FLAGS_MASK. This extra value is a long that contains binary-shifted
+         * AudioFormat.ENCODING_* values.
+         *
+         * Calling this method will disable the encoding detection (see {@link #setAudioOutput}).
          *
          * @return true on success.
          */
