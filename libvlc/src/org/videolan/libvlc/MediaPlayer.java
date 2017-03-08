@@ -439,7 +439,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private void registerAudioPlugV21(boolean register) {
         if (register) {
             final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
-            mLibVLC.mAppContext.registerReceiver(mAudioPlugReceiver, intentFilter);
+            final Intent stickyIntent = mLibVLC.mAppContext.registerReceiver(mAudioPlugReceiver, intentFilter);
+            if (stickyIntent != null)
+                mAudioPlugReceiver.onReceive(mLibVLC.mAppContext, stickyIntent);
         } else {
             mLibVLC.mAppContext.unregisterReceiver(mAudioPlugReceiver);
         }
