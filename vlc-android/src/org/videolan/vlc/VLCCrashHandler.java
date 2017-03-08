@@ -20,6 +20,13 @@
 
 package org.videolan.vlc;
 
+import android.os.Environment;
+import android.text.format.DateFormat;
+import android.util.Log;
+
+import org.videolan.vlc.util.Logcat;
+import org.videolan.vlc.util.Util;
+
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,14 +36,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
-
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Logcat;
-import org.videolan.vlc.util.Util;
-
-import android.os.Environment;
-import android.text.format.DateFormat;
-import android.util.Log;
 
 public class VLCCrashHandler implements UncaughtExceptionHandler {
 
@@ -69,9 +68,9 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
         Log.e(TAG, stacktrace);
 
         // Save the log on SD card if available
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            writeLog(stacktrace, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/vlc_crash");
-            writeLogcat(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/vlc_logcat");
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            writeLog(stacktrace, VLCApplication.getAppContext().getExternalFilesDir(null).getAbsolutePath()+"/vlc_crash");
+            writeLogcat(VLCApplication.getAppContext().getExternalFilesDir(null).getAbsolutePath()+"/vlc_logcat");
         }
 
         defaultUEH.uncaughtException(thread, ex);
