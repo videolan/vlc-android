@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc;
 
+import android.os.Handler;
 import android.util.SparseArray;
 
 @SuppressWarnings("unused, JniMissingFunction")
@@ -115,8 +116,8 @@ public class MediaList extends VLCObject<MediaList.Event> {
         return media;
     }
 
-    public void setEventListener(EventListener listener) {
-        super.setEventListener(listener);
+    public void setEventListener(EventListener listener, Handler handler) {
+        super.setEventListener(listener, handler);
     }
 
     @Override

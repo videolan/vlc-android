@@ -98,11 +98,22 @@ abstract class VLCObject<T extends VLCEvent> {
      * @param listener see {@link VLCEvent.Listener}
      */
     protected synchronized void setEventListener(VLCEvent.Listener<T> listener) {
+        setEventListener(listener, null);
+    }
+
+    /**
+     * Set an event listener and an executor Handler
+     * @param listener see {@link VLCEvent.Listener}
+     * @param handler Handler in which events are sent. If null, a handler will be created running on the main thread
+     */
+    protected synchronized void setEventListener(VLCEvent.Listener<T> listener, Handler handler) {
         if (mHandler != null)
             mHandler.removeCallbacksAndMessages(null);
         mEventListener = listener;
-        if (mEventListener != null && mHandler == null)
-            mHandler = new Handler(Looper.getMainLooper());
+        if (mEventListener == null)
+            mHandler = null;
+        else if (mHandler == null)
+            mHandler = handler != null ? handler : new Handler(Looper.getMainLooper());
     }
 
     /**
