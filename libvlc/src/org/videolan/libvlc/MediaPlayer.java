@@ -24,6 +24,7 @@ package org.videolan.libvlc;
 
 import android.net.Uri;
 import android.annotation.TargetApi;
+import android.media.AudioFormat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -352,6 +353,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private String mAudioOutputDevice = null;
 
     private boolean mAudioPlugRegistered = false;
+    private String mAudioPlugOutputDevice = "stereo";
 
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
@@ -382,6 +384,36 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     });
 
+    private void updateAudioOutputDevice(long encodingFlags, String defaultDevice) {
+        final String newDeviceId = encodingFlags != 0 ? "encoded:" + encodingFlags : defaultDevice;
+        if (!newDeviceId.equals(mAudioPlugOutputDevice)) {
+            mAudioPlugOutputDevice = newDeviceId;
+            setAudioOutputDeviceInternal(mAudioPlugOutputDevice, false);
+        }
+    }
+
+    private boolean isEncoded(int encoding) {
+        switch (encoding) {
+            case AudioFormat.ENCODING_AC3:
+            case AudioFormat.ENCODING_E_AC3:
+            case 14 /* AudioFormat.ENCODING_DOLBY_TRUEHD */:
+            case AudioFormat.ENCODING_DTS:
+            case AudioFormat.ENCODING_DTS_HD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private long getEncodingFlags(int encodings[]) {
+        long encodingFlags = 0;
+        for (int encoding : encodings) {
+            if (isEncoded(encoding))
+                encodingFlags |= 1 << encoding;
+        }
+        return encodingFlags;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private BroadcastReceiver createAudioPlugReceiver() {
         return new BroadcastReceiver() {
@@ -392,7 +424,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                     return;
                 if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
                     final boolean hasHdmi = intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 0) == 1;
-                    setAudioOutputDeviceInternal(hasHdmi ? "encoded" : "stereo", false);
+                    final long encodingFlags = !hasHdmi ? 0 :
+                            getEncodingFlags(intent.getIntArrayExtra(AudioManager.EXTRA_ENCODINGS));
+                    updateAudioOutputDevice(encodingFlags, "stereo");
                 }
             }
         };
