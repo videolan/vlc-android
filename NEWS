@@ -10,6 +10,10 @@ Application:
  - Fix video player stuck after device being locked
  - Tackles some crashes
 
+Core
+ * DTSHD and TRUEHD HDMI passthrough
+ * Don't play via passthrough an encoding format that is not supported
+
 Changes between 2.1.0 and 2.1.1:
 ----------------------------------
 
