@@ -184,6 +184,9 @@ android {
     sourceSets.release {
         manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
+    sourceSets.debug {
+        res.srcDirs = ['flavors/debug/res']
+    }
     sourceSets.test {
         java.srcDirs = ['test']
     }
