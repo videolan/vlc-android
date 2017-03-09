@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.support.v14.preference.MultiSelectListPreference;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
@@ -50,7 +49,8 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onStart() {
         super.onStart();
-        final AppCompatActivity activity = (AppCompatActivity)getActivity();
+        final PreferencesActivity activity = (PreferencesActivity)getActivity();
+        activity.scrollUp();
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle(getString(getTitleId()));
         }

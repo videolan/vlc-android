@@ -7,6 +7,7 @@
 
     <include layout="@layout/toolbar"/>
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         vlc:layout_behavior="@string/appbar_scrolling_view_behavior" >
