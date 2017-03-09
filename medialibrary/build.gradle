@@ -57,6 +57,10 @@ task generateSources (type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
+clean {
+    delete 'build', 'jni/libs', 'jni/obj'
+}
+
 dependencies {
     compile project(':libvlc')
     compile 'com.android.support:support-v4:25.2.0'
