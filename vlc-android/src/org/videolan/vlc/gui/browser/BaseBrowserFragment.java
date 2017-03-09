@@ -240,7 +240,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         Fragment next = createFragment();
         Bundle args = new Bundle();
         ArrayList<MediaWrapper> list = mFoldersContentLists != null ? mFoldersContentLists.get(position) : null;
-        if (!Util.isListEmpty(list))
+        if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
             VLCApplication.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
