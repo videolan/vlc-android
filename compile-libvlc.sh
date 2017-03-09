@@ -399,9 +399,10 @@ EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MAC
 #################
 
 VLC_LDFLAGS=""
+EXTRA_LDFLAGS=""
 if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
-        VLC_LDFLAGS="${VLC_LDFLAGS} -Wl,--fix-cortex-a8"
+        EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -Wl,--fix-cortex-a8"
 fi
 NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
 if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" -o "${PLATFORM_SHORT_ARCH}" = "mips64" ];then
@@ -413,7 +414,8 @@ if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
     NDK_LIB_UNWIND="-lunwind"
 fi
 
-VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
+EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
+VLC_LDFLAGS="${EXTRA_LDFLAGS}"
 
 # Release or not?
 if [ "$RELEASE" = 1 ]; then
@@ -515,6 +517,7 @@ checkfail "contribs: bootstrap failed"
 
 echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
 echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
+echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
 
 make $MAKEFLAGS fetch
 checkfail "contribs: make fetch failed"
