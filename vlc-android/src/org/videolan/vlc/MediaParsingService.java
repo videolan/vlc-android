@@ -118,7 +118,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
                     }
-                    if (mMedialibrary.init(VLCApplication.getAppContext())) {
+                    if (mMedialibrary.init(MediaParsingService.this)) {
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
                         String[] foldersList = mMedialibrary.getFoldersList();
                         if (foldersList.length == 0) {
