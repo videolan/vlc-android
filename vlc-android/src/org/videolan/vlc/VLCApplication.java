@@ -196,6 +196,10 @@ public class VLCApplication extends Application {
         return sDataMap.remove(key);
     }
 
+    public static void clearData() {
+        sDataMap.clear();
+    }
+
     Dialog.Callbacks mDialogCallbacks = new Dialog.Callbacks() {
         @Override
         public void onDisplay(Dialog.ErrorMessage dialog) {
