@@ -50,6 +50,7 @@
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
+        <item name="ic_menu_search">@drawable/ic_menu_search</item>
         <item name="ic_repeat">@drawable/ic_repeat</item>
         <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
@@ -143,6 +144,7 @@
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
+        <item name="ic_menu_search">@drawable/ic_menu_search_w</item>
         <item name="ic_repeat">@drawable/ic_repeat_w</item>
         <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>

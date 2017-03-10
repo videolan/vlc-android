@@ -15,7 +15,7 @@
         vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_filter"
-        android:icon="@drawable/ic_menu_search"
+        android:icon="@drawable/ic_menu_search_normal_w"
         vlc:actionViewClass="android.support.v7.widget.SearchView"
         android:title="@string/searchable_hint"
         vlc:showAsAction="always|collapseActionView"/>
