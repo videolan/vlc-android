@@ -192,7 +192,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService.hasMedia() && !mService.isVideoPlaying()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             //Check fragment resumed to not restore video on device turning off
-            if (isResumed() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
+            if (isVisible() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
                 mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
                 mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 mService.switchToVideo();
@@ -427,8 +427,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         }
     }
 
+
     public void showAdvancedOptions(View v) {
-        if (!isResumed())
+        if (!isVisible())
             return;
         FragmentManager fm = getActivity().getSupportFragmentManager();
         AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
