@@ -393,6 +393,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onClick(View v) {
-        mService.load(mPlaylist.getTracks(mMediaLibrary), 0);
+        if (mService != null)
+            mService.load(mPlaylist.getTracks(mMediaLibrary), 0);
     }
 }
