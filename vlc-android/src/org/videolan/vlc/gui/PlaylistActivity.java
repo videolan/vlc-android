@@ -260,7 +260,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 mService.append(tracks);
                 break;
             case R.id.action_mode_audio_add_playlist:
-                UiTools.addToPlaylist(this, tracks);
+                MediaWrapper[] trackList = new MediaWrapper[tracks.size()];
+                tracks.toArray(trackList);
+                UiTools.addToPlaylist(this, trackList);
                 break;
             case R.id.action_mode_audio_info:
                 showInfoDialog((MediaWrapper) list.get(0));
@@ -333,12 +335,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             showInfoDialog(media);
             return true;
         } else if (id == R.id.audio_view_add_playlist) {
-            ArrayList<MediaWrapper> medias = new ArrayList<>();
-            medias.add(media);
             FragmentManager fm = getSupportFragmentManager();
             SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
             Bundle args = new Bundle();
-            args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, media.getTracks(mMediaLibrary));
             savePlaylistDialog.setArguments(args);
             savePlaylistDialog.show(fm, "fragment_add_to_playlist");
             return true;

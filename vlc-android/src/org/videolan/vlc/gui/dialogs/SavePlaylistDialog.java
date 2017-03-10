@@ -42,6 +42,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -49,9 +50,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.interfaces.IEventsHandler;
-import org.videolan.vlc.util.Util;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, IEventsHandler {
@@ -67,8 +66,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     Button mSaveButton;
     Button mCancelButton;
     AudioBrowserAdapter mAdapter;
-    ArrayList<MediaWrapper> mTracks;
-    ArrayList<MediaWrapper> mNewTrack;
+    MediaWrapper[] mTracks;
+    MediaWrapper[] mNewTrack;
     Runnable mCallBack;
     Medialibrary mMedialibrary;
     long mPlaylistId;
@@ -81,8 +80,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mMedialibrary = VLCApplication.getMLInstance();
         mAdapter = new AudioBrowserAdapter(getActivity(),MediaLibraryItem.TYPE_PLAYLIST,  this, false);
         mAdapter.addAll(mMedialibrary.getPlaylists());
-        mTracks = getArguments().getParcelableArrayList(KEY_TRACKS);
-        mNewTrack = getArguments().getParcelableArrayList(KEY_NEW_TRACKS);
+        mTracks = (MediaWrapper[]) getArguments().getParcelableArray(KEY_TRACKS);
+        mNewTrack = (MediaWrapper[]) getArguments().getParcelableArray(KEY_NEW_TRACKS);
     }
 
     public void setCallBack(Runnable cb) {
@@ -143,10 +142,10 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         VLCApplication.runBackground(new Runnable() {
             public void run() {
                 final String name = mEditText.getText().toString().trim();
-                boolean addTracks = !Util.isListEmpty(mNewTrack);
+                boolean addTracks = !Tools.isArrayEmpty(mNewTrack);
                 Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
                 boolean exists = playlist != null;
-                ArrayList<MediaWrapper> tracks;
+                MediaWrapper[] tracks;
                 if (!exists)
                     playlist = mMedialibrary.createPlaylist(name);
                 if (addTracks) {

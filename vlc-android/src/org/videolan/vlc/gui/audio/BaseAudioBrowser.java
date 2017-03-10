@@ -90,10 +90,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
                     mService.append(tracks);
                     break;
                 case R.id.action_mode_audio_add_playlist:
-                    UiTools.addToPlaylist(getActivity(), tracks);
+                    MediaWrapper[] trackList = new MediaWrapper[tracks.size()];
+                    tracks.toArray(trackList);
+                    UiTools.addToPlaylist(getActivity(), trackList);
                     break;
                 case R.id.action_mode_audio_info:
-                    showInfoDialog((MediaWrapper) list.get(0));
+                    showInfoDialog(list.get(0));
                     break;
                 case R.id.action_mode_audio_set_song:
                     AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());

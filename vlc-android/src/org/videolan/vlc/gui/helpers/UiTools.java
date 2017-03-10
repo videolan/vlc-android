@@ -245,10 +245,10 @@ public class UiTools {
         });
     }
 
-    public static void addToPlaylist(FragmentActivity activity, ArrayList<MediaWrapper> tracks) {
+    public static void addToPlaylist(FragmentActivity activity, MediaWrapper[] tracks) {
         SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, tracks);
+        args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, tracks);
         savePlaylistDialog.setArguments(args);
         savePlaylistDialog.show(activity.getSupportFragmentManager(), "fragment_add_to_playlist");
     }

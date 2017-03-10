@@ -341,7 +341,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         }
 
         if (id == R.id.audio_view_add_playlist) {
-            UiTools.addToPlaylist(getActivity(), new ArrayList<>(Arrays.asList(mediaItem.getTracks(mMediaLibrary))));
+            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks(mMediaLibrary));
             return true;
         }
 

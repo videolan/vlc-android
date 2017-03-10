@@ -520,7 +520,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
                 Bundle infoArgs = new Bundle();
-                infoArgs.putParcelableArrayList(SavePlaylistDialog.KEY_NEW_TRACKS, medias);
+                infoArgs.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mw.getTracks(null));
                 savePlaylistDialog.setArguments(infoArgs);
                 savePlaylistDialog.show(fm, "fragment_add_to_playlist");
                 return true;
@@ -754,7 +754,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         deleteMedia(media, true);
                     break;
                 case R.id.action_mode_file_add_playlist:
-                    UiTools.addToPlaylist(getActivity(), list);
+                    MediaWrapper[] trackList = new MediaWrapper[list.size()];
+                    list.toArray(trackList);
+                    UiTools.addToPlaylist(getActivity(), trackList);
                     break;
                 case R.id.action_mode_file_info:
                     showMediaInfo(list.get(0));

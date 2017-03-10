@@ -34,6 +34,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
@@ -230,7 +231,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_SAVE_PLAYLIST:
                 newFragment = new SavePlaylistDialog();
                 Bundle args = new Bundle();
-                args.putParcelableArrayList(SavePlaylistDialog.KEY_TRACKS, mService.getMedias());
+                args.putParcelableArray(SavePlaylistDialog.KEY_TRACKS, (Parcelable[]) mService.getMedias().toArray());
                 newFragment.setArguments(args);
                 tag = "fragment_save_playlist";
                 break;

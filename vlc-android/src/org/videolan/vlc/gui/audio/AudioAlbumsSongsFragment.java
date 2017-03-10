@@ -233,7 +233,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             FragmentManager fm = getActivity().getSupportFragmentManager();
             SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
             Bundle args = new Bundle();
-            args.putParcelable(SavePlaylistDialog.KEY_NEW_TRACKS, mediaItem);
+            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mediaItem.getTracks(mMediaLibrary));
             savePlaylistDialog.setArguments(args);
             savePlaylistDialog.show(fm, "fragment_add_to_playlist");
             return true;
