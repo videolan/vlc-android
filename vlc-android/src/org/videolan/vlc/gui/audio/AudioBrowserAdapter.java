@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
@@ -186,7 +187,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
     @MainThread
     public boolean isEmpty() {
-        return getItemCount() == 0;
+        return Tools.isArrayEmpty(peekLast());
     }
 
     public void clear() {
@@ -252,17 +253,25 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
     }
 
     public void remove(final MediaLibraryItem item) {
-        final MediaLibraryItem[] referenceList = hasPendingUpdates() ? peekLast() : mDataList;
+        final MediaLibraryItem[] referenceList = peekLast();
+        if (Tools.isArrayEmpty(referenceList))
+            return;
         final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length-1];
         Util.removeItemInArray(referenceList, item, dataList);
         update(dataList);
     }
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final MediaLibraryItem[] referenceList = hasPendingUpdates() ? peekLast() : mDataList;
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length+1];
+        final MediaLibraryItem[] referenceList = peekLast();
+        final MediaLibraryItem[] dataList = Tools.isArrayEmpty(referenceList)
+                ? new MediaLibraryItem[]{item} : new MediaLibraryItem[referenceList.length+1];
         Util.addItemInArray(referenceList, position, item, dataList);
         update(dataList);
+    }
+
+    @Override
+    public MediaLibraryItem[] peekLast() {
+        return hasPendingUpdates() ? super.peekLast() : mDataList;
     }
 
     public void restoreList() {

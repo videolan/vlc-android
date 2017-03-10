@@ -219,7 +219,12 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     }
 
     public boolean isEmpty(){
-        return mMediaList.isEmpty();
+        return peekLast().isEmpty();
+    }
+
+    @Override
+    public ArrayList<MediaLibraryItem> peekLast() {
+        return hasPendingUpdates() ? super.peekLast() : mMediaList;
     }
 
     public void addItem(MediaLibraryItem item, boolean top){
@@ -232,7 +237,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
 
     void addItem(MediaLibraryItem item, boolean top, int positionTo){
         int position;
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(hasPendingUpdates() ? peekLast() : mMediaList);
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
         if (positionTo != -1)
             position = positionTo;
         else
@@ -267,16 +272,9 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     void removeItem(MediaLibraryItem item) {
         if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
-        int pendingCount = getPendingCount();
-        if (pendingCount == 0) {
-            mMediaList.remove(item);
-            notifyItemRemoved(mMediaList.indexOf(item));
-        } else if (pendingCount == 1) {
-            ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
-            list.remove(item);
-            update(list);
-        } else
-            peekLast().remove(item);
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
+        list.remove(item);
+        update(list);
     }
 
     void removeItem(String path) {

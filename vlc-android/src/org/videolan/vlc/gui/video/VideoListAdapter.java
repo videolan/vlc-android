@@ -148,9 +148,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
-    public boolean isEmpty()
-    {
-        return mVideos.size() == 0;
+    public boolean isEmpty() {
+        return peekLast().size() == 0;
     }
 
     @Nullable
@@ -164,31 +163,27 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     @MainThread
     public void add(MediaWrapper item) {
-        ArrayList<MediaWrapper> list = new ArrayList<>(mPendingUpdates.isEmpty() ? mVideos : mPendingUpdates.peekLast());
+        ArrayList<MediaWrapper> list = new ArrayList<>(peekLast());
         list.add(item);
         update(list, false);
     }
 
     @MainThread
     public void remove(MediaWrapper item) {
-        int pendingCount = mPendingUpdates.size();
-        if (pendingCount > 1) {
-            mPendingUpdates.peekLast().remove(item);
-        } else if (pendingCount == 1) {
-            ArrayList<MediaWrapper> refList = new ArrayList<>(mPendingUpdates.peekLast());
-            if (refList.remove(item))
-                update(refList, false);
-        } else {
-            int position = mVideos.indexOf(item);
-            if (mVideos.remove(item))
-                notifyItemRemoved(position);
-        }
+        ArrayList<MediaWrapper> refList = new ArrayList<>(peekLast());
+        if (refList.remove(item))
+            update(refList, false);
     }
 
     @MainThread
     public void addAll(Collection<MediaWrapper> items) {
         mVideos.addAll(items);
         mOriginalData = null;
+    }
+
+    @MainThread
+    private ArrayList<MediaWrapper> peekLast() {
+        return mPendingUpdates.isEmpty() ? mVideos : mPendingUpdates.peekLast();
     }
 
     public boolean contains(MediaWrapper mw) {
