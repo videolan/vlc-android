@@ -181,6 +181,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onStart() {
         super.onStart();
+        sBrowserHandler.removeCallbacksAndMessages(null);
         if (!mRoot && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
