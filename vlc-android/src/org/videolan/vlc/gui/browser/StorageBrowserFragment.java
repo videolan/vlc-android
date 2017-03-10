@@ -68,6 +68,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     @Override
     public void onCreate(Bundle bundle) {
+        VLCApplication.clearData();
         super.onCreate(bundle);
         mAdapter = new StorageBrowserAdapter(this);
         if (bundle == null)
