@@ -132,7 +132,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             mMedialibrary.forceParserRetry();
                         }
                         for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
-                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                            if (foldersList.length == 0
+                                    && !TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                                     && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")) {
                                 for (String folder : Medialibrary.getBlackList())
                                     mMedialibrary.banFolder(externalStorage + folder);
