@@ -5,7 +5,7 @@
     <PreferenceScreen
         android:key="directories"
         android:summary="@string/directories_summary"
-        android:title="@string/directories" />
+        android:title="@string/medialibrary_directories" />
 
     <ListPreference
         android:defaultValue="-1"

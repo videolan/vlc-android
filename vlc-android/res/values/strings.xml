@@ -424,6 +424,7 @@
     <string name="player_touch_disable_all">Disable all Touch controls</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
+    <string name="medialibrary_directories">Media library folders</string>
 
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
