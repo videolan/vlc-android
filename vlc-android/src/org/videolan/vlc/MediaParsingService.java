@@ -82,7 +82,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
-                setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
+                setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false),
+                        intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
                 break;
             case ACTION_RELOAD:
                 reload();
@@ -105,7 +106,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mMedialibrary.reload();
     }
 
-    private void setupMedialibrary(final boolean upgrade) {
+    private void setupMedialibrary(final boolean firstRun, final boolean upgrade) {
         if (mMedialibrary.isInitiated())
             mMedialibrary.resumeBackgroundOperations();
         else
@@ -120,25 +121,24 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     }
                     if (mMedialibrary.init(MediaParsingService.this)) {
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        String[] foldersList = mMedialibrary.getFoldersList();
-                        if (foldersList.length == 0) {
+                        if (firstRun) {
                             for (String storage : storages)
                                 for (String folder : Medialibrary.getBlackList())
                                     mMedialibrary.banFolder(storage + folder);
                             for (File folder : Medialibrary.getDefaultFolders())
                                 if (folder.exists())
                                     mMedialibrary.discover(folder.getPath());
+                            String[] foldersList = mMedialibrary.getFoldersList();
+                            for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
+                                if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                                        && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")) {
+                                    for (String folder : Medialibrary.getBlackList())
+                                        mMedialibrary.banFolder(externalStorage + folder);
+                                    mMedialibrary.discover(externalStorage);
+                                }
+                            }
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
-                        }
-                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
-                            if (foldersList.length == 0
-                                    && !TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-                                    && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")) {
-                                for (String folder : Medialibrary.getBlackList())
-                                    mMedialibrary.banFolder(externalStorage + folder);
-                                mMedialibrary.discover(externalStorage);
-                            }
                         }
                     }
                 }

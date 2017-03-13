@@ -87,6 +87,7 @@ public class StartActivity extends Activity {
         } else {
             if (Permissions.canReadStorage()) {
                 Intent serviceInent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
+                serviceInent.putExtra(EXTRA_FIRST_RUN, firstRun);
                 serviceInent.putExtra(EXTRA_UPGRADE, upgrade);
                 startService(serviceInent);
             }
