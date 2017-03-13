@@ -36,13 +36,13 @@ import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -128,7 +128,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                     editor.putInt("network_caching_value", 0);
                     EditTextPreference networkCachingPref = (EditTextPreference) findPreference(key);
                     networkCachingPref.setText("");
-                    UiTools.snacker(getView(), R.string.network_caching_popup);
+                    Toast.makeText(getActivity(), R.string.network_caching_popup, Toast.LENGTH_SHORT).show();
                 }
                 editor.apply();
                 // No break because need VLCInstance.restart();

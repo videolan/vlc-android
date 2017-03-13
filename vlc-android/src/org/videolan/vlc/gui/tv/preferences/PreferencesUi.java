@@ -27,9 +27,9 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.AndroidDevices;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -74,7 +74,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             switch (key) {
                 case "set_locale":
-                    UiTools.snacker(getView(), R.string.set_locale_popup);
+                    Toast.makeText(getActivity(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
                     break;
                 case "tv_ui":
                     ((PreferencesActivity) getActivity()).setRestartApp();
