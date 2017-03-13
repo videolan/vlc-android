@@ -161,14 +161,14 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         }
 
         protected void openStorage() {
-            MediaWrapper mw = new MediaWrapper(((Storage) getItem(getAdapterPosition())).getUri());
+            MediaWrapper mw = new MediaWrapper(((Storage) getItem(getLayoutPosition())).getUri());
             mw.setType(MediaWrapper.TYPE_DIR);
-            fragment.browse(mw, getAdapterPosition(), binding.browserCheckbox.isChecked());
+            fragment.browse(mw, getLayoutPosition(), binding.browserCheckbox.isChecked());
         }
 
         public void onCheckBoxClick(View v) {
-            if (getItem(getAdapterPosition()).getItemType() == TYPE_STORAGE)
-                checkBoxAction(v, ((Storage) getItem(getAdapterPosition())).getUri().getPath());
+            if (getItem(getLayoutPosition()).getItemType() == TYPE_STORAGE)
+                checkBoxAction(v, ((Storage) getItem(getLayoutPosition())).getUri().getPath());
         }
 
         @Override
@@ -177,18 +177,18 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         }
 
         public void onClick(View v){
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             fragment.onClick(v, position, mMediaList.get(position));
         }
 
         public void onMoreClick(View v) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             fragment.onCtxClick(v, position, mMediaList.get(position));
         }
 
         @Override
         public boolean onLongClick(View v) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             return fragment.onLongClick(v, position, mMediaList.get(position));
         }
 

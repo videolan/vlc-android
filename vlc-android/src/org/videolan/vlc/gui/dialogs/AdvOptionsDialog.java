@@ -705,7 +705,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
             @Override
             public boolean onLongClick(View view) {
-                Toast toast = Toast.makeText(VLCApplication.getAppContext(), mList.get(getAdapterPosition()).text, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(VLCApplication.getAppContext(), mList.get(getLayoutPosition()).text, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP,0,0);
                 toast.show();
                 return true;

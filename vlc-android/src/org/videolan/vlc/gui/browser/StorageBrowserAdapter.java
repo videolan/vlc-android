@@ -101,9 +101,9 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     protected void openMediaFromView(MediaViewHolder holder, View v) {
-        MediaWrapper mw = new MediaWrapper(((Storage) getItem(holder.getAdapterPosition())).getUri());
+        MediaWrapper mw = new MediaWrapper(((Storage) getItem(holder.getLayoutPosition())).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
-        fragment.browse(mw, holder.getAdapterPosition(), holder.binding.browserCheckbox.isChecked());
+        fragment.browse(mw, holder.getLayoutPosition(), holder.binding.browserCheckbox.isChecked());
     }
 
     protected void checkBoxAction(View v, String path){

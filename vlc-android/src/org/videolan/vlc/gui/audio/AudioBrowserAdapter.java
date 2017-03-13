@@ -363,20 +363,20 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
         public void onClick(View v) {
             if (mIEventsHandler != null) {
-                int position = getAdapterPosition();
+                int position = getLayoutPosition();
                 mIEventsHandler.onClick(v, position, mDataList[position]);
             }
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null) {
-                int position = getAdapterPosition();
+                int position = getLayoutPosition();
                 mIEventsHandler.onCtxClick(v, position, mDataList[position]);
             }
         }
 
         public boolean onLongClick(View view) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             return mIEventsHandler.onLongClick(view, position, mDataList[position]);
         }
 

@@ -329,16 +329,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         }
 
         public void onClick(View v) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             mEventsHandler.onClick(v, position, mVideos.get(position));
         }
 
         public void onMoreClick(View v){
-            mEventsHandler.onCtxClick(v, getAdapterPosition(), null);
+            mEventsHandler.onCtxClick(v, getLayoutPosition(), null);
         }
 
         public boolean onLongClick(View v) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             return mEventsHandler.onLongClick(v, position, mVideos.get(position));
         }
 
@@ -348,7 +348,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus || mVideos.get(getAdapterPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+            setViewBackground(hasFocus || mVideos.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         }
 
         private void setViewBackground(boolean highlight) {

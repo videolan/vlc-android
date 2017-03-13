@@ -56,12 +56,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         public void onClick(View v){
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             mEventsHandler.onClick(v, position, mMediaList.get(position));
         }
 
         public boolean onLongClick(View v) {
-            int position = getAdapterPosition();
+            int position = getLayoutPosition();
             return mEventsHandler.onLongClick(v, position, mMediaList.get(position));
         }
     }
