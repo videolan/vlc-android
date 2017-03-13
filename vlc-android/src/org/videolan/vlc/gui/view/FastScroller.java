@@ -64,7 +64,7 @@ public class FastScroller extends LinearLayout {
     private static final String SCALE_X = "scaleX";
     private static final String SCALE_Y = "scaleY";
     private static final String ALPHA = "alpha";
-    private int mHeight, mItemCount;
+    private int mHeight, mItemCount, mRecyclerviewTotalHeight;
     boolean mFastScrolling, mShowBubble;
 
     private AnimatorSet currentAnimator = null;
@@ -155,6 +155,7 @@ public class FastScroller extends LinearLayout {
         setVisibility(INVISIBLE);
         mItemCount = recyclerView.getAdapter().getItemCount();
         this.mRecyclerView = recyclerView;
+        mRecyclerviewTotalHeight = 0;
         recyclerView.addOnScrollListener(scrollListener);
         mShowBubble = ((SeparatedAdapter)recyclerView.getAdapter()).hasSections();
     }
@@ -227,6 +228,8 @@ public class FastScroller extends LinearLayout {
 
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
+            if (mRecyclerviewTotalHeight == 0)
+                mRecyclerviewTotalHeight = mRecyclerView.computeVerticalScrollRange()-mRecyclerView.computeVerticalScrollExtent();
             int firstVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             if (mFastScrolling) {
                 String letter = ((SeparatedAdapter)mRecyclerView.getAdapter()).getSectionforPosition(firstVisiblePosition);
@@ -235,16 +238,7 @@ public class FastScroller extends LinearLayout {
             }
             if (FastScroller.this.getVisibility() == INVISIBLE)
                 mHandler.sendEmptyMessage(SHOW_SCROLLER);
-            int lastVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
-            int position;
-            if (firstVisiblePosition == 0) {
-                position = 0;
-            } else if (lastVisiblePosition == mItemCount - 1) {
-                position = mItemCount - 1;
-            } else {
-                position = firstVisiblePosition;
-            }
-            float proportion = (float) position / (float) mItemCount;
+            float proportion = mRecyclerviewTotalHeight == 0 ? 0f : rv.computeVerticalScrollOffset() / (float) mRecyclerviewTotalHeight;
             setPosition(mHeight * proportion);
         }
 
