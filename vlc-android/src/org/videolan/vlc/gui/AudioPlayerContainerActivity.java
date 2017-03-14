@@ -32,15 +32,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -61,8 +58,12 @@ import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
+
+import static org.videolan.vlc.MediaParsingService.EXTRA_PATH;
+import static org.videolan.vlc.MediaParsingService.EXTRA_UUID;
 
 public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback, PlaybackService.Callback {
 
@@ -376,16 +377,17 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Medialibrary ml = VLCApplication.getMLInstance();
             switch (msg.what){
                 case ACTION_MEDIA_MOUNTED:
                     String path = ((Uri) msg.obj).getPath();
+                    String uuid = ((Uri) msg.obj).getLastPathSegment();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    ml.addDevice(path, path, true);
                     getOwner().updateLib();
-                    Intent mlIntent = new Intent(MediaParsingService.ACTION_DISCOVER, null, getOwner(), MediaParsingService.class);
-                    mlIntent.putExtra(MediaParsingService.EXTRA_PATH, path);
-                    getOwner().startService(mlIntent);
+                    getOwner().startActivity(new Intent(getOwner(), DialogActivity.class)
+                            .setAction(DialogActivity.KEY_STORAGE)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra(EXTRA_PATH, path)
+                            .putExtra(EXTRA_UUID, uuid));
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
                     getOwner().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getOwner(), MediaParsingService.class));

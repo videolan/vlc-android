@@ -7,9 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -18,6 +20,7 @@ import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
+import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -32,8 +35,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_INIT = "medialibrary_init";
     public final static String ACTION_RELOAD = "medialibrary_reload";
     public final static String ACTION_DISCOVER = "medialibrary_discover";
+    public final static String ACTION_DISCOVER_DEVICE = "medialibrary_discover_device";
 
     public final static String EXTRA_PATH = "extra_path";
+    public final static String EXTRA_UUID = "extra_uuid";
 
     public final static String ACTION_RESUME_SCAN = "action_resume_scan";
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
@@ -91,8 +96,19 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             case ACTION_DISCOVER:
                 discover(intent.getStringExtra(EXTRA_PATH));
                 break;
+            case ACTION_DISCOVER_DEVICE:
+                discoverStorage(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID));
+                break;
         }
         return START_NOT_STICKY;
+    }
+
+    private void discoverStorage(String path, String uuid) {
+        if (!TextUtils.isEmpty(uuid))
+            mMedialibrary.addDevice(uuid, path, true);
+        for (String folder : Medialibrary.getBlackList())
+            mMedialibrary.banFolder(path + folder);
+        discover(path);
     }
 
     private void discover(String path) {
@@ -128,17 +144,20 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             for (File folder : Medialibrary.getDefaultFolders())
                                 if (folder.exists())
                                     mMedialibrary.discover(folder.getPath());
-                            String[] foldersList = mMedialibrary.getFoldersList();
-                            for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
-                                if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-                                        && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")) {
-                                    for (String folder : Medialibrary.getBlackList())
-                                        mMedialibrary.banFolder(externalStorage + folder);
-                                    mMedialibrary.discover(externalStorage);
-                                }
-                            }
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
+                        }
+                        final String[] foldersList = mMedialibrary.getFoldersList();
+                        final SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
+                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
+                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                                    && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")
+                                    && !mSettings.getBoolean("ignore_"+FileUtils.getFileNameFromPath(externalStorage), false)) {
+                                startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
+                                        .setAction(DialogActivity.KEY_STORAGE)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra(EXTRA_PATH, externalStorage));
+                            }
                         }
                     }
                 }

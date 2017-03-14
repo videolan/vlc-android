@@ -39,7 +39,9 @@ import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.WeakHandler;
@@ -105,12 +107,14 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                         Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED)
                     onNetworkUpdated();
-
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 String path = intent.getData().getPath();
                 String uuid = intent.getData().getLastPathSegment();
-                mMediaLibrary.addDevice(uuid, path, true);
-                mMediaLibrary.discover(path);
+                startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)
+                        .setAction(DialogActivity.KEY_STORAGE)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(MediaParsingService.EXTRA_PATH, path)
+                        .putExtra(MediaParsingService.EXTRA_UUID, uuid));
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
                 mMediaLibrary.removeDevice(intent.getData().getLastPathSegment());
