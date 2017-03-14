@@ -121,6 +121,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private Menu mMenu;
     private SearchView mSearchView;
+    private boolean mFirstRun, mUpgrade;
 
     // Extensions management
     private ServiceConnection mExtensionServiceConnection;
@@ -185,6 +186,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
+            mUpgrade = true;
+            mFirstRun = getIntent().getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false);
             /*
              * The sliding menu is automatically opened when the user closes
              * the info dialog. If (for any reason) the dialog is not shown,
@@ -224,7 +227,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+                    Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
+                    serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, mFirstRun);
+                    serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, mUpgrade);
+                    startService(serviceIntent);
                 } else
                     Permissions.showStoragePermissionDialog(this, false);
                 break;

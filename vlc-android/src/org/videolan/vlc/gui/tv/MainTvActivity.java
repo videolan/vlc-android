@@ -235,7 +235,10 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+                    Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
+                    serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, getIntent().getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false));
+                    serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
+                    startService(serviceIntent);
                 } else {
                     Permissions.showStoragePermissionDialog(this, false);
                 }
