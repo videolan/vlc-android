@@ -24,24 +24,15 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.VlcDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.dialogs.VlcQuestionDialog;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 
-public class DialogActivity extends AppCompatActivity {
-
-    static {
-        AppCompatDelegate.setDefaultNightMode(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("daynight", false) ? AppCompatDelegate.MODE_NIGHT_AUTO : AppCompatDelegate.MODE_NIGHT_NO);
-    }
+public class DialogActivity extends BaseActivity {
 
     public static final String KEY_LOGIN = "LoginDialog";
     public static final String KEY_QUESTION = "QuestionDialog";
@@ -51,10 +42,6 @@ public class DialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean enableBlackTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false);
-        if (VLCApplication.showTvUi() || enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black);
-        }
         String key = getIntent().getAction();
         switch (key) {
             case KEY_LOGIN:

@@ -64,14 +64,10 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
 
-public class AudioPlayerContainerActivity extends AppCompatActivity implements PlaybackService.Client.Callback, PlaybackService.Callback {
+public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback, PlaybackService.Callback {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
     public static final String ACTION_SHOW_PLAYER = Strings.buildPkgString("gui.ShowPlayer");
-
-    static {
-        AppCompatDelegate.setDefaultNightMode(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("daynight", false) ? AppCompatDelegate.MODE_NIGHT_AUTO : AppCompatDelegate.MODE_NIGHT_NO);
-    }
 
     protected static final String ID_VIDEO = "video";
     protected static final String ID_AUDIO = "audio";
@@ -86,7 +82,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
     private FrameLayout mAudioPlayerContainer;
-    protected SharedPreferences mSettings;
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
     protected BottomSheetBehavior mBottomSheetBehavior;
@@ -96,10 +91,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* Get settings */
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        /* Theme must be applied before super.onCreate */
-        applyTheme();
 
         MediaUtils.updateSubsDownloaderActivity(this);
 
@@ -176,13 +167,6 @@ public class AudioPlayerContainerActivity extends AppCompatActivity implements P
         if (slideDownAudioPlayer())
             return;
         super.onBackPressed();
-    }
-
-    private void applyTheme() {
-        boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
-        if (VLCApplication.showTvUi() || enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black);
-        }
     }
 
     public void updateLib() {
