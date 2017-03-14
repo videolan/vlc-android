@@ -45,7 +45,7 @@ public class Medialibrary {
     private static final MediaWrapper[] EMPTY_COLLECTION = {};
 
     private long mInstanceID;
-    private boolean mIsInitiated = false;
+    private volatile boolean mIsInitiated = false;
 
     private MediaUpdatedCb mediaUpdatedCb = null;
     private MediaAddedCb mediaAddedCb = null;
