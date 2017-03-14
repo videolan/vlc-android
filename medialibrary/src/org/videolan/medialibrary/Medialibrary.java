@@ -78,7 +78,7 @@ public class Medialibrary {
     }
 
     public String[] getDevices() {
-        return nativeDevices();
+        return mIsInitiated ? nativeDevices() : new String[0];
     }
 
     public void addDevice(String uuid, String path, boolean removable) {
@@ -86,11 +86,13 @@ public class Medialibrary {
     }
 
     public void discover(String path) {
-        nativeDiscover(Tools.encodeVLCMrl(path));
+        if (mIsInitiated)
+            nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
     public void removeFolder(String path) {
-        nativeRemoveEntryPoint(Tools.encodeVLCMrl(path));
+        if (mIsInitiated)
+            nativeRemoveEntryPoint(Tools.encodeVLCMrl(path));
     }
 
     public String[] getFoldersList() {
@@ -100,7 +102,7 @@ public class Medialibrary {
     }
 
     public boolean removeDevice(String uuid) {
-        return nativeRemoveDevice(uuid);
+        return mIsInitiated && nativeRemoveDevice(uuid);
     }
 
     @Override
