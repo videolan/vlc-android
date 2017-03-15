@@ -752,8 +752,8 @@ fi
 MEDIALIBRARY_MODULE_DIR=${SRC_DIR}/medialibrary
 MEDIALIBRARY_BUILD_DIR=${MEDIALIBRARY_MODULE_DIR}/medialibrary
 OUT_LIB_DIR=$MEDIALIBRARY_MODULE_DIR/jni/libs/${ANDROID_ABI}
-SQLITE_RELEASE="sqlite-autoconf-3170000"
-SQLITE_SHA1="7bcff1c158ed9e2c0e159c1b4b6c36d4d65dff8c"
+SQLITE_RELEASE="sqlite-autoconf-3160200"
+SQLITE_SHA1="64ca578ad44a94115b1db0406740e14288f74bb8"
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
     echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
