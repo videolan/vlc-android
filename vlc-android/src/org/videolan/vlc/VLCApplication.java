@@ -56,6 +56,7 @@ public class VLCApplication extends Application {
 
     public final static String ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication";
     private static VLCApplication instance;
+    private static Medialibrary sMedialibraryInstance;
 
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
 
@@ -245,7 +246,10 @@ public class VLCApplication extends Application {
     }
 
     public static synchronized Medialibrary getMLInstance() {
-        VLCInstance.get(); // ensure VLC is loaded before medialibrary
-        return Medialibrary.getInstance();
+        if (sMedialibraryInstance == null) {
+            VLCInstance.get(); // ensure VLC is loaded before medialibrary
+            sMedialibraryInstance = Medialibrary.getInstance();
+        }
+        return sMedialibraryInstance;
     }
 }
