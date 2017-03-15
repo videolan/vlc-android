@@ -82,11 +82,8 @@ public class FlingViewGroup extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-
-        if (widthMode != MeasureSpec.EXACTLY ) {
-            throw new IllegalStateException("can only be used in EXACTLY mode.");
-        }
+        if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY )
+            return;
 
         final int count = getChildCount();
         int maxHeight = 0;
