@@ -231,20 +231,6 @@ VLC_MODULE_BLACKLIST="
     .dummy
 "
 
-# try to detect NDK version
-REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
-
-if [ "$REL" -ge 13 ]; then
-    if [ "${HAVE_64}" = 1 ];then
-        ANDROID_API=21
-    else
-        ANDROID_API=9
-    fi
-else
-    echo "You need the NDKv13 or later"
-    exit 1
-fi
-
 #########
 # FLAGS #
 #########
@@ -281,6 +267,20 @@ elif [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
 else
     echo "Unknown ABI: '${ANDROID_ABI}'. Die, die, die!"
     exit 2
+fi
+
+# try to detect NDK version
+REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
+
+if [ "$REL" -ge 13 ]; then
+    if [ "${HAVE_64}" = 1 ];then
+        ANDROID_API=21
+    else
+        ANDROID_API=9
+    fi
+else
+    echo "You need the NDKv13 or later"
+    exit 1
 fi
 
 NDK_FORCE_ARG=
