@@ -25,6 +25,7 @@ package org.videolan.vlc.gui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.gui.dialogs.ExternalStorageDialog;
@@ -46,25 +47,20 @@ public class DialogActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String key = getIntent().getAction();
-        switch (key) {
-            case KEY_LOGIN:
-                setupLoginDialog(key);
-                break;
-            case KEY_QUESTION:
-                setupQuestionDialog(key);
-                break;
-            case KEY_PROGRESS:
-                setupProgressDialog(key);
-                break;
-            case KEY_STREAM:
-                setupStreamDialog();
-                break;
-            case KEY_STORAGE:
-                setupStorageDialog();
-                break;
-            default:
-                finish();
+        if (TextUtils.isEmpty(key)) {
+            finish();
+            return;
         }
+        if (key.startsWith(KEY_LOGIN))
+            setupLoginDialog(key);
+        else if (key.startsWith(KEY_QUESTION))
+            setupQuestionDialog(key);
+        else if (key.startsWith(KEY_PROGRESS))
+            setupProgressDialog(key);
+        else if (KEY_STREAM.equals(key))
+            setupStreamDialog();
+        else if (KEY_STORAGE.equals(key))
+            setupStorageDialog();
     }
 
     private void setupStorageDialog() {
