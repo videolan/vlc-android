@@ -61,7 +61,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater());
+        findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater);
     }
 
     @Override

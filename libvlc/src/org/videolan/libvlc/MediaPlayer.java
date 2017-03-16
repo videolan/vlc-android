@@ -22,20 +22,18 @@
 
 package org.videolan.libvlc;
 
-import android.net.Uri;
 import android.annotation.TargetApi;
-import android.media.AudioDeviceCallback;
-import android.media.AudioDeviceInfo;
-import android.media.AudioFormat;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioDeviceCallback;
+import android.media.AudioDeviceInfo;
+import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -438,7 +436,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     private final BroadcastReceiver mAudioPlugReceiver =
-            AndroidUtil.isLolliPopOrLater() && !AndroidUtil.isMarshMallowOrLater() ? createAudioPlugReceiver() : null;
+            AndroidUtil.isLolliPopOrLater && !AndroidUtil.isMarshMallowOrLater ? createAudioPlugReceiver() : null;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void registerAudioPlugV21(boolean register) {
@@ -494,7 +492,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     private final AudioDeviceCallback mAudioDeviceCallback =
-            AndroidUtil.isMarshMallowOrLater() ? createAudioDeviceCallback() : null;
+            AndroidUtil.isMarshMallowOrLater ? createAudioDeviceCallback() : null;
 
     @TargetApi(Build.VERSION_CODES.M)
     private void registerAudioPlugV23(boolean register) {

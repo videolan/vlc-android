@@ -368,7 +368,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
                 for (MediaLibraryItem item : items) {
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
-                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater() && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
+                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
                         mMediaCount++;
                 }
                 VLCApplication.runOnMainThread(new Runnable() {

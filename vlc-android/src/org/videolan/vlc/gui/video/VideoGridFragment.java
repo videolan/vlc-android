@@ -323,7 +323,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
         if (media instanceof MediaGroup) {
-            if (!AndroidUtil.isHoneycombOrLater()) {
+            if (!AndroidUtil.isHoneycombOrLater) {
                 menu.findItem(R.id.video_list_append).setVisible(false);
                 menu.findItem(R.id.video_group_play).setVisible(false);
             }
@@ -345,7 +345,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         media.release();
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
         menu.findItem(R.id.video_list_delete).setVisible(canWrite);
-        if (!AndroidUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
             menu.findItem(R.id.video_list_append).setVisible(false);
         }
@@ -522,10 +522,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             stopActionMode();
             return false;
         }
-        boolean honeyComb = AndroidUtil.isHoneycombOrLater();
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
-        menu.findItem(R.id.action_video_play).setVisible(honeyComb || count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(mService.hasMedia() && honeyComb);
+        menu.findItem(R.id.action_video_play).setVisible(AndroidUtil.isHoneycombOrLater || count == 1);
+        menu.findItem(R.id.action_video_append).setVisible(mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
         return true;
     }
 

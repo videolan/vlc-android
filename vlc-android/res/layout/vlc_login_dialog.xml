@@ -69,7 +69,7 @@
                 android:layout_below="@+id/store"
                 android:layout_margin="10dp"
                 android:text="@string/encryption_warning"
-                android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater() ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater ? View.VISIBLE : View.GONE}" />
             <Button
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"

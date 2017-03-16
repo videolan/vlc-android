@@ -725,7 +725,7 @@ public class Media extends VLCObject<Media.Event> {
 
 
     private static String getMediaCodecModule() {
-        return AndroidUtil.isLolliPopOrLater() ? "mediacodec_ndk" : "mediacodec_jni";
+        return AndroidUtil.isLolliPopOrLater ? "mediacodec_ndk" : "mediacodec_jni";
     }
 
     /**

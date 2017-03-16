@@ -74,7 +74,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
         mRecyclerView.setNextFocusLeftId(android.R.id.list);
         mRecyclerView.setNextFocusRightId(android.R.id.list);
-        if (AndroidUtil.isHoneycombOrLater())
+        if (AndroidUtil.isHoneycombOrLater)
             mRecyclerView.setNextFocusForwardId(android.R.id.list);
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
@@ -170,10 +170,9 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
             stopActionMode();
             return false;
         }
-        boolean honeyComb = AndroidUtil.isHoneycombOrLater();
         menu.findItem(R.id.action_history_info).setVisible(selectionCount == 1);
-        menu.findItem(R.id.action_history_play).setVisible(honeyComb || selectionCount == 1);
-        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia() && honeyComb);
+        menu.findItem(R.id.action_history_play).setVisible(AndroidUtil.isHoneycombOrLater || selectionCount == 1);
+        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
         return true;
     }
 

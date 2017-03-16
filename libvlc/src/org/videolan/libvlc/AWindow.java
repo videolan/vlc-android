@@ -187,7 +187,7 @@ public class AWindow implements IVLCVout {
         }
 
         private final TextureView.SurfaceTextureListener mSurfaceTextureListener =
-                AndroidUtil.isICSOrLater() ? createSurfaceTextureListener() : null;
+                AndroidUtil.isICSOrLater ? createSurfaceTextureListener() : null;
     }
 
     private final static int SURFACE_STATE_INIT = 0;
@@ -243,7 +243,7 @@ public class AWindow implements IVLCVout {
     }
 
     private void setView(int id, TextureView view) {
-        if (!AndroidUtil.isICSOrLater())
+        if (!AndroidUtil.isICSOrLater)
             throw new IllegalArgumentException("TextureView not implemented in this android version");
         ensureInitState();
         if (view == null)
@@ -541,7 +541,7 @@ public class AWindow implements IVLCVout {
      */
     @SuppressWarnings("unused") /* used by JNI */
     private boolean setBuffersGeometry(final Surface surface, final int width, final int height, final int format) {
-        if (AndroidUtil.isICSOrLater())
+        if (AndroidUtil.isICSOrLater)
             return false;
         if (width * height == 0)
             return false;
@@ -714,7 +714,7 @@ public class AWindow implements IVLCVout {
      */
     @SuppressWarnings("unused") /* used by JNI */
     static private SurfaceTextureThread SurfaceTextureThread_create(int texName) {
-        if (AndroidUtil.isICSOrLater()) {
+        if (AndroidUtil.isICSOrLater) {
             final SurfaceTextureThread st = new SurfaceTextureThread(texName);
             st.start();
             return st;

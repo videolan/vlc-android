@@ -102,7 +102,7 @@ public class SubtitlesDownloader {
         stop = false;
         mCallback = cb;
         Set<String> languages =  Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
-        if (AndroidUtil.isHoneycombOrLater()) {
+        if (AndroidUtil.isHoneycombOrLater) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             languages =  pref.getStringSet("languages_download_list", languages);
         }

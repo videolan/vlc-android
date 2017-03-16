@@ -202,7 +202,7 @@ public class FileUtils {
         boolean deleted = false;
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
-        if (AndroidUtil.isHoneycombOrLater()){
+        if (AndroidUtil.isHoneycombOrLater){
             ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
             try {
                 deleted = cr.delete(MediaStore.Files.getContentUri("external"),
@@ -275,7 +275,7 @@ public class FileUtils {
             return false;
         if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
             return true;
-        if (AndroidUtil.isKitKatOrLater())
+        if (AndroidUtil.isKitKatOrLater)
             return false;
         File file = new File(path);
         return (file.exists() && file.canWrite());
@@ -367,7 +367,7 @@ public class FileUtils {
                 ParcelFileDescriptor inputPFD;
                 try {
                     inputPFD = VLCApplication.getAppContext().getContentResolver().openFileDescriptor(data, "r");
-                    if (AndroidUtil.isHoneycombMr1OrLater())
+                    if (AndroidUtil.isHoneycombMr1OrLater)
                         uri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
                     else {
                         String fdString = inputPFD.getFileDescriptor().toString();

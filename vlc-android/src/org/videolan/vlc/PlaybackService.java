@@ -902,7 +902,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             notification = builder.build();
 
             startService(new Intent(this, PlaybackService.class));
-            if (!AndroidUtil.isLolliPopOrLater() || mMediaPlayer.isPlaying())
+            if (!AndroidUtil.isLolliPopOrLater || mMediaPlayer.isPlaying())
                 startForeground(3, notification);
             else {
                 stopForeground(false);

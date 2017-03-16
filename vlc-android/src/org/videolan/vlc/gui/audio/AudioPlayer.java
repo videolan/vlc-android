@@ -98,8 +98,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mHeaderTimeVisible;
     private int mPlayerState;
     private String mCurrentCoverArt;
-    private final ConstraintSet coverConstraintSet = AndroidUtil.isICSOrLater() ? new ConstraintSet() : null;
-    private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater() ? new ConstraintSet() : null;
+    private final ConstraintSet coverConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
+    private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -114,7 +114,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (AndroidUtil.isJellyBeanMR1OrLater()) {
+        if (AndroidUtil.isJellyBeanMR1OrLater) {
             DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default_darker);
             DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default);
         }
@@ -285,7 +285,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     private void updateBackground() {
-        if (AndroidUtil.isJellyBeanMR1OrLater()) {
+        if (AndroidUtil.isJellyBeanMR1OrLater) {
             final MediaWrapper mw = mService.getCurrentMediaWrapper();
             if (mw == null || TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
                 return;

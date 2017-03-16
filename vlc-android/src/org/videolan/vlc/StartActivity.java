@@ -106,7 +106,7 @@ public class StartActivity extends Activity {
     }
 
     private boolean showTvUi() {
-        return AndroidUtil.isJellyBeanMR1OrLater() && (AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp() ||
+        return AndroidUtil.isJellyBeanMR1OrLater && (AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp() ||
                 PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false));
     }
 }

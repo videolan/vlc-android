@@ -130,7 +130,7 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
         final Context context = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AppCompatEditText input = new AppCompatEditText(context);
-        if (!AndroidUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater) {
             input.setTextColor(getResources().getColor(R.color.grey50));
         }
         input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);

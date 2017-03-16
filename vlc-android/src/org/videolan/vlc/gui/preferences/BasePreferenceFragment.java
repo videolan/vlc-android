@@ -64,7 +64,7 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
-        if (AndroidUtil.isHoneycombOrLater() && preference instanceof MultiSelectListPreference) {
+        if (AndroidUtil.isHoneycombOrLater && preference instanceof MultiSelectListPreference) {
             DialogFragment dialogFragment = MultiSelectListPreferenceDialogFragmentCompat.newInstance(preference.getKey());
             dialogFragment.setTargetFragment(this, 0);
             dialogFragment.show(getFragmentManager(), DIALOG_FRAGMENT_TAG);

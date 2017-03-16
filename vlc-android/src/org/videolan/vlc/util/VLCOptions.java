@@ -114,7 +114,7 @@ public class VLCOptions {
 
         /* Configure keystore */
         options.add("--keystore");
-        if (AndroidUtil.isMarshMallowOrLater())
+        if (AndroidUtil.isMarshMallowOrLater)
             options.add("file_crypt,none");
         else
             options.add("file_plaintext,none");

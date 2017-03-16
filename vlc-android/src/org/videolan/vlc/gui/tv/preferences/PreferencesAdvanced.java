@@ -64,7 +64,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             findPreference("quit_app").setEnabled(false);
         }
-        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater() ||
+        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater ||
                 (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
     }
 

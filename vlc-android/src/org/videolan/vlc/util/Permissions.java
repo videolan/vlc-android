@@ -61,23 +61,23 @@ public class Permissions {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canDrawOverlays(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater() || Settings.canDrawOverlays(context);
+        return !AndroidUtil.isMarshMallowOrLater || Settings.canDrawOverlays(context);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canWriteSettings(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater() || Settings.System.canWrite(context);
+        return !AndroidUtil.isMarshMallowOrLater || Settings.System.canWrite(context);
     }
 
     public static boolean canReadStorage() {
-        if (!AndroidUtil.isICSOrLater())
+        if (!AndroidUtil.isICSOrLater)
             return VLCApplication.getAppContext().getExternalFilesDir(null) != null;
-        return !AndroidUtil.isMarshMallowOrLater() || ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+        return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
     public static void checkReadStoragePermission(Activity activity, boolean exit) {
-        if (AndroidUtil.isMarshMallowOrLater() && !canReadStorage()) {
+        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage()) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -91,7 +91,7 @@ public class Permissions {
     }
 
     public static void checkDrawOverlaysPermission(Activity activity) {
-        if (AndroidUtil.isMarshMallowOrLater() && !canDrawOverlays(activity)) {
+        if (AndroidUtil.isMarshMallowOrLater && !canDrawOverlays(activity)) {
             showSettingsPermissionDialog(activity, PERMISSION_SYSTEM_DRAW_OVRLAYS);
         }
     }

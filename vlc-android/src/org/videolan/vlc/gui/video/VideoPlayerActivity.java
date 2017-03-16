@@ -357,7 +357,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         }
 
-        if (AndroidUtil.isJellyBeanMR1OrLater()) {
+        if (AndroidUtil.isJellyBeanMR1OrLater) {
             // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) VLCApplication.getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
@@ -401,7 +401,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
 
         mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
-        if (!AndroidUtil.isJellyBeanOrLater()) {
+        if (!AndroidUtil.isJellyBeanOrLater) {
             mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
             mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         }
@@ -599,7 +599,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (!AndroidUtil.isHoneycombOrLater())
+        if (!AndroidUtil.isHoneycombOrLater)
             changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
@@ -741,7 +741,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void mediaRouterAddCallback(boolean add) {
-        if(!AndroidUtil.isJellyBeanMR1OrLater() || mMediaRouter == null) return;
+        if(!AndroidUtil.isJellyBeanMR1OrLater || mMediaRouter == null) return;
 
         if(add)
             mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
@@ -809,7 +809,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
             touchHelper.attachToRecyclerView(mPlaylist);
-            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+            if (AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 mPlaylistPrevious.setImageResource(R.drawable.ic_playlist_next_circle);
                 mPlaylistNext.setImageResource(R.drawable.ic_playlist_previous_circle);
             }
@@ -829,7 +829,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         });
 
-        if (AndroidUtil.isHoneycombOrLater()) {
+        if (AndroidUtil.isHoneycombOrLater) {
             if (mOnLayoutChangeListener == null) {
                 mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
                     private final Runnable mRunnable = new Runnable() {
@@ -933,10 +933,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mMediaRouter != null)
             mediaRouterAddCallback(false);
 
-        if (mSurfaceFrame != null && AndroidUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
+        if (mSurfaceFrame != null && AndroidUtil.isHoneycombOrLater && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
 
-        if (AndroidUtil.isICSOrLater())
+        if (AndroidUtil.isICSOrLater)
             getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(null);
 
         mActionBarView.setOnTouchListener(null);
@@ -1033,7 +1033,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         Intent resultIntent = new Intent(ACTION_RESULT);
         if (mUri != null && mService != null) {
-            if (AndroidUtil.isNougatOrLater())
+            if (AndroidUtil.isNougatOrLater)
                 resultIntent.putExtra(EXTRA_URI, mUri.toString());
             else
                 resultIntent.setData(mUri);
@@ -1722,7 +1722,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (isFinishing())
             return;
         //We may not have the permission to access files
-        if (AndroidUtil.isMarshMallowOrLater() && mUri != null &&
+        if (AndroidUtil.isMarshMallowOrLater && mUri != null &&
                 TextUtils.equals(mUri.getScheme(), "file") &&
                 !Permissions.canReadStorage()) {
             Permissions.checkReadStoragePermission(this, true);
@@ -1853,7 +1853,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean isInPictureInPictureMode() {
-        return AndroidUtil.isNougatOrLater() && super.isInPictureInPictureMode();
+        return AndroidUtil.isNougatOrLater && super.isInPictureInPictureMode();
     }
 
     @Override
@@ -2827,32 +2827,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mActionBar.hide();
         else
             mActionBar.show();
-        if (!AndroidUtil.isHoneycombOrLater() || mIsNavMenu)
+        if (!AndroidUtil.isHoneycombOrLater || mIsNavMenu)
             return;
         int visibility = 0;
         int navbar = 0;
 
-        if (AndroidUtil.isJellyBeanOrLater()) {
+        if (AndroidUtil.isJellyBeanOrLater) {
             visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
             navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         }
         if (dim || mIsLocked) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            if (AndroidUtil.isICSOrLater())
+            if (AndroidUtil.isICSOrLater)
                 navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
             else
                 visibility |= View.STATUS_BAR_HIDDEN;
             if (!AndroidDevices.hasCombBar()) {
                 navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-                if (AndroidUtil.isKitKatOrLater())
+                if (AndroidUtil.isKitKatOrLater)
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
-                if (AndroidUtil.isJellyBeanOrLater())
+                if (AndroidUtil.isJellyBeanOrLater)
                     visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             }
         } else {
             mActionBar.show();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            if (AndroidUtil.isICSOrLater())
+            if (AndroidUtil.isICSOrLater)
                 visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
             else
                 visibility |= View.STATUS_BAR_VISIBLE;
@@ -2864,17 +2864,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void showTitle() {
-        if (!AndroidUtil.isHoneycombOrLater() || mIsNavMenu)
+        if (!AndroidUtil.isHoneycombOrLater || mIsNavMenu)
             return;
         int visibility = 0;
         int navbar = 0;
         mActionBar.show();
 
-        if (AndroidUtil.isJellyBeanOrLater()) {
+        if (AndroidUtil.isJellyBeanOrLater) {
             visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
             navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         }
-        if (AndroidUtil.isICSOrLater())
+        if (AndroidUtil.isICSOrLater)
             navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
         if (AndroidDevices.hasNavBar())
@@ -3231,7 +3231,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int getScreenOrientation(int mode){
         switch(mode) {
             case 99: //screen orientation user
-                return AndroidUtil.isJellyBeanMR2OrLater() ?
+                return AndroidUtil.isJellyBeanMR2OrLater ?
                         ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR :
                         ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             case 101: //screen orientation landscape
@@ -3339,7 +3339,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         updateList();
     }
 
-    private BroadcastReceiver mBtReceiver = AndroidUtil.isICSOrLater() ? new BroadcastReceiver() {
+    private BroadcastReceiver mBtReceiver = AndroidUtil.isICSOrLater ? new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {

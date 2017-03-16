@@ -50,7 +50,7 @@ public class VoiceSearchParams {
         } else if (extras == null || !extras.containsKey(MediaStore.EXTRA_MEDIA_FOCUS)) {
             isUnstructured = true;
         } else {
-            String genreKey = AndroidUtil.isLolliPopOrLater()
+            String genreKey = AndroidUtil.isLolliPopOrLater
                     ? MediaStore.EXTRA_MEDIA_GENRE : "android.intent.extra.genre";
             switch (extras.getString(MediaStore.EXTRA_MEDIA_FOCUS)) {
                 case MediaStore.Audio.Genres.ENTRY_CONTENT_TYPE:

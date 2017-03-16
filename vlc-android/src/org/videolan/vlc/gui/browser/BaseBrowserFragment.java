@@ -449,7 +449,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             }
         } else {
             boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
-                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater());
+                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater);
             menu.findItem(R.id.directory_view_play_all).setVisible(canPlayInList);
             menu.findItem(R.id.directory_view_append).setVisible(canPlayInList);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
@@ -507,16 +507,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 return true;
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-                boolean videoPlaylist = AndroidUtil.isHoneycombOrLater();
                 for (MediaWrapper mediaItem : mFoldersContentLists.get(position)){
-                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (videoPlaylist && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
+                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
                         mediaList.add(mediaItem);
                 }
                 MediaUtils.openList(getActivity(), mediaList, 0);
                 return true;
             case R.id.directory_view_add_playlist:
-                ArrayList<MediaWrapper> medias = new ArrayList<>();
-                medias.add(mw);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
                 Bundle infoArgs = new Bundle();
@@ -549,14 +546,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private void playAll(MediaWrapper mw) {
-        boolean isHoneycombOrLater = AndroidUtil.isHoneycombOrLater();
         int positionInPlaylist = 0;
         LinkedList<MediaWrapper> mediaLocations = new LinkedList<>();
         MediaWrapper media;
         for (Object file : mAdapter.getAll())
             if (file instanceof MediaWrapper) {
                 media = (MediaWrapper) file;
-                if ((isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
+                if ((AndroidUtil.isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
                     mediaLocations.add(media);
                     if (mw != null && media.equals(mw))
                         positionInPlaylist = mediaLocations.size() - 1;

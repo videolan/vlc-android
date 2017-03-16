@@ -78,7 +78,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         }
 
         RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, getLayout());
-        boolean partial = AndroidUtil.isHoneycombOrLater();
+        boolean partial = AndroidUtil.isHoneycombOrLater;
 
         if (ACTION_WIDGET_INIT.equals(action) || !partial) {
             /* commands */
@@ -100,7 +100,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.forward, piForward);
             views.setOnClickPendingIntent(R.id.cover, piVlc);
             partial = false;
-            if (AndroidUtil.isJellyBeanMR1OrLater() && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+            if (AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
                 boolean black = this instanceof VLCAppWidgetProviderBlack;
                 views.setImageViewResource(R.id.forward, black ? R.drawable.ic_widget_previous_w : R.drawable.ic_widget_previous);
                 views.setImageViewResource(R.id.backward, black ? R.drawable.ic_widget_next_w : R.drawable.ic_widget_next);

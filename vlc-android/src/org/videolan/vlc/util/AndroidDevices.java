@@ -75,7 +75,7 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = AndroidUtil.isICSOrLater()
+        hasNavBar = AndroidUtil.isICSOrLater
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
         hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
         isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
@@ -225,7 +225,7 @@ public class AndroidDevices {
     }
 
     public static boolean isVPNActive() {
-        if (AndroidUtil.isLolliPopOrLater()) {
+        if (AndroidUtil.isLolliPopOrLater) {
             ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             for (Network network : cm.getAllNetworks()) {

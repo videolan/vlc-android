@@ -78,7 +78,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         }
 
         /* XXX: HACK to remove when we drop 2.3 support: force android_display vout */
-        if (!AndroidUtil.isHoneycombOrLater()) {
+        if (!AndroidUtil.isHoneycombOrLater) {
             boolean setVout = true;
             for (String option : options) {
                 if (option.startsWith("--vout")) {

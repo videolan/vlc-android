@@ -59,7 +59,7 @@ public class BitmapCache {
         // OutOfMemory exception.
         final ActivityManager am = ((ActivityManager) VLCApplication.getAppContext().getSystemService(
                 Context.ACTIVITY_SERVICE));
-        final int memClass = AndroidUtil.isHoneycombOrLater() ? am.getLargeMemoryClass() : am.getMemoryClass();
+        final int memClass = AndroidUtil.isHoneycombOrLater ? am.getLargeMemoryClass() : am.getMemoryClass();
 
         // Use 1/5th of the available memory for this memory cache.
         final int cacheSize = 1024 * 1024 * memClass / 5;

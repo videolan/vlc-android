@@ -148,7 +148,7 @@ public class FastScroller extends LinearLayout {
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
-        if (!AndroidUtil.isHoneycombOrLater())
+        if (!AndroidUtil.isHoneycombOrLater)
             return;
         if (mRecyclerView != null)
             mRecyclerView.removeOnScrollListener(scrollListener);

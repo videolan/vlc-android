@@ -154,7 +154,7 @@ public class BitmapUtil {
         if (candidate == null)
             return false;
 
-        if (AndroidUtil.isKitKatOrLater()) {
+        if (AndroidUtil.isKitKatOrLater) {
             if (targetOptions.inSampleSize == 0)
                 return false;
             // From Android 4.4 (KitKat) onward we can re-use if the byte size of
