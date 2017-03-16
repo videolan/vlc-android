@@ -181,7 +181,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onStart() {
         super.onStart();
-        sBrowserHandler.removeCallbacksAndMessages(null);
         if (!mRoot && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
@@ -255,7 +254,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             getActivity().finish();
     }
 
-    public void browse (MediaWrapper media, int position, boolean save){
+    public void browse (MediaWrapper media, int position, boolean save) {
+        sBrowserHandler.removeCallbacksAndMessages(null);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
@@ -342,6 +342,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
+        sBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
         mAdapter.clear();
         runOnBrowserThread(new Runnable() {
