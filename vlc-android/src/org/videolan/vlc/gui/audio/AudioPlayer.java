@@ -98,8 +98,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mHeaderTimeVisible;
     private int mPlayerState;
     private String mCurrentCoverArt;
-    private final ConstraintSet coverConstraintSet = new ConstraintSet();
-    private final ConstraintSet playlistConstraintSet = new ConstraintSet();
+    private final ConstraintSet coverConstraintSet = AndroidUtil.isICSOrLater() ? new ConstraintSet() : null;
+    private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater() ? new ConstraintSet() : null;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -142,10 +142,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         registerForContextMenu(mBinding.songsList);
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         setUserVisibleHint(true);
-        playlistConstraintSet.clone(mBinding.contentLayout);
-        coverConstraintSet.clone(mBinding.contentLayout);
-        coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
-        coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
+        if (playlistConstraintSet != null) {
+            playlistConstraintSet.clone(mBinding.contentLayout);
+            coverConstraintSet.clone(mBinding.contentLayout);
+            coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
+            coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
+        }
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -416,11 +418,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     public void onPlaylistSwitchClick(View view) {
         boolean showCover = mBinding.songsList.getVisibility() == View.VISIBLE;
-        TransitionManager.beginDelayedTransition(mBinding.contentLayout);
-        ConstraintSet cs = showCover ? coverConstraintSet : playlistConstraintSet;
-        cs.applyTo(mBinding.contentLayout);
-        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
-                showCover ? R.attr.ic_playlist : R.attr.ic_playlist_on));
+        if (playlistConstraintSet != null) {
+            TransitionManager.beginDelayedTransition(mBinding.contentLayout);
+            ConstraintSet cs = showCover ? coverConstraintSet : playlistConstraintSet;
+            cs.applyTo(mBinding.contentLayout);
+            mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
+                    showCover ? R.attr.ic_playlist : R.attr.ic_playlist_on));
+        } else {
+            mBinding.songsList.setVisibility(showCover ? View.GONE : View.VISIBLE);
+            mBinding.coverMediaSwitcher.setVisibility(showCover ? View.VISIBLE : View.GONE);
+        }
     }
 
     public void onShuffleClick(View view) {
