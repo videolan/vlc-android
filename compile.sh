@@ -229,7 +229,7 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
-    PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
+    CLI="" ./gradlew $TARGET
 fi
 
 #######

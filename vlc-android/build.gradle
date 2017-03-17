@@ -61,7 +61,7 @@ android {
         }
 
         //Set the build ABI according to build types only if not launched from compile.sh
-        if (System.getenv('PASSWORD_KEYSTORE') == null)
+        if (System.getenv('CLI') == null)
             tasks.whenTaskAdded { task ->
                 if (task.name.startsWith('assemble')) {
                     if (task.name.endsWith('ARMv7Debug'))
@@ -92,19 +92,14 @@ android {
              */
             storeFile file(keyStoreFile)
             keyAlias storealias
-            if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
-                storePassword = System.getenv('PASSWORD_KEYSTORE')
-                keyPassword = System.getenv('PASSWORD_KEYSTORE')
-            } else {
-                storePassword storepwd
-                keyPassword storepwd
-            }
+            storePassword storepwd
+            keyPassword storepwd
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig System.getenv('CLI') != null ? null : signingConfigs.release
             minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
