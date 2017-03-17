@@ -560,7 +560,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         if (adapter == getCurrentAdapter()) {
-            mHandler.sendEmptyMessage(UNSET_REFRESHING);
+            if (!mMediaLibrary.isWorking())
+                mHandler.sendEmptyMessage(UNSET_REFRESHING);
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView(mViewPager.getCurrentItem());
             mFastScroller.setRecyclerView(getCurrentRV());

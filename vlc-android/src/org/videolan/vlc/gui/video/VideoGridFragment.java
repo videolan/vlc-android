@@ -647,7 +647,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        mHandler.sendEmptyMessage(UNSET_REFRESHING);
+        if (!mMediaLibrary.isWorking())
+            mHandler.sendEmptyMessage(UNSET_REFRESHING);
         updateEmptyView();
         setFabPlayVisibility(true);
     }
