@@ -2,8 +2,12 @@ Changes between 2.1.1 and 2.1.2:
 ----------------------------------
 
 Application:
+ - VLC now shows a dialog to ask for external storage scan
  - Voice search for TV
  - Voice actions for Auto
+ - Stream url loader is now a dialog, and available on TV
+ - Allow to choose subs file on network
+ - File browsing is now processed in background
  - If collection is empty, show a button to start 'directories' setting page
  - Fix player sliding under action bar in playlist & info views
  - Fix equalizer display
