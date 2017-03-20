@@ -81,7 +81,6 @@
     <string name="directories">Hakemistot</string>
     <string name="loading">Ladataan</string>
     <string name="please_wait">Odota hetki...</string>
-    <string name="nomedia">Yhtäkään mediatiedostoa ei löydetty, siirrä tiedostoja laitteeseesi tai muuta asetuksia.</string>
     <string name="noplaylist">Soittolistaa ei löytynyt.</string>
     <string name="mediafiles">Mediatiedostot</string>
     <string name="notavailable">ei saatavilla</string>
