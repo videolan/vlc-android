@@ -105,7 +105,6 @@
     <string name="directories">الأدلة</string>
     <string name="loading">يجري التّحميل</string>
     <string name="please_wait">انتظر رجاءً...</string>
-    <string name="nomedia">لا وجود لملفات الوسائط، رجاءً نقّل بعض الملفات إلى جهازك أو عدّل خياراتك.</string>
     <string name="noplaylist">لا توجد قائمة التشغيل</string>
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير مُتاح</string>
@@ -176,6 +175,7 @@
     <string name="login">تسجيل الدخول</string>
     <string name="password">كلمة السر</string>
     <string name="search_results">نتائج البحث</string>
+    <string name="search_no_result">لا وجود لأي وسيط</string>
     <string name="favorites_add">إضافة إلى المفضلة</string>
     <string name="favorites_remove">إزالة من المفضلة</string>
     <string name="favorites_edit">تحرير</string>
@@ -257,15 +257,22 @@
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
     <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
     <string name="interface_other_category">الواجهة - أخرى</string>
+    <string name="video_prefs_category">الفيديو</string>
+    <string name="video_min_group_length_title">مجموعة الفيديوهات</string>
     <string name="video_min_group_length_disable">تعطيل</string>
     <string name="video_min_group_length_first">أول حرف فقط</string>
+    <string name="video_min_group_length_short">عدد أقصر من الحروف (6)</string>
+    <string name="video_min_group_length_long">عدد أطول من الحروف (9)</string>
     <string name="force_list_portrait">لا توجد شبكة في الوضع العمودي</string>
     <string name="force_list_portrait_summary">عرض الفيديو في القائمة بدلا من الشبكة في وضع عمودي</string>
+    <string name="force_play_all_summary">شغل كل الفيديوهات،ابدأ أولا بالتي ضغطت عليها</string>
     <string name="save_brightness_summary">تذكر درجة سطوع الفيديو في مشغل الفيديو</string>
     <string name="save_brightness_title">حفظ درجة سطوع الفيديو لهذا الفيديو</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_seek_buttons">فعّل أزرار البحث</string>
     <string name="enable_seek_buttons_summary">إظهر أزرار الإرجاع و التقديم في شاشة عرض الفيديو</string>
+    <string name="subtitles_prefs_category">الترجمات</string>
+    <string name="subtitles_size_title">مقاس الترجمات</string>
     <string name="subtitles_size_small">صغير</string>
     <string name="subtitles_size_normal">متوسط</string>
     <string name="subtitles_size_big">كبير</string>
@@ -277,6 +284,7 @@
     <string name="subtitles_color_yellow">أصفر</string>
     <string name="subtitles_color_green">أخضر</string>
     <string name="subtitles_background_title">خلفية نص الترجمة</string>
+    <string name="audio_prefs_category">الصوت</string>
     <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
     <string name="audio_title_alignment_default">افتراضي</string>
     <string name="audio_title_alignment_left">اليسار</string>
@@ -284,10 +292,12 @@
     <string name="audio_title_alignment_right">اليمين</string>
     <string name="audio_title_alignment_marquee">سُرادِق</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
+    <string name="enable_play_on_headset_insertion">استأنف فور إدخال سماعات الأذن</string>
     <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
     <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
     <string name="aout">الإخراج الصّوتي</string>
     <string name="aout_summary">غير طريقة إخراج VLC الصّوتي.</string>
+    <string name="controls_prefs_category">التحكمات</string>
     <string name="performance_prefs_category">الأداء</string>
     <string name="chroma_format">قوّ الصّفاء المرئي</string>
     <string name="chroma_format_summary">RGB بـ 32 بِتْ : صفاء افتراضي\nRGB بـ 16 بِتْ : أداء أفضل لكن بجودة أقل\nYUV : أداء جيد لكن لا يعمل في كل الأجهزة. أندرويد 2.3 وما يليه فقط.</string>
@@ -313,6 +323,7 @@
     <string name="set_locale_popup">اخرج وأعد تشغيل VLC لكي تُفعَّل التغييرات.</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
     <string name="network_caching_summary">الوقت اللازم لدفق الوسيط الشّبكي (بالميللي ثانية). لا تستعمله مع فك التّرميز العتادي. اتركه فارغًا لإعادة ضبطه.</string>
+    <string name="resume_playback_title">استأنف التشغيل بعد انتهاء مكالمة</string>
     <string name="quit">أغلق وأعِدْ تشغيل التّطبيق</string>
     <string name="developer_prefs_category">مطوِّر</string>
     <string name="enable_verbose_mode">المطوّل</string>
@@ -345,6 +356,8 @@
     <string name="network_empty">هذا المجلد فارغ</string>
     <string name="network_connection_needed">لا يوجد إتصال داخل الشبكة المحلية</string>
     <string name="search_hint">بحث عن الوسائط</string>
+    <string name="search_list_hint">ابحث عن الوسيط في القائمة الحالية</string>
+    <string name="search_global">ابحث في كل مكتبات الوسائط</string>
     <string name="directory_show_medialib">إظهار في الـ MediaLib</string>
     <string name="directory_hide_medialib">إخفاء من الـ MediaLib</string>
     <string name="playlist_save">حفظ قائمة التشغيل</string>
@@ -356,6 +369,7 @@
     <string name="confirm_resume_title">السؤال عند الموافقة على الإستئناف</string>
     <string name="confirm_resume_summary">إذا تم التفعيل, سوف يتم سؤالك للموافقة أنه بإمكان إستئناف من آخر موقع له</string>
     <string name="directory_empty">المجلد فارغ</string>
+    <string name="tv_ui_title">واجهة تلفزة أندرويد</string>
     <!--Accessibility-->
     <string name="more_actions">المزيد من الإجراءات</string>
     <string name="move">تحريك</string>
@@ -369,13 +383,19 @@
     <string name="widget_name_b">تطبيق مصغر VLC اسود</string>
     <string name="allow_storage_access_title">السماح ل VLC بالدخول إلى الملفات السمعية و الفيديو</string>
     <string name="allow_storage_access_description">VLC يحتاج إلى الحصول على تصريح للدخول إلى ملفات الوسائط هذه في هذا الجهاز</string>
+    <string name="allow_settings_access_ringtone_title">اسمح لـ VLC بتعديل نغمة الهاتف</string>
+    <string name="allow_settings_access_ringtone_description">يطلب منك VLC التصريح للسماح له لاستخدام هذه الأغنية كنغمة للهاتف.</string>
     <string name="permission_ask_again">الحصول على تصريح</string>
     <string name="exit_app">أغلق VLC</string>
     <!--fast scroller-->
     <!--Plugins-->
     <string name="plugins">الإضافات</string>
     <string name="download_on_device">تحميل</string>
+    <string name="opengl_automatic">تلقائي</string>
+    <string name="network_favorites">مفضلات الشبكة</string>
     <string name="network_shared_folders">مجلدات مشتركة</string>
+    <string name="encryption_warning">تحذير، إن التعمية غير متاحة في إصدار أندرويد هذا، سوف تُحفَظ كلمة السر في مكان خاص لكنها لن تكون مُعمَّاة</string>
+    <string name="store_password">تذكر كلمة السر</string>
     <string name="add_to_playlist">أضف إلى قائمة التشغيل</string>
     <string name="snack_subloader_sub_found">تحميل الترجمات</string>
     <string name="snack_subloader_sub_not_found">لم يتم العثور على الترجمات</string>
@@ -384,8 +404,19 @@
     <string name="dialog_subloader_sumup">التحميل انتهى</string>
     <string name="download_subtitles">تحميل الترجمات</string>
     <string name="preferences_languages_download">لغات الترجمات</string>
+    <string name="list_languages_download_summary">اللغات التي يجب يجلبها عند جلب الترجمات</string>
+    <string name="list_languages_download_title">لغات الترجمات المُنزَّلة</string>
+    <string name="service_unavailable">الخدمة غير متاحة</string>
     <string name="downloading_subtitles">جاري تحميل الترجمات</string>
     <string name="browse_folder">استعرض مجلد</string>
     <string name="listen">استمع</string>
+    <string name="subtitles_download_title">تنزيل الترجمات</string>
     <string name="connecting">يتّصل...</string>
+    <string name="episodes">الحلقات</string>
+    <string name="movies">الأفلام</string>
+    <string name="videos">الفيديوهات</string>
+    <string name="clear_playback_history">امحُ تاريخ التشغيلات</string>
+    <string name="various_artists">فنانون متعددون</string>
+    <string name="ml_scanning">مسح من أجل العثور على ملفات الوسائط</string>
+    <string name="length">الطول</string>
 </resources>
