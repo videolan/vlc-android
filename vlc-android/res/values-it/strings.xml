@@ -81,7 +81,6 @@
     <string name="directories">Cartelle</string>
     <string name="loading">Caricamento</string>
     <string name="please_wait">Attendi…</string>
-    <string name="nomedia">Nessun file multimediale trovato, trasferisci dei file sul tuo dispositivo o modifica le preferenze.</string>
     <string name="noplaylist">Nessuna scaletta trovata.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
@@ -246,8 +245,12 @@
     <string name="video_min_group_length_long">Numero esteso di lettere (9)</string>
     <string name="force_list_portrait">Nessuna griglia in modalità verticale</string>
     <string name="force_list_portrait_summary">Mostra un elenco di video invece della griglia in modalità verticale</string>
+    <string name="force_play_all_summary">Riproduci tutti i video, iniziando con quello su che hai toccato</string>
+    <string name="force_play_all_title">Modalità scaletta video</string>
     <string name="save_brightness_summary">Ricorda il livello di luminosità nel lettore video</string>
     <string name="save_brightness_title">Salva il livello di luminosità per il video</string>
+    <string name="save_audiodelay_summary">Salva ritardo audio individuale per ogni video</string>
+    <string name="save_audiodelay_title">Salva ritardo audio</string>
     <string name="enable_brightness_gesture_title">Gesti della luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_volume_gesture_title">Gesti del volume</string>
@@ -306,6 +309,7 @@
     <string name="auto_rescan">Nuova scansione automatica</string>
     <string name="auto_rescan_summary">Scansione automatica del dispositivo all\'avvio dell\'applicazione per media nuovi o eliminati</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
+    <string name="clear_media_db_summary">Accedi alle informazioni di Android VLC per cancellare i dati</string>
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="set_locale">Imposta locale</string>
@@ -313,7 +317,8 @@
     <string name="set_locale_popup">Esci e riavvia VLC per applicare le modifiche.</string>
     <string name="network_caching">Valore della cache di rete</string>
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
-    <string name="network_caching_popup">Questo valore deve essere compreso tra 0 e 6000 ms</string>
+    <string name="resume_playback_title">Riprendi riproduzione dopo una chiamata</string>
+    <string name="resume_playback_summary">Rimani in pausa altrimenti</string>
     <string name="quit">Esci e riavvia l\'applicazione</string>
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
@@ -387,10 +392,17 @@
     <string name="permission_ask_again">Accorda permesso</string>
     <string name="exit_app">Chiudi VLC</string>
     <!--fast scroller-->
+    <string name="fastscroller_track">Traccia FastScroller</string>
+    <string name="fastscroller_handle">Maniglia FastScroller</string>
     <!--Plugins-->
     <string name="plugins">Estensioni</string>
     <string name="download_on_device">Scarica</string>
     <string name="extension_empty">Nessun elemento da visualizzare, vai alle impostazioni delle estensioni per trovarne.</string>
+    <string name="opengl_title">Utilizzo OpenGL ES2</string>
+    <string name="opengl_summary">In modo predefinito, OpenGL ES2 è utilizzato per la decodifica software e hardware se necessaria (video 360°).</string>
+    <string name="opengl_automatic">Automatico</string>
+    <string name="opengl_on">Forza attivazione</string>
+    <string name="opengl_off">Forza disattivazione</string>
     <string name="network_favorites">Preferiti di rete</string>
     <string name="network_shared_folders">Cartelle condivise</string>
     <string name="encryption_warning">Avviso, la cifratura non è disponibile per questa versione di Android, la password sarà memorizzata in uno spazio riservato, ma non cifrata</string>
@@ -419,4 +431,11 @@
     <string name="movies">film</string>
     <string name="videos">video</string>
     <string name="clear_playback_history">Cancella cronologia di riproduzione</string>
+    <string name="various_artists">Artisti vari</string>
+    <string name="ml_scanning">Scansione file multimediali</string>
+    <string name="ml_parse_media">Analisi media</string>
+    <string name="ml_discovering">Rilevazione in corso</string>
+    <string name="resume">Riprendi</string>
+    <string name="length">Durata</string>
+    <string name="tv_settings_hint">Premi a lungo il pulsante OK per marcare/smarcare le cartelle</string>
 </resources>
