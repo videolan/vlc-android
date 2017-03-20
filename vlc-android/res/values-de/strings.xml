@@ -81,7 +81,7 @@
     <string name="directories">Verzeichnisse</string>
     <string name="loading">Ladevorgang</string>
     <string name="please_wait">Bitte warten …</string>
-    <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
+    <string name="nomedia">Keine Mediendateien gefunden, bitte Verzeichnisse zur Medienbibliothek hinzufügen</string>
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="mediafiles">Mediendateien</string>
     <string name="notavailable">nicht verfügbar</string>
@@ -246,8 +246,12 @@
     <string name="video_min_group_length_long">Max. Anzahl der Buchstaben (9)</string>
     <string name="force_list_portrait">Kein Gitter im Portraitmodus</string>
     <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portraitmodus anzeigen</string>
+    <string name="force_play_all_summary">Alle Videos wiedergeben, mit dem angeklickten Video beginnen</string>
+    <string name="force_play_all_title">Modus für Video-Wiedergabelisten</string>
     <string name="save_brightness_summary">Helligkeitseinstellung im Videoplayer merken</string>
     <string name="save_brightness_title">Helligkeitseinstellung für Videos speichern</string>
+    <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
+    <string name="save_audiodelay_title">Audioverzögerung speichern</string>
     <string name="enable_brightness_gesture_title">Helligkeitsgeste</string>
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
@@ -306,6 +310,7 @@
     <string name="auto_rescan">Automatisch durchsuchen</string>
     <string name="auto_rescan_summary">Gerät beim Start der Anwendung automatisch nach neuen oder gelöschten Medien durchsuchen</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
+    <string name="clear_media_db_summary">Android-VLC-Informationen zum Löschen der Daten öffnen</string>
     <string name="clear_history">Suchverlauf löschen</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
     <string name="set_locale">Landessprache einstellen</string>
@@ -313,7 +318,9 @@
     <string name="set_locale_popup">VLC beenden und zurücksetzen, damit die Änderungen wirksam werden.</string>
     <string name="network_caching">Netzwerkzwischenspeicherwert</string>
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
-    <string name="network_caching_popup">Dieser Wert muss zwischen 0 und 6000 ms liegen</string>
+    <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
+    <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
+    <string name="network_caching_popup">Der Wert muss zwischen 0 und 6000 ms liegen</string>
     <string name="quit">Anwendung beenden und neustarten</string>
     <string name="developer_prefs_category">Entwickler</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
@@ -365,6 +372,7 @@
     <string name="player_touch_disable_all">Alle Touch-Steuerungen deaktivieren</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Thema ändern</string>
+    <string name="medialibrary_directories">Ordner der Medienbibliothek</string>
     <!--Accessibility-->
     <string name="more_actions">Weitere Aktionen</string>
     <string name="move">Verschieben</string>
@@ -393,6 +401,11 @@
     <string name="plugins">Module</string>
     <string name="download_on_device">Herunterladen</string>
     <string name="extension_empty">Kein Element zum Anzeigen,  gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
+    <string name="opengl_title">Verwendung von OpenGL ES2</string>
+    <string name="opengl_summary">Standardmäßig wird OpenGL ES2, wenn benötigt (z.B. 360°Videos), bei der Software-Dekodierung und Hardware-Dekodierung verwendet.</string>
+    <string name="opengl_automatic">Automatisch</string>
+    <string name="opengl_on">Ein erzwingen</string>
+    <string name="opengl_off">Aus erzwingen</string>
     <string name="network_favorites">Netzwerkfavoriten</string>
     <string name="network_shared_folders">Geteilte Ordner</string>
     <string name="encryption_warning">Warnung, Verschlüsselung ist in dieser Android-Version nicht verfügbar. Passwörter werden im privaten Bereich gespeichert, aber unverschlüsselt</string>
@@ -421,4 +434,13 @@
     <string name="movies">Filme</string>
     <string name="videos">Videos</string>
     <string name="clear_playback_history">Wiedergabeverlauf löschen</string>
+    <string name="various_artists">Verschiedene Künstler</string>
+    <string name="ml_scanning">Nach Mediadateien suchen</string>
+    <string name="ml_parse_media">Durchsuche Medien</string>
+    <string name="ml_discovering">Entdecken</string>
+    <string name="resume">Fortsetzen</string>
+    <string name="length">Länge</string>
+    <string name="tv_settings_hint">Langes betätigen des OK-Buttons zur An- und Abwahl von Verzeichnissen</string>
+    <string name="ml_external_storage_title">Neuen externen Speicher gefunden</string>
+    <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät %1$s zu Ihrer Medienbibliothek hinzufügt?</string>
 </resources>
