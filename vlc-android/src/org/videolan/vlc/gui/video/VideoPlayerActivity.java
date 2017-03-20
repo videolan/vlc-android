@@ -258,6 +258,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private long mSpuDelay = 0;
     private long mAudioDelay = 0;
     private boolean mRateHasChanged = false;
+    private int mCurrentAudioTrack = -2, mCurrentSpuTrack = -2;
 
     private boolean mIsLocked = false;
     /* -1 is a valid track (Disable) */
@@ -867,6 +868,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         else if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
             toggleBtDelay(true);
         mService.setSpuDelay(mSpuDelay);
+        if (mCurrentSpuTrack != -2)
+            mService.setSpuTrack(mCurrentSpuTrack);
+        if (mCurrentAudioTrack != -2)
+            mService.setAudioTrack(mCurrentAudioTrack);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -875,6 +880,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
 
         mWasPaused = !mService.isPlaying();
+        if (!isFinishing()) {
+            mCurrentAudioTrack = mService.getAudioTrack();
+            mCurrentSpuTrack = mService.getSpuTrack();
+        }
 
         if (mMute)
             mute(false);
