@@ -87,7 +87,7 @@
     <string name="directories">Каталоги</string>
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
-    <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
+    <string name="nomedia">Не знайдено жодного медіафайлу.  Виберіть каталоги, які варто додати до вашої бібліотеки медіа.</string>
     <string name="noplaylist">Не знайденого список відтворення.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
@@ -253,8 +253,12 @@
     <string name="video_min_group_length_long">Довге число літер (9)</string>
     <string name="force_list_portrait">Немає сітки у портретному режимі</string>
     <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
+    <string name="force_play_all_summary">Відтворювати усе відео, починаючи з першого, на тицьнули</string>
+    <string name="force_play_all_title">Режим відтворення списку відео</string>
     <string name="save_brightness_summary">Запам\'ятати рівень яскравості у відеопрогравачі</string>
     <string name="save_brightness_title">Зберегти рівень яскравості для відео</string>
+    <string name="save_audiodelay_summary">Зберігати індивідуальну затримку звуку для кожного відео</string>
+    <string name="save_audiodelay_title">Зберігати затримку звуку</string>
     <string name="enable_brightness_gesture_title">Жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_volume_gesture_title">Жест гучності</string>
@@ -313,6 +317,7 @@
     <string name="auto_rescan">Автоматично сканувати повторно</string>
     <string name="auto_rescan_summary">Автоматично перевіряти пристрій на наявність нових або вилучених носіїв під час запуску програми</string>
     <string name="clear_media_db">Очистити медіабазу</string>
+    <string name="clear_media_db_summary">Доступ до відомостей VLC Android для очищення даних</string>
     <string name="clear_history">Очистити історію пошуку</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
     <string name="set_locale">Установка локалі</string>
@@ -320,6 +325,8 @@
     <string name="set_locale_popup">Вийдіть і перезапустіть VLC для набуття чинності змін.</string>
     <string name="network_caching">Розмір мережевого кешування</string>
     <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс). Не працює з апаратним декодуванням. Залиште порожнім, аби очистити.</string>
+    <string name="resume_playback_title">Відновити відтворення після дзвінка</string>
+    <string name="resume_playback_summary">Інакше поставити на паузу</string>
     <string name="network_caching_popup">Це значення повинно бути між 0 та 6000 мс</string>
     <string name="quit">Вийти і перезапустити програму</string>
     <string name="developer_prefs_category">Розробник</string>
@@ -372,6 +379,7 @@
     <string name="player_touch_disable_all">Вимкнути сенсорне керування</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
+    <string name="medialibrary_directories">Теки медіа бібліотеки</string>
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
@@ -400,6 +408,11 @@
     <string name="plugins">Модулі</string>
     <string name="download_on_device">Завантажити</string>
     <string name="extension_empty">Відсутні елементи для показу. Перейдіть у налаштування розширення, щоби їх отримати.</string>
+    <string name="opengl_title">Використання OpenGL ES2</string>
+    <string name="opengl_summary">Усталено OpenGL ES2 використовується для програмного та апаратного декодування за необхідності (відео на 360°).</string>
+    <string name="opengl_automatic">Автоматично</string>
+    <string name="opengl_on">Примусово</string>
+    <string name="opengl_off">Непримусово</string>
     <string name="network_favorites">Обране у мережі</string>
     <string name="network_shared_folders">Спільні теки</string>
     <string name="encryption_warning">Попереджаємо, що шифрування недоступне для цієї версії Андроїд, пароль буде збережено у особистому місці, але не зашифровано.</string>
@@ -428,4 +441,13 @@
     <string name="movies">фільми</string>
     <string name="videos">відео</string>
     <string name="clear_playback_history">Очистити журнал відтворення</string>
+    <string name="various_artists">Різні виконавці</string>
+    <string name="ml_scanning">Сканування на медіафайли</string>
+    <string name="ml_parse_media">Аналіз медіа</string>
+    <string name="ml_discovering">Виявлення</string>
+    <string name="resume">Відновити</string>
+    <string name="length">Довжина</string>
+    <string name="tv_settings_hint">Тривалий натиск на кнопку Гаразд для позначення/зняття позначень каталогів</string>
+    <string name="ml_external_storage_title">Виявлено новий зовнішній носій</string>
+    <string name="ml_external_storage_msg">Хочете, щоби VLC додала пристрій %1$s до вашої бібліотеки медіа?</string>
 </resources>
