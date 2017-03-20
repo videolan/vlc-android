@@ -32,10 +32,10 @@
     <string name="set_song">Ange som ringsignal</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \'%1$s\'?</string>
-    <string name="confirm_delete_folder">Radera mappen \'%1$s\' och allt innehåll?</string>
+    <string name="confirm_delete_folder">Radera mappen \"%1$s\" och allt innehåll?</string>
     <string name="confirm_delete_playlist">Radera spellistan \'%1$s\'?</string>
-    <string name="ringtone_set">Filen \'%1$s\' ställdes in som ringsignal.</string>
-    <string name="ringtone_error">Ett fel inträffade när ringsignalen ställdes in.</string>
+    <string name="ringtone_set">Filen \"%1$s\" ändrades som ringsignal.</string>
+    <string name="ringtone_error">Ett fel inträffade när ringsignalen ändrades.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Visa inte detta meddelande igen.</string>
     <string name="info_title">VLC</string>
@@ -81,7 +81,7 @@
     <string name="directories">Kataloger</string>
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta...</string>
-    <string name="nomedia">Inga mediafiler hittades, var god överför några filer till din enhet eller justera dina inställningar.</string>
+    <string name="nomedia">Inga mediafiler hittades, välj kataloger att lägga till i ditt mediabibliotek.</string>
     <string name="noplaylist">Ingen spellista hittades.</string>
     <string name="mediafiles">Mediafiler</string>
     <string name="notavailable">inte tillgänglig</string>
@@ -93,7 +93,7 @@
     <string name="shuffle_title">Blandningsläge</string>
     <string name="shuffle">Blanda av</string>
     <string name="shuffle_on">Blanda på</string>
-    <string name="repeat_title">Upprepningsläge</string>
+    <string name="repeat_title">Slingaläge</string>
     <string name="repeat">Slinga ingen</string>
     <string name="repeat_single">Slinga en</string>
     <string name="repeat_all">Slinga alla</string>
@@ -105,6 +105,7 @@
     <string name="locked">Låst</string>
     <string name="unlocked">Upplåst</string>
     <string name="surface_best_fit">Bästa passform</string>
+    <string name="surface_fit_screen">Passa skärmen</string>
     <string name="surface_fill">Fyll</string>
     <string name="surface_original">Centrerad</string>
     <string name="thumbnail">Miniatyr</string>
@@ -138,7 +139,7 @@
     <string name="jump_to_time">Hoppa till tid</string>
     <string name="subtitle_label">Lägg till undertextfil</string>
     <string name="subtitle_select">Välj undertextfil</string>
-    <string name="no_file_picker_found">Ingen filväljare hittades på systemet.</string>
+    <string name="no_file_picker_found">Ingen filbläddrare hittades på systemet.</string>
     <string name="server_add_title">Lägg till en ny server i favoriter</string>
     <string name="server_domain_hint">Serveradress (domännamn eller IP)</string>
     <string name="server_share_hint">Nätverkets delningsnamn (eller IP-adress)</string>
@@ -149,6 +150,7 @@
     <string name="login">Logga in</string>
     <string name="password">Lösenord</string>
     <string name="search_results">Sökresultat</string>
+    <string name="search_no_result">Ingen media hittades</string>
     <string name="favorites_add">Lägg till i favoriter</string>
     <string name="favorites_remove">Ta bort från favoriter</string>
     <string name="favorites_edit">Redigera</string>
@@ -199,7 +201,7 @@
     <!-- Preferences -->
     <string name="preferences">Inställningar</string>
     <string name="general_prefs_category">Allmänt</string>
-    <string name="directories_summary">Välj filkataloger att inkludera i mediabiblioteket</string>
+    <string name="directories_summary">Välj kataloger att inkludera i mediabiblioteket</string>
     <string name="add_custom_path">Lägg till anpassad sökväg</string>
     <string name="add_custom_path_description">Ange ytterligare valfri katalog att skanna:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
@@ -225,10 +227,12 @@
     <string name="enable_black_theme">Aktivera mörkt tema</string>
     <string name="enable_black_theme_summary">Ändra gränssnittets färger för bättre bekvämlighet i svagt upplysta miljöer.</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
+    <string name="daynight_title">Dag-/nattläge</string>
+    <string name="daynight_summary">Byt automatiskt till nattläge vid lämplig tid</string>
     <string name="extra_prefs_category">Extra inställningar</string>
     <string name="interface_prefs_screen">Gränssnitt</string>
     <string name="interface_gui">Visning</string>
-    <string name="interface_secondary_display_category_title">Sekundär visning</string>
+    <string name="interface_secondary_display_category_title">Sekundär skärm</string>
     <string name="interface_secondary_display_category_summary">Inställningar när sekundära skärmar är anslutna (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Föredra klon</string>
     <string name="enable_clone_mode_summary">Klona enhetens skärm utan fjärrkontroll.</string>
@@ -242,8 +246,12 @@
     <string name="video_min_group_length_long">Långt antal bokstäver (9)</string>
     <string name="force_list_portrait">Inget rutnät i porträttläge</string>
     <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
+    <string name="force_play_all_summary">Spela upp alla videor, börja med den du klickade på</string>
+    <string name="force_play_all_title">Videospellistläge</string>
     <string name="save_brightness_summary">Kom ihåg ljusstyrkans nivå i videospelaren</string>
     <string name="save_brightness_title">Spara ljusstyrkans nivå för videor</string>
+    <string name="save_audiodelay_summary">Spara individuell ljudfördröjning för varje video</string>
+    <string name="save_audiodelay_title">Spara ljudfördröjning</string>
     <string name="enable_brightness_gesture_title">Ljusstyrkegester</string>
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
     <string name="enable_volume_gesture_title">Volymgester</string>
@@ -302,6 +310,7 @@
     <string name="auto_rescan">Sök automatiskt</string>
     <string name="auto_rescan_summary">Sök igenom enheten automatiskt efter ny eller raderad media vid uppstart</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
+    <string name="clear_media_db_summary">Gå till VLCs programinformation för att rensa data</string>
     <string name="clear_history">Rensa sökhistorik</string>
     <string name="media_db_cleared">Mediadatabas rensad!</string>
     <string name="set_locale">Ange lokal</string>
@@ -309,11 +318,13 @@
     <string name="set_locale_popup">Avsluta och starta om VLC för att ändringarna ska träda i kraft.</string>
     <string name="network_caching">Cachevärde för nätverk</string>
     <string name="network_caching_summary">Tid att buffra media (i ms). Fungerar ej vid hårdvarukodning. Lämna blankt för att nollställa.</string>
-    <string name="network_caching_popup">Detta värde måste vara mellan 0 och 6000 ms.</string>
+    <string name="resume_playback_title">Återuppta uppspelning efter ett samtal</string>
+    <string name="resume_playback_summary">Förbli pausad annars</string>
+    <string name="network_caching_popup">Detta värde måste vara mellan 0 och 6000 ms</string>
     <string name="quit">Avsluta och starta om applikationen</string>
     <string name="developer_prefs_category">Utvecklare</string>
-    <string name="enable_verbose_mode">Detaljerad</string>
-    <string name="enable_verbose_mode_summary">Utökad information (logcat)</string>
+    <string name="enable_verbose_mode">Detaljerad logginformation</string>
+    <string name="enable_verbose_mode_summary">Öka logginformationen (logcat)</string>
     <string name="debug_logs">Felsökningsloggar</string>
     <string name="start_logging">Börja logga</string>
     <string name="stop_logging">Sluta logga</string>
@@ -337,11 +348,13 @@
     <string name="file_size">Filstorlek:</string>
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
-    <string name="sleep_time_not_set">inte inställd</string>
+    <string name="sleep_time_not_set">inte angiven</string>
     <string name="network_shares_discovery">Söker efter nätverksdelningar...</string>
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
+    <string name="search_list_hint">Sök media i aktuell lista</string>
+    <string name="search_global">Sök i alla mediabibliotek</string>
     <string name="directory_show_medialib">Visa i mediabiblioteket</string>
     <string name="directory_hide_medialib">Dölj från mediabiblioteket</string>
     <string name="playlist_save">Spara spellista</string>
@@ -359,6 +372,7 @@
     <string name="player_touch_disable_all">Inaktivera alla pekkontroller</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
     <string name="tv_ui_summary">Ändra gränssnitt till TV-anpassat tema</string>
+    <string name="medialibrary_directories">Mediabiblioteksmappar</string>
     <!--Accessibility-->
     <string name="more_actions">Fler åtgärder</string>
     <string name="move">Flytta</string>
@@ -376,15 +390,22 @@
     <string name="allow_settings_access_ringtone_description">Du måste bevilja detta tillstånd för att VLC ska kunna använda denna låt som din ringsignal.</string>
     <string name="allow_settings_access_brightness_title">Tillåt VLC att ändra ljusstyrkans läge</string>
     <string name="allow_settings_access_brightness_description">Du måste bevilja detta tillstånd för att VLC ska kunna ändra ljusstyrkans läge.</string>
-    <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren över andra appar</string>
+    <string name="allow_draw_overlays_title">Tillåt VLC att visa spelaren ovanpå andra appar</string>
     <string name="allow_sdraw_overlays_description">Du måste bevilja detta tillstånd för att VLC ska kunna visa din video i ett poppupp över andra applikationer.</string>
     <string name="permission_ask_again">Bevilja tillstånd</string>
     <string name="exit_app">Avsluta VLC</string>
     <!--fast scroller-->
+    <string name="fastscroller_track">FastScroller-spår</string>
+    <string name="fastscroller_handle">FastScroller-handtag</string>
     <!--Plugins-->
     <string name="plugins">Insticksmoduler</string>
     <string name="download_on_device">Ladda ned</string>
     <string name="extension_empty">Inga objekt att visa, gå till tilläggets inställningarna för att skaffa några.</string>
+    <string name="opengl_title">OpenGL ES2-användning</string>
+    <string name="opengl_summary">Som standar används OpenGL ES2 för mjukvaruavkodning och hårdvaruavkodning vid behov (360°-videor).</string>
+    <string name="opengl_automatic">Automatisk</string>
+    <string name="opengl_on">Tvinga på</string>
+    <string name="opengl_off">Tvinga av</string>
     <string name="network_favorites">Nätverksfavoriter</string>
     <string name="network_shared_folders">Delade mappar</string>
     <string name="encryption_warning">Varning, kryptering är inte tillgänglig i denna Android-version, lösenordet kommer att lagras på en privat utrymme men inte krypteras.</string>
@@ -409,4 +430,15 @@
     <string name="subtitles_download_title">Ladda ned undertexter</string>
     <string name="connecting">Ansluter...</string>
     <string name="save_bluetooth_delay">Spara fördröjning för Bluetooth-enhet</string>
+    <string name="episodes">episoder</string>
+    <string name="movies">filmer</string>
+    <string name="videos">videor</string>
+    <string name="clear_playback_history">Rensa uppspelningshistorik</string>
+    <string name="various_artists">Blandade artister</string>
+    <string name="ml_scanning">Söker efter mediafiler</string>
+    <string name="ml_parse_media">Läser media</string>
+    <string name="ml_discovering">Upptäcker</string>
+    <string name="resume">Återuppta</string>
+    <string name="length">Längd</string>
+    <string name="tv_settings_hint">Håll ned OK-knappen för att markera/avmarkera kataloger</string>
 </resources>
