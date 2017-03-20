@@ -81,7 +81,7 @@
     <string name="directories">Klasörler</string>
     <string name="loading">Yükleniyor</string>
     <string name="please_wait">Lütfen bekleyin…</string>
-    <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, aygıtınıza bazı ortam dosyaları aktarın ya da ayarlarınızı denetleyin.</string>
+    <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, lütfen ortam kitaplığınıza eklenecek klasörleri seçin</string>
     <string name="noplaylist">Oynatma listesi bulunamadı.</string>
     <string name="mediafiles">Ortam dosyaları</string>
     <string name="notavailable">kullanılamaz</string>
@@ -246,8 +246,12 @@
     <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
     <string name="force_list_portrait">Dikey doğrultuda ızgara olmasın</string>
     <string name="force_list_portrait_summary">Dikey konumda görüntüler ızgara yerine liste şeklinde görüntülenir</string>
+    <string name="force_play_all_summary">Tüm görüntüleri oynatın, birine tıklayarak başlayın</string>
+    <string name="force_play_all_title">Görüntü oynatma listesi kipi</string>
     <string name="save_brightness_summary">Görüntü oynatıcısının parlaklık düzeyini hatırla</string>
     <string name="save_brightness_title">Görüntünün parlaklık düzeyini kaydet</string>
+    <string name="save_audiodelay_summary">Her görüntü için ayrı ses gecikmesi kaydedilsin</string>
+    <string name="save_audiodelay_title">Ses gecikmesini kaydet</string>
     <string name="enable_brightness_gesture_title">Parlaklık el hareketi</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
     <string name="enable_volume_gesture_title">Ses el hareketi</string>
@@ -306,6 +310,7 @@
     <string name="auto_rescan">Otomatik yeniden tarama</string>
     <string name="auto_rescan_summary">Uygulama başlangıcında aygıtı yeni ya da silinmiş ortamlar için tarar</string>
     <string name="clear_media_db">Ortam veritabanını temizle</string>
+    <string name="clear_media_db_summary">Verileri temizlemek için Android VLC bilgilerine bakın</string>
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
     <string name="set_locale">Yerel ayar</string>
@@ -313,7 +318,9 @@
     <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp yeniden açın.</string>
     <string name="network_caching">Ağ ön bellekleme değeri</string>
     <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı süre. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
-    <string name="network_caching_popup">Bu değer 0 ile 6.000 ms arasında olmalıdır</string>
+    <string name="resume_playback_title">Çağrı sonrası oynatım sürdürülsün</string>
+    <string name="resume_playback_summary">Bunun dışında duraklatılmış kalsın</string>
+    <string name="network_caching_popup">Bu değer 0 ile 6000 ms arasında olmalıdır</string>
     <string name="quit">Çıkıp uygulamayı yeniden başlatın</string>
     <string name="developer_prefs_category">Geliştirici</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
@@ -365,6 +372,7 @@
     <string name="player_touch_disable_all">Tüm dokunma denetimleri devre dışı kalsın</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzünü TV uyumlu temaya dönüştürür</string>
+    <string name="medialibrary_directories">Ortam kitaplığı klasörleri</string>
     <!--Accessibility-->
     <string name="more_actions">Diğer İşlemler</string>
     <string name="move">Taşı</string>
@@ -393,6 +401,11 @@
     <string name="plugins">Uygulama Ekleri</string>
     <string name="download_on_device">İndirme</string>
     <string name="extension_empty">Görüntülenecek bir öge yok. Edinmek için eklenti ayarları bölümüne bakın.</string>
+    <string name="opengl_title">OpenGL ES2 kullanımı</string>
+    <string name="opengl_summary">Varsayılan olarak, gerek duyulduğunda (360° görüntüler) yazılımsal ve donanımsal kod çözme için OpenGL ES2 kullanılır.</string>
+    <string name="opengl_automatic">Otomatik</string>
+    <string name="opengl_on">Zorla Aç</string>
+    <string name="opengl_off">Zorla Kapat</string>
     <string name="network_favorites">Ağ sık kullanılanları</string>
     <string name="network_shared_folders">Paylaşılmış klasörler</string>
     <string name="encryption_warning">Uyarı: Bu android sürümünde şifreleme kullanılamaz, parolalar özel bir alanda olmasına rağmen şifrelenmemiş olarak kaydedilir</string>
@@ -421,4 +434,13 @@
     <string name="movies">filmler</string>
     <string name="videos">görüntüler</string>
     <string name="clear_playback_history">Oynatma geçmişini temizle</string>
+    <string name="various_artists">Çeşitli Sanatçılar</string>
+    <string name="ml_scanning">Ortam dosyaları taranıyor</string>
+    <string name="ml_parse_media">Ortam ayrıştırılıyor</string>
+    <string name="ml_discovering">Keşfediliyor</string>
+    <string name="resume">Sürdür</string>
+    <string name="length">Uzunluk</string>
+    <string name="tv_settings_hint">Klasörleri seçmek ya da bırakmak için Tamam düğmesine uzun basın </string>
+    <string name="ml_external_storage_title">Yeni dış depolama aygıtı algılandı</string>
+    <string name="ml_external_storage_msg">%1$s aygıtının ortam kitaplığı olarak eklenmesini ister misiniz?</string>
 </resources>
