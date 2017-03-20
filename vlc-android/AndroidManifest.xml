@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.videolan.vlc"
     android:installLocation="auto"
-    android:versionCode="02010100"
-    android:versionName="2.1.1">
+    android:versionCode="02010200"
+    android:versionName="2.1.2">
     <!--
          versionCode scheme is T M NN RR AA
          T: Target/Flavour (1 for Android, 2 for Chrome?)
