@@ -81,7 +81,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst…</string>
-    <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
+    <string name="nomedia">Ingen mediefiler fundet, vælg venligst mapper som skal føjes til dit mediebibliotek</string>
     <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">ikke tilgængelig</string>
@@ -246,8 +246,12 @@
     <string name="video_min_group_length_long">Lange antal tegn (9)</string>
     <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
     <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
+    <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
+    <string name="force_play_all_title">Videospilleliste-tilstand</string>
     <string name="save_brightness_summary">Husk niveau for lysstyrke i videoafspilleren </string>
     <string name="save_brightness_title">Gem niveau for lysstyrke for video</string>
+    <string name="save_audiodelay_summary">Gem individuel lydforsinkelse for hver video</string>
+    <string name="save_audiodelay_title">Gem lydforsinkelse</string>
     <string name="enable_brightness_gesture_title">Lysstyrke-gestus</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_volume_gesture_title">Lydstyrke-gestus</string>
@@ -306,6 +310,7 @@
     <string name="auto_rescan">Skan igen auto.</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
     <string name="clear_media_db">Ryd medie-database</string>
+    <string name="clear_media_db_summary">Tilgå Android VLC info for at rydde data</string>
     <string name="clear_history">Ryd søgehistorik</string>
     <string name="media_db_cleared">Medie-database er ryddet!</string>
     <string name="set_locale">Angiv sprog</string>
@@ -313,6 +318,8 @@
     <string name="set_locale_popup">Afslut og genstart VLC, så ændringerne kan træde i kraft.</string>
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
     <string name="network_caching_summary">Den tidsmængde for netværksmediet som mellemlagres (i ms). Fungerer ikke sammen med afkodning via hardware. Lad den stå tom for at nulstille.</string>
+    <string name="resume_playback_title">Genoptag afspilning efter et opkald</string>
+    <string name="resume_playback_summary">Bliv ellers i pause</string>
     <string name="network_caching_popup">Denne værdi skal være mellem 0 og 6000 ms</string>
     <string name="quit">Afslut og genstart programmet</string>
     <string name="developer_prefs_category">Udvikler</string>
@@ -354,8 +361,8 @@
     <string name="playlist_name_hint">spillelistenavn</string>
     <string name="go_to_chapter">Gå til kapitel…</string>
     <string name="chapter">Kapitel</string>
-    <string name="resume_from_position">Fortsæt fra sidste position</string>
-    <string name="confirm_resume">Fortsæt fra sidste position?</string>
+    <string name="resume_from_position">Genoptag fra sidste position</string>
+    <string name="confirm_resume">Genoptag fra sidste position?</string>
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
     <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
     <string name="directory_empty">Mappen er tom</string>
@@ -365,6 +372,7 @@
     <string name="player_touch_disable_all">Deaktivér alle berøringskontrolelementer</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
+    <string name="medialibrary_directories">Mediebiblioteksmapper</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
@@ -382,8 +390,8 @@
     <string name="allow_settings_access_ringtone_description">VLC har brug for at du giver denne tilladelse for at indstille denne sang som din ringetone.</string>
     <string name="allow_settings_access_brightness_title">Tillad at VLC ændre lysstyrketilstand</string>
     <string name="allow_settings_access_brightness_description">VLC har brug for at du giver denne tilladelse for at ændre din lysstyrketilstand.</string>
-    <string name="allow_draw_overlays_title">Tillad VLC-afspiller-pop-op over andre apps</string>
-    <string name="allow_sdraw_overlays_description">VLC har brug for at du giver denne tilladelse for at vise din video i en pop-op over andre applikationer.</string>
+    <string name="allow_draw_overlays_title">Tillad VLC-afspiller-pop op over andre apps</string>
+    <string name="allow_sdraw_overlays_description">VLC har brug for at du giver denne tilladelse for at vise din video i en pop op over andre programmer.</string>
     <string name="permission_ask_again">Tildel rettighed</string>
     <string name="exit_app">Luk VLC</string>
     <!--fast scroller-->
@@ -393,13 +401,18 @@
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Download</string>
     <string name="extension_empty">Intet at vise, gå til dine udvidelsesindstillinger for at hente noget.</string>
+    <string name="opengl_title">Brug af OpenGL ES2</string>
+    <string name="opengl_summary">Som standard bruges OpenGL ES2 til software afkodning og hardware afkodning når det er nødvendigt (360° videoer).</string>
+    <string name="opengl_automatic">Automatisk</string>
+    <string name="opengl_on">Tving til</string>
+    <string name="opengl_off">Tving fra</string>
     <string name="network_favorites">Netværksfavoritter</string>
     <string name="network_shared_folders">Delte mapper</string>
     <string name="encryption_warning">Advarsel! Kryptering er ikke tilgængelig i denne version af Android, adgangskode bliver gemt i et privatområde, men ikke krypteret</string>
     <string name="store_password">Husk adgangskode</string>
     <string name="add_to_playlist">Føj til spilleliste</string>
-    <string name="popup_playback_title">Afspil video i et pop-op-vindue</string>
-    <string name="popup_playback">Afspiller i et pop-op-vindue</string>
+    <string name="popup_playback_title">Afspil video i et pop op-vindue</string>
+    <string name="popup_playback">Afspiller i et pop op-vindue</string>
     <string name="popup_expand">Udvid video</string>
     <string name="snack_subloader_sub_found">Undertekster downloadet</string>
     <string name="snack_subloader_sub_not_found">Undertekster ikke fundet</string>
@@ -421,4 +434,13 @@
     <string name="movies">film</string>
     <string name="videos">videoer</string>
     <string name="clear_playback_history">Ryd afspilningshistorik</string>
+    <string name="various_artists">Diverse kunstnere</string>
+    <string name="ml_scanning">Skanner efter mediefiler</string>
+    <string name="ml_parse_media">Parser medie</string>
+    <string name="ml_discovering">Opdager</string>
+    <string name="resume">Genoptag</string>
+    <string name="length">Varighed</string>
+    <string name="tv_settings_hint">Tryk længe på OK-knappen for at vælge/fravælge mapper</string>
+    <string name="ml_external_storage_title">Nyt eksternt lager registreret</string>
+    <string name="ml_external_storage_msg">Vil du have at VLC skal tilføje enheden %1$s til dit mediebibliotek?</string>
 </resources>
