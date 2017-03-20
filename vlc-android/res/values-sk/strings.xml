@@ -87,7 +87,7 @@
     <string name="directories">Priečinky</string>
     <string name="loading">Načítava sa</string>
     <string name="please_wait">Prosím čakajte…</string>
-    <string name="nomedia">Nenašli sa žiadne médiá, prosím preneste do svojho zariadenia nejaké súbory alebo upravte nastavenia.</string>
+    <string name="nomedia">Nenašli sa žiadne súbory médií. Prosím vyberte priečinky na pridanie do knižnice médií</string>
     <string name="noplaylist">Nenašiel sa žiadny playlist.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
@@ -235,7 +235,7 @@
     <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v prostredí so slabým osvetlením.</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="daynight_title">Režim deň/noc</string>
-    <string name="daynight_summary">Automaticky prepnúť nočný režim vo vhodnom čase</string>
+    <string name="daynight_summary">Automaticky prepnúť na nočný režim vo vhodnom čase</string>
     <string name="extra_prefs_category">Extra nastavenia</string>
     <string name="interface_prefs_screen">Rozhranie</string>
     <string name="interface_gui">Displej</string>
@@ -253,8 +253,12 @@
     <string name="video_min_group_length_long">Dlhé čísla písmen (9)</string>
     <string name="force_list_portrait">Bez mriežky v režime portrétov</string>
     <string name="force_list_portrait_summary">Zobraziť videá v režime portrétov, bez mriežky</string>
+    <string name="force_play_all_summary">Prehrať všetky videá od toho, na ktoré ste klikli</string>
+    <string name="force_play_all_title">Režim playlistu videa</string>
     <string name="save_brightness_summary">Pamätať si úroveň jasu v prehrávači videa</string>
     <string name="save_brightness_title">Uložiť úroveň jasu pre video</string>
+    <string name="save_audiodelay_summary">Uložiť individuálne oneskorenie zvuku pre každé video</string>
+    <string name="save_audiodelay_title">Uložiť oneskorenie zvuku</string>
     <string name="enable_brightness_gesture_title">Gesto pre jas</string>
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_volume_gesture_title">Gesto pre hlasitosť</string>
@@ -313,6 +317,7 @@
     <string name="auto_rescan">Automatické opätovné skenovanie</string>
     <string name="auto_rescan_summary">Pri spustení aplikácie automaticky vyhľadať v zariadení nové alebo vymazané médiá</string>
     <string name="clear_media_db">Vyčistiť databázu médií</string>
+    <string name="clear_media_db_summary">Prístup k informáciám Android VLC kvôli čisteniu</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="media_db_cleared">Databáza médií bola vyčistená!</string>
     <string name="set_locale">Nastaviť jazyk krajiny</string>
@@ -320,7 +325,9 @@
     <string name="set_locale_popup">Na uplatnenie zmien je potrebné ukončiť a reštartovať VLC.</string>
     <string name="network_caching">Hodnota ukladania do vyrovnávacej pamäte zo siete</string>
     <string name="network_caching_summary">Čas ukladania do vyrovnávacej pamäte, pri sieťovom médiu (v ms). Nespolupracuje s hardvérovým dekódovaním. Pre obnovenie predvolenej hodnoty ponechajte políčko prázdne.</string>
-    <string name="network_caching_popup">Táto hodnota by mala byť v rozsahu 0 a 6000 ms</string>
+    <string name="resume_playback_title">Pokračovať v prehrávaní po hovore</string>
+    <string name="resume_playback_summary">Inak nechať pozastavené</string>
+    <string name="network_caching_popup">Táto hodnota musí byť v rozmedzí 0 a 6000 ms</string>
     <string name="quit">Ukončiť a reštartovať aplikáciu</string>
     <string name="developer_prefs_category">Vývojár</string>
     <string name="enable_verbose_mode">Podrobnosť pri komunikácii</string>
@@ -347,7 +354,7 @@
     <string name="browsing">Prehliadanie</string>
     <string name="file_size">Veľkosť súboru:</string>
     <string name="audio_delay">Oneskorenie zvuku</string>
-    <string name="spu_delay">Oneskorenei titulkov</string>
+    <string name="spu_delay">Oneskorenie titulkov</string>
     <string name="sleep_time_not_set">Nenastavené</string>
     <string name="network_shares_discovery">Vyhľadávanie sieťových zdieľaní...</string>
     <string name="network_empty">Tento priečinok je prázdny.</string>
@@ -372,6 +379,7 @@
     <string name="player_touch_disable_all">Zablokovať všetky dotykové ovládače</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
+    <string name="medialibrary_directories">Priečinky knižnice médií</string>
     <!--Accessibility-->
     <string name="more_actions">Viac akcií</string>
     <string name="move">Presunúť</string>
@@ -400,6 +408,11 @@
     <string name="plugins">Prídavné moduly</string>
     <string name="download_on_device">Stiahnutie</string>
     <string name="extension_empty">Žiadna položka na zobrazenie, ak chcete nejakú získať, prejdite na nastavenia rozšírenia.</string>
+    <string name="opengl_title">Využitie OpenGL ES2</string>
+    <string name="opengl_summary">V predvolenom nastavení sa OpenGL ES2 používa na SW dekódovanie a HW dekódovanie ak je potrebné (360° videá).</string>
+    <string name="opengl_automatic">Automaticky</string>
+    <string name="opengl_on">Vynútiť zap.</string>
+    <string name="opengl_off">Vynútiť vyp.</string>
     <string name="network_favorites">Sieťové obľúbené položky</string>
     <string name="network_shared_folders">Zdieľané priečinky</string>
     <string name="encryption_warning">Pozor, šifrovanie nie je v tejto verzii systému Android dostupné, heslo sa uloží v súkromnom priestore, ale nebude zašifrované</string>
@@ -428,4 +441,11 @@
     <string name="movies">filmy</string>
     <string name="videos">videá</string>
     <string name="clear_playback_history">Vyčistiť históriu prehrávania</string>
+    <string name="various_artists">Rôzni umelci</string>
+    <string name="ml_scanning">Skenovanie súborov s médiami</string>
+    <string name="ml_parse_media">Analýza média</string>
+    <string name="ml_discovering">Vyhľadávanie</string>
+    <string name="resume">Súhrn</string>
+    <string name="length">Dĺžka</string>
+    <string name="tv_settings_hint">Priečinky môžete označiť/odznačiť dlhým stlačením OK</string>
 </resources>
