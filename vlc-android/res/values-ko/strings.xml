@@ -75,7 +75,7 @@
     <string name="directories">폴더</string>
     <string name="loading">불러오는 중…</string>
     <string name="please_wait">기다리세요…</string>
-    <string name="nomedia">미디어 파일이 없습니다. 기기에 파일을 복사하거나 환경설정을 조절하세요.</string>
+    <string name="nomedia">미디어 파일이 없습니다. 미디어 라이브러리에 추가할 폴더를 선택하세요.</string>
     <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="mediafiles">미디어 파일</string>
     <string name="notavailable">이용 불가</string>
@@ -239,8 +239,12 @@
     <string name="video_min_group_length_long">긴 글자수 (9)</string>
     <string name="force_list_portrait">세로 화면에서 격자선 표시하지 않기</string>
     <string name="force_list_portrait_summary">세로 모드에서 격자선(grid) 대신 목록에 비디오를 보여줍니다</string>
+    <string name="force_play_all_summary">클릭한 항목과 그 이후의 모든 비디오 재생하기</string>
+    <string name="force_play_all_title">비디오 재생목록 모드</string>
     <string name="save_brightness_summary">비디오 재생기에서 밝기 단계를 기억합니다</string>
     <string name="save_brightness_title">비디오의 밝기 단계 저장하기</string>
+    <string name="save_audiodelay_summary">각각의 비디오에 대해 설정한 오디오 지연 시간을 개별적으로 저장합니다</string>
+    <string name="save_audiodelay_title">오디오 싱크 저장하기</string>
     <string name="enable_brightness_gesture_title">밝기 제스처</string>
     <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스처로 밝기를 조절합니다</string>
     <string name="enable_volume_gesture_title">볼륨 제스처</string>
@@ -273,7 +277,7 @@
     <string name="enable_headset_detection">헤드셋 감지하기</string>
     <string name="enable_headset_detection_summary">헤드셋 연결과 제거 감지하기</string>
     <string name="enable_play_on_headset_insertion">헤드셋 연결시 이어서 재생하기</string>
-    <string name="enable_play_on_headset_insertion_summary">그 외에는 일시정지하기</string>
+    <string name="enable_play_on_headset_insertion_summary">아니면 일시중지하기</string>
     <string name="enable_steal_remote_control">헤드셋 원격 조작 독점 사용하기</string>
     <string name="enable_steal_remote_control_summary">다른 앱의 원격 조작 시도에 의한 충돌을 회피합니다. HTC 폰의 더블 클릭 전화걸기를 방지합니다</string>
     <string name="aout">오디오 출력</string>
@@ -299,6 +303,7 @@
     <string name="auto_rescan">자동 재검색</string>
     <string name="auto_rescan_summary">앱 시작시 기기에서 새로운 미디어를 자동으로 검색합니다</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
+    <string name="clear_media_db_summary">데이터를 비우기 위해 안드로이드 VLC 정보에 접근합니다</string>
     <string name="clear_history">검색 히스토리 지우기</string>
     <string name="media_db_cleared">미디어 데이터베이스를 지웠습니다!</string>
     <string name="set_locale">언어 설정</string>
@@ -306,7 +311,9 @@
     <string name="set_locale_popup">변경 사항을 적용하려면 VLC를 재시작하세요.</string>
     <string name="network_caching">네트워크 캐쉬 값</string>
     <string name="network_caching_summary">네트워크 미디어의 버퍼 크기(단위: ms)로, 하드웨어 디코딩 사용시는 동작하지 않습니다. 초기화하려면 비워 두세요</string>
-    <string name="network_caching_popup">이 값은 0~6000 ms 사이여야 합니다</string>
+    <string name="resume_playback_title">통화 후 재생 계속하기</string>
+    <string name="resume_playback_summary">만약 그렇지 않으면 일시중지한 상태로 있습니다</string>
+    <string name="network_caching_popup">0에서 6000 ms 사이의 값만 사용할 수 있습니다</string>
     <string name="quit">앱 종료 후 재시작하기</string>
     <string name="developer_prefs_category">개발자</string>
     <string name="enable_verbose_mode">상세 설명</string>
@@ -358,6 +365,7 @@
     <string name="player_touch_disable_all">모든 터치 조작 사용하지 않기</string>
     <string name="tv_ui_title">안드로이드 TV 인터페이스 사용하기</string>
     <string name="tv_ui_summary">UI를 TV에 맞춘 테마로 바꿉니다</string>
+    <string name="medialibrary_directories">미디어 라이브러리 폴더</string>
     <!--Accessibility-->
     <string name="more_actions">추가 동작</string>
     <string name="move">이동하기</string>
@@ -385,7 +393,12 @@
     <!--Plugins-->
     <string name="plugins">플러그인</string>
     <string name="download_on_device">다운로드</string>
-    <string name="extension_empty">표시할 항목이 없음, 표시하려면 확장자 설정을 확인하세요.</string>
+    <string name="extension_empty">표시할 항목이 없습니다. 확장자 설정을 확인하십시오.</string>
+    <string name="opengl_title">OpenGL ES2 사용</string>
+    <string name="opengl_summary">디폴트 옵션으로는 필요할때 (360도 비디오 때) OpenGL ES2는 소프트웨어 엔코딩과 하드웨어 디코딩할 바에 사용됩니다.</string>
+    <string name="opengl_automatic">자동</string>
+    <string name="opengl_on">작동시키기</string>
+    <string name="opengl_off">억제하기</string>
     <string name="network_favorites">네트워크 즐겨찾기</string>
     <string name="network_shared_folders">공유 폴더</string>
     <string name="encryption_warning">경고! 이 안드로이드 버전에서는 암호화를 이용할 수 없습니다. 비밀번호는 은밀한 공간에 저장되지만 암호화되지는 않을 것입니다</string>
@@ -414,4 +427,13 @@
     <string name="movies">영화</string>
     <string name="videos">비디오</string>
     <string name="clear_playback_history">재생 히스토리 지우기</string>
+    <string name="various_artists">여러 아티스트</string>
+    <string name="ml_scanning">미디어 파일 스캔 중</string>
+    <string name="ml_parse_media">미디어 분석 중</string>
+    <string name="ml_discovering">찾는 중</string>
+    <string name="resume">이어서 재생하기</string>
+    <string name="length">길이</string>
+    <string name="tv_settings_hint">폴더를 체크/체크해제하려면 OK 버튼을 길게 누르세요</string>
+    <string name="ml_external_storage_title">새로운 외부 기억 장치를 감지했습니다</string>
+    <string name="ml_external_storage_msg">%1$s 장치를 VLC의 미디어 라이브러리에 추가할까요?</string>
 </resources>
