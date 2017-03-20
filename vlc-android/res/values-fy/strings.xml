@@ -81,7 +81,6 @@
     <string name="directories">Mappen</string>
     <string name="loading">Lade…</string>
     <string name="please_wait">Efkes wachtsje…</string>
-    <string name="nomedia">Gjin mediabestannen fûn. Set in oantal mediabestannen op jo apparaat of pas jo foarkarren oan.</string>
     <string name="noplaylist">Gjin ôfspyllist fûn.</string>
     <string name="mediafiles">Mediabestannen</string>
     <string name="notavailable">net beskikber</string>
@@ -105,6 +104,7 @@
     <string name="locked">Blokkearre</string>
     <string name="unlocked">Deblokkearre</string>
     <string name="surface_best_fit">Bêst passend</string>
+    <string name="surface_fit_screen">Passend skerm</string>
     <string name="surface_fill">Skermfoljend</string>
     <string name="surface_original">Sintrearje</string>
     <string name="thumbnail">Miniatuer</string>
@@ -149,6 +149,7 @@
     <string name="login">Oanmelding</string>
     <string name="password">Wachtwurd</string>
     <string name="search_results">Sykresultaten</string>
+    <string name="search_no_result">Gjin media fûn</string>
     <string name="favorites_add">Oan favoriten tafoegje</string>
     <string name="favorites_remove">Ut favoriten fuortsmite</string>
     <string name="favorites_edit">Bewurkje</string>
@@ -225,13 +226,17 @@
     <string name="enable_black_theme">Swart tema ynskeakelje</string>
     <string name="enable_black_theme_summary">De úterlik-kleuren wizigje foar in better komfort yn omjouwingen mei net in protte ljocht.</string>
     <string name="subtitle_text_encoding">Undertitel-tekstkodearring</string>
+    <string name="daynight_title">DeiNacht-modus</string>
+    <string name="daynight_summary">Automatysk nei nachtmodus skeakelje op geskikte tiid</string>
     <string name="extra_prefs_category">Ekstra ynstellingen</string>
     <string name="interface_prefs_screen">Uterlik</string>
     <string name="interface_gui">Werjefte</string>
     <string name="interface_secondary_display_category_title">Sekundêr skerm</string>
+    <string name="interface_secondary_display_category_summary">Ynstellingen wannear sekundêre skermen ferbûn binne (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Kloan ferkieze</string>
     <string name="enable_clone_mode_summary">Apparaatskerm sûnder ôfstânsbetsjinning kloane.</string>
     <string name="interface_other_category">Uterlik - Oars</string>
+    <string name="video_prefs_category">Fideo</string>
     <string name="video_min_group_length_title">Fideo\'s groepearje</string>
     <string name="video_min_group_length_summary">Fideo\'s wurde groepearre as harren earste letters itselde binne.</string>
     <string name="video_min_group_length_disable">Utskeakelje</string>
@@ -240,6 +245,7 @@
     <string name="video_min_group_length_long">Grut oantal letters (9)</string>
     <string name="force_list_portrait">Gjin raster yn steande moadus</string>
     <string name="force_list_portrait_summary">Fideo\'s yn list werjaan yn stee fan yn raster yn steande moadus</string>
+    <string name="force_play_all_summary">Spylje alle fodeo\'s, te begjinnen mei dy dêr\'t jo op klikt hawwe</string>
     <string name="save_brightness_summary">Helderheidsnivo yn fideospiler ûnthâlde</string>
     <string name="save_brightness_title">Helderheidsnivo foar fideo bewarje</string>
     <string name="enable_brightness_gesture_title">Helderheidsgebear</string>
@@ -248,6 +254,7 @@
     <string name="enable_volume_gesture_summary">Folume oanpasse troch gebearen wylst ôfspyljen fan fideo</string>
     <string name="enable_seek_buttons">Sykknoppen ynskeakelje</string>
     <string name="enable_seek_buttons_summary">Tebekspyl- en foarútspyl-knoppen werjaan op de fideo-ynterface</string>
+    <string name="subtitles_prefs_category">Undertitels</string>
     <string name="subtitles_size_title">Undertitelgrutte</string>
     <string name="subtitles_size_small">Lyts</string>
     <string name="subtitles_size_normal">Normaal</string>
@@ -260,6 +267,7 @@
     <string name="subtitles_color_yellow">Giel</string>
     <string name="subtitles_color_green">Grien</string>
     <string name="subtitles_background_title">Undertitel-achtergrûn</string>
+    <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media-hoes op beskoattelskerm</string>
     <string name="lockscreen_cover_summary">Wannear beskikber, de aktuele media-hoes ynstelle as achtergrûn op beskoattelskerm</string>
     <string name="audio_title_alignment">Audiotitel-oriïntaasje</string>
@@ -268,6 +276,7 @@
     <string name="audio_title_alignment_centre">Midden</string>
     <string name="audio_title_alignment_right">Rjochts</string>
     <string name="audio_title_alignment_marquee">Ljochtkrante</string>
+    <string name="headset_prefs_category">Koptelefoan</string>
     <string name="enable_headset_detection">Koptelefoan detektearje</string>
     <string name="enable_headset_detection_summary">Ynstekke en útheljen fan koptelefoan detektearje</string>
     <string name="enable_play_on_headset_insertion">Ferfetsje by ynstekken fan koptelefoan</string>
@@ -276,6 +285,7 @@
     <string name="enable_steal_remote_control_summary">Mij konflikten troch de ôfstânsbetsjinning fan oare apps te stellen. Dit foarkomt bellen by dûbelklikken op HTC-telefoans.</string>
     <string name="aout">Audio-útfier</string>
     <string name="aout_summary">Wizigje de audio-útfiermetoade dy\'t VLC brûkt.</string>
+    <string name="controls_prefs_category">Betsjinningen</string>
     <string name="performance_prefs_category">Prestaasjes</string>
     <string name="chroma_format">Chroma forsearje</string>
     <string name="chroma_format_summary">RGB 32-bit: standert chroma\nRGB 16-bit: bettere prestaasjes mar legere kwaliteit\nYUV: bêste prestaasjes mar wurket net op alle apparaten. Allinnich Android 2.3 en letter.</string>
