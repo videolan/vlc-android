@@ -75,7 +75,6 @@
     <string name="directories">شاخه‌ها</string>
     <string name="loading">درحال باگذاری</string>
     <string name="please_wait">لطفا صبر‌کنید...</string>
-    <string name="nomedia">هیچ فایل رسانه‌ پیدا نشد، لطفا تعدادی از فایل‌های خود را در دستگاه انتقال داده یا ترجیحات خود را تنظیم کنید.</string>
     <string name="noplaylist">هیچ لیست پخش یافت نشد.</string>
     <string name="mediafiles">فایل های رسانه‌ای</string>
     <string name="notavailable">در دسترس نیست</string>
@@ -99,6 +98,7 @@
     <string name="locked">قفل شده</string>
     <string name="unlocked">بدون قفل</string>
     <string name="surface_best_fit">بهترین رویه</string>
+    <string name="surface_fit_screen">صفحه نمایش مناسب</string>
     <string name="surface_fill">پر کردن فضای خالی</string>
     <string name="surface_original">وسط</string>
     <string name="thumbnail">بند انگشتی</string>
@@ -142,6 +142,7 @@
     <string name="login">ورود</string>
     <string name="password">رمز</string>
     <string name="search_results">نتایج جستجو</string>
+    <string name="search_no_result">هیچ رسانه یافت نشد</string>
     <string name="favorites_add">افزودن در علاقه مندی ها</string>
     <string name="favorites_remove">حذف از علاقه مندی ها</string>
     <string name="favorites_edit">ویرایش</string>
@@ -218,6 +219,8 @@
     <string name="enable_black_theme">فعال کردن پوسته مشکی</string>
     <string name="enable_black_theme_summary">تغییر رنگ‌های رابط برای کار کردن راحت در محیط‌های کم نور.</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
+    <string name="daynight_title">حالت شب</string>
+    <string name="daynight_summary">به صورت خودکار در زمان مناسب به حالت شب تعویض شود</string>
     <string name="extra_prefs_category">تنظیمات اضافی</string>
     <string name="interface_prefs_screen">رابط</string>
     <string name="interface_gui">نمایش</string>
@@ -225,6 +228,7 @@
     <string name="enable_clone_mode">ترجیحات شبیه‌سازی</string>
     <string name="enable_clone_mode_summary">شبیه‌سازی صفحه نمایش دستگاه بدون اتصال به کنترل از راه دور.</string>
     <string name="interface_other_category">دیگر - رابط‌ ها</string>
+    <string name="video_prefs_category">ویدیو</string>
     <string name="video_min_group_length_title">گروه ویدیوها</string>
     <string name="video_min_group_length_summary">ویدیوها گروه بندی میشوند اگر اول حروف یکسان میباشد.</string>
     <string name="video_min_group_length_disable">غیر‌فعال</string>
@@ -233,14 +237,17 @@
     <string name="video_min_group_length_long">تعداد بلند از حروف (9)</string>
     <string name="force_list_portrait">هیچ شبکه در حالت عمودی</string>
     <string name="force_list_portrait_summary">نمایش فیلم در لیست به جای شبکه در حالت عمودی</string>
+    <string name="force_play_all_title">حالت فهرست پخش ویدیو</string>
     <string name="save_brightness_summary">سطح روشنایی در پخش کننده ویدیو را به یاد داشته باشد.</string>
     <string name="save_brightness_title">ذخیره سطح روشنایی برای ویدیوها</string>
+    <string name="save_audiodelay_title">ذخیره تاخیر صدا</string>
     <string name="enable_brightness_gesture_title">حرکت روشنایی</string>
     <string name="enable_brightness_gesture_summary">کنترل درخشانی توسط حرکت روی صفحه ویدیو در حال پخش</string>
     <string name="enable_volume_gesture_title">حرکت حجم صدا</string>
     <string name="enable_volume_gesture_summary">کنترل حجم صدا توسط حرکت روی صفحه ویدیو در حال پخش</string>
     <string name="enable_seek_buttons">فعال سازی دکمه های دنباله</string>
     <string name="enable_seek_buttons_summary">نمایش دکمه های عقب و جلو در رابط کاربری ویدیو</string>
+    <string name="subtitles_prefs_category">زیرنویس‌ها</string>
     <string name="subtitles_size_title">اندازه زیرنویس</string>
     <string name="subtitles_size_small">کوچک</string>
     <string name="subtitles_size_normal">متوسط</string>
@@ -253,6 +260,7 @@
     <string name="subtitles_color_yellow">زرد</string>
     <string name="subtitles_color_green">سبز</string>
     <string name="subtitles_background_title">پس زمینه زیرنویس‌ها</string>
+    <string name="audio_prefs_category">صوتی</string>
     <string name="lockscreen_cover_title">کاور رسانه روی صفحه قفل</string>
     <string name="lockscreen_cover_summary">هنگامی که فعال هست، قرار بده پوشش هنری این رسانه را در کاغذ دیواری صفحه قفل</string>
     <string name="audio_title_alignment">موقعیت عنوان آهنگ</string>
@@ -261,6 +269,7 @@
     <string name="audio_title_alignment_centre">مرکز</string>
     <string name="audio_title_alignment_right">راست</string>
     <string name="audio_title_alignment_marquee">تاق‌نما</string>
+    <string name="headset_prefs_category">هدست</string>
     <string name="enable_headset_detection">یافتن گوشی</string>
     <string name="enable_headset_detection_summary">تشخیص درج و حذف هدست</string>
     <string name="enable_play_on_headset_insertion">ادامه هنگام وصل شدن هدست</string>
@@ -269,6 +278,7 @@
     <string name="enable_steal_remote_control_summary">از سرقت رفتن کنترل از راه دور توسط برنامه‌های دیگر جلوگیری شود. این مانع دوبار کلیک در گوشی‌های HTC میشود.</string>
     <string name="aout">خروجی صوتی</string>
     <string name="aout_summary">تغییر روش خروجی صوتی مورد استفاده VLC.</string>
+    <string name="controls_prefs_category">کنترل‌ها</string>
     <string name="performance_prefs_category">کارآیی</string>
     <string name="chroma_format">نیروی تصویر رنگی</string>
     <string name="chroma_format_summary">RGB بـ 32 بِیت : رنگی پیشفرض\nRGB بـ 16 بِیت : عملکرد خوب، اما کیفیت پایین می‌آید\nYUV : بهترین عملکرد، اما فقط در بعضی دستگاه‌ها کارایی دارد. فقط در اندروید 2.3 و نسخه‌های بعدی.</string>
@@ -371,6 +381,9 @@
     <string name="plugins">پلاگین ها</string>
     <string name="download_on_device">دانلود</string>
     <string name="extension_empty">هیچ آیتمی برای نمایش وجود ندارد، به تنظیمات توسعه ای رفته و تا برخی را بگیرید</string>
+    <string name="opengl_automatic">خودکار</string>
+    <string name="opengl_on">نیرو روشن</string>
+    <string name="opengl_off">نیرو خاموش</string>
     <string name="network_favorites">شبکه های مورد علاقه</string>
     <string name="network_shared_folders">پوشه های اشتراک شده</string>
     <string name="encryption_warning">هشدار، رمزگذاری در این نسخه اندروید فعال نیست، رمز عبور در یک فضای خصوصی اما رمزگذاری نشده ذخیره شده است</string>
@@ -395,4 +408,13 @@
     <string name="subtitles_download_title">دانلود Subها</string>
     <string name="connecting">برقراری ارتباط....</string>
     <string name="save_bluetooth_delay">ذخیره تعلل برای دستگاه های بلوتوث</string>
+    <string name="episodes">فصل‌ها</string>
+    <string name="movies">فیلم‌ها</string>
+    <string name="videos">ویدیوها</string>
+    <string name="clear_playback_history">پاک کردن تاریخچه بازپخش</string>
+    <string name="various_artists">هنرمندان مختلف</string>
+    <string name="ml_scanning">گشتن برای فایل‌های رسانه ای</string>
+    <string name="ml_parse_media">تجزیه رسانه</string>
+    <string name="ml_discovering">یافتن</string>
+    <string name="length">طول</string>
 </resources>
