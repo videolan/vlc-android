@@ -87,7 +87,6 @@
     <string name="directories">Direktoriji</string>
     <string name="loading">Učitavanje</string>
     <string name="please_wait">Molim pričekajte…</string>
-    <string name="nomedia">Medijske datoteke nisu pronađene. Prenesite nekoliko datoteka na vaš uređaj ili prilagodite vaše osobitosti.</string>
     <string name="noplaylist">Nema pronađenih popis izvođenja.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nisu dostupne</string>
@@ -111,6 +110,7 @@
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolji prikaz</string>
+    <string name="surface_fit_screen">Prilagodi po zaslonu</string>
     <string name="surface_fill">Ispuni</string>
     <string name="surface_original">Sredina</string>
     <string name="thumbnail">Minijatura</string>
@@ -156,6 +156,7 @@
     <string name="login">Prijava</string>
     <string name="password">Lozinka</string>
     <string name="search_results">Rezultati pretrage</string>
+    <string name="search_no_result">Nema pronađenih medija</string>
     <string name="favorites_add">Dodaj u omiljene</string>
     <string name="favorites_remove">Ukloni iz omiljenih</string>
     <string name="favorites_edit">Uredi</string>
@@ -232,6 +233,8 @@
     <string name="enable_black_theme">Omogući crnu temu</string>
     <string name="enable_black_theme_summary">Promjena boja sučelja za veću udobnost u slabije osvjetljenim prostorima.</string>
     <string name="subtitle_text_encoding">Kôdiranje teksta podnaslova</string>
+    <string name="daynight_title">Dnevno-noćni način rada</string>
+    <string name="daynight_summary">Automatsko prebacivanje na noćni način rada u prikladno vrijeme</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
     <string name="interface_prefs_screen">Sučelje</string>
     <string name="interface_gui">Zaslon</string>
@@ -240,6 +243,7 @@
     <string name="enable_clone_mode">Preferiraj klonirano</string>
     <string name="enable_clone_mode_summary">Kloniraj zaslon uređaja bez kontrola daljinskog upravljanja.</string>
     <string name="interface_other_category">Sučelje - Ostalo</string>
+    <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupiraj video snimke</string>
     <string name="video_min_group_length_summary">Video snimke su grupirane ako su njihova prva slova jednaka.</string>
     <string name="video_min_group_length_disable">Onemogući</string>
@@ -248,8 +252,12 @@
     <string name="video_min_group_length_long">Veći broj slova (9)</string>
     <string name="force_list_portrait">Bez mreže u uspravnom načinu</string>
     <string name="force_list_portrait_summary">Prikaži video snimke u popisu umjesto u mreži kada je u uspravnom načinu</string>
+    <string name="force_play_all_summary">Reproduciraj sve video snimke, počevši od one na koju ste kliknuli</string>
+    <string name="force_play_all_title">Način rada video popisa izvođenja</string>
     <string name="save_brightness_summary">Zapamti razinu svjetline u video reproduktoru</string>
     <string name="save_brightness_title">Spremi razinu svjetline u za video snimku</string>
+    <string name="save_audiodelay_summary">Spremi pojedino kašnjenje zvuka za svaku video snimku</string>
+    <string name="save_audiodelay_title">Spremi kašnjenje zvuka</string>
     <string name="enable_brightness_gesture_title">Pokreti svjetline</string>
     <string name="enable_brightness_gesture_summary">Upravljanje svjetlinom s pokretom tijekom reprodukcije video snimki</string>
     <string name="enable_volume_gesture_title">Pokreti glasnoće zvuka</string>
@@ -315,7 +323,8 @@
     <string name="set_locale_popup">Zatvorite i ponovno pokrenite VLC kako bi se promjene omogućile.</string>
     <string name="network_caching">Vrijednost mrežne predmemorije</string>
     <string name="network_caching_summary">Vremensko trajanje predmemorije mrežnog medija (u ms). Ne radi s omogućenim hardverskim dekôdiranjem. Ostavite prazno za zadano sustavom.</string>
-    <string name="network_caching_popup">Ova vrijednost mora biti između 0 i 6000 ms</string>
+    <string name="resume_playback_title">Nastavi reprodukciju nakon završetka poziva</string>
+    <string name="resume_playback_summary">U suprotnome ostani pauziran</string>
     <string name="quit">Zatvori i ponovno pokreni aplikaciju</string>
     <string name="developer_prefs_category">Razvoj</string>
     <string name="enable_verbose_mode">Opširnije</string>
@@ -348,6 +357,8 @@
     <string name="network_empty">Direktorij je prazan.</string>
     <string name="network_connection_needed">Nema povezivanjiva s lokalnom mrežom.</string>
     <string name="search_hint">Pretraži medij</string>
+    <string name="search_list_hint">Pretraži medije u trenutnom popisu</string>
+    <string name="search_global">Pretraži u svim medijskim zbirkama</string>
     <string name="directory_show_medialib">Prikaži u medijskoj zbirci</string>
     <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
     <string name="playlist_save">Spremi popis izvođenja</string>
@@ -391,6 +402,11 @@
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzmi</string>
     <string name="extension_empty">Nema stavke za prikaz, idite u svoje postavke proširenja za prikaz stavke.</string>
+    <string name="opengl_title">OpenGL ES2 upotreba</string>
+    <string name="opengl_summary">Po zadanome, OpenGL ES2 se koristi za softversko i hardversko dekôdiranje, prema potrebi (360° video snimke).</string>
+    <string name="opengl_automatic">Automatska</string>
+    <string name="opengl_on">Uključi prisilno</string>
+    <string name="opengl_off">Isključi prisilno</string>
     <string name="network_favorites">Omiljene mreže</string>
     <string name="network_shared_folders">Dijeljene mape</string>
     <string name="encryption_warning">Upozorenje, šifriranje nije dostupno za ovu inačicu Androida, lozinka će biti spremljena u privatnom prostoru ali neće biti šifrirana</string>
@@ -415,4 +431,12 @@
     <string name="subtitles_download_title">Preuzimanje podnaslova</string>
     <string name="connecting">Povezivanje...</string>
     <string name="save_bluetooth_delay">spremi odgodu za bluetooth uređaje</string>
+    <string name="episodes">epizode</string>
+    <string name="movies">filmovi</string>
+    <string name="videos">video snimke</string>
+    <string name="clear_playback_history">Obriši povijest reprodukcije</string>
+    <string name="various_artists">Različiti izvođači</string>
+    <string name="ml_scanning">Pretraživanje medijskih datoteka</string>
+    <string name="ml_parse_media">Analiza medija</string>
+    <string name="ml_discovering">Otkrivanje</string>
 </resources>
