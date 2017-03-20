@@ -93,7 +93,6 @@
     <string name="directories">Каталоги</string>
     <string name="loading">Загрузка…</string>
     <string name="please_wait">Пожалуйста, подождите…</string>
-    <string name="nomedia">Медиафайлы не найдены. Пожалуйста, перенесите файлы на ваше устройство или измените настройки.</string>
     <string name="noplaylist">Плейлисты не найдены.</string>
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
@@ -260,8 +259,12 @@
     <string name="video_min_group_length_long">По длинному началу (9 букв)</string>
     <string name="force_list_portrait">Не показывать сетку вертикально</string>
     <string name="force_list_portrait_summary">В вертикальном режиме показывать видео в списке, а не в сетке.</string>
+    <string name="force_play_all_summary">Воспроизводить все видео, начиная с выбранного</string>
+    <string name="force_play_all_title">Режим воспроизведения плейлиста видео</string>
     <string name="save_brightness_summary">Запоминать уровень яркости в видеоплеере</string>
     <string name="save_brightness_title">Запоминать уровень яркости для видео</string>
+    <string name="save_audiodelay_summary">Сохранять задержку звука индивидуально для каждого видео</string>
+    <string name="save_audiodelay_title">Сохранять задержку звука</string>
     <string name="enable_brightness_gesture_title">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_volume_gesture_title">Изменение громкости жестом</string>
@@ -320,6 +323,7 @@
     <string name="auto_rescan">Автосканирование</string>
     <string name="auto_rescan_summary">Автоматически сканировать устройство и выявлять новые или удалённые медиафайлы при запуске приложения</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
+    <string name="clear_media_db_summary">Стирать информацию в базе данных Android VLC</string>
     <string name="clear_history">Очистить историю поиска</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
     <string name="set_locale">Языковая среда</string>
@@ -327,7 +331,8 @@
     <string name="set_locale_popup">Закройте и перезапустите VLC, чтобы изменения вступили в силу.</string>
     <string name="network_caching">Размер кэша сетевых данных</string>
     <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
-    <string name="network_caching_popup">Это значение должно быть 0 до 6000 мс.</string>
+    <string name="resume_playback_title">Возобновлять воспроизведение после звонка</string>
+    <string name="resume_playback_summary">В противном случае сохраняется пауза</string>
     <string name="quit">Перезапустить приложение</string>
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
@@ -407,6 +412,11 @@
     <string name="plugins">Модули</string>
     <string name="download_on_device">Загрузить</string>
     <string name="extension_empty">Список расширений пуст, перейдите в настройки расширений, чтобы они появились.</string>
+    <string name="opengl_title">Использование OpenGL ES2</string>
+    <string name="opengl_summary">По умолчанию OpenGL ES2 используется для программного и аппаратного декодирования при необходимости (видео с обзором 360°).</string>
+    <string name="opengl_automatic">Автоматически</string>
+    <string name="opengl_on">Всегда включено</string>
+    <string name="opengl_off">Всегда отключено</string>
     <string name="network_favorites">Избранные сетевые ресурсы</string>
     <string name="network_shared_folders">Общие папки</string>
     <string name="encryption_warning">Предупреждение: в данной версии Android шифрование не поддерживается, пароль будет сохранён в закрытой области, но не будет зашифрован</string>
@@ -435,4 +445,10 @@
     <string name="movies">фильмы</string>
     <string name="videos">видео</string>
     <string name="clear_playback_history">Очистить историю воспроизведения</string>
+    <string name="various_artists">Различные исполнители</string>
+    <string name="ml_scanning">Поиск медиафайлов</string>
+    <string name="ml_parse_media">Разбор медиаобъекта</string>
+    <string name="ml_discovering">Обнаружение</string>
+    <string name="resume">Возобновить</string>
+    <string name="length">Длительность</string>
 </resources>
