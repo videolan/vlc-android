@@ -75,7 +75,6 @@
     <string name="directories">目录</string>
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
-    <string name="nomedia">未找到媒体文件。请传输一些文件到您的设备，或调整您的偏好设置。</string>
     <string name="noplaylist">未找到播放列表。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
@@ -99,6 +98,7 @@
     <string name="locked">已锁定</string>
     <string name="unlocked">已解锁</string>
     <string name="surface_best_fit">最为合适</string>
+    <string name="surface_fit_screen">适合屏幕</string>
     <string name="surface_fill">拉伸填充</string>
     <string name="surface_original">居中</string>
     <string name="thumbnail">缩略图</string>
@@ -238,8 +238,12 @@
     <string name="video_min_group_length_long">大量字母相同 (9)</string>
     <string name="force_list_portrait">竖屏模式不显示网格</string>
     <string name="force_list_portrait_summary">竖屏模式下，以列表形式而不是网格形式显示视频</string>
+    <string name="force_play_all_summary">播放所有视频，并且以您点击的那个视频作为第一个播放的视频</string>
+    <string name="force_play_all_title">视频播放列表模式</string>
     <string name="save_brightness_summary">记住视频播放器内的亮度级别</string>
     <string name="save_brightness_title">保存视频亮度级别</string>
+    <string name="save_audiodelay_summary">为每个视频保存单独的音频延迟</string>
+    <string name="save_audiodelay_title">保存音频延迟</string>
     <string name="enable_brightness_gesture_title">亮度手势</string>
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
     <string name="enable_volume_gesture_title">音量手势</string>
@@ -305,7 +309,8 @@
     <string name="set_locale_popup">退出并重启 VLC 使更改生效。</string>
     <string name="network_caching">网络缓存值</string>
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
-    <string name="network_caching_popup">这个数值必须在 0 到 6000 毫秒之间</string>
+    <string name="resume_playback_title">通话结束后恢复播放</string>
+    <string name="resume_playback_summary">否则保持暂停</string>
     <string name="quit">退出并重新启动应用程序</string>
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
@@ -379,10 +384,17 @@
     <string name="permission_ask_again">授予权限</string>
     <string name="exit_app">关闭 VLC</string>
     <!--fast scroller-->
+    <string name="fastscroller_track">FastScroller 轨道</string>
+    <string name="fastscroller_handle">FastScroller 句柄</string>
     <!--Plugins-->
     <string name="plugins">插件</string>
     <string name="download_on_device">下载</string>
     <string name="extension_empty">没有可以显示的项目，请到“扩展设置”添加。</string>
+    <string name="opengl_title">OpenGL ES2 的使用</string>
+    <string name="opengl_summary">在默认情况下，OpenGL ES2 会在软件解码和硬件解码时按需使用 (比如 360° 视频)。</string>
+    <string name="opengl_automatic">自动</string>
+    <string name="opengl_on">强制开启</string>
+    <string name="opengl_off">强制关闭</string>
     <string name="network_favorites">网络收藏夹</string>
     <string name="network_shared_folders">共享文件夹</string>
     <string name="encryption_warning">警告：该 Android 版本尚不支持加密，密码将存储在私密空间，但将以明文格式存储</string>
@@ -410,4 +422,8 @@
     <string name="episodes">集</string>
     <string name="movies">影片</string>
     <string name="videos">视频</string>
+    <string name="clear_playback_history">清除回放历史记录</string>
+    <string name="various_artists">群星</string>
+    <string name="ml_scanning">正在扫描媒体文件</string>
+    <string name="ml_parse_media">正在解析媒体文件</string>
 </resources>
