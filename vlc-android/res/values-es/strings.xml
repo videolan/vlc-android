@@ -81,7 +81,6 @@
     <string name="directories">Carpetas</string>
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
-    <string name="nomedia">No se han encontrador archivos multimedia, transfiera algunos archivos a su dispositivo o ajuste sus preferencias.</string>
     <string name="noplaylist">No se ha encontrado lista de reproducción.</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">no disponible</string>
@@ -312,7 +311,6 @@
     <string name="set_locale_popup">Salir y reiniciar VLC para que los cambios tomen efecto.</string>
     <string name="network_caching">Valor de cache de red</string>
     <string name="network_caching_summary">La cantidad de tiempo que almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
-    <string name="network_caching_popup">Este valor debe estar entre 0 y 6000 ms</string>
     <string name="quit">Cerrar y reiniciar aplicación</string>
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
