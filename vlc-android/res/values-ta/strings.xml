@@ -81,7 +81,6 @@
     <string name="directories">அடைவுகள்</string>
     <string name="loading">ஏற்றுகிறது</string>
     <string name="please_wait">காத்திருக்கவும்…</string>
-    <string name="nomedia">ஊடகக் கோப்புகள் காணவில்லை, சாதனத்தில் சில கோப்புகளை ஏற்று (அ) முன்னுரிமைகளைச் சரிச்செய்யவும்.</string>
     <string name="noplaylist">தொகுப்பு பட்டியல் எதுவும் இல்லை.</string>
     <string name="mediafiles">ஊடகக் கோப்புகள்</string>
     <string name="notavailable">இல்லை</string>
