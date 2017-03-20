@@ -75,7 +75,6 @@
     <string name="directories">ที่เก็บแฟ้มต่างๆ</string>
     <string name="loading">กําลังโหลด…</string>
     <string name="please_wait">รอสักครู่…</string>
-    <string name="nomedia">ไม่พบแฟ้มสื่อ กรุณาถ่ายโอนแฟ้มสื่อเข้าอุปกรณ์ หรือปรับค่าปรับแต่งของคุณ</string>
     <string name="noplaylist">ไม่พบผังเล่น</string>
     <string name="mediafiles">แฟ้มสื่อ</string>
     <string name="notavailable">ไม่สามารถใช้ได้</string>
