@@ -81,7 +81,7 @@
     <string name="directories">Κατάλογοι</string>
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Παρακαλώ περιμένετε...</string>
-    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
+    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ επιλέξτε κάποιους καταλόγους για να προστεθούν στην βιβλιοθήκη μέσων σας</string>
     <string name="noplaylist">Δεν βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
@@ -105,6 +105,7 @@
     <string name="locked">Κλειδωμένο</string>
     <string name="unlocked">Ξεκλείδωτο</string>
     <string name="surface_best_fit">Καλύτερο ταίριασμα</string>
+    <string name="surface_fit_screen">Προσαρμογή οθόνης</string>
     <string name="surface_fill">Γέμισμα</string>
     <string name="surface_original">Κέντρο</string>
     <string name="thumbnail">Μικρογραφία</string>
@@ -245,8 +246,12 @@
     <string name="video_min_group_length_long">Μεγάλος αριθμός γραμμάτων (9)</string>
     <string name="force_list_portrait">Κανένα πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="force_list_portrait_summary">Δείξε τα βίντεο σε λίστα αντί για πλέγμα σε κατακόρυφο προσανατολισμό</string>
+    <string name="force_play_all_summary">Αναπαραγωγή όλων των βίντεο, ξεκινώντας από από αυτό που κάνετε κλικ</string>
+    <string name="force_play_all_title">Λειτουργία λίστας αναπαραγωγής βίντεο</string>
     <string name="save_brightness_summary">Θυμήσου το επίπεδο φωτεινότητας στο πρόγραμμα αναπαραγωγής βίντεο</string>
     <string name="save_brightness_title">Αποθήκευση επιπέδου φωτεινότητας για το βίντεο</string>
+    <string name="save_audiodelay_summary">Αποθήκευση ατομικών καθυστερήσεων ήχου για κάθε βίντεο</string>
+    <string name="save_audiodelay_title">Αποθήκευση καθυστέρησης ήχου</string>
     <string name="enable_brightness_gesture_title">Χειρονομία φωτεινότητας</string>
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_volume_gesture_title">Χειρονομία ήχου</string>
@@ -305,6 +310,7 @@
     <string name="auto_rescan">Αυτόματη επανασάρωση</string>
     <string name="auto_rescan_summary">Αυτόματη σάρωση της συσκευής για νέα ή διαγραμμένα μέσα ενημέρωσης κατά την εκκίνηση εφαρμογής</string>
     <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
+    <string name="clear_media_db_summary">Πηγαίνετε στις πληροφορίες του Android VLC για να καθαρίσετε τα δεδομένα</string>
     <string name="clear_history">Καθαρισμός ιστορικού εύρεσης</string>
     <string name="media_db_cleared">Η βάση δεδομένων των μέσων εκκαθαρίστηκε!</string>
     <string name="set_locale">Ορισμός τοπικής ρύθμισης</string>
@@ -312,7 +318,8 @@
     <string name="set_locale_popup">Κλείστε και κάντε επανεκκίνηση του VLC για να ισχύσουν οι αλλαγές.</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
     <string name="network_caching_summary">Το ποσό του χρόνου για να διαβαστούν δικτυακά μέσα (σε ms). Δεν λειτουργεί με την αποκωδικοποίηση υλικού. Αφήστε το κενό για επαναφορά.</string>
-    <string name="network_caching_popup">Αυτή η τιμή πρέπει να είναι μεταξύ 0 και 6000 ms </string>
+    <string name="resume_playback_title">Συνέχιση αναπαραγωγής μετά από κλήση</string>
+    <string name="resume_playback_summary">Παραμονή σε παύση αλλιώς</string>
     <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
     <string name="developer_prefs_category">Για προγραμματιστές</string>
     <string name="enable_verbose_mode">Πολύλογος</string>
@@ -386,10 +393,17 @@
     <string name="permission_ask_again">Δώστε άδεια</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
     <!--fast scroller-->
+    <string name="fastscroller_track">Κομμάτι FastScroller</string>
+    <string name="fastscroller_handle">Λαβή FastScroller</string>
     <!--Plugins-->
     <string name="plugins">Εμφυτεύματα</string>
     <string name="download_on_device">Λήψη</string>
     <string name="extension_empty">Κανένα αντικείμενο για εμφάνιση, πήγαινε στις επιλογές του πρόσθετου για να δεις κανένα.</string>
+    <string name="opengl_title">Χρήση OpenGL ES2</string>
+    <string name="opengl_summary">Από προεπιλογή, το OpenGL ES2 χρησιμοποιείται για την αποκωδικοποίηση λογισμικού και αποκωδικοποίηση υλικού όταν χρειάζεται (360 ° βίντεο).</string>
+    <string name="opengl_automatic">Αυτόματα</string>
+    <string name="opengl_on">Επιβολή Ενεργοποίησης</string>
+    <string name="opengl_off">Επιβολή Απενεργοποίησης</string>
     <string name="network_favorites">Δίκτυο αγαπημένων</string>
     <string name="network_shared_folders">Μοιρασμένοι φάκελοι</string>
     <string name="encryption_warning">Προειδοποίηση, η κρυπρογράφηση δεν είναι διαθέσιμη σε αυτή την έκδοση του Android, ο κωδικός θα αποθηκευτεί σε ιδιωτικό χώρο αλλά δεν θα είναι κρυπτογραφημένος</string>
@@ -417,4 +431,12 @@
     <string name="episodes">επεισόδια</string>
     <string name="movies">ταινίες</string>
     <string name="videos">βίντεο</string>
+    <string name="clear_playback_history">Καθαρισμός ιστορικού αναπαραγωγής</string>
+    <string name="various_artists">Διάφοροι καλλιτέχνες</string>
+    <string name="ml_scanning">Σάρωση για αρχεία μέσων</string>
+    <string name="ml_parse_media">Ανάλυση μέσων</string>
+    <string name="ml_discovering">Ανακάλυψη</string>
+    <string name="resume">Συνέχιση</string>
+    <string name="length">Διάρκεια</string>
+    <string name="tv_settings_hint">Μακρό πάτημα του ΟΚ για να επιλέξετε/απεπιλέξετε καταλόγους</string>
 </resources>
