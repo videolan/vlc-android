@@ -87,7 +87,6 @@
     <string name="directories">Adresáře</string>
     <string name="loading">Načítám</string>
     <string name="please_wait">Vyčkejte prosím…</string>
-    <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
     <string name="noplaylist">Nenalezen žádný seznam skladeb.</string>
     <string name="mediafiles">Mediální soubory</string>
     <string name="notavailable">nedostupné</string>
@@ -253,6 +252,7 @@
     <string name="video_min_group_length_long">Větší počet znaků (9)</string>
     <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
     <string name="force_list_portrait_summary">Zobrazit videa jako seznam místo mřížky při zobrazení na výšku</string>
+    <string name="force_play_all_summary">Přehrát všechny videa, počínaje tím, na které kliknete</string>
     <string name="save_brightness_summary">Zapamatovat úroveň jasu v přehrávači videí</string>
     <string name="save_brightness_title">Uložit úroveň jasu pro toto video</string>
     <string name="enable_brightness_gesture_title">Gesto jasu</string>
@@ -320,7 +320,6 @@
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
     <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
-    <string name="network_caching_popup">Hodnota musí být mezi 0 a 6000 ms</string>
     <string name="quit">Ukončit a restartovat aplikaci</string>
     <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Podrobné</string>
@@ -398,6 +397,7 @@
     <string name="plugins">Zásuvné moduly</string>
     <string name="download_on_device">Stáhnout</string>
     <string name="extension_empty">Nelze zobrazit žádné položky. Můžete je přidat v nastavení rozšíření.</string>
+    <string name="opengl_automatic">Automaticky</string>
     <string name="network_favorites">Oblíbené sítě</string>
     <string name="network_shared_folders">Sdílené složky</string>
     <string name="encryption_warning">Varování: pro tuto verzi Android není šifrování možné. Heslo bude uloženo na soukromém místě, ale nešifrované</string>
@@ -425,4 +425,7 @@
     <string name="movies">filmy</string>
     <string name="videos">videa</string>
     <string name="clear_playback_history">Vymazat historii přehrávání</string>
+    <string name="ml_discovering">Objevování</string>
+    <string name="resume">Pokračovat</string>
+    <string name="length">Délka</string>
 </resources>
