@@ -81,7 +81,6 @@
     <string name="directories">Carpetas</string>
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
-    <string name="nomedia">No se encontraron archivos multimedia, por favor transfiere algunos archivos a tu dispositivo o ajusta tus preferencias.</string>
     <string name="noplaylist">No se encontró lista de reproducción</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">No disponible</string>
