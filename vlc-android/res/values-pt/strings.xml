@@ -81,7 +81,7 @@
     <string name="directories">Diretórios</string>
     <string name="loading">A carregar</string>
     <string name="please_wait">Por favor, aguarde...</string>
-    <string name="nomedia">Não foram encontrados ficheiros de multimédia. Por favor, transfira alguns ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
+    <string name="nomedia">Ficheiros não encontrados. Selecione os diretórios para adicionar à sua coleção.</string>
     <string name="noplaylist">Nenhuma lista de reprodução encontrada.</string>
     <string name="mediafiles">Ficheiros multimédia</string>
     <string name="notavailable">indisponível</string>
@@ -246,8 +246,12 @@
     <string name="video_min_group_length_long">Número de letras comprido (9)</string>
     <string name="force_list_portrait">Lista no modo vertical</string>
     <string name="force_list_portrait_summary">Mostrar vídeos em lista em vez de grelha no modo vertical</string>
+    <string name="force_play_all_summary">Reproduzir todos os vídeos, iniciando com o que for clicado</string>
+    <string name="force_play_all_title">Modo de reprodução de videos</string>
     <string name="save_brightness_summary">Memorizar nível de brilho no reprodutor de vídeo</string>
     <string name="save_brightness_title">Guardar nível de brilho do vídeo</string>
+    <string name="save_audiodelay_summary">Guardar atraso de áudio de cada vídeo individualmente</string>
+    <string name="save_audiodelay_title">Guardar atraso de áudio</string>
     <string name="enable_brightness_gesture_title">Gestos para brilho</string>
     <string name="enable_brightness_gesture_summary">Ao reproduzir, controlar brilho por meio de gestos</string>
     <string name="enable_volume_gesture_title">Gestos para volume</string>
@@ -306,6 +310,7 @@
     <string name="auto_rescan">Reanalisar automaticamente</string>
     <string name="auto_rescan_summary">Ao iniciar a aplicação, analisar o dipositivo para procurar por alterações à coleção.</string>
     <string name="clear_media_db">Limpar base de dados multimédia</string>
+    <string name="clear_media_db_summary">Aceder ao Android VLC info para limpar os dados</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="media_db_cleared">A base de dados foi limpa!</string>
     <string name="set_locale">Definir idioma</string>
@@ -313,7 +318,9 @@
     <string name="set_locale_popup">Reinicie o VLC para aplicar as alterações</string>
     <string name="network_caching">Valor da cache de rede</string>
     <string name="network_caching_summary">O valor de tempo para processar as emissões de rede (em ms). Não funciona com a descodificação de hardware. Deixe em branco para repor.</string>
-    <string name="network_caching_popup">Este valor tem que estar entre 0 6000 ms</string>
+    <string name="resume_playback_title">Continuar reprodução após a chamada</string>
+    <string name="resume_playback_summary">Caso contrário, manter a pausa</string>
+    <string name="network_caching_popup">Este valor tem que estar entre 0 e 6000 ms</string>
     <string name="quit">Sair e reiniciar a aplicação</string>
     <string name="developer_prefs_category">Programadores</string>
     <string name="enable_verbose_mode">Detalhado</string>
@@ -365,6 +372,7 @@
     <string name="player_touch_disable_all">Desativar todos os controlos</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Alterar interface para tema de TV</string>
+    <string name="medialibrary_directories">Pastas da coleção multimédia</string>
     <!--Accessibility-->
     <string name="more_actions">Mais ações</string>
     <string name="move">Mover</string>
@@ -377,7 +385,7 @@
     <string name="widget_name_w">Widget claro</string>
     <string name="widget_name_b">Widget escuro</string>
     <string name="allow_storage_access_title">Permitir que o VLC aceda a ficheiros de vídeo e áudio</string>
-    <string name="allow_storage_access_description">O VLC necessita desta permissão para acedern aos ficheiros multimédia deste dispositivo.</string>
+    <string name="allow_storage_access_description">O VLC necessita desta permissão para aceder aos ficheiros multimédia deste dispositivo.</string>
     <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
     <string name="allow_settings_access_ringtone_description">O VLC necessita que você conceda as permissões para definir esta faixa como toque.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC altere o brilho</string>
@@ -393,6 +401,11 @@
     <string name="plugins">Extras</string>
     <string name="download_on_device">Descarregar</string>
     <string name="extension_empty">Sem itens, aceda as definições da extensão para obter alguns.</string>
+    <string name="opengl_title">Utilização OpenGL ES2</string>
+    <string name="opengl_summary">Por definição, OpenGL ES2 é utilizada se for necessária para a descodificação de software e hardware (vídeos 360º)</string>
+    <string name="opengl_automatic">Automático</string>
+    <string name="opengl_on">Sim</string>
+    <string name="opengl_off">Não</string>
     <string name="network_favorites">Favoritos de rede</string>
     <string name="network_shared_folders">Pastas partilhadas</string>
     <string name="encryption_warning">Aviso: não existe suporte a encriptação nesta versão do Android. A palavra-passe será guardada num local privado mas não será cifrada.</string>
@@ -421,4 +434,13 @@
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
     <string name="clear_playback_history">Limpar histórico de reprodução</string>
+    <string name="various_artists">Vários artistas</string>
+    <string name="ml_scanning">A procurar ficheiros multimédia</string>
+    <string name="ml_parse_media">A processar dados</string>
+    <string name="ml_discovering">Descobrir</string>
+    <string name="resume">Continuar</string>
+    <string name="length">Duração</string>
+    <string name="tv_settings_hint">Toque longo no botão OK para marcar/desmarcar diretórios</string>
+    <string name="ml_external_storage_title">Detetado novo armazenamento externo</string>
+    <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua coleção?</string>
 </resources>
