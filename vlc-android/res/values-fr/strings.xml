@@ -81,7 +81,7 @@
     <string name="directories">Dossiers</string>
     <string name="loading">Chargement</string>
     <string name="please_wait">Veuillez patienter…</string>
-    <string name="nomedia">Aucun fichier média trouvé, veuillez transférer des fichiers vers votre périphérique ou ajuster vos préférences.</string>
+    <string name="nomedia">Aucun fichier multimédia trouvé, veuillez sélectionner les répertoires à ajouter à votre bibliothèque de média</string>
     <string name="noplaylist">Aucune liste de lecture trouvée.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
@@ -105,6 +105,7 @@
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
+    <string name="surface_fit_screen">Ajuster à l\'écran</string>
     <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
@@ -232,7 +233,7 @@
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_gui">Affichage</string>
     <string name="interface_secondary_display_category_title">Affichage secondaire</string>
-    <string name="interface_secondary_display_category_summary">Paramètres quand des écrans secondaires sont connectés (HDMI/Chromecast).</string>
+    <string name="interface_secondary_display_category_summary">Paramètres de gestion des  écrans secondaires (HDMI/Screencast).</string>
     <string name="enable_clone_mode">Préférer le mode clone</string>
     <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécommande</string>
     <string name="interface_other_category">Interface - Autres</string>
@@ -245,11 +246,15 @@
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
+    <string name="force_play_all_summary">Jouer toutes les vidéos en commençant par celle sélectionnée</string>
+    <string name="force_play_all_title">Mode liste de lecture vidéo</string>
     <string name="save_brightness_summary">Mémoriser le niveau de rétroéclairage du lecteur video</string>
     <string name="save_brightness_title">Enregistrer le niveau de rétroéclairage pour les videos</string>
+    <string name="save_audiodelay_summary">Enregistrer le délai de l\'audio pour chaque video</string>
+    <string name="save_audiodelay_title">Enregistrer le délai audio</string>
     <string name="enable_brightness_gesture_title">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
-    <string name="enable_volume_gesture_title">Mouvement du volume</string>
+    <string name="enable_volume_gesture_title">Volume sonore au toucher</string>
     <string name="enable_volume_gesture_summary">Pendant la lecture d’une vidéo, contrôler le volume au toucher</string>
     <string name="enable_seek_buttons">Activer les boutons de déplacement</string>
     <string name="enable_seek_buttons_summary">Afficher les boutons d\'avance et retour rapides sur l\'interface vidéo</string>
@@ -305,6 +310,7 @@
     <string name="auto_rescan">Rescanner automatiquement</string>
     <string name="auto_rescan_summary">Scanner automatiquement au démarrage de l\'application les médias ajoutés ou supprimés sur l\'appareil</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
+    <string name="clear_media_db_summary">Accédez aux informations d\'Android VLC pour effacer les données</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="set_locale">Définir la langue</string>
@@ -312,7 +318,9 @@
     <string name="set_locale_popup">Quitter et redémarrer VLC pour que les changements soient appliqués.</string>
     <string name="network_caching">Taille du cache réseau</string>
     <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
-    <string name="network_caching_popup">Cette valeur doit être entre 0 et 6000 ms</string>
+    <string name="resume_playback_title">Reprendre la lecture après un appel</string>
+    <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
+    <string name="network_caching_popup">Cett valeur doit être comprise entre 0 et 6000 ms</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>
@@ -364,6 +372,7 @@
     <string name="player_touch_disable_all">Désactiver tous les contrôles tactiles</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Basculer sur l\'interface Android TV</string>
+    <string name="medialibrary_directories">Dossiers de la bibliothèque multimédia</string>
     <!--Accessibility-->
     <string name="more_actions">Plus d\'actions</string>
     <string name="move">Déplacer</string>
@@ -386,12 +395,17 @@
     <string name="permission_ask_again">Donner l\'autorisation</string>
     <string name="exit_app">Fermer VLC</string>
     <!--fast scroller-->
-    <string name="fastscroller_track">Piste du défilement rapide</string>
+    <string name="fastscroller_track">indicateur de défilement rapide</string>
     <string name="fastscroller_handle">Curseur du défilement rapide</string>
     <!--Plugins-->
     <string name="plugins">Extensions</string>
     <string name="download_on_device">Télécharger</string>
     <string name="extension_empty">Aucun élément à afficher, rendez vous dans les paramètres de votre extension pour en avoir</string>
+    <string name="opengl_title">Utilisation de OpenGL ES2</string>
+    <string name="opengl_summary">Par défaut, OpenGL ES2 est utilisé opur le décodage logiciel et le décodage matériel lorsque cela est nécessaire (vidéos 360°).</string>
+    <string name="opengl_automatic">Automatique</string>
+    <string name="opengl_on">On (forcé)</string>
+    <string name="opengl_off">Off (forcé)</string>
     <string name="network_favorites">Favoris réseau</string>
     <string name="network_shared_folders">Dossiers partagés</string>
     <string name="encryption_warning">Avertissement, le chiffrement n\'est pas disponible pour cette version d\'Android, le mot de passe sera stocké dans un espace privé mais de manière non chiffrée</string>
@@ -400,7 +414,7 @@
     <string name="popup_playback_title">Jouer la vidéo dans une fenêtre popup</string>
     <string name="popup_playback">Lecture dans une fenêtre popup</string>
     <string name="popup_expand">Maximiser la vidéo</string>
-    <string name="snack_subloader_sub_found">Sous-titres tléchargés</string>
+    <string name="snack_subloader_sub_found">Sous-titres téléchargés</string>
     <string name="snack_subloader_sub_not_found">Sous-titres non trouvés</string>
     <string name="dialog_subloader_success">Sous-titres trouvés pour :</string>
     <string name="dialog_subloader_fails">Sous-titres non trouvés pour :</string>
@@ -415,8 +429,18 @@
     <string name="listen">Écouter</string>
     <string name="subtitles_download_title">Téléchargement des sous-titres</string>
     <string name="connecting">Connexion…</string>
-    <string name="save_bluetooth_delay">enregistrer le délai du périphérique bluetooth</string>
+    <string name="save_bluetooth_delay">enregistrer le retard du périphérique bluetooth</string>
     <string name="episodes">épisodes</string>
     <string name="movies">films</string>
     <string name="videos">vidéos</string>
+    <string name="clear_playback_history">Supprimer l\'historique de lecture</string>
+    <string name="various_artists">Artistes Divers</string>
+    <string name="ml_scanning">Recherche de fichiers multimédia</string>
+    <string name="ml_parse_media">Analyse du média</string>
+    <string name="ml_discovering">Exploration</string>
+    <string name="resume">Reprendre</string>
+    <string name="length">Longueur</string>
+    <string name="tv_settings_hint">Appui prolongé sur OK pour cocher/décocher</string>
+    <string name="ml_external_storage_title">Nouveau stockage externe détecté</string>
+    <string name="ml_external_storage_msg">Souhaitez-vous que VLC ajoute le périphérique %1$s à votre bibliothèque de media ?</string>
 </resources>
