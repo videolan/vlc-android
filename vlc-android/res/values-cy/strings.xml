@@ -93,7 +93,6 @@
     <string name="directories">Cyfeiriaduron</string>
     <string name="loading">Yn llwytho…</string>
     <string name="please_wait">Arhoswch…</string>
-    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwyddwch neu lawrlwythwch ffeiliau i\'ch dyfais neu addaswch eich gosodiadau.</string>
     <string name="noplaylist">Ni chanfuwyd rhestr chwarae.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">dim ar gael</string>
@@ -117,6 +116,7 @@
     <string name="locked">Ar glo</string>
     <string name="unlocked">Dim ar glo</string>
     <string name="surface_best_fit">Ffit orau</string>
+    <string name="surface_fit_screen">Ffitio i\'r sgrîn</string>
     <string name="surface_fill">Llenwi\'r sgrîn</string>
     <string name="surface_original">Canoli</string>
     <string name="thumbnail">Braslun bawd</string>
@@ -248,7 +248,7 @@
     <string name="interface_secondary_display_category_title">Ail ddangosydd</string>
     <string name="interface_secondary_display_category_summary">Gosodiadau man mae ail ddangosydd wedi\'i gysylltu (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Ffafrio clôn</string>
-    <string name="enable_clone_mode_summary">Clonio sgrin y ddyfais heb remote control.</string>
+    <string name="enable_clone_mode_summary">Clonio sgrîn y ddyfais heb remote control.</string>
     <string name="interface_other_category">Rhyngwyneb - Arall</string>
     <string name="video_prefs_category">Fideo</string>
     <string name="video_min_group_length_title">Fideos fesul grŵp</string>
@@ -259,12 +259,16 @@
     <string name="video_min_group_length_long">Nifer fawr o lythrennau (9)</string>
     <string name="force_list_portrait">Dim grid ym modd darlun</string>
     <string name="force_list_portrait_summary">Dangos fideos mewn rhestr yn lle grid ym modd darlun</string>
+    <string name="force_play_all_summary">Chwarae pob fideo, gan ddechrau gyda\'r un a gliciwyd.</string>
+    <string name="force_play_all_title">Modd rhestr chwarae fideos</string>
     <string name="save_brightness_summary">Cofio\'r lefel disgleirdeb yn y chwaraeydd fideo</string>
     <string name="save_brightness_title">Cadw\'r lefel disgleirdeb ar gyfer fideo</string>
+    <string name="save_audiodelay_summary">Cadw oediad sain unigryw ar gyfer pob fideo</string>
+    <string name="save_audiodelay_title">Cadw oediad sain</string>
     <string name="enable_brightness_gesture_title">Cyffyrddiad disgleirdeb</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrîn wrth chwarae fideo</string>
     <string name="enable_volume_gesture_title">Cyffyrddiad sain</string>
-    <string name="enable_volume_gesture_summary">Rheoli\'r sain gan gyffwrdd y sgrin wrth chwarae fideo</string>
+    <string name="enable_volume_gesture_summary">Rheoli\'r sain gan gyffwrdd y sgrîn wrth chwarae fideo</string>
     <string name="enable_seek_buttons">Galluogi botymau canfod</string>
     <string name="enable_seek_buttons_summary">Dangos botymau nôl ac ymlaen ar y rhyngwyneb fideo</string>
     <string name="subtitles_prefs_category">Isdeitlau</string>
@@ -281,8 +285,8 @@
     <string name="subtitles_color_green">Gwyrdd</string>
     <string name="subtitles_background_title">Cefndir Isdeitlau</string>
     <string name="audio_prefs_category">Sain</string>
-    <string name="lockscreen_cover_title">Clawr y cyfrwng ar y sgrin cloi</string>
-    <string name="lockscreen_cover_summary">Os ar gael, gosod delwedd clawr y trac, albwm neu fideo sy\'n chwarae fel delwedd sgrin cloi\'r ddyfais.</string>
+    <string name="lockscreen_cover_title">Clawr y cyfrwng ar y sgrîn cloi</string>
+    <string name="lockscreen_cover_summary">Os ar gael, gosod delwedd clawr y trac, albwm neu fideo sy\'n chwarae fel delwedd sgrîn cloi\'r ddyfais.</string>
     <string name="audio_title_alignment">Aliniad teitl sain</string>
     <string name="audio_title_alignment_default"> Rhagosodedig</string>
     <string name="audio_title_alignment_left">Chwith</string>
@@ -326,7 +330,8 @@
     <string name="set_locale_popup">Caewch ac ailddechrau VLC i gwblhau\'r newidiadau.</string>
     <string name="network_caching">Gwerth cof dros dro</string>
     <string name="network_caching_summary">Y cyfnod o amser i fyffro cyfrwng rhwydwaith (mewn milieiliadau). Nid yw\'n gweithio wrth ddatgodio gan y caledwedd. Gadael yn wag i\'w ailosod.</string>
-    <string name="network_caching_popup">Rhaid i\'r gwerth fod rhwng 0 a 6000 ms</string>
+    <string name="resume_playback_title">Parhau i chwarae ar ôl galwad</string>
+    <string name="resume_playback_summary">Aros wedi oedi fel arall</string>
     <string name="quit">Diweddu ac ail-ddechrau\'r aplen</string>
     <string name="developer_prefs_category">Datblygwr</string>
     <string name="enable_verbose_mode">Amleiriog</string>
@@ -406,6 +411,11 @@
     <string name="plugins">Ategion</string>
     <string name="download_on_device">Lawrlwytho</string>
     <string name="extension_empty">Dim eitemau i\'w dangos. Dos yn ôl i osodiadau estyniadau i gael rhai.</string>
+    <string name="opengl_title">Defnydd ES2 OpenGL</string>
+    <string name="opengl_summary">Yn ddiofyn, defnyddir ES2 OpenGL ar gyfer datgodio meddalwedd a chaledwedd pan mae angen (fideos 360°).</string>
+    <string name="opengl_automatic">Awtomatig</string>
+    <string name="opengl_on">Gorfodi Ymlaen</string>
+    <string name="opengl_off">Gorfodi Ffwrdd</string>
     <string name="network_favorites">Hoff rwydweithiau</string>
     <string name="network_shared_folders">Ffolderi a rhannwyd</string>
     <string name="encryption_warning">Rhybudd - Nid yw\'n bosib amgryptio ar y fersiwn hwn o Android. Caiff y cyfrinair ei gadw mewn man preifat ond heb ei amgryptio.</string>
@@ -433,4 +443,9 @@
     <string name="episodes">penodau</string>
     <string name="movies">ffilmiau</string>
     <string name="videos">fideos</string>
+    <string name="clear_playback_history">Clirio\'r hanes chwarae</string>
+    <string name="various_artists">Artistiaid Amryw</string>
+    <string name="ml_scanning">Yn sganio am ffeiliau cyfryngau</string>
+    <string name="ml_parse_media">Yn dosrannu cyfrwng</string>
+    <string name="ml_discovering">Yn darganfod</string>
 </resources>
