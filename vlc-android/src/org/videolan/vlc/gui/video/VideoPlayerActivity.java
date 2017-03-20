@@ -1375,6 +1375,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void endPlaybackSetting() {
         mTouchAction = TOUCH_NONE;
+        mService.saveMediaMeta();
         if (mBtReceiver != null && mPlaybackSetting == DelayState.AUDIO
                 && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn())) {
             String msg = getString(R.string.audio_delay) + "\n"

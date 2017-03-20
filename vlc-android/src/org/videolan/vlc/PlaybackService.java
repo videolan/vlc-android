@@ -653,7 +653,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     };
 
-    private void saveMediaMeta() {
+    public void saveMediaMeta() {
         MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());
         if (media == null || media.getId() == 0)
             return;
