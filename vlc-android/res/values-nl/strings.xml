@@ -81,7 +81,7 @@
     <string name="directories">Mappen</string>
     <string name="loading">Laden…</string>
     <string name="please_wait">Even wachten…</string>
-    <string name="nomedia">Geen mediabestanden gevonden. Zet een aantal mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
+    <string name="nomedia">Geen mediabestanden gevonden. Selecteer mappen om toe te voegen aan uw mediabibliotheek</string>
     <string name="noplaylist">Geen afspeellijst gevonden.</string>
     <string name="mediafiles">Mediabestanden</string>
     <string name="notavailable">niet beschikbaar</string>
@@ -246,8 +246,12 @@
     <string name="video_min_group_length_long">Groot aantal letters (9)</string>
     <string name="force_list_portrait">Geen raster in staande modus</string>
     <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
+    <string name="force_play_all_summary">Alle video\'s afspelen, beginnend met die waar u op klikte</string>
+    <string name="force_play_all_title">Video-afspeellijst modus</string>
     <string name="save_brightness_summary">Helderheidsniveau in videospeler onthouden</string>
     <string name="save_brightness_title">Helderheidsniveau voor video opslaan</string>
+    <string name="save_audiodelay_summary">Individuele audiovertraging opslaan voor elke video</string>
+    <string name="save_audiodelay_title">Audiovertraging opslaan</string>
     <string name="enable_brightness_gesture_title">Helderheidsgebaar</string>
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
     <string name="enable_volume_gesture_title">Volumegebaar</string>
@@ -306,6 +310,7 @@
     <string name="auto_rescan">Automatisch opnieuw scannen</string>
     <string name="auto_rescan_summary">Apparaat automatisch scannen op nieuwe of verwijderde media bij het starten van de toepassing</string>
     <string name="clear_media_db">Media-database wissen</string>
+    <string name="clear_media_db_summary">Ga naar Android VLC-info om data te wissen</string>
     <string name="clear_history">Zoekgeschiedenis wissen</string>
     <string name="media_db_cleared">Media-database gewist!</string>
     <string name="set_locale">Taal instellen</string>
@@ -313,7 +318,9 @@
     <string name="set_locale_popup">VLC afsluiten en opnieuw starten om wijzigingen toe te passen.</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
     <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te  bufferen (in ms). Werkt niet met hardware-decoderen. Leeg laten om te herstellen.</string>
-    <string name="network_caching_popup">Deze waarde moet tussen 0 en 6000 ms liggen</string>
+    <string name="resume_playback_title">Afspelen hervatten na een oproep</string>
+    <string name="resume_playback_summary">Anders blijven pauzeren</string>
+    <string name="network_caching_popup">Deze waarde moet tussen 0 en 6000 ms zijn</string>
     <string name="quit">Toepassing afsluiten en opnieuw starten</string>
     <string name="developer_prefs_category">Ontwikkelaar</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
@@ -365,6 +372,7 @@
     <string name="player_touch_disable_all">Alle aanraakbedieningen uitschakelen</string>
     <string name="tv_ui_title">Android tv-interface</string>
     <string name="tv_ui_summary">UI wijzigen naar aangepast tv-thema</string>
+    <string name="medialibrary_directories">Mediabibliotheek-mappen</string>
     <!--Accessibility-->
     <string name="more_actions">Meer acties</string>
     <string name="move">Verplaatsen</string>
@@ -388,11 +396,16 @@
     <string name="exit_app">VLC sluiten</string>
     <!--fast scroller-->
     <string name="fastscroller_track">FastScroller-track</string>
-    <string name="fastscroller_handle">FastScroller-hendel</string>
+    <string name="fastscroller_handle">FastScroller-bediening</string>
     <!--Plugins-->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Downloaden</string>
     <string name="extension_empty">Geen items om weer te geven, ga naar uw extensie-instellingen om er op te halen.</string>
+    <string name="opengl_title">OpenGL ES2 gebruik</string>
+    <string name="opengl_summary">Standaard wordt OpenGL ES2 gebruikt voor software-decoderen en hardware-decoderen wanneer nodig (360°-video\'s).</string>
+    <string name="opengl_automatic">Automatisch</string>
+    <string name="opengl_on">Geforceerd inschakelen</string>
+    <string name="opengl_off">Geforceerd uitschakelen</string>
     <string name="network_favorites">Netwerkfavorieten</string>
     <string name="network_shared_folders">Gedeelde mappen</string>
     <string name="encryption_warning">Waarschuwing: encryptie is niet beschikbaar op deze Android-versie. Het wachtwoord zal opgeslagen worden op een privé-ruimte maar niet versleuteld.</string>
@@ -421,4 +434,11 @@
     <string name="movies">films</string>
     <string name="videos">video\'s</string>
     <string name="clear_playback_history">Afspeelgeschiedenis wissen</string>
+    <string name="various_artists">Diverse artiesten</string>
+    <string name="ml_scanning">Zoeken naar mediabestanden</string>
+    <string name="ml_parse_media">Media verwerken</string>
+    <string name="ml_discovering">Ontdekken</string>
+    <string name="resume">Hervatten</string>
+    <string name="length">Lengte</string>
+    <string name="tv_settings_hint">De ok-knop lang ingedrukt houden om mappen aan/uit te vinken.</string>
 </resources>
