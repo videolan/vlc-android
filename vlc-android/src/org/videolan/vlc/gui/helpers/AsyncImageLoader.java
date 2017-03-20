@@ -94,15 +94,17 @@ public class AsyncImageLoader {
             return;
         }
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            if (item instanceof MediaGroup)
-                item = ((MediaGroup) item).getFirstMedia();
-            int type = ((MediaWrapper) item).getType();
+            MediaWrapper mw = (MediaWrapper) item;
+            if (mw.getType() == MediaWrapper.TYPE_GROUP)
+                mw = ((MediaGroup)mw).getFirstMedia();
+            int type = mw.getType();
             boolean isMedia = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
-            Uri uri = ((MediaWrapper) item).getUri();
+            Uri uri = mw.getUri();
             if (!isMedia && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
                 return;
+            item = mw;
             if (item.getId() == 0L && (isMedia) && "file".equals(uri.getScheme())) {
-                MediaWrapper mw = VLCApplication.getMLInstance().getMedia(uri);
+                mw = VLCApplication.getMLInstance().getMedia(uri);
                 if (mw != null)
                     item = mw;
             }
