@@ -111,19 +111,19 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected abstract void browseRoot();
     protected abstract String getCategoryTitle();
 
-    private static Handler sBrowserHandler;
+    private Handler mBrowserHandler;
 
     protected void runOnBrowserThread(Runnable runnable) {
-        sBrowserHandler.post(runnable);
+        mBrowserHandler.post(runnable);
     }
 
     public BaseBrowserFragment(){
         mHandler = new BrowserFragmentHandler(this);
         mAdapter = new BaseBrowserAdapter(this);
-        if (sBrowserHandler == null) {
+        if (mBrowserHandler == null) {
             HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             handlerThread.start();
-            sBrowserHandler = new Handler(handlerThread.getLooper());
+            mBrowserHandler = new Handler(handlerThread.getLooper());
         }
     }
 
@@ -255,7 +255,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public void browse (MediaWrapper media, int position, boolean save) {
-        sBrowserHandler.removeCallbacksAndMessages(null);
+        mBrowserHandler.removeCallbacksAndMessages(null);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
@@ -342,7 +342,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
-        sBrowserHandler.removeCallbacksAndMessages(null);
+        mBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
         mAdapter.clear();
         runOnBrowserThread(new Runnable() {
@@ -366,7 +366,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected void initMediaBrowser(MediaBrowser.EventListener listener) {
         if (mMediaBrowser == null)
-            mMediaBrowser = new MediaBrowser(VLCInstance.get(), listener, sBrowserHandler);
+            mMediaBrowser = new MediaBrowser(VLCInstance.get(), listener, mBrowserHandler);
         else
             mMediaBrowser.changeEventListener(listener);
     }
