@@ -75,7 +75,7 @@
     <string name="directories">ディレクトリ</string>
     <string name="loading">ロード中…</string>
     <string name="please_wait">しばらくおまちください…</string>
-    <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
+    <string name="nomedia">メディアファイルが見つかりませんでした。メディアライブラリに追加するディレクトリを指定してください。</string>
     <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="mediafiles">メディアファイル</string>
     <string name="notavailable">利用できません</string>
@@ -136,7 +136,7 @@
     <string name="server_add_title">お気に入りにサーバーを追加</string>
     <string name="server_domain_hint">サーバーアドレス(ドメイン名またはIP)</string>
     <string name="server_share_hint">ネットワーク共有名(またはIPアドレス)</string>
-    <string name="server_folder_hint">フォルダのパス(オプション)</string>
+    <string name="server_folder_hint">フォルダーパス(オプション)</string>
     <string name="server_username_hint">ユーザー名</string>
     <string name="server_servername_hint">サーバー名</string>
     <string name="server_port">ポート番号:</string>
@@ -239,8 +239,12 @@
     <string name="video_min_group_length_long">9文字</string>
     <string name="force_list_portrait">ポートレートモードではグリッド表示はありません</string>
     <string name="force_list_portrait_summary">ポートレートモードではビデオをグリッド表示ではなく、リスト形式で表示します</string>
+    <string name="force_play_all_summary">クリックしたものからすべてのビデオを再生</string>
+    <string name="force_play_all_title">ビデオプレイリストモード</string>
     <string name="save_brightness_summary">ビデオプレイヤーで輝度レベルを記憶します。</string>
     <string name="save_brightness_title">ビデオの輝度レベルを記憶</string>
+    <string name="save_audiodelay_summary">個々のビデオごとにオーディオの遅延を保存</string>
+    <string name="save_audiodelay_title">オーディオの遅延を保存</string>
     <string name="enable_brightness_gesture_title">ジェスチャーで輝度調整</string>
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
     <string name="enable_volume_gesture_title">ジェスチャーで音量変更</string>
@@ -299,6 +303,7 @@
     <string name="auto_rescan">自動再スキャン</string>
     <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスをスキャンし、新しいメディア、および削除されたメディアを検出します。</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
+    <string name="clear_media_db_summary">データをクリアするために、Android VLCのInfoにアクセス</string>
     <string name="clear_history">検索履歴をクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
     <string name="set_locale">ロケールの設定</string>
@@ -306,7 +311,9 @@
     <string name="set_locale_popup">変更を反映するためにVLCを終了・リセットします。</string>
     <string name="network_caching">ネットワークキャッシュ値</string>
     <string name="network_caching_summary">ネットワークメディアのバッファーサイズをミリ秒単位で指定します。ハードウェアデコーディングとは同時に動作できません。空白入力でリセットします。</string>
-    <string name="network_caching_popup">値は 0〜6000ms の範囲でなければなりません。</string>
+    <string name="resume_playback_title">通話終了後に再生を再開</string>
+    <string name="resume_playback_summary">それ以外は一時停止</string>
+    <string name="network_caching_popup">値は0〜6000msの間で指定してください</string>
     <string name="quit">アプリケーションを再起動</string>
     <string name="developer_prefs_category">開発者</string>
     <string name="enable_verbose_mode">出力レベル</string>
@@ -358,6 +365,7 @@
     <string name="player_touch_disable_all">すべてのタッチコントロールを無効化</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
+    <string name="medialibrary_directories">メディアライブラリフォルダー</string>
     <!--Accessibility-->
     <string name="more_actions">他のアクション</string>
     <string name="move">移動</string>
@@ -375,7 +383,7 @@
     <string name="allow_settings_access_ringtone_description">この音楽を着信音に設定するためにVLCに権限を与える必要があります。</string>
     <string name="allow_settings_access_brightness_title">VLCが輝度モードを変更することを許可</string>
     <string name="allow_settings_access_brightness_description">輝度モードを変更するためにVLCに権限を与える必要があります。</string>
-    <string name="allow_draw_overlays_title">VLCにアプリケーション上へのポップアップを許可</string>
+    <string name="allow_draw_overlays_title">他のアプリケーション上へポップアップ表示を許可</string>
     <string name="allow_sdraw_overlays_description">他のアプリケーションの上にビデオをポップアップ表示するためにVLCに権限を与える必要があります。</string>
     <string name="permission_ask_again">権限を付与</string>
     <string name="exit_app">VLCを閉じる</string>
@@ -386,6 +394,11 @@
     <string name="plugins">プラグイン</string>
     <string name="download_on_device">ダウンロード</string>
     <string name="extension_empty">再生する項目がありません、拡張設定を見直してみてください</string>
+    <string name="opengl_title">OpenGL ES2使用</string>
+    <string name="opengl_summary">デフォルトではOpenGL ES2が必要に応じてソフトウェア/ハードウェアデコーディングに使用されます。(360° ビデオ)</string>
+    <string name="opengl_automatic">自動</string>
+    <string name="opengl_on">強制オン</string>
+    <string name="opengl_off">強制オフ</string>
     <string name="network_favorites">ネットワークのお気に入り</string>
     <string name="network_shared_folders">共有フォルダー</string>
     <string name="encryption_warning">警告、このアンドロイドのバージョンでは暗号化が有効ではありません。パスワードはプライベートな場所に保存されますが暗号化されていません</string>
@@ -414,4 +427,13 @@
     <string name="movies">映画</string>
     <string name="videos">ビデオ</string>
     <string name="clear_playback_history">再生履歴をクリア</string>
+    <string name="various_artists">複数アーティスト</string>
+    <string name="ml_scanning">メディアファイルをスキャン中</string>
+    <string name="ml_parse_media">メディアを解析中</string>
+    <string name="ml_discovering">検索中</string>
+    <string name="resume">再開</string>
+    <string name="length">長さ</string>
+    <string name="tv_settings_hint">OKボタンの長押しでディレクトリのチェック/非チェックを切り替え</string>
+    <string name="ml_external_storage_title">新しい外部ストレージが見つかりました</string>
+    <string name="ml_external_storage_msg">デバイス %1$s をメディアライブラリに追加しますか?</string>
 </resources>
