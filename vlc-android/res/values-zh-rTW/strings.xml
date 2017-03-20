@@ -75,7 +75,6 @@
     <string name="directories">目錄</string>
     <string name="loading">載入中</string>
     <string name="please_wait">請稍候…</string>
-    <string name="nomedia">找不到媒體檔案，請將檔案傳輸至您的裝置中或是調整偏好設定。</string>
     <string name="noplaylist">找不到播放清單。</string>
     <string name="mediafiles">媒體檔案</string>
     <string name="notavailable">無法使用</string>
