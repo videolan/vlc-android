@@ -93,7 +93,7 @@
     <string name="directories">Mape</string>
     <string name="loading">Nalaganje</string>
     <string name="please_wait">Počakajte ...</string>
-    <string name="nomedia">Ni najdene nobene predstavne datoteke; dodajte nekaj datotek na napravo ali pa spremenite nastavitve.</string>
+    <string name="nomedia">Ni najdene nobene predstavne datoteke; izberite mapo za dodajanje v zbirko predstavnih vsebin.</string>
     <string name="noplaylist">Seznama predvajanja ni mogoče najti.</string>
     <string name="mediafiles">Predstavne datoteke</string>
     <string name="notavailable">ni na voljo</string>
@@ -260,8 +260,12 @@
     <string name="video_min_group_length_long">Veliko število črk (9)</string>
     <string name="force_list_portrait">Brez mreže v pokončnem načinu</string>
     <string name="force_list_portrait_summary">V pokončnem načinu pokaži posnetke kot seznam in ne na mreži</string>
+    <string name="force_play_all_summary">Predvaja vse posnetke, začne s tistim, ki je prvi izbran</string>
+    <string name="force_play_all_title">Način seznama predvajanja</string>
     <string name="save_brightness_summary">Pomni raven svetlosti v predvajalniku videa</string>
     <string name="save_brightness_title">Shrani raven svetlosti za video</string>
+    <string name="save_audiodelay_summary">Shrani zamik zvoka za vsak video posnetek</string>
+    <string name="save_audiodelay_title">Shrani zamik zvoka</string>
     <string name="enable_brightness_gesture_title">Poteza za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavitev svetlosti z gesto med predvajanjem videa</string>
     <string name="enable_volume_gesture_title">Poteza za glasnost</string>
@@ -320,6 +324,7 @@
     <string name="auto_rescan">Samodejno preišči</string>
     <string name="auto_rescan_summary">Ob zagonu samodejno preišči napravo za novo ali izbrisano predstavno vsebino</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
+    <string name="clear_media_db_summary">Počiščenje zgodovine je mogoče med podrobnostmi</string>
     <string name="clear_history">Počisti zgodovino iskanja</string>
     <string name="media_db_cleared">Podatkovna zbirka predstavnih vsebin je počiščena!</string>
     <string name="set_locale">Nastavi jezikovne nastavitve</string>
@@ -327,7 +332,9 @@
     <string name="set_locale_popup">Za uveljavitev sprememb končajte in ponovno zaženite predvajalnik VLC.</string>
     <string name="network_caching">Vrednost omrežnega predpomnjenja</string>
     <string name="network_caching_summary">Nastavitev določa čas medpomnjenja omrežnega pretoka (v milisekundah). Možnost ne deluje s strojnim odkodiranjem. Za ponastavitev pustite polje prazno.</string>
-    <string name="network_caching_popup">Vrednost mora biti med 0 in 6000 ms.</string>
+    <string name="resume_playback_title">Po klicu nadaljuj s predvajanjem</string>
+    <string name="resume_playback_summary">Sicer ostane predvajanje v premoru</string>
+    <string name="network_caching_popup">Vrednost mora biti podana med 0 in 6000 ms.</string>
     <string name="quit">Končaj in ponovno zaženi program</string>
     <string name="developer_prefs_category">Razvijalec</string>
     <string name="enable_verbose_mode">Podrobno</string>
@@ -379,6 +386,7 @@
     <string name="player_touch_disable_all">Onemogoči upravljanje z dotikom</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik za TV-temo</string>
+    <string name="medialibrary_directories">Mape zbirke predstavnih datotek</string>
     <!--Accessibility-->
     <string name="more_actions">Več dejanj</string>
     <string name="move">Premakni</string>
@@ -407,6 +415,11 @@
     <string name="plugins">Vstavki</string>
     <string name="download_on_device">Prejmi</string>
     <string name="extension_empty">Ni predmetov za prikaz. Med nastavitvami razširitev jih je mogoče dodati.</string>
+    <string name="opengl_title">Uporaba OpenGL ES2</string>
+    <string name="opengl_summary">Po potrebi je za programsko in strojno dekodiranje posnetkov privzeto uporabljen kodek OpenGL ES2 (posnetki 360 °).</string>
+    <string name="opengl_automatic">Samodejno</string>
+    <string name="opengl_on">Vsili zagon</string>
+    <string name="opengl_off">Vsili izklop</string>
     <string name="network_favorites">Priljubljena omrežja</string>
     <string name="network_shared_folders">Mape v souporabi</string>
     <string name="encryption_warning">Nameščena različica sistema Android ne podpira ustreznega šifriranja, zato bodo gesla shranjena na sicer zasebnem mestu, vendar nešifrirana.</string>
@@ -435,4 +448,13 @@
     <string name="movies">filmi</string>
     <string name="videos">videoposnetki</string>
     <string name="clear_playback_history">Počisti zgodovino predvajanja</string>
+    <string name="various_artists">Različni izvajalci</string>
+    <string name="ml_scanning">Preiskovanje razpoložljivih predstavnih datotek</string>
+    <string name="ml_parse_media">Razčlenjevanje podatkov predstavne vsebine</string>
+    <string name="ml_discovering">Odkrivanje</string>
+    <string name="resume">Nadaljuj</string>
+    <string name="length">Dolžina</string>
+    <string name="tv_settings_hint">Z dolgim pritiskom na gumb se označi/odstrani oznaka mape</string>
+    <string name="ml_external_storage_title">Zaznana je nova zunanja shramba</string>
+    <string name="ml_external_storage_msg">Ali želite dodati napravo %1$s v zbirko predstavnih predmetov?</string>
 </resources>
