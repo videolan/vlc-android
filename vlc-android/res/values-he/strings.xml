@@ -81,7 +81,6 @@
     <string name="directories">תיקיות</string>
     <string name="loading">בטעינה…</string>
     <string name="please_wait">נא להמתין</string>
-    <string name="nomedia">לא נמצאו קובצי מדיה, נא להעביר כמה קבצים להתקן שלך או להתאים את הגדרותיך.</string>
     <string name="noplaylist">לא נמצאה רשימת השמעה.</string>
     <string name="mediafiles">קובצי מדיה</string>
     <string name="notavailable">אינם זמינים</string>
@@ -313,7 +312,6 @@
     <string name="set_locale_popup">יש לצאת ולהפעיל מחדש את VLC כדי שהשינויים יכנסו לתוקף.</string>
     <string name="network_caching">ערך האגירה מהרשת</string>
     <string name="network_caching_summary">משך הזמן שלוקח לאגור את המדיה מהרשת (במילישניות). לא עובד עם קידוד חומרה. יש להשאיר ריק כדי לאפס.</string>
-    <string name="network_caching_popup">הערך הזה חייב להיות בין 0 ל־6000 מ״ש</string>
     <string name="quit">יציאה מהיישום והפעלה מחדש</string>
     <string name="developer_prefs_category">למתכנתים</string>
     <string name="enable_verbose_mode">פירוט</string>
