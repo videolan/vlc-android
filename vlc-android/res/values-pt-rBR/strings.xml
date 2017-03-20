@@ -81,7 +81,6 @@
     <string name="directories">Pastas</string>
     <string name="loading">Carregando</string>
     <string name="please_wait">Por favor, aguarde…</string>
-    <string name="nomedia">Arquivos de mídia não encontrados. Por favor, transfira alguns arquivos para o seu dispositivo ou ajuste suas preferências.</string>
     <string name="noplaylist">Não foi possível encontrar uma lista de reprodução.</string>
     <string name="mediafiles">Arquivos de mídia</string>
     <string name="notavailable">Não disponível</string>
@@ -105,6 +104,7 @@
     <string name="locked">Bloqueado</string>
     <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Melhor ajuste</string>
+    <string name="surface_fit_screen">Ajustar à tela</string>
     <string name="surface_fill">Preencher</string>
     <string name="surface_original">Centralizar</string>
     <string name="thumbnail">Miniatura</string>
@@ -149,6 +149,7 @@
     <string name="login">Ingressar</string>
     <string name="password">Senha</string>
     <string name="search_results">Resultados da pesquisa</string>
+    <string name="search_no_result">Nenhuma mídia encontrada</string>
     <string name="favorites_add">Adicionar aos favoritos</string>
     <string name="favorites_remove">Excluir dos favoritos</string>
     <string name="favorites_edit">Editar</string>
@@ -225,6 +226,8 @@
     <string name="enable_black_theme">Habilitar o tema escuro</string>
     <string name="enable_black_theme_summary">Altera as cores da interface para melhorar o conforto em ambientes de pouca iluminação.</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
+    <string name="daynight_title">Modo Dia e Noite</string>
+    <string name="daynight_summary">Alterna para o modo noturno no momento adequado</string>
     <string name="extra_prefs_category">Configurações extras</string>
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_gui">Exibir</string>
@@ -232,6 +235,7 @@
     <string name="enable_clone_mode">Preferir clone</string>
     <string name="enable_clone_mode_summary">Clona a tela do dispositivo sem controle remoto.</string>
     <string name="interface_other_category">Interface - Outros</string>
+    <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Grupo de vídeos</string>
     <string name="video_min_group_length_summary">Vídeos são agrupados se as primeiras letras forem as mesmas.</string>
     <string name="video_min_group_length_disable">Desabilitar</string>
@@ -248,6 +252,7 @@
     <string name="enable_volume_gesture_summary">Controla o volume por gesto durante a reprodução</string>
     <string name="enable_seek_buttons">Habilitar os botões de deslocamento</string>
     <string name="enable_seek_buttons_summary">Exibir os botões de avançar e retroceder na interface de vídeo</string>
+    <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho da Legenda</string>
     <string name="subtitles_size_small">Pequeno</string>
     <string name="subtitles_size_normal">Normal</string>
@@ -273,6 +278,7 @@
     <string name="enable_steal_remote_control_summary">Evite conflitos tomando o acesso ao controle remoto. Isso evita a discagem por duplo-toque dos telefones HTC.</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC usa para reproduzir áudio.</string>
+    <string name="controls_prefs_category">Controles</string>
     <string name="performance_prefs_category">Desempenho</string>
     <string name="chroma_format">Impor um formato cromático</string>
     <string name="chroma_format_summary">RGB 32-bit: Formato cromático padrão\nRGB 16-bit: maior desempenho, mas qualidade inferior\nYUV: melhor desempenho, mas não funciona em todos os dispositivos. Somente para Android 2.3 ou mais recente.</string>
@@ -372,6 +378,7 @@
     <string name="plugins">Complementos</string>
     <string name="download_on_device">Baixar</string>
     <string name="extension_empty">Nenhum item para exibir. Verifique as configurações de extensão para obter algumas.</string>
+    <string name="opengl_automatic">Automático</string>
     <string name="network_favorites">Favoritos da rede</string>
     <string name="network_shared_folders">Pastas compartilhadas</string>
     <string name="encryption_warning">Aviso, criptografia não disponível para esta versão de Android. A senha será armazenada em um espaço privado, mas não criptografado</string>
@@ -396,4 +403,10 @@
     <string name="subtitles_download_title">Baixar legenda</string>
     <string name="connecting">Conectando...</string>
     <string name="save_bluetooth_delay">salvar atraso para dispositivo bluetooth</string>
+    <string name="episodes">episódios</string>
+    <string name="movies">filmes</string>
+    <string name="videos">vídeos</string>
+    <string name="clear_playback_history">Limpar histórico de reprodução</string>
+    <string name="various_artists">Vários Artistas</string>
+    <string name="ml_scanning">Procurando arquivos de mídia</string>
 </resources>
