@@ -162,8 +162,7 @@ public class AndroidDevices {
                     list.add(mountpoint);
                 }
             }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         } finally {
             Util.close(bufReader);
         }
