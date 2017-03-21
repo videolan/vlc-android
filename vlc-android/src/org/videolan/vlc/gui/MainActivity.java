@@ -90,6 +90,7 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -211,7 +212,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private void setupNavigationView() {
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+        if (AndroidDevices.isChromeBook) {
             MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
         }
@@ -827,7 +828,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     new MRLPanelFragment().show(getSupportFragmentManager(), "fragment_mrl");
                     break;
                 case R.id.nav_directories:
-                    if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+                    if (AndroidDevices.isChromeBook) {
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("audio/* video/*");
                         startActivityForResult(intent, ACTIVITY_RESULT_OPEN);

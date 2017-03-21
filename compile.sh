@@ -210,13 +210,9 @@ fi
 ##################
 # Compile the UI #
 ##################
-PLATFORM="Vanilla"
 BUILDTYPE="Debug"
 if [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
-fi
-if [ "$CHROME_OS" = 1 ]; then
-    PLATFORM="Chrome"
 fi
 if [ "$BUILD_LIBVLC" = 1 ];then
     ./gradlew -p libvlc assemble${BUILDTYPE}
@@ -228,7 +224,7 @@ else
     else
         ACTION="assemble"
     fi
-    TARGET="${ACTION}${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
+    TARGET="${ACTION}${GRADLE_ABI}${BUILDTYPE}"
     CLI="" ./gradlew $TARGET
 fi
 

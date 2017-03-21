@@ -35,7 +35,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -43,6 +42,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -61,7 +61,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
+        if (AndroidDevices.isChromeBook) {
             findPreference("quit_app").setEnabled(false);
         }
         findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater ||
