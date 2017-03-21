@@ -124,9 +124,11 @@ public class AndroidDevices {
         List<String> typeBL = Arrays.asList("tmpfs");
         String[] mountWL = {"/mnt", "/Removable", "/storage"};
         String[] mountBL = {
+                EXTERNAL_PUBLIC_DIRECTORY,
                 "/mnt/secure",
                 "/mnt/shell",
                 "/mnt/asec",
+                "/mnt/nand",
                 "/mnt/runtime",
                 "/mnt/obb",
                 "/mnt/media_rw/extSdCard",
