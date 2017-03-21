@@ -22,7 +22,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    flavorDimensions "abi"
+    flavorDimensions "target", "abi"
 
     lintOptions {
         abortOnError false
@@ -110,6 +110,15 @@ android {
         }
     }
     productFlavors {
+        vanilla {
+            dimension "target"
+            versionCode = 1
+        }
+        chrome {
+            minSdkVersion 19
+            dimension "target"
+            versionCode = 2
+        }
         ARMv7 {
             dimension "abi"
             versionCode = 4
@@ -142,15 +151,19 @@ android {
             def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile)
             // get the version code of each flavor
             def vlcVersion = manifestParser.getVersionName()
-            def abiVersion = variant.productFlavors.get(0).versionCode
+            def targetVersion = variant.productFlavors.get(0).versionCode
+            def abiVersion = variant.productFlavors.get(1).versionCode
 
             // set the composite code
-            variant.mergedFlavor.versionCode = 10000000 + manifestParser.versionCode + abiVersion
+            variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.versionCode + abiVersion
             variant.mergedFlavor.versionName = vlcVersion
 
             //Custom APK name
             variant.outputs.each { output ->
-                def outputName = "VLC-Android-" + vlcVersion + "-" + variant.productFlavors.get(0).name + ".apk"
+                def outputName = "VLC-Android-"
+                if (variant.productFlavors.get(0).name != "vanilla")
+                    outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
+                outputName += vlcVersion + "-" + variant.productFlavors.get(1).name + ".apk"
                 output.outputFile = new File(output.outputFile.parentFile, outputName);
             }
         }
@@ -173,6 +186,10 @@ android {
     }
     sourceSets.test {
         java.srcDirs = ['test']
+    }
+    sourceSets.chrome {
+        manifest.srcFile 'flavors/chrome/AndroidManifest.xml'
+        res.srcDirs = ['flavors/chrome/res']
     }
 }
 

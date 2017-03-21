@@ -1,0 +1,10 @@
+{
+    "enableExternalDirectory": true,
+    "formFactor": "tablet",
+    "short_name": "VLC",
+    "name": "VLC for Chrome OS",
+    "orientation": "landscape",
+    "packageName": "org.videolan.vlc",
+    "resize": "reconfigure",
+    "needsClipboard": true
+}
