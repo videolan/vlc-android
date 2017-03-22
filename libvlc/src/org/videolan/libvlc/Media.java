@@ -735,12 +735,15 @@ public class Media extends VLCObject<Media.Event> {
      * @param force force hw acceleration even for unknown devices
      */
     public void setHWDecoderEnabled(boolean enabled, boolean force) {
-        final HWDecoderUtil.Decoder decoder = enabled ?
+        HWDecoderUtil.Decoder decoder = enabled ?
                 HWDecoderUtil.getDecoderFromDevice() :
                 HWDecoderUtil.Decoder.NONE;
 
-        if (decoder == HWDecoderUtil.Decoder.NONE ||
-                (decoder == HWDecoderUtil.Decoder.UNKNOWN && !force)) {
+        /* Unknown device but the user asked for hardware acceleration */
+        if (decoder == HWDecoderUtil.Decoder.UNKNOWN && force)
+            decoder = HWDecoderUtil.Decoder.ALL;
+
+        if (decoder == HWDecoderUtil.Decoder.NONE || decoder == HWDecoderUtil.Decoder.UNKNOWN) {
             addOption(":codec=all");
             return;
         }
