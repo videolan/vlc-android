@@ -169,6 +169,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
     private static final float DEFAULT_FOV = 80f;
+    public static final float MIN_FOV = 20f;
+    public static final float MAX_FOV = 150f;
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -1779,7 +1781,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else if (voutCount > 0) {
             Media.VideoTrack vt = mService.getCurrentVideoTrack();
             if (vt != null)
-                mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : 80f;
+                mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
         }
     }
 
@@ -2455,9 +2457,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-        float fov_changed = DEFAULT_FOV * (detector.getPreviousSpan()-detector.getCurrentSpan())/(float)mSurfaceXDisplayRange;
-        if (mService.updateViewpoint(0, 0, 0, fov_changed, false)) {
-            mFov += fov_changed;
+        float diff = DEFAULT_FOV * (1 - detector.getScaleFactor());
+        if (mService.updateViewpoint(0, 0, 0, diff, false)) {
+            mFov = Math.min(Math.max(MIN_FOV, mFov + diff), MAX_FOV);
             return true;
         }
         return false;
