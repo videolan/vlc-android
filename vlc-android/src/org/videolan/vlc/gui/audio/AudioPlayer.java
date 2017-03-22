@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
 import android.support.constraint.ConstraintSet;
@@ -311,8 +312,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                                     mBinding.songsList.setBackgroundResource(0);
                                 }
                             });
-                        else
-                            setDefaultBackground();
+                        else {
+                            VLCApplication.runOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setDefaultBackground();
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -322,6 +329,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     }
 
+    @MainThread
     private void setDefaultBackground() {
         mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID);
         mBinding.backgroundView.setVisibility(View.INVISIBLE);
