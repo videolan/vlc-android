@@ -57,19 +57,28 @@ public class BrowserProvider {
     private static final String ID_GENRES = "ID_GENRES";
     private static final String ID_PLAYLISTS = "ID_PLAYLISTS";
     private static final String ID_HISTORY = "ID_HISTORY";
+    private static final String ID_LAST_ADDED = "ID_RECENT";
     public static final String ALBUM_PREFIX = "album";
     private static final String ARTIST_PREFIX = "artist";
     private static final String GENRE_PREFIX = "genre";
     public static final String PLAYLIST_PREFIX = "playlist";
+    public static final int MAX_HISTORY_SIZE = 50;
 
     public static List<MediaBrowserCompat.MediaItem> browse(String parentId) {
         ArrayList<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
         MediaLibraryItem[] list = null;
+        boolean limitSize = false;
         Resources res = VLCApplication.getAppResources();
         switch (parentId) {
             case ID_ROOT:
-                //Playlists
+                //Last added
                 MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder()
+                        .setMediaId(ID_LAST_ADDED)
+                        .setTitle(res.getString(R.string.last_added_media))
+                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
+                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                //History
+                item = new MediaDescriptionCompat.Builder()
                         .setMediaId(ID_HISTORY)
                         .setTitle(res.getString(R.string.history))
                         .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
@@ -100,7 +109,12 @@ public class BrowserProvider {
                         .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_genre_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                 return results;
+            case ID_LAST_ADDED:
+                limitSize = true;
+                list = VLCApplication.getMLInstance().getRecentAudio();
+                break;
             case ID_HISTORY:
+                limitSize = true;
                 list = VLCApplication.getMLInstance().lastMediaPlayed();
                 break;
             case ID_ARTISTS:
@@ -151,6 +165,8 @@ public class BrowserProvider {
                         libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||
                         libraryItem.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), playable ? MediaBrowserCompat.MediaItem.FLAG_PLAYABLE : MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                if (limitSize && results.size() == MAX_HISTORY_SIZE)
+                    break;
             }
         }
         return results;
