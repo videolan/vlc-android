@@ -751,9 +751,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         deleteMedia(media, true);
                     break;
                 case R.id.action_mode_file_add_playlist:
-                    MediaWrapper[] trackList = new MediaWrapper[list.size()];
-                    list.toArray(trackList);
-                    UiTools.addToPlaylist(getActivity(), trackList);
+                    UiTools.addToPlaylist(getActivity(), list);
                     break;
                 case R.id.action_mode_file_info:
                     showMediaInfo(list.get(0));

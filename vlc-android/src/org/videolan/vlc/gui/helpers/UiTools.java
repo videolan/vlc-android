@@ -38,7 +38,6 @@ import android.preference.PreferenceManager;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsic;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -66,7 +65,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
@@ -243,6 +242,12 @@ public class UiTools {
                     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
+    }
+
+    public static void addToPlaylist(FragmentActivity activity, List<MediaWrapper> list) {
+        MediaWrapper[] trackList = new MediaWrapper[list.size()];
+        list.toArray(trackList);
+        addToPlaylist(activity, trackList);
     }
 
     public static void addToPlaylist(FragmentActivity activity, MediaWrapper[] tracks) {

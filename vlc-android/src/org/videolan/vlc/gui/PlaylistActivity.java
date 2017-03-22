@@ -259,10 +259,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             case R.id.action_mode_audio_append:
                 mService.append(tracks);
                 break;
-            case R.id.action_mode_audio_add_playlist:
-                MediaWrapper[] trackList = new MediaWrapper[tracks.size()];
-                tracks.toArray(trackList);
-                UiTools.addToPlaylist(this, trackList);
+            case R.id.action_mode_audio_add_playlist:;
+                UiTools.addToPlaylist(this, tracks);
                 break;
             case R.id.action_mode_audio_info:
                 showInfoDialog((MediaWrapper) list.get(0));
