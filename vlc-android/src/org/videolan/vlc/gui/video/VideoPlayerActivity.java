@@ -168,6 +168,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
     public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
+    private static final float DEFAULT_FOV = 80f;
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -2454,7 +2455,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-        float fov_changed = mFov * (detector.getPreviousSpan()-detector.getCurrentSpan())/(float)mSurfaceXDisplayRange;
+        float fov_changed = DEFAULT_FOV * (detector.getPreviousSpan()-detector.getCurrentSpan())/(float)mSurfaceXDisplayRange;
         if (mService.updateViewpoint(0, 0, 0, fov_changed, false)) {
             mFov += fov_changed;
             return true;
