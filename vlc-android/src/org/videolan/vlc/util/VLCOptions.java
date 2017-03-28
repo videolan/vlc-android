@@ -193,6 +193,8 @@ public class VLCOptions {
             }
         } /* else automatic: use default options */
 
+        if (noVideo)
+            media.addOption(":no-video");
         if (paused)
             media.addOption(":start-paused");
     }
