@@ -17,6 +17,7 @@ Application:
 Core
  * DTSHD and TRUEHD HDMI passthrough
  * Don't play via passthrough an encoding format that is not supported
+ * Improve MP4V/H264/HEVC adaptive playback performances
 
 Changes between 2.1.0 and 2.1.1:
 ----------------------------------
