@@ -1,7 +1,7 @@
 /*****************************************************************************
  * RemoteControlClientReceiver.java
  * ****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
+ * Copyright © 2012-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.v4.media.session.MediaButtonReceiver;
 import android.view.KeyEvent;
 
 import org.videolan.vlc.util.AndroidDevices;
@@ -30,7 +30,7 @@ import org.videolan.vlc.util.AndroidDevices;
 /**
  * Small class to receive events passed out by the remote controls (wired, bluetooth, lock screen, ...)
  */
-public class RemoteControlClientReceiver extends BroadcastReceiver {
+public class RemoteControlClientReceiver extends MediaButtonReceiver {
     @SuppressWarnings("unused")
     private static final String TAG = "VLC/RemoteControlClientReceiver";
 
@@ -42,16 +42,15 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
-
-            KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-            if (event == null)
-                return;
+        KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        if (event != null && action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
             if (event.getKeyCode() != KeyEvent.KEYCODE_HEADSETHOOK &&
                     event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE &&
-                    event.getAction() != KeyEvent.ACTION_DOWN)
+                    event.getAction() != KeyEvent.ACTION_DOWN) {
+                super.onReceive(context, intent);
                 return;
+            }
 
             Intent i = null;
             switch (event.getKeyCode()) {
@@ -105,12 +104,16 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
 
             if (isOrderedBroadcast())
                 abortBroadcast();
-            if (i != null)
+            if (i != null) {
                 context.startService(i);
+                return;
+            }
         } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
             intent = new Intent(context, PlaybackService.class);
             intent.setAction(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
             context.startService(intent);
+            return;
         }
+        super.onReceive(context, intent);
     }
 }

@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PlaybackService.java
  *****************************************************************************
- * Copyright © 2011-2015 VLC authors and VideoLAN
+ * Copyright © 2011-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -294,9 +294,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (intent == null)
             return START_STICKY;
         String action = intent.getAction();
-        if (ACTION_REMOTE_PLAYPAUSE.equals(action)){
+        if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
+            MediaButtonReceiver.handleIntent(mMediaSession, intent);
+            return START_STICKY;
+        }
+        if (ACTION_REMOTE_PLAYPAUSE.equals(action)) {
             if (hasCurrentMedia())
-                return START_STICKY;
+                return super.onStartCommand(intent, flags, startId);
             else
                 loadLastPlaylist(TYPE_AUDIO);
         } else if (ACTION_REMOTE_PLAY.equals(action)) {
@@ -439,7 +443,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
              */
             if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
                 if (!hasCurrentMedia())
-                    return;
+                    loadLastPlaylist(TYPE_AUDIO);
                 if (mMediaPlayer.isPlaying())
                     pause();
                 else
@@ -1066,7 +1070,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private void initMediaSession() {
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
-        mediaButtonIntent.setClass(this, MediaButtonReceiver.class);
+        mediaButtonIntent.setClass(this, RemoteControlClientReceiver.class);
         PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
 
         mSessionCallback = new MediaSessionCallback();
@@ -1098,7 +1102,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event != null) {
                 int keyCode = event.getKeyCode();
-                if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE || keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+                if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
+                        || keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                     long time = SystemClock.uptimeMillis();
                     switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
@@ -1127,6 +1132,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             break;
                     }
                     return false;
+                } else if (!AndroidUtil.isHoneycombOrLater) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_MEDIA_NEXT:
+                            onSkipToNext();
+                            return true;
+                        case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                            onSkipToPrevious();
+                            return true;
+                    }
                 }
             }
             return false;
