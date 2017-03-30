@@ -90,7 +90,7 @@
             android:resource="@drawable/icon" />
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.0" />
+            android:value="2.1" />
         <activity
             android:name=".StartActivity">
             <intent-filter>
