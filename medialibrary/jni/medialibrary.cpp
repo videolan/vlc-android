@@ -252,8 +252,8 @@ getVideos(JNIEnv* env, jobject thiz)
     return videoRefs;
 }
 
-jobjectArray
-getAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false)
+static jobjectArray
+getInternalAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::MediaPtr> audioFiles = aml->audioFiles(sort, desc);
@@ -268,9 +268,15 @@ getAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = mediali
 }
 
 jobjectArray
+getAudio(JNIEnv* env, jobject thiz)
+{
+    return getInternalAudio(env, thiz);
+}
+
+jobjectArray
 getRecentAudio(JNIEnv* env, jobject thiz)
 {
-    return getAudio(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
+    return getInternalAudio(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
 }
 
 jobject
