@@ -1,3 +1,19 @@
+Changes between 2.1.2 and 2.1.3:
+----------------------------------
+
+Application:
+ * Translations update
+ * Get 360° videos zoom more linear
+ * 'Last added' section for Android Auto
+ * Enable 'previous' media button with only 1 media playing
+ * Fix remote control for Android 2
+ * set max aspect ratio to 2.1
+ * Don't show public directory as an external storage
+
+Core
+ * Improve cover detection
+ * Improve MP4V/H264/HEVC adaptive playback performances
+
 Changes between 2.1.1 and 2.1.2:
 ----------------------------------
 
@@ -17,7 +33,6 @@ Application:
 Core
  * DTSHD and TRUEHD HDMI passthrough
  * Don't play via passthrough an encoding format that is not supported
- * Improve MP4V/H264/HEVC adaptive playback performances
 
 Changes between 2.1.0 and 2.1.1:
 ----------------------------------
