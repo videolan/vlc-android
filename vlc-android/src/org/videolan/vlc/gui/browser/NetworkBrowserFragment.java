@@ -151,6 +151,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 mAdapter.clear();
                 mFavorites = 0;
             }
+            updateEmptyView();
             return;
         }
 
