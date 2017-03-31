@@ -16,8 +16,9 @@
 jobject
 mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& mediaPtr)
 {
-    if (mediaPtr == nullptr)
+    if (mediaPtr == nullptr || mediaPtr->files().empty())
         return nullptr;
+    medialibrary::FilePtr file = mediaPtr->files().at(0);
     //TODO get track, audio & spu track numbers
     jint type;
     switch (mediaPtr->type()) {
@@ -49,7 +50,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         }
     }
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
-    mrl = mediaPtr->files().at(0)->mrl().empty() ? NULL : env->NewStringUTF(mediaPtr->files().at(0)->mrl().c_str());
+    mrl = env->NewStringUTF(file->mrl().c_str());
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks();
     bool hasVideoTracks = !videoTracks.empty();
@@ -62,7 +63,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) mediaPtr->files().at(0)->lastModificationDate());
+                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) file->lastModificationDate());
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
@@ -136,35 +137,53 @@ jobject
 convertMediaSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::MediaSearchAggregate const& mediaSearchAggregatePtr)
 {
     jobjectArray episodes = (jobjectArray) env->NewObjectArray(mediaSearchAggregatePtr.episodes.size(), fields->MediaWrapper.clazz, NULL);
-    int index = -1;
+    int index = -1, epDrops = 0;
     for(medialibrary::MediaPtr const& media : mediaSearchAggregatePtr.episodes) {
         jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(episodes, ++index, item);
+        if (item != nullptr)
+            env->SetObjectArrayElement(episodes, ++index, item);
+        else
+            ++epDrops;
         env->DeleteLocalRef(item);
     }
     jobjectArray movies = (jobjectArray) env->NewObjectArray(mediaSearchAggregatePtr.movies.size(), fields->MediaWrapper.clazz, NULL);
     index = -1;
+    int movieDrops = 0;
     for(medialibrary::MediaPtr const& media : mediaSearchAggregatePtr.movies) {
         jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(movies, ++index, item);
+        if (item != nullptr)
+            env->SetObjectArrayElement(movies, ++index, item);
+        else
+            ++movieDrops;
         env->DeleteLocalRef(item);
     }
     jobjectArray others = (jobjectArray) env->NewObjectArray(mediaSearchAggregatePtr.others.size(), fields->MediaWrapper.clazz, NULL);
     index = -1;
+    int othersDrops = 0;
     for(medialibrary::MediaPtr const& media : mediaSearchAggregatePtr.others) {
         jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(others, ++index, item);
+        if (item != nullptr)
+            env->SetObjectArrayElement(others, ++index, item);
+        else
+            ++othersDrops;
         env->DeleteLocalRef(item);
     }
     jobjectArray tracks = (jobjectArray) env->NewObjectArray(mediaSearchAggregatePtr.tracks.size(), fields->MediaWrapper.clazz, NULL);
     index = -1;
+    int tracksDrops = 0;
     for(medialibrary::MediaPtr const& media : mediaSearchAggregatePtr.tracks) {
         jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(tracks, ++index, item);
+        if (item != nullptr)
+            env->SetObjectArrayElement(tracks, ++index, item);
+        else
+            ++tracksDrops;
         env->DeleteLocalRef(item);
     }
     return env->NewObject(fields->MediaSearchAggregate.clazz, fields->MediaSearchAggregate.initID,
-                          episodes, movies, others, tracks);
+                          filteredArray(env, fields, episodes, epDrops),
+                          filteredArray(env, fields, movies, movieDrops),
+                          filteredArray(env, fields, others, othersDrops),
+                          filteredArray(env, fields, tracks, tracksDrops));
 }
 
 jobject
@@ -217,4 +236,37 @@ convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr c
     env->DeleteLocalRef(mrl);
     env->DeleteLocalRef(title);
     return item;
+}
+
+jobjectArray
+filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount)
+{
+    int size = -1, index = -1;
+    if (removalCount == -1)
+    {
+        removalCount = 0;
+        size = env->GetArrayLength(array);
+        for (int i = 0; i<size; ++i)
+        {
+            if (env->GetObjectArrayElement(array, i) == nullptr)
+                ++removalCount;
+        }
+    }
+    if (removalCount == 0)
+        return array;
+    if (size == -1)
+        size = env->GetArrayLength(array);
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size, fields->MediaWrapper.clazz, NULL);
+    for (int i = 0; i<size; ++i)
+    {
+        jobject item = env->GetObjectArrayElement(array, i);
+        if (item != nullptr)
+        {
+            env->SetObjectArrayElement(mediaRefs, ++index, item);
+            --removalCount;
+        }
+        env->DeleteLocalRef(item);
+    }
+    env->DeleteLocalRef(array);
+    return mediaRefs;
 }

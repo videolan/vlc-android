@@ -148,7 +148,7 @@ public class BrowserProvider {
         if (list != null) {
             MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
             for (MediaLibraryItem libraryItem : list) {
-                if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
+                if (libraryItem == null || (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO))
                     continue;
                 Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
                 if (cover == null)

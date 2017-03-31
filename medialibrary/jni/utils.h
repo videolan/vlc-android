@@ -105,5 +105,6 @@ jobject convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::Playlis
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr);
 jobject convertMediaSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::MediaSearchAggregate const& searchAggregatePtr);
 jobject convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr const& historyPtr);
+jobjectArray filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount = -1);
 
 #endif //VLC_MEDIALIB_UTILS_H
