@@ -1072,13 +1072,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         mediaButtonIntent.setClass(this, RemoteControlClientReceiver.class);
         PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+        ComponentName mbrName = new ComponentName(this, RemoteControlClientReceiver.class);
 
         mSessionCallback = new MediaSessionCallback();
-        mMediaSession = new MediaSessionCompat(this, "VLC");
+        mMediaSession = new MediaSessionCompat(this, "VLC", mbrName, mbrIntent);
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setCallback(mSessionCallback);
-        mMediaSession.setMediaButtonReceiver(mbrIntent);
         try {
             mMediaSession.setActive(true);
         } catch (NullPointerException e) {
