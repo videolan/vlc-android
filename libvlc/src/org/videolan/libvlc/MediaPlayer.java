@@ -96,6 +96,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         public int getEsChangedType() {
             return (int) arg1;
         }
+        public int getEsChangedID() {
+            return (int) arg2;
+        }
         public boolean getPausable() {
             return arg1 != 0;
         }
@@ -1106,6 +1109,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 return new Event(eventType, arg1);
             case Event.ESAdded:
             case Event.ESDeleted:
+                return new Event(eventType, arg1, arg2);
             case Event.SeekableChanged:
             case Event.PausableChanged:
                 return new Event(eventType, arg1);

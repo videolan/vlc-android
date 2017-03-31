@@ -92,6 +92,7 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
         case libvlc_MediaPlayerESAdded:
         case libvlc_MediaPlayerESDeleted:
             p_java_event->arg1 = p_ev->u.media_player_es_changed.i_type;
+            p_java_event->arg2 = p_ev->u.media_player_es_changed.i_id;
             break;
         case libvlc_MediaPlayerSeekableChanged:
             p_java_event->arg1 = p_ev->u.media_player_seekable_changed.new_seekable;
