@@ -112,6 +112,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.setVideoTrackEnabled(true);
         if (!mService.isPlaying())
             mService.playIndex(mService.getCurrentMediaPosition());
+        else
+            mService.flush();
         mService.startService(new Intent(mService, PlaybackService.class));
         showNotification();
     }

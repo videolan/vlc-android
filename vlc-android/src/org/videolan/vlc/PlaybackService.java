@@ -1972,6 +1972,17 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         playIndex(index, 0);
     }
 
+    @MainThread
+    public void flush() {
+        /* HACK: flush when activating a video track. This will force an
+         * I-Frame to be displayed right away. */
+        if (isSeekable()) {
+            long time = getTime();
+            if (time > 0 )
+                setTime(time);
+        }
+    }
+
     /**
      * Use this function to show an URI in the audio interface WITHOUT
      * interrupting the stream.

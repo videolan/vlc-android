@@ -3058,6 +3058,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             itemTitle = openedMedia.getTitle();
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
+
+            mService.flush();
         }
 
         if (mUri != null) {

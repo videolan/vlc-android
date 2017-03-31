@@ -820,13 +820,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 for (MediaPlayer.TrackDescription track : tracks) {
                     if (track.id != -1) {
                         setVideoTrack(track.id);
-                        /* HACK: flush when activating a video track. This will force an
-                         * I-Frame to be displayed right away. */
-                        if (isSeekable()) {
-                            long time = getTime();
-                            if (time > 0)
-                                setTime(time);
-                        }
                         break;
                     }
                 }
