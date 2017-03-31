@@ -67,7 +67,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         //public static final int ScrambledChanged    = 0x113;
         public static final int ESAdded             = 0x114;
         public static final int ESDeleted           = 0x115;
-        //public static final int ESSelected          = 0x116;
+        public static final int ESSelected          = 0x116;
 
         protected Event(int type) {
             super(type);
@@ -1109,6 +1109,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 return new Event(eventType, arg1);
             case Event.ESAdded:
             case Event.ESDeleted:
+            case Event.ESSelected:
                 return new Event(eventType, arg1, arg2);
             case Event.SeekableChanged:
             case Event.PausableChanged:

@@ -41,6 +41,7 @@ static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerVout,
     libvlc_MediaPlayerESAdded,
     libvlc_MediaPlayerESDeleted,
+    libvlc_MediaPlayerESSelected,
     libvlc_MediaPlayerSeekableChanged,
     libvlc_MediaPlayerPausableChanged,
     -1,
@@ -91,6 +92,7 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
             break;
         case libvlc_MediaPlayerESAdded:
         case libvlc_MediaPlayerESDeleted:
+        case libvlc_MediaPlayerESSelected:
             p_java_event->arg1 = p_ev->u.media_player_es_changed.i_type;
             p_java_event->arg2 = p_ev->u.media_player_es_changed.i_id;
             break;
