@@ -1626,6 +1626,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 }
                 invalidateESTracks(event.getEsChangedType());
                 break;
+            case MediaPlayer.Event.ESSelected:
+                if (event.getEsChangedType() == Media.VideoTrack.Type.Video) {
+                    Media.VideoTrack vt = mService.getCurrentVideoTrack();
+                    if (vt != null)
+                        mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
+                }
+                break;
             case MediaPlayer.Event.SeekableChanged:
                 updateSeekable(event.getSeekable());
                 break;
@@ -1778,10 +1785,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final IVLCVout vlcVout = mService.getVLCVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 4000);
-        } else if (voutCount > 0) {
-            Media.VideoTrack vt = mService.getCurrentVideoTrack();
-            if (vt != null)
-                mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
         }
     }
 
