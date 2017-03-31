@@ -1698,25 +1698,22 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
-    public Bitmap getCover() {
-        if (hasCurrentMedia()) {
-            return AudioUtil.getCover(PlaybackService.this, getCurrentMedia(), 512);
-        }
-        return null;
+    public String getCoverArt() {
+        return getCurrentMedia().getArtworkMrl();
     }
 
     @MainThread
-    public Bitmap getCoverPrev() {
+    public String getPrevCoverArt() {
         if (mPrevIndex != -1)
-            return AudioUtil.getCover(PlaybackService.this, mMediaList.getMedia(mPrevIndex), 512);
+            return mMediaList.getMedia(mPrevIndex).getArtworkMrl();
         else
             return null;
     }
 
     @MainThread
-    public Bitmap getCoverNext() {
+    public String getNextCoverArt() {
         if (mNextIndex != -1)
-            return AudioUtil.getCover(PlaybackService.this, mMediaList.getMedia(mNextIndex), 512);
+            return mMediaList.getMedia(mNextIndex).getArtworkMrl();
         else
             return null;
     }
