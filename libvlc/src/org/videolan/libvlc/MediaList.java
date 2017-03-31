@@ -121,7 +121,7 @@ public class MediaList extends VLCObject<MediaList.Event> {
     }
 
     @Override
-    protected synchronized Event onEventNative(int eventType, long arg1, float arg2) {
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float  argf1) {
         if (mLocked)
             throw new IllegalStateException("already locked from event callback");
         mLocked = true;

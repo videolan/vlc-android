@@ -119,7 +119,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     public native String changeset();
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, float arg2) {
+    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
         return null;
     }
 

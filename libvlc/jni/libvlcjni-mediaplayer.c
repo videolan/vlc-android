@@ -78,10 +78,10 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
     switch (p_ev->type)
     {
         case libvlc_MediaPlayerBuffering:
-            p_java_event->arg2 = p_ev->u.media_player_buffering.new_cache;
+            p_java_event->argf1 = p_ev->u.media_player_buffering.new_cache;
             break;
         case libvlc_MediaPlayerPositionChanged:
-            p_java_event->arg2 = p_ev->u.media_player_position_changed.new_position;
+            p_java_event->argf1 = p_ev->u.media_player_position_changed.new_position;
             break;
         case libvlc_MediaPlayerTimeChanged:
             p_java_event->arg1 = p_ev->u.media_player_time_changed.new_time;

@@ -75,15 +75,20 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         protected Event(int type, long arg1) {
             super(type, arg1);
         }
-        protected Event(int type, float arg2) {
-            super(type, arg2);
+
+        protected Event(int type, long arg1, long arg2) {
+            super(type, arg1, arg2);
+        }
+
+        protected Event(int type, float argf) {
+            super(type, argf);
         }
 
         public long getTimeChanged() {
             return arg1;
         }
         public float getPositionChanged() {
-            return arg2;
+            return argf1;
         }
         public int getVoutCount() {
             return (int) arg1;
@@ -98,7 +103,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             return arg1 != 0;
         }
         public float getBuffering() {
-            return arg2;
+            return argf1;
         }
     }
 
@@ -1077,7 +1082,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     @Override
-    protected synchronized Event onEventNative(int eventType, long arg1, float arg2) {
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
         switch (eventType) {
             case Event.MediaChanged:
             case Event.Stopped:
@@ -1087,14 +1092,14 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 notify();
             case Event.Opening:
             case Event.Buffering:
-                return new Event(eventType, arg2);
+                return new Event(eventType, argf1);
             case Event.Playing:
             case Event.Paused:
                 return new Event(eventType);
             case Event.TimeChanged:
                 return new Event(eventType, arg1);
             case Event.PositionChanged:
-                return new Event(eventType, arg2);
+                return new Event(eventType, argf1);
             case Event.Vout:
                 mVoutCount = (int) arg1;
                 notify();

@@ -60,7 +60,8 @@ struct java_event
 {
     jint type;
     jlong arg1;
-    jfloat arg2;
+    jlong arg2;
+    jfloat argf1;
 };
 
 /* event manager callback dispatched to native struct implementing a

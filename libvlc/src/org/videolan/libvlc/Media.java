@@ -474,7 +474,7 @@ public class Media extends VLCObject<Media.Event> {
     }
 
     @Override
-    protected synchronized Event onEventNative(int eventType, long arg1, float arg2) {
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
         switch (eventType) {
         case Event.MetaChanged:
             // either we update all metas (if first call) or we update a specific meta

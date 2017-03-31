@@ -122,9 +122,10 @@ abstract class VLCObject<T extends VLCEvent> {
      * @param eventType event type
      * @param arg1 first argument
      * @param arg2 second argument
+     * @param argf1 first float argument
      * @return Event that will be dispatched to listeners
      */
-    protected abstract T onEventNative(int eventType, long arg1, float arg2);
+    protected abstract T onEventNative(int eventType, long arg1, long arg2, float argf1);
 
     /**
      * Called when native object is released (refcount is 0).
@@ -136,10 +137,10 @@ abstract class VLCObject<T extends VLCEvent> {
     /* JNI */
     @SuppressWarnings("unused") /* Used from JNI */
     private long mInstance = 0;
-    private synchronized void dispatchEventFromNative(int eventType, long arg1, float arg2) {
+    private synchronized void dispatchEventFromNative(int eventType, long arg1, long arg2, float argf1) {
         if (isReleased())
             return;
-        final T event = onEventNative(eventType, arg1, arg2);
+        final T event = onEventNative(eventType, arg1, arg2, argf1);
 
         class EventRunnable implements Runnable {
             private final VLCEvent.Listener<T> listener;
@@ -166,9 +167,10 @@ abstract class VLCObject<T extends VLCEvent> {
         return new WeakReference<VLCObject>(this);
     }
     @SuppressWarnings("unchecked,unused") /* Used from JNI */
-    private static void dispatchEventFromWeakNative(Object weak, int eventType, long arg1, float arg2) {
+    private static void dispatchEventFromWeakNative(Object weak, int eventType, long arg1, long arg2,
+                                                    float argf1) {
         VLCObject obj = ((WeakReference<VLCObject>)weak).get();
         if (obj != null)
-            obj.dispatchEventFromNative(eventType, arg1, arg2);
+            obj.dispatchEventFromNative(eventType, arg1, arg2, argf1);
     }
 }

@@ -171,14 +171,11 @@ static void
 VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
 {
     vlcjni_object *p_obj = data;
-    java_event jevent;
     JNIEnv *env = NULL;
 
     assert(p_obj->p_libvlc);
 
-    jevent.type = -1;
-    jevent.arg1 = 0;
-    jevent.arg2 = 0.0;
+    java_event jevent = { -1, 0, 0, 0.0 };
 
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
@@ -189,12 +186,14 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     if (p_obj->p_owner->weak)
         (*env)->CallVoidMethod(env, p_obj->p_owner->weak,
                                fields.VLCObject.dispatchEventFromNativeID,
-                               jevent.type, jevent.arg1, jevent.arg2);
+                               jevent.type, jevent.arg1, jevent.arg2,
+                               jevent.argf1);
     else
         (*env)->CallStaticVoidMethod(env, fields.VLCObject.clazz,
                                      fields.VLCObject.dispatchEventFromWeakNativeID,
                                      p_obj->p_owner->weakCompat,
-                                     jevent.type, jevent.arg1, jevent.arg2);
+                                     jevent.type, jevent.arg1, jevent.arg2,
+                                     jevent.argf1);
 }
 
 void
