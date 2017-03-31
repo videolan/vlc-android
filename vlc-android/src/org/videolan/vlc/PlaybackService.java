@@ -578,10 +578,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
-                    if (!keyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo())
+                    if (!keyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo()) {
                         hideNotification();
-                    else
+                    } else {
+                        showPlayer();
                         showNotification();
+                    }
                     mVideoBackground = false;
                     if (getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_STREAM)
                         mMedialibrary.addToHistory(getCurrentMediaLocation(), getCurrentMediaWrapper().getTitle());
@@ -656,6 +658,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             }
         }
     };
+
+    private void showPlayer() {
+        sendBroadcast(new Intent(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER));
+    }
 
     public void saveMediaMeta() {
         MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());

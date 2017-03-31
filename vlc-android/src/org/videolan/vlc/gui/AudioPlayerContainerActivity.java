@@ -46,8 +46,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
@@ -231,13 +229,8 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
      */
     public void removeTipViewIfDisplayed() {
         View tips = findViewById(R.id.audio_tips);
-        if (tips == null)
-            return;
-        ViewGroup root = (ViewGroup) tips.getParent();
-        for (int i = 0; i < root.getChildCount(); ++i){
-            if (root.getChildAt(i).getId() == R.id.audio_tips)
-                root.removeViewAt(i);
-        }
+        if (tips != null)
+            ((ViewGroup) tips.getParent()).removeView(tips);
     }
     /**
      * Show the audio player.
@@ -387,8 +380,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-
-        if (!isAudioPlayerReady())
+        if (service.hasMedia() && !mService.isVideoPlaying())
             showAudioPlayer();
     }
 
