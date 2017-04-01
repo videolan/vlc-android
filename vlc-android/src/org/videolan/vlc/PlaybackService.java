@@ -2079,6 +2079,39 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     /**
+     * Insert into the current existing playlist
+     */
+
+    @MainThread
+    public void insertNext(MediaWrapper[] mediaList) {
+        insertNext(Arrays.asList(mediaList));
+    }
+
+    @MainThread
+    public void insertNext(List<MediaWrapper> mediaList) {
+        if (!hasCurrentMedia()) {
+            load(mediaList, 0);
+            return;
+        }
+
+        int startIndex = mCurrentIndex + 1;
+
+        for (int i = 0; i < mediaList.size(); i++) {
+            MediaWrapper mediaWrapper = mediaList.get(i);
+            mMediaList.insert(startIndex + i, mediaWrapper);
+        }
+        onMediaListChanged();
+        updateMediaQueue();
+    }
+
+    @MainThread
+    public void insertNext(MediaWrapper media) {
+        ArrayList<MediaWrapper> arrayList = new ArrayList<>();
+        arrayList.add(media);
+        insertNext(arrayList);
+    }
+
+    /**
      * Move an item inside the playlist.
      */
     @MainThread

@@ -200,6 +200,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
+        boolean insert_next = id == R.id.audio_list_browser_insert_next;
 
         if (id == R.id.audio_list_browser_delete) {
 
@@ -254,6 +255,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         if (mService != null) {
             if (append)
                 mService.append(medias);
+            else if (insert_next)
+                mService.insertNext(medias);
             else
                 mService.load(medias, startPosition);
             return true;

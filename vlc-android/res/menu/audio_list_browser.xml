@@ -7,6 +7,9 @@
     <item
         android:id="@+id/audio_list_browser_append"
         android:title="@string/append" />
+    <item
+        android:id="@+id/audio_list_browser_insert_next"
+        android:title="@string/insert_next" />
     <group android:id="@+id/songs_view_only">
         <item
             android:id="@+id/audio_list_browser_play_all"

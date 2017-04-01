@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Videos im Hintergrund abspielen</string>
     <string name="play_as_audio_background_summary">Video-Wiedergabe im Hintergund fortsetzen, wenn der Gerätebildschirm ausgeschaltet oder der HOME-Button gedrückt wurde.</string>
     <string name="append">Anhängen</string>
+    <string name="insert_next">Einfügen als Nächstes</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
     <string name="last_playlist">Letzte Wiedergabeliste</string>

@@ -28,6 +28,7 @@
     <string name="play_as_audio_background">Play videos in background</string>
     <string name="play_as_audio_background_summary">Continue video playback in background when turning device screen off or clicking HOME button.</string>
     <string name="append">Append</string>
+    <string name="insert_next">Insert next</string>
     <string name="play_all">Play all</string>
     <string name="append_all">Append all</string>
     <string name="last_playlist">Last playlist</string>

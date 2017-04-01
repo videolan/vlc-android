@@ -315,6 +315,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         } else if (id == R.id.audio_list_browser_append) {
             mService.append(media);
             return true;
+        } else if (id == R.id.audio_list_browser_insert_next) {
+            mService.insertNext(media);
+            return true;
         } else if (id == R.id.audio_list_browser_delete) {
             mAdapter.remove(media);
             UiTools.snackerWithCancel(getWindow().getDecorView(), getString(R.string.file_deleted), new Runnable() {

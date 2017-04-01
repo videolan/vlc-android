@@ -350,6 +350,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
+        boolean insert_next = id == R.id.audio_list_browser_insert_next;
 
         // Play/Append
         if (useAllItems) {
@@ -368,6 +369,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         if (mService != null) {
             if (append)
                 mService.append(medias);
+            else if (insert_next)
+                mService.insertNext(medias);
             else
                 mService.load(medias, startPosition);
             return true;
