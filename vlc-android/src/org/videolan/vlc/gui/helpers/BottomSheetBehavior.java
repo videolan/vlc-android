@@ -34,4 +34,13 @@ public class BottomSheetBehavior<V extends View> extends android.support.design.
             //Same crash, weakref not already set.
         }
     }
+
+    @Override
+    public boolean onTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
+        try {
+            return super.onTouchEvent(parent, child, event);
+        } catch (NullPointerException ignored) {
+            return false;
+        }
+    }
 }
