@@ -1689,7 +1689,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public String getTitlePrev() {
-        if (mPrevIndex != -1)
+        if (isValidIndex(mPrevIndex))
             return mMediaList.getMedia(mPrevIndex).getTitle();
         else
             return null;
@@ -1697,7 +1697,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public String getTitleNext() {
-        if (mNextIndex != -1)
+        if (isValidIndex(mNextIndex))
             return mMediaList.getMedia(mNextIndex).getTitle();
         else
             return null;
@@ -1710,7 +1710,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public String getPrevCoverArt() {
-        if (mPrevIndex != -1)
+        if (isValidIndex(mPrevIndex))
             return mMediaList.getMedia(mPrevIndex).getArtworkMrl();
         else
             return null;
@@ -1718,7 +1718,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public String getNextCoverArt() {
-        if (mNextIndex != -1)
+        if (isValidIndex(mNextIndex))
             return mMediaList.getMedia(mNextIndex).getArtworkMrl();
         else
             return null;
