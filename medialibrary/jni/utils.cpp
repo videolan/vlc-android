@@ -16,9 +16,11 @@
 jobject
 mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& mediaPtr)
 {
-    if (mediaPtr == nullptr || mediaPtr->files().empty())
+    if (mediaPtr == nullptr)
         return nullptr;
-    medialibrary::FilePtr file = mediaPtr->files().at(0);
+    const std::vector<medialibrary::FilePtr> files = mediaPtr->files();
+    if (files.empty())
+        return nullptr;
     //TODO get track, audio & spu track numbers
     jint type;
     switch (mediaPtr->type()) {
@@ -50,7 +52,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         }
     }
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
-    mrl = env->NewStringUTF(file->mrl().c_str());
+    mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks();
     bool hasVideoTracks = !videoTracks.empty();
@@ -63,7 +65,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) file->lastModificationDate());
+                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) files.at(0)->lastModificationDate());
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
