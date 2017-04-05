@@ -133,6 +133,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         mLastNotificationTime = System.currentTimeMillis();
                     }
                     mMedialibrary.setup();
+                    boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
                     String[] storages = AndroidDevices.getMediaDirectories();
                     for (String storage : storages) {
                         boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
@@ -140,13 +141,12 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     }
                     if (mMedialibrary.init(MediaParsingService.this)) {
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (firstRun) {
+                        if (shouldInit) {
                             for (String storage : storages)
                                 for (String folder : Medialibrary.getBlackList())
                                     mMedialibrary.banFolder(storage + folder);
                             for (File folder : Medialibrary.getDefaultFolders())
-                                if (folder.exists())
-                                    mMedialibrary.discover(folder.getPath());
+                                mMedialibrary.discover(folder.getPath());
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
                         }
