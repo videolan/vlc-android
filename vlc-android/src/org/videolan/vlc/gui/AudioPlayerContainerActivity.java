@@ -100,7 +100,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         setSupportActionBar(mToolbar);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         mAppBarLayout.setExpanded(true);
-
         mAudioPlayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
     }
 
@@ -324,12 +323,8 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             mAudioPlayer.onStateChanged(newState);
             switch (newState) {
                 case BottomSheetBehavior.STATE_COLLAPSED:
-                    mBottomSheetBehavior.setHideable(false);
                     removeTipViewIfDisplayed();
                     mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
-                    break;
-                case BottomSheetBehavior.STATE_EXPANDED:
-                    mBottomSheetBehavior.setHideable(false);
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();
