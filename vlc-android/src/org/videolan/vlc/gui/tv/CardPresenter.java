@@ -62,7 +62,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Activity context){
         mContext = context;
         mRes = mContext.getResources();
-        sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_no_thumbnail_big);
+        sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_default_cone);
         CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
         CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     }
