@@ -22,6 +22,10 @@ package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +38,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -77,8 +82,21 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         mRowsAdapter.clear();
         if (!TextUtils.isEmpty(words) && words.length() > 2) {
             mDelayedLoad.setSearchQuery(words);
-            VLCApplication.runBackground(mDelayedLoad);
+            if (VLCApplication.getMLInstance().isInitiated())
+                VLCApplication.runBackground(mDelayedLoad);
+            else
+                setupMediaLibraryReceiver();
         }
+    }
+    protected void setupMediaLibraryReceiver() {
+        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
+                VLCApplication.runBackground(mDelayedLoad);
+            }
+        };
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
 
     @Override
