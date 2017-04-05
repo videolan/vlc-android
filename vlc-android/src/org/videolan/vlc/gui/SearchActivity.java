@@ -1,11 +1,15 @@
 package org.videolan.vlc.gui;
 
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +18,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -48,9 +53,12 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
             String query = intent.getStringExtra(SearchManager.QUERY);
             initializeLists();
             if (!TextUtils.isEmpty(query)) {
-                mBinding.searchEditText.setText(query);
-                mBinding.searchEditText.setSelection(query.length());
-                performSearh(query);
+                if (mMedialibrary.isInitiated()) {
+                    mBinding.searchEditText.setText(query);
+                    mBinding.searchEditText.setSelection(query.length());
+                    performSearh(query);
+                } else
+                    setupMediaLibraryReceiver(query);
             }
         }
         mBinding.searchEditText.addTextChangedListener(this);
@@ -135,5 +143,17 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
             MediaUtils.openArray(SearchActivity.this, item.getTracks(mMedialibrary), 0);
             finish();
         }
+    }
+    protected void setupMediaLibraryReceiver(final String query) {
+        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocalBroadcastManager.getInstance(SearchActivity.this).unregisterReceiver(this);
+                mBinding.searchEditText.setText(query);
+                mBinding.searchEditText.setSelection(query.length());
+                performSearh(query);
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
 }
