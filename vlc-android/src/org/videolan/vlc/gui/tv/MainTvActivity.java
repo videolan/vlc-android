@@ -496,8 +496,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
 
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
-            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_tv_icon_small));
-            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_tv_icon_small));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_default_cone));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_default_cone));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setSelectedPosition(Math.min(mBrowseFragment.getSelectedPosition(), mRowsAdapter.size()-1));
             mBrowseFragment.setAdapter(mRowsAdapter);
@@ -593,7 +593,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 if (cover != null)
                     mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
                 else
-                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_tv_icon_small);
+                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_default_cone);
                 mCategoriesAdapter.add(0, mNowPlayingCard);
             } else {
                 mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING);
@@ -601,7 +601,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 if (cover != null)
                     mNowPlayingCard.setImage(cover);
                 else
-                    mNowPlayingCard.setImageId(R.drawable.ic_tv_icon_small);
+                    mNowPlayingCard.setImageId(R.drawable.ic_default_cone);
             }
             mCategoriesAdapter.notifyArrayItemRangeChanged(0,1);
 
