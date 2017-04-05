@@ -43,6 +43,8 @@ public class Medialibrary {
     private static final String extDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private static final MediaWrapper[] EMPTY_COLLECTION = {};
+    public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
+    public static final String THUMBS_FOLDER_NAME = "/thumbs";
 
     private long mInstanceID;
     private volatile boolean mIsInitiated = false;
@@ -68,7 +70,7 @@ public class Medialibrary {
     }
 
     public boolean init(Context context) {
-        mIsInitiated = nativeInit(context.getCacheDir()+"/vlc_media.db", context.getExternalFilesDir(null).getAbsolutePath()+"/thumbs");
+        mIsInitiated = nativeInit(context.getCacheDir()+ VLC_MEDIA_DB_NAME, context.getExternalFilesDir(null).getAbsolutePath()+ THUMBS_FOLDER_NAME);
         return mIsInitiated;
     }
 
