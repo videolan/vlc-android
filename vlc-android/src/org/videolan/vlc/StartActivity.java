@@ -56,15 +56,14 @@ public class StartActivity extends Activity {
         boolean tv =  showTvUi();
         String action = intent != null ? intent.getAction(): null;
 
-        // Route search query
-        if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
-                startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
+        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
+            intent.setDataAndType(intent.getData(), intent.getType());
+            if (intent.getType() != null && intent.getType().startsWith("video"))
+                startActivity(intent.setClass(this, VideoPlayerActivity.class));
+            else
+                MediaUtils.openMediaNoUi(intent.getData());
             finish();
             return;
-        } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
-            Intent serviceInent = new Intent(PlaybackService.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class);
-            serviceInent.putExtra(PlaybackService.EXTRA_SEARCH_BUNDLE, intent.getExtras());
-            startService(serviceInent);
         }
 
         // Start application
@@ -77,32 +76,31 @@ public class StartActivity extends Activity {
         boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade)
             settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply();
-
-        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
-            intent.setDataAndType(intent.getData(), intent.getType());
-            if (intent.getType() != null && intent.getType().startsWith("video"))
-                startActivity(intent.setClass(this, VideoPlayerActivity.class));
-            else
-                MediaUtils.openMediaNoUi(intent.getData());
+        startMedialibrary(firstRun, upgrade);
+        // Route search query
+        if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
+            startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
+            finish();
+            return;
+        } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
+            Intent serviceInent = new Intent(PlaybackService.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
+                    .putExtra(PlaybackService.EXTRA_SEARCH_BUNDLE, intent.getExtras());
+            startService(serviceInent);
+        } else if (AudioPlayerContainerActivity.ACTION_SHOW_PLAYER.equals(action)) {
+            startActivity(new Intent(this, tv ? AudioPlayerActivity.class : MainActivity.class));
         } else {
-            if (Permissions.canReadStorage()) {
-                Intent serviceInent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
-                serviceInent.putExtra(EXTRA_FIRST_RUN, firstRun);
-                serviceInent.putExtra(EXTRA_UPGRADE, upgrade);
-                startService(serviceInent);
-            }
-            if (AudioPlayerContainerActivity.ACTION_SHOW_PLAYER.equals(action))
-                startActivity(new Intent(this, tv ? AudioPlayerActivity.class : MainActivity.class));
-            else {
-                Intent activityIntent = new Intent(this, tv ? MainTvActivity.class : MainActivity.class);
-                if (firstRun)
-                    activityIntent.putExtra(EXTRA_FIRST_RUN, true);
-                if (upgrade)
-                    activityIntent.putExtra(EXTRA_UPGRADE, true);
-                startActivity(activityIntent);
-            }
+            startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
+                    .putExtra(EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(EXTRA_UPGRADE, upgrade));
         }
         finish();
+    }
+
+    private void startMedialibrary(boolean firstRun, boolean upgrade) {
+        if (Permissions.canReadStorage())
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class)
+                    .putExtra(EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(EXTRA_UPGRADE, upgrade));
     }
 
     private boolean showTvUi() {
