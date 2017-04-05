@@ -75,7 +75,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable, View.OnClickListener {
+public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -132,7 +132,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         View v = inflater.inflate(R.layout.audio_browser, container, false);
 
         mEmptyView = (TextView) v.findViewById(R.id.no_media);
-        mEmptyView.setOnClickListener(this);
 
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mFastScroller = (FastScroller) v.findViewById(R.id.songs_fast_scroller);
@@ -675,15 +674,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         return mLists[mViewPager.getCurrentItem()];
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.no_media) {
-            Intent intent = new Intent(v.getContext(), SecondaryActivity.class);
-            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
-            startActivity(intent);
-        }
-    }
-
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
     AudioBrowserHandler(AudioBrowserFragment owner) {
         super(owner);
@@ -710,8 +700,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
                 fragment.mSwipeRefreshLayout.setRefreshing(true);
                 break;
             case UNSET_REFRESHING:
-                removeMessages(SET_REFRESHING);
-                removeMessages(MSG_LOADING);
                 fragment.mSwipeRefreshLayout.setRefreshing(false);
                 break;
             case UPDATE_EMPTY_VIEW:

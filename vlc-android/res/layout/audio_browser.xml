@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -16,6 +15,21 @@
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin" />
+
+    <TextView
+        android:id="@+id/no_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/default_margin"
+        android:drawableBottom="@drawable/ic_no_media"
+        android:drawablePadding="@dimen/default_margin"
+        android:gravity="center"
+        android:maxWidth="600dp"
+        android:text="@string/nomedia"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
@@ -42,24 +56,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/swipeLayout"
         android:visibility="invisible"/>
-
-    <Button
-        android:id="@+id/no_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/default_margin"
-        android:drawableBottom="@drawable/ic_no_media"
-        android:drawablePadding="@dimen/default_margin"
-        android:gravity="center"
-        android:maxWidth="600dp"
-        tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"
-        android:textAppearance="@style/Result.Title"
-        android:text="@string/nomedia"
-        android:textSize="20sp"
-        android:visibility="gone" />
 
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"

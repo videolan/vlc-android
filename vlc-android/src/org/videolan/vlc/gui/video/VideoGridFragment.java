@@ -82,7 +82,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable, IEventsHandler, View.OnClickListener {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable, IEventsHandler {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -124,7 +124,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mSearchButtonView = v.findViewById(R.id.searchButton);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mTextViewNomedia.setOnClickListener(this);
 
         mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL);
         if (mVideoAdapter.isListMode())
@@ -651,14 +650,5 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             mHandler.sendEmptyMessage(UNSET_REFRESHING);
         updateEmptyView();
         setFabPlayVisibility(true);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.textview_nomedia) {
-            Intent intent = new Intent(v.getContext(), SecondaryActivity.class);
-            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
-            startActivity(intent);
-        }
     }
 }
