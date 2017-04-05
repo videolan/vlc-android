@@ -129,6 +129,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
+                    synchronized (this) {
+                        mLastNotificationTime = System.currentTimeMillis();
+                    }
                     mMedialibrary.setup();
                     String[] storages = AndroidDevices.getMediaDirectories();
                     for (String storage : storages) {
