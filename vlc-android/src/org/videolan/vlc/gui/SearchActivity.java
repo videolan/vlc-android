@@ -53,6 +53,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
             String query = intent.getStringExtra(SearchManager.QUERY);
             initializeLists();
             if (!TextUtils.isEmpty(query)) {
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 if (mMedialibrary.isInitiated()) {
                     mBinding.searchEditText.setText(query);
                     mBinding.searchEditText.setSelection(query.length());
