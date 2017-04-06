@@ -701,6 +701,7 @@
     <string name="ml_external_storage_title">New external storage detected</string>
     <string name="ml_external_storage_msg">Do you want VLC to add device %1$s to your medialibrary?</string>
     <string name="last_added_media">last added</string>
+    <string name="no">No</string>
 
     <string-array name="chroma_formats" translatable="false">
         <item>RGB 32-bit</item>
