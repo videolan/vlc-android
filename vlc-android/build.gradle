@@ -80,26 +80,9 @@ android {
             }
     }
 
-    signingConfigs {
-
-        release {
-            /*
-            To set this properties, create file gradle.properties with these 3 props.
-            e.g.
-            keyStoreFile=/home/<username>/.android/debug.keystore
-            storealias=androiddebugkey
-            storepwd=android
-             */
-            storeFile file(keyStoreFile)
-            keyAlias storealias
-            storePassword storepwd
-            keyPassword storepwd
-        }
-    }
-
     buildTypes {
         release {
-            signingConfig System.getenv('CLI') != null ? null : signingConfigs.release
+            signingConfig null
             minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
