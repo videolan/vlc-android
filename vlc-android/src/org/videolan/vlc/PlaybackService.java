@@ -89,6 +89,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapperList;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
@@ -2519,12 +2520,17 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @Nullable
     @Override
     public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
-        return new BrowserRoot(BrowserProvider.ID_ROOT, null);
+        return Permissions.canReadStorage() ? new BrowserRoot(BrowserProvider.ID_ROOT, null) : null;
     }
 
+    boolean mMLInitializing = false;
     @Override
     public void onLoadChildren(@NonNull final String parentId, @NonNull final Result<List<MediaBrowserCompat.MediaItem>> result) {
         result.detach();
+        if (!mMLInitializing && !mMedialibrary.isInitiated() && BrowserProvider.ID_ROOT.equals(parentId)) {
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+            mMLInitializing = true;
+        }
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
