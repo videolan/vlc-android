@@ -99,8 +99,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
-                setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false),
-                        intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
+                setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
                 break;
             case ACTION_RELOAD:
                 reload();
@@ -153,7 +152,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mMedialibrary.reload();
     }
 
-    private void setupMedialibrary(final boolean firstRun, final boolean upgrade) {
+    private void setupMedialibrary(final boolean upgrade) {
         if (mMedialibrary.isInitiated())
             mMedialibrary.resumeBackgroundOperations();
         else
