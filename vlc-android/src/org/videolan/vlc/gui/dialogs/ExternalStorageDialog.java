@@ -38,7 +38,7 @@ public class ExternalStorageDialog extends AppCompatDialogFragment {
                         }
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
                                 .edit()
