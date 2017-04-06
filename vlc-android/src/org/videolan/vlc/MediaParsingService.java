@@ -79,8 +79,15 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     @Override
     public void onCreate() {
         super.onCreate();
+        mMedialibrary = VLCApplication.getMLInstance();
+        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_PAUSE_SCAN);
+        filter.addAction(ACTION_RESUME_SCAN);
+        registerReceiver(mReceiver, filter);
         PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        mWakeLock.acquire();
     }
 
     @Nullable
@@ -91,12 +98,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mMedialibrary = VLCApplication.getMLInstance();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_PAUSE_SCAN);
-        filter.addAction(ACTION_RESUME_SCAN);
-        registerReceiver(mReceiver, filter);
-        mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         switch (intent.getAction()) {
             case ACTION_INIT:
                 setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
@@ -110,11 +111,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             case ACTION_DISCOVER_DEVICE:
                 discoverStorage(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID));
                 break;
-            default:
-                return START_NOT_STICKY;
         }
-        if (!mWakeLock.isHeld())
-            mWakeLock.acquire();
         return START_NOT_STICKY;
     }
 
