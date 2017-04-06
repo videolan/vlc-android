@@ -62,6 +62,7 @@ import java.util.StringTokenizer;
 public class AndroidDevices {
     public final static String TAG = "VLC/UiTools/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
+    public static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
 
     final static boolean hasNavBar;
     final static boolean hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");

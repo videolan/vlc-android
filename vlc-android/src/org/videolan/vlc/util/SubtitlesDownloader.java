@@ -110,7 +110,7 @@ public class SubtitlesDownloader {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                FileUtils.SUBTITLES_DIRECTORY.mkdirs();
+                AndroidDevices.SUBTITLES_DIRECTORY.mkdirs();
                 if (logIn()){
                     getSubtitles(mediaList, finalLanguages);
                 }
@@ -319,7 +319,7 @@ public class SubtitlesDownloader {
 
         StringBuilder sb = new StringBuilder();
         String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
-        sb.append(FileUtils.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
+        sb.append(AndroidDevices.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
         String srtUrl = sb.toString();
         FileOutputStream f = null;
         InputStream in = null;
