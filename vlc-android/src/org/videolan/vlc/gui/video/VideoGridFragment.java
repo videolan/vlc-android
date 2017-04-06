@@ -160,7 +160,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         updateViewMode();
         if (mMediaLibrary.isInitiated())
             fillView();
-        else
+        else if (mGroup == null)
             setupMediaLibraryReceiver();
     }
 
@@ -197,9 +197,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     }
 
     protected void fillView() {
-        mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-        mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
-        mMediaLibrary.addDeviceDiscoveryCb(this);
+        if (mGroup == null) {
+            mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
+            mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
+            mMediaLibrary.addDeviceDiscoveryCb(this);
+        }
         mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
