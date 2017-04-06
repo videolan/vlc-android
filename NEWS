@@ -1,3 +1,21 @@
+Changes between 2.1.3 and 2.1.4:
+----------------------------------
+
+Application:
+ * Revert to scan the whole storage by default instead of media folders
+ * 'Inster next' option in contextual menu
+ * Fix crash with remote controls on Android 2.3
+ * Fix 360° videos control
+ * Fix upgrade from VLC v 2.0 -> 2.1
+ * Fix external storage scan
+ * Misc. fixes
+
+Core:
+ * Fix timeout on network credentials step
+ * Fix crash when stopping h264 playback
+ * Fix crash on TLS connections
+
+
 Changes between 2.1.2 and 2.1.3:
 ----------------------------------
 
