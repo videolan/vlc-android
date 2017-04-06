@@ -98,6 +98,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        synchronized (this) {
+            if (mLastNotificationTime <= 0L)
+                mLastNotificationTime = System.currentTimeMillis();
+        }
         switch (intent.getAction()) {
             case ACTION_INIT:
                 setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
@@ -156,9 +160,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    synchronized (this) {
-                        mLastNotificationTime = System.currentTimeMillis();
-                    }
                     mMedialibrary.setup();
                     boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
                     String[] storages = AndroidDevices.getMediaDirectories();
