@@ -12,6 +12,8 @@ public class StringsTest {
         assertEquals("", FileUtils.getFileNameFromPath(null));
         assertEquals("", FileUtils.getFileNameFromPath("/"));
         assertEquals("file.txt", FileUtils.getFileNameFromPath(path));
+        path = "/home/folder/subfolder/";
+        assertEquals("subfolder", FileUtils.getFileNameFromPath(path));
     }
 
     //TextUtils mock is not ready :/

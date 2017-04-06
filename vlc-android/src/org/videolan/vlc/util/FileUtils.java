@@ -70,7 +70,11 @@ public class FileUtils {
         if (path == null)
             return "";
         int index = path.lastIndexOf('/');
-        if (index> -1)
+        if (index == path.length()-1) {
+            path = path.substring(0, index);
+            index = path.lastIndexOf('/');
+        }
+        if (index > -1)
             return path.substring(index+1);
         else
             return path;
