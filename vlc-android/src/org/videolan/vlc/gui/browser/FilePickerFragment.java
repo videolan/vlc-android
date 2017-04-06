@@ -82,6 +82,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     public void onStart() {
         super.onStart();
         getActivity().setTitle(getTitle());
+        mSwipeRefreshLayout.setEnabled(false);
     }
 
     public void onClick(View v, int position, MediaLibraryItem item) {
