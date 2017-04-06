@@ -124,11 +124,27 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             mMedialibrary.addDevice(uuid, path, true);
         for (String folder : Medialibrary.getBlackList())
             mMedialibrary.banFolder(path + folder);
-        discover(path);
+        mMedialibrary.discover(path);
     }
 
     private void discover(String path) {
+        if (TextUtils.isEmpty(path))
+            return;
+        addDeviceIfNeeded(path);
         mMedialibrary.discover(path);
+    }
+
+    private void addDeviceIfNeeded(String path) {
+        for (String devicePath : mMedialibrary.getDevices()) {
+            if (path.startsWith(devicePath))
+                return;
+        }
+        for (String storagePath : AndroidDevices.getExternalStorageDirectories()) {
+            if (path.startsWith(storagePath)) {
+                String uuid = FileUtils.getFileNameFromPath(path);
+                mMedialibrary.addDevice(uuid, path, true);
+            }
+        }
     }
 
     private void reload() {
