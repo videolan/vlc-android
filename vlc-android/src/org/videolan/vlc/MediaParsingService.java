@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -43,12 +44,12 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_RESUME_SCAN = "action_resume_scan";
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
     public static final long NOTIFICATION_DELAY = 1000L;
+    private PowerManager.WakeLock mWakeLock;
 
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
     private int mParsing = 0, mReload = 0;
     private String mCurrentDiscovery = null;
-    String mFolderToDiscover = null;
     private long mLastNotificationTime = 0L;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -56,9 +57,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case ACTION_PAUSE_SCAN:
+                    if (mWakeLock.isHeld())
+                        mWakeLock.release();
                     mMedialibrary.pauseBackgroundOperations();
                     break;
                 case ACTION_RESUME_SCAN:
+                    if (!mWakeLock.isHeld())
+                        mWakeLock.acquire();
                     mMedialibrary.resumeBackgroundOperations();
                     break;
                 default:
@@ -70,6 +75,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             showNotification();
         }
     };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+    }
 
     @Nullable
     @Override
@@ -99,7 +111,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             case ACTION_DISCOVER_DEVICE:
                 discoverStorage(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID));
                 break;
+            default:
+                return START_NOT_STICKY;
         }
+        if (!mWakeLock.isHeld())
+            mWakeLock.acquire();
         return START_NOT_STICKY;
     }
 
@@ -112,7 +128,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(String path) {
-        mFolderToDiscover = "";
         mMedialibrary.discover(path);
     }
 
@@ -225,21 +240,17 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     @Override
-    public void onDiscoveryStarted(String entryPoint) {
-        if (mFolderToDiscover != null && mFolderToDiscover.isEmpty())
-            mFolderToDiscover = entryPoint;
-    }
+    public void onDiscoveryStarted(String entryPoint) {}
 
     @Override
     public void onDiscoveryProgress(String entryPoint) {
         mCurrentDiscovery = entryPoint;
-        if (mReload == 0)
-            showNotification();
+        showNotification();
     }
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        if ((mParsing == 0 && mCurrentDiscovery != null && entryPoint.isEmpty()) || TextUtils.equals(mFolderToDiscover, entryPoint))
+        if (!mMedialibrary.isWorking())
             stopSelf();
     }
 
@@ -260,11 +271,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onReloadCompleted(String entryPoint) {
-        if (TextUtils.isEmpty(entryPoint)) {
+        if (TextUtils.isEmpty(entryPoint))
             --mReload;
-            if (mCurrentDiscovery != null && mParsing == 0)
-                stopSelf();
-        }
+        if (!mMedialibrary.isWorking())
+            stopSelf();
     }
 
     @Override
@@ -272,6 +282,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         hideNotification();
         mMedialibrary.removeDeviceDiscoveryCb(this);
         unregisterReceiver(mReceiver);
+        if (mWakeLock.isHeld())
+            mWakeLock.release();
         super.onDestroy();
     }
 
