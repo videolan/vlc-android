@@ -53,6 +53,11 @@ android {
         resValue "string", "build_revision", revision()
         resValue "string", "build_vlc_revision", vlcRevision()
 
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode 2010400
+        versionName '2.1.4'
+
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('merge')) {
                 task.dependsOn luaPlaylistCopy

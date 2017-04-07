@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.videolan.vlc"
-    android:installLocation="auto"
-    android:versionCode="02010400"
-    android:versionName="2.1.4">
+    android:installLocation="auto">
     <!--
          versionCode scheme is T M NN RR AA
          T: Target/Flavour (1 for Android, 2 for Chrome?)
@@ -25,8 +23,6 @@
     -->
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="25"
         tools:overrideLibrary="android.support.v17.leanback, android.support.v14.preference, android.support.v17.preference" />
 
     <uses-permission android:name="android.permission.READ_LOGS"
