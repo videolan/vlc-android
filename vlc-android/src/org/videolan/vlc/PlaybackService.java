@@ -111,6 +111,8 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static android.R.attr.width;
+
 public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
@@ -865,7 +867,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             String album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
             Bitmap cover = coverOnLockscreen ?
                     metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
-                    AudioUtil.getCover(this, getCurrentMedia(), 512);
+                    AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), width);
             if (cover == null)
                 cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.ic_no_media);
             Notification notification;
@@ -1295,7 +1297,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(this, media))
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
         if (coverOnLockscreen) {
-            Bitmap cover = AudioUtil.getCover(this, media, 512);
+            Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), 512);
             if (cover != null && cover.getConfig() != null) //In case of format not supported
                 bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
         }
@@ -1441,10 +1443,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private void updateWidgetCover() {
         Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER);
-
-        Bitmap cover = hasCurrentMedia() ? AudioUtil.getCover(this, getCurrentMedia(), 64) : null;
+        Bitmap cover = hasCurrentMedia() ? AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), 64) : null;
         i.putExtra("cover", cover);
-
         sendBroadcast(i);
     }
 
