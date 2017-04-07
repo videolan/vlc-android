@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 
-import com.android.builder.core.DefaultManifestParser
-
 android {
     packagingOptions {
         pickFirst 'lib/armeabi-v7a/libc++_shared.so'
@@ -135,25 +133,18 @@ android {
 
     // make per-variant version code
     applicationVariants.all { variant ->
-        variant.getGenerateBuildConfig().doLast {
-            def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile)
-            // get the version code of each flavor
-            def vlcVersion = manifestParser.getVersionName()
-            def targetVersion = variant.productFlavors.get(0).versionCode
-            def abiVersion = variant.productFlavors.get(1).versionCode
+        // set the composite code
+        variant.mergedFlavor.versionCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
+        println variant.mergedFlavor.versionCode
 
-            // set the composite code
-            variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.versionCode + abiVersion
-            variant.mergedFlavor.versionName = vlcVersion
-
-            //Custom APK name
-            variant.outputs.each { output ->
-                def outputName = "VLC-Android-"
-                if (variant.productFlavors.get(0).name != "vanilla")
-                    outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
-                outputName += vlcVersion + "-" + variant.productFlavors.get(1).name + ".apk"
-                output.outputFile = new File(output.outputFile.parentFile, outputName);
-            }
+        //Custom APK name
+        variant.outputs.each { output ->
+            def outputName = "VLC-Android-"
+            if (variant.productFlavors.get(0).name != "vanilla")
+                outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
+            outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
+            println outputName
+            output.outputFile = new File(output.outputFile.parentFile, outputName);
         }
     }
 
