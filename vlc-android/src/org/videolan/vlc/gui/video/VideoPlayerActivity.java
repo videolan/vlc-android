@@ -1187,7 +1187,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             seekDelta(-60000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_A:
-            if (mOverlayProgress.getVisibility() == View.VISIBLE)
+            if (mOverlayProgress != null && mOverlayProgress.getVisibility() == View.VISIBLE)
                 return false;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
         case KeyEvent.KEYCODE_MEDIA_PLAY:
