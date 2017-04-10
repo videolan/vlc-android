@@ -681,6 +681,7 @@
     <string name="list_languages_download_summary">Languages to download when fetching subtitles</string>
     <string name="list_languages_download_title">Subtitles download languages</string>
     <string name="service_unavailable">Service unavailable</string>
+    <string name="subs_dl_lang_fail">Failed to set subtitles language, try to set it in application settings</string>
     <string name="downloading_subtitles">Downloading subtitles</string>
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
