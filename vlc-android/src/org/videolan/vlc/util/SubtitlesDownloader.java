@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
@@ -101,7 +102,12 @@ public class SubtitlesDownloader {
     public void downloadSubs(final List<MediaWrapper> mediaList, Callback cb) {
         stop = false;
         mCallback = cb;
-        Set<String> languages =  Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
+        Set<String> languages;
+        try {
+            languages =  Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
+        } catch (MissingResourceException e) {
+            languages = Collections.singleton(Locale.ENGLISH.getISO3Language().toLowerCase());
+        }
         if (AndroidUtil.isHoneycombOrLater) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             languages =  pref.getStringSet("languages_download_list", languages);
