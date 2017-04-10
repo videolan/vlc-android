@@ -501,6 +501,7 @@ gen_pc_file GLESv2 2
 
 cd contrib/contrib-android-${TARGET_TUPLE}
 
+export USE_FFMPEG=1
 ANDROID_ABI=${ANDROID_ABI} ANDROID_API=android-${ANDROID_API} \
     ../bootstrap --host=${TARGET_TUPLE} ${VLC_BOOTSTRAP_ARGS}
 checkfail "contribs: bootstrap failed"
