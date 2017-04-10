@@ -199,9 +199,8 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaPlayed) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -249,9 +248,8 @@ getVideos(JNIEnv* env, jobject thiz)
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : videoFiles) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(videoRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(videoRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -267,9 +265,8 @@ getInternalAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort =
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : audioFiles) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(audioRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(audioRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -529,9 +526,8 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     jobject item = nullptr;
     for(medialibrary::MediaPtr const& media : tracks) {
         item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -556,9 +552,8 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -594,9 +589,8 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }
@@ -687,9 +681,8 @@ getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
         jobject item = mediaToMediaWrapper(env, &ml_fields, media);
-        if (item != nullptr)
-            env->SetObjectArrayElement(mediaRefs, ++index, item);
-        else
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
             ++drops;
         env->DeleteLocalRef(item);
     }

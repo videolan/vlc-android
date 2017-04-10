@@ -415,14 +415,17 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
         {
             mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL);
             index = -1;
+            jobject item;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
-                if (!((type == medialibrary::IMedia::Type::Audio && m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO) ||
-                        (type == medialibrary::IMedia::Type::Video && m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO)))
-                    continue;
-                jobject item = mediaToMediaWrapper(env, p_fields, media);
+                if ((type == medialibrary::IMedia::Type::Audio && m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO) ||
+                        (type == medialibrary::IMedia::Type::Video && m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO))
+                    item = mediaToMediaWrapper(env, p_fields, media);
+                else
+                    item = nullptr;
                 env->SetObjectArrayElement(mediaRefs, ++index, item);
-                env->DeleteLocalRef(item);
+                if (item != nullptr)
+                    env->DeleteLocalRef(item);
             }
         }
 
@@ -459,14 +462,17 @@ void AndroidMediaLibrary::onMediaUpdated( std::vector<medialibrary::MediaPtr> me
         {
             mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL);
             index = -1;
+            jobject item;
             for (medialibrary::MediaPtr const& media : mediaList) {
                 medialibrary::IMedia::Type type = media->type();
-                if (!((type == medialibrary::IMedia::Type::Audio && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO) ||
-                        (type == medialibrary::IMedia::Type::Video && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO)))
-                    continue;
-                jobject item = mediaToMediaWrapper(env, p_fields, media);
+                if ((type == medialibrary::IMedia::Type::Audio && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO) ||
+                        (type == medialibrary::IMedia::Type::Video && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO))
+                    item = mediaToMediaWrapper(env, p_fields, media);
+                else
+                    item = nullptr;
                 env->SetObjectArrayElement(mediaRefs, ++index, item);
-                env->DeleteLocalRef(item);
+                if (item != nullptr)
+                    env->DeleteLocalRef(item);
             }
         }
         if (index > -1)
