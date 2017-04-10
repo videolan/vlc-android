@@ -496,9 +496,7 @@ getPlaylist(JNIEnv* env, jobject thiz, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::PlaylistPtr playlist = aml->playlist(id);
-    if (playlist != nullptr)
-        return convertPlaylistObject(env, &ml_fields, playlist);
-    return nullptr;
+    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist) : nullptr;
 }
 
 jobject
@@ -508,7 +506,7 @@ playlistCreate(JNIEnv* env, jobject thiz, jstring name)
     const char *name_cstr = env->GetStringUTFChars(name, JNI_FALSE);
     medialibrary::PlaylistPtr playlist = aml->PlaylistCreate(name_cstr);
     env->ReleaseStringUTFChars(name, name_cstr);
-    return convertPlaylistObject(env, &ml_fields, playlist);
+    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist) : nullptr;
 }
 
 /*

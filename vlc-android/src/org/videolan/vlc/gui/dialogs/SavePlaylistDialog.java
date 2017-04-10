@@ -148,6 +148,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                 MediaWrapper[] tracks;
                 if (!exists)
                     playlist = mMedialibrary.createPlaylist(name);
+                if (playlist == null)
+                    return;
                 if (addTracks) {
                     tracks = mNewTrack;
                 } else {//Save a playlist
