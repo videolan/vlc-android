@@ -107,13 +107,18 @@ public class FileUtils {
     public static String getPathFromURI(Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri, proj, null, null, null);
+            if (cursor == null)
+                return "";
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
+        } catch (IllegalArgumentException e) {
+                return "";
         } finally {
-            Util.close(cursor);
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
         }
     }
 
@@ -270,7 +275,7 @@ public class FileUtils {
     }
 
     public static boolean canWrite(String path){
-        if (path == null)
+        if (TextUtils.isEmpty(path))
             return false;
         if (path.startsWith("file://"))
             path = path.substring(7);
