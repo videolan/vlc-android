@@ -28,6 +28,9 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.io.File;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String TAG = "VLC/MediaParsingService";
@@ -51,6 +54,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private int mParsing = 0, mReload = 0;
     private String mCurrentDiscovery = null;
     private long mLastNotificationTime = 0L;
+
+    private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -119,19 +125,29 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         return START_NOT_STICKY;
     }
 
-    private void discoverStorage(String path, String uuid) {
-        if (!TextUtils.isEmpty(uuid))
-            mMedialibrary.addDevice(uuid, path, true);
-        for (String folder : Medialibrary.getBlackList())
-            mMedialibrary.banFolder(path + folder);
-        mMedialibrary.discover(path);
+    private void discoverStorage(final String path, final String uuid) {
+        mThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(uuid))
+                    mMedialibrary.addDevice(uuid, path, true);
+                for (String folder : Medialibrary.getBlackList())
+                    mMedialibrary.banFolder(path + folder);
+                mMedialibrary.discover(path);
+            }
+        });
     }
 
-    private void discover(String path) {
+    private void discover(final String path) {
         if (TextUtils.isEmpty(path))
             return;
-        addDeviceIfNeeded(path);
-        mMedialibrary.discover(path);
+        mThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                addDeviceIfNeeded(path);
+                mMedialibrary.discover(path);
+            }
+        });
     }
 
     private void addDeviceIfNeeded(String path) {
@@ -157,7 +173,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         if (mMedialibrary.isInitiated())
             mMedialibrary.resumeBackgroundOperations();
         else
-            VLCApplication.runBackground(new Runnable() {
+            mThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     mMedialibrary.setup();
