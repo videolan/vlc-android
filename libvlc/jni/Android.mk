@@ -16,6 +16,7 @@ LOCAL_LDLIBS := \
 	-la52 -ljpeg \
 	-lavcodec -lebml \
 	-llua \
+	-lgcrypt -lgpg-error \
 	$(VLC_LDFLAGS)
 
 include $(BUILD_SHARED_LIBRARY)
