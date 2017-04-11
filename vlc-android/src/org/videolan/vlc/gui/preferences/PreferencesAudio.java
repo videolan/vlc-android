@@ -53,7 +53,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) findPreference("enable_headset_detection")).isChecked());
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
@@ -68,7 +67,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
         switch (preference.getKey()){
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
-                findPreference("enable_play_on_headset_insertion").setVisible(((TwoStatePreference) preference).isChecked());
                 return true;
             case "enable_steal_remote_control":
                 PlaybackService.Client.restartService(getActivity());
