@@ -68,9 +68,7 @@ public class VLCApplication extends Application {
     private static SimpleArrayMap<String, Object> sDataMap = new SimpleArrayMap<>();
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
-    int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
-    private ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(Math.min(2, maxThreads), maxThreads, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
+    private final int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
     public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         @Override
         public Thread newThread(Runnable runnable) {
@@ -79,6 +77,8 @@ public class VLCApplication extends Application {
             return thread;
         }
     };
+    private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(Math.min(2, maxThreads), maxThreads, 30, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     private static int sDialogCounter = 0;
