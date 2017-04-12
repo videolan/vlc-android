@@ -181,14 +181,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
             app:layout_constraintBottom_toTopOf="@+id/timeline"
-            android:layout_marginLeft="@dimen/audio_player_cover_margin"
-            android:layout_marginRight="@dimen/audio_player_cover_margin"
+            android:paddingLeft="@dimen/audio_player_cover_margin"
+            android:paddingRight="@dimen/audio_player_cover_margin"
+            android:paddingStart="@dimen/audio_player_cover_margin"
+            android:paddingEnd="@dimen/audio_player_cover_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:layout_marginStart="@dimen/audio_player_cover_margin"
-            android:layout_marginEnd="@dimen/audio_player_cover_margin"
             tools:layout_constraintLeft_creator="1" />
 
         <include layout="@layout/shadow_top"
