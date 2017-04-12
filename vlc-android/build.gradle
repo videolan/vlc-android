@@ -135,7 +135,6 @@ android {
     applicationVariants.all { variant ->
         // set the composite code
         variant.mergedFlavor.versionCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
-        println variant.mergedFlavor.versionCode
 
         //Custom APK name
         variant.outputs.each { output ->
@@ -143,7 +142,6 @@ android {
             if (variant.productFlavors.get(0).name != "vanilla")
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
-            println outputName
             output.outputFile = new File(output.outputFile.parentFile, outputName);
         }
     }
