@@ -269,6 +269,10 @@ else
     exit 2
 fi
 
+SRC_DIR=$PWD
+VLC_SRC_DIR="$SRC_DIR/vlc"
+VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
+
 # try to detect NDK version
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 
@@ -317,7 +321,6 @@ if [ ! -z "${NDK_FORCE_ARG}" ];then
     cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
 fi
 
-SRC_DIR=$PWD
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
 CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
@@ -392,7 +395,7 @@ EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MAC
 # Setup LDFLAGS #
 #################
 
-EXTRA_LDFLAGS=""
+EXTRA_LDFLAGS="${VLC_LDFLAGS}"
 if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
         EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -Wl,--fix-cortex-a8"
@@ -449,7 +452,6 @@ cd vlc
 ###########################
 # Build buildsystem tools #
 ###########################
-VLC_SRC_DIR="$SRC_DIR/vlc"
 
 export PATH=`pwd`/extras/tools/build/bin:$PATH
 echo "Building tools"
@@ -680,7 +682,6 @@ rm ${REDEFINED_VLC_MODULES_DIR}/syms
 LIBVLC_LIBS="libvlcjni"
 VLC_MODULES=$(find_modules ${REDEFINED_VLC_MODULES_DIR})
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
-VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs`
 
 if [ "${CHROME_OS}" != "1" ];then
