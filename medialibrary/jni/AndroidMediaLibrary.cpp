@@ -61,12 +61,11 @@ AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbs
     return p_ml->initialize(dbPath, thumbsPath, this);
 }
 
-void
+bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
     p_lister->addDevice(uuid, path, removable);
-    if (p_DeviceListerCb != nullptr)
-        p_DeviceListerCb->onDevicePlugged(uuid, path);
+    return p_DeviceListerCb != nullptr && p_DeviceListerCb->onDevicePlugged(uuid, path);
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>

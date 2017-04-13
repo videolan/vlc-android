@@ -57,14 +57,16 @@ banFolder(JNIEnv* env, jobject thiz, jstring folderPath)
     env->ReleaseStringUTFChars(folderPath, path);
 }
 
-void addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
+jboolean
+addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *uuidChar = env->GetStringUTFChars(uuid, JNI_FALSE);
     const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
-    aml->addDevice(uuidChar, path, removable);
+    jboolean isNew = aml->addDevice(uuidChar, path, removable);
     env->ReleaseStringUTFChars(uuid, uuidChar);
     env->ReleaseStringUTFChars(storagePath, path);
+    return isNew;
 }
 
 jobjectArray
@@ -742,7 +744,7 @@ static JNINativeMethod methods[] = {
     {"nativeSetup", "()V", (void*)setup },
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)init },
     {"nativeRelease", "()V", (void*)release },
-    {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },
+    {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)addDevice },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },

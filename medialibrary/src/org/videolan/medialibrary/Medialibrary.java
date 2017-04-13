@@ -83,8 +83,8 @@ public class Medialibrary {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
 
-    public void addDevice(String uuid, String path, boolean removable) {
-        nativeAddDevice(uuid, Tools.encodeVLCMrl(path), removable);
+    public boolean addDevice(String uuid, String path, boolean removable) {
+        return nativeAddDevice(uuid, Tools.encodeVLCMrl(path), removable);
     }
 
     public void discover(String path) {
@@ -538,7 +538,7 @@ public class Medialibrary {
     private native boolean nativeInit(String dbPath, String thumbsPath);
     private native void nativeRelease();
     private native void nativeBanFolder(String path);
-    private native void nativeAddDevice(String uuid, String path, boolean removable);
+    private native boolean nativeAddDevice(String uuid, String path, boolean removable);
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);
     private native void nativeRemoveEntryPoint(String path);

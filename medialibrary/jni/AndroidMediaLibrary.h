@@ -29,7 +29,7 @@ public:
     ~AndroidMediaLibrary();
 
     bool initML(const std::string& dbPath, const std::string& thumbsPath);
-    void addDevice(const std::string& uuid, const std::string& path, bool removable);
+    bool addDevice(const std::string& uuid, const std::string& path, bool removable);
     std::vector<std::tuple<std::string, std::string, bool>> devices();
     bool removeDevice(const std::string& uuid);
     void banFolder(const std::string& path);
