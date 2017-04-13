@@ -4,8 +4,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := libvlc
 ARCH=$(APP_ABI)
 LOCAL_SRC_FILES += libvlcjni-modules.c libvlcjni-symbols.c dummy.cpp
+LOCAL_LDFLAGS := -L$(VLC_CONTRIB)/lib
 LOCAL_LDLIBS := \
-	-L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
 	$(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
