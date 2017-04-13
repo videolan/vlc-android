@@ -67,7 +67,6 @@ public class DialogActivity extends BaseActivity {
         ExternalStorageDialog dialog = new ExternalStorageDialog();
         Bundle b = new Bundle(2);
         b.putString(MediaParsingService.EXTRA_PATH, getIntent().getStringExtra(MediaParsingService.EXTRA_PATH));
-        b.putString(MediaParsingService.EXTRA_UUID, getIntent().getStringExtra(MediaParsingService.EXTRA_UUID));
         dialog.setArguments(b);
         dialog.show(getSupportFragmentManager(), "fragment_storage");
     }

@@ -37,8 +37,7 @@ public class ExternalStorageDialog extends AppCompatDialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent serviceInent = new Intent(MediaParsingService.ACTION_DISCOVER_DEVICE, null, getActivity(), MediaParsingService.class)
-                            .putExtra(MediaParsingService.EXTRA_PATH, path)
-                            .putExtra(MediaParsingService.EXTRA_UUID, uuid);
+                            .putExtra(MediaParsingService.EXTRA_PATH, path);
                         if (getActivity() != null) {
                             getActivity().startService(serviceInent);
                             getActivity().finish();

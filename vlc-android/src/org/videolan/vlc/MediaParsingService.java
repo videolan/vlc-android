@@ -119,18 +119,16 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 discover(intent.getStringExtra(EXTRA_PATH));
                 break;
             case ACTION_DISCOVER_DEVICE:
-                discoverStorage(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID));
+                discoverStorage(intent.getStringExtra(EXTRA_PATH));
                 break;
         }
         return START_NOT_STICKY;
     }
 
-    private void discoverStorage(final String path, final String uuid) {
+    private void discoverStorage(final String path) {
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                if (!TextUtils.isEmpty(uuid))
-                    mMedialibrary.addDevice(uuid, path, true);
                 for (String folder : Medialibrary.getBlackList())
                     mMedialibrary.banFolder(path + folder);
                 mMedialibrary.discover(path);
@@ -144,7 +142,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                addDeviceIfNeeded(path);
                 mMedialibrary.discover(path);
             }
         });
