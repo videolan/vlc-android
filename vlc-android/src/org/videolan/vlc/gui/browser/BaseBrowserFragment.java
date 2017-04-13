@@ -819,7 +819,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode == null)
+        if (mActionMode == null && item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
             mRecyclerView.openContextMenu(position);
     }
 
