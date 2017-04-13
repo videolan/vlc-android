@@ -392,7 +392,6 @@ EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MAC
 # Setup LDFLAGS #
 #################
 
-VLC_LDFLAGS=""
 EXTRA_LDFLAGS=""
 if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
