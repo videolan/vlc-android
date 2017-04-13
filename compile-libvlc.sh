@@ -522,9 +522,7 @@ which autopoint >/dev/null || make $MAKEFLAGS .gettext
 #export the PATH
 export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 # Make
-PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
-PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
-  make $MAKEFLAGS
+make $MAKEFLAGS
 checkfail "contribs: make failed"
 
 cd ../../
