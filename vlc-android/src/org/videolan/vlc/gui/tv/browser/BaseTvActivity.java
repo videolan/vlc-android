@@ -48,6 +48,7 @@ import org.videolan.vlc.util.WeakHandler;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
+
     protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
     boolean mRegistering = false;
@@ -110,15 +111,15 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 String path = intent.getData().getPath();
                 String uuid = intent.getData().getLastPathSegment();
-                startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)
-                        .setAction(DialogActivity.KEY_STORAGE)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra(MediaParsingService.EXTRA_PATH, path)
-                        .putExtra(MediaParsingService.EXTRA_UUID, uuid));
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_MOUNTED, 500);
+                if (mMediaLibrary.addDevice(uuid, path, true)) {
+                    startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)
+                            .setAction(DialogActivity.KEY_STORAGE)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra(MediaParsingService.EXTRA_PATH, path));
+                }
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
                 mMediaLibrary.removeDevice(intent.getData().getLastPathSegment());
-                mMediaLibrary.reload();
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null, BaseTvActivity.this, MediaParsingService.class));
                 mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 2000); //Delay to cancel it in case of MOUNT
             }
         }

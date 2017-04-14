@@ -25,7 +25,6 @@ import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 
 import java.io.File;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -178,7 +177,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     String[] storages = AndroidDevices.getMediaDirectories();
                     for (String storage : storages) {
                         boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                        mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
+                        boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
+                        if (!isMainStorage && isNew) {
+                            startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
+                                        .setAction(DialogActivity.KEY_STORAGE)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra(EXTRA_PATH, storage));
+                        }
                     }
                     if (mMedialibrary.init(MediaParsingService.this)) {
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
@@ -188,18 +193,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
-                        }
-                        final String[] foldersList = mMedialibrary.getFoldersList();
-                        final SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
-                        for (String externalStorage : AndroidDevices.getExternalStorageDirectories()) {
-                            if (!TextUtils.equals(externalStorage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
-                                    && !Util.arrayContains(foldersList, "file://" + externalStorage + "/")
-                                    && !mSettings.getBoolean("ignore_"+FileUtils.getFileNameFromPath(externalStorage), false)) {
-                                startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
-                                        .setAction(DialogActivity.KEY_STORAGE)
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        .putExtra(EXTRA_PATH, externalStorage));
-                            }
                         }
                     }
                 }

@@ -53,13 +53,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
-
-import static org.videolan.vlc.MediaParsingService.EXTRA_PATH;
-import static org.videolan.vlc.MediaParsingService.EXTRA_UUID;
 
 public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback {
 
@@ -348,21 +346,24 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            AudioPlayerContainerActivity owner = getOwner();
+            if (owner == null)
+                return;
+            String uuid = ((Uri) msg.obj).getLastPathSegment();
             switch (msg.what){
                 case ACTION_MEDIA_MOUNTED:
                     String path = ((Uri) msg.obj).getPath();
-                    String uuid = ((Uri) msg.obj).getLastPathSegment();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    getOwner().updateLib();
-                    getOwner().startActivity(new Intent(getOwner(), DialogActivity.class)
-                            .setAction(DialogActivity.KEY_STORAGE)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra(EXTRA_PATH, path)
-                            .putExtra(EXTRA_UUID, uuid));
+                    if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
+                        owner.startActivity(new Intent(owner, DialogActivity.class)
+                                .setAction(DialogActivity.KEY_STORAGE)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra(MediaParsingService.EXTRA_PATH, path));
+                    }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getOwner(), MediaParsingService.class));
-                    getOwner().updateLib();
+                    VLCApplication.getMLInstance().removeDevice(uuid);
+                    owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class));
                     break;
             }
         }
