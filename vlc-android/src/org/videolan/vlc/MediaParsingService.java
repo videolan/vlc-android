@@ -7,17 +7,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
@@ -125,6 +124,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discoverStorage(final String path) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "discoverStorage: "+path);
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -259,22 +259,27 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     @Override
-    public void onDiscoveryStarted(String entryPoint) {}
+    public void onDiscoveryStarted(String entryPoint) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onDiscoveryStarted: "+entryPoint);
+    }
 
     @Override
     public void onDiscoveryProgress(String entryPoint) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onDiscoveryProgress: "+entryPoint);
         mCurrentDiscovery = entryPoint;
         showNotification();
     }
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onDiscoveryCompleted: "+entryPoint);
         if (!mMedialibrary.isWorking())
             stopSelf();
     }
 
     @Override
     public void onParsingStatsUpdated(int percent) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onParsingStatsUpdated: "+percent);
         mParsing = percent;
         if (mParsing == 100)
             stopSelf();
@@ -284,6 +289,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onReloadStarted(String entryPoint) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onReloadStarted: "+entryPoint);
         if (TextUtils.isEmpty(entryPoint))
             ++mReload;
     }
