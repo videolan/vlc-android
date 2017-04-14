@@ -1109,7 +1109,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
             KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-            if (event != null) {
+            if (event != null && !isVideoPlaying()) {
                 int keyCode = event.getKeyCode();
                 if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
                         || keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
