@@ -39,13 +39,12 @@ import java.util.Arrays;
 
 class StorageBrowserAdapter extends BaseBrowserAdapter {
 
-    private static ArrayList<String> mMediaDirsLocation;
-    private static ArrayList<String> mCustomDirsLocation;
+    private ArrayList<String> mMediaDirsLocation;
+    private ArrayList<String> mCustomDirsLocation;
 
     StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
-        if (mMediaDirsLocation == null && mCustomDirsLocation == null)
-            updateMediaDirs();
+        updateMediaDirs();
     }
 
     @Override
