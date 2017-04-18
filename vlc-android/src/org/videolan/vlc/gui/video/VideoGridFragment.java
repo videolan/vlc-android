@@ -55,7 +55,6 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -82,7 +81,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, DevicesDiscoveryCb, MediaAddedCb, Filterable, IEventsHandler {
+public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -159,7 +158,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         setSearchVisibility(false);
         updateViewMode();
         if (mMediaLibrary.isInitiated())
-            fillView();
+            onMedialibraryReady();
         else if (mGroup == null)
             setupMediaLibraryReceiver();
     }
@@ -167,7 +166,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     @Override
     public void onPause() {
         super.onPause();
-        mMediaLibrary.removeDeviceDiscoveryCb(this);
         mMediaLibrary.removeMediaUpdatedCb();
         mMediaLibrary.removeMediaAddedCb();
     }
@@ -196,11 +194,11 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         mVideoAdapter.clear();
     }
 
-    protected void fillView() {
+    protected void onMedialibraryReady() {
+        super.onMedialibraryReady();
         if (mGroup == null) {
             mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
             mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
-            mMediaLibrary.addDeviceDiscoveryCb(this);
         }
         mHandler.sendEmptyMessage(UPDATE_LIST);
     }
@@ -458,35 +456,14 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         super.setFabPlayVisibility(!mVideoAdapter.isEmpty() && enable);
     }
 
-    boolean mParsing = false;
     @Override
-    public void onDiscoveryStarted(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryProgress(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryCompleted(final String entryPoint) {
-        mHandler.sendEmptyMessage(mParsing ? SET_REFRESHING : UNSET_REFRESHING);
+    protected void onParsingServiceStarted() {
+        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 
     @Override
-    public void onParsingStatsUpdated(final int percent) {
-        mParsing = percent < 100;
-        if (percent == 100)
-            mHandler.sendEmptyMessage(UPDATE_LIST);
-        else if (!mSwipeRefreshLayout.isRefreshing())
-            mHandler.sendEmptyMessage(SET_REFRESHING);
-    }
-
-    @Override
-    public void onReloadStarted(String entryPoint) {
-            mHandler.sendEmptyMessage(SET_REFRESHING);
-    }
-
-    @Override
-    public void onReloadCompleted(String entryPoint) {
-            mHandler.sendEmptyMessage(UNSET_REFRESHING);
+    protected void onParsingServiceFinished() {
+        mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     @Override

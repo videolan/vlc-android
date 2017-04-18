@@ -33,9 +33,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
@@ -44,10 +43,11 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
-import org.videolan.vlc.util.WeakHandler;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
+
+    private static final String TAG = "VLC/BaseTvActivity";
 
     protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
@@ -70,16 +70,20 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         storageFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
         storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         storageFilter.addDataScheme("file");
+        IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
+        parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
 
         mRegistering = true;
-        registerReceiver(mExternalDevicesReceiver, networkFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
         registerReceiver(mExternalDevicesReceiver, storageFilter);
+        registerReceiver(mExternalDevicesReceiver, networkFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mExternalDevicesReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
     }
 
     @Override
@@ -93,7 +97,25 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     protected abstract void refresh();
     protected abstract void onNetworkUpdated();
-    protected void onExternelDeviceChange() {}
+
+    protected final BroadcastReceiver mParsingServiceReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case MediaParsingService.ACTION_SERVICE_ENDED:
+                    onParsingServiceFinished();
+                    break;
+                case MediaParsingService.ACTION_SERVICE_STARTED:
+                    onParsingServiceStarted();
+                    break;
+            }
+        }
+    };
+
+    protected void onParsingServiceStarted() {}
+    protected void onParsingServiceFinished() {}
 
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
         @Override
@@ -116,37 +138,13 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                             .setAction(DialogActivity.KEY_STORAGE)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra(MediaParsingService.EXTRA_PATH, path));
-                }
+                } else
+                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null, BaseTvActivity.this, MediaParsingService.class)
+                            .putExtra(MediaParsingService.EXTRA_PATH, path));
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
                 mMediaLibrary.removeDevice(intent.getData().getLastPathSegment());
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null, BaseTvActivity.this, MediaParsingService.class));
-                mStorageHandlerHandler.sendEmptyMessageDelayed(ACTION_MEDIA_UNMOUNTED, 2000); //Delay to cancel it in case of MOUNT
+                onParsingServiceFinished();
             }
         }
     };
-
-    Handler mStorageHandlerHandler = new FileBrowserFragmentHandler(this);
-
-    protected static final int ACTION_MEDIA_MOUNTED = 1337;
-    protected static final int ACTION_MEDIA_UNMOUNTED = 1338;
-
-    private static class FileBrowserFragmentHandler extends WeakHandler<BaseTvActivity> {
-
-        FileBrowserFragmentHandler(BaseTvActivity owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what){
-                case ACTION_MEDIA_MOUNTED:
-                    removeMessages(ACTION_MEDIA_UNMOUNTED);
-                case ACTION_MEDIA_UNMOUNTED:
-                    getOwner().onExternelDeviceChange();
-                    break;
-            }
-        }
-    }
 }

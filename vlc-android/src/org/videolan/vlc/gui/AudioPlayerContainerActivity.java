@@ -38,6 +38,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -53,7 +54,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
-import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
@@ -359,11 +359,13 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                                 .setAction(DialogActivity.KEY_STORAGE)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 .putExtra(MediaParsingService.EXTRA_PATH, path));
-                    }
+                    } else
+                        owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
+                            .putExtra(MediaParsingService.EXTRA_PATH, path));
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
                     VLCApplication.getMLInstance().removeDevice(uuid);
-                    owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class));
+                    LocalBroadcastManager.getInstance(owner).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
                     break;
             }
         }

@@ -59,7 +59,6 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
@@ -87,7 +86,7 @@ import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MainTvActivity extends BaseTvActivity implements OnItemViewSelectedListener,
-        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback, MediaUpdatedCb, DevicesDiscoveryCb {
+        OnItemViewClickedListener, OnClickListener, PlaybackService.Callback, MediaUpdatedCb {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -170,7 +169,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (mMediaLibrary.isInitiated() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
+        if (mMediaLibrary.isInitiated() && !mMediaLibrary.isWorking() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
             update();
         else {
             updateBrowsers();
@@ -214,7 +213,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mService.addCallback(this);
         if (mMediaLibrary.isInitiated()) {
             setmedialibraryListeners();
-            update();
         } else
             setupMediaLibraryReceiver();
     }
@@ -225,7 +223,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
-        mMediaLibrary.removeDeviceDiscoveryCb(this);
     }
 
     @Override
@@ -371,30 +368,13 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
-    public void onDiscoveryStarted(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryProgress(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryCompleted(String entryPoint) {}
-
-    @Override
-    public void onParsingStatsUpdated(int percent) {
-        if (percent == 100)
-            update();
-        else if (mProgressBar.getVisibility() != View.VISIBLE)
-            mHandler.sendEmptyMessage(SHOW_LOADING);
+    protected void onParsingServiceStarted() {
+        mHandler.sendEmptyMessageDelayed(SHOW_LOADING, 300);
     }
 
     @Override
-    public void onReloadStarted(String entryPoint) {
-            mHandler.sendEmptyMessage(SHOW_LOADING);
-    }
-
-    @Override
-    public void onReloadCompleted(String entryPoint) {
-            mHandler.sendEmptyMessage(HIDE_LOADING);
+    protected void onParsingServiceFinished() {
+        update();
     }
 
     private static final int SHOW_LOADING = 0;
@@ -427,7 +407,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             if (mRowsAdapter != null)
                 mRowsAdapter.clear();
             mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-            mHandler.sendEmptyMessage(SHOW_LOADING);
+            mHandler.sendEmptyMessageDelayed(SHOW_LOADING, 300);
             mHistoryIndex.clear();
 
             //Video Section
@@ -554,11 +534,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
-    protected void onExternelDeviceChange() {
-        updateBrowsers();
-    }
-
-    @Override
     public void updateProgress(){}
 
     @Override
@@ -611,7 +586,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     private void setmedialibraryListeners() {
         mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-        mMediaLibrary.addDeviceDiscoveryCb(this);
     }
 
     private void setupMediaLibraryReceiver() {

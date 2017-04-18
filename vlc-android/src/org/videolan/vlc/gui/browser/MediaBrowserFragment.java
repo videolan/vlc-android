@@ -42,6 +42,7 @@ import android.view.View;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.InfoActivity;
@@ -99,6 +100,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     public void onPause() {
         super.onPause();
         stopActionMode();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mParsingServiceReceiver);
     }
 
     public void setFabPlayVisibility(boolean enable) {
@@ -206,15 +208,39 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         return false;
     }
 
-    protected void fillView() {};
+    protected void onMedialibraryReady() {
+        IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
+        parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
+    };
     protected void setupMediaLibraryReceiver() {
         final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                fillView();
+                onMedialibraryReady();
             }
         };
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
     }
+
+    protected final BroadcastReceiver mParsingServiceReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case MediaParsingService.ACTION_SERVICE_ENDED:
+                    onParsingServiceFinished();
+                    break;
+                case MediaParsingService.ACTION_SERVICE_STARTED:
+                    onParsingServiceStarted();
+                    break;
+            }
+        }
+    };
+
+    protected void onParsingServiceStarted() {}
+
+    protected void onParsingServiceFinished() {}
 }

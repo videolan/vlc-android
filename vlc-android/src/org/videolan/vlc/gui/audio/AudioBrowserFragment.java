@@ -45,7 +45,6 @@ import android.widget.TextView;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
@@ -75,7 +74,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDiscoveryCb, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
+public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MediaBrowser mMediaBrowser;
@@ -194,7 +193,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         super.onPause();
 
         mViewPager.removeOnPageChangeListener(this);
-        mMediaLibrary.removeDeviceDiscoveryCb(this);
+        mMediaLibrary.removeMediaUpdatedCb();
+        mMediaLibrary.removeMediaAddedCb();
         if (mMediaBrowser != null) {
             mMediaBrowser.release();
             mMediaBrowser = null;
@@ -212,14 +212,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         super.onResume();
         setSearchVisibility(false);
         mViewPager.addOnPageChangeListener(this);
-        if (mMediaLibrary.isInitiated())
-            fillView();
+        if (mMediaLibrary.isInitiated() && !mMediaLibrary.isWorking())
+            onMedialibraryReady();
         else
             setupMediaLibraryReceiver();
     }
 
-    protected void fillView() {
-        mMediaLibrary.addDeviceDiscoveryCb(this);
+    protected void onMedialibraryReady() {
+        super.onMedialibraryReady();
         mMediaLibrary.setArtistsAddedCb(this);
         mMediaLibrary.setAlbumsAddedCb(this);
         mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_AUDIO_EMPTY);
@@ -833,34 +833,13 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements DevicesDis
         mPlaylistAdapter.clear();
     }
 
-    boolean mParsing = false;
     @Override
-    public void onDiscoveryStarted(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryProgress(String entryPoint) {}
-
-    @Override
-    public void onDiscoveryCompleted(String entryPoint) {
-        mHandler.sendEmptyMessage(mParsing ? SET_REFRESHING : UNSET_REFRESHING);
+    protected void onParsingServiceStarted() {
+        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 
     @Override
-    public void onParsingStatsUpdated(int percent) {
-        mParsing = percent < 100;
-        if (percent == 100) {
-            mHandler.sendEmptyMessage(UPDATE_LIST);
-        } else if (!mSwipeRefreshLayout.isRefreshing())
-            mHandler.sendEmptyMessage(SET_REFRESHING);
-    }
-
-    @Override
-    public void onReloadStarted(String entryPoint) {
-        mHandler.sendEmptyMessage(SET_REFRESHING);
-    }
-
-    @Override
-    public void onReloadCompleted(String entryPoint) {
-        mHandler.sendEmptyMessage(UNSET_REFRESHING);
+    protected void onParsingServiceFinished() {
+        mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 }
