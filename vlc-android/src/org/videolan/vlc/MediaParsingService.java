@@ -44,6 +44,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     public final static String ACTION_RESUME_SCAN = "action_resume_scan";
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
+    public final static String ACTION_SERVICE_STARTED = "action_service_started";
+    public final static String ACTION_SERVICE_ENDED = "action_service_ended";
     public static final long NOTIFICATION_DELAY = 1000L;
     private PowerManager.WakeLock mWakeLock;
 
@@ -120,6 +122,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 discoverStorage(intent.getStringExtra(EXTRA_PATH));
                 break;
         }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
         return START_NOT_STICKY;
     }
 
@@ -304,6 +307,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SERVICE_ENDED));
         hideNotification();
         mMedialibrary.removeDeviceDiscoveryCb(this);
         unregisterReceiver(mReceiver);
