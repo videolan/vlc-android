@@ -16,15 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 public class NetworkServerDialog extends DialogFragment implements AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
@@ -113,6 +114,10 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.dropdown_item, getResources().getStringArray(R.array.server_protocols));
+        mSpinnerProtocol.setAdapter(spinnerArrayAdapter);
+
         if (mUri != null) {
             mIgnoreFirstSpinnerCb = true;
             mEditAddress.setText(mUri.getHost());
