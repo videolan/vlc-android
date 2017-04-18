@@ -176,19 +176,19 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 @Override
                 public void run() {
                     mMedialibrary.setup();
-                    boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
-                    String[] storages = AndroidDevices.getMediaDirectories();
-                    for (String storage : storages) {
-                        boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                        boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
-                        if (!isMainStorage && isNew) {
-                            startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
+                    if (mMedialibrary.init(MediaParsingService.this)) {
+                        boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
+                        String[] storages = AndroidDevices.getMediaDirectories();
+                        for (String storage : storages) {
+                            boolean isMainStorage = TextUtils.equals(storage, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(storage), storage, !isMainStorage);
+                            if (!isMainStorage && isNew) {
+                                startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
                                         .setAction(DialogActivity.KEY_STORAGE)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         .putExtra(EXTRA_PATH, storage));
+                            }
                         }
-                    }
-                    if (mMedialibrary.init(MediaParsingService.this)) {
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
                         if (shouldInit) {
                             for (String folder : Medialibrary.getBlackList())
@@ -196,7 +196,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         } else if (upgrade) {
                             mMedialibrary.forceParserRetry();
-                        }
+                        } else
+                            reload();
                     }
                 }
             });
@@ -299,6 +300,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onReloadCompleted(String entryPoint) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "onReloadCompleted "+entryPoint);
         if (TextUtils.isEmpty(entryPoint))
             --mReload;
         if (!mMedialibrary.isWorking())
