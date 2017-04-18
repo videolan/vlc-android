@@ -40,7 +40,14 @@ init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
     return m_IsInitialized;
 }
 
-void release(JNIEnv* env, jobject thiz)
+void
+start(JNIEnv* env, jobject thiz)
+{
+    MediaLibrary_getInstance(env, thiz)->start();
+}
+
+void
+release(JNIEnv* env, jobject thiz)
 {
     LOGD("/!\\ release medialib. /!\\");
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -743,6 +750,7 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
 static JNINativeMethod methods[] = {
     {"nativeSetup", "()V", (void*)setup },
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)init },
+    {"nativeStart", "()V", (void*)start },
     {"nativeRelease", "()V", (void*)release },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)addDevice },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },

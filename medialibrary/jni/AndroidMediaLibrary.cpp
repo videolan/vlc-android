@@ -61,6 +61,12 @@ AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbs
     return p_ml->initialize(dbPath, thumbsPath, this);
 }
 
+void
+AndroidMediaLibrary::start()
+{
+    p_ml->start();
+}
+
 bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
