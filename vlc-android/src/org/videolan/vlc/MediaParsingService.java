@@ -208,12 +208,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         for (String storage : AndroidDevices.getMediaDirectories())
                             mMedialibrary.discover(storage);
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (!shouldInit) {
-                            if (upgrade)
-                                mMedialibrary.forceParserRetry();
-                            else
-                                reload(null);
-                        }
+                        if (!shouldInit && upgrade)
+                            mMedialibrary.forceParserRetry();
                     }
                     initOngoing = false;
                 }
