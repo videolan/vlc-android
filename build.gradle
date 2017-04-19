@@ -18,4 +18,8 @@ allprojects {
 ext {
     buildToolsVersion = "25.0.2"
     compileSdkVersion = 25
+    minSdkVersion = 9
+    targetSdkVersion = 25
+    versionCode = 2010400
+    versionName = '2.1.4'
 }
