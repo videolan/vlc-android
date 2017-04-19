@@ -51,6 +51,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public static final long NOTIFICATION_DELAY = 1000L;
     private PowerManager.WakeLock mWakeLock;
 
+    private volatile boolean initOngoing = false;
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
     private int mParsing = 0, mReload = 0;
@@ -180,9 +181,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             mThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
+                    initOngoing = true;
+                    boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
                     mMedialibrary.setup();
                     if (mMedialibrary.init(MediaParsingService.this)) {
-                        boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
                         List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
@@ -206,11 +208,14 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         for (String storage : AndroidDevices.getMediaDirectories())
                             mMedialibrary.discover(storage);
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (upgrade) {
-                            mMedialibrary.forceParserRetry();
-                        } else if (!shouldInit)
-                            reload(null);
+                        if (!shouldInit) {
+                            if (upgrade)
+                                mMedialibrary.forceParserRetry();
+                            else
+                                reload(null);
+                        }
                     }
+                    initOngoing = false;
                 }
             });
     }
@@ -289,7 +294,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onDiscoveryCompleted: "+entryPoint);
-        if (!mMedialibrary.isWorking())
+        if (!initOngoing && !mMedialibrary.isWorking())
             stopSelf();
     }
 
@@ -315,7 +320,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         if (BuildConfig.DEBUG) Log.d(TAG, "onReloadCompleted "+entryPoint);
         if (TextUtils.isEmpty(entryPoint))
             --mReload;
-        if (!mMedialibrary.isWorking())
+        if (!initOngoing && !mMedialibrary.isWorking())
             stopSelf();
     }
 
