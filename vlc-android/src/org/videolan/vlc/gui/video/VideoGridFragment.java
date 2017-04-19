@@ -22,10 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -35,7 +32,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -131,20 +127,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         return v;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // init the information for the scan (2/2)
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MediaUtils.ACTION_SCAN_START);
-        filter.addAction(MediaUtils.ACTION_SCAN_STOP);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverVideoListFragment, filter);
-        if (mMediaLibrary.isWorking()) {
-            MediaUtils.actionScanStart();
-        }
-    }
-
 
     public void onStart() {
         super.onStart();
@@ -180,12 +162,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_GROUP, mGroup);
-    }
-
-    @Override
-    public void onDestroyView() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverVideoListFragment);
-        super.onDestroyView();
     }
 
     @Override
@@ -425,19 +401,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
     public void setGroup(String prefix) {
         mGroup = prefix;
     }
-
-    private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_START)) {
-                mLayoutFlipperLoading.setVisibility(View.VISIBLE);
-            } else if (action.equalsIgnoreCase(MediaUtils.ACTION_SCAN_STOP)) {
-                mLayoutFlipperLoading.setVisibility(View.INVISIBLE);
-            }
-        }
-    };
 
     @Override
     public void onRefresh() {

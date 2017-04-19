@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -27,16 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MediaUtils {
-    public static final String ACTION_SCAN_START = Strings.buildPkgString("gui.ScanStart");
-    public static final String ACTION_SCAN_STOP = Strings.buildPkgString("gui.ScanStop");
 
     private static SubtitlesDownloader sSubtitlesDownloader;
-
-    public static void actionScanStart() {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_SCAN_START);
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
-    }
 
     public static void getSubs(Activity activity, List<MediaWrapper> mediaList) {
         getSubs(activity, mediaList, null);
@@ -64,12 +54,6 @@ public class MediaUtils {
     public static void updateSubsDownloaderActivity(Activity activity) {
         if (sSubtitlesDownloader != null)
             sSubtitlesDownloader.setActivity(activity);
-    }
-
-    public static void actionScanStop() {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_SCAN_STOP);
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(intent);
     }
 
     public static void appendMedia(final Context context, final List<MediaWrapper> media){
