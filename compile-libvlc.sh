@@ -904,8 +904,7 @@ if [ "$RELEASE" = 1 ]; then
     checkfail "stripping"
 fi
 
-VERSION=$(grep "android:versionName" vlc-android/AndroidManifest.xml|cut -d\" -f 2)
-OUT_DBG_DIR=.dbg/${ANDROID_ABI}/$VERSION
+OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
