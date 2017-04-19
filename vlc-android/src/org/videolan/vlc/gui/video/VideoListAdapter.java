@@ -536,7 +536,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList != null && newList != null && oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+            MediaWrapper oldItem = oldList.get(oldItemPosition);
+            MediaWrapper newItem = newList.get(newItemPosition);
+            return oldList != null && newList != null && oldItem.getType() == newItem.getType() && oldItem.equals(newItem);
         }
 
         @Override
