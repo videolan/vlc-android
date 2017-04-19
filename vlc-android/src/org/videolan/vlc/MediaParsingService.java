@@ -194,7 +194,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             if (isMainStorage) {
                                 if (shouldInit) {
                                     for (String folder : Medialibrary.getBlackList())
-                                        mMedialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder);
+                                        mMedialibrary.banFolder(device + folder);
                                 }
                             } else if (isNew) {
                                     startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
@@ -205,10 +205,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
                         }
                         mMedialibrary.start();
-                        for (String storage : AndroidDevices.getMediaDirectories())
-                            mMedialibrary.discover(storage);
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (!shouldInit && upgrade)
+                        if (shouldInit)
+                            mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                        else if (upgrade)
                             mMedialibrary.forceParserRetry();
                     }
                     initOngoing = false;
