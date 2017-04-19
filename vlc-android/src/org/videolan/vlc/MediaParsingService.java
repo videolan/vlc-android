@@ -115,7 +115,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 setupMedialibrary(intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
                 break;
             case ACTION_RELOAD:
-                reload();
+                reload(intent.getStringExtra(EXTRA_PATH));
                 break;
             case ACTION_DISCOVER:
                 discover(intent.getStringExtra(EXTRA_PATH));
@@ -164,10 +164,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         }
     }
 
-    private void reload() {
+    private void reload(String path) {
         if (mReload > 0)
             return;
-        mMedialibrary.reload();
+        if (TextUtils.isEmpty(path))
+            mMedialibrary.reload();
+        else
+            mMedialibrary.reload(path);
     }
 
     private void setupMedialibrary(final boolean upgrade) {
@@ -206,7 +209,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         if (upgrade) {
                             mMedialibrary.forceParserRetry();
                         } else if (!shouldInit)
-                            reload();
+                            reload(null);
                     }
                 }
             });
