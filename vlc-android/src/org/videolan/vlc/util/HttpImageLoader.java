@@ -47,7 +47,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpImageLoader implements Callbacks {
@@ -120,10 +119,7 @@ public class HttpImageLoader implements Callbacks {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             icon = BitmapFactory.decodeStream(in);
             iconsMap.put(imageUrl, new SoftReference<>(icon));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException|IllegalArgumentException ignored) {
         } finally {
             if (urlConnection != null)
                 urlConnection.disconnect();
