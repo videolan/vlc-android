@@ -395,7 +395,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
     };
 
-    public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
+    private class AsyncUpdate extends AsyncTask<Void, Void, Void> {
         boolean showHistory;
         MediaWrapper[] history, videoList;
 
