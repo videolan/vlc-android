@@ -212,7 +212,8 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
-    };
+    }
+
     protected void setupMediaLibraryReceiver() {
         final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
             @Override
