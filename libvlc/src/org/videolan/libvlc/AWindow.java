@@ -206,6 +206,8 @@ public class AWindow implements IVLCVout {
     private int mMouseAction = -1, mMouseButton = -1, mMouseX = -1, mMouseY = -1;
     private int mWindowWidth = -1, mWindowHeight = -1;
 
+    private SurfaceTextureThread mSurfaceTextureThread = new SurfaceTextureThread();
+
     /**
      * Create an AWindow
      *
@@ -359,6 +361,7 @@ public class AWindow implements IVLCVout {
             cb.onSurfacesDestroyed(this);
         if (mSurfaceCallback != null)
             mSurfaceCallback.onSurfacesDestroyed(this);
+        mSurfaceTextureThread.release();
     }
 
     @Override
@@ -620,22 +623,47 @@ public class AWindow implements IVLCVout {
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private static class SurfaceTextureThread extends Thread
-            implements SurfaceTexture.OnFrameAvailableListener {
-        SurfaceTexture mSurfaceTexture = null;
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private static class SurfaceTextureThread
+            implements Runnable, SurfaceTexture.OnFrameAvailableListener {
+        private SurfaceTexture mSurfaceTexture = null;
+        private Surface mSurface = null;
 
-        final int mTexName;
-        boolean mFrameAvailable = false;
-        Looper mLooper = null;
+        private boolean mFrameAvailable = false;
+        private Looper mLooper = null;
+        private Thread mThread = null;
+        private boolean mIsAttached = false;
+        private boolean mDoRelease = false;
 
-        private SurfaceTextureThread(int texName) {
-            mTexName = texName;
+        private SurfaceTextureThread() {
+        }
+
+        private synchronized boolean attachToGLContext(int texName) {
+            /* Try to re-use the same SurfaceTexture until views are detached. By reusing the same
+             * SurfaceTexture, we don't have to reconfigure MediaCodec when it signals a video size
+             * change (and when a new VLC vout is created) */
+            if (mSurfaceTexture == null) {
+                /* Yes, a new Thread, see comments in the run method */
+                mThread = new Thread(this);
+                mThread.start();
+                while (mSurfaceTexture == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException ignored) {
+                        return false;
+                    }
+                }
+                mSurface = new Surface(mSurfaceTexture);
+            }
+            mSurfaceTexture.attachToGLContext(texName);
+            mFrameAvailable = false;
+            mIsAttached = true;
+            return true;
         }
 
         @Override
-        public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-            synchronized (this) {
+        public synchronized void onFrameAvailable(SurfaceTexture surfaceTexture) {
+            if (surfaceTexture == mSurfaceTexture) {
                 if (mFrameAvailable)
                     throw new IllegalStateException("An available frame was not updated");
                 mFrameAvailable = true;
@@ -648,35 +676,46 @@ public class AWindow implements IVLCVout {
             Looper.prepare();
 
             synchronized (this) {
+                /* Ideally, all devices are running Android O, and we can create a SurfaceTexture
+                 * without an OpenGL context and we can specify the thread (Handler) where to run
+                 * SurfaceTexture callbacks. But this is not the case. The SurfaceTexture has to be
+                 * created from a new thread with a prepared looper in order to don't use the
+                 * MainLooper one (and have deadlock when we stop VLC from the mainloop).
+                 */
                 mLooper = Looper.myLooper();
-                mSurfaceTexture = new SurfaceTexture(mTexName);
+                mSurfaceTexture = new SurfaceTexture(0);
+                /* The OpenGL texture will be attached from the OpenGL Thread */
+                mSurfaceTexture.detachFromGLContext();
                 mSurfaceTexture.setOnFrameAvailableListener(this);
                 notify();
             }
 
             Looper.loop();
-
-            mSurfaceTexture.setOnFrameAvailableListener(null);
-            mSurfaceTexture.release();
         }
 
-        void release() {
-            synchronized (this) {
-                while (mLooper == null) {
-                    try {
-                        wait();
-                    } catch (InterruptedException ignored) {
-                    }
+        private synchronized void detachFromGLContext() {
+            if (mDoRelease) {
+                mLooper.quit();
+                mLooper = null;
+
+                try {
+                    mThread.join();
+                } catch (InterruptedException ignored) {
                 }
+                mThread = null;
+
+                mSurface.release();
+                mSurface = null;
+                mSurfaceTexture.release();
+                mSurfaceTexture = null;
+                mDoRelease = false;
+            } else {
+                mSurfaceTexture.detachFromGLContext();
             }
-            mLooper.quit();
-            try {
-                join();
-            } catch (InterruptedException ignored) {
-            }
+            mIsAttached = false;
         }
 
-        boolean waitAndUpdateTexImage(float[] transformMatrix) {
+        private boolean waitAndUpdateTexImage(float[] transformMatrix) {
             synchronized (this) {
                 while (!mFrameAvailable) {
                     try {
@@ -693,41 +732,45 @@ public class AWindow implements IVLCVout {
             return true;
         }
 
-        Surface getSurface() {
-            synchronized (this) {
-                while (mSurfaceTexture == null) {
-                    try {
-                        wait();
-                    } catch (InterruptedException ignored) {
-                    }
+        private synchronized Surface getSurface() {
+            return mSurface;
+        }
+
+        private synchronized void release() {
+            if (mSurfaceTexture != null) {
+                if (mIsAttached) {
+                    /* Release from detachFromGLContext */
+                    mDoRelease = true;
+                } else {
+                    mSurface.release();
+                    mSurface = null;
+                    mSurfaceTexture.release();
+                    mSurfaceTexture = null;
                 }
-                return new Surface(mSurfaceTexture);
             }
         }
     }
 
     /**
-     * Create a SurfaceTextureThread
+     * Attach the SurfaceTexture to the OpenGL ES context that is current on the calling thread.
      *
      * @param texName the OpenGL texture object name (e.g. generated via glGenTextures)
-     * @return a valid and started SurfaceTextureThread
+     * @return true in case of success
      */
     @SuppressWarnings("unused") /* used by JNI */
-    static private SurfaceTextureThread SurfaceTextureThread_create(int texName) {
-        if (AndroidUtil.isICSOrLater) {
-            final SurfaceTextureThread st = new SurfaceTextureThread(texName);
-            st.start();
-            return st;
+    boolean SurfaceTexture_attachToGLContext(int texName) {
+        if (AndroidUtil.isJellyBeanOrLater) {
+            return mSurfaceTextureThread.attachToGLContext(texName);
         } else
-            return null;
+            return false;
     }
 
     /**
-     * Release the SurfaceTexture and join the thread
+     * Detach the SurfaceTexture from the OpenGL ES context that owns the OpenGL ES texture object.
      */
     @SuppressWarnings("unused") /* used by JNI */
-    static private void SurfaceTextureThread_release(SurfaceTextureThread st) {
-        st.release();
+    private void SurfaceTexture_detachFromGLContext() {
+        mSurfaceTextureThread.detachFromGLContext();
     }
 
     /**
@@ -736,16 +779,15 @@ public class AWindow implements IVLCVout {
      * @return true on success, false on error or timeout
      */
     @SuppressWarnings("unused") /* used by JNI */
-    static private boolean SurfaceTextureThread_waitAndUpdateTexImage(SurfaceTextureThread st,
-                                                                      float[] transformMatrix) {
-        return st.waitAndUpdateTexImage(transformMatrix);
+    private boolean SurfaceTexture_waitAndUpdateTexImage(float[] transformMatrix) {
+        return mSurfaceTextureThread.waitAndUpdateTexImage(transformMatrix);
     }
 
     /**
      * Get a Surface from the SurfaceTexture
      */
     @SuppressWarnings("unused") /* used by JNI */
-    static private Surface SurfaceTextureThread_getSurface(SurfaceTextureThread st) {
-        return st.getSurface();
+    private Surface SurfaceTexture_getSurface() {
+        return mSurfaceTextureThread.getSurface();
     }
 }
