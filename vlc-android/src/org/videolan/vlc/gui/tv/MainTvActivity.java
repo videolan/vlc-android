@@ -424,6 +424,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         @Override
         protected void onPostExecute(Void result) {
+            if (!isVisible())
+                return;
             mHandler.sendEmptyMessage(HIDE_LOADING);
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
