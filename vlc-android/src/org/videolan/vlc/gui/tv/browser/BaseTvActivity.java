@@ -52,6 +52,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
     boolean mRegistering = false;
+    private volatile boolean mIsVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mIsVisible = true;
         //Handle network connection state
         IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
@@ -81,6 +83,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     @Override
     protected void onPause() {
+        mIsVisible = false;
         super.onPause();
         unregisterReceiver(mExternalDevicesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
@@ -113,6 +116,10 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
             }
         }
     };
+
+    protected boolean isVisible() {
+        return mIsVisible;
+    }
 
     protected void onParsingServiceStarted() {}
     protected void onParsingServiceFinished() {}
