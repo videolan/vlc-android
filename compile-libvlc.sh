@@ -513,6 +513,11 @@ checkfail "contribs: bootstrap failed"
 echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
 echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
 echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
+echo "CC=${NDK_TOOLCHAIN_PATH}/clang" >> config.mak
+echo "CXX=${NDK_TOOLCHAIN_PATH}/clang++" >> config.mak
+echo "AR=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ar" >> config.mak
+echo "RANLIB=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ranlib" >> config.mak
+echo "LD=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ld" >> config.mak
 
 make $MAKEFLAGS fetch
 checkfail "contribs: make fetch failed"
@@ -520,7 +525,6 @@ checkfail "contribs: make fetch failed"
 # gettext
 which autopoint >/dev/null || make $MAKEFLAGS .gettext
 #export the PATH
-export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 # Make
 make $MAKEFLAGS
 checkfail "contribs: make failed"
