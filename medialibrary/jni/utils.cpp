@@ -250,8 +250,10 @@ filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount)
         size = env->GetArrayLength(array);
         for (int i = 0; i<size; ++i)
         {
-            if (env->GetObjectArrayElement(array, i) == nullptr)
+            jobject item = env->GetObjectArrayElement(array, i);
+            if (item == nullptr)
                 ++removalCount;
+            env->DeleteLocalRef(item);
         }
     }
     if (removalCount == 0)
