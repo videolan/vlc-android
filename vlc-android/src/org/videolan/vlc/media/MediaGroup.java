@@ -90,14 +90,16 @@ public class MediaGroup extends MediaWrapper {
     public static List<MediaGroup> group(MediaWrapper[] mediaList) {
         ArrayList<MediaGroup> groups = new ArrayList<>();
         for (MediaWrapper media : mediaList)
-            insertInto(groups, media);
+            if (media != null)
+                insertInto(groups, media);
         return groups;
     }
 
     public static List<MediaGroup> group(List<MediaWrapper> mediaList) {
         ArrayList<MediaGroup> groups = new ArrayList<>();
         for (MediaWrapper media : mediaList)
-            insertInto(groups, media);
+            if (media != null)
+                insertInto(groups, media);
         return groups;
     }
 
