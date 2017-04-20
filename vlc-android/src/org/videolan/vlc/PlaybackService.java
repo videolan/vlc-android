@@ -1203,7 +1203,19 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
 
         @Override
-        public void onPlayFromSearch(String query, Bundle extras) {
+        public void onPlayFromSearch(final String query, final Bundle extras) {
+            if (!mMedialibrary.isInitiated()) {
+                startService(new Intent(MediaParsingService.ACTION_INIT, null, PlaybackService.this, MediaParsingService.class));
+                final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        LocalBroadcastManager.getInstance(PlaybackService.this).unregisterReceiver(this);
+                        onPlayFromSearch(query, extras);
+                    }
+                };
+                LocalBroadcastManager.getInstance(PlaybackService.this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+                return;
+            }
             mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
             VoiceSearchParams vsp = new VoiceSearchParams(query, extras);
             MediaLibraryItem[] items = null;
