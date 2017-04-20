@@ -260,7 +260,7 @@ filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount)
         return array;
     if (size == -1)
         size = env->GetArrayLength(array);
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size, fields->MediaWrapper.clazz, NULL);
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size-removalCount, fields->MediaWrapper.clazz, NULL);
     for (int i = 0; i<size; ++i)
     {
         jobject item = env->GetObjectArrayElement(array, i);
