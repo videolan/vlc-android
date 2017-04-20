@@ -191,12 +191,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         for (String device : devices) {
                             boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                             boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(device), device, !isMainStorage);
-                            if (isMainStorage) {
-                                if (shouldInit) {
-                                    for (String folder : Medialibrary.getBlackList())
-                                        mMedialibrary.banFolder(device + folder);
-                                }
-                            } else if (isNew) {
+                            if (!isMainStorage && isNew) {
                                     startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
                                             .setAction(DialogActivity.KEY_STORAGE)
                                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -206,9 +201,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         }
                         mMedialibrary.start();
                         LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                        if (shouldInit)
+                        if (shouldInit) {
+                            for (String folder : Medialibrary.getBlackList())
+                                mMedialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder);
                             mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                        else if (upgrade)
+                        } else if (upgrade)
                             mMedialibrary.forceParserRetry();
                     }
                     initOngoing = false;
