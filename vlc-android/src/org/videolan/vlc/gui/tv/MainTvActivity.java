@@ -219,6 +219,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     protected void onPause() {
+        if (mUpdateTask != null)
+            mUpdateTask.cancel(true);
         super.onPause();
         if (mService != null)
             mService.removeCallback(this);
@@ -416,16 +418,21 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         @Override
         protected Void doInBackground(Void... params) {
+            if (isCancelled())
+                return null;
             videoList = mMediaLibrary.getVideos();
-            if (showHistory)
+            if (showHistory && !isCancelled())
                 history = VLCApplication.getMLInstance().lastMediaPlayed();
             return null;
         }
 
         @Override
+        protected void onCancelled() {
+            mUpdateTask = null;
+        }
+
+        @Override
         protected void onPostExecute(Void result) {
-            if (!isVisible())
-                return;
             mHandler.sendEmptyMessage(HIDE_LOADING);
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
@@ -483,6 +490,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_default_cone));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setSelectedPosition(Math.min(mBrowseFragment.getSelectedPosition(), mRowsAdapter.size()-1));
+            if (!isVisible())
+                return;
             mBrowseFragment.setAdapter(mRowsAdapter);
         }
     }
