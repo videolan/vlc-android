@@ -1,3 +1,13 @@
+Changes between 2.1.5 and 2.1.6:
+
+Application:
+ * Fix folder blacklisting in medialib
+
+Core:
+ * Fix PIP mode (picture in picture)
+ * Fix black screen with some 360 videos
+ * Fix SFTP on armv8 devices
+
 Changes between 2.1.4 and 2.1.5:
 ----------------------------------
 
