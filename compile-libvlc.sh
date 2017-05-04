@@ -410,6 +410,7 @@ if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
     NDK_LIB_UNWIND="-lunwind"
 fi
 
+EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
 VLC_LDFLAGS="${EXTRA_LDFLAGS}"
 
 # Release or not?
