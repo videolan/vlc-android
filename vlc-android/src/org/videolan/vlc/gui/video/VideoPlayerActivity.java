@@ -3208,11 +3208,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Add any selected subtitle file from the file picker
             if (prefsList.size() > 0) {
                 for (String file : prefsList) {
-                    if (!mSubtitleSelectedFiles.contains(file)) {
+                    if (!mSubtitleSelectedFiles.contains(file))
                         mSubtitleSelectedFiles.add(file);
-                        Log.i(TAG, "Adding user-selected subtitle " + file);
-                        mService.addSubtitleTrack(file, true);
-                    }
+                    Log.i(TAG, "Adding user-selected subtitle " + file);
+                    mService.addSubtitleTrack(file, true);
                 }
             }
             mSubtitlesGetTask = null;
