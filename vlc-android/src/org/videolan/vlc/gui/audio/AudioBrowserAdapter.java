@@ -418,7 +418,8 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update(((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
+            update(filterResults.values == null ? new MediaLibraryItem[0]
+                    : ((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
         }
     }
 }
