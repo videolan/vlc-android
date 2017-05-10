@@ -39,6 +39,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -354,14 +355,16 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                 case ACTION_MEDIA_MOUNTED:
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
-                        owner.startActivity(new Intent(owner, DialogActivity.class)
-                                .setAction(DialogActivity.KEY_STORAGE)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    if (!PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
+                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
+                            owner.startActivity(new Intent(owner, DialogActivity.class)
+                                    .setAction(DialogActivity.KEY_STORAGE)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    .putExtra(MediaParsingService.EXTRA_PATH, path));
+                        } else
+                            owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
                                 .putExtra(MediaParsingService.EXTRA_PATH, path));
-                    } else
-                        owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
-                            .putExtra(MediaParsingService.EXTRA_PATH, path));
+                    }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
                     VLCApplication.getMLInstance().removeDevice(uuid);

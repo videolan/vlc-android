@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -188,10 +190,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
                         for (String device : devices) {
                             boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : FileUtils.getFileNameFromPath(device), device, !isMainStorage);
-                            if (!isMainStorage && isNew) {
+                            String uuid = FileUtils.getFileNameFromPath(device);
+                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage);
+                            boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
+                            if (!isMainStorage && isNew && !isIgnored) {
                                     startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
                                             .setAction(DialogActivity.KEY_STORAGE)
                                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
