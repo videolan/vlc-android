@@ -149,6 +149,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
+                addDeviceIfNeeded(path);
                 mMedialibrary.discover(path);
             }
         });
@@ -162,6 +163,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         for (String storagePath : AndroidDevices.getExternalStorageDirectories()) {
             if (path.startsWith(storagePath)) {
                 String uuid = FileUtils.getFileNameFromPath(path);
+                if (TextUtils.isEmpty(uuid))
+                    uuid = "root";
                 mMedialibrary.addDevice(uuid, path, true);
             }
         }
