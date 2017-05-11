@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * BenchActivity is a class that overrides VideoPlayerActivity through ShallowVideoPlayer.
@@ -92,8 +91,6 @@ public class BenchActivity extends ShallowVideoPlayer {
     private int mScreenshotCount = 0;
     private int mScreenshotNumber = 0;
     private int mLateFrameCounter = 0;
-    /* Setup when seeking, to check timeout at every buffering event received */
-    private long mTime;
     private boolean mSetup = false;
     /* Differentiates between buffering due or not to seeking */
     private boolean mSeeking = false;
@@ -401,71 +398,76 @@ public class BenchActivity extends ShallowVideoPlayer {
         @Override
         @TargetApi(21)
         public void onImageAvailable(ImageReader reader) {
-            FileOutputStream outputStream = null;
-            Image image = null;
-            Bitmap bitmap;
-            try {
-                image = mImageReader.acquireLatestImage();
-            } catch (IllegalArgumentException e) {
-                Log.e(TAG, "Failed to acquire latest image for screenshot.");
-            }
-            if (image != null) {
-                Image.Plane[] planes = image.getPlanes();
-                ByteBuffer buffer = planes[0].getBuffer();
-                int pixelStride = planes[0].getPixelStride();
-                int rowStride = planes[0].getRowStride();
-                int rowPadding = rowStride - pixelStride * mWidth;
-
-                bitmap = Bitmap.createBitmap(mWidth + rowPadding / pixelStride, mHeight,
-                        Bitmap.Config.ARGB_8888);
-                if (bitmap != null) {
-                    bitmap.copyPixelsFromBuffer(buffer);
-
-                    File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "screenshotFolder");
-
-                    if (!folder.exists()) {
-                        if (!folder.mkdir()) {
-                            errorFinish("Failed to create screenshotFolder");
-                        }
-                    }
-
-                    //File imageFile = new File(getExternalFilesDir(null), "Screenshot_" + sScreenshotNumber + ".jpg");
-                    File imageFile = new File(folder.getAbsolutePath() + File.separator + "Screenshot_" + mScreenshotNumber + ".jpg");
-                    mScreenshotNumber += 1;
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    FileOutputStream outputStream = null;
+                    Image image = null;
+                    Bitmap bitmap;
                     try {
-                        outputStream = new FileOutputStream(imageFile);
-                    } catch (IOException e) {
-                        Log.e(TAG, "Failed to create outputStream");
+                        image = mImageReader.acquireLatestImage();
+                    } catch (IllegalArgumentException e) {
+                        Log.e(TAG, "Failed to acquire latest image for screenshot.");
                     }
-                    if (outputStream != null) {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    }
+                    if (image != null) {
+                        Image.Plane[] planes = image.getPlanes();
+                        ByteBuffer buffer = planes[0].getBuffer();
+                        int pixelStride = planes[0].getPixelStride();
+                        int rowStride = planes[0].getRowStride();
+                        int rowPadding = rowStride - pixelStride * mWidth;
 
-                    bitmap.recycle();
-                    image.close();
-                    if (outputStream != null) {
-                        try {
-                            outputStream.flush();
-                            outputStream.close();
-                        } catch (IOException e) {
-                            Log.e(TAG, "Failed to release outputStream");
+                        bitmap = Bitmap.createBitmap(mWidth + rowPadding / pixelStride, mHeight,
+                                Bitmap.Config.ARGB_8888);
+                        if (bitmap != null) {
+                            bitmap.copyPixelsFromBuffer(buffer);
+
+                            File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "screenshotFolder");
+
+                            if (!folder.exists()) {
+                                if (!folder.mkdir()) {
+                                    errorFinish("Failed to create screenshotFolder");
+                                }
+                            }
+
+                            //File imageFile = new File(getExternalFilesDir(null), "Screenshot_" + sScreenshotNumber + ".jpg");
+                            File imageFile = new File(folder.getAbsolutePath() + File.separator + "Screenshot_" + mScreenshotNumber + ".jpg");
+                            mScreenshotNumber += 1;
+                            try {
+                                outputStream = new FileOutputStream(imageFile);
+                            } catch (IOException e) {
+                                Log.e(TAG, "Failed to create outputStream");
+                            }
+                            if (outputStream != null) {
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            }
+
+                            bitmap.recycle();
+                            image.close();
+                            if (outputStream != null) {
+                                try {
+                                    outputStream.flush();
+                                    outputStream.close();
+                                } catch (IOException e) {
+                                    Log.e(TAG, "Failed to release outputStream");
+                                }
+                            }
                         }
+                    }
+                    try {
+                        mImageReader.setOnImageAvailableListener(null, null);
+                    } catch (IllegalArgumentException e) {
+                        Log.e(TAG, "Failed to delete ImageReader callback");
+                    }
+                    mVirtualDisplay.release();
+                    mVirtualDisplay = null;
+                    mImageReader.close();
+                    if (mScreenshotNumber < mTimestamp.size()) {
+                        seekScreenshot();
+                    } else {
+                        finish();
                     }
                 }
-            }
-            try {
-                mImageReader.setOnImageAvailableListener(null, null);
-            } catch (IllegalArgumentException e) {
-                Log.e(TAG, "Failed to delete ImageReader callback");
-            }
-            mVirtualDisplay.release();
-            mVirtualDisplay = null;
-            mImageReader.close();
-            if (mScreenshotNumber < mTimestamp.size()) {
-                seekScreenshot();
-            } else {
-                finish();
-            }
+            }, 1000);
         }
     }
 }
