@@ -386,7 +386,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             int randomSong = rand.nextInt(count);
             if (mService != null) {
                 mService.load(list, randomSong);
-                mService.shuffle();
+                if (!mService.isShuffling())
+                    mService.shuffle();
             }
         }
     }
