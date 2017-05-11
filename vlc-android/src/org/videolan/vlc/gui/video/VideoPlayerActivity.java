@@ -174,6 +174,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
+    private Medialibrary mMedialibrary;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
     private View mRootView;
@@ -488,6 +489,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
         mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
+        mMedialibrary = VLCApplication.getMLInstance();
     }
 
     @Override
@@ -635,7 +637,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStart() {
         super.onStart();
-        VLCApplication.getMLInstance().pauseBackgroundOperations();
+        mMedialibrary.pauseBackgroundOperations();
         mHelper.onStart();
         if (mSettings.getBoolean("save_brightness", false)) {
             float brightness = mSettings.getFloat("brightness_value", -1f);
@@ -657,7 +659,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStop() {
         super.onStop();
-        VLCApplication.getMLInstance().resumeBackgroundOperations();
+        mMedialibrary.resumeBackgroundOperations();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mServiceReceiver);
 
         if (mBtReceiver != null)
@@ -871,10 +873,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         else if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
             toggleBtDelay(true);
         mService.setSpuDelay(mSpuDelay);
-        if (mCurrentSpuTrack != -2)
-            mService.setSpuTrack(mCurrentSpuTrack);
-        if (mCurrentAudioTrack != -2)
-            mService.setAudioTrack(mCurrentAudioTrack);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1619,6 +1617,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     handleVout(event.getVoutCount());
                 break;
             case MediaPlayer.Event.ESAdded:
+                if (mMenuIdx == -1) {
+                    if (event.getEsChangedType() == Media.Track.Type.Audio) {
+                        MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                        setESTrackLists();
+                        int audioTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIOTRACK);
+                        if (audioTrack != 0 || mCurrentAudioTrack != -2)
+                            mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
+                    } else if (event.getEsChangedType() == Media.Track.Type.Text) {
+                        MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                        setESTrackLists();
+                        int spuTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK);
+                        if (spuTrack != 0 || mCurrentSpuTrack != -2)
+                            mService.setSpuTrack(media.getId() == 0L ? mCurrentAudioTrack : spuTrack);
+                    }
+                }
             case MediaPlayer.Event.ESDeleted:
                 if (mMenuIdx == -1 && event.getEsChangedType() == Media.Track.Type.Video) {
                     mHandler.removeMessages(CHECK_VIDEO_TRACKS);
@@ -2533,6 +2546,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         if (trackID < -1 || mService == null)
                             return false;
                         mService.setAudioTrack(trackID);
+                        mMedialibrary.findMedia(mService.getCurrentMediaWrapper()).setLongMeta(mMedialibrary, MediaWrapper.META_AUDIOTRACK, trackID);
                         return true;
                     }
                 });
@@ -2547,6 +2561,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         if (trackID < -1 || mService == null)
                             return false;
                         mService.setSpuTrack(trackID);
+                        mMedialibrary.findMedia(mService.getCurrentMediaWrapper()).setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK, trackID);
                         return true;
                     }
                 });
@@ -2919,7 +2934,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (length == 0) {
             MediaWrapper media = mService.getCurrentMediaWrapper();
             if (media.getId() == 0)
-                media = VLCApplication.getMLInstance().findMedia(media);
+                media = mMedialibrary.findMedia(media);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -3071,7 +3086,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // restore last position
             MediaWrapper media;
             if (openedMedia == null || openedMedia.getId() <= 0L) {
-                Medialibrary ml = VLCApplication.getMLInstance();
+                Medialibrary ml = mMedialibrary;
                 media = ml.getMedia(mUri);
                 if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                         mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
@@ -3079,7 +3094,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     media = ml.getMedia(mUri);
                 }
                 if (media != null && media.getId() != 0L && media.getTime() == 0L)
-                    media.setTime((long) (media.getMetaLong(VLCApplication.getMLInstance(), MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
+                    media.setTime((long) (media.getMetaLong(mMedialibrary, MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
             } else
                 media = openedMedia;
             if (media != null) {
