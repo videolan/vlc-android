@@ -63,7 +63,7 @@ clean {
 
 dependencies {
     compile project(':libvlc')
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:support-compat:25.2.0'
-    compile 'com.android.support:support-fragment:25.2.0'
+    compile 'com.android.support:support-v4:'+rootProject.ext.appCompatVersion
+    compile 'com.android.support:support-compat:'+rootProject.ext.appCompatVersion
+    compile 'com.android.support:support-fragment:'+rootProject.ext.appCompatVersion
 }
