@@ -124,6 +124,7 @@ public class BenchActivity extends ShallowVideoPlayer {
         if (!intent.hasExtra("disable_hardware")) {
             mIsHardware = true;
         }
+        mIsBenchmark = true;
 
         super.onCreate(savedInstanceState);
 

@@ -348,6 +348,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     DisplayMetrics mScreen = new DisplayMetrics();
 
+    protected boolean mIsBenchmark = false;
+
     private static LibVLC LibVLC() {
         return VLCInstance.get();
     }
@@ -488,7 +490,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
-        mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
+        if (mIsBenchmark) {
+            mCurrentSize = SURFACE_FIT_SCREEN;
+        } else {
+            mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
+        }
         mMedialibrary = VLCApplication.getMLInstance();
     }
 
