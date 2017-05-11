@@ -1642,6 +1642,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.ESSelected:
                 if (event.getEsChangedType() == Media.VideoTrack.Type.Video) {
                     Media.VideoTrack vt = mService.getCurrentVideoTrack();
+                    changeSurfaceLayout();
                     if (vt != null)
                         mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
                 }
