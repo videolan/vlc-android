@@ -135,13 +135,6 @@ removeDevice(JNIEnv* env, jobject thiz, jstring uuid)
     return removed;
 }
 
-jboolean
-isWorking(JNIEnv* env, jobject thiz)
-{
-    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    return (jboolean) aml->isWorking();
-}
-
 void
 setMediaUpdatedCbFlag(JNIEnv* env, jobject thiz, jint flags)
 {
@@ -785,7 +778,6 @@ static JNINativeMethod methods[] = {
     {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/media/Genre;", (void*)getGenre },
     {"nativeGetPlaylists", "()[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylists },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
-    {"nativeIsWorking", "()Z", (void*)isWorking },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
@@ -1045,6 +1037,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.onParsingStatsUpdatedId,
            ml_fields.MediaLibrary.clazz,
            "onParsingStatsUpdated", "(I)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onBackgroundTasksIdleChangedId,
+           ml_fields.MediaLibrary.clazz,
+           "onBackgroundTasksIdleChanged", "(Z)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onReloadStartedId,
            ml_fields.MediaLibrary.clazz,

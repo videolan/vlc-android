@@ -37,7 +37,6 @@ public:
     void discover(const std::string&);
     void removeEntryPoint(const std::string& entryPoint);
     std::vector<medialibrary::FolderPtr> entryPoints();
-    bool isWorking();
     void setMediaUpdatedCbFlag(int flags);
     void setMediaAddedCbFlag(int flags);
     void pauseBackgroundOperations();
@@ -114,6 +113,7 @@ public:
     void onEntryPointUnbanned( const std::string& entryPoint, bool success );
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
     void onParsingStatsUpdated( uint32_t percent);
+    void onBackgroundTasksIdleChanged( bool isIdle );
 
 private:
     void jni_detach_thread(void *data);

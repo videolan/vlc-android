@@ -46,8 +46,11 @@ public class Medialibrary {
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
 
+    private Context mContext;
+
     private long mInstanceID;
     private volatile boolean mIsInitiated = false;
+    private boolean mIsWorking = false;
 
     private MediaUpdatedCb mediaUpdatedCb = null;
     private MediaAddedCb mediaAddedCb = null;
@@ -118,9 +121,11 @@ public class Medialibrary {
         super.finalize();
     }
 
-    public static synchronized Medialibrary getInstance() {
-        if (sInstance == null)
+    public static synchronized Medialibrary getInstance(Context context) {
+        if (sInstance == null) {
             sInstance = new Medialibrary();
+            sInstance.mContext = context;
+        }
         return sInstance;
     }
 
@@ -242,7 +247,7 @@ public class Medialibrary {
     }
 
     public boolean isWorking() {
-        return !mIsInitiated || nativeIsWorking();
+        return mIsWorking;
     }
 
     public boolean isInitiated() {
@@ -357,6 +362,10 @@ public class Medialibrary {
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
                     cb.onParsingStatsUpdated(percent);
         }
+    }
+
+    public void onBackgroundTasksIdleChanged(boolean isIdle) {
+        mIsWorking = !isIdle;
     }
 
     void onReloadStarted(String entryPoint) {
@@ -561,7 +570,6 @@ public class Medialibrary {
     private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
-    private native  boolean nativeIsWorking();
     private native Album[] nativeGetAlbums();
     private native Album nativeGetAlbum(long albumtId);
     private native Artist[] nativeGetArtists();

@@ -113,12 +113,6 @@ AndroidMediaLibrary::entryPoints()
     return p_ml->entryPoints();
 }
 
-bool
-AndroidMediaLibrary::isWorking()
-{
-    return !m_paused && (m_nbDiscovery > 0 || (m_progress > 0 && m_progress < 100));
-}
-
 void
 AndroidMediaLibrary::pauseBackgroundOperations()
 {
@@ -754,6 +748,21 @@ void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
     if (thiz != NULL)
     {
         env->CallVoidMethod(thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, progress);
+        if (weak_compat)
+            env->DeleteLocalRef(thiz);
+    }
+}
+
+
+void AndroidMediaLibrary::onBackgroundTasksIdleChanged( bool isIdle )
+{
+    JNIEnv *env = getEnv();
+    if (env == NULL)
+        return;
+    jobject thiz = getWeakReference(env);
+    if (thiz != NULL)
+    {
+        env->CallVoidMethod(thiz, p_fields->MediaLibrary.onBackgroundTasksIdleChangedId, isIdle);
         if (weak_compat)
             env->DeleteLocalRef(thiz);
     }

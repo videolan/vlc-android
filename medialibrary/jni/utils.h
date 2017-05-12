@@ -53,6 +53,7 @@ struct fields {
         jmethodID onDiscoveryProgressId;
         jmethodID onDiscoveryCompletedId;
         jmethodID onParsingStatsUpdatedId;
+        jmethodID onBackgroundTasksIdleChangedId;
         jmethodID onReloadStartedId;
         jmethodID onReloadCompletedId;
         jmethodID onEntryPointBannedId;
