@@ -2,11 +2,13 @@ package org.videolan.medialibrary;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -41,6 +43,8 @@ public class Medialibrary {
     public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 5;
 
     private static final String extDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String ACTION_IDLE = "action_idle";
+    public static final String STATE_IDLE = "state_idle";
 
     private static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
@@ -365,6 +369,7 @@ public class Medialibrary {
     }
 
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         mIsWorking = !isIdle;
     }
 
