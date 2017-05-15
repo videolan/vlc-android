@@ -129,6 +129,10 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
 
     public void onStart() {
+        if (mMediaLibrary.isInitiated())
+            onMedialibraryReady();
+        else if (mGroup == null)
+            setupMediaLibraryReceiver();
         super.onStart();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         registerForContextMenu(mGridView);
@@ -139,22 +143,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         super.onResume();
         setSearchVisibility(false);
         updateViewMode();
-        if (mMediaLibrary.isInitiated())
-            onMedialibraryReady();
-        else if (mGroup == null)
-            setupMediaLibraryReceiver();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMediaLibrary.removeMediaUpdatedCb();
-        mMediaLibrary.removeMediaAddedCb();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        mMediaLibrary.removeMediaUpdatedCb();
+        mMediaLibrary.removeMediaAddedCb();
         unregisterForContextMenu(mGridView);
     }
 
