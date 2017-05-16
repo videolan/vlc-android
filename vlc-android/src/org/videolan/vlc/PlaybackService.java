@@ -1514,12 +1514,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
         mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
         int position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
-        long time = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
-        mSavedTime = time;
+        mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
         // load playlist
         load(playList, position);
-        if (time > 0)
-            seek(time);
         if (!audio) {
             boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
