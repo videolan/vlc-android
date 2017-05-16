@@ -140,8 +140,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import static org.videolan.vlc.R.string.seek;
-
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback, IVLCVout.OnNewVideoLayoutListener,
         IPlaybackSettingsController, PlaybackService.Client.Callback, PlaybackService.Callback,
         PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
@@ -223,6 +221,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int RESET_BACK_LOCK = 6;
     private static final int CHECK_VIDEO_TRACKS = 7;
     private static final int LOADING_ANIMATION = 8;
+    private static final int SHOW_INFO = 9;
+    private static final int HIDE_INFO = 10;
 
     private static final int LOADING_ANIMATION_DELAY = 1000;
 
@@ -1717,6 +1717,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 case LOADING_ANIMATION:
                     startLoading();
                     break;
+                case HIDE_INFO:
+                    hideOverlay(true);
+                    break;
+                case SHOW_INFO:
+                    showOverlay();
+                    break;
             }
             return true;
         }
@@ -2615,12 +2621,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mService.isPlaying()) {
             pause();
-            showOverlayTimeout(OVERLAY_INFINITE);
         } else {
             play();
-            showOverlayTimeout(OVERLAY_TIMEOUT);
         }
-        mPlayPause.requestFocus();
     }
 
     private long getTime() {
@@ -3591,15 +3594,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-        if (mShowing)
-            hideOverlay(true);
-        else
-            showOverlay();
+            mHandler.sendEmptyMessageDelayed(mShowing ? HIDE_INFO : SHOW_INFO, 200);
             return true;
         }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            mHandler.removeMessages(HIDE_INFO);
+            mHandler.removeMessages(SHOW_INFO);
             float range = mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE ? mSurfaceXDisplayRange : mSurfaceYDisplayRange;
             if (mService == null)
                 return false;
