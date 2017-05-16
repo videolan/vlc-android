@@ -221,7 +221,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         } else if (upgrade)
                             mMedialibrary.forceParserRetry();
-                        else
+                        else if (PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this).getBoolean("auto_rescan", true))
                             reload(null);
                     }
                 }
