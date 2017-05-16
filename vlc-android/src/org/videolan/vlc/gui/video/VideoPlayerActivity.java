@@ -2661,7 +2661,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long position = getTime() + delta;
         if (position < 0) position = 0;
             seek(position);
-        showInfo(Tools.millisToString(mService.getTime())+"/"+Tools.millisToString(mService.getLength()), 1000);
+        StringBuilder sb = new StringBuilder();
+        if (delta > 0f)
+            sb.append('+');
+        sb.append((int)(delta/1000f))
+                .append("s (")
+                .append(Tools.millisToString(mService.getTime()))
+                .append(')');
+        showInfo(sb.toString(), 1000);
     }
 
     private void initSeekButton() {
