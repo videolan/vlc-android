@@ -140,6 +140,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static org.videolan.vlc.R.string.seek;
+
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback, IVLCVout.OnNewVideoLayoutListener,
         IPlaybackSettingsController, PlaybackService.Client.Callback, PlaybackService.Callback,
         PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
@@ -255,6 +257,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mDisplayRemainingTime;
     private int mScreenOrientation;
     private int mScreenOrientationLock;
+    private int mCurrentScreenOrientation;
     private ImageView mLock;
     private ImageView mSize;
     private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
@@ -490,6 +493,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
+        mCurrentScreenOrientation = getResources().getConfiguration().orientation;
         if (mIsBenchmark) {
             mCurrentSize = SURFACE_FIT_SCREEN;
         } else {
@@ -615,6 +619,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
+        mCurrentScreenOrientation = newConfig.orientation;
         mSurfaceYDisplayRange = Math.min(mScreen.widthPixels, mScreen.heightPixels);
         mSurfaceXDisplayRange = Math.max(mScreen.widthPixels, mScreen.heightPixels);
         resetHudLayout();
@@ -1962,7 +1967,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mPresentation == null) {
             // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
-            isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+            isPortrait = mCurrentScreenOrientation == Configuration.ORIENTATION_PORTRAIT;
         } else {
             isPortrait = false;
         }
@@ -3588,10 +3593,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            float range = mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE ? mSurfaceXDisplayRange : mSurfaceYDisplayRange;
             if (mService == null)
                 return false;
             if (!mIsLocked) {
-                doPlayPause();
+                float x = e.getX();
+                if (x < range/4f)
+                    seekDelta(-10000);
+                else if (x > range*0.75)
+                    seekDelta(10000);
+                else
+                    doPlayPause();
                 return true;
             }
             return false;
