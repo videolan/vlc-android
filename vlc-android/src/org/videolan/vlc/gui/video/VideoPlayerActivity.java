@@ -2771,11 +2771,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mOverlayTimeout != OVERLAY_INFINITE)
             mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), mOverlayTimeout);
         updateOverlayPausePlay();
-        if (!(mObjectFocused == null)) {
-            if (mObjectFocused.isFocusable())
-                mObjectFocused.requestFocus();
-            mObjectFocused =  null;
-        }
+        if (mObjectFocused != null)
+            mObjectFocused.requestFocus();
+        else if (getCurrentFocus() == null)
+            mPlayPause.requestFocus();
     }
 
     private void initOverlay() {
