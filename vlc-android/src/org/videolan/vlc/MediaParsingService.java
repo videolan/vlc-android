@@ -50,8 +50,12 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
     public final static String ACTION_SERVICE_STARTED = "action_service_started";
     public final static String ACTION_SERVICE_ENDED = "action_service_ended";
+    public final static String ACTION_PROGRESS = "action_progress";
+    public final static String ACTION_PROGRESS_TEXT = "action_progress_text";
+    public final static String ACTION_PROGRESS_VALUE = "action_progress_value";
     public static final long NOTIFICATION_DELAY = 1000L;
     private PowerManager.WakeLock mWakeLock;
+    private LocalBroadcastManager mLocalBroadcastManager;
 
     private final IBinder mBinder = new LocalBinder();
     private Medialibrary mMedialibrary;
@@ -96,13 +100,14 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     @Override
     public void onCreate() {
         super.onCreate();
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         mMedialibrary = VLCApplication.getMLInstance();
         mMedialibrary.addDeviceDiscoveryCb(MediaParsingService.this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_PAUSE_SCAN);
         filter.addAction(ACTION_RESUME_SCAN);
         registerReceiver(mReceiver, filter);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Medialibrary.ACTION_IDLE));
+        mLocalBroadcastManager.registerReceiver(mReceiver, new IntentFilter(Medialibrary.ACTION_IDLE));
         PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         mWakeLock.acquire();
@@ -134,7 +139,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 discoverStorage(intent.getStringExtra(EXTRA_PATH));
                 break;
         }
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
+        mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
         return START_NOT_STICKY;
     }
 
@@ -214,7 +219,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
                         }
                         mMedialibrary.start();
-                        LocalBroadcastManager.getInstance(MediaParsingService.this).sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
+                        mLocalBroadcastManager.sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
                         if (shouldInit) {
                             for (String folder : Medialibrary.getBlackList())
                                 mMedialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder);
@@ -231,6 +236,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private NotificationCompat.Builder builder;
     private boolean wasWorking;
     final StringBuilder sb = new StringBuilder();
+    private final Intent progessIntent = new Intent(ACTION_PROGRESS);
+    private final Intent notificationIntent = new Intent();
     private void showNotification() {
         final long currentTime = System.currentTimeMillis();
         synchronized (this) {
@@ -257,12 +264,17 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             .setAutoCancel(false)
                             .setOngoing(true);
                 }
-                builder.setContentText(sb.toString());
+                String progressText = sb.toString();
+                builder.setContentText(progressText);
+                mLocalBroadcastManager.sendBroadcast(progessIntent
+                        .putExtra(ACTION_PROGRESS_TEXT, progressText)
+                        .putExtra(ACTION_PROGRESS_VALUE, mParsing));
 
                 boolean isWorking = mMedialibrary.isWorking();
                 if (wasWorking != isWorking) {
                     wasWorking = isWorking;
-                    PendingIntent pi = PendingIntent.getBroadcast(MediaParsingService.this, 0, new Intent(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN), PendingIntent.FLAG_UPDATE_CURRENT);
+                    notificationIntent.setAction(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN);
+                    PendingIntent pi = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Action playpause = isWorking ? new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi)
                             : new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi);
                     builder.mActions.clear();
@@ -328,11 +340,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public void onDestroy() {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SERVICE_ENDED));
+        mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_SERVICE_ENDED));
         hideNotification();
         mMedialibrary.removeDeviceDiscoveryCb(this);
         unregisterReceiver(mReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
         if (mWakeLock.isHeld())
             mWakeLock.release();
         super.onDestroy();
