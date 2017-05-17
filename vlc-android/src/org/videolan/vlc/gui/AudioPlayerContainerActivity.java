@@ -36,6 +36,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -46,6 +47,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
@@ -82,19 +84,19 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     protected PlaybackService mService;
     protected BottomSheetBehavior mBottomSheetBehavior;
     protected View mFragmentContainer;
+    private View mScanProgressLayout;
+    private TextView mScanProgressText;
+    private ProgressBar mScanProgressBar;
 
     protected boolean mPreventRescan = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         MediaUtils.updateSubsDownloaderActivity(this);
-
         super.onCreate(savedInstanceState);
     }
 
     protected void initAudioPlayerContainerActivity() {
-
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
@@ -131,9 +133,13 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         registerReceiver(storageReceiver, storageFilter);
 
         /* Prepare the progressBar */
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_SHOW_PLAYER);
-        registerReceiver(messageReceiver, filter);
+        IntentFilter playerFilter = new IntentFilter();
+        playerFilter.addAction(ACTION_SHOW_PLAYER);
+        registerReceiver(messageReceiver, playerFilter);
+        IntentFilter progressFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_STARTED);
+        progressFilter.addAction(MediaParsingService.ACTION_SERVICE_ENDED);
+        progressFilter.addAction(MediaParsingService.ACTION_PROGRESS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
     }
 
     @Override
@@ -145,8 +151,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     protected void onResume() {
         super.onResume();
-        if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+        if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+            applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
+        }
     }
 
     @Override
@@ -154,6 +162,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         super.onStop();
         unregisterReceiver(storageReceiver);
         unregisterReceiver(messageReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         mHelper.onStop();
     }
 
@@ -200,9 +209,9 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     public void showTipViewIfNeeded(final int stubId, final String settingKey) {
         if (BuildConfig.DEBUG)
             return;
-        ViewStubCompat vsc = (ViewStubCompat) findViewById(stubId);
+        View vsc = findViewById(stubId);
         if (vsc != null && !mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
-            View v = vsc.inflate();
+            View v = ((ViewStubCompat)vsc).inflate();
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -239,6 +248,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         if (mAudioPlayerContainer.getVisibility() == View.GONE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
             mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+            applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
         }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -281,12 +291,50 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
+    private void updateProgressVisibility(int visibility) {
+        if (mScanProgressLayout != null) {
+            if (mScanProgressLayout.getVisibility() != visibility)
+                mScanProgressLayout.setVisibility(visibility);
+        } else {
+            View vsc = findViewById(R.id.scan_viewstub);
+            if (vsc != null) {
+                vsc.setVisibility(View.VISIBLE);
+                mScanProgressLayout = findViewById(R.id.scan_progress_layout);
+                mScanProgressText = (TextView) findViewById(R.id.scan_progress_text);
+                mScanProgressBar = (ProgressBar) findViewById(R.id.scan_progress_bar);
+                if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+                    applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
+                }
+            }
+        }
+    }
+
+    private void applyMarginToProgressBar(int marginValue) {
+        if (mScanProgressLayout != null && mScanProgressLayout.getVisibility() == View.VISIBLE) {
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mScanProgressLayout.getLayoutParams();
+            lp.bottomMargin = marginValue;
+            mScanProgressLayout.setLayoutParams(lp);
+        }
+    }
+
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER))
+            if (ACTION_SHOW_PLAYER.equals(action))
                 showAudioPlayer();
+            else if (MediaParsingService.ACTION_SERVICE_STARTED.equals(action))
+                updateProgressVisibility(View.VISIBLE);
+            else if (MediaParsingService.ACTION_SERVICE_ENDED.equals(action))
+                updateProgressVisibility(View.GONE);
+            else if (MediaParsingService.ACTION_PROGRESS.equals(action)) {
+                updateProgressVisibility(View.VISIBLE);
+                if (mScanProgressText != null)
+                    mScanProgressText.setText(intent.getStringExtra(MediaParsingService.ACTION_PROGRESS_TEXT));
+                if (mScanProgressBar != null)
+                    mScanProgressBar.setProgress(intent.getIntExtra(MediaParsingService.ACTION_PROGRESS_VALUE, 0));
+            }
         }
     };
 
@@ -324,10 +372,12 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                 case BottomSheetBehavior.STATE_COLLAPSED:
                     removeTipViewIfDisplayed();
                     mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+                    applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();
                     mFragmentContainer.setPadding(0, 0, 0, 0);
+                    applyMarginToProgressBar(0);
                     break;
             }
         }
@@ -363,7 +413,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                                     .putExtra(MediaParsingService.EXTRA_PATH, path));
                         } else
                             owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
-                                .putExtra(MediaParsingService.EXTRA_PATH, path));
+                                    .putExtra(MediaParsingService.EXTRA_PATH, path));
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:

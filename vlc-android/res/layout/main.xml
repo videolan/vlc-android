@@ -11,35 +11,42 @@
     android:nextFocusDown="@+id/ml_menu_search"
     android:nextFocusForward="@+id/ml_menu_search"
     android:fitsSystemWindows="true" >
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinator"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <include layout="@layout/toolbar"/>
+
+        <FrameLayout
+            android:id="@+id/fragment_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <include layout="@layout/toolbar"/>
+        <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/scan_viewstub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/progress_layout_height"
+            android:layout_gravity="bottom"
+            android:layout="@layout/scan_progress"/>
 
-            <FrameLayout
-                android:id="@+id/fragment_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <include layout="@layout/audioplayercontainer"/>
 
-            <include layout="@layout/audioplayercontainer"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_add"
-                android:tint="@color/grey50"
-                app:borderWidth="0dp"
-                app:rippleColor="@color/orange50"
-                app:layout_anchor="@+id/fragment_placeholder"
-                app:layout_anchorGravity="bottom|end"
-                app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-                android:visibility="invisible"
-                android:layout_margin="16dp"/>
-        </android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_add"
+            android:tint="@color/grey50"
+            app:borderWidth="0dp"
+            app:rippleColor="@color/orange50"
+            app:layout_anchor="@+id/fragment_placeholder"
+            app:layout_anchorGravity="bottom|end"
+            app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
+            android:visibility="invisible"
+            android:layout_margin="16dp"/>
+    </android.support.design.widget.CoordinatorLayout>
 
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView
