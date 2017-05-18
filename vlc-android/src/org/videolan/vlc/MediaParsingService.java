@@ -284,7 +284,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 synchronized (MediaParsingService.this) {
                     if (mLastNotificationTime != -1L) {
                         try {
-                            NotificationManagerCompat.from(MediaParsingService.this).notify(43, notification);
+                            startForeground(43, notification);
                         } catch (IllegalArgumentException ignored) {}
                     }
                 }
