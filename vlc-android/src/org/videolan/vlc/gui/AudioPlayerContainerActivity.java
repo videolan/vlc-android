@@ -292,22 +292,29 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     }
 
     private void updateProgressVisibility(int visibility) {
-        if (mScanProgressLayout != null) {
-            if (mScanProgressLayout.getVisibility() != visibility)
-                mScanProgressLayout.setVisibility(visibility);
-        } else {
-            View vsc = findViewById(R.id.scan_viewstub);
-            if (vsc != null) {
-                vsc.setVisibility(View.VISIBLE);
-                mScanProgressLayout = findViewById(R.id.scan_progress_layout);
-                mScanProgressText = (TextView) findViewById(R.id.scan_progress_text);
-                mScanProgressBar = (ProgressBar) findViewById(R.id.scan_progress_bar);
-                if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
-                    applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
-                }
+        boolean show = visibility == View.VISIBLE;
+        if ((mScanProgressLayout == null && !show) ||
+                (mScanProgressLayout != null && mScanProgressLayout.getVisibility() == visibility))
+            return;
+        if (show)
+            mActivityHandler.sendEmptyMessageDelayed(ACTION_DISPLAY_PROGRESSBAR, 1000);
+        else if (mScanProgressLayout != null)
+            mScanProgressLayout.setVisibility(visibility);
+    }
+
+    private void showProgressBar() {
+        View vsc = findViewById(R.id.scan_viewstub);
+        if (vsc != null) {
+            vsc.setVisibility(View.VISIBLE);
+            mScanProgressLayout = findViewById(R.id.scan_progress_layout);
+            mScanProgressText = (TextView) findViewById(R.id.scan_progress_text);
+            mScanProgressBar = (ProgressBar) findViewById(R.id.scan_progress_bar);
+            if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                mFragmentContainer.setPadding(0, 0, 0, mBottomSheetBehavior.getPeekHeight());
+                applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
             }
-        }
+        } else if (mScanProgressLayout != null)
+            mScanProgressLayout.setVisibility(View.VISIBLE);
     }
 
     private void applyMarginToProgressBar(int marginValue) {
@@ -326,9 +333,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                 showAudioPlayer();
             else if (MediaParsingService.ACTION_SERVICE_STARTED.equals(action))
                 updateProgressVisibility(View.VISIBLE);
-            else if (MediaParsingService.ACTION_SERVICE_ENDED.equals(action))
+            else if (MediaParsingService.ACTION_SERVICE_ENDED.equals(action)) {
+                mActivityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR);
                 updateProgressVisibility(View.GONE);
-            else if (MediaParsingService.ACTION_PROGRESS.equals(action)) {
+            } else if (MediaParsingService.ACTION_PROGRESS.equals(action)) {
                 updateProgressVisibility(View.VISIBLE);
                 if (mScanProgressText != null)
                     mScanProgressText.setText(intent.getStringExtra(MediaParsingService.ACTION_PROGRESS_TEXT));
@@ -354,6 +362,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
     private static final int ACTION_MEDIA_MOUNTED = 1337;
     private static final int ACTION_MEDIA_UNMOUNTED = 1338;
+    private static final int ACTION_DISPLAY_PROGRESSBAR = 1339;
 
     public boolean isAudioPlayerReady() {
         return mAudioPlayer != null;
@@ -400,9 +409,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             AudioPlayerContainerActivity owner = getOwner();
             if (owner == null)
                 return;
-            String uuid = ((Uri) msg.obj).getLastPathSegment();
+            String uuid;
             switch (msg.what){
                 case ACTION_MEDIA_MOUNTED:
+                    uuid = ((Uri) msg.obj).getLastPathSegment();
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
@@ -417,8 +427,13 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
+                    uuid = ((Uri) msg.obj).getLastPathSegment();
                     VLCApplication.getMLInstance().removeDevice(uuid);
                     LocalBroadcastManager.getInstance(owner).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
+                    break;
+                case ACTION_DISPLAY_PROGRESSBAR:
+                    removeMessages(ACTION_DISPLAY_PROGRESSBAR);
+                    owner.showProgressBar();
                     break;
             }
         }
