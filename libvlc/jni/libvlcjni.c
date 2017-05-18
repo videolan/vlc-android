@@ -370,6 +370,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeNew(JNIEnv *env, jobject thiz,
             (*env)->ReleaseStringUTFChars(env, jhomePath, psz_home);
         }
     }
+    setenv("VLC_DATA_PATH", "/system/usr/share", 1);
 
     if (jstringArray)
     {
