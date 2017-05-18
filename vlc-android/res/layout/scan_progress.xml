@@ -17,5 +17,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:maxLines="1"
-        android:textColor="?attr/font_light"/>
+        android:textColor="?attr/font_light"
+        android:text="@string/loading_medialibrary"/>
 </RelativeLayout>
