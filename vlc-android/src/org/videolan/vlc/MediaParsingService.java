@@ -84,14 +84,17 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     paused = false;
                     break;
                 case Medialibrary.ACTION_IDLE:
-                    if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true) && !paused) {
-                        stopSelf();
-                    } else {
-                        synchronized (this) {
-                            mLastNotificationTime = 0L;
+                    if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
+                        if (!paused) {
+                            stopSelf();
+                            return;
                         }
-                        showNotification();
                     }
+                    synchronized (MediaParsingService.this) {
+                        if (mLastNotificationTime != -1L)
+                            mLastNotificationTime = 0L;
+                    }
+                    showNotification();
                     break;
             }
         }
@@ -121,7 +124,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        synchronized (this) {
+        synchronized (MediaParsingService.this) {
             if (mLastNotificationTime <= 0L)
                 mLastNotificationTime = System.currentTimeMillis();
         }
@@ -239,7 +242,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private final Intent notificationIntent = new Intent();
     private void showNotification() {
         final long currentTime = System.currentTimeMillis();
-        synchronized (this) {
+        synchronized (MediaParsingService.this) {
             if (mLastNotificationTime == -1L || currentTime-mLastNotificationTime < NOTIFICATION_DELAY)
                 return;
             mLastNotificationTime = currentTime;
@@ -265,9 +268,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 }
                 String progressText = sb.toString();
                 builder.setContentText(progressText);
-                mLocalBroadcastManager.sendBroadcast(progessIntent
-                        .putExtra(ACTION_PROGRESS_TEXT, progressText)
-                        .putExtra(ACTION_PROGRESS_VALUE, mParsing));
 
                 boolean isWorking = mMedialibrary.isWorking();
                 if (wasWorking != isWorking) {
@@ -282,6 +282,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 final Notification notification = builder.build();
                 synchronized (MediaParsingService.this) {
                     if (mLastNotificationTime != -1L) {
+                        mLocalBroadcastManager.sendBroadcast(progessIntent
+                                .putExtra(ACTION_PROGRESS_TEXT, progressText)
+                                .putExtra(ACTION_PROGRESS_VALUE, mParsing));
                         try {
                             startForeground(43, notification);
                         } catch (IllegalArgumentException ignored) {}
@@ -292,7 +295,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void hideNotification() {
-        synchronized (this) {
+        synchronized (MediaParsingService.this) {
             mLastNotificationTime = -1L;
             NotificationManagerCompat.from(MediaParsingService.this).cancel(43);
         }
