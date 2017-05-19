@@ -1,4 +1,5 @@
-Changes between 2.1.5 and 2.1.6:
+Changes between 2.1.6 and 2.1.7:
+----------------------------------
 
 Application:
  * Improve media scanning performances
@@ -13,6 +14,7 @@ Application:
  * Fix double seek when loading last playlist
 
 Changes between 2.1.5 and 2.1.6:
+----------------------------------
 
 Application:
  * Fix folder blacklisting in medialib
