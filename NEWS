@@ -1,6 +1,20 @@
 Changes between 2.1.5 and 2.1.6:
 
 Application:
+ * Improve media scanning performances
+ * Restore progressbar to display scanning progress
+ * Restore advanced option to disable scan on every app launch
+ * Double tap on screen edges in video player to seek by 10s
+ * Remember audio & spu tracks per media
+ * Improve scan service stopping
+ * Fix subs lost on app switch
+ * Fix dropdown menu empty on some devices
+ * Properly remember if ext storage is ignored
+ * Fix double seek when loading last playlist
+
+Changes between 2.1.5 and 2.1.6:
+
+Application:
  * Fix folder blacklisting in medialib
 
 Core:
