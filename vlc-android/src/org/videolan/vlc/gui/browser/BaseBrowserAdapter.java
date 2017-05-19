@@ -218,8 +218,9 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
             update(new ArrayList<MediaLibraryItem>(0));
     }
 
-    public boolean isEmpty(){
-        return peekLast().isEmpty();
+    public boolean isEmpty() {
+        ArrayList<MediaLibraryItem> newerList = peekLast();
+        return newerList == null || newerList.isEmpty();
     }
 
     @Override
