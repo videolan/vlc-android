@@ -169,7 +169,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (mMediaLibrary.isInitiated() && !mMediaLibrary.isWorking() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
+        if (mMediaLibrary.isInitiated() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
             update();
         else {
             updateBrowsers();
