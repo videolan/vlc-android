@@ -72,10 +72,6 @@ public class Medialibrary {
         System.loadLibrary("mla");
     }
 
-    public void setup() {
-        nativeSetup();
-    }
-
     public boolean init(Context context) {
         mIsInitiated = nativeInit(context.getCacheDir()+ VLC_MEDIA_DB_NAME, context.getExternalFilesDir(null).getAbsolutePath()+ THUMBS_FOLDER_NAME);
         return mIsInitiated;
@@ -552,7 +548,6 @@ public class Medialibrary {
 
 
     // Native methods
-    private native void nativeSetup();
     private native boolean nativeInit(String dbPath, String thumbsPath);
     private native void nativeStart();
     private native void nativeRelease();

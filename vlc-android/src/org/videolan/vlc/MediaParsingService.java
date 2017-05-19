@@ -199,7 +199,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 @Override
                 public void run() {
                     boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
-                    mMedialibrary.setup();
                     if (mMedialibrary.init(VLCApplication.getAppContext())) {
                         List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
