@@ -66,26 +66,26 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS,
             new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
+    boolean mScanPaused = false;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        boolean paused = false;
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case ACTION_PAUSE_SCAN:
                     if (mWakeLock.isHeld())
                         mWakeLock.release();
-                    paused = true;
+                    mScanPaused = true;
                     mMedialibrary.pauseBackgroundOperations();
                     break;
                 case ACTION_RESUME_SCAN:
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
                     mMedialibrary.resumeBackgroundOperations();
-                    paused = false;
+                    mScanPaused = false;
                     break;
                 case Medialibrary.ACTION_IDLE:
                     if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
-                        if (!paused) {
+                        if (!mScanPaused) {
                             stopSelf();
                             return;
                         }
@@ -271,13 +271,12 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 String progressText = sb.toString();
                 builder.setContentText(progressText);
 
-                boolean isWorking = mMedialibrary.isWorking();
-                if (wasWorking != isWorking) {
-                    wasWorking = isWorking;
-                    notificationIntent.setAction(isWorking ? ACTION_PAUSE_SCAN : ACTION_RESUME_SCAN);
+                if (wasWorking != mMedialibrary.isWorking()) {
+                    wasWorking = !wasWorking;
+                    notificationIntent.setAction(mScanPaused ? ACTION_RESUME_SCAN : ACTION_PAUSE_SCAN);
                     PendingIntent pi = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Action playpause = isWorking ? new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi)
-                            : new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi);
+                    NotificationCompat.Action playpause = mScanPaused ? new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi)
+                            : new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi);
                     builder.mActions.clear();
                     builder.addAction(playpause);
                 }
