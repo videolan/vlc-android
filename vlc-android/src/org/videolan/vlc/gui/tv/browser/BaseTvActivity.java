@@ -141,7 +141,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 String path = intent.getData().getPath();
                 String uuid = intent.getData().getLastPathSegment();
                 boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
-                if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true)) {
+                if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true, true)) {
                     startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)
                             .setAction(DialogActivity.KEY_STORAGE)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

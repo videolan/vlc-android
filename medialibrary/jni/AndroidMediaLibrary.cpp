@@ -68,10 +68,10 @@ AndroidMediaLibrary::start()
 }
 
 bool
-AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
+AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable, bool notify)
 {
     p_lister->addDevice(uuid, path, removable);
-    return p_DeviceListerCb != nullptr && p_DeviceListerCb->onDevicePlugged(uuid, path);
+    return notify && p_DeviceListerCb != nullptr && p_DeviceListerCb->onDevicePlugged(uuid, path);
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>

@@ -177,7 +177,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 String uuid = FileUtils.getFileNameFromPath(path);
                 if (TextUtils.isEmpty(uuid))
                     uuid = "root";
-                mMedialibrary.addDevice(uuid, path, true);
+                mMedialibrary.addDevice(uuid, path, true, true);
             }
         }
     }
@@ -208,7 +208,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         for (String device : devices) {
                             boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                             String uuid = FileUtils.getFileNameFromPath(device);
-                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage);
+                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
                             boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                             if (!isMainStorage && isNew && !isIgnored) {
                                     startActivity(new Intent(MediaParsingService.this, DialogActivity.class)

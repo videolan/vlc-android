@@ -416,7 +416,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
-                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
+                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true, true)) {
                             owner.startActivity(new Intent(owner, DialogActivity.class)
                                     .setAction(DialogActivity.KEY_STORAGE)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
