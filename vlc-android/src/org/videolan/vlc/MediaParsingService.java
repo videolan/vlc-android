@@ -181,6 +181,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 if (TextUtils.isEmpty(uuid))
                     uuid = "root";
                 mMedialibrary.addDevice(uuid, path, true, true);
+                for (String folder : Medialibrary.getBlackList())
+                    mMedialibrary.banFolder(path + folder);
             }
         }
     }
