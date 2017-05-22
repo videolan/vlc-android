@@ -262,8 +262,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mSize;
     private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
     private String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
-    private long mSpuDelay = 0;
-    private long mAudioDelay = 0;
+    private long mSpuDelay = 0L;
+    private long mAudioDelay = 0L;
     private boolean mRateHasChanged = false;
     private int mCurrentAudioTrack = -2, mCurrentSpuTrack = -2;
 
@@ -575,7 +575,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             showTitle();
             initUI();
-            initVideoParams();
+            setPlaybackParameters();
             mForcedTime = mLastTime = -1;
             setOverlayProgress();
         }
@@ -799,8 +799,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
         mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
 
-        initVideoParams();
-
         initPlaylistUi();
     }
 
@@ -878,12 +876,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mRootView.setKeepScreenOn(true);
     }
 
-    private void initVideoParams() {
-        if (mAudioDelay != 0l)
+    private void setPlaybackParameters() {
+        if (mAudioDelay != 0L && mAudioDelay != mService.getAudioDelay())
             mService.setAudioDelay(mAudioDelay);
         else if (mBtReceiver != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
             toggleBtDelay(true);
-        mService.setSpuDelay(mSpuDelay);
+        if (mSpuDelay != 0L && mSpuDelay != mService.getSpuDelay())
+            mService.setSpuDelay(mSpuDelay);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1736,6 +1735,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void onPlaying() {
         mIsPlaying = true;
+        setPlaybackParameters();
         stopLoading();
         updateOverlayPausePlay();
         updateNavStatus();
