@@ -1632,6 +1632,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     if (event.getEsChangedType() == Media.Track.Type.Audio) {
                         MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         setESTrackLists();
+                        if (media == null)
+                            return;
                         int audioTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIOTRACK);
                         if (audioTrack != 0 || mCurrentAudioTrack != -2)
                             mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
