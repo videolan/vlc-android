@@ -102,6 +102,9 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private final ConstraintSet coverConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
     private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
 
+    SharedPreferences mSettings;
+    private boolean mAnimateScroll;
+
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
     private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
@@ -149,6 +152,13 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
             coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
         }
+        mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAnimateScroll = mSettings.getBoolean("animate_playlist_scroll", true);
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -201,7 +211,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService == null || getActivity() == null)
             return;
         if (mService.hasMedia() && !mService.isVideoPlaying()) {
-            SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
             //Check fragment resumed to not restore video on device turning off
             if (isVisible() && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
                 mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
@@ -343,8 +352,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     @Override
     public void onSelectionSet(int position) {
-        if (mPlayerState != BottomSheetBehavior.STATE_COLLAPSED && mPlayerState != BottomSheetBehavior.STATE_HIDDEN)
-            mBinding.songsList.smoothScrollToPosition(position);
+        if (mPlayerState != BottomSheetBehavior.STATE_COLLAPSED && mPlayerState != BottomSheetBehavior.STATE_HIDDEN) {
+            if (mAnimateScroll)
+                mBinding.songsList.smoothScrollToPosition(position);
+            else
+                mBinding.songsList.scrollToPosition(position);
+        }
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
