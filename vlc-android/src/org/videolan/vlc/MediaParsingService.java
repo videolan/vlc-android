@@ -65,6 +65,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS,
             new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
+    private final ThreadPoolExecutor mNotificationThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
 
     boolean mScanPaused = false;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -249,7 +251,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 return;
             mLastNotificationTime = currentTime;
         }
-        VLCApplication.runBackground(new Runnable() {
+        mNotificationThreadPool.execute(new Runnable() {
             @Override
             public void run() {
                 sb.setLength(0);
