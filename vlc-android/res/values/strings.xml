@@ -317,6 +317,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
     <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
+    <string name="playlist_animate_scroll_title">Animate current playlist auto-scrolling</string>
+    <string name="playlist_animate_scroll_summary">Animate scrolling on media transition</string>
     <string name="audio_title_alignment">Audio title alignment</string>
     <string name="audio_title_alignment_default">Default</string>
     <string name="audio_title_alignment_left">Left</string>

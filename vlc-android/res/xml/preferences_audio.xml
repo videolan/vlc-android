@@ -9,6 +9,11 @@
         android:key="lockscreen_cover"
         android:summary="@string/lockscreen_cover_summary"
         android:title="@string/lockscreen_cover_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="animate_playlist_scroll"
+        android:summary="@string/playlist_animate_scroll_summary"
+        android:title="@string/playlist_animate_scroll_title" />
     <ListPreference
         android:defaultValue="0"
         android:entries="@array/audio_title_alignment_list"
