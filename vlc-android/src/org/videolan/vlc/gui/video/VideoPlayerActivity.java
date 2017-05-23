@@ -776,6 +776,39 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void surfaceFrameAddLayoutListener(boolean add) {
+        if (!AndroidUtil.isHoneycombOrLater || mSurfaceFrame == null
+                || add == (mOnLayoutChangeListener != null))
+            return;
+
+        if (add) {
+            mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+                private final Runnable mRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        changeSurfaceLayout();
+                    }
+                };
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right,
+                                           int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom) {
+                        /* changeSurfaceLayout need to be called after the layout changed */
+                        mHandler.removeCallbacks(mRunnable);
+                        mHandler.post(mRunnable);
+                    }
+                }
+            };
+            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
+            changeSurfaceLayout();
+        }
+        else {
+            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
+            mOnLayoutChangeListener = null;
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
@@ -854,29 +887,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         });
 
-        if (AndroidUtil.isHoneycombOrLater) {
-            if (mOnLayoutChangeListener == null) {
-                mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
-                    private final Runnable mRunnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            changeSurfaceLayout();
-                        }
-                    };
-                    @Override
-                    public void onLayoutChange(View v, int left, int top, int right,
-                                               int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom) {
-                            /* changeSurfaceLayout need to be called after the layout changed */
-                            mHandler.removeCallbacks(mRunnable);
-                            mHandler.post(mRunnable);
-                        }
-                    }
-                };
-            }
-            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
-        }
-        changeSurfaceLayout();
+        surfaceFrameAddLayoutListener(true);
 
         /* Listen for changes to media routes. */
         mediaRouterAddCallback(true);
@@ -961,8 +972,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Stop listening for changes to media routes. */
         mediaRouterAddCallback(false);
 
-        if (mSurfaceFrame != null && AndroidUtil.isHoneycombOrLater && mOnLayoutChangeListener != null)
-            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
+        surfaceFrameAddLayoutListener(false);
 
         if (AndroidUtil.isICSOrLater)
             getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(null);
