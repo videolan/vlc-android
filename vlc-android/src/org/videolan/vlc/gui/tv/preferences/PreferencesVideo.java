@@ -50,6 +50,7 @@ public class PreferencesVideo extends BasePreferenceFragment {
         findPreference("force_list_portrait").setVisible(false);
         findPreference("save_brightness").setVisible(false);
         findPreference("video_min_group_length").setVisible(false);
+        findPreference("enable_double_tap_seek").setVisible(false);
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
     }

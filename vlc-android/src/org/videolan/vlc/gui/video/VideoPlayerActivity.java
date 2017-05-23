@@ -203,6 +203,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mCurrentSize;
 
     private SharedPreferences mSettings;
+
+    private static final int TOUCH_FLAG_AUDIO_VOLUME = 1;
+    private static final int TOUCH_FLAG_BRIGHTNESS = 1 << 1;
+    private static final int TOUCH_FLAG_SEEK = 1 << 2;
     private int mTouchControls = 0;
 
     /** Overlay */
@@ -387,8 +391,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (!VLCApplication.showTvUi()) {
-            mTouchControls = (mSettings.getBoolean("enable_volume_gesture", true) ? 1 : 0)
-                    + (mSettings.getBoolean("enable_brightness_gesture", true) ? 2 : 0);
+            mTouchControls = (mSettings.getBoolean("enable_volume_gesture", true) ? TOUCH_FLAG_AUDIO_VOLUME : 0)
+                    + (mSettings.getBoolean("enable_brightness_gesture", true) ? TOUCH_FLAG_BRIGHTNESS : 0)
+                    + (mSettings.getBoolean("enable_double_tap_seek", true) ? TOUCH_FLAG_SEEK : 0);
         }
 
         /* Services and miscellaneous */
@@ -2140,12 +2145,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         mTouchY = event.getRawY();
                         mTouchX = event.getRawX();
                         // Volume (Up or Down - Right side)
-                        if (mTouchControls == 1 || (mTouchControls == 3 && (int)mTouchX > (4 * mScreen.widthPixels / 7f))){
+                        if ((mTouchControls & TOUCH_FLAG_AUDIO_VOLUME) != 0 && (int)mTouchX > (4 * mScreen.widthPixels / 7f)){
                             doVolumeTouch(y_changed);
                             hideOverlay(true);
                         }
                         // Brightness (Up or Down - Left side)
-                        if (mTouchControls == 2 || (mTouchControls == 3 && (int)mTouchX < (3 * mScreen.widthPixels / 7f))){
+                        if ((mTouchControls & TOUCH_FLAG_BRIGHTNESS) != 0 && (int)mTouchX < (3 * mScreen.widthPixels / 7f)){
                             doBrightnessTouch(y_changed);
                             hideOverlay(true);
                         }
@@ -3607,6 +3612,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (mService == null)
                 return false;
             if (!mIsLocked) {
+                if ((mTouchControls & TOUCH_FLAG_SEEK) == 0) {
+                    doPlayPause();
+                    return true;
+                }
                 float x = e.getX();
                 if (x < range/4f)
                     seekDelta(-10000);

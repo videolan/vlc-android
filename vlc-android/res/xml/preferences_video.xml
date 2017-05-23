@@ -51,6 +51,11 @@
             android:summary="@string/confirm_resume_summary"
             android:title="@string/confirm_resume_title" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_double_tap_seek"
+            android:summary="@string/enable_double_tap_seek_summary"
+            android:title="@string/enable_double_tap_seek_title" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_seek_buttons"
             android:summary="@string/enable_seek_buttons_summary"
