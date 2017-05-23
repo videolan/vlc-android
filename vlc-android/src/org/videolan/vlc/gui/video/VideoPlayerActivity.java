@@ -3199,9 +3199,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mService.saveTimeToSeek(savedTime);
 
             // Handle playback
-            if (!hasMedia)
-                mService.load(media);
-            else if (!mService.isPlaying())
+            if (!hasMedia) {
+                if (positionInPlaylist != -1)
+                    mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
+                else
+                    mService.load(media);
+            } else if (!mService.isPlaying())
                 mService.playIndex(positionInPlaylist);
             else
                 onPlaying();
