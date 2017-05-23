@@ -1843,6 +1843,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         mSwitchingView = true;
         mSwitchToPopup = true;
+        cleanUI();
         exitOK();
     }
 
