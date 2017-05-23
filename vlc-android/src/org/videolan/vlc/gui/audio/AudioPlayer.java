@@ -110,6 +110,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = AudioPlayerBinding.inflate(inflater);
         return mBinding.getRoot();
@@ -152,7 +158,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
             coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
         }
-        mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
