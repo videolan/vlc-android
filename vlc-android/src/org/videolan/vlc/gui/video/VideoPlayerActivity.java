@@ -374,17 +374,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (AndroidUtil.isJellyBeanMR1OrLater) {
             // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) VLCApplication.getAppContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
-            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
-                @Override
-                public void onRoutePresentationDisplayChanged(
-                        MediaRouter router, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
-                    final Display presentationDisplay = info.getPresentationDisplay();
-                    final int newDisplayId = presentationDisplay != null ? presentationDisplay.getDisplayId() : -1;
-                    if (newDisplayId != mPresentationDisplayId)
-                        removePresentation();
-                }
-            };
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
         }
 
@@ -763,12 +752,28 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void mediaRouterAddCallback(boolean add) {
-        if(!AndroidUtil.isJellyBeanMR1OrLater || mMediaRouter == null) return;
+        if (!AndroidUtil.isJellyBeanMR1OrLater || mMediaRouter == null
+                || add == (mMediaRouterCallback != null))
+            return;
 
-        if(add)
+        if(add) {
+            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
+                @Override
+                public void onRoutePresentationDisplayChanged(
+                        MediaRouter router, MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
+                    final Display presentationDisplay = info.getPresentationDisplay();
+                    final int newDisplayId = presentationDisplay != null ? presentationDisplay.getDisplayId() : -1;
+                    if (newDisplayId != mPresentationDisplayId)
+                        removePresentation();
+                }
+            };
             mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
-        else
+        }
+        else {
             mMediaRouter.removeCallback(mMediaRouterCallback);
+            mMediaRouterCallback = null;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -874,8 +879,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         changeSurfaceLayout();
 
         /* Listen for changes to media routes. */
-        if (mMediaRouter != null)
-            mediaRouterAddCallback(true);
+        mediaRouterAddCallback(true);
 
         if (mRootView != null)
             mRootView.setKeepScreenOn(true);
@@ -955,8 +959,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         /* Stop listening for changes to media routes. */
-        if (mMediaRouter != null)
-            mediaRouterAddCallback(false);
+        mediaRouterAddCallback(false);
 
         if (mSurfaceFrame != null && AndroidUtil.isHoneycombOrLater && mOnLayoutChangeListener != null)
             mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
