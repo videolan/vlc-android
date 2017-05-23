@@ -676,6 +676,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             switchToAudioMode(false);
         }
 
+        cleanUI();
         stopPlayback();
 
         SharedPreferences.Editor editor = mSettings.edit();
@@ -939,8 +940,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return;
         }
-
-        cleanUI();
 
         if (mService.isSeekable()) {
             mSavedTime = getTime();
