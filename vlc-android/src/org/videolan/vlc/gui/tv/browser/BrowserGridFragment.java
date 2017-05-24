@@ -33,10 +33,13 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MainTvActivity;
@@ -44,7 +47,6 @@ import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -57,11 +59,13 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     private Uri mUri;
     ArrayList<MediaWrapper> mMediaList = null;
     private MediaWrapper mItemSelected;
+    private boolean mShowHiddenFiles = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
         setOnItemViewClickedListener(this);
+        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
     }
 
     public void onResume() {
@@ -70,9 +74,12 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
             if (mMediaBrowser != null) {
                 mMediaList = new ArrayList<>();
-                if (mUri != null)
+                if (mUri != null) {
+                    int flags = MediaBrowser.Flag.Interact;
+                    if (mShowHiddenFiles)
+                        flags |= MediaBrowser.Flag.ShowHiddenFiles;
                     mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
-                else
+                } else
                     mMediaBrowser.discoverNetworkShares();
                 ((BrowserActivityInterface)mContext).showProgress(true);
             }

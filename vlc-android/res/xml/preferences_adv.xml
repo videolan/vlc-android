@@ -9,6 +9,12 @@
         android:summary="@string/auto_rescan_summary"
         android:title="@string/auto_rescan" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="browser_show_hidden_files"
+        android:summary="@string/browser_show_hidden_files_summary"
+        android:title="@string/browser_show_hidden_files_title" />
+
     <EditTextPreference
         android:defaultValue=""
         android:key="network_caching"

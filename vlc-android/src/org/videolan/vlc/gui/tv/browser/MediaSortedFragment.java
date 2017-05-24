@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
@@ -47,6 +48,7 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     protected Uri mUri;
     protected MediaBrowser mMediaBrowser;
     boolean goBack = false;
+    private boolean mShowHiddenFiles = false;
     private final Medialibrary mMedialibrary = VLCApplication.getMLInstance();
 
     private static Handler sBrowserHandler;
@@ -60,7 +62,7 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mUri = savedInstanceState.getParcelable(KEY_URI);
         } else {
             Intent intent = getActivity().getIntent();
@@ -72,6 +74,7 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
             handlerThread.start();
             sBrowserHandler = new Handler(handlerThread.getLooper());
         }
+        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
     }
 
     protected void browse() {
@@ -80,8 +83,11 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
             public void run() {
                 mMediaBrowser = new MediaBrowser(VLCInstance.get(), MediaSortedFragment.this, sBrowserHandler);
                 if (mMediaBrowser != null) {
+                    int flags = MediaBrowser.Flag.Interact;
+                    if (mShowHiddenFiles)
+                        flags |= MediaBrowser.Flag.ShowHiddenFiles;
                     if (mUri != null)
-                        mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
+                        mMediaBrowser.browse(mUri, flags);
                     else
                         browseRoot();
                     ((BrowserActivityInterface)getActivity()).showProgress(true);

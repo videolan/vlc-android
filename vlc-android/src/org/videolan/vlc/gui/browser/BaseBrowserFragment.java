@@ -36,6 +36,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,6 +103,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected int mSavedPosition = -1, mFavorites = 0;
     public boolean mRoot;
     boolean goBack = false;
+    private final boolean mShowHiddenFiles;
 
     private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
     protected ArrayList<MediaWrapper> mediaList;
@@ -117,7 +119,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mBrowserHandler.post(runnable);
     }
 
-    public BaseBrowserFragment(){
+    public BaseBrowserFragment() {
         mHandler = new BrowserFragmentHandler(this);
         mAdapter = new BaseBrowserAdapter(this);
         if (mBrowserHandler == null) {
@@ -125,6 +127,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             handlerThread.start();
             mBrowserHandler = new Handler(handlerThread.getLooper());
         }
+        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
     }
 
     public void onCreate(Bundle bundle) {
@@ -148,6 +151,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
+
     }
 
     protected int getLayoutId(){
@@ -380,7 +384,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     protected int getBrowserFlags() {
-        return MediaBrowser.Flag.Interact;
+        int flags = MediaBrowser.Flag.Interact;
+        if (mShowHiddenFiles)
+            flags |= MediaBrowser.Flag.ShowHiddenFiles;
+        return flags;
     }
 
     static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {
@@ -588,7 +595,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                     if (mw != null){
                         if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
                             final Uri uri = mw.getUri();
-                            mMediaBrowser.browse(uri, 0);
+                            mMediaBrowser.browse(uri, mShowHiddenFiles ? MediaBrowser.Flag.ShowHiddenFiles : 0);
                             return;
                         }
                     }

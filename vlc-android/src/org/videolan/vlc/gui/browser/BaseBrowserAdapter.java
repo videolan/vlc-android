@@ -244,9 +244,6 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         else
             position = top ? mTop : list.size();
 
-        if (item .getItemType() == TYPE_MEDIA && item.getTitle().startsWith("."))
-            return;
-
         if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount++;
 
