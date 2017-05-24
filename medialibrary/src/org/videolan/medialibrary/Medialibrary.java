@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -81,7 +82,7 @@ public class Medialibrary {
         nativeStart();
     }
 
-    public void banFolder(String path) {
+    public void banFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
             nativeBanFolder(Tools.encodeVLCMrl(path));
     }
@@ -90,16 +91,16 @@ public class Medialibrary {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
 
-    public boolean addDevice(String uuid, String path, boolean removable, boolean notify) {
+    public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable, boolean notify) {
         return nativeAddDevice(uuid, Tools.encodeVLCMrl(path), removable, notify);
     }
 
-    public void discover(String path) {
+    public void discover(@NonNull String path) {
         if (mIsInitiated)
             nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
-    public void removeFolder(String path) {
+    public void removeFolder(@NonNull String path) {
         if (mIsInitiated)
             nativeRemoveEntryPoint(Tools.encodeVLCMrl(path));
     }

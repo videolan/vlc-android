@@ -150,6 +150,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private void discoverStorage(final String path) {
         if (BuildConfig.DEBUG) Log.d(TAG, "discoverStorage: "+path);
+        if (TextUtils.isEmpty(path))
+            return;
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -180,8 +182,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         for (String storagePath : AndroidDevices.getExternalStorageDirectories()) {
             if (path.startsWith(storagePath)) {
                 String uuid = FileUtils.getFileNameFromPath(path);
-                if (TextUtils.isEmpty(uuid))
-                    uuid = "root";
+                if (TextUtils.isEmpty(path) || TextUtils.isEmpty(uuid))
+                    return;
                 mMedialibrary.addDevice(uuid, path, true, true);
                 for (String folder : Medialibrary.getBlackList())
                     mMedialibrary.banFolder(path + folder);
@@ -214,6 +216,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         for (String device : devices) {
                             boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                             String uuid = FileUtils.getFileNameFromPath(device);
+                            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
+                                continue;
                             boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
                             boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                             if (!isMainStorage && isNew && !isIgnored) {
