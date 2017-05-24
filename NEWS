@@ -1,3 +1,20 @@
+Changes between 2.1.7 and 2.1.8:
+----------------------------------
+
+Application:
+ * Fix Video Pop-Up player black screen
+ * Fix scan service crash
+ * Fix audio/subs delay and video playlist lost on multitasking
+ * Option to disable playlist smooth auto scroll
+ * Option to disable seek on double tap
+ * Option to always keep screen ON in Pop-Up mode
+ * Option to show hidden files in browsers
+ * Misc fixes in app and medialibrary
+ * VLC update
+
+TV:
+ * Fix some UPnP media not shown
+
 Changes between 2.1.6 and 2.1.7:
 ----------------------------------
 
