@@ -85,10 +85,8 @@ public class VLCApplication extends Application {
 
     @Override
     public void onCreate() {
-        synchronized (getClass()) {
-            super.onCreate();
-            instance = this;
-        }
+        super.onCreate();
+        instance = this;
 
         // Are we using advanced debugging - locale?
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -162,7 +160,7 @@ public class VLCApplication extends Application {
     /**
      * @return the main context of the Application
      */
-    public static synchronized Context getAppContext() {
+    public static Context getAppContext() {
         return instance;
     }
 
@@ -246,7 +244,7 @@ public class VLCApplication extends Application {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
-    public static synchronized Medialibrary getMLInstance() {
+    public static Medialibrary getMLInstance() {
         if (sMedialibraryInstance == null) {
             VLCInstance.get(); // ensure VLC is loaded before medialibrary
             sMedialibraryInstance = Medialibrary.getInstance(instance);
