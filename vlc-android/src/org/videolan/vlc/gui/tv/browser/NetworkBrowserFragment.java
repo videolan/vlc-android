@@ -2,7 +2,7 @@
  * *************************************************************************
  *  NetworkBrowseFragment.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
+ *  Copyright © 2015-2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -46,8 +46,6 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
         if (mUri == null)
             mw.setDescription(mw.getUri().getScheme());
         int type = mw.getType();
-        if (type != MediaWrapper.TYPE_AUDIO && type != MediaWrapper.TYPE_VIDEO && type != MediaWrapper.TYPE_DIR)
-            return;
         String letter = mw.getTitle().substring(0, 1).toUpperCase();
         if (mMediaItemMap.containsKey(letter)) {
             mMediaItemMap.get(letter).mediaList.add(mw);
