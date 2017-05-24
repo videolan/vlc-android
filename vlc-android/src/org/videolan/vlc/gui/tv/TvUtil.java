@@ -1,7 +1,7 @@
 /*****************************************************************************
  * TvUtil.java
  *****************************************************************************
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2017 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -66,15 +66,15 @@ public class TvUtil {
     public static void openMedia(Activity activity, Object item , Row row){
         if (item instanceof MediaWrapper) {
             MediaWrapper mediaWrapper = (MediaWrapper) item;
-            if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
-                MediaUtils.openMedia(activity, mediaWrapper);
-            } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
+            if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 showMediaDetail(activity, mediaWrapper);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
                 intent.setData(mediaWrapper.getUri());
                 activity.startActivity(intent);
+            } else {
+                MediaUtils.openMedia(activity, mediaWrapper);
             }
         } else if (item instanceof CardPresenter.SimpleCard){
             if (((CardPresenter.SimpleCard) item).getId() == MainTvActivity.HEADER_STREAM) {
