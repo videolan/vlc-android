@@ -53,6 +53,7 @@ public class PreferencesVideo extends BasePreferenceFragment {
         findPreference("enable_double_tap_seek").setVisible(false);
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
+        findPreference("popup_keepscreen").setVisible(false);
     }
 
     @Override

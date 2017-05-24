@@ -33,10 +33,10 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -71,9 +71,11 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private ImageView mExpandButton;
     private ImageView mCloseButton;
     private ImageView mPlayPauseButton;
+    private final boolean mAlwaysOn;
 
     public PopupManager(PlaybackService service) {
         mService = service;
+        mAlwaysOn = PreferenceManager.getDefaultSharedPreferences(service).getBoolean("popup_keepscreen", false);
     }
 
     public void removePopup() {
@@ -92,6 +94,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.addCallback(this);
         LayoutInflater li = (LayoutInflater) VLCApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRootView = (PopupLayout) li.inflate(R.layout.video_popup, null);
+        if (mAlwaysOn)
+            mRootView.setKeepScreenOn(true);
         mPlayPauseButton = (ImageView) mRootView.findViewById(R.id.video_play_pause);
         mCloseButton = (ImageView) mRootView.findViewById(R.id.popup_close);
         mExpandButton = (ImageView) mRootView.findViewById(R.id.popup_expand);
@@ -225,12 +229,14 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 mService.removePopup();
                 break;
             case MediaPlayer.Event.Playing:
-                mRootView.setKeepScreenOn(true);
+                if (!mAlwaysOn)
+                    mRootView.setKeepScreenOn(true);
                 mPlayPauseButton.setImageResource(R.drawable.ic_popup_pause);
                 showNotification();
                 break;
             case MediaPlayer.Event.Paused:
-                mRootView.setKeepScreenOn(false);
+                if (!mAlwaysOn)
+                    mRootView.setKeepScreenOn(false);
                 mPlayPauseButton.setImageResource(R.drawable.ic_popup_play);
                 showNotification();
                 break;

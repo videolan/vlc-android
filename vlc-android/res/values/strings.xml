@@ -301,6 +301,8 @@
     <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
     <string name="enable_double_tap_seek_title">Double tap to seek</string>
     <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
+    <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
+    <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
