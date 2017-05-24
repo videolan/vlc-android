@@ -52,6 +52,8 @@ public class MediaBrowser {
         public final static int Interact = 1;
         /** If this flag is set, slaves won't be attached to medias but will be added as a media. */
         public final static int NoSlavesAutodetect = 1 << 1;
+        /** If this flag is set, hidden fils won't be ignored */
+        public final static int ShowHiddenFiles = 1 << 2;
     }
 
     /**
@@ -218,6 +220,8 @@ public class MediaBrowser {
         media.addOption(IGNORE_LIST_OPTION + mIgnoreList);
         if ((flags & Flag.NoSlavesAutodetect) != 0)
             media.addOption(":no-sub-autodetect-file");
+        if ((flags & Flag.ShowHiddenFiles) != 0)
+            media.addOption(":show-hiddenfiles");
         int mediaFlags = Media.Parse.ParseNetwork;
         if ((flags & Flag.Interact) != 0)
             mediaFlags |= Media.Parse.DoInteract;
