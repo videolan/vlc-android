@@ -176,7 +176,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private void addDeviceIfNeeded(String path) {
         for (String devicePath : mMedialibrary.getDevices()) {
-            if (path.startsWith(devicePath))
+            if (path.startsWith(Strings.removeFileProtocole(devicePath)))
                 return;
         }
         for (String storagePath : AndroidDevices.getExternalStorageDirectories()) {
