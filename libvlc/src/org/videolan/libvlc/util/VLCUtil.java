@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
@@ -547,12 +548,16 @@ public class VLCUtil {
         return Uri.parse(sb.toString());
     }
 
+    public static String locationFromUri(@NonNull Uri uri) {
+        return locationFromMrl(uri.toString());
+    }
+
     /**
-     * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
+     * VLC only acccepts "-._~" in Mrl format, android Uri accepts "_-!.~'()*".
      * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
      */
-    public static String locationFromUri(Uri uri) {
-        final char array[] = uri.toString().toCharArray();
+    public static String locationFromMrl(@NonNull String mrl) {
+        final char[] array = mrl.toCharArray();
         final StringBuilder sb = new StringBuilder(array.length * 2);
 
         for (final char c : array) {
