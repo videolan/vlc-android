@@ -1334,9 +1334,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             actions |= PlaybackStateCompat.ACTION_PLAY;
             pscb.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
         }
-        if (hasNext())
+        if (mRepeating != REPEAT_NONE || hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
-        if (hasPrevious() || isSeekable())
+        if (mRepeating != REPEAT_NONE || hasPrevious() || isSeekable())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
         if (isSeekable())
             actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
