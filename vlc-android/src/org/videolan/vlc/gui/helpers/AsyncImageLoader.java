@@ -45,6 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.HttpImageLoader;
+import org.videolan.vlc.util.ImageComposer;
 
 public class AsyncImageLoader {
 
@@ -93,10 +94,8 @@ public class AsyncImageLoader {
             updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
             return;
         }
-        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)item).getType() != MediaWrapper.TYPE_GROUP) {
             MediaWrapper mw = (MediaWrapper) item;
-            if (mw.getType() == MediaWrapper.TYPE_GROUP)
-                mw = ((MediaGroup)mw).getFirstMedia();
             int type = mw.getType();
             boolean isMedia = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
             Uri uri = mw.getUri();
@@ -137,6 +136,8 @@ public class AsyncImageLoader {
             if (bindChanged)
                 return null;
             String artworkUrl = item.getArtworkMrl();
+            if (item instanceof MediaGroup)
+                return ImageComposer.composeImage((MediaGroup) item);
             if (!TextUtils.isEmpty(artworkUrl) && artworkUrl.startsWith("http"))
                 return HttpImageLoader.downloadBitmap(artworkUrl);
             return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
