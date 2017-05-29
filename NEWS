@@ -1,3 +1,13 @@
+Changes between 2.1.8 and 2.1.9:
+----------------------------------
+
+Application:
+ * Fix Medialibrary ignoring folders
+ * Enable previous and next remote controls in repeat mode when only 1 media is playing
+ * Save and resume position for podcasts
+ * Compose thumbnails for video groups
+ * Misc bugfixes
+
 Changes between 2.1.7 and 2.1.8:
 ----------------------------------
 
