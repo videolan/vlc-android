@@ -320,75 +320,74 @@ AndroidMediaLibrary::PlaylistCreate( const std::string &name )
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::tracksFromAlbum( int64_t albumId )
 {
-    return p_ml->album(albumId)->tracks();
+    auto album = p_ml->album(albumId);
+    return album == nullptr ? std::vector<medialibrary::MediaPtr>() : album->tracks();
 }
 
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromArtist( int64_t artistId )
 {
-    return p_ml->artist(artistId)->media();
+    auto artist = p_ml->artist(artistId);
+    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media();
 }
 
 std::vector<medialibrary::AlbumPtr>
 AndroidMediaLibrary::albumsFromArtist( int64_t artistId )
 {
-    return p_ml->artist(artistId)->albums();
+    auto artist = p_ml->artist(artistId);
+    return artist == nullptr ? std::vector<medialibrary::AlbumPtr>() : artist->albums();
 }
 
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromGenre( int64_t genreId )
 {
-    return p_ml->genre(genreId)->tracks();
+    auto genre = p_ml->genre(genreId);
+    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks();
 }
 
 std::vector<medialibrary::AlbumPtr>
 AndroidMediaLibrary::albumsFromGenre( int64_t genreId )
 {
-    return p_ml->genre(genreId)->albums();
+    auto genre = p_ml->genre(genreId);
+    return genre == nullptr ? std::vector<medialibrary::AlbumPtr>() : genre->albums();
 }
 
 std::vector<medialibrary::ArtistPtr>
 AndroidMediaLibrary::artistsFromGenre( int64_t genreId )
 {
-    return p_ml->genre(genreId)->artists();
+    auto genre = p_ml->genre(genreId);
+    return genre == nullptr ? std::vector<medialibrary::ArtistPtr>() : genre->artists();
 }
 
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromPlaylist( int64_t playlistId )
 {
-    return p_ml->playlist(playlistId)->media();
+    auto playlist =  p_ml->playlist(playlistId);
+    return playlist == nullptr ? std::vector<medialibrary::MediaPtr>() : playlist->media();
 }
 
 bool
 AndroidMediaLibrary::playlistAppend(int64_t playlistId, int64_t mediaId) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    if (playlist == nullptr)
-        return false;
-    return playlist->append(mediaId);
+    return playlist == nullptr ? false : playlist->append(mediaId);
 }
 
 bool
 AndroidMediaLibrary::playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    if (playlist == nullptr)
-        return false;
-    return playlist->add(mediaId, position);
+    return playlist == nullptr ? false : playlist->add(mediaId, position);
 }
 
 bool
 AndroidMediaLibrary::playlistMove(int64_t playlistId, int64_t mediaId, unsigned int position) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    if (playlist == nullptr)
-        return false;
-    return playlist->move(mediaId, position);
+    return playlist == nullptr ? false : playlist->move(mediaId, position);
 }
 
 bool
 AndroidMediaLibrary::playlistRemove(int64_t playlistId, int64_t mediaId) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    if (playlist == nullptr)
-        return false;
-    return playlist->remove(mediaId);
+    return playlist == nullptr ? false : playlist->remove(mediaId);
 }
 
 bool
