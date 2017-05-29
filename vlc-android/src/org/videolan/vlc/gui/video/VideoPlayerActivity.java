@@ -1645,16 +1645,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.ESAdded:
                 if (mMenuIdx == -1) {
-                    if (event.getEsChangedType() == Media.Track.Type.Audio) {
-                        MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                        setESTrackLists();
+                    MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         if (media == null)
                             return;
+                    if (event.getEsChangedType() == Media.Track.Type.Audio) {
+                        setESTrackLists();
                         int audioTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIOTRACK);
                         if (audioTrack != 0 || mCurrentAudioTrack != -2)
                             mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
                     } else if (event.getEsChangedType() == Media.Track.Type.Text) {
-                        MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         setESTrackLists();
                         int spuTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK);
                         if (spuTrack != 0 || mCurrentSpuTrack != -2)
