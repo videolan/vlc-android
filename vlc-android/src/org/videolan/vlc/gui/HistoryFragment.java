@@ -178,19 +178,22 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_history_play:
-                MediaUtils.openList(getActivity(), mHistoryAdapter.getSelection(), 0);
-                break;
-            case R.id.action_history_append:
-                MediaUtils.appendMedia(getActivity(), mHistoryAdapter.getSelection());
-                break;
-            case R.id.action_history_info:
-                showInfoDialog(mHistoryAdapter.getSelection().get(0));
-                break;
-            default:
-                stopActionMode();
-                return false;
+        List<MediaWrapper> selection =  mHistoryAdapter.getSelection();
+        if (!selection.isEmpty()) {
+            switch (item.getItemId()) {
+                case R.id.action_history_play:
+                    MediaUtils.openList(getActivity(), selection, 0);
+                    break;
+                case R.id.action_history_append:
+                    MediaUtils.appendMedia(getActivity(), selection);
+                    break;
+                case R.id.action_history_info:
+                    showInfoDialog(selection.get(0));
+                    break;
+                default:
+                    stopActionMode();
+                    return false;
+            }
         }
         stopActionMode();
         return true;
