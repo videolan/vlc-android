@@ -569,7 +569,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
                     loadMediaMeta();
-                    if(mSavedTime != 0L)
+                    if(mSavedTime > 0L)
                         seek(mSavedTime);
                     mSavedTime = 0L;
 
@@ -670,7 +670,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         MediaWrapper media = mMedialibrary.findMedia(getCurrentMediaWrapper());
         if (media == null || media.getId() == 0)
             return;
-        if (canSwitchToVideo()) {
+        boolean canSwitchToVideo = canSwitchToVideo();
+        if (canSwitchToVideo || media.isPodcast()) {
             //Save progress
             long time = getTime();
             float progress = time / (float)media.getLength();
@@ -678,6 +679,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 progress = 0f;
             media.setTime(progress == 0f ? 0L : time);
             media.setLongMeta(mMedialibrary, MediaWrapper.META_PROGRESS, (long) (progress*100));
+        }
+        if (canSwitchToVideo) {
             //Save audio delay
             if (mSettings.getBoolean("save_individual_audio_delay", false))
                 media.setLongMeta(mMedialibrary, MediaWrapper.META_AUDIODELAY, mMediaPlayer.getAudioDelay());
@@ -1950,6 +1953,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaPlayer.setEventListener(mMediaPlayerListener);
             if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
                 setRate(mSettings.getFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, 1.0F), true);
+            if (mSavedTime <= 0L && mw.getTime() >= 0L && mw.isPodcast())
+                mSavedTime = mw.getTime();
             mMediaPlayer.play();
 
             determinePrevAndNextIndices();
