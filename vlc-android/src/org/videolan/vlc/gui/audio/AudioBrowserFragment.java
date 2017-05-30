@@ -690,6 +690,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 fragment.mSwipeRefreshLayout.setRefreshing(true);
                 break;
             case UNSET_REFRESHING:
+                removeMessages(SET_REFRESHING);
                 fragment.mSwipeRefreshLayout.setRefreshing(false);
                 break;
             case UPDATE_EMPTY_VIEW:
