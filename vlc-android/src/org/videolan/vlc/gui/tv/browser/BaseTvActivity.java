@@ -35,6 +35,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
@@ -140,6 +141,8 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
             } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 String path = intent.getData().getPath();
                 String uuid = intent.getData().getLastPathSegment();
+                if (TextUtils.isEmpty(uuid))
+                    return;
                 boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
                 if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true, true)) {
                     startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)

@@ -43,6 +43,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -415,7 +416,8 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     uuid = ((Uri) msg.obj).getLastPathSegment();
                     String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    if (!PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
+                    if (!TextUtils.isEmpty(uuid)
+                            && !PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
                         if (VLCApplication.getMLInstance().addDevice(uuid, path, true, true)) {
                             owner.startActivity(new Intent(owner, DialogActivity.class)
                                     .setAction(DialogActivity.KEY_STORAGE)
