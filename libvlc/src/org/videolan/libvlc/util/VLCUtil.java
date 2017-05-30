@@ -548,15 +548,15 @@ public class VLCUtil {
         return Uri.parse(sb.toString());
     }
 
-    public static String locationFromUri(@NonNull Uri uri) {
-        return locationFromMrl(uri.toString());
+    public static String encodeVLCUri(@NonNull Uri uri) {
+        return encodeVLCString(uri.toString());
     }
 
     /**
      * VLC only acccepts "-._~" in Mrl format, android Uri accepts "_-!.~'()*".
      * Therefore, encode the characters authorized by Android Uri when creating a mrl from an Uri.
      */
-    public static String locationFromMrl(@NonNull String mrl) {
+    public static String encodeVLCString(@NonNull String mrl) {
         final char[] array = mrl.toCharArray();
         final StringBuilder sb = new StringBuilder(array.length * 2);
 

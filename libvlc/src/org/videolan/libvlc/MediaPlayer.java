@@ -977,7 +977,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @return true on success.
      */
     public boolean addSlave(int type, Uri uri, boolean select) {
-        return nativeAddSlave(type, VLCUtil.locationFromUri(uri), select);
+        return nativeAddSlave(type, VLCUtil.encodeVLCUri(uri), select);
     }
 
     /**
