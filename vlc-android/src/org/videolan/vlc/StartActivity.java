@@ -97,7 +97,7 @@ public class StartActivity extends Activity {
     }
 
     private void startMedialibrary(boolean firstRun, boolean upgrade) {
-        if (Permissions.canReadStorage())
+        if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
             startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class)
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
                     .putExtra(EXTRA_UPGRADE, upgrade));
