@@ -243,14 +243,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
         String text = "";
-        String resolution;
+        String resolution = "";
         int max = 0;
         int progress = 0;
 
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
             MediaGroup mediaGroup = (MediaGroup) media;
             int size = mediaGroup.size();
-            resolution = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
+            text = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
         } else {
             /* Time / Duration */
             if (media.getLength() > 0) {
