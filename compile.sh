@@ -236,7 +236,7 @@ fi
 # RUN #
 #######
 if [ "$RUN" = 1 ]; then
-    export PATH=${ANDROID_SDK}/platform-tools/:$PATH
+    export PATH="${ANDROID_SDK}/platform-tools/:$PATH"
     adb wait-for-device
     if [ "$RELEASE" = 1 ]; then
         adb shell am start -n org.videolan.vlc/org.videolan.vlc.StartActivity
