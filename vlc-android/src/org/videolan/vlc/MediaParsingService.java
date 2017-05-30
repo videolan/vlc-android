@@ -143,6 +143,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             case ACTION_DISCOVER_DEVICE:
                 discoverStorage(intent.getStringExtra(EXTRA_PATH));
                 break;
+            default:
+                exitCommand();
+                return START_NOT_STICKY;
         }
         mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_SERVICE_STARTED));
         return START_NOT_STICKY;
@@ -150,8 +153,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private void discoverStorage(final String path) {
         if (BuildConfig.DEBUG) Log.d(TAG, "discoverStorage: "+path);
-        if (TextUtils.isEmpty(path))
+        if (TextUtils.isEmpty(path)) {
+            exitCommand();
             return;
+        }
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -163,8 +168,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void discover(final String path) {
-        if (TextUtils.isEmpty(path))
+        if (TextUtils.isEmpty(path)) {
+            exitCommand();
             return;
+        }
         mThreadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -176,14 +183,18 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     private void addDeviceIfNeeded(String path) {
         for (String devicePath : mMedialibrary.getDevices()) {
-            if (path.startsWith(Strings.removeFileProtocole(devicePath)))
+            if (path.startsWith(Strings.removeFileProtocole(devicePath))) {
+                exitCommand();
                 return;
+            }
         }
         for (String storagePath : AndroidDevices.getExternalStorageDirectories()) {
             if (path.startsWith(storagePath)) {
                 String uuid = FileUtils.getFileNameFromPath(path);
-                if (TextUtils.isEmpty(path) || TextUtils.isEmpty(uuid))
+                if (TextUtils.isEmpty(uuid)) {
+                    exitCommand();
                     return;
+                }
                 mMedialibrary.addDevice(uuid, path, true, true);
                 for (String folder : Medialibrary.getBlackList())
                     mMedialibrary.banFolder(path + folder);
@@ -201,9 +212,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void setupMedialibrary(final boolean upgrade) {
-        if (mMedialibrary.isInitiated())
+        if (mMedialibrary.isInitiated()) {
             mMedialibrary.resumeBackgroundOperations();
-        else
+            exitCommand();
+        } else
             mThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -221,10 +233,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
                             boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                             if (!isMainStorage && isNew && !isIgnored) {
-                                    startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
-                                            .setAction(DialogActivity.KEY_STORAGE)
-                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                            .putExtra(EXTRA_PATH, device));
+                                startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
+                                        .setAction(DialogActivity.KEY_STORAGE)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra(EXTRA_PATH, device));
                             }
 
                         }
@@ -345,6 +357,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         if (BuildConfig.DEBUG) Log.d(TAG, "onReloadCompleted "+entryPoint);
         if (TextUtils.isEmpty(entryPoint))
             --mReload;
+    }
+
+    private void exitCommand() {
+        if (!mMedialibrary.isWorking())
+            stopSelf();
     }
 
     @Override
