@@ -263,12 +263,14 @@ public class Medialibrary {
     public MediaWrapper findMedia(MediaWrapper mw) {
         if (mIsInitiated && mw != null && mw.getId() == 0L) {
             Uri uri = mw.getUri();
-            mw = getMedia(uri);
-            if (mw == null  && TextUtils.equals("file", uri.getScheme()) &&
+            MediaWrapper libraryMedia = getMedia(uri);
+            if (libraryMedia == null && TextUtils.equals("file", uri.getScheme()) &&
                     uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
                 uri = Tools.convertLocalUri(uri);
-                mw = getMedia(uri);
+                libraryMedia = getMedia(uri);
             }
+            if (libraryMedia != null)
+                return libraryMedia;
         }
         return mw;
     }

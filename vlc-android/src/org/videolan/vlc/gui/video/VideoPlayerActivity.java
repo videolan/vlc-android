@@ -2583,7 +2583,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         if (trackID < -1 || mService == null)
                             return false;
                         mService.setAudioTrack(trackID);
-                        mMedialibrary.findMedia(mService.getCurrentMediaWrapper()).setLongMeta(mMedialibrary, MediaWrapper.META_AUDIOTRACK, trackID);
+                        MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                        if (mw != null && mw.getId() != 0L)
+                            mw.setLongMeta(mMedialibrary, MediaWrapper.META_AUDIOTRACK, trackID);
                         return true;
                     }
                 });
@@ -2598,7 +2600,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         if (trackID < -1 || mService == null)
                             return false;
                         mService.setSpuTrack(trackID);
-                        mMedialibrary.findMedia(mService.getCurrentMediaWrapper()).setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK, trackID);
+                        MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                        if (mw != null && mw.getId() != 0L)
+                            mw.setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK, trackID);
                         return true;
                     }
                 });
@@ -2971,13 +2975,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         int time = (int) getTime();
         int length = (int) mService.getLength();
-        if (length == 0) {
-            MediaWrapper media = mService.getCurrentMediaWrapper();
-            if (media.getId() == 0)
-                media = mMedialibrary.findMedia(media);
-            if (media != null)
-                length = (int) media.getLength();
-        }
 
         // Update all view elements
         if (mSeekbar != null) {

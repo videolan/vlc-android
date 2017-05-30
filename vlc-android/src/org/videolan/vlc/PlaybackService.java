@@ -1964,9 +1964,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     @Override
                     public void run() {
                         long id = mw.getId();
-                        if (id == 0) {
+                        if (id == 0L) {
                             MediaWrapper media = mMedialibrary.findMedia(mw);
-                            if (media != null)
+                            if (media != null && media.getId() != 0L)
                                 id = media.getId();
                             else {
                                 media = mMedialibrary.addMedia(mw.getUri().toString());
