@@ -153,10 +153,60 @@ if [ ! -f gradle.properties ]; then
         echo storepwd=android >> gradle.properties
     fi
 fi
-if [ ! -f local.properties ]; then
-    echo sdk.dir=$ANDROID_SDK > local.properties
-    echo ndk.dir=$ANDROID_NDK >> local.properties
-fi
+
+init_local_props() {
+    (
+    # initialize the local.properties file,
+    # or fix it if it was modified (by Android Studio, for example).
+    echo_props() {
+        echo "sdk.dir=$ANDROID_SDK"
+        echo "ndk.dir=$ANDROID_NDK"
+    }
+    # first check if the file just needs to be created for the first time
+    if [ ! -f "$1" ]; then
+        echo_props > "$1"
+        return 0
+    fi
+    # check for lines setting the SDK directory
+    sdk_line_start="^sdk\.dir="
+    total_sdk_count=`grep -c "${sdk_line_start}" "$1"`
+    good_sdk_count=`grep -c "${sdk_line_start}${ANDROID_SDK}\$" "$1"`
+    # check for lines setting the NDK directory
+    ndk_line_start="^ndk\.dir="
+    total_ndk_count=`grep -c "${ndk_line_start}" "$1"`
+    good_ndk_count=`grep -c "${ndk_line_start}${ANDROID_NDK}\$" "$1"`
+    # if one of each is found and both match the environment vars, no action needed
+    if [ "$total_sdk_count" -eq "1" -a "$good_sdk_count" -eq "1" \
+	    -a "$total_ndk_count" -eq "1" -a "$good_ndk_count" -eq "1" ]
+    then
+        return 0
+    fi
+    # if neither property is set they can simply be appended to the file
+    if [ "$total_sdk_count" -eq "0" -a "$total_ndk_count" -eq "0" ]; then
+        echo_props >> "$1"
+        return 0
+    fi
+    # if a property is set incorrectly or too many times,
+    # remove all instances of both properties and append correct ones.
+    replace_props() {
+        temp_props="$1.tmp"
+        while IFS= read -r LINE || [ -n "$LINE" ]; do
+            line_sdk_dir="${LINE#sdk.dir=}"
+            line_ndk_dir="${LINE#ndk.dir=}"
+            if [ "x$line_sdk_dir" = "x$LINE" -a "x$line_ndk_dir" = "x$LINE" ]; then
+                echo "$LINE"
+            fi
+        done <"$1" >"$temp_props"
+        echo_props >> "$temp_props"
+        mv -f -- "$temp_props" "$1"
+    }
+    echo "local.properties: Contains incompatible sdk.dir and/or ndk.dir properties. Replacing..."
+    replace_props "$1"
+    echo "local.properties: Finished replacing sdk.dir and/or ndk.dir with current environment variables."
+    )
+}
+init_local_props local.properties || { echo "Error initializing local.properties"; exit $?; }
+
 if [ ! -d "$ANDROID_SDK/licenses" ]; then
     mkdir "$ANDROID_SDK/licenses"
     echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_SDK/licenses/android-sdk-license"
