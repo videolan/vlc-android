@@ -2678,6 +2678,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mForcedTime = position;
         mLastTime = mService.getTime();
         mService.seek(position, length);
+        if (mSeekbar != null)
+            mSeekbar.setProgress((int) position);
     }
 
     private void seekDelta(int delta) {
