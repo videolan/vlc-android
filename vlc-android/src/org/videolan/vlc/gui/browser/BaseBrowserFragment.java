@@ -569,37 +569,41 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
     }
 
-    ArrayList<MediaLibraryItem> currentMediaList = null;
+    ArrayList<MediaLibraryItem> currentMediaList = new ArrayList<>();
     protected void parseSubDirectories() {
-        if ((mRoot && this instanceof NetworkBrowserFragment) || mCurrentParsedPosition == -1 ||
-                mAdapter.isEmpty() || this instanceof FilePickerFragment)
-            return;
-        currentMediaList = mAdapter.getAll();
+        synchronized (currentMediaList) {
+            currentMediaList = new ArrayList<>(mAdapter.getAll());
+            if ((mRoot && this instanceof NetworkBrowserFragment) || mCurrentParsedPosition == -1 ||
+                    currentMediaList.isEmpty() || this instanceof FilePickerFragment)
+                return;
+        }
         runOnBrowserThread(new Runnable() {
             @Override
             public void run() {
-                mFoldersContentLists.clear();
-                initMediaBrowser(mFoldersBrowserListener);
-                mCurrentParsedPosition = 0;
-                MediaLibraryItem item;
-                MediaWrapper mw;
-                while (mCurrentParsedPosition < currentMediaList.size()) {
-                    item = currentMediaList.get(mCurrentParsedPosition);
-                    if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
-                        mw = new MediaWrapper(((Storage) item).getUri());
-                        mw.setType(MediaWrapper.TYPE_DIR);
-                    } else  if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA){
-                        mw = (MediaWrapper) item;
-                    } else
-                        mw = null;
-                    if (mw != null){
-                        if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST){
-                            final Uri uri = mw.getUri();
-                            mMediaBrowser.browse(uri, mShowHiddenFiles ? MediaBrowser.Flag.ShowHiddenFiles : 0);
-                            return;
+                synchronized (currentMediaList) {
+                    mFoldersContentLists.clear();
+                    initMediaBrowser(mFoldersBrowserListener);
+                    mCurrentParsedPosition = 0;
+                    MediaLibraryItem item;
+                    MediaWrapper mw;
+                    while (mCurrentParsedPosition < currentMediaList.size()) {
+                        item = currentMediaList.get(mCurrentParsedPosition);
+                        if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
+                            mw = new MediaWrapper(((Storage) item).getUri());
+                            mw.setType(MediaWrapper.TYPE_DIR);
+                        } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+                            mw = (MediaWrapper) item;
+                        } else
+                            mw = null;
+                        if (mw != null) {
+                            if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST) {
+                                final Uri uri = mw.getUri();
+                                mMediaBrowser.browse(uri, mShowHiddenFiles ? MediaBrowser.Flag.ShowHiddenFiles : 0);
+                                return;
+                            }
                         }
+                        ++mCurrentParsedPosition;
                     }
-                    ++mCurrentParsedPosition;
                 }
             }
         });
@@ -624,54 +628,56 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
         @Override
         public void onBrowseEnd() {
-            if (currentMediaList.isEmpty() || getActivity() == null) {
-                mCurrentParsedPosition = -1;
-                releaseBrowser();
-                return;
-            }
-            final String holderText = getDescription(directories.size(), files.size());
-            MediaWrapper mw = null;
-
-            if (!TextUtils.equals(holderText, "")) {
-                MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
-                item.setDescription(holderText);
-                final int position = mCurrentParsedPosition;
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyItemChanged(position, holderText);
-                    }
-                });
-                directories.addAll(files);
-                mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
-            }
-            while (++mCurrentParsedPosition < currentMediaList.size()){ //skip media that are not browsable
-                MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
-                if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-                    mw = (MediaWrapper) item;
-                    if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
-                        break;
-                } else if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
-                    mw = new MediaWrapper(((Storage) item).getUri());
-                    break;
-                } else
-                    mw = null;
-            }
-
-            if (mw != null) {
-                if (mCurrentParsedPosition < currentMediaList.size()) {
-                    mMediaBrowser.browse(mw.getUri(), 0);
-                } else {
+            synchronized (currentMediaList) {
+                if (currentMediaList.isEmpty() || getActivity() == null) {
                     mCurrentParsedPosition = -1;
-                    currentMediaList = null;
                     releaseBrowser();
+                    return;
                 }
-            } else {
-                releaseBrowser();
-                currentMediaList = null;
+                final String holderText = getDescription(directories.size(), files.size());
+                MediaWrapper mw = null;
+
+                if (!TextUtils.equals(holderText, "")) {
+                    MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
+                    item.setDescription(holderText);
+                    final int position = mCurrentParsedPosition;
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyItemChanged(position, holderText);
+                        }
+                    });
+                    directories.addAll(files);
+                    mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
+                }
+                while (++mCurrentParsedPosition < currentMediaList.size()){ //skip media that are not browsable
+                    MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
+                    if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+                        mw = (MediaWrapper) item;
+                        if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
+                            break;
+                    } else if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
+                        mw = new MediaWrapper(((Storage) item).getUri());
+                        break;
+                    } else
+                        mw = null;
+                }
+
+                if (mw != null) {
+                    if (mCurrentParsedPosition < currentMediaList.size()) {
+                        mMediaBrowser.browse(mw.getUri(), 0);
+                    } else {
+                        mCurrentParsedPosition = -1;
+                        currentMediaList = new ArrayList<>();
+                        releaseBrowser();
+                    }
+                } else {
+                    releaseBrowser();
+                    currentMediaList = new ArrayList<>();
+                }
+                directories .clear();
+                files.clear();
             }
-            directories .clear();
-            files.clear();
         }
 
         private String getDescription(int folderCount, int mediaFileCount) {
