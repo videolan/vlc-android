@@ -2678,8 +2678,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mForcedTime = position;
         mLastTime = mService.getTime();
         mService.seek(position, length);
-        if (mSeekbar != null)
-            mSeekbar.setProgress((int) position);
+        setOverlayProgress((int) position, (int) length);
     }
 
     private void seekDelta(int delta) {
@@ -2977,7 +2976,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         int time = (int) getTime();
         int length = (int) mService.getLength();
+        return setOverlayProgress(time, length);
+    }
 
+    private int setOverlayProgress(int time, int length) {
         // Update all view elements
         if (mSeekbar != null) {
             mSeekbar.setMax(length);
