@@ -305,12 +305,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (hasCurrentMedia())
                 return super.onStartCommand(intent, flags, startId);
             else
-                loadLastPlaylist(TYPE_AUDIO);
+                loadLastAudioPlaylist();
         } else if (ACTION_REMOTE_PLAY.equals(action)) {
             if (hasCurrentMedia())
                 play();
             else
-                loadLastPlaylist(TYPE_AUDIO);
+                loadLastAudioPlaylist();
         } else if (ACTION_PLAY_FROM_SEARCH.equals(action)) {
             if (mMediaSession == null)
                 initMediaSession();
@@ -446,7 +446,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
              */
             if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
                 if (!hasCurrentMedia())
-                    loadLastPlaylist(TYPE_AUDIO);
+                    loadLastAudioPlaylist();
                 if (mMediaPlayer.isPlaying())
                     pause();
                 else
@@ -465,7 +465,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
                 next();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
-                loadLastPlaylist(TYPE_AUDIO);
+                loadLastAudioPlaylist();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
                 loadLastPlaylist(TYPE_VIDEO);
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_SWITCH_VIDEO)) {
@@ -1122,7 +1122,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             if (event.getRepeatCount() <= 0)
                                 mHeadsetDownTime = time;
                             if (!hasMedia()) {
-                                loadLastPlaylist(TYPE_AUDIO);
+                                loadLastAudioPlaylist();
                                 return true;
                             }
                             break;
@@ -1163,7 +1163,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (hasMedia())
                 play();
             else
-                loadLastPlaylist(TYPE_AUDIO);
+                loadLastAudioPlaylist();
         }
 
         @Override
@@ -1496,42 +1496,71 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         sendBroadcast(broadcast);
     }
 
-    public synchronized void loadLastPlaylist(int type) {
-        boolean audio = type == TYPE_AUDIO;
-        String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
-        if (currentMedia.equals(""))
-            return;
-        String[] locations = mSettings.getString(audio ? "audio_list" : "media_list", "").split(" ");
-        if (locations.length == 0)
-            return;
+    private void loadLastAudioPlaylist() {
+        if (mMedialibrary.isInitiated())
+            loadLastPlaylist(TYPE_AUDIO);
+        else {
+            final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    lbm.unregisterReceiver(this);
+                    loadLastPlaylist(TYPE_AUDIO);
+                }
+            };
+            lbm.registerReceiver(receiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
 
-        List<MediaWrapper> playList = new ArrayList<>(locations.length);
-        for (int i = 0 ; i < locations.length ; ++i) {
-            String mrl = Uri.decode(locations[i]);
-            MediaWrapper mw = mMedialibrary.getMedia(mrl);
-            if (mw == null)
-                mw = new MediaWrapper(Uri.parse(mrl));
-            playList.add(mw);
         }
+    }
 
-        mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
-        mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
-        int position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
-        mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
-        // load playlist
-        load(playList, position);
-        if (!audio) {
-            boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
-            float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
-            if (paused)
-                pause();
-            if (rate != 1.0f)
-                setRate(rate, false);
-        }
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
-        editor.putLong(audio ? "position_in_song" : "position_in_media", 0);
-        editor.apply();
+    public void loadLastPlaylist(final int type) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final boolean audio = type == TYPE_AUDIO;
+                String[] locations;
+                synchronized (PlaybackService.this) {
+                    String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
+                    if (currentMedia.equals(""))
+                        return;
+                    locations = mSettings.getString(audio ? "audio_list" : "media_list", "").split(" ");
+                }
+                if (locations.length == 0)
+                    return;
+
+                final List<MediaWrapper> playList = new ArrayList<>(locations.length);
+                for (String location : locations) {
+                    String mrl = Uri.decode(location);
+                    MediaWrapper mw = mMedialibrary.getMedia(mrl);
+                    if (mw == null)
+                        mw = new MediaWrapper(Uri.parse(mrl));
+                    playList.add(mw);
+                }
+                // load playlist
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final int position;
+                        synchronized (PlaybackService.this) {
+                            mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
+                            mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
+                            position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
+                            mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
+                        }
+                        load(playList, position);
+                        if (!audio) {
+                            boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
+                            float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
+                            if (paused)
+                                pause();
+                            if (rate != 1.0f)
+                                setRate(rate, false);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private synchronized void saveCurrentMedia() {
@@ -1738,7 +1767,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
-    public synchronized void addCallback(Callback cb) {
+    public void addCallback(Callback cb) {
         synchronized (mCallbacks) {
             if (!mCallbacks.contains(cb)) {
                 mCallbacks.add(cb);
@@ -1749,7 +1778,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
-    public synchronized void removeCallback(Callback cb) {
+    public void removeCallback(Callback cb) {
         synchronized (mCallbacks) {
             mCallbacks.remove(cb);
         }
