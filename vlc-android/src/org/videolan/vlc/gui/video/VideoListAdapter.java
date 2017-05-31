@@ -520,8 +520,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private class VideoItemDiffCallback extends DiffUtil.Callback {
         ArrayList<MediaWrapper> oldList, newList;
         VideoItemDiffCallback(ArrayList<MediaWrapper> oldList, ArrayList<MediaWrapper> newList) {
-            this.oldList = oldList;
-            this.newList = newList;
+            this.oldList = new ArrayList<>(oldList);
+            this.newList = new ArrayList<>(newList);
         }
 
         @Override
