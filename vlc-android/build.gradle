@@ -209,7 +209,6 @@ def revision() {
 }
 
 def vlcRevision() {
-    def code = new ByteArrayOutputStream()
     def vlc = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'rev-parse', '--short', 'HEAD'
