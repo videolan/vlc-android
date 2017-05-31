@@ -130,8 +130,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 }
             });
         else {
-            if (!mAdapter.isEmpty())
-                mAdapter.removeItem(mAdapter.getItemCount() - 1);
+            int itemCount = mAdapter.getItemCount();
+            if (itemCount > 0)
+                mAdapter.removeItem(itemCount - 1);
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         }
     }
