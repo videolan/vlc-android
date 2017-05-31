@@ -1496,21 +1496,24 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         sendBroadcast(broadcast);
     }
 
+    BroadcastReceiver mLibraryReceiver = null;
     private void loadLastAudioPlaylist() {
+        if (mLibraryReceiver != null)
+            return;
         if (mMedialibrary.isInitiated())
             loadLastPlaylist(TYPE_AUDIO);
         else {
             final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-            BroadcastReceiver receiver = new BroadcastReceiver() {
+            mLibraryReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     lbm.unregisterReceiver(this);
+                    mLibraryReceiver = null;
                     loadLastPlaylist(TYPE_AUDIO);
                 }
             };
-            lbm.registerReceiver(receiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+            lbm.registerReceiver(mLibraryReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
             startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
-
         }
     }
 
