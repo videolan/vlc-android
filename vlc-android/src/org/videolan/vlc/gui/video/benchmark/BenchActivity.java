@@ -68,6 +68,7 @@ public class BenchActivity extends ShallowVideoPlayer {
     private static final String PLAYBACK = "org.videolan.vlc.gui.video.benchmark.ACTION_PLAYBACK";
 
     private static final String TIMESTAMPS = "org.videolan.vlc.gui.video.benchmark.TIMESTAMPS";
+    private static final String INTENT_SCREENSHOT_DIR = "SCREENSHOT_DIR";
     private static final String TAG = "VLCBenchmark";
     private static final int REQUEST_SCREENSHOT = 666;
 
@@ -101,6 +102,8 @@ public class BenchActivity extends ShallowVideoPlayer {
     /* set to true when Vout event is received
      * used to check if hardware decoder works */
     private boolean mHasVout = false;
+    /* screenshot directory location */
+    private String screenshotDir;
 
     @Override
     protected void loadMedia() {
@@ -125,6 +128,11 @@ public class BenchActivity extends ShallowVideoPlayer {
             mIsHardware = true;
         }
         mIsBenchmark = true;
+
+        if (!intent.hasExtra(INTENT_SCREENSHOT_DIR)) {
+            errorFinish("Failed to get screenshot directory location");
+        }
+        screenshotDir = intent.getStringExtra(INTENT_SCREENSHOT_DIR);
 
         super.onCreate(savedInstanceState);
 
@@ -422,11 +430,11 @@ public class BenchActivity extends ShallowVideoPlayer {
                         if (bitmap != null) {
                             bitmap.copyPixelsFromBuffer(buffer);
 
-                            File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "screenshotFolder");
+                            File folder = new File(screenshotDir);
 
                             if (!folder.exists()) {
                                 if (!folder.mkdir()) {
-                                    errorFinish("Failed to create screenshotFolder");
+                                    errorFinish("Failed to create screenshot directory");
                                 }
                             }
 
