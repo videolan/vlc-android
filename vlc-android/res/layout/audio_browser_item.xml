@@ -19,7 +19,7 @@
             type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemViewHolder" />
     </data>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
@@ -35,65 +35,61 @@
             android:id="@+id/media_cover"
             android:layout_width="@dimen/audio_browser_item_size"
             android:layout_height="@dimen/audio_browser_item_size"
+            vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintBottom_toBottomOf="parent"
             android:layout_gravity="center"
             vlc:media="@{item}"
             android:background="@{cover}"
             android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE}"/>
 
-        <LinearLayout
-            android:id="@+id/audio_item_meta"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@+id/media_cover"
-            android:layout_alignBottom="@+id/media_cover"
-            android:layout_toRightOf="@+id/media_cover"
-            android:layout_toEndOf="@+id/media_cover"
-            android:layout_toLeftOf="@+id/item_more"
-            android:layout_toStartOf="@+id/item_more"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:paddingStart="@dimen/half_default_margin"
-            android:orientation="vertical" >
 
-            <!-- TextView must be set to singleLine
-                see https://code.google.com/p/android/issues/detail?id=33868 -->
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:gravity="center_vertical"
-                android:ellipsize="end"
-                vlc:alignMode="@{alignMode}"
-                android:text="@{item.title}"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_title"
-                android:textSize="16sp" />
+        <!-- TextView must be set to singleLine
+            see https://code.google.com/p/android/issues/detail?id=33868 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            vlc:layout_constraintVertical_chainStyle="packed"
+            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
+            vlc:layout_constraintStart_toEndOf="@+id/media_cover"
+            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+            android:layout_marginStart="@dimen/half_default_margin"
+            android:layout_marginLeft="@dimen/half_default_margin"
+            vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
+            android:singleLine="true"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            vlc:alignMode="@{alignMode}"
+            android:text="@{item.title}"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/list_title"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:ellipsize="middle"
-                android:text="@{item.description}"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?attr/list_subtitle"
-                android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            vlc:layout_constraintTop_toBottomOf="@+id/title"
+            vlc:layout_constraintStart_toStartOf="@+id/title"
+            vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:text="@{item.description}"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/list_subtitle"
+            android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"/>
 
         <ImageView
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/media_cover"
-            android:layout_alignBottom="@+id/media_cover"
+            android:layout_height="0dp"
+            vlc:layout_constraintEnd_toEndOf="parent"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="center"
             android:src="@drawable/ic_more"
             android:contentDescription="@string/more_actions"
             android:onClick="@{holder::onMoreClick}" />
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>
