@@ -136,15 +136,15 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu, trackNumber, discNumber, lastModified, null);
         sb.setLength(0);
         if (type == TYPE_AUDIO) {
-            String artistMeta = getReferenceArtist();
-            boolean hasArtistMeta = !TextUtils.isEmpty(artistMeta);
-            if (!TextUtils.isEmpty(album)) {
-                sb.append(album);
-                if (hasArtistMeta)
+            boolean hasArtistMeta = !TextUtils.isEmpty(artist);
+            boolean hasAlbumMeta = !TextUtils.isEmpty(album);
+            if (hasArtistMeta) {
+                sb.append(artist);
+                if (hasAlbumMeta)
                     sb.append(" - ");
             }
-            if (hasArtistMeta)
-                sb.append(artistMeta);
+            if (hasAlbumMeta)
+                sb.append(album);
         } else if (type == TYPE_VIDEO) {
             Tools.setMediaDescription(this);
         }
