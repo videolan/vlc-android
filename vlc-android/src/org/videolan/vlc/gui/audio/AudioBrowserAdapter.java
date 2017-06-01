@@ -109,7 +109,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
         if (Util.isListEmpty(payloads))
-            super.onBindViewHolder(holder, position, payloads);
+            onBindViewHolder(holder, position);
         else {
             boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             MediaItemViewHolder miv = (MediaItemViewHolder) holder;
@@ -352,6 +352,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
     }
 
     public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
+        int selectionColor = 0, coverlayResource = 0;
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
@@ -381,7 +382,11 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
         }
 
         private void setCoverlay(boolean selected) {
-            vdb.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
+            int resId = selected ? R.drawable.ic_action_mode_select : 0;
+            if (resId != coverlayResource) {
+                vdb.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
+                coverlayResource = resId;
+            }
         }
 
         public int getType() {
@@ -394,9 +399,11 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
         }
 
         private void setViewBackground(boolean focused, boolean selected) {
-            itemView.setBackgroundColor(focused ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
-            int selectionColor = selected ? UiTools.ITEM_SELECTION_ON : 0;
-            itemView.setBackgroundColor(selectionColor);
+            int selectionColor = selected || focused ? UiTools.ITEM_SELECTION_ON : 0;
+            if (selectionColor != this.selectionColor) {
+                itemView.setBackgroundColor(selectionColor);
+                this.selectionColor = selectionColor;
+            }
         }
     }
 
