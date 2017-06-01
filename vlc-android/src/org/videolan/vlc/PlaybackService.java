@@ -1144,7 +1144,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             break;
                     }
                     return false;
-                } else if (!AndroidUtil.isHoneycombOrLater) {
+                } else if (!AndroidUtil.isLolliPopOrLater) {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_MEDIA_NEXT:
                             onSkipToNext();
