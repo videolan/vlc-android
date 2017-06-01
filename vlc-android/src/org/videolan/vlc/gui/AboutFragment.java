@@ -30,8 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPagerAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Util;
@@ -51,6 +53,10 @@ public class AboutFragment extends Fragment {
         if (getActivity() instanceof AppCompatActivity)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("VLC " + BuildConfig.VERSION_NAME);
         View v = inflater.inflate(R.layout.about, container, false);
+        //Fix android 7 Locale problem with webView
+        //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
+        if (AndroidUtil.isNougatOrLater)
+            VLCApplication.setLocale(getContext());
 
         View aboutMain = v.findViewById(R.id.about_main);
         WebView webView = (WebView)v.findViewById(R.id.webview);

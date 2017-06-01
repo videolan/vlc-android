@@ -83,13 +83,8 @@ public class VLCApplication extends Application {
 
     private static int sDialogCounter = 0;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        instance = this;
-
+    public static void setLocale(Context context){
         // Are we using advanced debugging - locale?
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         String p = mSettings.getString("set_locale", "");
         if (!p.equals("")) {
             Locale locale;
@@ -115,9 +110,18 @@ public class VLCApplication extends Application {
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
-            getResources().updateConfiguration(config,
-                    getResources().getDisplayMetrics());
+            context.getResources().updateConfiguration(config,
+                    context.getResources().getDisplayMetrics());
         }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        setLocale(this);
 
         runBackground(new Runnable() {
             @Override
@@ -136,6 +140,13 @@ public class VLCApplication extends Application {
                     AndroidDevices.setRemoteControlReceiverEnabled(false);
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (AndroidUtil.isNougatOrLater)
+            setLocale(this);
     }
 
     /**
