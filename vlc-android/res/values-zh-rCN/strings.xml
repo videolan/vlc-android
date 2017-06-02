@@ -23,6 +23,7 @@
     <string name="play_as_audio_background">在后台播放视频</string>
     <string name="play_as_audio_background_summary">设备屏幕关闭或点击“主屏幕”按钮后，继续在后台回放视频。</string>
     <string name="append">追加</string>
+    <string name="insert_next">作为下一曲</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
     <string name="last_playlist">上次使用时的播放列表</string>
@@ -75,6 +76,7 @@
     <string name="directories">目录</string>
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
+    <string name="nomedia">未找到媒体文件，请传输一些文件到您的设备，或调整您的偏好设置。</string>
     <string name="noplaylist">未找到播放列表。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
@@ -142,7 +144,7 @@
     <string name="login">登录名</string>
     <string name="password">密码</string>
     <string name="search_results">搜索结果</string>
-    <string name="search_no_result">找不到媒体</string>
+    <string name="search_no_result">找不到媒体文件</string>
     <string name="favorites_add">添加到收藏夹</string>
     <string name="favorites_remove">从收藏夹移除</string>
     <string name="favorites_edit">编辑</string>
@@ -238,7 +240,7 @@
     <string name="video_min_group_length_long">大量字母相同 (9)</string>
     <string name="force_list_portrait">竖屏模式不显示网格</string>
     <string name="force_list_portrait_summary">竖屏模式下，以列表形式而不是网格形式显示视频</string>
-    <string name="force_play_all_summary">播放所有视频，并且以您点击的那个视频作为第一个播放的视频</string>
+    <string name="force_play_all_summary">播放所有视频，从您点击的那个视频开始</string>
     <string name="force_play_all_title">视频播放列表模式</string>
     <string name="save_brightness_summary">记住视频播放器内的亮度级别</string>
     <string name="save_brightness_title">保存视频亮度级别</string>
@@ -250,6 +252,12 @@
     <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
     <string name="enable_seek_buttons">启用定位按钮</string>
     <string name="enable_seek_buttons_summary">在视频界面显示倒退与前进按钮</string>
+    <string name="enable_double_tap_seek_title">双击可进退</string>
+    <string name="enable_double_tap_seek_summary">双击屏幕边缘可按十秒快进／快退</string>
+    <string name="popup_keepscreen_title">弹窗模式保持屏幕常亮</string>
+    <string name="popup_keepscreen_summary">显示弹窗时总保持屏幕常亮，即使视频已暂停。</string>
+    <string name="browser_show_hidden_files_title">显示隐藏文件</string>
+    <string name="browser_show_hidden_files_summary">在浏览器中显示隐藏文件</string>
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
     <string name="subtitles_size_small">小</string>
@@ -266,6 +274,8 @@
     <string name="audio_prefs_category">音频</string>
     <string name="lockscreen_cover_title">锁屏媒体封面</string>
     <string name="lockscreen_cover_summary">可用时，将当前媒体的专辑封面设为锁屏桌面</string>
+    <string name="playlist_animate_scroll_title">当前播放列表自动滚动动画</string>
+    <string name="playlist_animate_scroll_summary">媒体切换时的滚动动画效果</string>
     <string name="audio_title_alignment">音频标题对齐</string>
     <string name="audio_title_alignment_default">默认</string>
     <string name="audio_title_alignment_left">居左</string>
@@ -302,6 +312,7 @@
     <string name="auto_rescan">自动重新扫描</string>
     <string name="auto_rescan_summary">应用启动时，自动扫描设备中新增或删除的媒体文件</string>
     <string name="clear_media_db">清除媒体数据库</string>
+    <string name="clear_media_db_summary">前往 Android 系统的应用管理页，查看 VLC 的信息，清空数据</string>
     <string name="clear_history">清除搜索历史记录</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
@@ -309,8 +320,9 @@
     <string name="set_locale_popup">退出并重启 VLC 使更改生效。</string>
     <string name="network_caching">网络缓存值</string>
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
-    <string name="resume_playback_title">通话结束后恢复播放</string>
+    <string name="resume_playback_title">通话结束后继续播放</string>
     <string name="resume_playback_summary">否则保持暂停</string>
+    <string name="network_caching_popup">该值应介于 0 与 6000 ms 之间</string>
     <string name="quit">退出并重新启动应用程序</string>
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
@@ -362,6 +374,7 @@
     <string name="player_touch_disable_all">禁用所有手势控制</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
+    <string name="medialibrary_directories">媒体库文件夹</string>
     <!--Accessibility-->
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
@@ -390,7 +403,7 @@
     <string name="plugins">插件</string>
     <string name="download_on_device">下载</string>
     <string name="extension_empty">没有可以显示的项目，请到“扩展设置”添加。</string>
-    <string name="opengl_title">OpenGL ES2 的使用</string>
+    <string name="opengl_title">OpenGL ES2 使用</string>
     <string name="opengl_summary">在默认情况下，OpenGL ES2 会在软件解码和硬件解码时按需使用 (比如 360° 视频)。</string>
     <string name="opengl_automatic">自动</string>
     <string name="opengl_on">强制开启</string>
@@ -413,6 +426,7 @@
     <string name="list_languages_download_summary">获取字幕时要下载的语言</string>
     <string name="list_languages_download_title">字幕下载语言</string>
     <string name="service_unavailable">服务不可用</string>
+    <string name="subs_dl_lang_fail">无法设置字幕语言，请尝试在应用程序设置中设置</string>
     <string name="downloading_subtitles">正在下载字幕</string>
     <string name="browse_folder">浏览文件夹</string>
     <string name="listen">收听</string>
@@ -426,4 +440,13 @@
     <string name="various_artists">群星</string>
     <string name="ml_scanning">正在扫描媒体文件</string>
     <string name="ml_parse_media">正在解析媒体文件</string>
+    <string name="ml_discovering">正在发现</string>
+    <string name="resume">继续</string>
+    <string name="length">长度</string>
+    <string name="tv_settings_hint">长按 OK 按钮可选中/取消选中目录</string>
+    <string name="ml_external_storage_title">发现新的外部存储设备</string>
+    <string name="ml_external_storage_msg">是否希望 VLC 将设备“%1$s”添加到您的媒体库?</string>
+    <string name="last_added_media">添加时间</string>
+    <string name="no">否</string>
+    <string name="loading_medialibrary">正在加载媒体库...</string>
 </resources>
