@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Riproduci video in background</string>
     <string name="play_as_audio_background_summary">Continua la riproduzione del video sullo sfondo quando spegni lo schermo del dispositivo o fai clic sul pulsante HOME.</string>
     <string name="append">Aggiungi</string>
+    <string name="insert_next">Inserisci dopo</string>
     <string name="play_all">Riproduci tutto</string>
     <string name="append_all">Aggiungi tutto</string>
     <string name="last_playlist">Ultima scaletta</string>
@@ -81,6 +82,7 @@
     <string name="directories">Cartelle</string>
     <string name="loading">Caricamento</string>
     <string name="please_wait">Attendi…</string>
+    <string name="nomedia">Nessun file multimediale trovato, trasferisci dei file sul tuo dispositivo o modifica le preferenze.</string>
     <string name="noplaylist">Nessuna scaletta trovata.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
@@ -319,6 +321,7 @@
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
     <string name="resume_playback_title">Riprendi riproduzione dopo una chiamata</string>
     <string name="resume_playback_summary">Rimani in pausa altrimenti</string>
+    <string name="network_caching_popup">Questo valore deve essere compreso tra 0 e 6000 ms</string>
     <string name="quit">Esci e riavvia l\'applicazione</string>
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
@@ -370,6 +373,7 @@
     <string name="player_touch_disable_all">Disabilita tutti i controlli a tocco</string>
     <string name="tv_ui_title">Inerfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
+    <string name="medialibrary_directories">Cartelle della raccolta multimediale</string>
     <!--Accessibility-->
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
@@ -421,6 +425,7 @@
     <string name="list_languages_download_summary">Lingue da scaricare quando si recuperano i sottotitoli</string>
     <string name="list_languages_download_title">Lingue dei sottotitoli</string>
     <string name="service_unavailable">Servizio non disponibile</string>
+    <string name="subs_dl_lang_fail">Impossibile impostare la lingua dei sottotitoli, provare a modificarla tramite il menu Impostazioni</string>
     <string name="downloading_subtitles">Scaricamento sottotitoli</string>
     <string name="browse_folder">Sfoglia cartella</string>
     <string name="listen">Ascolta</string>
@@ -438,4 +443,9 @@
     <string name="resume">Riprendi</string>
     <string name="length">Durata</string>
     <string name="tv_settings_hint">Premi a lungo il pulsante OK per marcare/smarcare le cartelle</string>
+    <string name="ml_external_storage_title">Nuova archiviazione esterna rilevata</string>
+    <string name="ml_external_storage_msg">Vuoi che VLC aggiunga il dispositivo %1$s alla tua raccolta multimediale?</string>
+    <string name="last_added_media">ultima aggiunta</string>
+    <string name="no">No</string>
+    <string name="loading_medialibrary">Caricamento raccolta multimediale...</string>
 </resources>
