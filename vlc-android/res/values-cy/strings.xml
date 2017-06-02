@@ -323,6 +323,7 @@
     <string name="auto_rescan">Ail-sganio awtomatig</string>
     <string name="auto_rescan_summary">Sganio\'r ddyfais yn awtomatig am newid i ffeiliau cyfryngau wrth ddechrau\'r ap</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
+    <string name="clear_media_db_summary">Mynd at wybodaeth Android VLC i glirio\'r data</string>
     <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>
     <string name="set_locale">Gosod rhanbarth</string>
@@ -332,6 +333,7 @@
     <string name="network_caching_summary">Y cyfnod o amser i fyffro cyfrwng rhwydwaith (mewn milieiliadau). Nid yw\'n gweithio wrth ddatgodio gan y caledwedd. Gadael yn wag i\'w ailosod.</string>
     <string name="resume_playback_title">Parhau i chwarae ar ôl galwad</string>
     <string name="resume_playback_summary">Aros wedi oedi fel arall</string>
+    <string name="network_caching_popup">Rhaid i hwn bod rhwng 0 a 6000 ms</string>
     <string name="quit">Diweddu ac ail-ddechrau\'r aplen</string>
     <string name="developer_prefs_category">Datblygwr</string>
     <string name="enable_verbose_mode">Amleiriog</string>
@@ -383,6 +385,7 @@
     <string name="player_touch_disable_all">Analluogi\'r holl reolaethau cyffwrdd</string>
     <string name="tv_ui_title">Rhyngwyneb teledu Android</string>
     <string name="tv_ui_summary">Newid rhyngwyneb i thema teledu addasedig</string>
+    <string name="medialibrary_directories">Ffolderi llyfrgell cyfryngau</string>
     <!--Accessibility-->
     <string name="more_actions">Mwy o Weithredoedd</string>
     <string name="move">Symud</string>
@@ -448,4 +451,10 @@
     <string name="ml_scanning">Yn sganio am ffeiliau cyfryngau</string>
     <string name="ml_parse_media">Yn dosrannu cyfrwng</string>
     <string name="ml_discovering">Yn darganfod</string>
+    <string name="resume">Parhau</string>
+    <string name="length">Hyd</string>
+    <string name="tv_settings_hint">Dalia\'r botwm \"Iawn\" i ddewis/dad-ddewis ffolderi</string>
+    <string name="ml_external_storage_title">Wedi canfod storfa allanol newydd</string>
+    <string name="ml_external_storage_msg">Wyt ti am i VLC ychwanegu\'r ddyfais %1$s i dy lyfrgell cyfryngau?</string>
+    <string name="last_added_media">ychwanegwyd diwethaf</string>
 </resources>
