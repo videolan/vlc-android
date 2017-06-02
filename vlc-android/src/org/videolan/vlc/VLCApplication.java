@@ -145,8 +145,7 @@ public class VLCApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (AndroidUtil.isNougatOrLater)
-            setLocale(this);
+        setLocale(this);
     }
 
     /**
