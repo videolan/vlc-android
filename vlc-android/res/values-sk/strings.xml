@@ -25,6 +25,7 @@
     <string name="play_as_audio_background">Prehrávať videá na pozadí</string>
     <string name="play_as_audio_background_summary">Pokračovať v prehrávaní videa na pozadí pri vypnutí obrazovky zariadenia alebo kliknutí na tlačidlo HOME.</string>
     <string name="append">Pripojiť</string>
+    <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
     <string name="last_playlist">Posledný playlist</string>
@@ -87,7 +88,7 @@
     <string name="directories">Priečinky</string>
     <string name="loading">Načítava sa</string>
     <string name="please_wait">Prosím čakajte…</string>
-    <string name="nomedia">Nenašli sa žiadne súbory médií. Prosím vyberte priečinky na pridanie do knižnice médií</string>
+    <string name="nomedia">Nenašli sa žiadne súbory s médiami, prosím preneste nejaké súbory alebo upravte nastavenia.</string>
     <string name="noplaylist">Nenašiel sa žiadny playlist.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
@@ -431,6 +432,7 @@
     <string name="list_languages_download_summary">Jazyky na stiahnutie pri preberaní titulkov</string>
     <string name="list_languages_download_title">Jazyky pre sťahovanie titulkov</string>
     <string name="service_unavailable">Služba nie je dostupná</string>
+    <string name="subs_dl_lang_fail">Nepodarilo sa nastaviť jazyk titulkov, skúste ho nastaviť v nastaveniach aplikácie</string>
     <string name="downloading_subtitles">Sťahovanie titulkov</string>
     <string name="browse_folder">Prehľadávať priečinok</string>
     <string name="listen">Vypočuť</string>
@@ -448,4 +450,9 @@
     <string name="resume">Súhrn</string>
     <string name="length">Dĺžka</string>
     <string name="tv_settings_hint">Priečinky môžete označiť/odznačiť dlhým stlačením OK</string>
+    <string name="ml_external_storage_title">Bolo zistené nové externé úložisko</string>
+    <string name="ml_external_storage_msg">Chcete, aby program VLC pridal zariadenie %1$s do vašej knižnice s médiami?</string>
+    <string name="last_added_media">naposledy pridané</string>
+    <string name="no">Nie</string>
+    <string name="loading_medialibrary">Načítavanie knižnice s médiami...</string>
 </resources>
