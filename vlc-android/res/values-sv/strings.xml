@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Spela upp videor i bakgrunden</string>
     <string name="play_as_audio_background_summary">Fortsätt att spela upp videor i bakgrunden när enhetens skärm stängs av eller HEM-knappen trycks ned.</string>
     <string name="append">Kölägg</string>
+    <string name="insert_next">Infoga nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
     <string name="last_playlist">Senaste spellista</string>
@@ -81,7 +82,7 @@
     <string name="directories">Kataloger</string>
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta...</string>
-    <string name="nomedia">Inga mediafiler hittades, välj kataloger att lägga till i ditt mediabibliotek.</string>
+    <string name="nomedia">Inga mediafiler hittades, överför några filer till din enhet eller justera dina inställningar.</string>
     <string name="noplaylist">Ingen spellista hittades.</string>
     <string name="mediafiles">Mediafiler</string>
     <string name="notavailable">inte tillgänglig</string>
@@ -258,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Kontrollera volymen med gester under videouppspelning</string>
     <string name="enable_seek_buttons">Aktivera spolningsknappar</string>
     <string name="enable_seek_buttons_summary">Visa knappar för fram- och bakåtspolning i videogränssnittet</string>
+    <string name="enable_double_tap_seek_title">Dubbelknacka för att spola framåt/bakåt</string>
+    <string name="enable_double_tap_seek_summary">Dubbelknacka på skärmens kanter för att spola framåt/bakåt 10 sekunder</string>
+    <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
+    <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
+    <string name="browser_show_hidden_files_title">Visa dolda filer</string>
+    <string name="browser_show_hidden_files_summary">Visa dolda filer i filbläddraren</string>
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
     <string name="subtitles_size_small">Liten</string>
@@ -274,6 +281,8 @@
     <string name="audio_prefs_category">Ljud</string>
     <string name="lockscreen_cover_title">Omslag för låsskärm</string>
     <string name="lockscreen_cover_summary">Ändra låsskärmens bakgrundsbild till aktuell mediaomslagbild om ett finns.</string>
+    <string name="playlist_animate_scroll_title">Animera autorullning för aktuell spellista</string>
+    <string name="playlist_animate_scroll_summary">Animera rullning när media byts</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Vänster</string>
@@ -424,6 +433,7 @@
     <string name="list_languages_download_summary">Språk att ladda ned när undertexter hämtas</string>
     <string name="list_languages_download_title">Nedladdningsspråk för undertexter</string>
     <string name="service_unavailable">Tjänst ej tillgänglig</string>
+    <string name="subs_dl_lang_fail">Misslyckades att ändra undertextspråk, försök att ändra det i appinställningarna</string>
     <string name="downloading_subtitles">Laddar ned undertexter</string>
     <string name="browse_folder">Bläddra mapp</string>
     <string name="listen">Lyssna</string>
@@ -441,4 +451,9 @@
     <string name="resume">Återuppta</string>
     <string name="length">Längd</string>
     <string name="tv_settings_hint">Håll ned OK-knappen för att markera/avmarkera kataloger</string>
+    <string name="ml_external_storage_title">Nytt externt lagringsutrymme upptäcktes</string>
+    <string name="ml_external_storage_msg">Vill du att VLC lägger till enheten %1$s i ditt mediabibliotek?</string>
+    <string name="last_added_media">senast inlagt</string>
+    <string name="no">Nej</string>
+    <string name="loading_medialibrary">Läser in mediabiblioteket...</string>
 </resources>
