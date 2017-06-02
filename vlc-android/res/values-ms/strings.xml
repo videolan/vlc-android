@@ -23,6 +23,7 @@
     <string name="play_as_audio_background">Main video disebalik tabir</string>
     <string name="play_as_audio_background_summary">Teruskan main balik video disebalik tabir bila mematikan skrin peranti atau mengklik butang RUMAH.</string>
     <string name="append">Tambah</string>
+    <string name="insert_next">Sisip berikutnya</string>
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
     <string name="last_playlist">Senarai main terakhir</string>
@@ -75,7 +76,7 @@
     <string name="directories">Direktori</string>
     <string name="loading">Memuatkan...</string>
     <string name="please_wait">Sila tunggu...</string>
-    <string name="nomedia">Tiada fail media ditemui, sila pilih direktori untuk ditambah ke dalam pustaka media anda</string>
+    <string name="nomedia">Tiada media ditemui, sila pindah beberapa fail ke peranti anda atau laraskan keutamaan anda.</string>
     <string name="noplaylist">Tiada senarai main ditemui.</string>
     <string name="mediafiles">Fail media</string>
     <string name="notavailable">tidak tersedia</string>
@@ -417,6 +418,7 @@
     <string name="list_languages_download_summary">Bahasa yang dimuat turun ketika mendapatkan sarikata</string>
     <string name="list_languages_download_title">Bahasa muat turun sarikata</string>
     <string name="service_unavailable">Perkhidmatan tidak tersedia</string>
+    <string name="subs_dl_lang_fail">Gagal tetapkan bahasa sarikata, cuba tetapkannya di dalam tetapan aplikasi</string>
     <string name="downloading_subtitles">Memuat turun sarikata</string>
     <string name="browse_folder">Layar folder</string>
     <string name="listen">Dengar</string>
@@ -436,4 +438,7 @@
     <string name="tv_settings_hint">Tahan butang OK untuk tanda/nyahtanda direktori</string>
     <string name="ml_external_storage_title">Storan luar baharu dikesan</string>
     <string name="ml_external_storage_msg">Anda mahu VLC menambah peranti %1$s ke dalam pustaka media anda?</string>
+    <string name="last_added_media">terakhir ditambah</string>
+    <string name="no">Tidak</string>
+    <string name="loading_medialibrary">Memuat Pustaka Media...</string>
 </resources>
