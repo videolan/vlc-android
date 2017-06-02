@@ -102,7 +102,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             boolean isSelected = mDataList[position].hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
-            ((MediaItemViewHolder)holder).setViewBackground(((MediaItemViewHolder) holder).itemView.hasFocus(), isSelected);
+            ((MediaItemViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), isSelected);
         }
     }
 
