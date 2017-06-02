@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Görüntüler artalanda oynatılsın</string>
     <string name="play_as_audio_background_summary">Aygıt ekranı kapatıldığında ya da ANASAYFA düğmesine basıldığında görüntüler artalanda oynatılmaya devam edilir.</string>
     <string name="append">Ekle</string>
+    <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
     <string name="last_playlist">Son oynatma listesi</string>
@@ -81,7 +82,7 @@
     <string name="directories">Klasörler</string>
     <string name="loading">Yükleniyor</string>
     <string name="please_wait">Lütfen bekleyin…</string>
-    <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, lütfen ortam kitaplığınıza eklenecek klasörleri seçin</string>
+    <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, aygıtınıza bazı ortam dosyaları aktarın ya da ayarlarınızı denetleyin.</string>
     <string name="noplaylist">Oynatma listesi bulunamadı.</string>
     <string name="mediafiles">Ortam dosyaları</string>
     <string name="notavailable">kullanılamaz</string>
@@ -258,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Görüntü oynatılırken ses el hareketi ile kontrol edilebilsin</string>
     <string name="enable_seek_buttons">Arama düğmeleri görüntülensin</string>
     <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde geri ve ileri sarma düğmeleri görüntülenir</string>
+    <string name="enable_double_tap_seek_title">Aramak için çift dokunun</string>
+    <string name="enable_double_tap_seek_summary">10 saniye ileri ya da geri atlamak için ekran kenarlarına çift dokunun</string>
+    <string name="popup_keepscreen_title">Açılan pencere kipinde ekran açık kalsın</string>
+    <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalsın.</string>
+    <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
+    <string name="browser_show_hidden_files_summary">Web tarayıcılarında gizli dosyalar görüntülensin</string>
     <string name="subtitles_prefs_category">Altyazılar</string>
     <string name="subtitles_size_title">Alt Yazı Boyutu</string>
     <string name="subtitles_size_small">Küçük</string>
@@ -274,6 +281,8 @@
     <string name="audio_prefs_category">Ses</string>
     <string name="lockscreen_cover_title">Kilit ekranında ortam kapağı</string>
     <string name="lockscreen_cover_summary">Yapılabildiğinde, kilit ekranının duvar kağıdı olarak geçerli ortam kapağı görseli görüntülenir</string>
+    <string name="playlist_animate_scroll_title">Geçerli oynatma listesi kaydırması canlandırılsın</string>
+    <string name="playlist_animate_scroll_summary">Ortam geçişi kaydırması canlandırılsın</string>
     <string name="audio_title_alignment">Ses başlığının hizası</string>
     <string name="audio_title_alignment_default">Varsayılan</string>
     <string name="audio_title_alignment_left">Solda</string>
@@ -424,6 +433,7 @@
     <string name="list_languages_download_summary">Altyazılar alınırken indirilecek diller</string>
     <string name="list_languages_download_title">İndirilecek altyazı dilleri</string>
     <string name="service_unavailable">Hizmet kullanılamıyor</string>
+    <string name="subs_dl_lang_fail">Altyazı dili ayarlanamadı, uygulama ayarlarından seçmeyi deneyin</string>
     <string name="downloading_subtitles">Altyazılar indiriliyor</string>
     <string name="browse_folder">Klasör gözat</string>
     <string name="listen">Dinle</string>
@@ -443,4 +453,7 @@
     <string name="tv_settings_hint">Klasörleri seçmek ya da bırakmak için Tamam düğmesine uzun basın </string>
     <string name="ml_external_storage_title">Yeni dış depolama aygıtı algılandı</string>
     <string name="ml_external_storage_msg">%1$s aygıtının ortam kitaplığı olarak eklenmesini ister misiniz?</string>
+    <string name="last_added_media">son eklenen</string>
+    <string name="no">Hayır</string>
+    <string name="loading_medialibrary">Ortam Kitaplığı Yükleniyor...</string>
 </resources>
