@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/send"
+            android:layout_toStartOf="@+id/send"
             android:layout_marginTop="5dip"
             android:id="@+id/mrl_edit">
             <EditText
