@@ -25,6 +25,7 @@
     <string name="play_as_audio_background">Відтворювати відео у фоні</string>
     <string name="play_as_audio_background_summary">Продовжити відтворення відео у фоні, коли вимикається екран відео або натискається кнопка Домівка.</string>
     <string name="append">Додати</string>
+    <string name="insert_next">Вставити наступне</string>
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
     <string name="last_playlist">Останній список</string>
@@ -87,7 +88,7 @@
     <string name="directories">Каталоги</string>
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
-    <string name="nomedia">Не знайдено жодного медіафайлу.  Виберіть каталоги, які варто додати до вашої бібліотеки медіа.</string>
+    <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
     <string name="noplaylist">Не знайденого список відтворення.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
@@ -265,6 +266,12 @@
     <string name="enable_volume_gesture_summary">Управляти гучністю через жести під час відтворення відео</string>
     <string name="enable_seek_buttons">Увімкнути кнопки пошуку</string>
     <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та переходу вперед на відеоінтерфейсі</string>
+    <string name="enable_double_tap_seek_title">Подвійний натиск для пошуку</string>
+    <string name="enable_double_tap_seek_summary">Подвійний натиск по краях екрану, щоб шукати за 10 секунд</string>
+    <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
+    <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
+    <string name="browser_show_hidden_files_title">Показати приховані файли</string>
+    <string name="browser_show_hidden_files_summary">Показати приховані файли в оглядачі</string>
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
     <string name="subtitles_size_small">Маленький</string>
@@ -281,6 +288,8 @@
     <string name="audio_prefs_category">Аудіо</string>
     <string name="lockscreen_cover_title">Обкладинка екрану блокування</string>
     <string name="lockscreen_cover_summary">Якщо доступно, то встановіть обкладинку як шпалери екрану блокування</string>
+    <string name="playlist_animate_scroll_title">Анімація списку відтворення через автоматичну прокрутку</string>
+    <string name="playlist_animate_scroll_summary">Анімація прокрутки при медійному переході</string>
     <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
     <string name="audio_title_alignment_default">Типово</string>
     <string name="audio_title_alignment_left">Лівий</string>
@@ -431,6 +440,7 @@
     <string name="list_languages_download_summary">Мови для звантаження при отриманні субтитрів</string>
     <string name="list_languages_download_title">Мови субтитрів для звантаження</string>
     <string name="service_unavailable">Служба недоступна</string>
+    <string name="subs_dl_lang_fail">Не вдалося задати мову субтитрів, спробуйте задати її в налаштуваннях програми</string>
     <string name="downloading_subtitles">Звантаження субтитрів</string>
     <string name="browse_folder">Огляд теки</string>
     <string name="listen">Слухати</string>
@@ -450,4 +460,7 @@
     <string name="tv_settings_hint">Тривалий натиск на кнопку Гаразд для позначення/зняття позначень каталогів</string>
     <string name="ml_external_storage_title">Виявлено новий зовнішній носій</string>
     <string name="ml_external_storage_msg">Хочете, щоби VLC додала пристрій %1$s до вашої бібліотеки медіа?</string>
+    <string name="last_added_media">останнє додане</string>
+    <string name="no">Ні</string>
+    <string name="loading_medialibrary">Завантажується бібліотека медіа…</string>
 </resources>
