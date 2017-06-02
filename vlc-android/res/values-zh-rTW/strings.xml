@@ -220,6 +220,8 @@
     <string name="enable_clone_mode">偏好完全複製</string>
     <string name="enable_clone_mode_summary">完整複製裝置上的畫面，不要遠端控制介面。</string>
     <string name="interface_other_category">介面  - 其他</string>
+    <string name="video_prefs_category">視訊</string>
+    <string name="video_min_group_length_disable">停用</string>
     <string name="force_list_portrait">直向模式時不使用格狀排列</string>
     <string name="force_list_portrait_summary">在直向模式時以清單顯示影片而非格狀排列</string>
     <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
@@ -227,6 +229,16 @@
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_seek_buttons">啟用搜尋按鈕</string>
     <string name="enable_seek_buttons_summary">在播放介面上顯示快轉和倒帶按鈕</string>
+    <string name="subtitles_prefs_category">字幕</string>
+    <string name="subtitles_size_title">字幕大小</string>
+    <string name="subtitles_color_title">字幕顏色</string>
+    <string name="subtitles_color_white">白色</string>
+    <string name="subtitles_color_pink">粉紅色</string>
+    <string name="subtitles_color_blue">藍色</string>
+    <string name="subtitles_color_yellow">黃色</string>
+    <string name="subtitles_color_green">綠色</string>
+    <string name="subtitles_background_title">字幕背景</string>
+    <string name="audio_prefs_category">音訊</string>
     <string name="lockscreen_cover_title">鎖定畫面中的媒體封面</string>
     <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
     <string name="audio_title_alignment">音訊標題對齊</string>
@@ -235,6 +247,7 @@
     <string name="audio_title_alignment_centre">居中</string>
     <string name="audio_title_alignment_right">靠右</string>
     <string name="audio_title_alignment_marquee">滾動</string>
+    <string name="headset_prefs_category">耳機</string>
     <string name="enable_headset_detection">偵測耳機</string>
     <string name="enable_steal_remote_control">專用耳機遙控</string>
     <string name="enable_steal_remote_control_summary">在使用其他 app 的遙控功能時避免衝突，這可以防止在 HTC 的手機上雙擊時撥號。</string>
@@ -338,6 +351,9 @@
     <string name="plugins">外掛</string>
     <string name="download_on_device">下載</string>
     <string name="extension_empty">沒有項目可以顯示，請至擴充套件設定中新增。</string>
+    <string name="opengl_automatic">自動</string>
+    <string name="opengl_on">強制開啟</string>
+    <string name="opengl_off">強制關閉</string>
     <string name="network_favorites">網路收藏</string>
     <string name="network_shared_folders">已分享的資料夾</string>
     <string name="encryption_warning">警告，加密在這個 Android 版本中不適用，密碼將會儲存到私密空間中，但不會被加密。</string>
