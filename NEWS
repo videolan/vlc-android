@@ -1,3 +1,16 @@
+Changes between 2.1.9 and 2.1.10:
+----------------------------------
+
+Application:
+ * Fix crash after video playback on Android 4
+ * Improve parsing service management
+ * Fix files with '#' not parsed and blocking parsing for 5 seconds
+ * Fix Locale resetting problem when opening about
+ * Fix progress UI not updated in video player while seeking
+ * Fix next/previous buttons on Lockscreen not effective on Android 4
+ * Use Artist instead of AlbumArtist for media description
+ * Misc. fixes and performance improvement
+
 Changes between 2.1.8 and 2.1.9:
 ----------------------------------
 
