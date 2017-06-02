@@ -66,7 +66,7 @@
         <item quantity="other">%d vídeos</item>
     </plurals>
     <string name="internal_memory">Memoria interna</string>
-    <string name="parent_folder">Hasta la carpeta padre</string>
+    <string name="parent_folder">A la carpeta padre</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
     <string name="bookmarks">Marcadores</string>
@@ -82,7 +82,7 @@
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
     <string name="noplaylist">No se ha encontrado lista de reproducción.</string>
-    <string name="mediafiles">Archivos multimedia</string>
+    <string name="mediafiles">Archivos de medio</string>
     <string name="notavailable">no disponible</string>
     <string name="nosubdirectory">No hay subcarpetas.</string>
     <string name="directorynotfound">La ruta de la carpeta «%1$s» no ha sido encontrada.</string>
@@ -90,8 +90,8 @@
     <string name="validation">¿Está seguro?</string>
     <string name="cover_art">Portada</string>
     <string name="shuffle_title">Modo aleatorio</string>
-    <string name="shuffle">Barajado desactivado</string>
-    <string name="shuffle_on">Barajado activado</string>
+    <string name="shuffle">Modo aleatorio desactivado</string>
+    <string name="shuffle_on">Modo aleatorio activado</string>
     <string name="repeat_title">Modo repetición</string>
     <string name="repeat">No repetir</string>
     <string name="repeat_single">Repetir una</string>
@@ -120,8 +120,8 @@
     <string name="sound_on">Sonido activado</string>
     <string name="sound_off">Sonido desactivado</string>
     <string name="brightness">Brillo</string>
-    <string name="navmenu">Menú de navegación</string>
-    <string name="advanced">Opciones avanzadas</string>
+    <string name="navmenu">menú de navegación</string>
+    <string name="advanced">opciones avanzadas</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canales\n</item>
@@ -155,9 +155,9 @@
     <string name="favorite_added">Guardado en favoritos</string>
     <string name="favorite_removed">Quitado de favoritos</string>
     <string name="open">Abrir</string>
-    <string name="open_mrl">Abrir MRL</string>
+    <string name="open_mrl">Flujo</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
-    <string name="open_mrl_dialog_msg">Ingrese MRL de red: p.e. http://, mms:// o rtsp://</string>
+    <string name="open_mrl_dialog_msg">Ingrese dirección de red: p.e. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
     <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n\n</string>
@@ -165,7 +165,7 @@
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
     <string name="invalid_location">La localización %1$s no puede reproducirse.</string>
     <string name="search">Buscar</string>
-    <string name="search_history">Buscar en el historial</string>
+    <string name="search_history">Historial de búsqueda</string>
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar los medios reproducidos en la sección de historial</string>
     <string name="playback_speed_title">Guardar velocidad de reproducción</string>
@@ -189,7 +189,7 @@
     <string name="show_playlist">Mostrar lista de reproducción</string>
     <string name="hold_to_stop">Mantener para parar</string>
     <!-- About -->
-    <string name="app_name_full">VLC para Android™</string>
+    <string name="app_name_full">VLC para Android</string>
     <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
@@ -241,7 +241,7 @@
     <string name="video_min_group_length_disable">Deshabilitar</string>
     <string name="video_min_group_length_first">Solo primera letra</string>
     <string name="video_min_group_length_short">Números o letras cortas (6)</string>
-    <string name="video_min_group_length_long">Números o letras largos (9)</string>
+    <string name="video_min_group_length_long">Números o letras largas (9)</string>
     <string name="force_list_portrait">Sin rejilla en modo retrato</string>
     <string name="force_list_portrait_summary">Mostar vídeos en una lista en vez de rejilla en modo retrato</string>
     <string name="save_brightness_summary">Recordar nivel de brillo en el reproductor de vídeo</string>
@@ -254,7 +254,7 @@
     <string name="enable_seek_buttons_summary">Mostrar los botones rebobinar y avanzar en la interfaz de vídeo</string>
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño de subtítulos</string>
-    <string name="subtitles_size_small">Pequeña</string>
+    <string name="subtitles_size_small">Pequeño</string>
     <string name="subtitles_size_normal">Normal</string>
     <string name="subtitles_size_big">Grande</string>
     <string name="subtitles_size_huge">Enorme</string>
@@ -267,7 +267,7 @@
     <string name="subtitles_background_title">Fondo de subtítulos</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Cubierta en pantalla bloqueda</string>
-    <string name="lockscreen_cover_summary">Disponible, establece la cubierta actual como fondo de pantalla de la pantalla de bloqueo</string>
+    <string name="lockscreen_cover_summary">Si está disponible, establece la cubierta actual como fondo de pantalla de la pantalla de bloqueo</string>
     <string name="audio_title_alignment">Alineación del audio</string>
     <string name="audio_title_alignment_default">Predeterminado</string>
     <string name="audio_title_alignment_left">Izquierda</string>
@@ -310,8 +310,8 @@
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
     <string name="set_locale_popup">Salir y reiniciar VLC para que los cambios tomen efecto.</string>
     <string name="network_caching">Valor de cache de red</string>
-    <string name="network_caching_summary">La cantidad de tiempo que almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
-    <string name="quit">Cerrar y reiniciar aplicación</string>
+    <string name="network_caching_summary">La cantidad de tiempo a almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
+    <string name="quit">Salir y reiniciar aplicación</string>
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
@@ -319,7 +319,7 @@
     <string name="start_logging">Iniciar registro</string>
     <string name="stop_logging">Detener registro</string>
     <string name="clear_log">Limpiar registro</string>
-    <string name="log_service_title">Trazas de grabación de VLC</string>
+    <string name="log_service_title">Grabación de trazas de VLC</string>
     <string name="log_service_text">Abrir la consola de trazas</string>
     <string name="copy_to_clipboard">Copiar al portapapeles</string>
     <string name="copied_to_clipboard">Registro copiado al portapapeles.</string>
@@ -348,7 +348,7 @@
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Ocultar de MediaLib</string>
     <string name="playlist_save">Guardar lista de reproducción</string>
-    <string name="playlist_name_hint">Nombre de lista de reproducción</string>
+    <string name="playlist_name_hint">nombre de lista de reproducción</string>
     <string name="go_to_chapter">Ir a capítulo...</string>
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde la última posición</string>
@@ -361,7 +361,7 @@
     <string name="player_touch_disable_brightness">Deshabilitar control de brillo</string>
     <string name="player_touch_disable_all">Deshabilitar todos los controles táctiles</string>
     <string name="tv_ui_title">Interfaz Android TV</string>
-    <string name="tv_ui_summary">Cambiar IU a tema adatado TV </string>
+    <string name="tv_ui_summary">Cambiar IU a tema adatado de TV </string>
     <!--Accessibility-->
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
@@ -417,4 +417,5 @@
     <string name="episodes">episodios</string>
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
+    <string name="no">No</string>
 </resources>
