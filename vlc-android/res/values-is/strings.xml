@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Spila myndskeið í bakgrunni</string>
     <string name="play_as_audio_background_summary">Halda áfram að spila myndskeið í bakgrunni þegar slökkt er á skjá tækis eða smellt á HEIM-hnappinn.</string>
     <string name="append">Bæta við</string>
+    <string name="insert_next">Setja inn næsta</string>
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
     <string name="last_playlist">Síðasti spilunarlisti</string>
@@ -68,7 +69,7 @@
     <string name="internal_memory">Innra minni</string>
     <string name="parent_folder">Upp í yfirmöppu</string>
     <string name="audio">Hljóð</string>
-    <string name="video">Vídeó</string>
+    <string name="video">Myndskeið</string>
     <string name="bookmarks">Bókamerki</string>
     <string name="equalizer">Tónjafnari</string>
     <string name="all_albums">Öll albúm</string>
@@ -81,6 +82,7 @@
     <string name="directories">Möppur</string>
     <string name="loading">Hleð inn</string>
     <string name="please_wait">Bíddu aðeins…</string>
+    <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
     <string name="noplaylist">Enginn spilunarlisti fannst.</string>
     <string name="mediafiles">Margmiðlunarskrár</string>
     <string name="notavailable">Ekki tiltækt</string>
@@ -193,9 +195,9 @@
     <string name="app_name_full">VLC fyrir Android™</string>
     <string name="licence">Notkunarleyfi</string>
     <string name="revision">Útgáfuauðkenni</string>
-    <string name="about">Um</string>
-    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta oppna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstrauma.</string>
-    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:\n</string>
+    <string name="about">Um hugbúnaðinn</string>
+    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, einum vinsælasta opna/frjálsa margmiðlunarspilaranum. Android™ útgáfan getur lesið flestar skrár og netstrauma.</string>
+    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:</string>
     <string name="vlc_authors">Höfundar VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Kjörstillingar</string>
@@ -224,7 +226,7 @@
     <string name="screen_orientation_reverse_portrait">Speglað lóðrétt</string>
     <string name="screen_orientation_reverse_landscape">Speglað lárétt</string>
     <string name="enable_black_theme">Virkja svart þema</string>
-    <string name="enable_black_theme_summary">Skipta yfir í liti á viðmóti sem séu þægilegri í umhverfi með lítilli birtu.</string>
+    <string name="enable_black_theme_summary">Skipta yfir í liti á viðmóti sem eru þægilegri í umhverfi með lítilli birtu.</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="daynight_title">DagsNætur-hamur</string>
     <string name="daynight_summary">Skipta sjálfvirkt í næturham á viðeigandi tíma</string>
@@ -249,6 +251,8 @@
     <string name="force_play_all_title">Hamur fyrir spilunarlista myndskeiða</string>
     <string name="save_brightness_summary">Muna birtustig í myndspilara</string>
     <string name="save_brightness_title">Vista birtustig myndmerkis</string>
+    <string name="save_audiodelay_summary">Vista sérstaka töf á hljóði fyrir hvert myndskeið</string>
+    <string name="save_audiodelay_title">Vista hljóðtöf</string>
     <string name="enable_brightness_gesture_title">Birtustigsbendingar</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með bendingu á meðan myndskeið er í gangi</string>
     <string name="enable_volume_gesture_title">Hljóðstyrksbendingar</string>
@@ -307,6 +311,7 @@
     <string name="auto_rescan">Sjálfvirk endurskönnun</string>
     <string name="auto_rescan_summary">Skanna tækið sjálfvirkt við ræsingu forritsins eftir nýjum eða eyddum margmiðlunargögnum</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
+    <string name="clear_media_db_summary">Fá aðgang að upplýsingum Android VLC til að hreinsa út gögn</string>
     <string name="clear_history">Hreinsa leitarferil</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
     <string name="set_locale">Setja staðfærslu</string>
@@ -314,8 +319,11 @@
     <string name="set_locale_popup">Hætta og endurræsa VLC svo breytingar taki gildi.</string>
     <string name="network_caching">Gildi skyndiminnis fyrir net</string>
     <string name="network_caching_summary">Tímalengd sem á að setja netmargmiðlunargögn í biðminni (í msek). Virkar ekki með vélbúnaðarafkóðun. Skildu eftir autt til að frumstilla.</string>
+    <string name="resume_playback_title">Halda afspilun áfram eftir símtal</string>
+    <string name="resume_playback_summary">Annars haldast í bið</string>
+    <string name="network_caching_popup">Þetta gildi verður að vera á milli 0 og 6000 msek</string>
     <string name="quit">Hætta og endurræsa forrit</string>
-    <string name="developer_prefs_category">Forritari</string>
+    <string name="developer_prefs_category">Forritarar</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
     <string name="enable_verbose_mode_summary"> Auktu magn upplýsinga (verbosity / logcat)</string>
     <string name="debug_logs">Aflúsunarannálar</string>
@@ -365,6 +373,7 @@
     <string name="player_touch_disable_all">Gera allar snertistýringar óvirkar</string>
     <string name="tv_ui_title">Android TV viðmót</string>
     <string name="tv_ui_summary">Skipta í viðmótsþema fyrir sjónvörp</string>
+    <string name="medialibrary_directories">Möppur fyrir miðlasöfn</string>
     <!--Accessibility-->
     <string name="more_actions">Fleiri aðgerðir</string>
     <string name="move">Færa</string>
@@ -416,6 +425,7 @@
     <string name="list_languages_download_summary">Tungumál sem á að ná í þegar skjátextar eru sóttir</string>
     <string name="list_languages_download_title">Tungumál sóttra skjátexta</string>
     <string name="service_unavailable">Þjónusta ekki tiltæk</string>
+    <string name="subs_dl_lang_fail">Mistókst að setja tungumál fyrir skjátexta, reyndu að stilla það í stillingum forritsins</string>
     <string name="downloading_subtitles">Sæki skjátexta</string>
     <string name="browse_folder">Flakka í möppu</string>
     <string name="listen">Hlusta</string>
@@ -427,4 +437,14 @@
     <string name="videos">myndskeið</string>
     <string name="clear_playback_history">Hreinsa feril afspilunar</string>
     <string name="various_artists">Ýmsir flytjendur</string>
+    <string name="ml_scanning">Leita að margmiðlunarskrám</string>
+    <string name="ml_parse_media">Þátta gagnamiðla</string>
+    <string name="ml_discovering">Uppgötva</string>
+    <string name="resume">Halda áfram</string>
+    <string name="length">Lengd</string>
+    <string name="tv_settings_hint">Ýttu lengi á \'Í lagi\'-hnappinn til að merkja/afmerkja möppur</string>
+    <string name="ml_external_storage_title">Ný ytri gagnageymsla fannst</string>
+    <string name="ml_external_storage_msg">Vilt þú að VLC bæti %1$s tækinu í margmiðlunarsafnið þitt?</string>
+    <string name="last_added_media">síðast bætt við</string>
+    <string name="no">Nei</string>
 </resources>
