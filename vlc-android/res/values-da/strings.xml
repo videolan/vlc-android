@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Afspil videoer i baggrunden</string>
     <string name="play_as_audio_background_summary">Fortsæt afspilning af video i baggrunden når enhedens skærm slukkes eller ved klik på HJEM-knappen.</string>
     <string name="append">Tilføj</string>
+    <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
     <string name="last_playlist">Seneste spilleliste</string>
@@ -81,7 +82,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst…</string>
-    <string name="nomedia">Ingen mediefiler fundet, vælg venligst mapper som skal føjes til dit mediebibliotek</string>
+    <string name="nomedia">Ingen mediefiler fundet, overfør venligst nogle filer til din enhed eller juster dine præferencer.</string>
     <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">ikke tilgængelig</string>
@@ -258,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Styr lydstyrke med gestus under videoafspilning</string>
     <string name="enable_seek_buttons">Slå søgeknapper til</string>
     <string name="enable_seek_buttons_summary">Vis spoleknapper på brugerflade for video</string>
+    <string name="enable_double_tap_seek_title">Dobbelttryk for at søge</string>
+    <string name="enable_double_tap_seek_summary">Dobbelttryk på skærmkanterne for at søge med 10 sekunder</string>
+    <string name="popup_keepscreen_title">Hold skærmen TÆNDT i pop op-tilstand</string>
+    <string name="popup_keepscreen_summary">Hold altid skærmen TÆNDT når pop op vises, selv hvis video er på pause.</string>
+    <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
+    <string name="browser_show_hidden_files_summary">Vis skjulte filer i browsere</string>
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Underteksters størrelse</string>
     <string name="subtitles_size_small">Lille</string>
@@ -274,6 +281,8 @@
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Mediecover på Låsskærm</string>
     <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecover-billede som låsskærmens tapet</string>
+    <string name="playlist_animate_scroll_title">Animer aktuelle spilleliste auto-rulning</string>
+    <string name="playlist_animate_scroll_summary">Animer rulning ved medieovergang</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Venstre</string>
@@ -424,6 +433,7 @@
     <string name="list_languages_download_summary">Sprog som skal downloades når der hentes undertekster</string>
     <string name="list_languages_download_title">Undertekster download sprog</string>
     <string name="service_unavailable">Tjeneste utilgængelig</string>
+    <string name="subs_dl_lang_fail">Kunne ikke sætte undertekstsprog, prøv at sætte det i programindstillinger</string>
     <string name="downloading_subtitles">Downloader undertekster</string>
     <string name="browse_folder">Gennemse mappe</string>
     <string name="listen">Lyt</string>
@@ -443,4 +453,7 @@
     <string name="tv_settings_hint">Tryk længe på OK-knappen for at vælge/fravælge mapper</string>
     <string name="ml_external_storage_title">Nyt eksternt lager registreret</string>
     <string name="ml_external_storage_msg">Vil du have at VLC skal tilføje enheden %1$s til dit mediebibliotek?</string>
+    <string name="last_added_media">sidst tilføjet</string>
+    <string name="no">Nej</string>
+    <string name="loading_medialibrary">Indlæser mediebibliotek...</string>
 </resources>
