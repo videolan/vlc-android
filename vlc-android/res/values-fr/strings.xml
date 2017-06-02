@@ -81,7 +81,6 @@
     <string name="directories">Dossiers</string>
     <string name="loading">Chargement</string>
     <string name="please_wait">Veuillez patienter…</string>
-    <string name="nomedia">Aucun fichier multimédia trouvé, veuillez sélectionner les répertoires à ajouter à votre bibliothèque de média</string>
     <string name="noplaylist">Aucune liste de lecture trouvée.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
