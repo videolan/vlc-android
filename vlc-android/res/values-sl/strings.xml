@@ -26,6 +26,7 @@
     <string name="play_as_audio_background">Predvajaj video posnetke v ozadju</string>
     <string name="play_as_audio_background_summary">Nadaljuj s predvajanjem video posnetkov v ozadju, ko se zaslon naprave izklopi oziroma ko kliknete gumb za skok na začetni zaslon.</string>
     <string name="append">Dodaj</string>
+    <string name="insert_next">Vstavi naslednjega</string>
     <string name="play_all">Predvajaj vse</string>
     <string name="append_all">Dodaj vse</string>
     <string name="last_playlist">Zadnji seznam predvajanja</string>
@@ -93,7 +94,7 @@
     <string name="directories">Mape</string>
     <string name="loading">Nalaganje</string>
     <string name="please_wait">Počakajte ...</string>
-    <string name="nomedia">Ni najdene nobene predstavne datoteke; izberite mapo za dodajanje v zbirko predstavnih vsebin.</string>
+    <string name="nomedia">Ni najdene nobene predstavne datoteke; prenesite datoteke na svojo napravo ali spremenite svoje nastavitve.</string>
     <string name="noplaylist">Seznama predvajanja ni mogoče najti.</string>
     <string name="mediafiles">Predstavne datoteke</string>
     <string name="notavailable">ni na voljo</string>
@@ -272,6 +273,8 @@
     <string name="enable_volume_gesture_summary">Nadzor glasnosti s potezo med predvajanjem videa</string>
     <string name="enable_seek_buttons">Omogoči gumbe za skok</string>
     <string name="enable_seek_buttons_summary">Pokaže gumba naprej in nazaj v vmesniku za video</string>
+    <string name="browser_show_hidden_files_title">Pokaži skrite datoteke</string>
+    <string name="browser_show_hidden_files_summary">Pokaže skrite datoteke v brskalnikih</string>
     <string name="subtitles_prefs_category">Podnapisi</string>
     <string name="subtitles_size_title">Velikost podnapisov</string>
     <string name="subtitles_size_small">Majhna</string>
@@ -288,6 +291,8 @@
     <string name="audio_prefs_category">Zvok</string>
     <string name="lockscreen_cover_title">Naslovnica na zaklenjenem zaslonu</string>
     <string name="lockscreen_cover_summary">Nastavi naslovnico kot sliko ozadja zaklenenega zaslona, kadar je na voljo</string>
+    <string name="playlist_animate_scroll_title">Animiraj samodejno drsenje trenutnega seznama predvajanja</string>
+    <string name="playlist_animate_scroll_summary">Animiraj drsenje med prehodi posnetkov</string>
     <string name="audio_title_alignment">Poravnava naslova zvoka</string>
     <string name="audio_title_alignment_default">Privzeto</string>
     <string name="audio_title_alignment_left">Levo</string>
@@ -438,6 +443,7 @@
     <string name="list_languages_download_summary">Jeziki za prejem pri pridobivanju podnapisov</string>
     <string name="list_languages_download_title">Jezik podnapisov</string>
     <string name="service_unavailable">Storitev ni na voljo</string>
+    <string name="subs_dl_lang_fail">Nastavljanje jezika podnapisov je spodletelo. Poskusite možnosti prilagoditi med nastavitvami programa.</string>
     <string name="downloading_subtitles">Poteka prejemanje podpisov</string>
     <string name="browse_folder">Prebrskaj mapo</string>
     <string name="listen">Poslušaj</string>
@@ -457,4 +463,7 @@
     <string name="tv_settings_hint">Z dolgim pritiskom na gumb se označi/odstrani oznaka mape</string>
     <string name="ml_external_storage_title">Zaznana je nova zunanja shramba</string>
     <string name="ml_external_storage_msg">Ali želite dodati napravo %1$s v zbirko predstavnih predmetov?</string>
+    <string name="last_added_media">nazadnje dodano</string>
+    <string name="no">Ne</string>
+    <string name="loading_medialibrary">Poteka nalaganje predstavne knjižnice ...</string>
 </resources>
