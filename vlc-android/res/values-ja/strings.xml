@@ -23,6 +23,7 @@
     <string name="play_as_audio_background">バックグラウンドでビデオを再生</string>
     <string name="play_as_audio_background_summary">デバイスのスクリーンをオフにするかホームボタンをクリックした際、バックグラウンドでビデオの再生を続けます。</string>
     <string name="append">追加</string>
+    <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
     <string name="last_playlist">最新プレイリスト</string>
@@ -75,7 +76,7 @@
     <string name="directories">ディレクトリ</string>
     <string name="loading">ロード中…</string>
     <string name="please_wait">しばらくおまちください…</string>
-    <string name="nomedia">メディアファイルが見つかりませんでした。メディアライブラリに追加するディレクトリを指定してください。</string>
+    <string name="nomedia">メディアファイルが見つかりませんでした。デバイスにファイルを転送するか設定を調整してみてください。</string>
     <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="mediafiles">メディアファイル</string>
     <string name="notavailable">利用できません</string>
@@ -251,6 +252,12 @@
     <string name="enable_volume_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整</string>
     <string name="enable_seek_buttons">シークボタンを有効にする</string>
     <string name="enable_seek_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
+    <string name="enable_double_tap_seek_title">ダブルタップでシーク</string>
+    <string name="enable_double_tap_seek_summary">スクリーン端をダブルタップすると10秒間シークします</string>
+    <string name="popup_keepscreen_title">ポップアップモードでスクリーンをオンに保持</string>
+    <string name="popup_keepscreen_summary">ビデオが一時停止状態でもポップアップが表示されている間もスクリーンをオンに保持します。</string>
+    <string name="browser_show_hidden_files_title">隠しファイルを表示</string>
+    <string name="browser_show_hidden_files_summary">ブラウザで隠しファイルを表示します</string>
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕サイズ</string>
     <string name="subtitles_size_small">小</string>
@@ -267,6 +274,8 @@
     <string name="audio_prefs_category">オーディオ</string>
     <string name="lockscreen_cover_title">メディアのカバーをロックスクリーンに表示</string>
     <string name="lockscreen_cover_summary">可能な場合、現在のメディアのカバーアートをロック画面の背景に設定</string>
+    <string name="playlist_animate_scroll_title">現在のプレイリストの自動スクロールをアニメーション化する</string>
+    <string name="playlist_animate_scroll_summary">メディアの切り替えをアニメーション化する</string>
     <string name="audio_title_alignment">オーディオタイトルの位置合わせ</string>
     <string name="audio_title_alignment_default">デフォルト</string>
     <string name="audio_title_alignment_left">左</string>
@@ -417,6 +426,7 @@
     <string name="list_languages_download_summary">字幕が読みだされるときに言語をダウンロード</string>
     <string name="list_languages_download_title">字幕による言語ダウンロード</string>
     <string name="service_unavailable">サービスがありません</string>
+    <string name="subs_dl_lang_fail">字幕の言語設定に失敗しました。アプリケーション設定を試してください。</string>
     <string name="downloading_subtitles">字幕をダウンロード中</string>
     <string name="browse_folder">フォルダーの参照</string>
     <string name="listen">Listen</string>
@@ -436,4 +446,7 @@
     <string name="tv_settings_hint">OKボタンの長押しでディレクトリのチェック/非チェックを切り替え</string>
     <string name="ml_external_storage_title">新しい外部ストレージが見つかりました</string>
     <string name="ml_external_storage_msg">デバイス %1$s をメディアライブラリに追加しますか?</string>
+    <string name="last_added_media">最近の追加</string>
+    <string name="no">No</string>
+    <string name="loading_medialibrary">メディアライブラリーを読み込んでいます...</string>
 </resources>
