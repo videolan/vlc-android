@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Αναπαραγωγή βίντεο στο υπόβαθρο</string>
     <string name="play_as_audio_background_summary">Συνέχιση της αναπαραγωγής βίντεο στο υπόβαθρο όταν σβήνει η οθόνη ή όταν πατιέται το κουμπί HOME.</string>
     <string name="append">Προσθήκη</string>
+    <string name="insert_next">Εισαγάγετε το επόμενο</string>
     <string name="play_all">Αναπαραγωγή όλων</string>
     <string name="append_all">Προσθήκη όλων</string>
     <string name="last_playlist">Τελευταία λίστα αναπαραγωγής</string>
@@ -81,7 +82,7 @@
     <string name="directories">Κατάλογοι</string>
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Παρακαλώ περιμένετε...</string>
-    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ επιλέξτε κάποιους καταλόγους για να προστεθούν στην βιβλιοθήκη μέσων σας</string>
+    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
     <string name="noplaylist">Δεν βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
@@ -258,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Έλεγχος έντασης ήχου με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_seek_buttons">Ενεργοποίηση πλήκτρων εύρεσης</string>
     <string name="enable_seek_buttons_summary">Εμφάνιση των πλήκτρων εύρεσης πίσω και μπροστά για την διασύνδεση βίντεο</string>
+    <string name="enable_double_tap_seek_title">Πατήστε δύο φορές για αναζήτηση</string>
+    <string name="enable_double_tap_seek_summary">Πατήστε δύο φορές στις άκρες της οθόνης για αναζήτη 10 δευτερολέπτων</string>
+    <string name="popup_keepscreen_title">Διατήρηση της οθόνης κατά τη διάρκεια λειτουργίας Pop-up</string>
+    <string name="popup_keepscreen_summary">Πάντα διατήρηση ανοικτής της οθόνης κατά τη διάρκεια λειτουργίας Pop-up, ακόμα και με παγωμένο βίντεο</string>
+    <string name="browser_show_hidden_files_title">Εμφάνιση κρυφών αρχείων</string>
+    <string name="browser_show_hidden_files_summary">Εμφάνιση κρυφών αρχείων στα προγράμματα περιήγησης</string>
     <string name="subtitles_prefs_category">Υπότιτλοι</string>
     <string name="subtitles_size_title">Μέγεθος υποτίτλων</string>
     <string name="subtitles_size_small">Μικρό</string>
@@ -274,6 +281,8 @@
     <string name="audio_prefs_category">Ήχος</string>
     <string name="lockscreen_cover_title">Το εξώφυλλο του μέσου στην οθόνης κλειδώματος</string>
     <string name="lockscreen_cover_summary">Όταν είναι διαθέσιμο, όρισε το εξώφυλλο του τρέχοντος μέσου ως ταπετσαρία της οθόνης κλειδώματος</string>
+    <string name="playlist_animate_scroll_title">Κίνηση της αυτόματης κίνησης της τρέχουσας λίστας αναπαραγωγής</string>
+    <string name="playlist_animate_scroll_summary">Κίνηση της αυτόματης κίνησης κατά την αλλαγή μέσων</string>
     <string name="audio_title_alignment">Ευθυγράμμιση ηχητικού τίτλου</string>
     <string name="audio_title_alignment_default">Προεπιλογή</string>
     <string name="audio_title_alignment_left">Αριστερά</string>
@@ -320,6 +329,7 @@
     <string name="network_caching_summary">Το ποσό του χρόνου για να διαβαστούν δικτυακά μέσα (σε ms). Δεν λειτουργεί με την αποκωδικοποίηση υλικού. Αφήστε το κενό για επαναφορά.</string>
     <string name="resume_playback_title">Συνέχιση αναπαραγωγής μετά από κλήση</string>
     <string name="resume_playback_summary">Παραμονή σε παύση αλλιώς</string>
+    <string name="network_caching_popup">Αυτή η τιμή πρέπει να είναι μεταξύ 0 και 6000 ms </string>
     <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
     <string name="developer_prefs_category">Για προγραμματιστές</string>
     <string name="enable_verbose_mode">Πολύλογος</string>
@@ -371,6 +381,7 @@
     <string name="player_touch_disable_all">Απενεργοποίηση όλων των ελέγχων Αφής</string>
     <string name="tv_ui_title">Διεπαφή Android TV</string>
     <string name="tv_ui_summary">Αλλαγή UI στο θέμα TV </string>
+    <string name="medialibrary_directories">Φάκελοι βιβλιοθήκης μέσων</string>
     <!--Accessibility-->
     <string name="more_actions">Περισσότερες Ενέργειες</string>
     <string name="move">Κίνηση</string>
@@ -422,6 +433,7 @@
     <string name="list_languages_download_summary">Γλώσσες για κατέβασμα κατά τη λήψη υποτίτλων</string>
     <string name="list_languages_download_title">Κατέβασμα γλώσσας υπότιτλων</string>
     <string name="service_unavailable">Υπηρεσία μη διαθέσιμη</string>
+    <string name="subs_dl_lang_fail">Αποτυχία ορισμού γλώσσας υποτίτλων, δοκιμάστε να την ορίσετε στις επιλογές της εφαρμογής</string>
     <string name="downloading_subtitles">Κατέβασμα υποτίτλων</string>
     <string name="browse_folder">Περιήγηση φακέλου</string>
     <string name="listen">Ακοή</string>
@@ -439,4 +451,9 @@
     <string name="resume">Συνέχιση</string>
     <string name="length">Διάρκεια</string>
     <string name="tv_settings_hint">Μακρό πάτημα του ΟΚ για να επιλέξετε/απεπιλέξετε καταλόγους</string>
+    <string name="ml_external_storage_title">Ανιχνεύτηκε νέος αποθηκευτικός χώρος</string>
+    <string name="ml_external_storage_msg">Θέλετε το VLC να προσθέσει τη συσκευή %1$sστη βιβλιοθήκη μέσων σας;</string>
+    <string name="last_added_media">τελευταία προσθήκη</string>
+    <string name="no">Όχι</string>
+    <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης μέσων</string>
 </resources>
