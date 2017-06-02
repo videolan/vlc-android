@@ -26,6 +26,7 @@
     <string name="play_as_audio_background">Odtwarzaj widea w tle</string>
     <string name="play_as_audio_background_summary">Kontynuuj odtwarzanie wideo w tle po włączeniu ekranu urządzenia lub kliknięciu przycisku HOME.</string>
     <string name="append">Dołącz</string>
+    <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
     <string name="last_playlist">Ostatnia lista odtwarzania</string>
@@ -93,7 +94,7 @@
     <string name="directories">Katalogi</string>
     <string name="loading">Ładowanie…</string>
     <string name="please_wait">Proszę czekać…</string>
-    <string name="nomedia">Brak plików multimedialnych, proszę wybierz katalogi, które zostaną dodane do twojej biblioteki mediów</string>
+    <string name="nomedia">Brak plików multimedialnych, proszę przenieś kilka plików na twoje urządzenie lub zmień ustawienia.</string>
     <string name="noplaylist">Nie znaleziono listy odtwarzania.</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
@@ -199,7 +200,7 @@
     <string name="remove_song">Usuń utwór</string>
     <string name="remove_playlist_item">%1$s zostało usunięte z listy</string>
     <string name="rearrange_order">Zmień kolejność</string>
-    <string name="hold_to_seek">Przytrzymaj, aby szukać</string>
+    <string name="hold_to_seek">Przytrzymaj, aby przeszukiwać</string>
     <string name="audio_player_tips">Porady odtwarzacza audio</string>
     <string name="previous_next_song">Poprzedni/Następny utwór</string>
     <string name="show_playlist">Pokaż listę odtwarzania</string>
@@ -272,6 +273,12 @@
     <string name="enable_volume_gesture_summary">Regulacja głośności gestem podczas odtwarzania wideo</string>
     <string name="enable_seek_buttons">Włącz przyciski przeszukiwania</string>
     <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
+    <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukiwać</string>
+    <string name="enable_double_tap_seek_summary">Dotknij dwukrotnie na krawędziach ekranu, aby przeszukiwać co 10 sekund</string>
+    <string name="popup_keepscreen_title">Pozostaw ekran włączony w trybie pop-up</string>
+    <string name="popup_keepscreen_summary">Zawsze pozostaw ekran włączony podczas wyświetlania w trybie pop-up, nawet jeśli film został wstrzymany.</string>
+    <string name="browser_show_hidden_files_title">Pokaż ukryte pliki</string>
+    <string name="browser_show_hidden_files_summary">Pokaż ukryte pliki w przeglądarkach</string>
     <string name="subtitles_prefs_category">Napisy</string>
     <string name="subtitles_size_title">Rozmiar napisów</string>
     <string name="subtitles_size_small">Małe</string>
@@ -288,6 +295,8 @@
     <string name="audio_prefs_category">Dźwięk</string>
     <string name="lockscreen_cover_title">Okładka albumu na ekranie blokady</string>
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
+    <string name="playlist_animate_scroll_title">Animuj automatyczne przewijanie bieżącej listy odtwarzania</string>
+    <string name="playlist_animate_scroll_summary">Animuj przewijanie podczas zmiany mediów</string>
     <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
     <string name="audio_title_alignment_default">Domyślnie</string>
     <string name="audio_title_alignment_left">Lewy</string>
@@ -438,6 +447,7 @@
     <string name="list_languages_download_summary">Wybrane języki, podczas pobierania napisów</string>
     <string name="list_languages_download_title">Pobierane języki napisów</string>
     <string name="service_unavailable">Usługa jest niedostępna</string>
+    <string name="subs_dl_lang_fail">Nie można ustawić języka napisów, spróbuj ustawić go w ustawieniach aplikacji</string>
     <string name="downloading_subtitles">Pobieranie napisów</string>
     <string name="browse_folder">Przeglądaj folder</string>
     <string name="listen">Posłuchaj</string>
@@ -457,4 +467,7 @@
     <string name="tv_settings_hint">Długo naciśnij przycisk OK, aby zaznaczyć/odznaczyć katalogi</string>
     <string name="ml_external_storage_title">Wykryto nową pamięć zewnętrzną</string>
     <string name="ml_external_storage_msg">Czy chcesz, by VLC dodał urządzenie %1$s do biblioteki mediów?</string>
+    <string name="last_added_media">ostatnio dodane</string>
+    <string name="no">Nie</string>
+    <string name="loading_medialibrary">Ładowanie biblioteki mediów...</string>
 </resources>
