@@ -25,6 +25,7 @@
     <string name="play_as_audio_background">Přehrávat videa na pozadí</string>
     <string name="play_as_audio_background_summary">Pokračovat v přehrávání videa na pozadí při vypnuté obrazovce zařízení, nebo po stisknutí tlačítka DOMŮ.</string>
     <string name="append">Připojit</string>
+    <string name="insert_next">Vložit další</string>
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
     <string name="last_playlist">Poslední seznam skladeb</string>
@@ -87,6 +88,7 @@
     <string name="directories">Adresáře</string>
     <string name="loading">Načítám</string>
     <string name="please_wait">Vyčkejte prosím…</string>
+    <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
     <string name="noplaylist">Nenalezen žádný seznam skladeb.</string>
     <string name="mediafiles">Mediální soubory</string>
     <string name="notavailable">nedostupné</string>
@@ -253,8 +255,11 @@
     <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
     <string name="force_list_portrait_summary">Zobrazit videa jako seznam místo mřížky při zobrazení na výšku</string>
     <string name="force_play_all_summary">Přehrát všechny videa, počínaje tím, na které kliknete</string>
+    <string name="force_play_all_title">Mód video playlistu</string>
     <string name="save_brightness_summary">Zapamatovat úroveň jasu v přehrávači videí</string>
     <string name="save_brightness_title">Uložit úroveň jasu pro toto video</string>
+    <string name="save_audiodelay_summary">Uložit individuální zpoždění zvuku pro každé video</string>
+    <string name="save_audiodelay_title">Uložit zpoždění zvuku</string>
     <string name="enable_brightness_gesture_title">Gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_volume_gesture_title">Gesto hlasitosti</string>
@@ -313,6 +318,7 @@
     <string name="auto_rescan">Automaticky prohledávat</string>
     <string name="auto_rescan_summary">Automaticky prohledat zařízení pro nové nebo smazané soubory při spuštění aplikace</string>
     <string name="clear_media_db">Vyčistit databázi médií</string>
+    <string name="clear_media_db_summary">Otevřete Android VLC info pro smazání dat</string>
     <string name="clear_history">Vymazat historii hledání</string>
     <string name="media_db_cleared">Databáze médií vyčištěna</string>
     <string name="set_locale">Nastavit jazyk</string>
@@ -320,6 +326,9 @@
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
     <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
+    <string name="resume_playback_title">Obnovit přehrávání po hovoru</string>
+    <string name="resume_playback_summary">Jinak nechat zastavené</string>
+    <string name="network_caching_popup">Tato hodnota musí být mezi 0 a 6000 ms</string>
     <string name="quit">Ukončit a restartovat aplikaci</string>
     <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Podrobné</string>
@@ -371,6 +380,7 @@
     <string name="player_touch_disable_all">Zakázat veškeré dotykové ovládací prvky</string>
     <string name="tv_ui_title">Rozhraní Android TV</string>
     <string name="tv_ui_summary">Změnit UI na motiv upravený pro TV</string>
+    <string name="medialibrary_directories">Složky knihovny médií</string>
     <!--Accessibility-->
     <string name="more_actions">Více činností</string>
     <string name="move">Přesunout</string>
@@ -397,6 +407,8 @@
     <string name="plugins">Zásuvné moduly</string>
     <string name="download_on_device">Stáhnout</string>
     <string name="extension_empty">Nelze zobrazit žádné položky. Můžete je přidat v nastavení rozšíření.</string>
+    <string name="opengl_title">Použití OpenGL ES2</string>
+    <string name="opengl_summary">OpenGL ES2 je standartně používáno pro softwarové a hardwarové dekódování, pokud je potřeba (360° videa)</string>
     <string name="opengl_automatic">Automaticky</string>
     <string name="network_favorites">Oblíbené sítě</string>
     <string name="network_shared_folders">Sdílené složky</string>
@@ -416,16 +428,26 @@
     <string name="list_languages_download_summary">Jazyky ke stáhnutí při získávání titulků</string>
     <string name="list_languages_download_title">Jazyky stažených titulků</string>
     <string name="service_unavailable">Služba je nedostupná</string>
+    <string name="subs_dl_lang_fail">Nepodařilo se nastavit jazyk titulků, zkuste ho změnit v nastavení aplikace</string>
     <string name="downloading_subtitles">Stahování titulků</string>
     <string name="browse_folder">Procházet složku</string>
     <string name="listen">Poslouchat</string>
     <string name="subtitles_download_title">Stáhnout titulky</string>
     <string name="connecting">Připojování...</string>
+    <string name="save_bluetooth_delay">Nastavit zpoždění pro bluetooth zařízení</string>
     <string name="episodes">episody</string>
     <string name="movies">filmy</string>
     <string name="videos">videa</string>
     <string name="clear_playback_history">Vymazat historii přehrávání</string>
+    <string name="various_artists">Různí umělci</string>
+    <string name="ml_scanning">Prohledávání složek s médii</string>
+    <string name="ml_parse_media">Zpracovávání média</string>
     <string name="ml_discovering">Objevování</string>
     <string name="resume">Pokračovat</string>
     <string name="length">Délka</string>
+    <string name="tv_settings_hint">Podržte tlačítko OK pro zatrhnutí složek</string>
+    <string name="ml_external_storage_title">Detekováno nové externí úložiště</string>
+    <string name="ml_external_storage_msg">Chcete, aby VLC přidalo médium %1$s do vaší knihovny médií?</string>
+    <string name="last_added_media">poslední přidané</string>
+    <string name="no">Ne</string>
 </resources>
