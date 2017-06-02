@@ -93,6 +93,7 @@
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title">@color/list_title</item>
         <item name="android:windowBackground">@color/grey200</item>
+        <item name="android:textViewStyle">@style/TextView</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
