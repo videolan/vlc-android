@@ -24,7 +24,7 @@
     <string name="play_as_audio_background">Videos im Hintergrund abspielen</string>
     <string name="play_as_audio_background_summary">Video-Wiedergabe im Hintergund fortsetzen, wenn der Gerätebildschirm ausgeschaltet oder der HOME-Button gedrückt wurde.</string>
     <string name="append">Anhängen</string>
-    <string name="insert_next">Einfügen als Nächstes</string>
+    <string name="insert_next">Text einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
     <string name="last_playlist">Letzte Wiedergabeliste</string>
@@ -82,7 +82,7 @@
     <string name="directories">Verzeichnisse</string>
     <string name="loading">Ladevorgang</string>
     <string name="please_wait">Bitte warten …</string>
-    <string name="nomedia">Keine Mediendateien gefunden, bitte Verzeichnisse zur Medienbibliothek hinzufügen</string>
+    <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="mediafiles">Mediendateien</string>
     <string name="notavailable">nicht verfügbar</string>
@@ -259,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Die Lautstärke durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_seek_buttons">Suchen-Knöpfe aktivieren</string>
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
+    <string name="enable_double_tap_seek_title">Zum springen doppelt antippen</string>
+    <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
+    <string name="popup_keepscreen_title">Im Pop-Up Modus Anzeige eingeschaltet lassen</string>
+    <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
+    <string name="browser_show_hidden_files_title">Zeige versteckte Dateien</string>
+    <string name="browser_show_hidden_files_summary">Zeige versteckte Dateien in Browsern</string>
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
     <string name="subtitles_size_small">Klein</string>
@@ -275,6 +281,8 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Medien-Cover auf dem Sperrbildschirm</string>
     <string name="lockscreen_cover_summary">Wenn verfügbar, wird das Medien-Cover Sperrbildschirm-Hintergrund angezeigt</string>
+    <string name="playlist_animate_scroll_title">Automatischen Bildlauf der aktuellen Wiedergabeliste animieren</string>
+    <string name="playlist_animate_scroll_summary">Bildlauf beim Medienübergang animieren</string>
     <string name="audio_title_alignment">Audiotitelausrichtung</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Links</string>
@@ -425,6 +433,7 @@
     <string name="list_languages_download_summary">Zu herunterladene Sprachen, beim Abrufen von Untertiteln</string>
     <string name="list_languages_download_title">Untertitelsprachen die herunter geladen werden</string>
     <string name="service_unavailable">Dienst nicht verfügbar</string>
+    <string name="subs_dl_lang_fail">Das Einstellen der Untertitel-Sprache ist fehlgeschlagen, bitte in den Einstellungen der App versuchen.</string>
     <string name="downloading_subtitles">Untertitel werden herunter geladen</string>
     <string name="browse_folder">Ordner durchsuchen</string>
     <string name="listen">Hören</string>
@@ -444,4 +453,7 @@
     <string name="tv_settings_hint">Langes betätigen des OK-Buttons zur An- und Abwahl von Verzeichnissen</string>
     <string name="ml_external_storage_title">Neuen externen Speicher gefunden</string>
     <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät %1$s zu Ihrer Medienbibliothek hinzufügt?</string>
+    <string name="last_added_media">Zuletzt hinzugefügt</string>
+    <string name="no">Nein</string>
+    <string name="loading_medialibrary">Lade Medienbibliothek...</string>
 </resources>
