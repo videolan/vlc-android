@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Spill videoer i bakgrunnen</string>
     <string name="play_as_audio_background_summary">Fortsett videoavspilling i bakgrunnen når enhetens skjerm skrus av, eller når du trykker på Hjem-knappen.</string>
     <string name="append">Legg til</string>
+    <string name="insert_next">Sett inn neste</string>
     <string name="play_all">Spill alle</string>
     <string name="append_all">Legg til alle</string>
     <string name="last_playlist">Siste spilleliste</string>
@@ -81,7 +82,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Laster</string>
     <string name="please_wait">Vent litt…</string>
-    <string name="nomedia">Ingen mediefiler ble funnet, vennligst velg mapper å legge til i mediebiblioteket ditt.</string>
+    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller juster dine innstillinger.</string>
     <string name="noplaylist">Ingen spilleliste funnet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
@@ -162,9 +163,9 @@
     <string name="open_mrl_dialog_msg">Skriv inn nettverksadressen; f.eks: http://, mms://, eller rtsp://</string>
     <string name="error_not_compatible">Beklager. Din enhet er for øyeblikket ikke støttet av denne versjonen av VLC for Android™.</string>
     <string name="error_problem">Beklager. VLC for Android hadde et problem med lasting og måtte lukkes.</string>
-    <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n\n</string>
+    <string name="error_message_is">Feilmeldingen er (nevn dette på engelsk når du innrapporterer en feil):\n\n</string>
     <string name="encountered_error_title">Avspillingsfeil</string>
-    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\n\nVennligst prøv å oppdatere mediebiblioteket.</string>
+    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\n\nPrøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
     <string name="search">Søk</string>
     <string name="search_history">Søk i historien</string>
@@ -224,7 +225,7 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="screen_orientation_reverse_portrait">Opp-ned portrett</string>
     <string name="screen_orientation_reverse_landscape">Opp-ned landskap</string>
-    <string name="enable_black_theme">Aktiver det svarte temaet</string>
+    <string name="enable_black_theme">Ifør svart drakt</string>
     <string name="enable_black_theme_summary">Endre fargene til grensesnittet, for økt komfort i miljøer med lite lys.</string>
     <string name="subtitle_text_encoding">Undertekstkoding</string>
     <string name="daynight_title">Dag/Natt-modus</string>
@@ -258,6 +259,12 @@
     <string name="enable_volume_gesture_summary">Kontroller volum med bevegelser under videoavspilling.</string>
     <string name="enable_seek_buttons">Aktiver spoleknapper</string>
     <string name="enable_seek_buttons_summary">Vis tilbake- og forover-spolingsknapper på videogrensesnittet</string>
+    <string name="enable_double_tap_seek_title">Dobbelttrykk for å søke</string>
+    <string name="enable_double_tap_seek_summary">Dobbelttrykk på skjermkantene for å søke 10 sekunder</string>
+    <string name="popup_keepscreen_title">Behold skjerm påslått i oppsprettsmodus</string>
+    <string name="popup_keepscreen_summary">Alltid behold skjerm påslått når oppsprettsvindu vises, selv når videoen er satt på pause.</string>
+    <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
+    <string name="browser_show_hidden_files_summary">Vis skjulte filer i nettlesere</string>
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Undertekststørrelse</string>
     <string name="subtitles_size_small">Liten</string>
@@ -274,6 +281,8 @@
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Albumomslag på låseskjerm</string>
     <string name="lockscreen_cover_summary">Når tilgjengelig, sett gjeldende albumomslaå som låseskjermsbakgrunn</string>
+    <string name="playlist_animate_scroll_title">Animer nåværende auto-rulling i spillelister</string>
+    <string name="playlist_animate_scroll_summary">Animer rulling ved mediaovergang</string>
     <string name="audio_title_alignment">Lydtitteljustering</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Venstre</string>
@@ -371,7 +380,7 @@
     <string name="player_touch_disable_brightness">Skru av lysstyrkejustering</string>
     <string name="player_touch_disable_all">Skru av alle berøringskontroller</string>
     <string name="tv_ui_title">Grensesnitt for Android TV</string>
-    <string name="tv_ui_summary">Endre grensesnittet til et TV-tilpasset tema.</string>
+    <string name="tv_ui_summary">Endre grensesnittet til en TV-tilpasset drakt.</string>
     <string name="medialibrary_directories">Mediebiblioteksmapper</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
@@ -424,6 +433,7 @@
     <string name="list_languages_download_summary">Språk som skal innhentes når undertekster nedlastes</string>
     <string name="list_languages_download_title">Nedlastingsspråk for undertekster</string>
     <string name="service_unavailable">Tjeneste utilgjengelig</string>
+    <string name="subs_dl_lang_fail">Klarte ikke å velge undertekstspråket. Prøv å velg den i appinnstillingene.</string>
     <string name="downloading_subtitles">Laster ned undertekster</string>
     <string name="browse_folder">Utforsk mappe</string>
     <string name="listen">Lytt</string>
@@ -443,4 +453,7 @@
     <string name="tv_settings_hint">Hold inn OK-knappen lenge for å velge/avvelge mapper.</string>
     <string name="ml_external_storage_title">Nytt eksternt lagringsmedie oppdaget</string>
     <string name="ml_external_storage_msg">Ønsker du at VLC skal legge enheten %1$s til i ditt mediebibliotek?</string>
+    <string name="last_added_media">Sist lagt til</string>
+    <string name="no">Nei</string>
+    <string name="loading_medialibrary">Laster inn mediebiblioteket...</string>
 </resources>
