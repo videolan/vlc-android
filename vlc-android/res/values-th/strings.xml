@@ -75,6 +75,7 @@
     <string name="directories">ที่เก็บแฟ้มต่างๆ</string>
     <string name="loading">กําลังโหลด…</string>
     <string name="please_wait">รอสักครู่…</string>
+    <string name="nomedia">ไม่พบแฟ้มสื่อ กรุณาถ่ายโอนแฟ้มสื่อเข้าอุปกรณ์ หรือปรับค่าปรับแต่งของคุณ</string>
     <string name="noplaylist">ไม่พบผังเล่น</string>
     <string name="mediafiles">แฟ้มสื่อ</string>
     <string name="notavailable">ไม่สามารถใช้ได้</string>
@@ -98,6 +99,7 @@
     <string name="locked">ล็อค</string>
     <string name="unlocked">ปลดล็อค</string>
     <string name="surface_best_fit">ขนาดที่เหมาะสม</string>
+    <string name="surface_fit_screen">พอดีกับหน้าจอ</string>
     <string name="surface_fill">เติมเต็ม</string>
     <string name="surface_original">ตรงกลาง</string>
     <string name="thumbnail">ภาพตัวอย่าง</string>
@@ -141,6 +143,7 @@
     <string name="login">ล็อกอิน</string>
     <string name="password">รหัสผ่าน</string>
     <string name="search_results">ผลการค้นหา</string>
+    <string name="search_no_result">ไม่พบสื่อ</string>
     <string name="favorites_add">เพิ่มเป็นรายการโปรด</string>
     <string name="favorites_remove">เอาออกจากรายการโปรด</string>
     <string name="favorites_edit">แก้ไข</string>
@@ -152,7 +155,9 @@
     <string name="open_mrl_dialog_msg">เลือกเครือข่าย MRL: ตย. http://, mms:// หรือ rtsp://</string>
     <string name="error_not_compatible">ขออภัย เครื่องของคุณยังไม่รองรับ การใช้งานของ VLC สำหรับ Android™ รุ่นนี้</string>
     <string name="error_problem">ขออภัยด้วย ที่ VLC สำหรับ Andriod ปิดโปรแกรมไป อันเนื่องจากมีปัญหาในการโหลด</string>
+    <string name="error_message_is">ข้อขัดข้องคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):\n</string>
     <string name="encountered_error_title">การเล่นขัดข้อง</string>
+    <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง\nโปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1$s ได้</string>
     <string name="search">ค้นหา</string>
     <string name="search_history">ประวัติการค้นหา</string>
@@ -162,6 +167,7 @@
     <string name="playback_speed_summary">จำค่าความเร็วการเล่นที่คุณตั้งไว้</string>
     <!--Tips-->
     <string name="video_player_tips">ข้อแนะนำตัวเล่นวีดิทัศน์</string>
+    <string name="seek">ค้นหา</string>
     <string name="subtitles">บทบรรยาย</string>
     <string name="audio_sub">ร่องเสียง\nและบทบรรยาย</string>
     <string name="resize">ปรับขนาด</string>
@@ -213,11 +219,15 @@
     <string name="enable_black_theme">เปิดใช้ชุดตกแต่งโทนสีดำ</string>
     <string name="enable_black_theme_summary">เปลีี่ยนสีพื้นของโปรแกรมให้เหมาะสมกับสถานที่ซึ่งมีแสงน้อย</string>
     <string name="subtitle_text_encoding">การลงรหัสข้อความบทบรรยาย</string>
+    <string name="daynight_summary">สลับไปใช้โหมดกลางคืนโดยอัตโนมัติเมื่อถึงเวลาที่เหมาะสม</string>
     <string name="extra_prefs_category">ค่าตั้งพิเศษอื่นๆ</string>
     <string name="interface_prefs_screen">ส่วนติดต่อ</string>
     <string name="interface_gui">หน้าจอ</string>
     <string name="interface_secondary_display_category_title">หน้าจอที่สอง</string>
+    <string name="interface_secondary_display_category_summary">ค่าตั้งเมื่อเชื่อมต่อกับจอแสดงผลที่สอง (HDMI/Chromecast)</string>
     <string name="interface_other_category">ส่วนติดต่อ - อื่นๆ</string>
+    <string name="video_prefs_category">วีดิทัศน์</string>
+    <string name="video_min_group_length_title">วีดิทัศน์กลุ่ม</string>
     <string name="video_min_group_length_disable">ปิดใช้</string>
     <string name="force_list_portrait">ไม่มีตารางกริดในการแสดงผลแนวนอน</string>
     <string name="force_list_portrait_summary">แสดงวิดิทัศน์ในรูปแบบรายการแทนรูปแบบตารางกริดเมื่ออยู่ในการแสดงผลแนวนอน</string>
