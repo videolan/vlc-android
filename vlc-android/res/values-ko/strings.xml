@@ -23,6 +23,7 @@
     <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
     <string name="play_as_audio_background_summary">기기의 화면을 끄거나 홈 버튼을 누를 때 백그라운드로 비디오를 계속 재생합니다</string>
     <string name="append">재생 대기열에 추가하기</string>
+    <string name="insert_next">다음을 넣으세요</string>
     <string name="play_all">모두 재생하기</string>
     <string name="append_all">재생 대기열에 모두 추가하기</string>
     <string name="last_playlist">마지막 재생목록</string>
@@ -36,7 +37,7 @@
     <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">벨소리 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
-    <string name="not_show_again">이 메시지를 다시 보지 않음.</string>
+    <string name="not_show_again">이 메시지를 다시 보지 않음</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">알 수 없는 아티스트</string>
     <string name="unknown_album">알 수 없는 앨범</string>
@@ -75,7 +76,7 @@
     <string name="directories">폴더</string>
     <string name="loading">불러오는 중…</string>
     <string name="please_wait">기다리세요…</string>
-    <string name="nomedia">미디어 파일이 없습니다. 미디어 라이브러리에 추가할 폴더를 선택하세요.</string>
+    <string name="nomedia">미디어 파일이 없습니다, 장치에 몇몇 파일을 전송하거나 선택사항을 조정하세요.</string>
     <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="mediafiles">미디어 파일</string>
     <string name="notavailable">이용 불가</string>
@@ -251,6 +252,12 @@
     <string name="enable_volume_gesture_summary">비디오 재생 중에 제스처로 볼륨을 조절합니다</string>
     <string name="enable_seek_buttons">탐색 버튼 활성화하기</string>
     <string name="enable_seek_buttons_summary">비디오 인터페이스에 뒤로/앞으로 감기 버튼을 표시합니다</string>
+    <string name="enable_double_tap_seek_title">탐색하려면 두 번 탭</string>
+    <string name="enable_double_tap_seek_summary">10초 탐색하려면 화면 가장자리에서 두 번 탭</string>
+    <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
+    <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 비디오가 일시중지여도 화면 켜짐을 유지합니다.</string>
+    <string name="browser_show_hidden_files_title">숨김 파일 보기</string>
+    <string name="browser_show_hidden_files_summary">숨김 파일을 브라우저에서 보여줍니다</string>
     <string name="subtitles_prefs_category">자막</string>
     <string name="subtitles_size_title">자막 크기</string>
     <string name="subtitles_size_small">작게</string>
@@ -267,6 +274,8 @@
     <string name="audio_prefs_category">오디오</string>
     <string name="lockscreen_cover_title">잠금 화면에 미디어 커버 보기</string>
     <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 커버 아트를 잠금 화면의 배경으로 설정합니다</string>
+    <string name="playlist_animate_scroll_title">현재 재생목록 자동 스크롤 애니메이션</string>
+    <string name="playlist_animate_scroll_summary">미디어 바뀔 때 스크롤 애니메이션</string>
     <string name="audio_title_alignment">오디오 제목 정렬</string>
     <string name="audio_title_alignment_default">기본</string>
     <string name="audio_title_alignment_left">왼쪽</string>
@@ -417,6 +426,7 @@
     <string name="list_languages_download_summary">자막을 가져올 때 다운로드할 언어를 선택하세요</string>
     <string name="list_languages_download_title">자막  다운로드 언어</string>
     <string name="service_unavailable">서비스 이용 불가</string>
+    <string name="subs_dl_lang_fail">자막 언어 설정에 실패했습니다, 프로그램 설정에서 설정해 보세요</string>
     <string name="downloading_subtitles">자막 다운로드 중</string>
     <string name="browse_folder">폴더 탐색하기</string>
     <string name="listen">듣기</string>
@@ -436,4 +446,7 @@
     <string name="tv_settings_hint">폴더를 체크/체크해제하려면 OK 버튼을 길게 누르세요</string>
     <string name="ml_external_storage_title">새로운 외부 기억 장치를 감지했습니다</string>
     <string name="ml_external_storage_msg">%1$s 장치를 VLC의 미디어 라이브러리에 추가할까요?</string>
+    <string name="last_added_media">마지막에 추가됨</string>
+    <string name="no">아니오</string>
+    <string name="loading_medialibrary">미디어 라이브러리 불러오는 중...</string>
 </resources>
