@@ -99,7 +99,7 @@
             android:text="@{item.description}"
             android:textColor="?attr/list_subtitle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/item_more"
+            app:layout_constraintEnd_toStartOf="@+id/item_more"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}"  />
