@@ -2817,8 +2817,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mOverlayButtons =  findViewById(R.id.player_overlay_buttons);
             // Position and remaining time
-            mTime = (TextView) findViewById(R.id.player_overlay_time);
-            mLength = (TextView) findViewById(R.id.player_overlay_length);
+            final boolean rtl = AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+            mTime = (TextView) findViewById(rtl ? R.id.player_overlay_length : R.id.player_overlay_time);
+            mLength = (TextView) findViewById(rtl ? R.id.player_overlay_time : R.id.player_overlay_length);
             mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
             mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
             mTracks.setOnClickListener(this);
