@@ -24,6 +24,7 @@
     <string name="play_as_audio_background">Reproduzir vídeos em segundo plano</string>
     <string name="play_as_audio_background_summary">Continua a reprodução do vídeo em segundo plano quando a tela do dispositivo for desligada ou a tecla HOME for pressionada.</string>
     <string name="append">Adicionar</string>
+    <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Adicionar todos</string>
     <string name="last_playlist">Última lista de reprodução</string>
@@ -265,12 +266,14 @@
     <string name="subtitles_color_yellow">Amarelo</string>
     <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fundo da Legenda</string>
+    <string name="audio_prefs_category">Áudio</string>
     <string name="audio_title_alignment">Alinhamento do título do áudio</string>
     <string name="audio_title_alignment_default">Padrão</string>
     <string name="audio_title_alignment_left">Esquerdo</string>
     <string name="audio_title_alignment_centre">Central</string>
     <string name="audio_title_alignment_right">Direito</string>
     <string name="audio_title_alignment_marquee">Logotipo</string>
+    <string name="headset_prefs_category">Fone de Ouvido</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
     <string name="enable_headset_detection_summary">Detectar inserção e remoção de fone de ouvido</string>
     <string name="enable_play_on_headset_insertion">Retomar quando o fone for inserido</string>
@@ -304,6 +307,7 @@
     <string name="set_locale_popup">Fecha e reinicia o VLC para que as alterações tenham efeito.</string>
     <string name="network_caching">Valor de memória para rede</string>
     <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
+    <string name="resume_playback_title">Retomar a reprodução após uma chamada</string>
     <string name="quit">Fechar e reiniciar o programa</string>
     <string name="developer_prefs_category">Desenvolvedor</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
@@ -378,7 +382,10 @@
     <string name="plugins">Complementos</string>
     <string name="download_on_device">Baixar</string>
     <string name="extension_empty">Nenhum item para exibir. Verifique as configurações de extensão para obter algumas.</string>
+    <string name="opengl_title">Uso do OpenGL ES2</string>
     <string name="opengl_automatic">Automático</string>
+    <string name="opengl_on">Impor em Ligado</string>
+    <string name="opengl_off">Import em Desligado</string>
     <string name="network_favorites">Favoritos da rede</string>
     <string name="network_shared_folders">Pastas compartilhadas</string>
     <string name="encryption_warning">Aviso, criptografia não disponível para esta versão de Android. A senha será armazenada em um espaço privado, mas não criptografado</string>
@@ -409,4 +416,12 @@
     <string name="clear_playback_history">Limpar histórico de reprodução</string>
     <string name="various_artists">Vários Artistas</string>
     <string name="ml_scanning">Procurando arquivos de mídia</string>
+    <string name="ml_discovering">Descobrir</string>
+    <string name="resume">Retomar</string>
+    <string name="length">Duração</string>
+    <string name="tv_settings_hint">Pressione prolongadamente o botão OK para marcar/desmarcar pastas</string>
+    <string name="ml_external_storage_title">Um armazenamento externo foi detectado</string>
+    <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua biblioteca de mídias?</string>
+    <string name="last_added_media">último adicionado</string>
+    <string name="no">Não</string>
 </resources>
