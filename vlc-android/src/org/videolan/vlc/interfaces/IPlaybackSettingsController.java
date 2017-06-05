@@ -27,6 +27,5 @@ public interface IPlaybackSettingsController {
 
     void showAudioDelaySetting();
     void showSubsDelaySetting();
-    void showPlaybackSpeedSetting();
     void endPlaybackSetting();
 }

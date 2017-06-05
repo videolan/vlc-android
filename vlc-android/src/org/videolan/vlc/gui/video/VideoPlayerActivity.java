@@ -1351,12 +1351,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         showDelayControls();
     }
 
-    @Override
-    public void showPlaybackSpeedSetting() {
-        mPlaybackSetting = DelayState.SPEED;
-        showDelayControls();
-    }
-
     public void showDelayControls(){
         mTouchAction = TOUCH_NONE;
         if (mPresentation != null)
@@ -1391,10 +1385,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             text += getString(R.string.spu_delay)+"\n";
             text += mService.getSpuDelay() / 1000l;
             text += " ms";
-        } else if (mPlaybackSetting == DelayState.SPEED) {
-            text += getString(R.string.playback_speed)+"\n";
-            text += mService.getRate();
-            text += " x";
         } else
             text += "0";
         mInfo.setText(text);
@@ -1448,19 +1438,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSpuDelay = delay;
         if (mPlaybackSetting == DelayState.OFF) {
             mPlaybackSetting = DelayState.SUBS;
-            initPlaybackSettingInfo();
-        }
-    }
-
-    public void changeSpeed(float delta){
-        initInfoOverlay();
-        float rate = Math.round((mService.getRate()+delta)*100f)/100f;
-        if (rate < 0.25f || rate > 4f)
-            return;
-        mService.setRate(rate, false);
-        mInfo.setText(getString(R.string.playback_speed) + "\n" +rate + " x");
-        if (mPlaybackSetting == DelayState.OFF) {
-            mPlaybackSetting = DelayState.SPEED;
             initPlaybackSettingInfo();
         }
     }
@@ -2472,16 +2449,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     delayAudio(-50000);
                 else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(-50000);
-                else if (mPlaybackSetting == DelayState.SPEED)
-                    changeSpeed(-0.05f);
                 break;
             case R.id.player_delay_plus:
                 if (mPlaybackSetting == DelayState.AUDIO)
                     delayAudio(50000);
                 else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(50000);
-                else if (mPlaybackSetting == DelayState.SPEED)
-                    changeSpeed(0.05f);
                 break;
             case R.id.player_overlay_adv_function:
                 showAdvancedOptions();

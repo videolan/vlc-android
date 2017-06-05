@@ -251,10 +251,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 if (mPlaybackController != null)
                     mPlaybackController.showSubsDelaySetting();
                 break;
-            case ACTION_PLAYBACK_SPEED:
-                if (mPlaybackController != null)
-                    mPlaybackController.showPlaybackSpeedSetting();
-                break;
             default:
                 return;
         }
