@@ -358,7 +358,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             public void run() {
                 final MediaWrapper[] itemList = mMediaLibrary.getVideos();
                 final ArrayList<MediaWrapper> displayList = new ArrayList<>();
-                if (mGroup != null || itemList.length <= 10) {
+                if (mGroup != null) {
                     for (MediaWrapper item : itemList) {
                         String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
                         if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
