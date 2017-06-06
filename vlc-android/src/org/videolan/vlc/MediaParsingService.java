@@ -30,9 +30,8 @@ import org.videolan.vlc.util.Strings;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String TAG = "VLC/MediaParsingService";
@@ -63,10 +62,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     private String mCurrentDiscovery = null;
     private long mLastNotificationTime = 0L;
 
-    private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
-    private final ThreadPoolExecutor mNotificationThreadPool = new ThreadPoolExecutor(1, 1, 2, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), VLCApplication.THREAD_FACTORY);
+    private final ExecutorService mCallsExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService mNotificationsExecutor = Executors.newSingleThreadExecutor();
 
     boolean mScanPaused = false;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -157,7 +154,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             exitCommand();
             return;
         }
-        mThreadPool.execute(new Runnable() {
+        mCallsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 for (String folder : Medialibrary.getBlackList())
@@ -172,7 +169,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             exitCommand();
             return;
         }
-        mThreadPool.execute(new Runnable() {
+        mCallsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 addDeviceIfNeeded(path);
@@ -216,7 +213,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             mMedialibrary.resumeBackgroundOperations();
             exitCommand();
         } else
-            mThreadPool.execute(new Runnable() {
+            mCallsExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     boolean shouldInit = !(new File(MediaParsingService.this.getCacheDir()+Medialibrary.VLC_MEDIA_DB_NAME).exists());
@@ -267,7 +264,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 return;
             mLastNotificationTime = currentTime;
         }
-        mNotificationThreadPool.execute(new Runnable() {
+        mNotificationsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 sb.setLength(0);
@@ -314,6 +311,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void hideNotification() {
+        mNotificationsExecutor.shutdown();
         synchronized (MediaParsingService.this) {
             mLastNotificationTime = -1L;
             NotificationManagerCompat.from(MediaParsingService.this).cancel(43);
