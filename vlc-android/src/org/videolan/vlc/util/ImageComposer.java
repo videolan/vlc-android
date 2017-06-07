@@ -28,6 +28,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.media.MediaGroup;
 
 public class ImageComposer {
@@ -37,12 +38,23 @@ public class ImageComposer {
     private static final int sImageWidth = VLCApplication.getAppResources().getDimensionPixelSize(VLCApplication.showTvUi() ? R.dimen.tv_grid_card_thumb_width : R.dimen.grid_card_thumb_width);
     private static final int MAX_IMAGES = 4;
 
+    public static Bitmap getComposedImage(MediaGroup group) {
+        BitmapCache bmc = BitmapCache.getInstance();
+        String key = "group:"+group.getTitle();
+        Bitmap composedImage = bmc.getBitmapFromMemCache(key);
+        if (composedImage == null) {
+            composedImage = composeImage(group);
+            if (composedImage != null)
+                bmc.addBitmapToMemCache(key, composedImage);
+        }
+        return composedImage;
+    }
     /**
      * Compose 1 image from combined media thumbnails
      * @param group The MediaGroup instance
      * @return a Bitmap object
      */
-    public static Bitmap composeImage(MediaGroup group) {
+    private static Bitmap composeImage(MediaGroup group) {
         Bitmap[] sourcesImages = new Bitmap[MAX_IMAGES];
         int count = 0, minWidth = Integer.MAX_VALUE, minHeight = Integer.MAX_VALUE;
         for (MediaWrapper media : group.getAll()) {

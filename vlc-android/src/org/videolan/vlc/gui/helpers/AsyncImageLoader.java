@@ -137,7 +137,7 @@ public class AsyncImageLoader {
                 return null;
             String artworkUrl = item.getArtworkMrl();
             if (item instanceof MediaGroup)
-                return ImageComposer.composeImage((MediaGroup) item);
+                return ImageComposer.getComposedImage((MediaGroup) item);
             if (!TextUtils.isEmpty(artworkUrl) && artworkUrl.startsWith("http"))
                 return HttpImageLoader.downloadBitmap(artworkUrl);
             return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
