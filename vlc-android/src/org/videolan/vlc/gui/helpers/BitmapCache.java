@@ -28,6 +28,7 @@ import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.util.Strings;
 
 public class BitmapCache {
@@ -49,7 +50,8 @@ public class BitmapCache {
         // Use 20% of the available memory for this memory cache.
         final long cacheSize = Runtime.getRuntime().maxMemory() / 5;
 
-        Log.i(TAG, "LRUCache size set to " +  Strings.readableSize(cacheSize));
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, "LRUCache size set to " +  Strings.readableSize(cacheSize));
 
         mMemCache = new LruCache<String, Bitmap>((int) cacheSize) {
 
