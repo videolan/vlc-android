@@ -21,8 +21,6 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,8 +28,6 @@ import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.Strings;
 
 public class BitmapCache {
@@ -50,18 +46,12 @@ public class BitmapCache {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private BitmapCache() {
 
-        // Get memory class of this device, exceeding this amount will throw an
-        // OutOfMemory exception.
-        final ActivityManager am = ((ActivityManager) VLCApplication.getAppContext().getSystemService(
-                Context.ACTIVITY_SERVICE));
-        final int memClass = AndroidUtil.isHoneycombOrLater ? am.getLargeMemoryClass() : am.getMemoryClass();
-
-        // Use 1/5th of the available memory for this memory cache.
-        final int cacheSize = 1024 * 1024 * memClass / 5;
+        // Use 20% of the available memory for this memory cache.
+        final long cacheSize = Runtime.getRuntime().maxMemory() / 5;
 
         Log.i(TAG, "LRUCache size set to " +  Strings.readableSize(cacheSize));
 
-        mMemCache = new LruCache<String, Bitmap>(cacheSize) {
+        mMemCache = new LruCache<String, Bitmap>((int) cacheSize) {
 
             @Override
             protected int sizeOf(String key, Bitmap value) {
