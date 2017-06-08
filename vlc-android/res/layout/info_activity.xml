@@ -3,12 +3,34 @@
     <data>
         <import type="android.view.View" />
         <import type="org.videolan.medialibrary.Tools" />
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
         <variable
             name="item"
-            type="org.videolan.medialibrary.media.MediaWrapper" />
+            type="MediaLibraryItem" />
         <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
+        <variable
+            name="length"
+            type="String" />
+        <variable
+            name="path"
+            type="String" />
+        <variable
+            name="sizeTitle"
+            type="String" />
+        <variable
+            name="extraTitle"
+            type="String" />
+        <variable
+            name="sizeValue"
+            type="String" />
+        <variable
+            name="extraValue"
+            type="String" />
+        <variable
+            name="progress"
+            type="int" />
     </data>
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,12 +93,11 @@
                 android:background="@color/transparent"
                 android:indeterminate="false"
                 android:max="100"
-                android:progress="@{item.length == 0 ? 0 : (int)((long)100*item.time/item.length)}"
+                android:progress="@{progress}"
                 android:secondaryProgress="100"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                android:visibility="@{item.time != 0 ? View.VISIBLE : View.INVISIBLE}"
-                />
+                android:visibility="@{progress > 0 ? View.VISIBLE : View.GONE}"/>
             <TextView
                 android:id="@+id/info_path"
                 android:layout_width="0dp"
@@ -85,14 +106,16 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/image_progress"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                android:text="@{item.getUri().getPath()}"
-                android:textColor="?attr/font_light" />
+                android:visibility="@{path != null ? View.VISIBLE : View.INVISIBLE}"
+                android:textColor="?attr/font_light"
+                android:text="@{path}" />
             <TextView
                 android:id="@+id/length_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 vlc:layout_constraintTop_toBottomOf="@+id/info_path"
                 vlc:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{length != null ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_marginTop="@dimen/half_default_margin"
                 android:text="@string/length"
                 android:textColor="?attr/font_light" />
@@ -101,10 +124,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 vlc:layout_constraintTop_toBottomOf="@+id/info_path"
-                vlc:layout_constraintStart_toEndOf="@+id/size_title"
-                android:text="@{Tools.millisToText(item.length)}"
+                vlc:layout_constraintStart_toEndOf="@+id/length_title"
+                android:visibility="@{length != null ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_margin="@dimen/half_default_margin"
-                android:textColor="?attr/font_light" />
+                android:textColor="?attr/font_light"
+                android:text="@{length}" />
             <TextView
                 android:id="@+id/size_title"
                 android:layout_width="wrap_content"
@@ -112,8 +136,9 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/length_title"
                 vlc:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/half_default_margin"
-                android:text="@string/file_size"
-                android:textColor="?attr/font_light" />
+                android:text="@{sizeTitle}"
+                android:textColor="?attr/font_light"
+                android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
             <TextView
                 android:id="@+id/size_value"
                 android:layout_width="wrap_content"
@@ -121,7 +146,29 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/length_title"
                 vlc:layout_constraintStart_toEndOf="@+id/size_title"
                 android:layout_margin="@dimen/half_default_margin"
-                android:textColor="?attr/font_light" />
+                android:textColor="?attr/font_light"
+                android:text="@{sizeValue}"
+                android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
+            <TextView
+                android:id="@+id/extra_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                vlc:layout_constraintTop_toBottomOf="@+id/size_title"
+                vlc:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:textColor="?attr/font_light"
+                android:text="@{extraTitle}"
+                android:visibility="@{extraValue != null ? View.VISIBLE : View.INVISIBLE}" />
+            <TextView
+                android:id="@+id/extra_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                vlc:layout_constraintTop_toBottomOf="@+id/size_title"
+                vlc:layout_constraintStart_toEndOf="@+id/extra_title"
+                android:layout_margin="@dimen/half_default_margin"
+                android:textColor="?attr/font_light"
+                android:text="@{extraValue}"
+                android:visibility="@{extraValue != null ? View.VISIBLE : View.INVISIBLE}"/>
             <ImageView
                 android:id="@+id/info_subtitles"
                 android:layout_width="wrap_content"
@@ -136,14 +183,15 @@
                 android:id="@+id/list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                vlc:layout_constraintTop_toBottomOf="@+id/size_title"
+                vlc:layout_constraintTop_toBottomOf="@+id/extra_title"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 android:cacheColorHint="#00000000"
                 android:clipToPadding="false"
                 android:divider="#00000000"
-                android:paddingBottom="@dimen/listview_bottom_padding" />
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:visibility="@{item.itemType == MediaLibraryItem.TYPE_MEDIA ? View.VISIBLE : View.INVISIBLE}" />
 
         </android.support.constraint.ConstraintLayout>
 

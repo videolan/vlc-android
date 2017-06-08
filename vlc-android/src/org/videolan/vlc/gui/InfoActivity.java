@@ -20,6 +20,11 @@ import android.view.View;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.media.Album;
+import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -39,9 +44,9 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
     public final static String TAG_ITEM = "ML_ITEM";
     public final static String TAG_FAB_VISIBILITY= "FAB";
 
-    private MediaWrapper mItem;
+    private MediaLibraryItem mItem;
     private MediaInfoAdapter mAdapter;
-    private LoadImageTask mLoadImageTask = null;
+    private ParseTracksTask mParseTracksTask = null;
     private CheckFileTask mCheckFileTask = null;
     private final static int EXIT = 2;
     private final static int SHOW_SUBTITLES = 3;
@@ -57,20 +62,17 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         initAudioPlayerContainerActivity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mItem = (MediaWrapper) (savedInstanceState != null ?
+        mItem = (MediaLibraryItem) (savedInstanceState != null ?
                 savedInstanceState.getParcelable(TAG_ITEM) :
                 getIntent().getParcelableExtra(TAG_ITEM));
         if (mItem.getId() == 0L) {
-            MediaWrapper mediaWrapper = VLCApplication.getMLInstance().getMedia(mItem.getUri());
+            MediaLibraryItem mediaWrapper = VLCApplication.getMLInstance().getMedia(((MediaWrapper)mItem).getUri());
             if (mediaWrapper != null)
                 mItem = mediaWrapper;
         }
         mBinding.setItem(mItem);
         final int fabVisibility =  savedInstanceState != null
-            ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
-
-        mAdapter = new MediaInfoAdapter(this);
-        mBinding.list.setAdapter(mAdapter);
+                ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mItem.getArtworkMrl())) {
             VLCApplication.runBackground(new Runnable() {
@@ -95,11 +97,47 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         } else
             noCoverFallback();
         mBinding.fab.setOnClickListener(this);
-        mCheckFileTask = (CheckFileTask) new CheckFileTask().execute();
-        mLoadImageTask = (LoadImageTask) new LoadImageTask().execute();
+        if (mItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            mAdapter = new MediaInfoAdapter(this);
+            mBinding.list.setAdapter(mAdapter);
+            mCheckFileTask = (CheckFileTask) new CheckFileTask().execute();
+            mParseTracksTask = (ParseTracksTask) new ParseTracksTask().execute();
+        }
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                updateMeta();
+            }
+        });
+    }
 
-//        mBinding.length.setText(mItem.getLength() > 0L ? Tools.millisToString(mItem.getLength()) : "");
-        mBinding.infoPath.setText(Uri.decode(mItem.getUri().getPath()));
+    private void updateMeta() {
+        long length = 0L;
+        MediaWrapper[] tracks = mItem.getTracks(VLCApplication.getMLInstance());
+        int nbTracks = tracks != null ? tracks.length : 0;
+        if (nbTracks > 0)
+            for (MediaWrapper media : tracks)
+                length += media.getLength();
+        if (length > 0)
+            mBinding.setLength(Tools.millisToString(length, true));
+
+        if (mItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            MediaWrapper media = (MediaWrapper) mItem;
+            mBinding.setPath(Uri.decode(media.getUri().getPath()));
+            mBinding.setProgress(media.getLength() == 0 ? 0 : (int) ((long) 100 * media.getTime() / length));
+            mBinding.setSizeTitle(getString(R.string.file_size));
+        } else if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
+            Medialibrary ml = VLCApplication.getMLInstance();
+            Album[] albums = ((Artist)mItem).getAlbums(ml);
+            int nbAlbums = albums == null ? 0 : albums.length;
+            mBinding.setSizeTitle(getString(R.string.albums));
+            mBinding.setSizeValue(String.valueOf(nbAlbums));
+            mBinding.setExtraTitle(getString(R.string.tracks));
+            mBinding.setExtraValue(String.valueOf(nbTracks));
+        } else {
+            mBinding.setSizeTitle(getString(R.string.tracks));
+            mBinding.setSizeValue(String.valueOf(nbTracks));
+        }
     }
 
     @Override
@@ -113,6 +151,15 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         super.onSaveInstanceState(outState);
         outState.putParcelable(TAG_ITEM, mItem);
         outState.putInt(TAG_FAB_VISIBILITY, mBinding.fab.getVisibility());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mCheckFileTask != null)
+            mCheckFileTask.cancel(true);
+        if (mParseTracksTask != null)
+            mParseTracksTask.cancel(true);
     }
 
     private void noCoverFallback() {
@@ -142,7 +189,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             mBinding.fab.show();
     }
 
-    private class CheckFileTask extends AsyncTask<Void, Void, File> {
+    private class CheckFileTask extends AsyncTask<Void, Void, Void> {
 
         private void checkSubtitles(File itemFile) {
             String extension, filename, videoName = Uri.decode(itemFile.getName()), parentPath = Uri.decode(itemFile.getParent());
@@ -186,17 +233,19 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         }
 
         @Override
-        protected File doInBackground(Void... params) {
-            File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
+        protected Void doInBackground(Void... params) {
+            File itemFile = new File(Uri.decode(((MediaWrapper)mItem).getLocation().substring(5)));
 
-            if (mItem.getType() == MediaWrapper.TYPE_VIDEO)
+            if (!itemFile.exists() || isCancelled())
+                return null;
+            if (((MediaWrapper)mItem).getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
-            return itemFile;
+            mBinding.setSizeValue(Strings.readableFileSize(itemFile.length()));
+            return null;
         }
 
         @Override
-        protected void onPostExecute(File file) {
-            mBinding.sizeValue.setText(Strings.readableFileSize(file.length()));
+        protected void onPostExecute(Void aVoid) {
             mCheckFileTask = null;
         }
 
@@ -206,7 +255,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         }
     }
 
-    private class LoadImageTask extends AsyncTask<Void, Void, Media> {
+    private class ParseTracksTask extends AsyncTask<Void, Void, Media> {
 
         @Override
         protected Media doInBackground(Void... params) {
@@ -215,7 +264,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             if (libVlc == null || isCancelled())
                 return null;
 
-            Media media = new Media(libVlc, mItem.getUri());
+            Media media = new Media(libVlc, ((MediaWrapper)mItem).getUri());
             media.parse();
 
             return media;
@@ -223,6 +272,9 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
         @Override
         protected void onPostExecute(Media media) {
+            mParseTracksTask = null;
+            if (isCancelled())
+                return;
             boolean hasSubs = false;
             if (media == null)
                 return;
@@ -235,14 +287,13 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             }
             media.release();
 
-            if (hasSubs && mHandler != null)
-                mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
-            mLoadImageTask = null;
+            if (hasSubs)
+                mBinding.infoSubtitles.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onCancelled() {
-            mLoadImageTask = null;
+            mParseTracksTask = null;
         }
     }
 
