@@ -16,6 +16,7 @@ import java.util.Locale;
 
 public class Tools {
 
+    private static final String TAG = "VLC/Tools";
     private static StringBuilder sb = new StringBuilder();
     private static DecimalFormat format = (DecimalFormat) NumberFormat.getInstance(Locale.US);
     static {
@@ -109,14 +110,14 @@ public class Tools {
         int hours = (int) millis;
 
         if (text) {
-            if (millis > 0)
-                sb.append(hours).append('h').append(format.format(min)).append("min");
-            else if (min > 0)
+            if (hours > 0)
+                sb.append(hours).append('h');
+            if (min > 0)
                 sb.append(min).append("min");
-            else
+            if (sec > 0)
                 sb.append(sec).append("s");
         } else {
-            if (millis > 0)
+            if (hours > 0)
                 sb.append(hours).append(':').append(format.format(min)).append(':').append(format.format(sec));
             else
                 sb.append(min).append(':').append(format.format(sec));
