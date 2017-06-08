@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 vlc:layout_constraintTop_toBottomOf="@+id/info_path"
-                vlc:layout_constraintStart_toEndOf="@+id/length_title"
+                vlc:layout_constraintStart_toStartOf="@+id/barrier"
                 android:visibility="@{length != null ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_margin="@dimen/half_default_margin"
                 android:textColor="?attr/font_light"
@@ -144,11 +144,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 vlc:layout_constraintTop_toBottomOf="@+id/length_title"
-                vlc:layout_constraintStart_toEndOf="@+id/size_title"
+                vlc:layout_constraintStart_toStartOf="@+id/barrier"
                 android:layout_margin="@dimen/half_default_margin"
                 android:textColor="?attr/font_light"
                 android:text="@{sizeValue}"
                 android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                vlc:layout_constraintTop_toTopOf="@id/length_title"
+                vlc:layout_constraintBottom_toBottomOf="@id/size_title"
+                vlc:barrierDirection="end"
+                vlc:constraint_referenced_ids="size_title, length_title"/>
             <TextView
                 android:id="@+id/extra_title"
                 android:layout_width="wrap_content"
