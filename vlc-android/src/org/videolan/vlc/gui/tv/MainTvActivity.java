@@ -420,7 +420,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         protected Void doInBackground(Void... params) {
             if (isCancelled())
                 return null;
-            videoList = mMediaLibrary.getVideos();
+            videoList = mMediaLibrary.getRecentVideos();
             if (showHistory && !isCancelled())
                 history = VLCApplication.getMLInstance().lastMediaPlayed();
             return null;
