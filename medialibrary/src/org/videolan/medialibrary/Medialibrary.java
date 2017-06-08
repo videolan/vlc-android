@@ -134,6 +134,10 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetVideos() : new MediaWrapper[0];
     }
 
+    public MediaWrapper[] getRecentVideos() {
+        return mIsInitiated ? nativeGetRecentVideos() : new MediaWrapper[0];
+    }
+
     public MediaWrapper[] getAudio() {
         return mIsInitiated ? nativeGetAudio() : new MediaWrapper[0];
     }
@@ -569,6 +573,7 @@ public class Medialibrary {
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper nativeAddMedia(String mrl);
     private native MediaWrapper[] nativeGetVideos();
+    private native MediaWrapper[] nativeGetRecentVideos();
     private native MediaWrapper[] nativeGetAudio();
     private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();

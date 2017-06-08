@@ -236,11 +236,11 @@ bool clearHistory(JNIEnv* env, jobject thiz)
     return MediaLibrary_getInstance(env, thiz)->clearHistory();
 }
 
-jobjectArray
-getVideos(JNIEnv* env, jobject thiz)
+static jobjectArray
+getInternalVideos(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles();
+    std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles(sort, desc);
     jobjectArray videoRefs = (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : videoFiles) {
@@ -251,6 +251,18 @@ getVideos(JNIEnv* env, jobject thiz)
         env->DeleteLocalRef(item);
     }
     return filteredArray(env, &ml_fields, videoRefs, drops);
+}
+
+jobjectArray
+getVideos(JNIEnv* env, jobject thiz)
+{
+    return getInternalVideos(env, thiz);
+}
+
+jobjectArray
+getRecentVideos(JNIEnv* env, jobject thiz)
+{
+    return getInternalVideos(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
 }
 
 static jobjectArray
@@ -751,6 +763,7 @@ static JNINativeMethod methods[] = {
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
+    {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
     {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
