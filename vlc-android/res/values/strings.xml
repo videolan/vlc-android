@@ -55,6 +55,7 @@
 
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
+    <string name="tracks">Tracks</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
