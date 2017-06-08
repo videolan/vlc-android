@@ -11,6 +11,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://maven.google.com'
+            // Alternative URL is 'https://dl.google.com/dl/android/maven2/'
+        }
         jcenter()
     }
 }
