@@ -41,8 +41,8 @@ public class Tools {
         if (lastTime == 0L)
             return "";
         return String.format("%s / %s",
-                millisToString(lastTime, true),
-                millisToString(media.getLength(), true));
+                millisToString(lastTime, true, false),
+                millisToString(media.getLength(), true, false));
     }
 
     /**
@@ -51,7 +51,7 @@ public class Tools {
      * @return formated string (hh:)mm:ss
      */
     public static String millisToString(long millis) {
-        return millisToString(millis, false);
+        return millisToString(millis, false, true);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Tools {
      * @return formated string "[hh]h[mm]min" / "[mm]min[s]s"
      */
     public static String millisToText(long millis) {
-        return millisToString(millis, true);
+        return millisToString(millis, true, true);
     }
 
     public static String getResolution(MediaWrapper media) {
@@ -95,7 +95,7 @@ public class Tools {
         }
     }
 
-    public static String millisToString(long millis, boolean text) {
+    public static String millisToString(long millis, boolean text, boolean seconds) {
         sb.setLength(0);
         if (millis < 0) {
             millis = -millis;
@@ -114,7 +114,7 @@ public class Tools {
                 sb.append(hours).append('h');
             if (min > 0)
                 sb.append(min).append("min");
-            if (sec > 0)
+            if ((seconds || sb.length() == 0) && sec > 0)
                 sb.append(sec).append("s");
         } else {
             if (hours > 0)

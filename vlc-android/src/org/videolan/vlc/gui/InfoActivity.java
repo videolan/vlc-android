@@ -119,7 +119,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             for (MediaWrapper media : tracks)
                 length += media.getLength();
         if (length > 0)
-            mBinding.setLength(Tools.millisToString(length, true));
+            mBinding.setLength(Tools.millisToText(length));
 
         if (mItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
             MediaWrapper media = (MediaWrapper) mItem;
