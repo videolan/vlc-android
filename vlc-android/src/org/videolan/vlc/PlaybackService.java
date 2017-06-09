@@ -135,6 +135,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private static final int DELAY_DOUBLE_CLICK = 800;
     private static final int DELAY_LONG_CLICK = 1000;
+    public static final String AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode";
 
     public interface Callback {
         void update();
@@ -1427,6 +1428,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void setRepeatType(int repeatType) {
         mRepeating = repeatType;
+        if (mMediaList.isAudioList() && mSettings.getBoolean("audio_save_repeat", false))
+            mSettings.edit().putInt(AUDIO_REPEAT_MODE_KEY, mRepeating).apply();
         savePosition();
         determinePrevAndNextIndices();
         publishState();
@@ -1862,6 +1865,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         // Add handler after loading the list
         mMediaList.addEventListener(mListEventListener);
 
+        if (mMediaList.isAudioList() && mSettings.getBoolean("audio_save_repeat", false))
+            mRepeating = mSettings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE);
         playIndex(mCurrentIndex, 0);
         saveMediaList();
         onMediaChanged();
