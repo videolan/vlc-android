@@ -1843,13 +1843,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         mMediaList.removeEventListener(mListEventListener);
         mMediaList.clear();
-        MediaWrapperList currentMediaList = mMediaList;
 
         mPrevious.clear();
 
-        for (int i = 0; i < mediaList.size(); i++) {
-            currentMediaList.add(mediaList.get(i));
-        }
+        for (MediaWrapper media : mediaList)
+            mMediaList.add(media);
 
         if (mMediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !");
