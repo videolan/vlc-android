@@ -243,7 +243,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         if (useAllItems) {
             ArrayList<MediaLibraryItem> items = new ArrayList<>();
             startPosition = mSongsAdapter.getListWithPosition(items, position);
-            medias = (MediaWrapper[]) items.toArray();
+            medias = items.toArray(new MediaWrapper[items.size()]);
         } else {
             startPosition = 0;
             if (mediaItem instanceof Album)
