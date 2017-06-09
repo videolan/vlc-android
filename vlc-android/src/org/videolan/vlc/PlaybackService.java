@@ -1567,13 +1567,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private synchronized void saveCurrentMedia() {
-        boolean audio = true;
-        for (int i = 0; i < mMediaList.size(); i++) {
-            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
-                audio = false;
-        }
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(audio ? "current_song" : "current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
+        editor.putString(mMediaList.isAudioList() ? "current_song" : "current_media", mMediaList.getMRL(Math.max(mCurrentIndex, 0)));
         editor.apply();
     }
 
@@ -1581,15 +1576,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (getCurrentMedia() == null)
             return;
         StringBuilder locations = new StringBuilder();
-        boolean audio = true;
-        for (int i = 0; i < mMediaList.size(); i++) {
-            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
-                audio = false;
+        for (int i = 0; i < mMediaList.size(); i++)
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
-        }
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(audio ? "audio_list" : "media_list", locations.toString().trim());
+        editor.putString(mMediaList.isAudioList() ? "audio_list" : "media_list", locations.toString().trim());
         editor.apply();
     }
 
@@ -1597,11 +1588,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (getCurrentMedia() == null)
             return;
         SharedPreferences.Editor editor = mSettings.edit();
-        boolean audio = true;
-        for (int i = 0; i < mMediaList.size(); i++) {
-            if (mMediaList.getMedia(i).getType() == MediaWrapper.TYPE_VIDEO)
-                audio = false;
-        }
+        boolean audio = mMediaList.isAudioList();
         editor.putBoolean(audio ? "audio_shuffling" : "media_shuffling", mShuffling);
         editor.putInt(audio ? "audio_repeating" : "media_repeating", mRepeating);
         editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", mCurrentIndex);

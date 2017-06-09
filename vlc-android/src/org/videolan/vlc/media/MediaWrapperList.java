@@ -44,6 +44,7 @@ public class MediaWrapperList {
     /* TODO: add locking */
     private ArrayList<MediaWrapper> mInternalList;
     private ArrayList<EventListener> mEventListenerList;
+    private int mVideoCount = 0;
 
     public MediaWrapperList() {
         mEventListenerList = new ArrayList<>();
@@ -52,6 +53,8 @@ public class MediaWrapperList {
 
     public void add(MediaWrapper media) {
         mInternalList.add(media);
+        if (media.getType() == MediaWrapper.TYPE_VIDEO)
+            ++mVideoCount;
     }
 
     public synchronized void addEventListener(EventListener listener) {
@@ -87,6 +90,7 @@ public class MediaWrapperList {
         for(int i = 0; i < mInternalList.size(); i++)
             signalEventListeners(EVENT_REMOVED, i, -1, mInternalList.get(i).getLocation());
         mInternalList.clear();
+        mVideoCount = 0;
     }
 
     private boolean isValid(int position) {
@@ -99,6 +103,8 @@ public class MediaWrapperList {
     public void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);
         signalEventListeners(EVENT_ADDED, position, -1, media.getLocation());
+        if (media.getType() == MediaWrapper.TYPE_VIDEO)
+            ++mVideoCount;
     }
 
     /**
@@ -125,6 +131,8 @@ public class MediaWrapperList {
     public void remove(int position) {
         if (!isValid(position))
             return;
+        if (mInternalList.get(position).getType() == MediaWrapper.TYPE_VIDEO)
+            --mVideoCount;
         String uri = mInternalList.get(position).getLocation();
         mInternalList.remove(position);
         signalEventListeners(EVENT_REMOVED, position, -1, uri);
@@ -134,6 +142,8 @@ public class MediaWrapperList {
         for (int i = 0; i < mInternalList.size(); ++i) {
             String uri = mInternalList.get(i).getLocation();
             if (uri.equals(location)) {
+                if (mInternalList.get(i).getType() == MediaWrapper.TYPE_VIDEO)
+                    --mVideoCount;
                 mInternalList.remove(i);
                 signalEventListeners(EVENT_REMOVED, i, -1, uri);
                 i--;
@@ -164,6 +174,10 @@ public class MediaWrapperList {
         if (!isValid(position))
             return null;
         return mInternalList.get(position).getLocation();
+    }
+
+    public boolean isAudioList() {
+        return mVideoCount == 0;
     }
 
     @Override
