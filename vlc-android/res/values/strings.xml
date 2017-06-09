@@ -332,6 +332,8 @@
     <string name="audio_title_alignment_centre">Centre</string>
     <string name="audio_title_alignment_right">Right</string>
     <string name="audio_title_alignment_marquee">Marquee</string>
+    <string name="audio_save_repeat_title">Save repeat mode</string>
+    <string name="audio_save_repeat_summary">Remember repeat mode when loading audio playlists</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>

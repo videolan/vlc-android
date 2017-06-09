@@ -10,6 +10,11 @@
         android:summary="@string/lockscreen_cover_summary"
         android:title="@string/lockscreen_cover_title" />
     <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="audio_save_repeat"
+        android:summary="@string/audio_save_repeat_summary"
+        android:title="@string/audio_save_repeat_title" />
+    <CheckBoxPreference
         android:defaultValue="true"
         android:key="animate_playlist_scroll"
         android:summary="@string/playlist_animate_scroll_summary"
