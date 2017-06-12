@@ -471,7 +471,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case ID_POPUP_VIDEO:
-                if (VLCApplication.showTvUi()) {
+                if (AndroidUtil.isOOrLater || VLCApplication.showTvUi()) {
                     getActivity().enterPictureInPictureMode();
                 } else {
                     if (Permissions.canDrawOverlays(mActivity))
