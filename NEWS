@@ -1,3 +1,20 @@
+Changes between 2.1.10 and 2.1.11:
+----------------------------------
+
+Application:
+ * Enable Picture-In-Picture mode on Android O
+ * Improve RTL support
+ * Option to save repeat mode in audio
+ * Info is available for artists, albums and playlists
+ * Update translations
+ * Misc. Fixes
+
+TV:	
+ * Videos in main screen are now the last added
+
+Medialibrary:
+ * Fix crashes due to implicit SQLite rollbacks
+
 Changes between 2.1.9 and 2.1.10:
 ----------------------------------
 
