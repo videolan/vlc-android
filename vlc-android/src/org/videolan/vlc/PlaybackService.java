@@ -207,7 +207,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
      * Last widget position update timestamp
      */
     private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
-    private ComponentName mRemoteControlClientReceiverComponent;
     private PopupManager mPopupManager;
 
     /* boolean indicating if the player is in benchmark mode */
@@ -253,8 +252,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mPrevIndex = -1;
         mNextIndex = -1;
         mPrevious = new Stack<>();
-        mRemoteControlClientReceiverComponent = new ComponentName(BuildConfig.APPLICATION_ID,
-                RemoteControlClientReceiver.class.getName());
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
