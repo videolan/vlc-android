@@ -380,6 +380,8 @@ public class AudioUtil {
     public static Bitmap readCoverBitmap(String path, int width) {
         if (path == null)
             return null;
+        if (path.startsWith("http"))
+            return HttpImageLoader.downloadBitmap(path);
         if (path.startsWith("file"))
             path = path.substring(7);
         Bitmap cover = null;
