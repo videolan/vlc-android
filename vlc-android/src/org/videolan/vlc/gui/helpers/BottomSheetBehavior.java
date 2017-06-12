@@ -36,6 +36,25 @@ public class BottomSheetBehavior<V extends View> extends android.support.design.
     }
 
     @Override
+    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed) {
+        try {
+            super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
+        } catch (NullPointerException ignored) {
+            //Same crash, weakref not already set.
+        }
+    }
+
+    @Override
+    public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, V child, View target, float velocityX, float velocityY) {
+        try {
+            return super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY);
+        } catch (NullPointerException ignored) {
+            //Same crash, weakref not already set.
+        }
+        return false;
+    }
+
+    @Override
     public boolean onTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
         try {
             return super.onTouchEvent(parent, child, event);
