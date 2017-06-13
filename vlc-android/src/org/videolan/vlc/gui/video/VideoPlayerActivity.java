@@ -2650,8 +2650,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
 
         if (mService.isPlaying()) {
+            showOverlayTimeout(OVERLAY_INFINITE);
             pause();
         } else {
+            hideOverlay(true);
             play();
         }
     }
