@@ -71,6 +71,7 @@ public class AndroidDevices {
     public final static boolean isChromeBook = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("org.chromium.arc.device_management");
     private final static String[] noMediaStyleManufacturers = {"huawei", "symphony teleca"};
     public final static boolean showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
+    public static final boolean hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isTv;
 
 
     static {
