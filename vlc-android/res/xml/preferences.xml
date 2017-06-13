@@ -15,12 +15,6 @@
         android:summary="@string/hardware_acceleration_summary"
         android:title="@string/hardware_acceleration" />
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="video_background"
-        android:summary="@string/play_as_audio_background_summary"
-        android:title="@string/play_as_audio_background" />
-
     <ListPreference
         android:defaultValue="99"
         android:entries="@array/screen_orientation_list"

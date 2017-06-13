@@ -27,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 
@@ -54,6 +55,7 @@ public class PreferencesVideo extends BasePreferenceFragment {
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("popup_keepscreen").setVisible(false);
+        findPreference("video_home_pip").setVisible(AndroidUtil.isOOrLater);
     }
 
     @Override
