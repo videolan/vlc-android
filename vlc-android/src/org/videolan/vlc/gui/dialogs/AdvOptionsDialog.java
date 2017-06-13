@@ -49,7 +49,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -471,7 +470,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case ID_POPUP_VIDEO:
-                if (AndroidUtil.isOOrLater || VLCApplication.showTvUi()) {
+                if (AndroidDevices.hasPiP) {
+                    //noinspection deprecation
                     getActivity().enterPictureInPictureMode();
                 } else {
                     if (Permissions.canDrawOverlays(mActivity))
@@ -551,7 +551,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, getString(R.string.play_as_audio)));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay, getString(R.string.spu_delay)));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay, getString(R.string.audio_delay)));
-            if (!tvUi || AndroidDevices.isAndroidTv() && AndroidUtil.isNougatOrLater)
+            if (!tvUi || AndroidDevices.hasPiP)
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim, getString(R.string.popup_playback_title)));
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat, getString(R.string.repeat_title)));
             if (mService.canShuffle())
