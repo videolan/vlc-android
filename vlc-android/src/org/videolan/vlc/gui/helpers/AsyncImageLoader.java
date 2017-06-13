@@ -30,8 +30,6 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -55,7 +53,6 @@ public class AsyncImageLoader {
     }
 
     public final static String TAG = "VLC/AsyncImageLoader";
-    private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
     public static final Bitmap DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_thumbnail_1610);
     public static final BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_VIDEO);
@@ -158,7 +155,7 @@ public class AsyncImageLoader {
             vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
             vdb.setVariable(BR.protocol, null);
         } else {
-            sHandler.post(new Runnable() {
+            VLCApplication.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     if (target instanceof ImageView) {
