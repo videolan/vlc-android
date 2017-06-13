@@ -1,28 +1,12 @@
-/*****************************************************************************
- * ImageComposer.java
- *****************************************************************************
- * Copyright © 2017 VLC authors, VideoLAN and VideoLabs
- * Author: Geoffrey Métais
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
 package org.videolan.vlc.util;
+
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.WorkerThread;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -31,13 +15,37 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.media.MediaGroup;
 
-public class ImageComposer {
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
-    private static final String TAG = "VLC/ImageComposer";
+import static org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME;
+
+public class ThumbnailsProvider {
+
+    private static final String TAG = "VLC/ThumbnailsProvider";
 
     private static final int sImageWidth = VLCApplication.getAppResources().getDimensionPixelSize(VLCApplication.showTvUi() ? R.dimen.tv_grid_card_thumb_width : R.dimen.grid_card_thumb_width);
     private static final int MAX_IMAGES = 4;
 
+    @WorkerThread
+    public static Bitmap getThumbnail(final String filePath) {
+        final Bitmap bitmap= ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
+        if (bitmap != null) {
+            final File appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
+            if (appDir != null && appDir.exists())
+                VLCApplication.runBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveOnDisk(bitmap, appDir.getAbsolutePath()+ THUMBS_FOLDER_NAME
+                                +"/"+ FileUtils.getFileNameFromPath(filePath)+".jpg");
+                    }
+                });
+        }
+        return bitmap;
+    }
+
+    @WorkerThread
     public static Bitmap getComposedImage(MediaGroup group) {
         BitmapCache bmc = BitmapCache.getInstance();
         String key = "group:"+group.getTitle();
@@ -132,5 +140,21 @@ public class ImageComposer {
                 height
         );
         return dstBmp;
+    }
+
+    private static void saveOnDisk(Bitmap bitmap, String destPath) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(destPath);
+            fos.write(byteArray);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        } finally {
+            Util.close(fos);
+            Util.close(stream);
+        }
     }
 }

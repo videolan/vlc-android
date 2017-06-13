@@ -45,7 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.HttpImageLoader;
-import org.videolan.vlc.util.ImageComposer;
+import org.videolan.vlc.util.ThumbnailsProvider;
 
 public class AsyncImageLoader {
 
@@ -137,7 +137,7 @@ public class AsyncImageLoader {
                 return null;
             String artworkUrl = item.getArtworkMrl();
             if (item instanceof MediaGroup)
-                return ImageComposer.getComposedImage((MediaGroup) item);
+                return ThumbnailsProvider.getComposedImage((MediaGroup) item);
             if (!TextUtils.isEmpty(artworkUrl) && artworkUrl.startsWith("http"))
                 return HttpImageLoader.downloadBitmap(artworkUrl);
             return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
