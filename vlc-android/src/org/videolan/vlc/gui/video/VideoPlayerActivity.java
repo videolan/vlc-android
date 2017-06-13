@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.app.PictureInPictureParams;
 import android.app.Presentation;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
@@ -47,6 +48,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
@@ -67,6 +69,7 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Rational;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.InputDevice;
@@ -598,8 +601,31 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSize.setOnClickListener(null);
 
         /* Stop the earliest possible to avoid vout error */
-        if (!isInPictureInPictureMode() && (isFinishing() || (AndroidDevices.isAndroidTv() && !requestVisibleBehind(true))))
-            stopPlayback();
+
+        if (!isInPictureInPictureMode()) {
+            if (isFinishing() ||
+                    (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
+                            && AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
+                stopPlayback();
+            else if (AndroidUtil.isOOrLater && mSettings.getBoolean("video_home_pip", false) && isInteractive()) {
+                enterPictureInPictureMode();
+            }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void enterPictureInPictureMode() {
+        if (AndroidUtil.isOOrLater)
+            enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
+        else
+            super.enterPictureInPictureMode();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+    private boolean isInteractive() {
+        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        return AndroidUtil.isKitKatOrLater ? pm.isInteractive() : pm.isScreenOn();
     }
 
     @Override
