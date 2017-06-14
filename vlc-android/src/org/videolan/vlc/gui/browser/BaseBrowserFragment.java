@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -41,6 +42,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,6 +62,7 @@ import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.InfoActivity;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -151,7 +154,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
-
+        Log.d(TAG, "onCreate: ");
     }
 
     protected int getLayoutId(){
@@ -170,6 +173,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchButtonView = v.findViewById(R.id.searchButton);
+        Log.d(TAG, "onCreateView: ");
         return v;
     }
 
@@ -183,21 +187,21 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (!mRoot && mFabPlay != null) {
-            mFabPlay.setImageResource(R.drawable.ic_fab_play);
-            updateFab();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (goBack)
             goBack();
         setSearchVisibility(false);
         restoreList();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && !mRoot && mFabPlay != null) {
+            mFabPlay.setImageResource(R.drawable.ic_fab_play);
+            updateFab();
+        }
     }
 
     public void onStop(){
@@ -252,10 +256,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     public void goBack(){
-        if (!mRoot)
-            getActivity().getSupportFragmentManager().popBackStack();
-        else
-            getActivity().finish();
+        Activity activity = getActivity();
+        if (!mRoot) {
+            if (!getActivity().getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
+                ((MainActivity)activity).showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
+        } else
+            activity.finish();
     }
 
     public void browse (MediaWrapper media, int position, boolean save) {
@@ -268,9 +274,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             VLCApplication.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
-        ft.replace(R.id.fragment_placeholder, next, media.getLocation());
+        if (isRootDirectory())
+            ft.hide(this);
+        else
+            ft.remove(this);
         if (save)
             ft.addToBackStack(media.getLocation());
+        ft.add(R.id.fragment_placeholder, next, media.getLocation());
         ft.commit();
     }
 
@@ -776,6 +786,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
         stopActionMode();
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 
     @Override

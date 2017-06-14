@@ -148,7 +148,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchButtonView = v.findViewById(R.id.searchButton);
-
         return v;
     }
 
@@ -172,11 +171,18 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         else
             setupMediaLibraryReceiver();
         super.onStart();
-        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
-        setFabPlayShuffleAllVisibility();
         for (View rv : mLists)
             registerForContextMenu(rv);
         mViewPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
+            setFabPlayShuffleAllVisibility();
+        }
     }
 
     @Override
@@ -424,7 +430,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     @Override
-    protected String getTitle() {
+    public String getTitle() {
         return getString(R.string.audio);
     }
 

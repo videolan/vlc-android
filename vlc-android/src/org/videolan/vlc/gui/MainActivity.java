@@ -43,6 +43,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -93,6 +94,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +112,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int mCurrentFragmentId;
+    private Fragment mCurrentFragment;
+    private final SimpleArrayMap<String, WeakReference<Fragment>> mFragmentsStack = new SimpleArrayMap<>();
 
     private boolean mScanNeeded = false;
 
@@ -252,7 +256,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     protected void onStart() {
         super.onStart();
 
-          //Deactivated for now
+        //Deactivated for now
 //        createExtensionServiceConnection();
 
         clearBackstackFromClass(ExtensionBrowser.class);
@@ -278,8 +282,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             return;
         }
         PackageManager pm = getPackageManager();
-            SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
-               PLUGIN_NAVIGATION_GROUP, R.string.plugins);
+        SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
+                PLUGIN_NAVIGATION_GROUP, R.string.plugins);
         for (int i = 0 ; i < plugins.size() ; ++i) {
             ExtensionListing extension = plugins.get(i);
             MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, extension.title());
@@ -340,32 +344,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-
-        // Figure out if currently-loaded fragment is a top-level fragment.
-        Fragment current = getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_placeholder);
-
-        /**
-         * Restore the last view.
-         *
-         * Replace:
-         * - null fragments (freshly opened Activity)
-         * - Wrong fragment open AND currently displayed fragment is a top-level fragment
-         *
-         * Do not replace:
-         * - Non-sidebar fragments.
-         * It will try to remove() the currently displayed fragment
-         * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
-         */
-        if (current == null) {
-            String tag = getTag(mCurrentFragmentId);
-            mNavigationView.setCheckedItem(mCurrentFragmentId);
-            Fragment ff = getFragment(mCurrentFragmentId);
-            getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_placeholder, ff, tag)
-                .addToBackStack(tag)
-                .commit();
-        }
+        if (mCurrentFragment == null)
+            showFragment(mCurrentFragmentId);
     }
 
     /**
@@ -411,7 +391,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         // If it's the directory view, a "backpressed" action shows a parent.
         Fragment fragment = getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment_placeholder);
+                .findFragmentById(R.id.fragment_placeholder);
         if (fragment instanceof BaseBrowserFragment){
             ((BaseBrowserFragment)fragment).goBack();
             return;
@@ -420,14 +400,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             return;
         }
         finish();
-    }
-
-    private Fragment getFragment(int id)
-    {
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(getTag(id));
-        if (frag != null)
-            return frag;
-        return getNewFragment(id);
     }
 
     @NonNull
@@ -616,9 +588,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
                 boolean audio = current instanceof AudioBrowserFragment;
-                    Intent i = new Intent(audio ? PlaybackService.ACTION_REMOTE_LAST_PLAYLIST :
-                           PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
-                    sendBroadcast(i);
+                Intent i = new Intent(audio ? PlaybackService.ACTION_REMOTE_LAST_PLAYLIST :
+                        PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
+                sendBroadcast(i);
                 break;
             case android.R.id.home:
                 // Slide down the audio player.
@@ -759,7 +731,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     public void openSearchActivity() {
         startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class)
-                        .putExtra(SearchManager.QUERY, mSearchView.getQuery().toString()));
+                .putExtra(SearchManager.QUERY, mSearchView.getQuery().toString()));
     }
 
     public void restoreCurrentList() {
@@ -834,17 +806,40 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     slideDownAudioPlayer();
 
                 /* Switch the fragment */
-                    Fragment fragment = getFragment(id);
-                    fm.beginTransaction()
-                        .replace(R.id.fragment_placeholder, fragment, tag)
-                        .addToBackStack(tag)
-                        .commit();
-                    mCurrentFragmentId = id;
+                    showFragment(id);
             }
         }
         mNavigationView.setCheckedItem(mCurrentFragmentId);
         mDrawerLayout.closeDrawer(mNavigationView);
         return true;
+    }
+
+    public void showFragment(int id) {
+        FragmentManager fm = getSupportFragmentManager();
+        //noinspection StatementWithEmptyBody
+        while (fm.popBackStackImmediate()); // Clear backstack
+        String tag = getTag(id);
+        //Get new fragment
+        Fragment fragment = null;
+        boolean add = false;
+        WeakReference<Fragment> wr = mFragmentsStack.get(tag);
+        if (wr != null)
+            fragment = wr.get();
+        if (fragment == null) {
+            fragment = getNewFragment(id);
+            mFragmentsStack.put(tag, new WeakReference<>(fragment));
+            add = true;
+        }
+        if (mCurrentFragment != null)
+            fm.beginTransaction().hide(mCurrentFragment).commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        if (add)
+            ft.add(R.id.fragment_placeholder, fragment, tag);
+        else
+            ft.show(fragment);
+        ft.commit();
+        mCurrentFragment = fragment;
+        mCurrentFragmentId = id;
     }
 
     private void clearBackstackFromClass(Class clazz) {

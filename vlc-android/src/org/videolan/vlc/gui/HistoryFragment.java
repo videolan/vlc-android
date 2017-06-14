@@ -85,10 +85,12 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         return v;
     }
 
-    public void onStart(){
-        super.onStart();
-        if (mReadyToDisplay && mHistoryAdapter.isEmpty())
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && mReadyToDisplay && mHistoryAdapter.isEmpty())
             display();
+
     }
 
     @Override
@@ -114,7 +116,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     @Override
-    protected String getTitle() {
+    public String getTitle() {
         return getString(R.string.history);
     }
 

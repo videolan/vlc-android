@@ -76,23 +76,44 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
             mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
     }
 
-    public void onStart(){
+
+    public void onStart() {
         super.onStart();
+        if (mFabPlay == null)
+            mFabPlay = getActivity().findViewById(R.id.fab);
+        if (!isHidden())
+            onHiddenChanged(false);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            updateTitle();
+            if (mFabPlay != null) {
+                setFabPlayVisibility(false);
+                mFabPlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onFabPlayClick(v);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (!isHidden())
+            onHiddenChanged(true);
+    }
+
+    public void updateTitle() {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle(getTitle());
             activity.getSupportActionBar().setSubtitle(getSubTitle());
-            getActivity().supportInvalidateOptionsMenu();
-        }
-        mFabPlay = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        if (mFabPlay != null) {
-            setFabPlayVisibility(false);
-            mFabPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onFabPlayClick(v);
-                }
-            });
+            activity.supportInvalidateOptionsMenu();
         }
     }
 
@@ -118,7 +139,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
 
-    protected abstract String getTitle();
+    public abstract String getTitle();
     public abstract void onRefresh();
 
     protected String getSubTitle() { return null; }

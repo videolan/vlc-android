@@ -99,7 +99,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     protected void display() {}
 
     @Override
-    protected String getTitle() {
+    public String getTitle() {
         return mItem.getTitle();
     }
 

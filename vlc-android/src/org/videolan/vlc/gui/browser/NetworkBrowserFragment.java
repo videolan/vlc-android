@@ -63,14 +63,24 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         mRoot = ROOT.equals(mMrl);
     }
 
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-
         mSkipRefresh = mediaList != null && !mediaList.isEmpty();
         getActivity().registerReceiver(networkReceiver, filter);
-        if (mRoot) {
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!mRoot)
+            return;
+        if (hidden) {
+            setFabPlayVisibility(false);
+            mFabPlay.setOnClickListener(null);
+        } else {
             mFabPlay.setImageResource(R.drawable.ic_fab_add);
             mFabPlay.setOnClickListener(this);
             setFabPlayVisibility(true);
@@ -86,10 +96,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public void onStop() {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
-        if (mRoot) {
-            setFabPlayVisibility(false);
-            mFabPlay.setOnClickListener(null);
-        }
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
