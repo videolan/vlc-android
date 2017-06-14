@@ -1,3 +1,9 @@
+Changes between 2.1.11 and 2.1.12:
+----------------------------------
+
+Core:
+ * Fix WMV3 hardware accelerated playback
+
 Changes between 2.1.10 and 2.1.11:
 ----------------------------------
 
