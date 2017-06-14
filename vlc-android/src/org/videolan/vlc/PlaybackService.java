@@ -673,7 +673,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             //Save progress
             long time = getTime();
             float progress = time / (float)media.getLength();
-            if (progress > 0.95f)
+            if (progress > 0.90f)
                 progress = 0f;
             media.setTime(progress == 0f ? 0L : time);
             media.setLongMeta(mMedialibrary, MediaWrapper.META_PROGRESS, (long) (progress*100));
