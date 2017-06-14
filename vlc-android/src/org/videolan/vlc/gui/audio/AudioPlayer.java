@@ -103,7 +103,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
 
     SharedPreferences mSettings;
-    private boolean mAnimateScroll;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -163,7 +162,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onStart() {
         super.onStart();
-        mAnimateScroll = mSettings.getBoolean("animate_playlist_scroll", true);
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -358,10 +356,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onSelectionSet(int position) {
         if (mPlayerState != BottomSheetBehavior.STATE_COLLAPSED && mPlayerState != BottomSheetBehavior.STATE_HIDDEN) {
-            if (mAnimateScroll)
-                mBinding.songsList.smoothScrollToPosition(position);
-            else
-                mBinding.songsList.scrollToPosition(position);
+            mBinding.songsList.scrollToPosition(position);
         }
     }
 
