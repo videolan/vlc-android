@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
@@ -83,6 +84,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
     ArrayList<MediaWrapper> mVideosList = new ArrayList<>();
     protected BrowserHandler mHandler = new BrowserHandler(this);
+    private BackgroundManager mBackgroundManager;
 
     abstract protected void browse();
 
@@ -92,18 +94,20 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         if (savedInstanceState != null)
             mItemSelected = savedInstanceState.getParcelable(SELECTED_ITEM);
         setOnItemViewClickedListener(this);
-        setOnItemViewSelectedListener(this);
         setAdapter(mAdapter);
 
         // UI setting
         setHeadersState(HEADERS_ENABLED);
         setBrandColor(ContextCompat.getColor(getActivity(), R.color.orange800));
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHeadersState(HEADERS_HIDDEN);
+        mBackgroundManager.attachToView(getView());
+        setOnItemViewSelectedListener(this);
         if (mAdapter.size() == 0)
             browse();
     }
@@ -137,6 +141,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     @Override
     public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         mItemSelected = (MediaWrapper)item;
+        TvUtil.updateBackground(mBackgroundManager, item);
     }
 
     @Override

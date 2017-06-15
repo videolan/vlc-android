@@ -23,21 +23,39 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v17.leanback.app.BackgroundManager;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.tv.TvUtil;
 
 import java.util.concurrent.CyclicBarrier;
 
-public abstract class MediaLibBrowserFragment extends GridFragment {
+public abstract class MediaLibBrowserFragment extends GridFragment implements OnItemViewSelectedListener {
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     protected Medialibrary mMediaLibrary;
+    private BackgroundManager mBackgroundManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mBackgroundManager.attachToView(getView());
+        setOnItemViewSelectedListener(this);
     }
 
     public void onResume() {
@@ -55,4 +73,10 @@ public abstract class MediaLibBrowserFragment extends GridFragment {
     }
 
     public void updateList() {}
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                               RowPresenter.ViewHolder rowViewHolder, Row row) {
+        TvUtil.updateBackground(mBackgroundManager, item);
+    }
 }

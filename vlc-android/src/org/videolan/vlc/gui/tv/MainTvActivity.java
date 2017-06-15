@@ -119,6 +119,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     private Object mSelectedItem;
     private AsyncUpdate mUpdateTask;
     private CardPresenter.SimpleCard mNowPlayingCard;
+    private BackgroundManager mBackgroundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +141,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         final FragmentManager fragmentManager = getFragmentManager();
         mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
                 R.id.browse_fragment);
-        mProgressBar = (ProgressBar) findViewById(R.id.tv_main_progress);
+        mProgressBar = findViewById(R.id.tv_main_progress);
 
         // Set display parameters for the BrowseFragment
         mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
@@ -160,6 +161,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         mRootContainer = mBrowseFragment.getView();
         mBrowseFragment.setBrandColor(ContextCompat.getColor(this, R.color.orange800));
+        mBackgroundManager = BackgroundManager.getInstance(this);
+        mBackgroundManager.attachToView(findViewById(R.id.tv_container));
+        TvUtil.clearBackground(mBackgroundManager);
     }
 
     @Override
@@ -285,14 +289,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         return super.onKeyDown(keyCode, event);
     }
 
-    protected void updateBackground(Drawable drawable) {
-        BackgroundManager.getInstance(this).setDrawable(drawable);
-    }
-
-    protected void clearBackground() {
-        BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
-    }
-
     public void update() {
         if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
             mUpdateTask = new AsyncUpdate();
@@ -336,6 +332,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         mSelectedItem = item;
+        TvUtil.updateBackground(mBackgroundManager, item);
     }
 
     @Override

@@ -23,8 +23,15 @@ package org.videolan.vlc.gui.tv;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.widget.Row;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -32,6 +39,9 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DialogActivity;
+import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -124,5 +134,39 @@ public class TvUtil {
             intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
             context.startActivity(intent);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static void updateBackground(final BackgroundManager bm, Object item) {
+        if (item instanceof MediaLibraryItem) {
+            final boolean crop = ((MediaLibraryItem) item).getItemType() != MediaLibraryItem.TYPE_MEDIA
+                    || ((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO;
+            final String artworkMrl = ((MediaLibraryItem) item).getArtworkMrl();
+            if (!TextUtils.isEmpty(artworkMrl)) {
+                VLCApplication.runBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512);
+                        if (crop)
+                            cover = BitmapUtil.centerCrop(cover, cover.getWidth(), cover.getWidth()*10/16);
+                        final Bitmap blurred = UiTools.blurBitmap(cover, 10f);
+                        VLCApplication.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                bm.setColor(0);
+                                bm.setDrawable(new BitmapDrawable(VLCApplication.getAppResources(), blurred));
+                            }
+                        });
+                    }
+                });
+                return;
+            }
+        }
+        clearBackground(bm);
+    }
+
+    public static void clearBackground(BackgroundManager bm) {
+        bm.setColor(ContextCompat.getColor(VLCApplication.getAppContext(), R.color.tv_bg));
+        bm.setDrawable(null);
     }
 }
