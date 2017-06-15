@@ -44,6 +44,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.tv.SearchActivity;
+import org.videolan.vlc.util.Permissions;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
@@ -57,6 +58,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Init Medialibrary if KO
+        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
