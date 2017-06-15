@@ -54,8 +54,8 @@ public class CardPresenter extends Presenter {
 
     private Activity mContext;
     private Resources mRes;
-    private static int CARD_WIDTH;
-    private static int CARD_HEIGHT = 0;
+    private static final int CARD_WIDTH = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
+    private static final int CARD_HEIGHT = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     private static Drawable sDefaultCardImage;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
@@ -63,8 +63,7 @@ public class CardPresenter extends Presenter {
         mContext = context;
         mRes = mContext.getResources();
         sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_default_cone);
-        CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
-        CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
+
     }
 
     class ViewHolder extends Presenter.ViewHolder {
