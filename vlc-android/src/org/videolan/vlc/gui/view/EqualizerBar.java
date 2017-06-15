@@ -20,7 +20,9 @@
 
 package org.videolan.vlc.gui.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -28,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 
@@ -51,10 +54,15 @@ public class EqualizerBar extends LinearLayout {
         init(context, 0);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void init(Context context, float band) {
         LayoutInflater.from(context).inflate(R.layout.equalizer_bar, this, true);
 
         mSeek = (VerticalSeekBar) findViewById(R.id.equalizer_seek);
+        //Force LTR to fix VerticalSeekBar background problem with RTL layout
+        if (AndroidUtil.isJellyBeanMR1OrLater){
+            mSeek.setLayoutDirection(LAYOUT_DIRECTION_LTR);
+        }
         mSeek.setMax(2 * RANGE);
         mSeek.setProgress(RANGE);
         mSeek.setOnSeekBarChangeListener(mSeekListener);
