@@ -279,6 +279,11 @@ public class UiTools {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Bitmap blurBitmap(Bitmap bitmap) {
+        return blurBitmap(bitmap, 15.0f);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static Bitmap blurBitmap(Bitmap bitmap, float radius) {
         if (bitmap == null || bitmap.getConfig() == null)
             return null;
 
@@ -297,7 +302,7 @@ public class UiTools {
 		Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
 		//Set the radius of the blur
-		blurScript.setRadius(15.f);
+		blurScript.setRadius(radius);
 
 		//Perform the Renderscript
 		blurScript.setInput(allIn);
