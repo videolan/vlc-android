@@ -60,8 +60,12 @@ import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
+
+import static org.videolan.vlc.StartActivity.EXTRA_FIRST_RUN;
+import static org.videolan.vlc.StartActivity.EXTRA_UPGRADE;
 
 public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback {
 
@@ -93,6 +97,9 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Init Medialibrary if KO
+        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
         MediaUtils.updateSubsDownloaderActivity(this);
         super.onCreate(savedInstanceState);
     }
