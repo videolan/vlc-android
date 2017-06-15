@@ -71,12 +71,12 @@ import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
-import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -609,7 +609,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 }
                 break;
             case R.id.ml_menu_equalizer:
-                showSecondaryFragment(SecondaryActivity.EQUALIZER);
+                new EqualizerFragment().show(getSupportFragmentManager(), "equalizer");
                 break;
             // Refresh
             case R.id.ml_menu_refresh:

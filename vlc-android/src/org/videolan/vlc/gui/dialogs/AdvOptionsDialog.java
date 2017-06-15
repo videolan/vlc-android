@@ -53,7 +53,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
-import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
@@ -225,6 +225,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_CHAPTER_TITLE:
                 newFragment = SelectChapterDialog.newInstance(mTheme);
                 tag = "select_chapter";
+                break;
+            case ID_EQUALIZER:
+                newFragment = new EqualizerFragment();
+                tag = "equalizer";
                 break;
             case ID_SAVE_PLAYLIST:
                 UiTools.addToPlaylist(getActivity(), mService.getMedias());
@@ -481,10 +485,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 }
                 break;
             case ID_EQUALIZER:
-                Intent i = new Intent(getActivity(), SecondaryActivity.class);
-                i.putExtra("fragment", SecondaryActivity.EQUALIZER);
-                startActivity(i);
-                dismiss();
+                showFragment(ID_EQUALIZER);
                 break;
             case ID_SAVE_PLAYLIST:
                 showFragment(ID_SAVE_PLAYLIST);
@@ -545,6 +546,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, getString(R.string.playback_speed)));
         mAdapter.addOption(new Option(ID_JUMP_TO, R.attr.ic_jumpto_normal_style, getString(R.string.jump_to_time)));
+        mAdapter.addOption(new Option(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, getString(R.string.equalizer)));
 
         if (mMode == MODE_VIDEO) {
             if (!tvUi)
@@ -564,7 +566,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 large_items++;
             }
         } else {
-            mAdapter.addOption(new Option(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, getString(R.string.equalizer)));
             mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save, getString(R.string.playlist_save)));
         }
         setDialogDimensions(large_items);

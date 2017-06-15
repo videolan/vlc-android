@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +42,12 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.view.EqualizerBar;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.VLCOptions;
-import org.videolan.vlc.gui.view.EqualizerBar;
 
-public class EqualizerFragment extends PlaybackServiceFragment {
+public class EqualizerFragment extends AppCompatDialogFragment implements PlaybackService.Client.Callback {
+    private PlaybackService mService;
 
     public final static String TAG = "VLC/EqualizerFragment";
     private SwitchCompat button;
@@ -54,10 +56,6 @@ public class EqualizerFragment extends PlaybackServiceFragment {
     private LinearLayout bands_layout;
     private MediaPlayer.Equalizer mEqualizer = null;
     private static final int BAND_COUNT = MediaPlayer.Equalizer.getBandCount();
-
-    /* All subclasses of Fragment must include a public empty constructor. */
-    public EqualizerFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +68,18 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         return v;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        PlaybackServiceFragment.registerPlaybackService(this, this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PlaybackServiceFragment.unregisterPlaybackService(this, this);
+    }
+
     private void saveViewChildren(View v) {
         button = (SwitchCompat) v.findViewById(R.id.equalizer_button);
         equalizer_presets = (Spinner) v.findViewById(R.id.equalizer_presets);
@@ -77,10 +87,14 @@ public class EqualizerFragment extends PlaybackServiceFragment {
         bands_layout = (LinearLayout) v.findViewById(R.id.equalizer_bands);
     }
 
-
     @Override
     public void onConnected(PlaybackService service) {
-        super.onConnected(service);
+        mService = service;
+    }
+
+    @Override
+    public void onDisconnected() {
+        mService = null;
     }
 
     private void fillViews() {

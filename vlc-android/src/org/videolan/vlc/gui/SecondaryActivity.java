@@ -52,7 +52,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     public static final String KEY_FRAGMENT = "fragment";
 
     public static final String ALBUMS_SONGS = "albumsSongs";
-    public static final String EQUALIZER = "equalizer";
     public static final String ABOUT = "about";
     public static final String VIDEO_GROUP_LIST = "videoGroupList";
     public static final String STORAGE_BROWSER = "storage_browser";
@@ -141,8 +140,6 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             Bundle args = new Bundle();
             args.putParcelable(AudioBrowserFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
             mFragment.setArguments(args);
-        } else if(id.equals(EQUALIZER)) {
-            mFragment = new EqualizerFragment();
         } else if(id.equals(ABOUT)) {
             mFragment = new AboutFragment();
         } else if(id.equals(VIDEO_GROUP_LIST)) {
