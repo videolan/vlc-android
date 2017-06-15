@@ -2363,6 +2363,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     public void onAudioSubClick(View anchor){
+        if (anchor == null)
+            initOverlay();
         final AppCompatActivity context = this;
         PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
