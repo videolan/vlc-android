@@ -187,4 +187,20 @@ public class BitmapUtil {
         }
         return 1;
     }
+
+    public static Bitmap centerCrop(Bitmap srcBmp, int width, int height) {
+        Bitmap dstBmp;
+        int widthDiff = srcBmp.getWidth()-width;
+        int heightDiff = srcBmp.getHeight()-height;
+        if (widthDiff == 0 && heightDiff == 0)
+            return srcBmp;
+        dstBmp = Bitmap.createBitmap(
+                srcBmp,
+                widthDiff/2,
+                heightDiff/2,
+                width,
+                height
+        );
+        return dstBmp;
+    }
 }

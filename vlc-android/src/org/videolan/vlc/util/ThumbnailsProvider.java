@@ -13,6 +13,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.media.MediaGroup;
 
 import java.io.ByteArrayOutputStream;
@@ -102,21 +103,21 @@ public class ThumbnailsProvider {
         switch (count) {
             case 2:
                 for (int i = 0; i < count; ++i)
-                    sourcesImages[i] = centerCrop(sourcesImages[i], minWidth/2, minHeight);
+                    sourcesImages[i] = BitmapUtil.centerCrop(sourcesImages[i], minWidth/2, minHeight);
                 canvas.drawBitmap(sourcesImages[0], 0, 0, null);
                 canvas.drawBitmap(sourcesImages[1], minWidth / 2, 0, null);
                 break;
             case 3:
-                sourcesImages[0] = centerCrop(sourcesImages[0], minWidth/2, minHeight/2);
-                sourcesImages[1] = centerCrop(sourcesImages[1], minWidth/2, minHeight/2);
-                sourcesImages[2] = centerCrop(sourcesImages[2], minWidth, minHeight/2);
+                sourcesImages[0] = BitmapUtil.centerCrop(sourcesImages[0], minWidth/2, minHeight/2);
+                sourcesImages[1] = BitmapUtil.centerCrop(sourcesImages[1], minWidth/2, minHeight/2);
+                sourcesImages[2] = BitmapUtil.centerCrop(sourcesImages[2], minWidth, minHeight/2);
                 canvas.drawBitmap(sourcesImages[0], 0, 0, null);
                 canvas.drawBitmap(sourcesImages[1], minWidth / 2, 0, null);
                 canvas.drawBitmap(sourcesImages[2], 0, minHeight/2, null);
                 break;
             case 4:
                 for (int i = 0; i < count; ++i)
-                    sourcesImages[i] = centerCrop(sourcesImages[i], minWidth, minHeight);
+                    sourcesImages[i] = BitmapUtil.centerCrop(sourcesImages[i], minWidth, minHeight);
                 canvas.drawBitmap(sourcesImages[0], 0, 0, null);
                 canvas.drawBitmap(sourcesImages[1], minWidth , 0, null);
                 canvas.drawBitmap(sourcesImages[2], 0, minHeight, null);
@@ -124,22 +125,6 @@ public class ThumbnailsProvider {
                 break;
         }
         return bmOverlay;
-    }
-
-    private static Bitmap centerCrop(Bitmap srcBmp, int width, int height) {
-        Bitmap dstBmp;
-        int widthDiff = srcBmp.getWidth()-width;
-        int heightDiff = srcBmp.getHeight()-height;
-        if (widthDiff == 0 && heightDiff == 0)
-            return srcBmp;
-        dstBmp = Bitmap.createBitmap(
-                srcBmp,
-                widthDiff/2,
-                heightDiff/2,
-                width,
-                height
-        );
-        return dstBmp;
     }
 
     private static void saveOnDisk(Bitmap bitmap, String destPath) {
