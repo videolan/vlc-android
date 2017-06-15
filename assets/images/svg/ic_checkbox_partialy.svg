@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_checkbox_false.svg"
+   sodipodi:docname="ic_checkbox_partialy.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="44.8"
-     inkscape:cx="2.9915658"
-     inkscape:cy="10.6772"
+     inkscape:zoom="22.4"
+     inkscape:cx="4.7369659"
+     inkscape:cy="4.3335279"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -68,5 +68,12 @@
        d="m 6,1037.3622 c -0.554,0 -1,0.446 -1,1 l 0,8 c 0,0.554 0.446,1 1,1 l 8,0 c 0.554,0 1,-0.446 1,-1 l 0,-8 c 0,-0.554 -0.446,-1 -1,-1 l -8,0 z m 0,1 8,0 0,8 -8,0 0,-8 z"
        id="rect4929"
        inkscape:connector-curvature="0" />
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ff8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
+       id="rect4154"
+       width="6"
+       height="6"
+       x="7"
+       y="1039.3622" />
   </g>
 </svg>
