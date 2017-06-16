@@ -28,6 +28,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -67,6 +69,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private static final int ID_DL_SUBS = 6;
     private static final int ID_PLAY_ALL = 7;
     private static final int ID_PLAY_FROM_START = 8;
+
+    private BackgroundManager mBackgroundManager;
     private ArrayObjectAdapter mRowsAdapter;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
@@ -76,8 +80,14 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
         buildDetails();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mBackgroundManager.attachToView(getView());
     }
 
     public void onPause(){
@@ -93,6 +103,12 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         PlaybackServiceFragment.unregisterPlaybackService(this, this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBackgroundManager.release();
+    }
+
     private void buildDetails() {
         Bundle extras = getActivity().getIntent().getExtras();
         mMedia = extras.getParcelable("item");
@@ -103,6 +119,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             media.setDisplayTitle(mMedia.getTitle());
         }
         mMediaWrapper = media;
+        setTitle(media.getTitle());
 
         final ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(SortedBrowserFragment.CURRENT_BROWSER_LIST);
         // Attach your media item details presenter to the row presenter:
@@ -215,6 +232,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         }
                         mRowsAdapter.add(detailsOverview);
                         setAdapter(mRowsAdapter);
+                        if (cover != null)
+                            mBackgroundManager.setBitmap(cover);
                     }
                 });
             }
