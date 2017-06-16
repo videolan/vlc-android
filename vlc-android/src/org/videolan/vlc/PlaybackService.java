@@ -22,7 +22,6 @@ package org.videolan.vlc;
 
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -109,6 +108,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.R.attr.width;
@@ -169,6 +170,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
+    private final ExecutorService mExecutorService = Executors.newSingleThreadExecutor();
+    private AtomicBoolean mUpdateMeta = new AtomicBoolean(false);
 
     // Index management
     /**
@@ -860,71 +863,86 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             hideNotification();
             return;
         }
-        try {
-            boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
-            MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
-            String title = metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
-            String artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
-            String album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
-            Bitmap cover = coverOnLockscreen ?
-                    metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
-                    AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), width);
-            if (cover == null)
-                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.ic_no_media);
-            Notification notification;
+        final MediaWrapper mw = getCurrentMedia();
+        if (mw != null) {
+            final boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
+            final boolean playing = mMediaPlayer.isPlaying();
+            final MediaSessionCompat.Token sessionToken = mMediaSession.getSessionToken();
+            final Context ctx = this;
+            mExecutorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        NotificationCompat.Builder builder;
+                        //Watch notification dismissed
+                        PendingIntent piStop = PendingIntent.getBroadcast(ctx, 0,
+                                new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+                        Bitmap cover;
+                        String title, artist, album;
+                        synchronized (mUpdateMeta) {
+                            try {
+                                while (mUpdateMeta.get())
+                                    mUpdateMeta.wait();
+                            } catch (InterruptedException ignored) {}
+                            final MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
+                            title = metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
+                            artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
+                            album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
+                            cover = coverOnLockscreen ?
+                                    metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
+                                    AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), width);
+                        }
+                            if (cover == null)
+                                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.ic_no_media);
 
-            //Watch notification dismissed
-            PendingIntent piStop = PendingIntent.getBroadcast(this, 0,
-                    new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+                            boolean video = mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO);
+                            // add notification to status bar
+                            builder = new NotificationCompat.Builder(ctx);
+                            builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
+                                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                                    .setContentTitle(title)
+                                    .setContentText(getMediaDescription(artist, album))
+                                    .setLargeIcon(cover)
+                                    .setTicker(title + " - " + artist)
+                                    .setAutoCancel(!playing)
+                                    .setOngoing(playing)
+                                    .setDeleteIntent(piStop);
 
-            MediaWrapper mw = getCurrentMedia();
-            boolean video = mw != null && mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO);
-            // add notification to status bar
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(title)
-                .setContentText(getMediaDescription(artist, album))
-                .setLargeIcon(cover)
-                .setTicker(title + " - " + artist)
-                .setAutoCancel(!mMediaPlayer.isPlaying())
-                .setOngoing(mMediaPlayer.isPlaying())
-                .setDeleteIntent(piStop);
+                        builder.setContentIntent(getSessionPendingIntent());
 
-            builder.setContentIntent(getSessionPendingIntent());
+                        PendingIntent piBackward = PendingIntent.getBroadcast(ctx, 0, new Intent(ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
 
-            PendingIntent piBackward = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piForward = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+                        builder.addAction(R.drawable.ic_previous_w, getString(R.string.previous), piBackward);
+                        if (mMediaPlayer.isPlaying())
+                            builder.addAction(R.drawable.ic_pause_w, getString(R.string.pause), piPlay);
+                        else
+                            builder.addAction(R.drawable.ic_play_w, getString(R.string.play), piPlay);
+                        builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
 
-            builder.addAction(R.drawable.ic_previous_w, getString(R.string.previous), piBackward);
-            if (mMediaPlayer.isPlaying())
-                builder.addAction(R.drawable.ic_pause_w, getString(R.string.pause), piPlay);
-            else
-                builder.addAction(R.drawable.ic_play_w, getString(R.string.play), piPlay);
-            builder.addAction(R.drawable.ic_next_w, getString(R.string.next), piForward);
+                        if (AndroidDevices.showMediaStyle) {
+                            builder.setStyle(new NotificationCompat.MediaStyle()
+                                    .setMediaSession(sessionToken)
+                                    .setShowActionsInCompactView(0,1,2)
+                                    .setShowCancelButton(true)
+                                    .setCancelButtonIntent(piStop)
+                            );
+                        }
 
-            if (AndroidDevices.showMediaStyle) {
-                builder.setStyle(new NotificationCompat.MediaStyle()
-                                .setMediaSession(mMediaSession.getSessionToken())
-                                .setShowActionsInCompactView(0,1,2)
-                                .setShowCancelButton(true)
-                                .setCancelButtonIntent(piStop)
-                );
-            }
-
-            notification = builder.build();
-
-            startService(new Intent(this, PlaybackService.class));
-            if (!AndroidUtil.isLolliPopOrLater || mMediaPlayer.isPlaying())
-                startForeground(3, notification);
-            else {
-                stopForeground(false);
-                NotificationManagerCompat.from(this).notify(3, notification);
-            }
-        } catch (IllegalArgumentException e){
-            // On somme crappy firmwares, shit can happen
-            Log.e(TAG, "Failed to display notification", e);
+                        startService(new Intent(ctx, PlaybackService.class));
+                        if (!AndroidUtil.isLolliPopOrLater || playing)
+                            startForeground(3, builder.build());
+                        else {
+                            stopForeground(false);
+                            NotificationManagerCompat.from(ctx).notify(3, builder.build());
+                        }
+                    } catch (IllegalArgumentException e){
+                        // On somme crappy firmwares, shit can happen
+                        Log.e(TAG, "Failed to display notification", e);
+                    }
+                }
+            });
         }
     }
 
@@ -1291,33 +1309,50 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     protected void updateMetadata() {
-        MediaWrapper media = getCurrentMedia();
+        final MediaWrapper media = getCurrentMedia();
         if (media == null)
             return;
         if (mMediaSession == null)
             initMediaSession();
-        String title = media.getNowPlaying();
-        if (title == null)
-            title = media.getTitle();
-        boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
-        MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
-        bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, BrowserProvider.generateMediaId(media))
-                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(this, media))
-                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.getTrackNumber())
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(this, media))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(this, media))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(this, media))
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
-        if (coverOnLockscreen) {
-            Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), 512);
-            if (cover != null && cover.getConfig() != null) //In case of format not supported
-                bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
-        }
-        bob.putLong("shuffle", 1L);
-        bob.putLong("repeat", getRepeatType());
-
-        mMediaSession.setMetadata(bob.build());
+        final Context ctx = this;
+        mExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (mUpdateMeta) {
+                    mUpdateMeta.set(true);
+                }
+                String title = media.getNowPlaying();
+                if (title == null)
+                    title = media.getTitle();
+                boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
+                final MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
+                bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, BrowserProvider.generateMediaId(media))
+                        .putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(ctx, media))
+                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.getTrackNumber())
+                        .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(ctx, media))
+                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(ctx, media))
+                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(ctx, media))
+                        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
+                if (coverOnLockscreen) {
+                    Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), 512);
+                    if (cover != null && cover.getConfig() != null) //In case of format not supported
+                        bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
+                }
+                bob.putLong("shuffle", 1L);
+                bob.putLong("repeat", getRepeatType());
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMediaSession.setMetadata(bob.build());
+                        synchronized (mUpdateMeta) {
+                            mUpdateMeta.set(false);
+                            mUpdateMeta.notify();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     protected void publishState() {
@@ -1457,14 +1492,19 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidgetCover() {
-        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER);
-        Bitmap cover = hasCurrentMedia() ? AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), 64) : null;
-        i.putExtra("cover", cover);
-        sendBroadcast(i);
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER);
+                Bitmap cover = hasCurrentMedia() ? AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), 64) : null;
+                i.putExtra("cover", cover);
+                sendBroadcast(i);
+            }
+        });
     }
 
     private void updateWidgetPosition(float pos) {
-        // no more than one widget update for each 1/50 of the song
+        // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = Calendar.getInstance().getTimeInMillis();
         if (!hasCurrentMedia()
                 || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
