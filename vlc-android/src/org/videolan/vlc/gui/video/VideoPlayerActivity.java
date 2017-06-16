@@ -2815,6 +2815,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void initOverlay() {
         ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_hud_stub);
         if (vsc != null) {
+            final boolean seekButtons = mSettings.getBoolean("enable_seek_buttons", false);
             vsc.inflate();
             mOverlayProgress = findViewById(R.id.progress_overlay);
             RelativeLayout.LayoutParams layoutParams =
@@ -2839,7 +2840,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mLock = (ImageView) findViewById(R.id.lock_overlay_button);
             mSize = (ImageView) findViewById(R.id.player_overlay_size);
             mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
-            if (mSettings.getBoolean("enable_seek_buttons", false))
+            if (seekButtons)
                 initSeekButton();
             mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
             resetHudLayout();
@@ -2849,6 +2850,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updateNavStatus();
             setHudClickListeners();
             initPlaylistUi();
+            if (!mService.hasPlaylist() && !seekButtons) {
+                if (rtl) {
+                    mAdvOptions.setNextFocusRightId(R.id.player_overlay_play);
+                    mTracks.setNextFocusLeftId(R.id.player_overlay_play);
+                } else {
+                    mTracks.setNextFocusRightId(R.id.player_overlay_play);
+                    mAdvOptions.setNextFocusLeftId(R.id.player_overlay_play);
+
+                }
+            }
         }
     }
 
