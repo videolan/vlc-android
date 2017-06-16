@@ -102,12 +102,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_RESULT_OPEN = 2;
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
-    private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
-    private static final int ACTIVITY_HIDE_INFOLAYOUT = 3;
-    private static final int ACTIVITY_SHOW_PROGRESSBAR = 4;
-    private static final int ACTIVITY_HIDE_PROGRESSBAR = 5;
-    private static final int ACTIVITY_SHOW_TEXTINFO = 6;
-    private static final int ACTIVITY_UPDATE_PROGRESS = 7;
 
 
     private Medialibrary mMediaLibrary;

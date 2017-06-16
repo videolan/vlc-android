@@ -169,8 +169,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static String EXTRA_URI = "extra_uri";
     public final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
     public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
-    public final static int RESULT_HARDWARE_ACCELERATION_ERROR = RESULT_FIRST_USER + 3;
-    public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 4;
+    public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3;
     private static final float DEFAULT_FOV = 80f;
     public static final float MIN_FOV = 20f;
     public static final float MAX_FOV = 150f;
@@ -260,7 +259,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mPlaybackSettingPlus;
     private ImageView mPlaybackSettingMinus;
     private View mObjectFocused;
-    private boolean mEnableBrightnessGesture;
     protected boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime;
     private int mScreenOrientation;
