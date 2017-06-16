@@ -113,9 +113,22 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (mItemSelected != null)
+            TvUtil.updateBackground(mBackgroundManager, mItemSelected);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBackgroundManager.release();
     }
 
     @Override

@@ -201,6 +201,13 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (mSelectedItem != null)
+            TvUtil.updateBackground(mBackgroundManager, mSelectedItem);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (AndroidDevices.isAndroidTv()) {
@@ -208,6 +215,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     RecommendationsService.class);
             startService(recommendationIntent);
         }
+        mBackgroundManager.release();
     }
 
     @Override
