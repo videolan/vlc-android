@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 
@@ -64,6 +65,7 @@ public class BrowserProvider {
     public static final String PLAYLIST_PREFIX = "playlist";
     public static final int MAX_HISTORY_SIZE = 50;
 
+    @WorkerThread
     public static List<MediaBrowserCompat.MediaItem> browse(String parentId) {
         ArrayList<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
         MediaLibraryItem[] list = null;
