@@ -761,7 +761,7 @@ SQLITE_SHA1="74559194e1dd9b9d577cac001c0e9d370856671b"
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
     echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
     cd ${MEDIALIBRARY_MODULE_DIR}
-    rm -rf ${MEDIALIBRARY_BUILD_DIR}/build*
+    rm -rf ${MEDIALIBRARY_BUILD_DIR}/build-android*
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
     wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
