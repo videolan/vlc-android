@@ -570,24 +570,34 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mCategoriesAdapter.removeItems(0, 1);
             mNowPlayingCard = null;
         } else  if (mService.hasMedia()){
-            MediaWrapper mw = mService.getCurrentMediaWrapper();
-            String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
-            Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
-            if (mNowPlayingCard == null) {
-                if (cover != null)
-                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
-                else
-                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_default_cone);
-                mCategoriesAdapter.add(0, mNowPlayingCard);
-            } else {
-                mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING);
-                mNowPlayingCard.setName(display);
-                if (cover != null)
-                    mNowPlayingCard.setImage(cover);
-                else
-                    mNowPlayingCard.setImageId(R.drawable.ic_default_cone);
-            }
-            mCategoriesAdapter.notifyArrayItemRangeChanged(0,1);
+            final MediaWrapper mw = mService.getCurrentMediaWrapper();
+            final String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mNowPlayingCard == null) {
+                                if (cover != null)
+                                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
+                                else
+                                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_default_cone);
+                                mCategoriesAdapter.add(0, mNowPlayingCard);
+                            } else {
+                                mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING);
+                                mNowPlayingCard.setName(display);
+                                if (cover != null)
+                                    mNowPlayingCard.setImage(cover);
+                                else
+                                    mNowPlayingCard.setImageId(R.drawable.ic_default_cone);
+                            }
+                            mCategoriesAdapter.notifyArrayItemRangeChanged(0,1);
+                        }
+                    });
+                }
+            });
 
         }
     }
