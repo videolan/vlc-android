@@ -859,6 +859,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
+        if (VLCApplication.showTvUi())
+            return;
         if (mMediaPlayer.getVLCVout().areViewsAttached()) {
             hideNotification();
             return;
