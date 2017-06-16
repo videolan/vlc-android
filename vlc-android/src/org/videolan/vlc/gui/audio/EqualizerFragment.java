@@ -59,8 +59,6 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.equalizer));
-
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.equalizer, container, false);
         saveViewChildren(v);
