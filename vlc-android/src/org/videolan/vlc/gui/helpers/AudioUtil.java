@@ -31,6 +31,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.WorkerThread;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -377,6 +378,7 @@ public class AudioUtil {
         }
     }
 
+    @WorkerThread
     public static Bitmap readCoverBitmap(String path, int width) {
         if (path == null)
             return null;
