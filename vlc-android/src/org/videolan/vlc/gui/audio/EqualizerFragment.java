@@ -21,7 +21,6 @@ package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -79,10 +78,10 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     }
 
     private void saveViewChildren(View v) {
-        button = (SwitchCompat) v.findViewById(R.id.equalizer_button);
-        equalizer_presets = (Spinner) v.findViewById(R.id.equalizer_presets);
-        preamp = (SeekBar) v.findViewById(R.id.equalizer_preamp);
-        bands_layout = (LinearLayout) v.findViewById(R.id.equalizer_bands);
+        button = v.findViewById(R.id.equalizer_button);
+        equalizer_presets = v.findViewById(R.id.equalizer_presets);
+        preamp = v.findViewById(R.id.equalizer_preamp);
+        bands_layout = v.findViewById(R.id.equalizer_bands);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         });
 
         // presets
-        equalizer_presets.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, presets));
+        equalizer_presets.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, presets));
 
         // Set the default selection asynchronously to prevent a layout initialization bug.
         final int equalizer_preset_pref = VLCOptions.getEqualizerPreset(context);
