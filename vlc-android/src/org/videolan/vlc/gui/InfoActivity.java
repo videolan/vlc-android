@@ -125,18 +125,18 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             MediaWrapper media = (MediaWrapper) mItem;
             mBinding.setPath(Uri.decode(media.getUri().getPath()));
             mBinding.setProgress(media.getLength() == 0 ? 0 : (int) ((long) 100 * media.getTime() / length));
-            mBinding.setSizeTitle(getString(R.string.file_size));
+            mBinding.setSizeTitleText(getString(R.string.file_size));
         } else if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
             Medialibrary ml = VLCApplication.getMLInstance();
             Album[] albums = ((Artist)mItem).getAlbums(ml);
             int nbAlbums = albums == null ? 0 : albums.length;
-            mBinding.setSizeTitle(getString(R.string.albums));
-            mBinding.setSizeValue(String.valueOf(nbAlbums));
-            mBinding.setExtraTitle(getString(R.string.tracks));
-            mBinding.setExtraValue(String.valueOf(nbTracks));
+            mBinding.setSizeTitleText(getString(R.string.albums));
+            mBinding.setSizeValueText(String.valueOf(nbAlbums));
+            mBinding.setExtraTitleText(getString(R.string.tracks));
+            mBinding.setExtraValueText(String.valueOf(nbTracks));
         } else {
-            mBinding.setSizeTitle(getString(R.string.tracks));
-            mBinding.setSizeValue(String.valueOf(nbTracks));
+            mBinding.setSizeTitleText(getString(R.string.tracks));
+            mBinding.setSizeValueText(String.valueOf(nbTracks));
         }
     }
 
@@ -240,7 +240,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                 return null;
             if (((MediaWrapper)mItem).getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
-            mBinding.setSizeValue(Strings.readableFileSize(itemFile.length()));
+            mBinding.setSizeValueText(Strings.readableFileSize(itemFile.length()));
             return null;
         }
 

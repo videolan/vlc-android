@@ -17,16 +17,16 @@
             name="path"
             type="String" />
         <variable
-            name="sizeTitle"
+            name="sizeTitleText"
             type="String" />
         <variable
-            name="extraTitle"
+            name="extraTitleText"
             type="String" />
         <variable
-            name="sizeValue"
+            name="sizeValueText"
             type="String" />
         <variable
-            name="extraValue"
+            name="extraValueText"
             type="String" />
         <variable
             name="progress"
@@ -136,7 +136,7 @@
                 vlc:layout_constraintTop_toBottomOf="@+id/length_title"
                 vlc:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/half_default_margin"
-                android:text="@{sizeTitle}"
+                android:text="@{sizeTitleText}"
                 android:textColor="?attr/font_light"
                 android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
             <TextView
@@ -147,7 +147,7 @@
                 vlc:layout_constraintStart_toStartOf="@+id/barrier"
                 android:layout_margin="@dimen/half_default_margin"
                 android:textColor="?attr/font_light"
-                android:text="@{sizeValue}"
+                android:text="@{sizeValueText}"
                 android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
             <android.support.constraint.Barrier
                 android:id="@+id/barrier"
@@ -165,7 +165,7 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/half_default_margin"
                 android:textColor="?attr/font_light"
-                android:text="@{extraTitle}"
+                android:text="@{extraTitleText}"
                 android:visibility="@{extraValue != null ? View.VISIBLE : View.INVISIBLE}" />
             <TextView
                 android:id="@+id/extra_value"
@@ -175,7 +175,7 @@
                 vlc:layout_constraintStart_toEndOf="@+id/extra_title"
                 android:layout_margin="@dimen/half_default_margin"
                 android:textColor="?attr/font_light"
-                android:text="@{extraValue}"
+                android:text="@{extraValueText}"
                 android:visibility="@{extraValue != null ? View.VISIBLE : View.INVISIBLE}"/>
             <ImageView
                 android:id="@+id/info_subtitles"
