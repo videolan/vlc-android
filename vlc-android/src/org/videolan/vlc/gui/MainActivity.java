@@ -146,6 +146,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         if (savedInstanceState != null) {
             mCurrentFragmentId = savedInstanceState.getInt("current");
+            mCurrentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
             if (mCurrentFragmentId > 0)
                 mNavigationView.setCheckedItem(mCurrentFragmentId);
         }
