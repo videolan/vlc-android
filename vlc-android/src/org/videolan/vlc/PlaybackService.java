@@ -209,7 +209,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     /**
      * Last widget position update timestamp
      */
-    private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
+    private long mWidgetPositionTimestamp = System.currentTimeMillis();
     private PopupManager mPopupManager;
 
     /* boolean indicating if the player is in benchmark mode */
@@ -1475,67 +1475,57 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidgetState() {
-        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE);
-
+        final MediaWrapper media = getCurrentMedia();
+        Intent widgetIntent = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE);
         if (hasCurrentMedia()) {
-            final MediaWrapper media = getCurrentMedia();
-            i.putExtra("title", media.getTitle());
-            i.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
+            widgetIntent.putExtra("title", media.getTitle());
+            widgetIntent.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
                     media.getNowPlaying()
-                    : MediaUtils.getMediaArtist(this, media));
+                    : MediaUtils.getMediaArtist(PlaybackService.this, media));
+        } else {
+            widgetIntent.putExtra("title", getString(R.string.widget_default_text));
+            widgetIntent.putExtra("artist", "");
         }
-        else {
-            i.putExtra("title", getString(R.string.widget_default_text));
-            i.putExtra("artist", "");
-        }
-        i.putExtra("isplaying", mMediaPlayer.isPlaying());
-
-        sendBroadcast(i);
+        widgetIntent.putExtra("isplaying", isPlaying());
+        sendBroadcast(widgetIntent);
     }
 
     private void updateWidgetCover() {
+        if (!hasCurrentMedia())
+            return;
+        final String artworkMrl = getCurrentMedia().getArtworkMrl();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER);
-                Bitmap cover = hasCurrentMedia() ? AudioUtil.readCoverBitmap(Uri.decode(getCurrentMedia().getArtworkMrl()), 64) : null;
-                i.putExtra("cover", cover);
-                sendBroadcast(i);
+                Bitmap cover = hasCurrentMedia()? AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320) : null;
+                sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
+                        .putExtra("cover", cover));
             }
         });
     }
 
-    private void updateWidgetPosition(float pos) {
+    private void updateWidgetPosition(final float pos) {
         // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = Calendar.getInstance().getTimeInMillis();
-        if (!hasCurrentMedia()
-                || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
+        if (!hasCurrentMedia() || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
-
         updateWidgetState();
-
         mWidgetPositionTimestamp = timestamp;
-        Intent i = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION);
-        i.putExtra("position", pos);
-        sendBroadcast(i);
+        sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
+                .putExtra("position", pos));
     }
 
     private void broadcastMetadata() {
-        MediaWrapper media = getCurrentMedia();
+        final MediaWrapper media = getCurrentMedia();
         if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
             return;
-
-        boolean playing = mMediaPlayer.isPlaying();
-
-        Intent broadcast = new Intent("com.android.music.metachanged");
-        broadcast.putExtra("track", media.getTitle());
-        broadcast.putExtra("artist", media.getArtist());
-        broadcast.putExtra("album", media.getAlbum());
-        broadcast.putExtra("duration", media.getLength());
-        broadcast.putExtra("playing", playing);
-        broadcast.putExtra("package", "org.videolan.vlc");
-
-        sendBroadcast(broadcast);
+        sendBroadcast(new Intent("com.android.music.metachanged")
+                .putExtra("track", media.getTitle())
+                .putExtra("artist", media.getArtist())
+                .putExtra("album", media.getAlbum())
+                .putExtra("duration", media.getLength())
+                .putExtra("playing", mMediaPlayer.isPlaying())
+                .putExtra("package", "org.videolan.vlc"));
     }
 
     BroadcastReceiver mLibraryReceiver = null;
