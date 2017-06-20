@@ -1711,7 +1711,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     break;
                 case SHOW_PROGRESS:
                     int pos = setOverlayProgress();
-                    if (canShowProgress()) {
+                    if (pos >= 0 && canShowProgress()) {
                         msg = mHandler.obtainMessage(SHOW_PROGRESS);
                         mHandler.sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
@@ -2993,7 +2993,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private int setOverlayProgress() {
         if (mService == null) {
-            return 0;
+            return -1;
         }
         int time = (int) getTime();
         int length = (int) mService.getLength();
@@ -3001,6 +3001,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private int setOverlayProgress(int time, int length) {
+        if (time == -1 || length == -1)
+            return -1;
         // Update all view elements
         if (mSeekbar != null) {
             mSeekbar.setMax(length);
