@@ -1593,15 +1593,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
                             mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
                         }
-                        load(playList, position);
                         if (!audio) {
                             boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
-                            float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
                             if (paused)
-                                pause();
+                                playList.get(position).addFlags(MediaWrapper.MEDIA_PAUSED);
+                            float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
                             if (rate != 1.0f)
                                 setRate(rate, false);
                         }
+                        load(playList, position);
                     }
                 });
             }
@@ -1627,7 +1627,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private synchronized void savePosition(){
-        if (getCurrentMedia() == null)
+        if (!hasMedia())
             return;
         SharedPreferences.Editor editor = mSettings.edit();
         boolean audio = mMediaList.isAudioList();
