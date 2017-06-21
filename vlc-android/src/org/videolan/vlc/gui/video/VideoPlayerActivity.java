@@ -505,29 +505,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
-        setHudClickListeners();
+        setHudClickListeners(true);
 
         if (mIsLocked && mScreenOrientation == 99)
             setRequestedOrientation(mScreenOrientationLock);
     }
 
-    private void setHudClickListeners() {
+    private void setHudClickListeners(boolean enabled) {
         if (mSeekbar != null)
-            mSeekbar.setOnSeekBarChangeListener(mSeekListener);
+            mSeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
         if (mLock != null)
-            mLock.setOnClickListener(this);
+            mLock.setOnClickListener(enabled ? this : null);
         if (mPlayPause != null)
-            mPlayPause.setOnClickListener(this);
+            mPlayPause.setOnClickListener(enabled ? this : null);
         if (mPlayPause != null)
-            mPlayPause.setOnLongClickListener(this);
+            mPlayPause.setOnLongClickListener(enabled ? this : null);
         if (mLength != null)
-            mLength.setOnClickListener(this);
+            mLength.setOnClickListener(enabled ? this : null);
         if (mTime != null)
-            mTime.setOnClickListener(this);
+            mTime.setOnClickListener(enabled ? this : null);
         if (mSize != null)
-            mSize.setOnClickListener(this);
+            mSize.setOnClickListener(enabled ? this : null);
         if (mNavMenu != null)
-            mNavMenu.setOnClickListener(this);
+            mNavMenu.setOnClickListener(enabled ? this : null);
     }
 
     @Override
@@ -583,20 +583,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onPause() {
         super.onPause();
         hideOverlay(true);
-        if (mSeekbar != null)
-            mSeekbar.setOnSeekBarChangeListener(null);
-        if (mLock != null)
-            mLock.setOnClickListener(null);
-        if (mPlayPause != null)
-            mPlayPause.setOnClickListener(null);
-        if (mPlayPause != null)
-            mPlayPause.setOnLongClickListener(null);
-        if (mLength != null)
-            mLength.setOnClickListener(null);
-        if (mTime != null)
-            mTime.setOnClickListener(null);
-        if (mSize != null)
-            mSize.setOnClickListener(null);
+        setHudClickListeners(false);
 
         /* Stop the earliest possible to avoid vout error */
 
@@ -2847,7 +2834,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
             updateNavStatus();
-            setHudClickListeners();
+            setHudClickListeners(true);
             initPlaylistUi();
             if (!mService.hasPlaylist() && !seekButtons) {
                 if (rtl) {
