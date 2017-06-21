@@ -605,19 +605,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
                             && AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
                 stopPlayback();
-            else if (AndroidUtil.isOOrLater && mSettings.getBoolean("video_home_pip", false) && isInteractive()) {
-                enterPictureInPictureMode();
+            else if (mSettings.getBoolean("video_home_pip", false) && isInteractive()) {
+                switchToPopup();
             }
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void enterPictureInPictureMode() {
-        if (AndroidUtil.isOOrLater)
-            enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
-        else
-            super.enterPictureInPictureMode();
+    @TargetApi(Build.VERSION_CODES.N)
+    public void switchToPopup() {
+        if (AndroidDevices.hasPiP) {
+            if (AndroidUtil.isOOrLater)
+                enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
+            else
+                //noinspection deprecation
+                enterPictureInPictureMode();
+        } else {
+            if (Permissions.canDrawOverlays(this)) {
+                mSwitchingView = true;
+                mSwitchToPopup = true;
+                cleanUI();
+                exitOK();
+            } else
+                Permissions.checkDrawOverlaysPermission(this);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
@@ -1838,15 +1848,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 4000);
         }
-    }
-
-    public void switchToPopupMode() {
-        if (mService == null)
-            return;
-        mSwitchingView = true;
-        mSwitchToPopup = true;
-        cleanUI();
-        exitOK();
     }
 
     public void switchToAudioMode(boolean showUI) {

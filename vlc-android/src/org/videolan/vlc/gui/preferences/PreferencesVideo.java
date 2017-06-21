@@ -50,12 +50,9 @@ public class PreferencesVideo extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CheckBoxPreference pip = (CheckBoxPreference) findPreference("video_home_pip");
-        if (AndroidUtil.isOOrLater) {
-            CheckBoxPreference background = (CheckBoxPreference) findPreference("video_background");
-            pip.setEnabled(!background.isChecked());
-            background.setEnabled(!pip.isChecked());
-        }
-        pip.setVisible(AndroidUtil.isOOrLater);
+        CheckBoxPreference background = (CheckBoxPreference) findPreference("video_background");
+        pip.setEnabled(!background.isChecked());
+        background.setEnabled(!pip.isChecked());
     }
 
     @Override
