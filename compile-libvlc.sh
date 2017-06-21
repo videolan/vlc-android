@@ -69,7 +69,6 @@ fi
 
 VLC_BOOTSTRAP_ARGS="\
     --disable-disc \
-    --disable-sout \
     --enable-dvdread \
     --enable-dvdnav \
     --disable-dca \
@@ -111,6 +110,8 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-libplacebo \
     --enable-ad-clauses \
     --disable-srt \
+    --enable-vpx \
+    --disable-x265 --disable-x264 \
 "
 
 ###########################
@@ -171,7 +172,7 @@ VLC_CONFIGURE_ARGS="\
     --enable-gles2 \
     --disable-goom \
     --disable-projectm \
-    --disable-sout \
+    --enable-sout \
     --enable-vorbis \
     --disable-faad \
     --disable-x264 \
