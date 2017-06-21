@@ -149,7 +149,6 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    binding.browserCheckbox.toggle();
                     onCheckBoxClick(binding.browserCheckbox);
                     return true;
                 }
@@ -168,7 +167,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
 
         public void onCheckBoxClick(View v) {
             if (getItem(getLayoutPosition()).getItemType() == TYPE_STORAGE)
-                checkBoxAction(v, ((Storage) getItem(getLayoutPosition())).getUri().getPath());
+                checkBoxAction(v, ((Storage) getItem(getLayoutPosition())).getUri().toString());
         }
 
         @Override
@@ -331,7 +330,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         return media.getUri().getScheme();
     }
 
-    protected void checkBoxAction(View v, String path){}
+    protected void checkBoxAction(View v, String mrl){}
 
     ArrayList<MediaWrapper> getSelection() {
         ArrayList<MediaWrapper> selection = new ArrayList<>();

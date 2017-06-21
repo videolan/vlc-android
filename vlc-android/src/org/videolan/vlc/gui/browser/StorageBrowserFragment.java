@@ -43,6 +43,7 @@ import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
+import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 
@@ -178,7 +179,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     public void onClick(View v, int position, MediaLibraryItem item) {
         MediaWrapper mw = new MediaWrapper(((Storage) item).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
-        browse(mw, position, ((BrowserItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.isChecked());
+        browse(mw, position, ((BrowserItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.getState() == ThreeStatesCheckbox.STATE_CHECKED);
     }
 
     @Override
@@ -188,9 +189,9 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         }
     }
 
-    void processEvent(CheckBox cbp, String path) {
+    void processEvent(CheckBox cbp, String mrl) {
         cbp.setEnabled(false);
-        mProcessingFolders.put(path, cbp);
+        mProcessingFolders.put(mrl, cbp);
     }
 
     @Override
@@ -206,20 +207,21 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     @Override
     public void onEntryPointRemoved(String entryPoint, final boolean success) {
-        String path = Uri.parse(entryPoint).getPath();
-        if (path.endsWith("/"))
-            path = path.substring(0, path.length()-1);
-        if (mProcessingFolders.containsKey(path)) {
-            final String finalPath = path;
+        if (entryPoint.endsWith("/"))
+            entryPoint = entryPoint.substring(0, entryPoint.length()-1);
+        if (mProcessingFolders.containsKey(entryPoint)) {
+            final String finalMrl = entryPoint;
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mProcessingFolders.get(finalPath).setEnabled(true);
-                    if (!success)
-                        mProcessingFolders.get(finalPath).setChecked(false);
+                    mProcessingFolders.get(finalMrl).setEnabled(true);
+                    if (success) {
+                        ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
+                        mAdapter.notifyDataSetChanged();
+                    } else
+                        mProcessingFolders.get(finalMrl).setChecked(false);
                 }
             });
-            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
         }
     }
 
@@ -231,7 +233,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
-        String path = Uri.parse(entryPoint).getPath();
+        String path = entryPoint;
         if (path.endsWith("/"))
             path = path.substring(0, path.length()-1);
         if (mProcessingFolders.containsKey(path)) {

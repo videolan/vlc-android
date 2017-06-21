@@ -100,9 +100,15 @@ public class Medialibrary {
             nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
-    public void removeFolder(@NonNull String path) {
-        if (mIsInitiated)
-            nativeRemoveEntryPoint(Tools.encodeVLCMrl(path));
+    public void removeFolder(@NonNull String mrl) {
+        if (!mIsInitiated)
+            return;
+        String[] folders = getFoldersList();
+        for (String folder : folders) {
+            if (!folder.equals(mrl) && folder.contains(mrl))
+                removeFolder(folder);
+        }
+        nativeRemoveEntryPoint(Tools.encodeVLCMrl(mrl));
     }
 
     public String[] getFoldersList() {

@@ -19,9 +19,6 @@
             name="checkEnabled"
             type="boolean"/>
         <variable
-            name="checked"
-            type="boolean"/>
-        <variable
             name="protocol"
             type="String"/>
         <variable
@@ -39,11 +36,10 @@
         android:onClick="@{holder::onClick}"
         android:background="@drawable/background_item">
 
-        <CheckBox
+        <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
             android:id="@+id/browser_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{checked, default=false}"
             android:enabled="@{checkEnabled}"
             android:focusable="false"
             android:onClick="@{holder::onCheckBoxClick}"
