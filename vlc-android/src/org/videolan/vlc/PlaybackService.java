@@ -2061,7 +2061,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (isSeekable()) {
             long time = getTime();
             if (time > 0 )
-                setTime(time);
+                seek(time);
         }
     }
 
