@@ -155,6 +155,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         return binder.getService();
     }
 
+    KeyguardManager mKeyguardManager = (KeyguardManager) VLCApplication.getAppContext().getSystemService(Context.KEYGUARD_SERVICE);
     private SharedPreferences mSettings;
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
@@ -291,6 +292,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
         }
+        mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
     }
 
     @Override
@@ -563,7 +565,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
-        KeyguardManager keyguardManager = (KeyguardManager) VLCApplication.getAppContext().getSystemService(Context.KEYGUARD_SERVICE);
 
         @Override
         public void onEvent(MediaPlayer.Event event) {
@@ -582,7 +583,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld())
                         mWakeLock.acquire();
-                    if (!keyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo()) {
+                    if (!mKeyguardManager.inKeyguardRestrictedInputMode() && !mVideoBackground && switchToVideo()) {
                         hideNotification();
                     } else {
                         showPlayer();
