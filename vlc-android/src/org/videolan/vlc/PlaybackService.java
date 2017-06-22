@@ -935,9 +935,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
                         startService(new Intent(ctx, PlaybackService.class));
                         if (!AndroidUtil.isLolliPopOrLater || playing)
-                            startForeground(3, builder.build());
+                            PlaybackService.this.startForeground(3, builder.build());
                         else {
-                            stopForeground(false);
+                            PlaybackService.this.stopForeground(false);
                             NotificationManagerCompat.from(ctx).notify(3, builder.build());
                         }
                     } catch (IllegalArgumentException e){
@@ -976,8 +976,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void hideNotification() {
-        stopForeground(true);
-        NotificationManagerCompat.from(this).cancel(3);
+        mExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                PlaybackService.this.stopForeground(true);
+                NotificationManagerCompat.from(PlaybackService.this).cancel(3);
+            }
+        });
     }
 
     @MainThread
