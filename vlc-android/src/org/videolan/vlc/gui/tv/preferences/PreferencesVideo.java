@@ -54,7 +54,7 @@ public class PreferencesVideo extends BasePreferenceFragment {
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp());
         findPreference("popup_keepscreen").setVisible(false);
-        findPreference("video_home_pip").setVisible(AndroidDevices.isAndroidTv());
+        findPreference("video_action_switch").setVisible(AndroidDevices.hasPiP);
     }
 
     @Override

@@ -22,11 +22,8 @@
 
 package org.videolan.vlc.gui.preferences;
 
-import android.os.Bundle;
-import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.Preference;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 
 public class PreferencesVideo extends BasePreferenceFragment {
@@ -42,20 +39,6 @@ public class PreferencesVideo extends BasePreferenceFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        CheckBoxPreference pip = (CheckBoxPreference) findPreference("video_home_pip");
-        CheckBoxPreference background = (CheckBoxPreference) findPreference("video_background");
-        pip.setEnabled(!background.isChecked());
-        background.setEnabled(!pip.isChecked());
-    }
-
-    @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference.getKey() == null)
             return false;
@@ -65,14 +48,6 @@ public class PreferencesVideo extends BasePreferenceFragment {
                 return true;
             case "force_list_portrait":
                 ((PreferencesActivity) getActivity()).setRestart();
-                return true;
-            case "video_home_pip":
-                findPreference("video_background").setEnabled(!((CheckBoxPreference)preference).isChecked());
-                return true;
-            case "video_background":
-                if (!AndroidUtil.isOOrLater)
-                    return false;
-                findPreference("video_home_pip").setEnabled(!((CheckBoxPreference)preference).isChecked());
                 return true;
         }
         return super.onPreferenceTreeClick(preference);

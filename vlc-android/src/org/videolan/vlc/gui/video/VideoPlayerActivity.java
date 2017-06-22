@@ -592,7 +592,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
                             && AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
                 stopPlayback();
-            else if (mSettings.getBoolean("video_home_pip", false) && isInteractive()) {
+            else if ("2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")) && isInteractive()) {
                 switchToPopup();
             }
         }
@@ -695,7 +695,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
         if (!isFinishing() && mService != null && mService.isPlaying() &&
-                mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
+                "1".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0"))) {
             switchToAudioMode(false);
         }
 

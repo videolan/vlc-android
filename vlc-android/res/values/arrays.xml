@@ -176,4 +176,16 @@
         <item>65280</item>
     </string-array>
 
+    <string-array name="video_app_switch_action_titles" translatable="false">
+        <item>@string/stop</item>
+        <item>@string/play_as_audio_background</item>
+        <item>@string/play_pip_title</item>
+    </string-array>
+
+    <string-array name="video_app_switch_action_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>
