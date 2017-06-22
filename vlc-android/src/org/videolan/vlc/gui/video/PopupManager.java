@@ -55,7 +55,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener,
-        View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener {
+        View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
 
     private static final String TAG ="VLC/PopupManager";
 
@@ -96,9 +96,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mRootView = (PopupLayout) li.inflate(R.layout.video_popup, null);
         if (mAlwaysOn)
             mRootView.setKeepScreenOn(true);
-        mPlayPauseButton = (ImageView) mRootView.findViewById(R.id.video_play_pause);
-        mCloseButton = (ImageView) mRootView.findViewById(R.id.popup_close);
-        mExpandButton = (ImageView) mRootView.findViewById(R.id.popup_expand);
+        mPlayPauseButton = mRootView.findViewById(R.id.video_play_pause);
+        mCloseButton = mRootView.findViewById(R.id.popup_close);
+        mExpandButton = mRootView.findViewById(R.id.popup_expand);
         mPlayPauseButton.setOnClickListener(this);
         mCloseButton.setOnClickListener(this);
         mExpandButton.setOnClickListener(this);
@@ -109,17 +109,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
+        vlcVout.addCallback(this);
         vlcVout.attachViews(this);
         mRootView.setVLCVOut(vlcVout);
-        mService.setVideoAspectRatio(null);
-        mService.setVideoScale(0);
-        mService.setVideoTrackEnabled(true);
-        if (!mService.isPlaying())
-            mService.playIndex(mService.getCurrentMediaPosition());
-        else
-            mService.flush();
-        mService.startService(new Intent(mService, PlaybackService.class));
-        showNotification();
     }
 
     @Override
@@ -332,5 +324,22 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     private void hideNotification() {
         NotificationManagerCompat.from(mService).cancel(42);
+    }
+
+    @Override
+    public void onSurfacesCreated(IVLCVout vlcVout) {
+        mService.setVideoAspectRatio(null);
+        mService.setVideoScale(0);
+        mService.setVideoTrackEnabled(true);
+        if (!mService.isPlaying())
+            mService.playIndex(mService.getCurrentMediaPosition());
+        else
+            mService.flush();
+        showNotification();
+    }
+
+    @Override
+    public void onSurfacesDestroyed(IVLCVout vlcVout) {
+        vlcVout.removeCallback(this);
     }
 }
