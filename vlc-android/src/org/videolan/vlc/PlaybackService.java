@@ -2101,6 +2101,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mPopupManager == null)
             mPopupManager = new PopupManager(this);
         mPopupManager.showPopup();
+        hideNotification();
     }
 
     public void setVideoTrackEnabled(boolean enabled) {
