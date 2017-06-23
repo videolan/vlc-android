@@ -2,31 +2,43 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/preferences">
 
-    <PreferenceScreen
-        android:key="directories"
-        android:summary="@string/directories_summary"
-        android:title="@string/medialibrary_directories" />
+    <PreferenceCategory android:title="@string/medialibrary" >
+        <PreferenceScreen
+            android:key="directories"
+            android:summary="@string/directories_summary"
+            android:title="@string/medialibrary_directories" />
 
-    <ListPreference
-        android:defaultValue="-1"
-        android:entries="@array/hardware_acceleration_list"
-        android:entryValues="@array/hardware_acceleration_values"
-        android:key="hardware_acceleration"
-        android:summary="@string/hardware_acceleration_summary"
-        android:title="@string/hardware_acceleration" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_rescan"
+            android:summary="@string/auto_rescan_summary"
+            android:title="@string/auto_rescan" />
+    </PreferenceCategory>
 
-    <ListPreference
-        android:defaultValue="99"
-        android:entries="@array/screen_orientation_list"
-        android:entryValues="@array/screen_orientation_values"
-        android:key="screen_orientation"
-        android:title="@string/screen_orientation" />
+    <PreferenceCategory android:title="@string/video_prefs_category" >
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/hardware_acceleration_list"
+            android:entryValues="@array/hardware_acceleration_values"
+            android:key="hardware_acceleration"
+            android:summary="@string/hardware_acceleration_summary"
+            android:title="@string/hardware_acceleration" />
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="playback_history"
-        android:summary="@string/playback_history_summary"
-        android:title="@string/playback_history_title" />
+        <ListPreference
+            android:defaultValue="99"
+            android:entries="@array/screen_orientation_list"
+            android:entryValues="@array/screen_orientation_values"
+            android:key="screen_orientation"
+            android:title="@string/screen_orientation" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/history" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="playback_history"
+            android:summary="@string/playback_history_summary"
+            android:title="@string/playback_history_title" />
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/extra_prefs_category" >
         <Preference
