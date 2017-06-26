@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.browser;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import org.videolan.vlc.R;
 
@@ -48,5 +49,10 @@ public class FilePickerActivity extends AppCompatActivity {
         } else {
             ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseUp();
         }
+    }
+
+    public void onHomeClick(View v) {
+        ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseRoot();
+        setTitle(R.string.directories);
     }
 }

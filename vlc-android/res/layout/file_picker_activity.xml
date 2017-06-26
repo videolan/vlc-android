@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="@dimen/file_picker_width"
     android:layout_height="@dimen/file_picker_height">
-
+    <ImageView
+        android:id="@+id/button_home"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/directories"
+        android:onClick="onHomeClick"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"
+        android:src="@drawable/icon"/>
     <FrameLayout
         android:id="@+id/fragment_placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </LinearLayout>
