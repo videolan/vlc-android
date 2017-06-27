@@ -28,7 +28,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="50dp"
+        android:minHeight="48dp"
         android:padding="2dp"
         android:focusable="true"
         android:clickable="@{holder != null}"
@@ -51,8 +51,8 @@
         <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.downloadIcon() -->
         <TextView
             android:id="@+id/dvi_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@{cover}"
             android:contentDescription="@string/cover_art"
             android:gravity="center"

@@ -8,12 +8,13 @@
         android:id="@+id/button_home"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="start|center_horizontal"
         android:contentDescription="@string/directories"
+        android:layout_marginLeft="2dp"
         android:onClick="onHomeClick"
         tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"
-        android:src="@drawable/icon"/>
+        android:src="@drawable/ic_browser_home_normal"
+        android:scaleType="fitCenter" />
     <FrameLayout
         android:id="@+id/fragment_placeholder"
         android:layout_width="match_parent"
