@@ -44,11 +44,13 @@ public class FilePickerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        FilePickerFragment fpf = ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
+        if (fpf.isRootDirectory())
+            finish();
+        else if (getSupportFragmentManager().getBackStackEntryCount() > 0)
             super.onBackPressed();
-        } else {
-            ((FilePickerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).browseUp();
-        }
+        else
+            fpf.browseUp();
     }
 
     public void onHomeClick(View v) {

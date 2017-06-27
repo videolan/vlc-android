@@ -115,6 +115,7 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                     }
                 });
                 mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
+                mRoot = true;
             }
         });
     }
