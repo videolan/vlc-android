@@ -34,7 +34,7 @@ public class ExternalStorageDialog extends AppCompatDialogFragment {
         final String message = String.format(VLCApplication.getAppResources().getString(R.string.ml_external_storage_msg), uuid);
         builder.setTitle(R.string.ml_external_storage_title)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent serviceInent = new Intent(MediaParsingService.ACTION_DISCOVER_DEVICE, null, getActivity(), MediaParsingService.class)
                             .putExtra(MediaParsingService.EXTRA_PATH, path);
