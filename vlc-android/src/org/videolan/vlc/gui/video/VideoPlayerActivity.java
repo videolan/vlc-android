@@ -2841,16 +2841,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updateNavStatus();
             setHudClickListeners(true);
             initPlaylistUi();
-            if (!mService.hasPlaylist() && !seekButtons) {
-                if (rtl) {
-                    mAdvOptions.setNextFocusRightId(R.id.player_overlay_play);
-                    mTracks.setNextFocusLeftId(R.id.player_overlay_play);
-                } else {
-                    mTracks.setNextFocusRightId(R.id.player_overlay_play);
-                    mAdvOptions.setNextFocusLeftId(R.id.player_overlay_play);
-
-                }
-            }
         }
     }
 
