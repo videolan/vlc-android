@@ -86,20 +86,22 @@ public class AsyncImageLoader {
                 || item.getItemType() == MediaLibraryItem.TYPE_GENRE
                 || item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST)
             return;
-        final Bitmap bitmap = BitmapCache.getInstance().getBitmapFromMemCache(item.getArtworkMrl());
+        final boolean isMedia = item.getItemType() == MediaLibraryItem.TYPE_MEDIA;
+        final boolean isGroup = isMedia && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_GROUP;
+        final String cacheKey = isGroup ? "group:"+item.getTitle() : item.getArtworkMrl();
+        final Bitmap bitmap = BitmapCache.getInstance().getBitmapFromMemCache(cacheKey);
         if (bitmap != null) {
             updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
             return;
         }
-        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)item).getType() != MediaWrapper.TYPE_GROUP) {
+        if (isMedia && !isGroup && item.getId() == 0L) {
             MediaWrapper mw = (MediaWrapper) item;
-            int type = mw.getType();
-            boolean isMedia = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
+            final int type = mw.getType();
+            final boolean isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
             Uri uri = mw.getUri();
-            if (!isMedia && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
+            if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
                 return;
-            item = mw;
-            if (item.getId() == 0L && (isMedia) && "file".equals(uri.getScheme())) {
+            if (isMediaFile && "file".equals(uri.getScheme())) {
                 mw = VLCApplication.getMLInstance().getMedia(uri);
                 if (mw != null)
                     item = mw;
