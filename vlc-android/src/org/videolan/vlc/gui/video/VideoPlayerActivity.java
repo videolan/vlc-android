@@ -2770,7 +2770,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         initOverlay();
         if (timeout != 0)
             mOverlayTimeout = timeout;
-        if (mOverlayTimeout == 0)
+        else
             mOverlayTimeout = mService.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE;
         if (mIsNavMenu){
             mShowing = true;
