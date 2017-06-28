@@ -1,6 +1,24 @@
 Changes between 2.1.11 and 2.1.12:
 ----------------------------------
 
+Application:
+ * Option to switch in PiP/Pop-up mode on multitasking
+ * Moved 'Medialibrary auto rescan' option in main settings page
+ * Fix empty medialibrary on app restoration
+ * 3-states checkox in medialibrary settings
+ * Fix Equalizer in for LTR locales
+ * Fix some http covers not loaded
+ * Fix video PAUSED state not respected on multitasking
+ * UI performances improvements
+ * video player → Pop-up switch improvements
+ * 'Home' button in subtitles picker
+ * Remove animated scroll on current playlist
+ * misc. fixes
+
+TV:
+ * Set blurred thumb/cover in background on item selection
+ * Fix navigation in video player
+
 Core:
  * Fix WMV3 hardware accelerated playback
 
