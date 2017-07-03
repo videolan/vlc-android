@@ -155,7 +155,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         return binder.getService();
     }
 
-    KeyguardManager mKeyguardManager = (KeyguardManager) VLCApplication.getAppContext().getSystemService(Context.KEYGUARD_SERVICE);
+    KeyguardManager mKeyguardManager;
     private SharedPreferences mSettings;
     private final IBinder mBinder = new LocalBinder();
     private MediaWrapperList mMediaList = new MediaWrapperList();
