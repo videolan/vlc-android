@@ -155,10 +155,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         return binder.getService();
     }
 
-    KeyguardManager mKeyguardManager;
+    private KeyguardManager mKeyguardManager;
     private SharedPreferences mSettings;
     private final IBinder mBinder = new LocalBinder();
-    private MediaWrapperList mMediaList = new MediaWrapperList();
+    private final MediaWrapperList mMediaList = new MediaWrapperList();
     private Medialibrary mMedialibrary;
     private MediaPlayer mMediaPlayer;
     private boolean mParsed = false;
@@ -167,21 +167,21 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mSwitchingToVideo = false;
     private boolean mVideoBackground = false;
 
-    final private ArrayList<Callback> mCallbacks = new ArrayList<>();
+    private final ArrayList<Callback> mCallbacks = new ArrayList<>();
     private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
     private final ExecutorService mExecutorService = Executors.newSingleThreadExecutor();
-    private AtomicBoolean mUpdateMeta = new AtomicBoolean(false);
+    private final AtomicBoolean mUpdateMeta = new AtomicBoolean(false);
 
     // Index management
     /**
      * Stack of previously played indexes, used in shuffle mode
      */
-    private Stack<Integer> mPrevious;
-    private int mCurrentIndex; // Set to -1 if no media is currently loaded
-    private int mPrevIndex; // Set to -1 if no previous media
-    private int mNextIndex; // Set to -1 if no next media
+    private final Stack<Integer> mPrevious = new Stack<>();
+    private int mCurrentIndex = -1; // Set to -1 if no media is currently loaded
+    private int mPrevIndex = -1; // Set to -1 if no previous media
+    private int mNextIndex = -1; // Set to -1 if no next media
 
     // Playback management
 
@@ -251,11 +251,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             AndroidDevices.setRemoteControlReceiverEnabled(true);
 
         mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
-
-        mCurrentIndex = -1;
-        mPrevIndex = -1;
-        mNextIndex = -1;
-        mPrevious = new Stack<>();
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
