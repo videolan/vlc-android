@@ -40,11 +40,11 @@ public class Artist extends MediaLibraryItem {
     }
 
     public Album[] getAlbums(Medialibrary ml) {
-        return nativeGetAlbumsFromArtist(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetAlbumsFromArtist(ml, mId) : new Album[0];
     }
 
     public MediaWrapper[] getTracks(Medialibrary ml) {
-        return nativeGetMediaFromArtist(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetMediaFromArtist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override

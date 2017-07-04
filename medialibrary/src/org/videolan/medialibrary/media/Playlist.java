@@ -18,7 +18,7 @@ public class Playlist extends MediaLibraryItem {
     }
 
     public MediaWrapper[] getTracks(Medialibrary ml) {
-        return nativeGetTracksFromPlaylist(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetTracksFromPlaylist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -27,34 +27,36 @@ public class Playlist extends MediaLibraryItem {
     }
 
     public boolean append(Medialibrary ml, long mediaId) {
-        return nativePlaylistAppend(ml, mId, mediaId);
+        return ml != null && ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);
     }
 
     public boolean append(Medialibrary ml, long[] mediaIds) {
-        return nativePlaylistAppendGroup(ml, mId, mediaIds);
+        return ml != null && ml.isInitiated() && nativePlaylistAppendGroup(ml, mId, mediaIds);
     }
 
     public boolean append(Medialibrary ml, List<Long> mediaIds) {
+        if (ml == null || !ml.isInitiated())
+            return false;
         long[] ids = new long[mediaIds.size()];
         for (int i = 0; i < ids.length; ++i)
-            ids[i] = mediaIds.get(i).longValue();
+            ids[i] = mediaIds.get(i);
         return nativePlaylistAppendGroup(ml, mId, ids);
     }
 
     public boolean add(Medialibrary ml, long mediaId, int position) {
-        return nativePlaylistAdd(ml, mId, mediaId, position);
+        return ml != null && ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
     }
 
     public boolean move(Medialibrary ml, long mediaId, int position) {
-        return nativePlaylistMove(ml, mId, mediaId, position);
+        return ml != null && ml.isInitiated() && nativePlaylistMove(ml, mId, mediaId, position);
     }
 
     public boolean remove(Medialibrary ml, long mediaId) {
-        return nativePlaylistRemove(ml, mId, mediaId);
+        return ml != null && ml.isInitiated() && nativePlaylistRemove(ml, mId, mediaId);
     }
 
     public boolean delete(Medialibrary ml) {
-        return nativePlaylistDelete(ml, mId);
+        return ml != null && ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 
     public static Parcelable.Creator<Playlist> CREATOR

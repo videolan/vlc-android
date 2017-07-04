@@ -55,7 +55,7 @@ public class Album extends MediaLibraryItem {
     }
 
     public MediaWrapper[] getTracks(Medialibrary ml) {
-        return nativeGetTracksFromAlbum(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetTracksFromAlbum(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override

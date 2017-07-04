@@ -12,15 +12,15 @@ public class Genre extends MediaLibraryItem {
     }
 
     public Album[] getAlbums(Medialibrary ml) {
-       return nativeGetAlbumsFromGenre(ml, mId);
+       return ml != null && ml.isInitiated() ? nativeGetAlbumsFromGenre(ml, mId) : new Album[0];
     }
 
     public Artist[] getArtists(Medialibrary ml) {
-        return nativeGetArtistsFromGenre(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetArtistsFromGenre(ml, mId) : new Artist[0];
     }
 
     public MediaWrapper[] getTracks(Medialibrary ml) {
-        return nativeGetTracksFromGenre(ml, mId);
+        return ml != null && ml.isInitiated() ? nativeGetTracksFromGenre(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override

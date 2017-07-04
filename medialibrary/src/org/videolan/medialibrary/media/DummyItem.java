@@ -14,7 +14,7 @@ public class DummyItem extends MediaLibraryItem {
 
     @Override
     public MediaWrapper[] getTracks(Medialibrary ml) {
-        return new MediaWrapper[0];
+        return Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class Medialibrary {
     public static final String ACTION_IDLE = "action_idle";
     public static final String STATE_IDLE = "state_idle";
 
-    private static final MediaWrapper[] EMPTY_COLLECTION = {};
+    public static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
 
