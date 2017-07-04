@@ -1590,9 +1590,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
                         }
                         if (!audio) {
-                            boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
-                            if (paused)
-                                playList.get(position).addFlags(MediaWrapper.MEDIA_PAUSED);
+                            if (position < playList.size()) {
+                                boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
+                                if (paused)
+                                    playList.get(position).addFlags(MediaWrapper.MEDIA_PAUSED);
+                            }
                             float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
                             if (rate != 1.0f)
                                 setRate(rate, false);
