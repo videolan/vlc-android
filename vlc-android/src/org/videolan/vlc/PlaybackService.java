@@ -1620,7 +1620,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(mMediaList.isAudioList() ? "audio_list" : "media_list", locations.toString().trim());
+        editor.putString(canSwitchToVideo() || !mMediaList.isAudioList() ? "media_list" : "audio_list", locations.toString().trim());
         editor.apply();
     }
 
