@@ -574,20 +574,20 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     public long getMetaLong(Medialibrary ml, int metaDataType) {
-        return mId == 0 ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
+        return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
     }
     public String getMetaString(Medialibrary ml, int metaDataType) {
-        return mId == 0 ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
+        return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
     }
 
     public boolean setLongMeta(Medialibrary ml, int metaDataType, long metadataValue) {
-        if (mId != 0)
+        if (mId != 0 && ml.isInitiated())
             nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
     }
 
     public boolean setStringMeta(Medialibrary ml, int metaDataType, String metadataValue) {
-        if (mId != 0)
+        if (mId != 0 && ml.isInitiated())
             nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
     }
