@@ -33,7 +33,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Util {
@@ -120,5 +122,11 @@ public class Util {
             if (obj.equals(item))
                 return true;
         return false;
+    }
+
+    public static <T> ArrayList<T> arrayToArrayList(T[] array) {
+        ArrayList<T> list = new ArrayList<>(array.length);
+        Collections.addAll(list, array);
+        return list;
     }
 }
