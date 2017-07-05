@@ -57,15 +57,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibraryItem>, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends MediaLibraryItem>, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
     private boolean mMakeSections = true;
 
-
-    private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
-    private ArrayList<MediaLibraryItem> mOriginalDataSet;
+    private ArrayList<? extends MediaLibraryItem> mDataList = new ArrayList<>();
+    private ArrayList<? extends MediaLibraryItem> mOriginalDataSet;
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private IEventsHandler mIEventsHandler;
@@ -137,7 +136,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
         return position >= 0 || position < mDataList.size();
     }
 
-    public ArrayList<MediaLibraryItem> getAll() {
+    public ArrayList<? extends MediaLibraryItem> getAll() {
         return mDataList;
     }
 
@@ -192,12 +191,12 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
     }
 
 
-    public void addAll(ArrayList<MediaLibraryItem> items) {
+    public void addAll(ArrayList<? extends MediaLibraryItem> items) {
         addAll(items, mMakeSections);
     }
 
 
-    public void addAll(ArrayList<MediaLibraryItem> items, boolean generateSections) {
+    public void addAll(ArrayList<? extends MediaLibraryItem> items, boolean generateSections) {
         if (mContext == null)
             return;
         mDataList = generateSections ? generateList(items) : items;
@@ -221,7 +220,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
     }
 
 
-    private ArrayList<MediaLibraryItem> generateList(ArrayList<MediaLibraryItem> items) {
+    private ArrayList<? extends MediaLibraryItem> generateList(ArrayList<? extends MediaLibraryItem> items) {
         ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
         boolean isLetter, emptyTitle;
         String firstLetter = null, currentLetter = null;
@@ -250,16 +249,16 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
     }
 
     public void remove(final MediaLibraryItem item) {
-        final ArrayList<MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
+        final ArrayList<? extends MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
         if (referenceList.size() == 0) return;
-        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        final ArrayList<? extends MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.remove(item);
         update(dataList);
     }
 
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final ArrayList<MediaLibraryItem> referenceList = peekLast();
+        final ArrayList<? extends MediaLibraryItem> referenceList = peekLast();
         final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.add(position,item);
         update(dataList);
@@ -267,7 +266,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
 
 
     @Override
-    public ArrayList<MediaLibraryItem> peekLast() {
+    public ArrayList<? extends MediaLibraryItem> peekLast() {
         return hasPendingUpdates() ? super.peekLast() : mDataList;
     }
 
@@ -278,11 +277,11 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
         }
     }
 
-    protected void internalUpdate(final ArrayList<MediaLibraryItem> items) {
+    protected void internalUpdate(final ArrayList<? extends MediaLibraryItem> items) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> newList = (mOriginalDataSet == null && hasSections()) ? generateList(items) : items;
+                final ArrayList<? extends MediaLibraryItem> newList = (mOriginalDataSet == null && hasSections()) ? generateList(items) : items;
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), false);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
@@ -411,7 +410,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
     private class ItemFilter extends MediaItemFilter {
 
         @Override
-        protected List<MediaLibraryItem> initData() {
+        protected List<? extends MediaLibraryItem> initData() {
             if (mOriginalDataSet == null) {
                 mOriginalDataSet = new ArrayList<>(mDataList);
             }
@@ -423,7 +422,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrar
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((ArrayList<MediaLibraryItem>) filterResults.values);
+            update((ArrayList<? extends MediaLibraryItem>) filterResults.values);
         }
 
     }

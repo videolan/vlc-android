@@ -47,9 +47,6 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
-import org.videolan.medialibrary.media.Album;
-import org.videolan.medialibrary.media.Artist;
-import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -67,6 +64,7 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -569,7 +567,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onArtistsAdded() {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));
+            final ArrayList<? extends MediaLibraryItem> artists = Util.arrayToArrayList(mMediaLibrary.getArtists());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -585,7 +583,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onArtistsModified() {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));
+            final ArrayList<? extends MediaLibraryItem> artists = Util.arrayToArrayList(mMediaLibrary.getArtists());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -601,7 +599,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onAlbumsAdded() {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums()));
+            final ArrayList<? extends MediaLibraryItem> albums = Util.arrayToArrayList(mMediaLibrary.getAlbums());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -617,7 +615,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onAlbumsModified() {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums()));   //final Album[] albums = mMediaLibrary.getAlbums();
+            final ArrayList<? extends MediaLibraryItem> albums = Util.arrayToArrayList(mMediaLibrary.getAlbums());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -633,7 +631,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onMediaAdded(MediaWrapper[] mediaList) {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
+            final ArrayList<? extends MediaLibraryItem> media = Util.arrayToArrayList(mMediaLibrary.getAudio());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -649,7 +647,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onMediaUpdated(MediaWrapper[] mediaList) {
         VLCApplication.runBackground(new Runnable() {
-            final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
+            final ArrayList<? extends MediaLibraryItem> media = Util.arrayToArrayList(mMediaLibrary.getAudio());
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -731,7 +729,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));   //final Artist[] artists = mMediaLibrary.getArtists();
+                final ArrayList<? extends MediaLibraryItem> artists = Util.arrayToArrayList(mMediaLibrary.getArtists());
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -746,7 +744,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums())); //final Album[] albums = mMediaLibrary.getAlbums();
+                final ArrayList<? extends MediaLibraryItem> albums = Util.arrayToArrayList(mMediaLibrary.getAlbums());
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -761,7 +759,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
+                final ArrayList<? extends MediaLibraryItem> media = Util.arrayToArrayList(mMediaLibrary.getAudio());
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -776,7 +774,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> genres = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getGenres()));   //final Genre[] genres = mMediaLibrary.getGenres();
+                final ArrayList<? extends MediaLibraryItem> genres = Util.arrayToArrayList(mMediaLibrary.getGenres());
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -791,7 +789,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> playlists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getPlaylists()));   //final Playlist[] playlists = mMediaLibrary.getPlaylists();
+                final ArrayList<? extends MediaLibraryItem> playlists = Util.arrayToArrayList(mMediaLibrary.getPlaylists());
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {

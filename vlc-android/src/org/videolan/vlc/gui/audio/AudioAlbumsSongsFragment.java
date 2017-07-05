@@ -56,6 +56,7 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -273,10 +274,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             public void run() {
                 final ArrayList<? extends MediaLibraryItem> albums;
                 if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
-                    albums = new ArrayList<>(Arrays.asList(((Artist) mItem).getAlbums(mMediaLibrary)));
+                    albums = Util.arrayToArrayList(((Artist) mItem).getAlbums(mMediaLibrary));
                 }
                 else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
-                    albums = new ArrayList<>(Arrays.asList(((Genre) mItem).getAlbums(mMediaLibrary)));
+                    albums = Util.arrayToArrayList(((Genre) mItem).getAlbums(mMediaLibrary));
                 else
                     return;
                 final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
@@ -290,7 +291,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mAlbumsAdapter.update((ArrayList<MediaLibraryItem>) albums);
+                        mAlbumsAdapter.update(albums);
                         mSongsAdapter.update(new ArrayList<>(songs));
                         mFastScroller.setRecyclerView(mLists[mViewPager.getCurrentItem()]);
                         mSwipeRefreshLayout.setRefreshing(false);

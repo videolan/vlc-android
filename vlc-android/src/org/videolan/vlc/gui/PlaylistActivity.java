@@ -62,7 +62,7 @@ import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,8 +164,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     private void updateList() {
         if (mPlaylist != null) {
-            ArrayList<? extends MediaLibraryItem> tracks = new ArrayList<>(Arrays.asList(mPlaylist.getTracks(mMediaLibrary)));
-            mAdapter.addAll((ArrayList<MediaLibraryItem>) tracks);
+            ArrayList<? extends MediaLibraryItem> tracks = Util.arrayToArrayList(mPlaylist.getTracks(mMediaLibrary));
+            mAdapter.addAll(tracks);
         }
     }
 
@@ -278,7 +278,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        ArrayList<MediaLibraryItem> items = mAdapter.getAll();
+        ArrayList<? extends MediaLibraryItem> items = mAdapter.getAll();
         if (items != null) {
             for (int i = 0; i < items.size(); ++i) {
                 if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {

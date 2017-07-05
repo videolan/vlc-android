@@ -111,7 +111,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
 
     public void onDestroyActionMode(AudioBrowserAdapter adapter) {
         mActionMode = null;
-        ArrayList<MediaLibraryItem> items = adapter.getAll();
+        ArrayList<? extends MediaLibraryItem> items = adapter.getAll();
         if (items != null) {
             for (int i = 0; i < items.size(); ++i) {
                 if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
