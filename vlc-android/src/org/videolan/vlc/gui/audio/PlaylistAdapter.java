@@ -37,6 +37,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -283,10 +284,8 @@ public class PlaylistAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>, 
             FilterResults results = new FilterResults();
             ArrayList<MediaWrapper> list = new ArrayList<>();
             String title, location, artist, album, albumArtist, genre;
-            MediaWrapper media;
             mediaLoop:
-            for (int i = 0 ; i < mOriginalDataSet.size() ; ++i) {
-                media = mOriginalDataSet.get(i);
+            for (MediaWrapper media : mOriginalDataSet) {
                 title = MediaUtils.getMediaTitle(media);
                 location = media.getLocation();
                 artist = MediaUtils.getMediaArtist(VLCApplication.getAppContext(), media).toLowerCase();

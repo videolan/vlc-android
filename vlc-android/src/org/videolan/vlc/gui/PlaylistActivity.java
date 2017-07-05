@@ -97,8 +97,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        final int fabVisibility =  savedInstanceState != null
-            ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
+        final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
             VLCApplication.runBackground(new Runnable() {
@@ -164,8 +163,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void updateList() {
-        if (mPlaylist != null)
-            mAdapter.addAll(mPlaylist.getTracks(mMediaLibrary));
+        if (mPlaylist != null) {
+            ArrayList<? extends MediaLibraryItem> tracks = new ArrayList<>(Arrays.asList(mPlaylist.getTracks(mMediaLibrary)));
+            mAdapter.addAll((ArrayList<MediaLibraryItem>) tracks);
+        }
     }
 
     @Override
@@ -277,12 +278,12 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        MediaLibraryItem[] items = mAdapter.getAll();
+        ArrayList<MediaLibraryItem> items = mAdapter.getAll();
         if (items != null) {
-            for (int i = 0; i < items.length; ++i) {
-                if (items[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                    items[i].removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                    mAdapter.notifyItemChanged(i, items[i]);
+            for (int i = 0; i < items.size(); ++i) {
+                if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
+                    items.get(i).removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
+                    mAdapter.notifyItemChanged(i, items.get(i));
                 }
             }
         }

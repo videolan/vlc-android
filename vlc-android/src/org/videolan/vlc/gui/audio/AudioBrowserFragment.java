@@ -444,7 +444,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void restoreList() {
-       getCurrentAdapter().restoreList();
+        getCurrentAdapter().restoreList();
     }
 
     @Override
@@ -569,7 +569,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onArtistsAdded() {
         VLCApplication.runBackground(new Runnable() {
-            final Artist[] artists = mMediaLibrary.getArtists();
+            final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -585,7 +585,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onArtistsModified() {
         VLCApplication.runBackground(new Runnable() {
-            final Artist[] artists = mMediaLibrary.getArtists();
+            final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -601,7 +601,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onAlbumsAdded() {
         VLCApplication.runBackground(new Runnable() {
-            final Album[] albums = mMediaLibrary.getAlbums();
+            final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums()));
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -617,7 +617,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onAlbumsModified() {
         VLCApplication.runBackground(new Runnable() {
-            final Album[] albums = mMediaLibrary.getAlbums();
+            final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums()));   //final Album[] albums = mMediaLibrary.getAlbums();
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -633,7 +633,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onMediaAdded(MediaWrapper[] mediaList) {
         VLCApplication.runBackground(new Runnable() {
-            final MediaWrapper[] media = mMediaLibrary.getAudio();
+            final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -649,7 +649,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onMediaUpdated(MediaWrapper[] mediaList) {
         VLCApplication.runBackground(new Runnable() {
-            final MediaWrapper[] media = mMediaLibrary.getAudio();
+            final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
             @Override
             public void run() {
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -731,7 +731,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final Artist[] artists = mMediaLibrary.getArtists();
+                final ArrayList<MediaLibraryItem> artists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getArtists()));   //final Artist[] artists = mMediaLibrary.getArtists();
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -746,7 +746,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final Album[] albums = mMediaLibrary.getAlbums();
+                final ArrayList<MediaLibraryItem> albums = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAlbums())); //final Album[] albums = mMediaLibrary.getAlbums();
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -761,7 +761,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final MediaWrapper[] media = mMediaLibrary.getAudio();
+                final ArrayList<MediaLibraryItem> media = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getAudio()));   //final MediaWrapper[] media = mMediaLibrary.getAudio();
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -776,7 +776,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final Genre[] genres = mMediaLibrary.getGenres();
+                final ArrayList<MediaLibraryItem> genres = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getGenres()));   //final Genre[] genres = mMediaLibrary.getGenres();
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -791,7 +791,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final Playlist[] playlists = mMediaLibrary.getPlaylists();
+                final ArrayList<MediaLibraryItem> playlists = new ArrayList<MediaLibraryItem>(Arrays.asList(mMediaLibrary.getPlaylists()));   //final Playlist[] playlists = mMediaLibrary.getPlaylists();
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {

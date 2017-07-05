@@ -271,15 +271,16 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final Album[] albums;
-                if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST)
-                    albums = ((Artist) mItem).getAlbums(mMediaLibrary);
+                final ArrayList<? extends MediaLibraryItem> albums;
+                if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
+                    albums = new ArrayList<>(Arrays.asList(((Artist) mItem).getAlbums(mMediaLibrary)));
+                }
                 else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
-                    albums = ((Genre) mItem).getAlbums(mMediaLibrary);
+                    albums = new ArrayList<>(Arrays.asList(((Genre) mItem).getAlbums(mMediaLibrary)));
                 else
                     return;
                 final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
-                for (Album album : albums) {
+                for (Album album : (ArrayList<Album>) albums) {
                     String title = album.getTitle();
                     if (TextUtils.isEmpty(title))
                         title = getString(R.string.unknown_album);
@@ -289,8 +290,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mAlbumsAdapter.update(albums);
-                        mSongsAdapter.update(songs.toArray(new MediaLibraryItem[songs.size()]));
+                        mAlbumsAdapter.update((ArrayList<MediaLibraryItem>) albums);
+                        mSongsAdapter.update(new ArrayList<>(songs));
                         mFastScroller.setRecyclerView(mLists[mViewPager.getCurrentItem()]);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }

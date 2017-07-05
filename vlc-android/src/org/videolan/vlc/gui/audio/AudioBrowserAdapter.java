@@ -37,7 +37,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
@@ -55,18 +54,18 @@ import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibraryItem>, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
     private boolean mMakeSections = true;
 
-    private MediaLibraryItem[] mDataList;
-    private MediaLibraryItem[] mOriginalDataSet = null;
+
+    private ArrayList<MediaLibraryItem> mDataList = new ArrayList<>();
+    private ArrayList<MediaLibraryItem> mOriginalDataSet;
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private IEventsHandler mIEventsHandler;
@@ -96,11 +95,11 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= mDataList.length)
+        if (position >= mDataList.size())
             return;
-        holder.vdb.setVariable(BR.item, mDataList[position]);
+        holder.vdb.setVariable(BR.item, mDataList.get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            boolean isSelected = mDataList[position].hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            boolean isSelected = mDataList.get(position).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             ((MediaItemViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), isSelected);
         }
@@ -127,44 +126,42 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
     @Override
     public int getItemCount() {
-        return mDataList == null ? 0 :  mDataList.length;
+        return mDataList.size();
     }
 
     public MediaLibraryItem getItem(int position) {
-        return isPositionValid(position) ? mDataList[position] : null;
+        return isPositionValid(position) ? mDataList.get(position) : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 || position < mDataList.length;
+        return position >= 0 || position < mDataList.size();
     }
 
-    public MediaLibraryItem[] getAll() {
+    public ArrayList<MediaLibraryItem> getAll() {
         return mDataList;
     }
 
     ArrayList<MediaLibraryItem> getMediaItems() {
         ArrayList<MediaLibraryItem> list = new ArrayList<>();
-        int count = getItemCount();
-        for (int i = 0; i < count; ++i)
-            if (!(mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY))
-                list.add(mDataList[i]);
+        for (MediaLibraryItem item : mDataList)
+            if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
 
     int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
         int offset = 0, count = getItemCount();
         for (int i = 0; i < count; ++i)
-            if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+            if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
-                list.add(mDataList[i]);
+                list.add(mDataList.get(i));
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? mDataList[position].getId() : -1;
+        return isPositionValid(position) ? mDataList.get(position).getId() : -1;
     }
 
     @Override
@@ -180,55 +177,55 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
     public String getSectionforPosition(int position) {
         if (mMakeSections)
             for (int i = position; i >= 0; --i)
-                if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                    return mDataList[i].getTitle();
+                if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return mDataList.get(i).getTitle();
         return "";
     }
 
     @MainThread
     public boolean isEmpty() {
-        return Tools.isArrayEmpty(peekLast());
+        return (peekLast().size() == 0);
     }
 
     public void clear() {
-        mDataList = null;
+        mDataList.clear();
         mOriginalDataSet = null;
     }
 
-    public void addAll(MediaLibraryItem[] items) {
+
+    public void addAll(ArrayList<MediaLibraryItem> items) {
         addAll(items, mMakeSections);
     }
 
-    public void addAll(MediaLibraryItem[] items, boolean generateSections) {
+
+    public void addAll(ArrayList<MediaLibraryItem> items, boolean generateSections) {
         if (mContext == null)
             return;
         mDataList = generateSections ? generateList(items) : items;
-        for (int i = 0; i<getItemCount(); ++i) {
-            if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_DUMMY)
+        for (MediaLibraryItem item : mDataList) {
+            if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
                 continue;
-            if (mDataList[i].getTitle().isEmpty()) {
-                if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ARTIST) {
-                    if (mDataList[i].getId() == 1L)
-                        mDataList[i].setTitle(mContext.getString(R.string.unknown_artist));
-                    else if (mDataList[i].getId() == 2L)
-                        mDataList[i].setTitle(mContext.getString(R.string.various_artists));
-                } else if (mDataList[i].getItemType() == MediaLibraryItem.TYPE_ALBUM) {
-                    mDataList[i].setTitle(mContext.getString(R.string.unknown_album));
-                    if (TextUtils.isEmpty(mDataList[i].getDescription()))
-                        mDataList[i].setDescription(mContext.getString(R.string.unknown_artist));
+            if (item.getTitle().isEmpty()) {
+                if (item.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
+                    if (item.getId() == 1L)
+                        item.setTitle(mContext.getString(R.string.unknown_artist));
+                    else if (item.getId() == 2L)
+                        item.setTitle(mContext.getString(R.string.various_artists));
+                } else if (item.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
+                    item.setTitle(mContext.getString(R.string.unknown_album));
+                    if (TextUtils.isEmpty(item.getDescription()))
+                        item.setDescription(mContext.getString(R.string.unknown_artist));
                 }
             } else if (generateSections)
                 break;
         }
     }
 
-    private MediaLibraryItem[] generateList(MediaLibraryItem[] items) {
+
+    private ArrayList<MediaLibraryItem> generateList(ArrayList<MediaLibraryItem> items) {
         ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
         boolean isLetter, emptyTitle;
         String firstLetter = null, currentLetter = null;
-        int count = items.length;
-        for (int i = 0; i < count; ++i) {
-            MediaLibraryItem item = items[i];
+        for (MediaLibraryItem item : items) {
             if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
                 continue;
             String title = item.getTitle();
@@ -249,43 +246,43 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
             }
             datalist.add(item);
         }
-        return datalist.toArray(new MediaLibraryItem[datalist.size()]);
+        return datalist;
     }
 
     public void remove(final MediaLibraryItem item) {
-        final MediaLibraryItem[] referenceList = peekLast();
-        if (Tools.isArrayEmpty(referenceList))
-            return;
-        final MediaLibraryItem[] dataList = new MediaLibraryItem[referenceList.length-1];
-        Util.removeItemInArray(referenceList, item, dataList);
+        final ArrayList<MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
+        if (referenceList.size() == 0) return;
+        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        dataList.remove(item);
         update(dataList);
     }
+
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final MediaLibraryItem[] referenceList = peekLast();
-        final MediaLibraryItem[] dataList = Tools.isArrayEmpty(referenceList)
-                ? new MediaLibraryItem[]{item} : new MediaLibraryItem[referenceList.length+1];
-        Util.addItemInArray(referenceList, position, item, dataList);
+        final ArrayList<MediaLibraryItem> referenceList = peekLast();
+        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        dataList.add(position,item);
         update(dataList);
     }
 
+
     @Override
-    public MediaLibraryItem[] peekLast() {
+    public ArrayList<MediaLibraryItem> peekLast() {
         return hasPendingUpdates() ? super.peekLast() : mDataList;
     }
 
     public void restoreList() {
         if (mOriginalDataSet != null) {
-            update(Arrays.copyOf(mOriginalDataSet, mOriginalDataSet.length));
+            update(new ArrayList<>(mOriginalDataSet));
             mOriginalDataSet = null;
         }
     }
 
-    protected void internalUpdate(final MediaLibraryItem[] items) {
+    protected void internalUpdate(final ArrayList<MediaLibraryItem> items) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final MediaLibraryItem[] newList = mOriginalDataSet == null && hasSections() ? generateList(items) : items;
+                final ArrayList<MediaLibraryItem> newList = (mOriginalDataSet == null && hasSections()) ? generateList(items) : items;
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), false);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
@@ -303,10 +300,9 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
     @MainThread
     public List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
-        int count = getItemCount();
-        for (int i = 0; i < count; ++i)
-            if (mDataList[i].hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
-                selection.add(mDataList[i]);
+        for (MediaLibraryItem item : mDataList)
+            if (item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+                selection.add(item);
         return selection;
     }
 
@@ -365,20 +361,20 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
         public void onClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onClick(v, position, mDataList[position]);
+                mIEventsHandler.onClick(v, position, mDataList.get(position));
             }
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onCtxClick(v, position, mDataList[position]);
+                mIEventsHandler.onCtxClick(v, position, mDataList.get(position));
             }
         }
 
         public boolean onLongClick(View view) {
             int position = getLayoutPosition();
-            return mIEventsHandler.onLongClick(view, position, mDataList[position]);
+            return mIEventsHandler.onLongClick(view, position, mDataList.get(position));
         }
 
         private void setCoverlay(boolean selected) {
@@ -416,17 +412,19 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem[], A
 
         @Override
         protected List<MediaLibraryItem> initData() {
-            if (mOriginalDataSet == null)
-                mOriginalDataSet = Arrays.copyOf(mDataList, mDataList.length);
-            if (referenceList == null)
-                referenceList = new ArrayList<>(Arrays.asList(mDataList));
+            if (mOriginalDataSet == null) {
+                mOriginalDataSet = new ArrayList<>(mDataList);
+            }
+            if (referenceList == null) {
+                referenceList = new ArrayList<>(mDataList);
+            }
             return referenceList;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update(filterResults.values == null ? new MediaLibraryItem[0]
-                    : ((ArrayList<MediaLibraryItem>) filterResults.values).toArray(new MediaLibraryItem[filterResults.count]));
+            update((ArrayList<MediaLibraryItem>) filterResults.values);
         }
+
     }
 }
