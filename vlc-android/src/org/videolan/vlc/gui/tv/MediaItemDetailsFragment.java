@@ -106,7 +106,6 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mBackgroundManager.release();
     }
 
     private void buildDetails() {

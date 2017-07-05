@@ -215,7 +215,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     RecommendationsService.class);
             startService(recommendationIntent);
         }
-        mBackgroundManager.release();
     }
 
     @Override

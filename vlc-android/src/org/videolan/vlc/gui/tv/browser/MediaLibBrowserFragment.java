@@ -65,12 +65,6 @@ public abstract class MediaLibBrowserFragment extends GridFragment implements On
             TvUtil.updateBackground(mBackgroundManager, mSelectedItem);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mBackgroundManager.release();
-    }
-
     public void refresh() {
         if (!mMediaLibrary.isWorking())
             mMediaLibrary.reload();

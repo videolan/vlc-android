@@ -126,12 +126,6 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        mBackgroundManager.release();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mItemSelected != null)
