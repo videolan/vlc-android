@@ -63,6 +63,16 @@
             vlc:media="@{media}"
             android:scaleType="fitXY"
             android:background="@{cover}" />
+
+        <ImageView
+            android:id="@+id/ml_item_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_seen_normal"
+            android:visibility="gone"
+            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
+
         <TextView
             android:id="@+id/ml_item_title"
             android:layout_width="0dp"

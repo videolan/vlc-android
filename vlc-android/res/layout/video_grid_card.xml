@@ -53,15 +53,29 @@
         android:paddingRight="@dimen/left_right_1610_margin"
         android:paddingBottom="@dimen/top_bottom_1610_margin"
         android:paddingTop="@dimen/top_bottom_1610_margin" >
+
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
         <ImageView
             android:id="@+id/ml_item_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@{cover}"
             android:scaleType="fitXY"
             android:src="@drawable/black_gradient"
-            vlc:media="@{media}" />
+            vlc:media="@{media}"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintBottom_toBottomOf="parent"
+            vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ml_item_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_seen_normal"
+            android:visibility="gone"
+            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
 
         <TextView
             android:id="@+id/ml_item_title"
@@ -127,19 +141,22 @@
         <ProgressBar
             android:id="@+id/ml_item_progress"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             vlc:layout_constraintBottom_toBottomOf="parent"
+            vlc:layout_constraintLeft_toLeftOf="parent"
+            vlc:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="@dimen/very_small_margin"
-            android:layout_marginRight="@dimen/very_small_margin"
-            android:layout_marginTop="1dp"
             android:background="@color/transparent"
             android:focusable="false"
             android:indeterminate="false"
             android:max="@{max}"
             android:maxHeight="2dip"
             android:minHeight="2dip"
+            android:paddingLeft="@dimen/half_default_margin"
+            android:paddingStart="@dimen/half_default_margin"
+            android:paddingRight="@dimen/half_default_margin"
+            android:paddingEnd="@dimen/half_default_margin"
             android:progress="@{progress}"
             android:progressDrawable="@drawable/gridview_progressbar"
             android:secondaryProgress="0"
