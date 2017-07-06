@@ -829,7 +829,8 @@ public class MediaDatabase {
                                     cursor.getInt(13),      // MEDIA_SPUTRACK
                                     cursor.getInt(14),      // MEDIA_TRACKNUMBER
                                     cursor.getInt(15),     // MEDIA_DISCNUMBER
-                                    cursor.getLong(16));     // MEDIA_LAST_MODIFIED
+                                    cursor.getLong(16),    // MEDIA_LAST_MODIFIED
+                                    0L);     // MEDIA_SEEN
                             medias.put(media.getUri().toString(), media);
 
                             count++;
@@ -935,7 +936,8 @@ public class MediaDatabase {
                         cursor.getInt(12),
                         cursor.getInt(13),
                         cursor.getInt(14),
-                        cursor.getLong(15));
+                        cursor.getLong(15),
+                        0L);
             }
             cursor.close();
         }

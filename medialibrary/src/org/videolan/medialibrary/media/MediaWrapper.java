@@ -118,13 +118,16 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private long mLastModified = 0l;
     private Media.Slave mSlaves[] = null;
 
+    private long mSeen = 0l;
+
     /**
      * Create a new MediaWrapper
      * @param mrl Should not be null.
      */
-    public MediaWrapper(long id, String mrl, long time, long length, int type,
-                      String title, String artist, String genre, String album, String albumArtist, int width,
-                      int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
+    public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
+                        String artist, String genre, String album, String albumArtist, int width,
+                        int height, String artworkURL, int audio, int spu, int trackNumber,
+                        int discNumber, long lastModified, long seen) {
         super();
         if (TextUtils.isEmpty(mrl))
             throw new IllegalArgumentException("uri was empty");
@@ -133,7 +136,9 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
             mrl = "file://"+mrl;
         mUri = Uri.parse(mrl);
         mId = id;
-        init(time, length, type, null, title, artist, genre, album, albumArtist, width, height, artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu, trackNumber, discNumber, lastModified, null);
+        init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
+                artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
+                trackNumber, discNumber, lastModified, seen, null);
         sb.setLength(0);
         if (type == TYPE_AUDIO) {
             boolean hasArtistMeta = !TextUtils.isEmpty(artist);
@@ -265,7 +270,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private void init(long time, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
-                      Media.Slave[] slaves) {
+                      long seen, Media.Slave[] slaves) {
         mFilename = null;
         mTime = time;
         mAudioTrack = audio;
@@ -285,15 +290,16 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mTrackNumber = trackNumber;
         mDiscNumber = discNumber;
         mLastModified = lastModified;
+        mSeen = seen;
         mSlaves = slaves;
     }
 
     public MediaWrapper(Uri uri, long time, long length, int type,
                  Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                 int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified) {
+                 int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
-             width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, null);
+             width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
     }
 
     @Override
@@ -557,6 +563,14 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         this.mLastModified = mLastModified;
     }
 
+    public long getSeen() {
+        return mSeen;
+    }
+
+    public void setSeen(long seen) {
+        mSeen = seen;
+    }
+
     public void addFlags(int flags) {
         mFlags |= flags;
     }
@@ -614,7 +628,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                 in.readLong(),
                 in.readInt(),
                 (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
-                mTitle,
+                in.readString(),
                 in.readString(),
                 in.readString(),
                 in.readString(),
@@ -627,6 +641,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                 in.readInt(),
                 in.readInt(),
                 in.readLong(),
+                in.readLong(),
                 in.createTypedArray(PSlave.CREATOR));
     }
 
@@ -638,6 +653,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         dest.writeLong(getLength());
         dest.writeInt(getType());
         dest.writeParcelable(getPicture(), flags);
+        dest.writeString(getTitle());
         dest.writeString(getArtist());
         dest.writeString(getGenre());
         dest.writeString(getAlbum());
@@ -650,6 +666,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         dest.writeInt(getTrackNumber());
         dest.writeInt(getDiscNumber());
         dest.writeLong(getLastModified());
+        dest.writeLong(getSeen());
 
         if (mSlaves != null) {
             PSlave pslaves[] = new PSlave[mSlaves.length];

@@ -60,12 +60,13 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
     int64_t progress = duration * ( mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress ).integer() / 100.0 );
+    int64_t seen = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen ).integer();
 
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) files.at(0)->lastModificationDate());
+                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) files.at(0)->lastModificationDate(), seen);
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)

@@ -54,7 +54,8 @@ public class MediaGroup extends MediaWrapper {
                 media.getSpuTrack(),
                 media.getTrackNumber(),
                 media.getDiscNumber(),
-                0l);
+                media.getLastModified(),
+                media.getSeen());
         mMedias = new ArrayList<MediaWrapper>();
         mMedias.add(media);
     }
