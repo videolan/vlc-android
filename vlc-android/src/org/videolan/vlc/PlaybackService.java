@@ -1492,17 +1492,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidgetCover() {
-        if (!hasCurrentMedia())
-            return;
-        final String artworkMrl = getCurrentMedia().getArtworkMrl();
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                Bitmap cover = hasCurrentMedia()? AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320) : null;
-                sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
-                        .putExtra("cover", cover));
-            }
-        });
+        sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
+                        .putExtra("artworkMrl", hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null));
     }
 
     private void updateWidgetPosition(final float pos) {
