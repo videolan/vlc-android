@@ -67,8 +67,8 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         mIsVisible = true;
         //Handle network connection state
         IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -87,9 +87,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     }
 
     @Override
-    protected void onPause() {
+    protected void onStop() {
         mIsVisible = false;
-        super.onPause();
+        super.onStop();
         unregisterReceiver(mExternalDevicesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
     }
