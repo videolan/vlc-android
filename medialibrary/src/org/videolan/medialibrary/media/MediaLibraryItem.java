@@ -27,7 +27,7 @@ public abstract class MediaLibraryItem implements Parcelable {
     long mId;
     protected String mTitle;
     String mDescription;
-    int mFlags;
+    private int mFlags;
 
     protected MediaLibraryItem() {}
 
