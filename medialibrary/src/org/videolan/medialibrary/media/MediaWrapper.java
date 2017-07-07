@@ -63,6 +63,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int META_TITLE = 52;
     public final static int META_CHAPTER = 53;
     public final static int META_PROGRAM = 54;
+    public final static int META_SEEN = 55;
     //video
     public final static int META_VIDEOTRACK = 100;
     public final static int META_ASPECT_RATIO = 101;

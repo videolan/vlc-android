@@ -73,6 +73,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     final static int UPDATE_SELECTION = 0;
     final static int UPDATE_THUMB = 1;
     final static int UPDATE_TIME = 2;
+    final static int UPDATE_SEEN = 3;
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
@@ -131,6 +132,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                         AsyncImageLoader.loadPicture(holder.thumbView, media);
                         break;
                     case UPDATE_TIME:
+                    case UPDATE_SEEN:
                         fillView(holder, media);
                         break;
                     case UPDATE_SELECTION:
@@ -246,6 +248,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         String resolution = "";
         int max = 0;
         int progress = 0;
+        long seen = 0L;
 
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
             MediaGroup mediaGroup = (MediaGroup) media;
@@ -264,12 +267,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 }
             }
             resolution = Tools.getResolution(media);
+            seen = media.getSeen();
         }
 
         holder.binding.setVariable(BR.resolution, resolution);
         holder.binding.setVariable(BR.time, text);
         holder.binding.setVariable(BR.max, max);
         holder.binding.setVariable(BR.progress, progress);
+        holder.binding.setVariable(BR.seen, seen);
     }
 
     public void setListMode(boolean value) {
@@ -545,7 +550,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             MediaWrapper oldItem = oldList.get(oldItemPosition);
             MediaWrapper newItem = newList.get(newItemPosition);
-            return oldItem.getTime() == newItem.getTime() && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl());
+            return oldItem.getTime() == newItem.getTime()
+                    && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl())
+                    && oldItem.getSeen() == newItem.getSeen();
         }
 
         @Nullable
@@ -555,8 +562,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             MediaWrapper newItem = newList.get(newItemPosition);
             if (oldItem.getTime() != newItem.getTime())
                 return UPDATE_TIME;
-            else
+            if (!TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl()))
                 return UPDATE_THUMB;
+            else
+                return UPDATE_SEEN;
         }
     }
 }
