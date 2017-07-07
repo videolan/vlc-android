@@ -1470,8 +1470,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidget() {
-        updateWidgetState();
-        updateWidgetCover();
+        if (!isVideoPlaying()) {
+            updateWidgetState();
+            updateWidgetCover();
+        }
     }
 
     private void updateWidgetState() {
