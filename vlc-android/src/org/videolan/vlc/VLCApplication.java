@@ -191,7 +191,10 @@ public class VLCApplication extends Application {
     }
 
     public static void runOnMainThread(Runnable runnable) {
-        instance.mHandler.post(runnable);
+        if (Looper.myLooper() == Looper.getMainLooper())
+            runnable.run();
+        else
+            instance.mHandler.post(runnable);
     }
 
     public static boolean removeTask(Runnable runnable) {
