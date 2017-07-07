@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MediaInfoAdapter.java
  *****************************************************************************
- * Copyright © 2011-2015 VLC authors and VideoLAN
+ * Copyright © 2011-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,42 +22,36 @@ package org.videolan.vlc.gui.video;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
 
-public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
+import java.util.List;
 
-    public MediaInfoAdapter(Context context) {
-        super(context, 0);
+public class MediaInfoAdapter extends RecyclerView.Adapter<MediaInfoAdapter.ViewHolder> {
+    private LayoutInflater inflater;
+    private List<Media.Track> mDataset;
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (inflater == null)
+            inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return new ViewHolder(inflater.inflate(R.layout.info_item, parent, false));
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.info_item, parent, false);
-            holder = new ViewHolder();
-            holder.title = (TextView) v.findViewById(R.id.title);
-            holder.text = (TextView) v.findViewById(R.id.subtitle);
-            v.setTag(holder);
-        } else
-            holder = (ViewHolder) v.getTag();
-
-        Media.Track track = getItem(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Media.Track track = mDataset.get(position);
         String title;
-        StringBuilder textBuilder = new StringBuilder(1024);
-        Resources res = getContext().getResources();
-        switch (track.type)
-        {
+        StringBuilder textBuilder = new StringBuilder();
+        Resources res = holder.itemView.getContext().getResources();
+        switch (track.type) {
             case Media.Track.Type.Audio:
                 title = res.getString(R.string.track_audio);
                 appendCommon(textBuilder, res, track);
@@ -75,11 +69,21 @@ public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
             default:
                 title = res.getString(R.string.track_unknown);
         }
-
         holder.title.setText(title);
         holder.text.setText(textBuilder.toString());
+    }
 
-        return v;
+    @Override
+    public int getItemCount() {
+        return mDataset == null ? 0 : mDataset.size();
+    }
+
+    public void setTracks(List<Media.Track> tracks) {
+        int size = getItemCount();
+        mDataset = tracks;
+        if (size > 0)
+            notifyItemRangeRemoved(0, size-1);
+        notifyItemRangeInserted(0, tracks.size()-1);
     }
 
     private void appendCommon(StringBuilder textBuilder, Resources res, Media.Track track) {
@@ -103,9 +107,13 @@ public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
             textBuilder.append(res.getString(R.string.track_framerate_info, framerate));
     }
 
-    static class ViewHolder {
-        TextView title;
-        TextView text;
-    }
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView title, text;
 
+        public ViewHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.title);
+            text = itemView.findViewById(R.id.subtitle);
+        }
+    }
 }

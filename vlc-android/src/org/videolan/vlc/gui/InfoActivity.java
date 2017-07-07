@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -38,6 +39,8 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InfoActivity extends AudioPlayerContainerActivity implements View.OnClickListener {
 
@@ -98,7 +101,8 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             noCoverFallback();
         mBinding.fab.setOnClickListener(this);
         if (mItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            mAdapter = new MediaInfoAdapter(this);
+            mAdapter = new MediaInfoAdapter();
+            mBinding.list.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
             mBinding.list.setAdapter(mAdapter);
             mCheckFileTask = (CheckFileTask) new CheckFileTask().execute();
             mParseTracksTask = (ParseTracksTask) new ParseTracksTask().execute();
@@ -273,20 +277,18 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         @Override
         protected void onPostExecute(Media media) {
             mParseTracksTask = null;
-            if (isCancelled())
+            if (media == null || isCancelled())
                 return;
             boolean hasSubs = false;
-            if (media == null)
-                return;
             final int trackCount = media.getTrackCount();
+            List<Media.Track> tracks = new LinkedList<>();
             for (int i = 0; i < trackCount; ++i) {
                 final Media.Track track = media.getTrack(i);
-                if (track.type == Media.Track.Type.Text)
-                    hasSubs = true;
-                mAdapter.add(track);
+                tracks.add(track);
+                hasSubs |= track.type == Media.Track.Type.Text;
             }
             media.release();
-
+            mAdapter.setTracks(tracks);
             if (hasSubs)
                 mBinding.infoSubtitles.setVisibility(View.VISIBLE);
         }

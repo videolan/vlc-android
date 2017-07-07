@@ -187,7 +187,7 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_audiosub_circle_normal_o"
                 android:visibility="gone" />
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -195,9 +195,7 @@
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                android:cacheColorHint="#00000000"
                 android:clipToPadding="false"
-                android:divider="#00000000"
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:visibility="@{item.itemType == MediaLibraryItem.TYPE_MEDIA ? View.VISIBLE : View.INVISIBLE}" />
 
