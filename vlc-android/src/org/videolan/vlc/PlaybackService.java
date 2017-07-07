@@ -316,7 +316,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaSession.getController().getTransportControls()
                     .playFromSearch(extras.getString(SearchManager.QUERY), extras);
         }
-        updateWidget();
         return super.onStartCommand(intent, flags, startId);
     }
 
