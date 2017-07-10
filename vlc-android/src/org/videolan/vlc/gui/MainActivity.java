@@ -151,7 +151,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         if (savedInstanceState != null) {
             mCurrentFragmentId = savedInstanceState.getInt("current");
-            mCurrentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+            mCurrentFragment = getCurrentFragment();
             if (mCurrentFragmentId > 0)
                 mNavigationView.setCheckedItem(mCurrentFragmentId);
         }
@@ -165,8 +165,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof MediaBrowserFragment)
-                    ((MediaBrowserFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
+                if (getCurrentFragment() instanceof MediaBrowserFragment)
+                    ((MediaBrowserFragment) getCurrentFragment()).setReadyToDisplay(true);
             }
 
             // Hack to make navigation drawer browsable with DPAD.
@@ -391,8 +391,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.
-        Fragment fragment = getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_placeholder);
+        Fragment fragment = getCurrentFragment();
         if (fragment instanceof BaseBrowserFragment){
             ((BaseBrowserFragment)fragment).goBack();
             return;
@@ -421,10 +420,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     @Override
     public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
-        FragmentManager fm = getSupportFragmentManager();
 
-        if (refresh && fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser) {
-            ExtensionBrowser browser = (ExtensionBrowser) fm.findFragmentById(R.id.fragment_placeholder);
+        if (refresh && getCurrentFragment() instanceof ExtensionBrowser) {
+            ExtensionBrowser browser = (ExtensionBrowser) getCurrentFragment();
             browser.doRefresh(title, items);
         } else {
             ExtensionBrowser fragment = new ExtensionBrowser();
@@ -436,10 +434,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             fragment.setArguments(args);
             fragment.setExtensionService(mExtensionManagerService);
 
-            FragmentTransaction ft = fm.beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
             ft.replace(R.id.fragment_placeholder, fragment, title);
-            if (!(fm.findFragmentById(R.id.fragment_placeholder) instanceof ExtensionBrowser))
+            if (!(getCurrentFragment() instanceof ExtensionBrowser))
                 ft.addToBackStack(getTag(mCurrentFragmentId));
             else
                 ft.addToBackStack(title);
@@ -496,7 +494,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         super.onPrepareOptionsMenu(menu);
         if (menu == null)
             return false;
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
+
         MenuItem item = menu.findItem(R.id.ml_menu_sortby);
         if (item == null)
             return false;
@@ -560,7 +559,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         UiTools.setKeyboardVisibility(mDrawerLayout, false);
 
         // Current fragment loaded
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
 
         // Handle item selection
         switch (item.getItemId()) {
@@ -621,7 +620,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     }
 
     public void forceRefresh() {
-        forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
+        forceRefresh(getCurrentFragment());
     }
 
     private void forceRefresh(Fragment current) {
@@ -660,7 +659,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             MediaUtils.openUri(this, data.getData());
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                forceRefresh(getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder));
+                forceRefresh(getCurrentFragment());
             }
         }
     }
@@ -712,7 +711,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     public boolean onQueryTextChange(String filterQueryString) {
         if (filterQueryString.length() < 3)
             return false;
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
             ((Filterable) current).getFilter().filter(filterQueryString);
             return true;
@@ -744,14 +743,14 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     }
 
     public void restoreCurrentList() {
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
             ((Filterable) current).restoreList();
         }
     }
 
     private void setSearchVisibility(boolean visible) {
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
         if (current instanceof Filterable)
             ((Filterable) current).setSearchVisibility(visible);
     }
@@ -766,8 +765,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         getSupportActionBar().setSubtitle(null); //clear subtitle
 
         int id = item.getItemId();
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
 
         if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
             mExtensionManagerService.openExtension(id);
@@ -853,13 +851,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
     private void clearBackstackFromClass(Class clazz) {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment current = getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_placeholder);
+        Fragment current = getCurrentFragment();
         while (clazz.isInstance(current)) {
             if (!fm.popBackStackImmediate())
                 break;
-            current = getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment_placeholder);
+            current = getCurrentFragment();
         }
     }
 
@@ -887,5 +883,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     public void onClick(View v) {
         if (v.getId() == R.id.searchButton)
             openSearchActivity();
+    }
+
+    private Fragment getCurrentFragment() {
+        return mCurrentFragment instanceof BaseBrowserFragment
+                ? getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)
+                : mCurrentFragment;
     }
 }
