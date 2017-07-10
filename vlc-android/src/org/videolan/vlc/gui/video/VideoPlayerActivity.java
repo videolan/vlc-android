@@ -2242,7 +2242,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void setAudioVolume(int vol) {
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+        if (vol <= 0 && AndroidUtil.isNougatOrLater)
+            return; //Android N+ throws "SecurityException: Not allowed to change Do Not Disturb state"
 
         /* Since android 4.3, the safe volume warning dialog is displayed only with the FLAG_SHOW_UI flag.
          * We don't want to always show the default UI volume, so show it only when volume is not set. */
