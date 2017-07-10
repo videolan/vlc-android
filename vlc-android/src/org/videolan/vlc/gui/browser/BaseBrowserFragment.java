@@ -316,6 +316,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void onBrowseEnd() {
+        if (!isAdded())
+            return;
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         releaseBrowser();
         VLCApplication.runOnMainThread(new Runnable() {
@@ -639,7 +641,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         @Override
         public void onBrowseEnd() {
             synchronized (currentMediaList) {
-                if (currentMediaList.isEmpty() || getActivity() == null) {
+                if (currentMediaList.isEmpty() || !isAdded()) {
                     mCurrentParsedPosition = -1;
                     releaseBrowser();
                     return;

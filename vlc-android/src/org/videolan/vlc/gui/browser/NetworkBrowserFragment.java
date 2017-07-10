@@ -126,6 +126,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     @Override
     protected void browseRoot() {
+        if (!isAdded())
+            return;
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
         if (allowLAN())
