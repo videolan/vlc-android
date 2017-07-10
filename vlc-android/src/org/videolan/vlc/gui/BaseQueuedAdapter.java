@@ -30,7 +30,7 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
 
     private final ArrayDeque<T> mPendingUpdates = new ArrayDeque<>();
 
-    protected abstract void internalUpdate(T items);
+    protected abstract void internalUpdate(T items, boolean detectMoves);
 
     @MainThread
     public boolean hasPendingUpdates() {
@@ -49,9 +49,14 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
 
     @MainThread
     public void update(final T items) {
+        update(items, false);
+    }
+
+    @MainThread
+    public void update(final T items, boolean detectMoves) {
         mPendingUpdates.add(items);
         if (mPendingUpdates.size() == 1)
-            internalUpdate(items);
+            internalUpdate(items, detectMoves);
     }
 
     @MainThread
@@ -63,7 +68,7 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
                 mPendingUpdates.clear();
                 update(lastList);
             } else
-                internalUpdate(mPendingUpdates.peek());
+                internalUpdate(mPendingUpdates.peek(), false);
         }
     }
 }

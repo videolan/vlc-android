@@ -277,12 +277,12 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         }
     }
 
-    protected void internalUpdate(final ArrayList<? extends MediaLibraryItem> items) {
+    protected void internalUpdate(final ArrayList<? extends MediaLibraryItem> items, final boolean detectMoves) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final ArrayList<? extends MediaLibraryItem> newList = (mOriginalDataSet == null && hasSections()) ? generateList(items) : items;
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), false);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newList), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {

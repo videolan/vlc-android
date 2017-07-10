@@ -371,13 +371,13 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         return mFilter;
     }
 
-    protected void internalUpdate(final ArrayList<MediaLibraryItem> items) {
+    protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                if (!fragment.isRootDirectory())
+                if (detectMoves)
                     Collections.sort(items, mMediaComparator);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), detectMoves);
                 for (MediaLibraryItem item : items) {
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
                             && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
@@ -481,7 +481,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
                     break;
             }
             ArrayList<MediaLibraryItem> list = new ArrayList<>(mMediaList);
-            update(list);
+            update(list, true);
             mSettings.edit()
                     .putInt(KEY_SORT_BY, mSortBy)
                     .putInt(KEY_SORT_DIRECTION, mSortDirection)
