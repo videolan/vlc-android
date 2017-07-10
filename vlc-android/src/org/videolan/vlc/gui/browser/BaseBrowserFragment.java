@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
@@ -83,7 +84,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment implements ISortable, IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static String ROOT = "smb";
@@ -93,6 +94,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public static final String KEY_CONTENT_LIST = "key_content_list";
     public static final String KEY_POSITION = "key_list";
 
+    public volatile boolean refreshing = false;
+    private ArrayList<MediaLibraryItem> refreshList;
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
@@ -264,7 +267,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             activity.finish();
     }
 
-    public void browse (MediaWrapper media, int position, boolean save) {
+    public void browse(MediaWrapper media, int position, boolean save) {
         mBrowserHandler.removeCallbacksAndMessages(null);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
@@ -285,7 +288,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     @Override
-    public void onMediaAdded(int index, final Media media) {
+    public void onMediaAdded(final int index, final Media media) {
+        if (refreshing && !mRoot) {
+            MediaWrapper mediaWrapper = getMediaWrapper(new MediaWrapper(media));
+            refreshList.add(mediaWrapper);
+            return;
+        }
         final boolean wasEmpty = mAdapter.isEmpty();
         final MediaWrapper mediaWrapper = getMediaWrapper(new MediaWrapper(media));
         VLCApplication.runOnMainThread(new Runnable() {
@@ -318,6 +326,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onBrowseEnd() {
         if (!isAdded())
             return;
+        if (refreshing && !mRoot) {
+            refreshing = false;
+            mAdapter.update(refreshList);
+        } else
+            refreshList = null;
+
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         releaseBrowser();
         VLCApplication.runOnMainThread(new Runnable() {
@@ -358,9 +372,15 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
+        if (this instanceof NetworkBrowserFragment && mRoot)
+            mAdapter.clear();
+        else {
+            refreshList = new ArrayList<>();
+            refreshing = true;
+        }
         mBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
-        mAdapter.clear();
+
         runOnBrowserThread(new Runnable() {
             @Override
             public void run() {
@@ -810,7 +830,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mAdapter.resetSelectionCount();
     }
 
-
     public void onClick(View v, int position, MediaLibraryItem item) {
         MediaWrapper mediaWrapper = (MediaWrapper) item;
             if (mActionMode != null) {
@@ -878,5 +897,15 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mFabPlay.setOnClickListener(null);
             }
         }
+    }
+
+    @Override
+    public void sortBy(int sortby) {
+        mAdapter.sortBy(sortby);
+    }
+
+    @Override
+    public int sortDirection(int sortby) {
+        return mAdapter.sortDirection(sortby);
     }
 }

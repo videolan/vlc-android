@@ -498,7 +498,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
         MenuItem item;
         // Disable the sort option if we can't use it on the current fragment.
-        if (current == null || !(current instanceof ISortable)) {
+        if (current == null || !(current instanceof ISortable) || (current instanceof BaseBrowserFragment && ((BaseBrowserFragment) current).isRootDirectory())) {
             item = menu.findItem(R.id.ml_menu_sortby);
             if (item == null)
                 return false;
@@ -516,16 +516,21 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 item.setTitle(R.string.sortby_name_desc);
             else
                 item.setTitle(R.string.sortby_name);
-            item = menu.findItem(R.id.ml_menu_sortby_length);
-            if (sortable.sortDirection(VideoListAdapter.SORT_BY_LENGTH) == 1)
-                item.setTitle(R.string.sortby_length_desc);
-            else
-                item.setTitle(R.string.sortby_length);
-            item = menu.findItem(R.id.ml_menu_sortby_date);
-            if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
-                item.setTitle(R.string.sortby_date_desc);
-            else
-                item.setTitle(R.string.sortby_date);
+            if (current instanceof NetworkBrowserFragment) {
+                menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
+                menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
+            } else {
+                item = menu.findItem(R.id.ml_menu_sortby_length);
+                if (sortable.sortDirection(VideoListAdapter.SORT_BY_LENGTH) == 1)
+                    item.setTitle(R.string.sortby_length_desc);
+                else
+                    item.setTitle(R.string.sortby_length);
+                item = menu.findItem(R.id.ml_menu_sortby_date);
+                if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
+                    item.setTitle(R.string.sortby_date_desc);
+                else
+                    item.setTitle(R.string.sortby_date);
+            }
         }
 
         if (current instanceof NetworkBrowserFragment &&

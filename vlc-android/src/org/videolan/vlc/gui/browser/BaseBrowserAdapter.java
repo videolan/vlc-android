@@ -22,9 +22,11 @@
  */
 package org.videolan.vlc.gui.browser;
 
+import android.content.SharedPreferences;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +51,10 @@ import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
@@ -59,6 +64,11 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
+
+    private final static int SORT_BY_TITLE = 0;
+    private final static int SORT_BY_LENGTH = 1;
+    private final static int SORT_BY_DATE = 2;
+    private MediaComparator mMediaComparator = new MediaComparator();
 
     private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
     private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
@@ -365,6 +375,8 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
+                if (!fragment.isRootDirectory())
+                    Collections.sort(items, mMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), false);
                 for (MediaLibraryItem item : items) {
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
@@ -403,6 +415,106 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             update((ArrayList<MediaLibraryItem>) filterResults.values);
+        }
+    }
+
+    int sortDirection(int sortDirection) {
+        return mMediaComparator.sortDirection(sortDirection);
+    }
+
+    void sortBy(int sortby) {
+        mMediaComparator.sortBy(sortby);
+    }
+
+
+    private class MediaComparator implements Comparator<MediaLibraryItem> {
+
+        private static final String KEY_SORT_BY =  "sort_by";
+        private static final String KEY_SORT_DIRECTION =  "sort_direction";
+
+        private int mSortDirection;
+        private int mSortBy;
+        protected SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+
+        MediaComparator() {
+            mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
+            mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
+        }
+
+        int sortDirection(int sortby) {
+            if (sortby == mSortBy)
+                return  mSortDirection;
+            else
+                return -1;
+        }
+
+        void sortBy(int sortby) {
+            switch (sortby) {
+                case SORT_BY_TITLE:
+                    if (mSortBy == SORT_BY_TITLE)
+                        mSortDirection *= -1;
+                    else {
+                        mSortBy = SORT_BY_TITLE;
+                        mSortDirection = 1;
+                    }
+                    break;
+                case SORT_BY_LENGTH:
+                    if (mSortBy == SORT_BY_LENGTH) {
+                        mSortDirection *= -1;
+                    }
+                    else {
+                        mSortBy = SORT_BY_LENGTH;
+                        mSortDirection *= 1;
+                    }
+                    break;
+                case SORT_BY_DATE:
+                    if (mSortBy == SORT_BY_DATE)
+                        mSortDirection *= -1;
+                    else {
+                        mSortBy = SORT_BY_DATE;
+                        mSortDirection *= 1;
+                    }
+                    break;
+                default:
+                    mSortBy = SORT_BY_TITLE;
+                    mSortDirection = 1;
+                    break;
+            }
+            ArrayList<MediaLibraryItem> list = new ArrayList<>(mMediaList);
+            update(list);
+            mSettings.edit()
+                    .putInt(KEY_SORT_BY, mSortBy)
+                    .putInt(KEY_SORT_DIRECTION, mSortDirection)
+                    .apply();
+        }
+
+        @Override
+        public int compare(MediaLibraryItem item1, MediaLibraryItem item2) {
+            if (item1 == null)
+                return item2 == null ? 0 : -1;
+            else if (item2 == null)
+                return 1;
+
+            int type1 = ((MediaWrapper)item1).getType();
+            int type2 = ((MediaWrapper)item2).getType();
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
+                return -1;
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
+                return 1;
+
+            int compare = 0;
+            switch (mSortBy) {
+                case SORT_BY_TITLE:
+                    compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(item2.getTitle().toUpperCase(Locale.ENGLISH));
+                    break;
+                case SORT_BY_LENGTH:
+                    compare = ((Long) ((MediaWrapper)item1).getLength()).compareTo(((MediaWrapper)item2).getLength());
+                    break;
+                case SORT_BY_DATE:
+                    compare = ((Long) ((MediaWrapper)item1).getLastModified()).compareTo(((MediaWrapper)item2).getLastModified());
+                    break;
+            }
+            return mSortDirection * compare;
         }
     }
 }
