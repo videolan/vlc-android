@@ -78,6 +78,7 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
+import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -498,7 +499,10 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
         MenuItem item;
         // Disable the sort option if we can't use it on the current fragment.
-        if (current == null || !(current instanceof ISortable) || (current instanceof BaseBrowserFragment && ((BaseBrowserFragment) current).isRootDirectory())) {
+        if (current == null
+                || !(current instanceof ISortable)
+                || (current instanceof BaseBrowserFragment && ((BaseBrowserFragment) current).isRootDirectory())
+                || (current instanceof StorageBrowserFragment) ){
             item = menu.findItem(R.id.ml_menu_sortby);
             if (item == null)
                 return false;

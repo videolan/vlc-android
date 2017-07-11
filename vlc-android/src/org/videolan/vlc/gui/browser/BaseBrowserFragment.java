@@ -41,13 +41,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,8 +115,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     private boolean goBack = false;
     private final boolean mShowHiddenFiles;
 
-    private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
-    protected ArrayList<MediaWrapper> mediaList;
+    private SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> mFoldersContentLists = new SimpleArrayMap<>();
+    protected ArrayList<MediaLibraryItem> mediaList = new ArrayList<>();
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -143,15 +142,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
+        ArrayList<ArrayList<MediaLibraryItem>> foldersContent = null;
         if (bundle == null)
             bundle = getArguments();
         else
-            mFoldersContentLists = (SparseArray<ArrayList<MediaWrapper>>) VLCApplication.getData(KEY_CONTENT_LIST);
-        if (mFoldersContentLists == null)
-            mFoldersContentLists = new SparseArray<>();
+            foldersContent = (ArrayList<ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
         if (bundle != null) {
-            mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(KEY_MEDIA_LIST);
+            mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -162,7 +159,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
-        Log.d(TAG, "onCreate: ");
+        if (!Util.isListEmpty(foldersContent))
+            for (int i = 0; i<mediaList.size(); i++)
+                mFoldersContentLists.put(mediaList.get(i), foldersContent.get(i));
     }
 
     protected int getLayoutId(){
@@ -181,7 +180,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSearchButtonView = v.findViewById(R.id.searchButton);
-        Log.d(TAG, "onCreateView: ");
         return v;
     }
 
@@ -294,7 +292,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
-        ArrayList<MediaWrapper> list = mFoldersContentLists != null ? mFoldersContentLists.get(position) : null;
+        ArrayList<MediaLibraryItem> list = mFoldersContentLists != null ? mFoldersContentLists.get(media) : null;
         if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
             VLCApplication.storeData(KEY_MEDIA_LIST, list);
         args.putParcelable(KEY_MEDIA, media);
@@ -566,12 +564,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 }
                 return true;
             case R.id.directory_view_play_folder:
-                ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-                for (MediaWrapper mediaItem : mFoldersContentLists.get(position)){
-                    if (mediaItem.getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && mediaItem.getType() == MediaWrapper.TYPE_VIDEO))
-                        mediaList.add(mediaItem);
+                ArrayList<MediaWrapper> newMediaList = new ArrayList<>();
+                for (MediaLibraryItem mediaItem : mFoldersContentLists.get(mediaList.get(position))){
+                    if (((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_VIDEO))
+                        newMediaList.add((MediaWrapper)mediaItem);
                 }
-                MediaUtils.openList(getActivity(), mediaList, 0);
+                MediaUtils.openList(getActivity(), newMediaList, 0);
                 return true;
             case R.id.directory_view_add_playlist:
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -700,7 +698,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                         }
                     });
                     directories.addAll(files);
-                    mFoldersContentLists.put(mCurrentParsedPosition, new ArrayList<>(directories));
+                    mFoldersContentLists.put(item, new ArrayList<MediaLibraryItem>(directories));
                 }
                 while (++mCurrentParsedPosition < currentMediaList.size()){ //skip media that are not browsable
                     MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
@@ -828,12 +826,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
         stopActionMode();
         return true;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
     }
 
     @Override

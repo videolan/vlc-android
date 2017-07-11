@@ -68,7 +68,8 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     private final static int SORT_BY_TITLE = 0;
     private final static int SORT_BY_LENGTH = 1;
     private final static int SORT_BY_DATE = 2;
-    private MediaComparator mMediaComparator = new MediaComparator();
+    private final static int SORT_DEFAULT = 4;
+    private static MediaComparator sMediaComparator = new MediaComparator();
 
     private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
     private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
@@ -375,8 +376,11 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                if (detectMoves)
-                    Collections.sort(items, mMediaComparator);
+                if ((detectMoves || (!items.isEmpty() && sMediaComparator.sortBy != SORT_DEFAULT))
+                        && !fragment.isRootDirectory()
+                        && !(fragment instanceof StorageBrowserFragment)
+                        && !(fragment instanceof FilePickerFragment))
+                    Collections.sort(items, sMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), detectMoves);
                 for (MediaLibraryItem item : items) {
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
@@ -419,31 +423,32 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
     }
 
     int sortDirection(int sortDirection) {
-        return mMediaComparator.sortDirection(sortDirection);
+        return sMediaComparator.sortDirection(sortDirection);
     }
 
     void sortBy(int sortby) {
-        mMediaComparator.sortBy(sortby);
+        sMediaComparator.sortBy(sortby);
+        update(new ArrayList<>(mMediaList), true);
     }
 
 
-    private class MediaComparator implements Comparator<MediaLibraryItem> {
+    private static class MediaComparator implements Comparator<MediaLibraryItem> {
 
         private static final String KEY_SORT_BY =  "sort_by";
         private static final String KEY_SORT_DIRECTION =  "sort_direction";
 
-        private int mSortDirection;
-        private int mSortBy;
-        protected SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        private static int sortDirection;
+        private static int sortBy = SORT_DEFAULT;
+        protected static SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
 
         MediaComparator() {
-            mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
-            mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
+            sortBy = settings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
+            sortDirection = settings.getInt(KEY_SORT_DIRECTION, 1);
         }
 
         int sortDirection(int sortby) {
-            if (sortby == mSortBy)
-                return  mSortDirection;
+            if (sortby == sortBy)
+                return  sortDirection;
             else
                 return -1;
         }
@@ -451,40 +456,38 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         void sortBy(int sortby) {
             switch (sortby) {
                 case SORT_BY_TITLE:
-                    if (mSortBy == SORT_BY_TITLE)
-                        mSortDirection *= -1;
+                    if (sortBy == SORT_BY_TITLE)
+                        sortDirection *= -1;
                     else {
-                        mSortBy = SORT_BY_TITLE;
-                        mSortDirection = 1;
+                        sortBy = SORT_BY_TITLE;
+                        sortDirection = 1;
                     }
                     break;
                 case SORT_BY_LENGTH:
-                    if (mSortBy == SORT_BY_LENGTH) {
-                        mSortDirection *= -1;
+                    if (sortBy == SORT_BY_LENGTH) {
+                        sortDirection *= -1;
                     }
                     else {
-                        mSortBy = SORT_BY_LENGTH;
-                        mSortDirection *= 1;
+                        sortBy = SORT_BY_LENGTH;
+                        sortDirection *= 1;
                     }
                     break;
                 case SORT_BY_DATE:
-                    if (mSortBy == SORT_BY_DATE)
-                        mSortDirection *= -1;
+                    if (sortBy == SORT_BY_DATE)
+                        sortDirection *= -1;
                     else {
-                        mSortBy = SORT_BY_DATE;
-                        mSortDirection *= 1;
+                        sortBy = SORT_BY_DATE;
+                        sortDirection *= 1;
                     }
                     break;
                 default:
-                    mSortBy = SORT_BY_TITLE;
-                    mSortDirection = 1;
+                    sortBy = SORT_BY_TITLE;
+                    sortDirection = 1;
                     break;
             }
-            ArrayList<MediaLibraryItem> list = new ArrayList<>(mMediaList);
-            update(list, true);
-            mSettings.edit()
-                    .putInt(KEY_SORT_BY, mSortBy)
-                    .putInt(KEY_SORT_DIRECTION, mSortDirection)
+            settings.edit()
+                    .putInt(KEY_SORT_BY, sortBy)
+                    .putInt(KEY_SORT_DIRECTION, sortDirection)
                     .apply();
         }
 
@@ -503,7 +506,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
                 return 1;
 
             int compare = 0;
-            switch (mSortBy) {
+            switch (sortBy) {
                 case SORT_BY_TITLE:
                     compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(item2.getTitle().toUpperCase(Locale.ENGLISH));
                     break;
@@ -514,7 +517,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
                     compare = ((Long) ((MediaWrapper)item1).getLastModified()).compareTo(((MediaWrapper)item2).getLastModified());
                     break;
             }
-            return mSortDirection * compare;
+            return sortDirection * compare;
         }
     }
 }

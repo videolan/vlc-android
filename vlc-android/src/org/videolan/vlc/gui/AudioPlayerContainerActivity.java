@@ -98,8 +98,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
-        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+        if (savedInstanceState != null) {
+            if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+                startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+        }
         MediaUtils.updateSubsDownloaderActivity(this);
         super.onCreate(savedInstanceState);
     }
