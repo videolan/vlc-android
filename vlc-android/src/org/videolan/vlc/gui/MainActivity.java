@@ -655,6 +655,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                     finish();
                     startActivity(intent);
                     break;
+                case PreferencesActivity.RESULT_UPDATE_SEEN_MEDIA:
+                    for (Fragment fragment : getSupportFragmentManager().getFragments())
+                        if (fragment instanceof VideoGridFragment)
+                            ((VideoGridFragment) fragment).updateSeenMediaMarker();
+                    break;
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());

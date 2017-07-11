@@ -53,6 +53,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
     public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
     public final static int RESULT_RESTART_APP = RESULT_FIRST_USER + 3;
+    public final static int RESULT_UPDATE_SEEN_MEDIA = RESULT_FIRST_USER + 4;
 
     private PlaybackService.Client mClient = new PlaybackService.Client(this, this);
     private PlaybackService mService;

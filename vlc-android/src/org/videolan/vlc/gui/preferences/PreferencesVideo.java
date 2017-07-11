@@ -49,6 +49,9 @@ public class PreferencesVideo extends BasePreferenceFragment {
             case "force_list_portrait":
                 ((PreferencesActivity) getActivity()).setRestart();
                 return true;
+            case "media_seen":
+                getActivity().setResult(PreferencesActivity.RESULT_UPDATE_SEEN_MEDIA);
+                break;
         }
         return super.onPreferenceTreeClick(preference);
     }

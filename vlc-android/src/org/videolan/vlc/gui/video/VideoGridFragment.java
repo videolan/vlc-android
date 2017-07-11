@@ -591,4 +591,9 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         updateEmptyView();
         setFabPlayVisibility(true);
     }
+
+    public void updateSeenMediaMarker() {
+        mVideoAdapter.setSeenMediaMarkerVisible(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true));
+        mVideoAdapter.notifyItemRangeChanged(0, mVideoAdapter.getItemCount()-1, VideoListAdapter.UPDATE_SEEN);
+    }
 }

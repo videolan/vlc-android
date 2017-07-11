@@ -14,6 +14,11 @@
         android:title="@string/video_min_group_length_title" />
 
     <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="media_seen"
+        android:summary="@string/media_seen_summary"
+        android:title="@string/media_seen" />
+    <CheckBoxPreference
         android:defaultValue="false"
         android:key="force_list_portrait"
         android:summary="@string/force_list_portrait_summary"

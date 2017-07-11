@@ -85,9 +85,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
 
+    private boolean mIsSeenMediaMarkerVisible = true;
+
     VideoListAdapter(IEventsHandler eventsHandler) {
         super();
         mEventsHandler = eventsHandler;
+        mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
     }
 
     VideoComparator getComparator() {
@@ -267,7 +270,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
                 }
             }
             resolution = Tools.getResolution(media);
-            seen = media.getSeen();
+            seen = mIsSeenMediaMarkerVisible ? media.getSeen() : 0L;
         }
 
         holder.binding.setVariable(BR.resolution, resolution);
@@ -567,5 +570,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             else
                 return UPDATE_SEEN;
         }
+    }
+
+    public void setSeenMediaMarkerVisible(boolean seenMediaMarkerVisible) {
+        mIsSeenMediaMarkerVisible = seenMediaMarkerVisible;
     }
 }
