@@ -323,11 +323,16 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.setVideoAspectRatio(null);
         mService.setVideoScale(0);
         mService.setVideoTrackEnabled(true);
-        if (!mService.isPlaying())
-            mService.playIndex(mService.getCurrentMediaPosition());
-        else
+        if (mService.hasMedia()) {
             mService.flush();
+            updatePlayIcon();
+        } else
+            mService.playIndex(mService.getCurrentMediaPosition());
         showNotification();
+    }
+
+    private void updatePlayIcon() {
+        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_popup_pause : R.drawable.ic_popup_play);
     }
 
     @Override
