@@ -390,7 +390,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
-        if (this instanceof NetworkBrowserFragment && mRoot)
+        if ((this instanceof NetworkBrowserFragment && mRoot) || this instanceof FilePickerFragment)
             mAdapter.clear();
         else {
             refreshList = new ArrayList<>();
