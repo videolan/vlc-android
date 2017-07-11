@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.content.ContextCompat;
@@ -59,10 +60,13 @@ public class CardPresenter extends Presenter {
     private static Drawable sDefaultCardImage;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
+    private boolean mIsSeenMediaMarkerVisible = true;
+
     public CardPresenter(Activity context){
         mContext = context;
         mRes = mContext.getResources();
         sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_default_cone);
+        mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
 
     }
 
@@ -108,8 +112,13 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setContentText(mediaWrapper.getDescription());
             if (mediaWrapper.getType() == MediaWrapper.TYPE_GROUP)
                 holder.updateCardViewImage(ContextCompat.getDrawable(mContext, R.drawable.ic_video_collection_big));
-            else
+            else {
                 holder.updateCardViewImage(mediaWrapper);
+                if (mIsSeenMediaMarkerVisible
+                        && mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO
+                        && mediaWrapper.getSeen() > 0L)
+                    holder.mCardView.setBadgeImage(ContextCompat.getDrawable(mContext, R.drawable.ic_seen_tv_normal));
+            }
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
