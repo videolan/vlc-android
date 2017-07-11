@@ -24,12 +24,9 @@
 
 package org.videolan.vlc.gui.video;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -258,8 +255,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         switch (v.getId()) {
             case R.id.video_play_pause:
                 if (mService.hasMedia()) {
-                    boolean isPLaying = mService.isPlaying();
-                    if (isPLaying)
+                    if (mService.isPlaying())
                         mService.pause();
                     else
                         mService.play();
@@ -277,19 +273,16 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     private void stopPlayback() {
         long time = mService.getTime();
-        long length = mService.getLength();
-        Uri uri = mService.getCurrentMediaWrapper().getUri();
-        //remove saved position if in the last 5 seconds
-        if (length - time < 5000)
-            time = 0;
-        else
-            time -= 2000; // go back 2 seconds, to compensate loading time
+        if (time != -1) {
+            // remove saved position if in the last 5 seconds
+            // else, go back 2 seconds, to compensate loading time
+            time = mService.getLength() - time < 5000 ? 0 :  2000;
+            // Save position
+            if (mService.isSeekable())
+                PreferenceManager.getDefaultSharedPreferences(mService).edit()
+                        .putLong(PreferencesActivity.VIDEO_RESUME_TIME, time).apply();
+        }
         mService.stop();
-
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mService).edit();
-        // Save position
-        if (mService.isSeekable() && time != -1)
-            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time).apply();
     }
 
     private void showNotification() {
@@ -316,10 +309,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             builder.addAction(R.drawable.ic_popup_play, mService.getString(R.string.play), piPlay);
         builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand);
 
-        Notification notification = builder.build();
         try {
-            NotificationManagerCompat.from(mService).notify(42, notification);
-        } catch (IllegalArgumentException e) {}
+            NotificationManagerCompat.from(mService).notify(42, builder.build());
+        } catch (IllegalArgumentException ignored) {}
     }
 
     private void hideNotification() {
