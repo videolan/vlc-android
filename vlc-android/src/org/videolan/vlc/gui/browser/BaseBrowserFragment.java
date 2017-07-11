@@ -24,7 +24,10 @@ package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +40,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,6 +68,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -108,7 +113,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected MediaWrapper mCurrentMedia;
     protected int mSavedPosition = -1, mFavorites = 0;
     public boolean mRoot;
-    boolean goBack = false;
+    private boolean goBack = false;
     private final boolean mShowHiddenFiles;
 
     private SparseArray<ArrayList<MediaWrapper>> mFoldersContentLists;
@@ -190,18 +195,34 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        if (mCurrentMedia != null)
+        setSearchVisibility(false);
         if (goBack)
             goBack();
-        setSearchVisibility(false);
-        restoreList();
+        else
+            restoreList();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden && !mRoot && mFabPlay != null) {
+        if (mRoot) {
+            LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+            runOnBrowserThread(new Runnable() {
+                @Override
+                public void run() {
+                    releaseBrowser();
+                }
+            });
+        } else if (!hidden && mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
         }
@@ -209,6 +230,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     public void onStop(){
         super.onStop();
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
         runOnBrowserThread(new Runnable() {
             @Override
             public void run() {
@@ -338,8 +360,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             @Override
             public void run() {
                 onUpdateFinished(mAdapter);
-                if (!isResumed())
-                    goBack = true;
             }
         });
     }
@@ -908,4 +928,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public int sortDirection(int sortby) {
         return mAdapter.sortDirection(sortby);
     }
+
+    private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isResumed())
+                goBack();
+            else
+                goBack = true;
+        }
+    };
 }

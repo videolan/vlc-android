@@ -25,9 +25,11 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
@@ -43,6 +45,7 @@ import org.videolan.vlc.util.AndroidDevices;
 public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding> implements View.OnFocusChangeListener {
 
     SharedPreferences mSettings;
+    public final static String ACTION_DIALOG_CANCELED = "action_dialog_canceled";
 
     @Override
     int getLayout() {
@@ -80,5 +83,11 @@ public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialog
     public void onFocusChange(final View v, boolean hasFocus) {
         if (hasFocus)
             UiTools.setKeyboardVisibility(v, v instanceof EditText);
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(new Intent(ACTION_DIALOG_CANCELED));
+        super.onDestroy();
     }
 }
