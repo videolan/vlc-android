@@ -235,18 +235,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SHOW_BUTTONS:
-                    mPlayPauseButton.setVisibility(View.VISIBLE);
-                    mCloseButton.setVisibility(View.VISIBLE);
-                    mExpandButton.setVisibility(View.VISIBLE);
-                    break;
-                case HIDE_BUTTONS:
-                    mPlayPauseButton.setVisibility(View.GONE);
-                    mCloseButton.setVisibility(View.GONE);
-                    mExpandButton.setVisibility(View.GONE);
-                    break;
-            }
+            int visibility = msg.what == SHOW_BUTTONS ? View.VISIBLE : View.GONE;
+            mPlayPauseButton.setVisibility(visibility);
+            mCloseButton.setVisibility(visibility);
+            mExpandButton.setVisibility(visibility);
         }
     };
 
