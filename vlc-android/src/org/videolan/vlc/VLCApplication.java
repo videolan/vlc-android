@@ -177,6 +177,10 @@ public class VLCApplication extends Application {
         return sDataMap.remove(key);
     }
 
+    public static boolean hasData(String key) {
+        return sDataMap.containsKey(key);
+    }
+
     public static void clearData() {
         sDataMap.clear();
     }
