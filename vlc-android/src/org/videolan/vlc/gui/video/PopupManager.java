@@ -45,6 +45,7 @@ import android.widget.ImageView;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -79,7 +80,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         hideNotification();
         if (mRootView == null)
             return;
-        mService.setVideoTrackEnabled(false);
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.detachViews();
@@ -122,8 +122,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        mService.removePopup();
-        mService.switchToVideo();
+        expandToVideoPlayer();
         return true;
     }
 
@@ -215,7 +214,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Stopped:
-                mService.removePopup();
+                removePopup();
                 break;
             case MediaPlayer.Event.Playing:
                 if (!mAlwaysOn)
@@ -257,10 +256,16 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 stopPlayback();
                 break;
             case R.id.popup_expand:
-                mService.removePopup();
-                mService.switchToVideo();
+                expandToVideoPlayer();
                 break;
         }
+    }
+
+    private void expandToVideoPlayer() {
+        removePopup();
+        if (mService.hasMedia() && !mService.isPlaying())
+            mService.getCurrentMediaWrapper().setFlags(MediaWrapper.MEDIA_PAUSED);
+        mService.switchToVideo();
     }
 
     private void stopPlayback() {
@@ -317,14 +322,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mService.setVideoTrackEnabled(true);
         if (mService.hasMedia()) {
             mService.flush();
-            updatePlayIcon();
+            mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_popup_pause : R.drawable.ic_popup_play);
         } else
             mService.playIndex(mService.getCurrentMediaPosition());
         showNotification();
-    }
-
-    private void updatePlayIcon() {
-        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_popup_pause : R.drawable.ic_popup_play);
     }
 
     @Override
