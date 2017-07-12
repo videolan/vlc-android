@@ -1,3 +1,17 @@
+Changes between 2.1.12 and 2.1.13:
+----------------------------------
+
+Application:
+ * 'Seen' check on seen videos
+ * Respect paused state on popup <-> player switch
+ * Sort options in browsers
+ * Update VLC core to current master
+ * Misc fixes and performances improvement
+
+TV:
+ * Improve UI update on USB/SD storage inserted/removed
+
+
 Changes between 2.1.11 and 2.1.12:
 ----------------------------------
 
