@@ -25,10 +25,7 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +33,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.libvlc.Media;
@@ -44,7 +40,6 @@ import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -52,7 +47,6 @@ import org.videolan.vlc.util.VLCInstance;
 public abstract class MediaSortedFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
     protected Uri mUri;
     protected MediaBrowser mMediaBrowser;
-    boolean goBack = false;
     private boolean mShowHiddenFiles = false;
     private final Medialibrary mMedialibrary = VLCApplication.getMLInstance();
 
@@ -101,19 +95,6 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (goBack)
-            getActivity().finish();
-    }
-
     public void onPause(){
         super.onPause();
         ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
@@ -122,7 +103,6 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     @Override
     public void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
         runOnBrowserThread(releaseBrowser);
     }
 
@@ -182,14 +162,6 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
                 mMediaBrowser.release();
                 mMediaBrowser = null;
             }
-        }
-    };
-
-    private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!isResumed())
-                goBack = true;
         }
     };
 }

@@ -32,6 +32,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -40,6 +41,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
+import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
 
@@ -69,6 +71,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         mSkipRefresh = mediaList != null && !mediaList.isEmpty();
         getActivity().registerReceiver(networkReceiver, filter);
+        if (!mRoot)
+            LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
     }
 
 
@@ -96,6 +100,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public void onStop() {
         super.onStop();
         getActivity().unregisterReceiver(networkReceiver);
+        if (!mRoot)
+            LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
@@ -287,6 +293,16 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                         refresh();
                 }
             }
+        }
+    };
+
+    private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isResumed())
+                goBack();
+            else
+                goBack = true;
         }
     };
 }

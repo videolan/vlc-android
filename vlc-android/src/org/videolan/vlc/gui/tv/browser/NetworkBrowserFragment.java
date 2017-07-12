@@ -24,14 +24,41 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class NetworkBrowserFragment extends MediaSortedFragment {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
+    boolean goBack = false;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (goBack)
+            getActivity().finish();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+    }
 
     protected void browseRoot() {
         runOnBrowserThread(new Runnable() {
@@ -54,4 +81,12 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
             mMediaItemMap.put(letter, item);
         }
     }
+
+    private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!isResumed())
+                goBack = true;
+        }
+    };
 }
