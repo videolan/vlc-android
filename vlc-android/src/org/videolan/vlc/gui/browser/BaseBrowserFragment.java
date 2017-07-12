@@ -117,6 +117,9 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     protected abstract Fragment createFragment();
     protected abstract void browseRoot();
     protected abstract String getCategoryTitle();
+    public boolean isSortEnabled() {
+        return false;
+    }
 
     private Handler mBrowserHandler;
 
@@ -181,7 +184,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mediaList != null && !mediaList.isEmpty())
+        if (!Util.isListEmpty(mediaList))
             mAdapter.addAll(mediaList);
         else if (!(this instanceof NetworkBrowserFragment))
             refresh();
@@ -377,13 +380,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
-        if ((this instanceof NetworkBrowserFragment && mRoot) || this instanceof FilePickerFragment
-                || this instanceof StorageBrowserFragment)
-            mAdapter.clear();
-        else {
+        if (isSortEnabled()) {
             refreshList = new ArrayList<>();
             refreshing = true;
-        }
+        } else
+            mAdapter.clear();
         mBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
 

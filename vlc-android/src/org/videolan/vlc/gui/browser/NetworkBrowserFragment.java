@@ -57,6 +57,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         mAdapter = new BaseBrowserAdapter(this);
     }
 
+    public boolean isSortEnabled() {
+        return !mRoot;
+    }
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);

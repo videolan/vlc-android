@@ -241,15 +241,11 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         return hasPendingUpdates() ? super.peekLast() : mMediaList;
     }
 
-    public void addItem(MediaLibraryItem item, boolean top){
+    public void addItem(MediaLibraryItem item, boolean top) {
         addItem(item, top, -1);
     }
 
-    void addItem(MediaLibraryItem item, int position){
-        addItem(item, false, position);
-    }
-
-    void addItem(MediaLibraryItem item, boolean top, int positionTo){
+    void addItem(MediaLibraryItem item, boolean top, int positionTo) {
         int position;
         ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
         if (positionTo != -1)
@@ -270,7 +266,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         mTop = top;
     }
 
-    public void addAll(ArrayList<? extends MediaLibraryItem> mediaList){
+    public void addAll(ArrayList<? extends MediaLibraryItem> mediaList) {
         update((ArrayList<MediaLibraryItem>) mediaList);
     }
 
@@ -376,10 +372,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                if ((detectMoves || (!items.isEmpty() && sMediaComparator.sortBy != SORT_DEFAULT))
-                        && !fragment.isRootDirectory()
-                        && !(fragment instanceof StorageBrowserFragment)
-                        && !(fragment instanceof FilePickerFragment))
+                if (detectMoves || (fragment.isSortEnabled() && sMediaComparator.sortBy != SORT_DEFAULT))
                     Collections.sort(items, sMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mMediaList, items), detectMoves);
                 for (MediaLibraryItem item : items) {

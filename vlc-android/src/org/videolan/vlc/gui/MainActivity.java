@@ -497,22 +497,17 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if (menu == null)
             return false;
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-        MenuItem item;
+        MenuItem item = menu.findItem(R.id.ml_menu_sortby);
+        if (item == null)
+            return false;
         // Disable the sort option if we can't use it on the current fragment.
-        if (current == null
-                || !(current instanceof ISortable)
-                || (current instanceof BaseBrowserFragment && ((BaseBrowserFragment) current).isRootDirectory())
-                || (current instanceof StorageBrowserFragment) ){
-            item = menu.findItem(R.id.ml_menu_sortby);
-            if (item == null)
-                return false;
+        if (current == null || !(current instanceof ISortable)
+                || (current instanceof BaseBrowserFragment && !((BaseBrowserFragment)current).isSortEnabled())) {
             item.setEnabled(false);
             item.setVisible(false);
         } else {
             ISortable sortable = (ISortable) current;
             item = menu.findItem(R.id.ml_menu_sortby);
-            if (item == null)
-                return false;
             item.setEnabled(true);
             item.setVisible(true);
             item = menu.findItem(R.id.ml_menu_sortby_name);

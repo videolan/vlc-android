@@ -50,7 +50,9 @@ public class FilePickerFragment extends FileBrowserFragment {
         return new FilePickerFragment();
     }
 
-    public FilePickerFragment(){}
+    public boolean isSortEnabled() {
+        return false;
+    }
 
     @Override
     public void onCreate(Bundle bundle) {

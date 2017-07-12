@@ -62,6 +62,10 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
     }
 
+    public boolean isSortEnabled() {
+        return false;
+    }
+
     @Override
     protected Fragment createFragment() {
         return new StorageBrowserFragment();
