@@ -138,15 +138,16 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
     }
 
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        ArrayList<ArrayList<MediaLibraryItem>> foldersContent = null;
         if (bundle == null)
             bundle = getArguments();
-        else
-            foldersContent = (ArrayList<ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
         if (bundle != null) {
-            mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST);
+            if (VLCApplication.hasData(KEY_CONTENT_LIST))
+                mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
+            if (VLCApplication.hasData(KEY_MEDIA_LIST))
+                mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -157,9 +158,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
-        if (!Util.isListEmpty(foldersContent))
-            for (int i = 0; i<mediaList.size(); i++)
-                mFoldersContentLists.put(mediaList.get(i), foldersContent.get(i));
     }
 
     protected int getLayoutId(){
