@@ -2079,6 +2079,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void switchToPopup(int index) {
+        saveMediaMeta();
         showWithoutParse(index);
         showPopup();
     }
