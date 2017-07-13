@@ -139,7 +139,7 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
 {
     jstring name = env->NewStringUTF(playlistPtr->name().c_str());
     jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name);
+                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media().size());
     env->DeleteLocalRef(name);
     return item;
 }

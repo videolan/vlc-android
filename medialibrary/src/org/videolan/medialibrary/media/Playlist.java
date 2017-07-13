@@ -9,16 +9,19 @@ import java.util.List;
 
 public class Playlist extends MediaLibraryItem {
 
-    protected Playlist(long id, String name) {
-        super(id, name);
-    }
+    private int mTracksCount;
 
-    protected Playlist(Parcel in) {
-        super(in);
+    protected Playlist(long id, String name, int trackCount) {
+        super(id, name);
+        mTracksCount = trackCount;
     }
 
     public MediaWrapper[] getTracks(Medialibrary ml) {
         return ml != null && ml.isInitiated() ? nativeGetTracksFromPlaylist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+    }
+
+    public int getTracksCount() {
+        return mTracksCount;
     }
 
     @Override
@@ -69,6 +72,17 @@ public class Playlist extends MediaLibraryItem {
             return new Playlist[size];
         }
     };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
+        parcel.writeInt(mTracksCount);
+    }
+
+    private Playlist(Parcel in) {
+        super(in);
+        this.mTracksCount = in.readInt();
+    }
 
     private native MediaWrapper[] nativeGetTracksFromPlaylist(Medialibrary ml, long id);
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);

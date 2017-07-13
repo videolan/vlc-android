@@ -925,7 +925,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Playlist.initID,
            ml_fields.Playlist.clazz,
-           "<init>", "(JLjava/lang/String;)V");
+           "<init>", "(JLjava/lang/String;I)V");
 
 
     GET_CLASS(ml_fields.MediaWrapper.clazz,
