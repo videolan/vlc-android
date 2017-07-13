@@ -36,7 +36,9 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     }
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
     jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL;
-    if (p_albumTrack) {
+    jint trackNumber = 0, discNumber = 0;
+    if (p_albumTrack)
+    {
         medialibrary::ArtistPtr artistPtr = p_albumTrack->artist();
         medialibrary::GenrePtr genrePtr = p_albumTrack->genre();
         medialibrary::AlbumPtr albumPtr = p_albumTrack->album();
@@ -50,7 +52,13 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
             if (albumArtistPtr != NULL)
                 albumArtist = env->NewStringUTF(albumArtistPtr->name().c_str());
         }
+        trackNumber = p_albumTrack->trackNumber();
+        discNumber = p_albumTrack->discNumber();
     }
+    const medialibrary::IMediaMetadata& metaAudioTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::AudioTrack);
+    jint  audioTrack = metaAudioTrack.isSet() ? metaAudioTrack.integer() : -2;
+    const medialibrary::IMediaMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
+    jint  spuTrack = metaSpuTrack.isSet() ? metaSpuTrack.integer() : -2;
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
     mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
@@ -66,7 +74,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          (jint) -2, (jint) -2, (jint) 0, (jint) 0, (jlong) files.at(0)->lastModificationDate(), seen);
+                          audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(), seen);
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
