@@ -51,6 +51,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -113,7 +114,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int mCurrentFragmentId;
-    private Fragment mCurrentFragment;
+    private Fragment mCurrentFragment = null;
     private final SimpleArrayMap<String, WeakReference<Fragment>> mFragmentsStack = new SimpleArrayMap<>();
 
     private boolean mScanNeeded = false;
@@ -150,10 +151,17 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null) {
+            //Restore fragments stack
+            for (Fragment fragment : getSupportFragmentManager().getFragments())
+                mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
+
             mCurrentFragmentId = savedInstanceState.getInt("current");
-            mCurrentFragment = getCurrentFragment();
-            if (mCurrentFragmentId > 0)
+            if (mCurrentFragmentId > 0) {
                 mNavigationView.setCheckedItem(mCurrentFragmentId);
+                String tag = getTag(mCurrentFragmentId);
+                if (mFragmentsStack.containsKey(tag))
+                    mCurrentFragment = mFragmentsStack.get(tag).get();
+            }
         }
 
         /* Set up the action bar */
@@ -789,7 +797,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
                 }
             }
 
-            String tag = getTag(id);
             switch (id){
                 case R.id.nav_about:
                     showSecondaryFragment(SecondaryActivity.ABOUT);
