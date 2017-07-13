@@ -175,7 +175,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
                 final LinkedList<String> mediaPaths = new LinkedList<>();
-                for (MediaWrapper media : mw.getTracks(mMediaLibrary)) {
+                for (MediaWrapper media : mw.getTracks()) {
                     String path = media.getUri().getPath();
                     mediaPaths.add(media.getLocation());
                     String parentPath = FileUtils.getParent(path);

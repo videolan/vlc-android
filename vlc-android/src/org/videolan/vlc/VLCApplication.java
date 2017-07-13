@@ -231,7 +231,7 @@ public class VLCApplication extends Application {
 
     public static Medialibrary getMLInstance() {
         if (sMedialibraryInstance == null) {
-            sMedialibraryInstance = Medialibrary.getInstance(instance);
+            sMedialibraryInstance = Medialibrary.getInstance();
         }
         return sMedialibraryInstance;
     }

@@ -149,9 +149,9 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
                 if (mCurrentItem == null)
                     mDataList = mMediaLibrary.getAlbums();
                 else if (mCurrentItem.getItemType() == MediaLibraryItem.TYPE_ARTIST)
-                    mDataList = ((Artist)mCurrentItem).getAlbums(mMediaLibrary);
+                    mDataList = ((Artist)mCurrentItem).getAlbums();
                 else if (mCurrentItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
-                    mDataList = ((Genre)mCurrentItem).getAlbums(mMediaLibrary);
+                    mDataList = ((Genre)mCurrentItem).getAlbums();
                 else
                     return null;
             } else if (CATEGORY_GENRES == mCategory){

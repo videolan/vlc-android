@@ -39,11 +39,13 @@ public class Artist extends MediaLibraryItem {
         this.artworkMrl = artworkMrl;
     }
 
-    public Album[] getAlbums(Medialibrary ml) {
+    public Album[] getAlbums() {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() ? nativeGetAlbumsFromArtist(ml, mId) : new Album[0];
     }
 
-    public MediaWrapper[] getTracks(Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() ? nativeGetMediaFromArtist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 

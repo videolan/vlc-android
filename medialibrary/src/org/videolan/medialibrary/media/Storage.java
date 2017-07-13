@@ -5,15 +5,13 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.Medialibrary;
-
 public class Storage extends MediaLibraryItem {
 
     Uri uri;
     String description;
 
     @Override
-    public MediaWrapper[] getTracks(Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
         return new MediaWrapper[0];
     }
 

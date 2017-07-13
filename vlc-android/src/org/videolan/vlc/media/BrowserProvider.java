@@ -140,10 +140,10 @@ public class BrowserProvider {
                 long id = Long.parseLong(idSections[1]);
                 switch (idSections[0]) {
                     case ARTIST_PREFIX:
-                        list = ml.getArtist(id).getAlbums(ml);
+                        list = ml.getArtist(id).getAlbums();
                         break;
                     case GENRE_PREFIX:
-                        list = ml.getGenre(id).getAlbums(ml);
+                        list = ml.getGenre(id).getAlbums();
                         break;
                 }
         }

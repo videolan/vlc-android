@@ -164,7 +164,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     private void updateList() {
         if (mPlaylist != null) {
-            ArrayList<? extends MediaLibraryItem> tracks = Util.arrayToArrayList(mPlaylist.getTracks(mMediaLibrary));
+            ArrayList<? extends MediaLibraryItem> tracks = Util.arrayToArrayList(mPlaylist.getTracks());
             mAdapter.addAll(tracks);
         }
     }
@@ -177,7 +177,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             mAdapter.notifyItemChanged(position, item);
             invalidateActionMode();
         } else if (mService != null)
-            mService.load(mPlaylist.getTracks(mMediaLibrary), position);
+            mService.load(mPlaylist.getTracks(), position);
     }
 
     @Override
@@ -251,7 +251,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         List<MediaLibraryItem> list = mAdapter.getSelection();
         ArrayList<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
-            tracks.addAll(Arrays.asList(mediaItem.getTracks(mMediaLibrary)));
+            tracks.addAll(Arrays.asList(mediaItem.getTracks()));
         stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_audio_play:
@@ -340,7 +340,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             FragmentManager fm = getSupportFragmentManager();
             SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
             Bundle args = new Bundle();
-            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, media.getTracks(mMediaLibrary));
+            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, media.getTracks());
             savePlaylistDialog.setArguments(args);
             savePlaylistDialog.show(fm, "fragment_add_to_playlist");
             return true;
@@ -371,7 +371,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
                 final LinkedList<String> mediaPaths = new LinkedList<>();
-                for (MediaWrapper media : mw.getTracks(mMediaLibrary)) {
+                for (MediaWrapper media : mw.getTracks()) {
                     String path = media.getUri().getPath();
                     mediaPaths.add(media.getLocation());
                     String parentPath = FileUtils.getParent(path);
@@ -396,6 +396,6 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onClick(View v) {
         if (mService != null)
-            mService.load(mPlaylist.getTracks(mMediaLibrary), 0);
+            mService.load(mPlaylist.getTracks(), 0);
     }
 }

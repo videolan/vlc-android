@@ -130,7 +130,7 @@ public class TvUtil {
 
     public static void openAudioCategory(Activity context, MediaLibraryItem mediaLibraryItem) {
         if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
-            TvUtil.playAudioList(context, mediaLibraryItem.getTracks(VLCApplication.getMLInstance()), 0);
+            TvUtil.playAudioList(context, mediaLibraryItem.getTracks(), 0);
         } else {
             Intent intent = new Intent(context, VerticalGridActivity.class);
             intent.putExtra(AUDIO_ITEM, mediaLibraryItem);

@@ -675,19 +675,19 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 //increase seen counter if more than 90% of the media have been seen
                 //and reset progress to 0
                 long incSeen = media.getSeen() + 1L;
-                media.setLongMeta(mMedialibrary, MediaWrapper.META_SEEN, incSeen);
+                media.setLongMeta(MediaWrapper.META_SEEN, incSeen);
                 media.setSeen(incSeen);
                 progress = 0f;
             }
             media.setTime(progress == 0f ? 0L : time);
-            media.setLongMeta(mMedialibrary, MediaWrapper.META_PROGRESS, (long) (progress*100));
+            media.setLongMeta(MediaWrapper.META_PROGRESS, (long) (progress*100));
         }
         if (canSwitchToVideo) {
             //Save audio delay
             if (mSettings.getBoolean("save_individual_audio_delay", false))
-                media.setLongMeta(mMedialibrary, MediaWrapper.META_AUDIODELAY, mMediaPlayer.getAudioDelay());
-            media.setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_DELAY, mMediaPlayer.getSpuDelay());
-            media.setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK, mMediaPlayer.getSpuTrack());
+                media.setLongMeta(MediaWrapper.META_AUDIODELAY, mMediaPlayer.getAudioDelay());
+            media.setLongMeta(MediaWrapper.META_SUBTITLE_DELAY, mMediaPlayer.getSpuDelay());
+            media.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, mMediaPlayer.getSpuTrack());
         }
     }
 
@@ -697,9 +697,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             return;
         if (canSwitchToVideo()) {
             if (mSettings.getBoolean("save_individual_audio_delay", false))
-                mMediaPlayer.setAudioDelay(media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIODELAY));
-            mMediaPlayer.setSpuTrack((int) media.getMetaLong(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK));
-            mMediaPlayer.setSpuDelay(media.getMetaLong(mMedialibrary, MediaWrapper.META_SUBTITLE_DELAY));
+                mMediaPlayer.setAudioDelay(media.getMetaLong(MediaWrapper.META_AUDIODELAY));
+            mMediaPlayer.setSpuTrack((int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK));
+            mMediaPlayer.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY));
         }
     }
 
@@ -1213,9 +1213,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         @Override
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
             if (mediaId.startsWith(BrowserProvider.ALBUM_PREFIX)) {
-                load(mMedialibrary.getAlbum(Long.parseLong(mediaId.split("_")[1])).getTracks(mMedialibrary), 0);
+                load(mMedialibrary.getAlbum(Long.parseLong(mediaId.split("_")[1])).getTracks(), 0);
             } else if (mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX)) {
-                load(mMedialibrary.getPlaylist(Long.parseLong(mediaId.split("_")[1])).getTracks(mMedialibrary), 0);
+                load(mMedialibrary.getPlaylist(Long.parseLong(mediaId.split("_")[1])).getTracks(), 0);
             } else
                 try {
                     load(mMedialibrary.getMedia(Long.parseLong(mediaId)));
@@ -1263,14 +1263,14 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (Tools.isArrayEmpty(tracks)){
                 SearchAggregate result = mMedialibrary.search(query);
                 if (!Tools.isArrayEmpty(result.getAlbums()))
-                    tracks = result.getAlbums()[0].getTracks(mMedialibrary);
+                    tracks = result.getAlbums()[0].getTracks();
                 else if (!Tools.isArrayEmpty(result.getArtists()))
-                    tracks = result.getArtists()[0].getTracks(mMedialibrary);
+                    tracks = result.getArtists()[0].getTracks();
                 else if (!Tools.isArrayEmpty(result.getGenres()))
-                    tracks = result.getGenres()[0].getTracks(mMedialibrary);
+                    tracks = result.getGenres()[0].getTracks();
             }
             if (tracks == null && !Tools.isArrayEmpty(items))
-                tracks = items[0].getTracks(mMedialibrary);
+                tracks = items[0].getTracks();
             if (!Tools.isArrayEmpty(tracks))
                 load(tracks, 0);
         }

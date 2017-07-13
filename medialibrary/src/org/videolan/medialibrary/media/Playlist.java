@@ -16,7 +16,8 @@ public class Playlist extends MediaLibraryItem {
         mTracksCount = trackCount;
     }
 
-    public MediaWrapper[] getTracks(Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() ? nativeGetTracksFromPlaylist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
@@ -29,15 +30,18 @@ public class Playlist extends MediaLibraryItem {
         return TYPE_PLAYLIST;
     }
 
-    public boolean append(Medialibrary ml, long mediaId) {
+    public boolean append(long mediaId) {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);
     }
 
-    public boolean append(Medialibrary ml, long[] mediaIds) {
+    public boolean append(long[] mediaIds) {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistAppendGroup(ml, mId, mediaIds);
     }
 
-    public boolean append(Medialibrary ml, List<Long> mediaIds) {
+    public boolean append(List<Long> mediaIds) {
+        Medialibrary ml = Medialibrary.getInstance();
         if (ml == null || !ml.isInitiated())
             return false;
         long[] ids = new long[mediaIds.size()];
@@ -46,19 +50,23 @@ public class Playlist extends MediaLibraryItem {
         return nativePlaylistAppendGroup(ml, mId, ids);
     }
 
-    public boolean add(Medialibrary ml, long mediaId, int position) {
+    public boolean add(long mediaId, int position) {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
     }
 
-    public boolean move(Medialibrary ml, long mediaId, int position) {
+    public boolean move(long mediaId, int position) {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistMove(ml, mId, mediaId, position);
     }
 
-    public boolean remove(Medialibrary ml, long mediaId) {
+    public boolean remove(long mediaId) {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistRemove(ml, mId, mediaId);
     }
 
-    public boolean delete(Medialibrary ml) {
+    public boolean delete() {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 

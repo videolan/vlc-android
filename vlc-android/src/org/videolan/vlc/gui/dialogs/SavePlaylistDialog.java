@@ -155,8 +155,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                 if (addTracks) {
                     tracks = mNewTrack;
                 } else {//Save a playlist
-                    for (MediaWrapper mw : playlist.getTracks(mMedialibrary))
-                        playlist.remove(mMedialibrary, mw.getId());
+                    for (MediaWrapper mw : playlist.getTracks())
+                        playlist.remove(mw.getId());
                     tracks = mTracks;
                 }
                 LinkedList<Long> ids = new LinkedList<>();
@@ -174,7 +174,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                     } else
                         ids.add(id);
                 }
-                playlist.append(mMedialibrary, ids);
+                playlist.append(ids);
                 if (mCallBack != null)
                     mCallBack.run();
             }

@@ -304,7 +304,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     @Override
-    public MediaWrapper[] getTracks(Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
         return new MediaWrapper[] {this};
     }
 
@@ -588,20 +588,24 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mFlags &= ~flags;
     }
 
-    public long getMetaLong(Medialibrary ml, int metaDataType) {
+    public long getMetaLong(int metaDataType) {
+        Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
     }
-    public String getMetaString(Medialibrary ml, int metaDataType) {
+    public String getMetaString(int metaDataType) {
+        Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
     }
 
-    public boolean setLongMeta(Medialibrary ml, int metaDataType, long metadataValue) {
+    public boolean setLongMeta(int metaDataType, long metadataValue) {
+        Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
     }
 
-    public boolean setStringMeta(Medialibrary ml, int metaDataType, String metadataValue) {
+    public boolean setStringMeta(int metaDataType, String metadataValue) {
+        Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;

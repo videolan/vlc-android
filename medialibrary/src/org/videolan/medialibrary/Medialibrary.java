@@ -76,6 +76,7 @@ public class Medialibrary {
     public boolean init(Context context) {
         if (context == null)
             return false;
+        mContext = context;
         File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists())
@@ -134,11 +135,9 @@ public class Medialibrary {
         super.finalize();
     }
 
-    public static synchronized Medialibrary getInstance(Context context) {
-        if (sInstance == null) {
+    public static synchronized Medialibrary getInstance() {
+        if (sInstance == null)
             sInstance = new Medialibrary();
-            sInstance.mContext = context;
-        }
         return sInstance;
     }
 
@@ -383,6 +382,7 @@ public class Medialibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         mIsWorking = !isIdle;

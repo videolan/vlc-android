@@ -235,7 +235,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             FragmentManager fm = getActivity().getSupportFragmentManager();
             SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
             Bundle args = new Bundle();
-            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mediaItem.getTracks(mMediaLibrary));
+            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mediaItem.getTracks());
             savePlaylistDialog.setArguments(args);
             savePlaylistDialog.show(fm, "fragment_add_to_playlist");
             return true;
@@ -248,7 +248,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         } else {
             startPosition = 0;
             if (mediaItem instanceof Album)
-                medias = mediaItem.getTracks(mMediaLibrary);
+                medias = mediaItem.getTracks();
             else
                 medias = new MediaWrapper[] {(MediaWrapper) mediaItem};
         }
@@ -274,10 +274,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             public void run() {
                 final ArrayList<? extends MediaLibraryItem> albums;
                 if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
-                    albums = Util.arrayToArrayList(((Artist) mItem).getAlbums(mMediaLibrary));
+                    albums = Util.arrayToArrayList(((Artist) mItem).getAlbums());
                 }
                 else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
-                    albums = Util.arrayToArrayList(((Genre) mItem).getAlbums(mMediaLibrary));
+                    albums = Util.arrayToArrayList(((Genre) mItem).getAlbums());
                 else
                     return;
                 final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
@@ -286,7 +286,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     if (TextUtils.isEmpty(title))
                         title = getString(R.string.unknown_album);
                     songs.add(new DummyItem(title));
-                    songs.addAll(Arrays.asList(album.getTracks(mMediaLibrary)));
+                    songs.addAll(Arrays.asList(album.getTracks()));
                 }
                 mHandler.post(new Runnable() {
                     @Override

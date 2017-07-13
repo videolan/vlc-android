@@ -1654,12 +1654,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                             return;
                     if (event.getEsChangedType() == Media.Track.Type.Audio) {
                         setESTrackLists();
-                        int audioTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_AUDIOTRACK);
+                        int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
                         if (audioTrack != 0 || mCurrentAudioTrack != -2)
                             mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
                     } else if (event.getEsChangedType() == Media.Track.Type.Text) {
                         setESTrackLists();
-                        int spuTrack = (int) media.getMetaLong(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK);
+                        int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
                         if (spuTrack != 0 || mCurrentSpuTrack != -2)
                             mService.setSpuTrack(media.getId() == 0L ? mCurrentAudioTrack : spuTrack);
                     }
@@ -2588,7 +2588,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         mService.setAudioTrack(trackID);
                         MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         if (mw != null && mw.getId() != 0L)
-                            mw.setLongMeta(mMedialibrary, MediaWrapper.META_AUDIOTRACK, trackID);
+                            mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID);
                         return true;
                     }
                 });
@@ -2605,7 +2605,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         mService.setSpuTrack(trackID);
                         MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         if (mw != null && mw.getId() != 0L)
-                            mw.setLongMeta(mMedialibrary, MediaWrapper.META_SUBTITLE_TRACK, trackID);
+                            mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID);
                         return true;
                     }
                 });
@@ -3144,7 +3144,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     media = ml.getMedia(mUri);
                 }
                 if (media != null && media.getId() != 0L && media.getTime() == 0L)
-                    media.setTime((long) (media.getMetaLong(mMedialibrary, MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
+                    media.setTime((long) (media.getMetaLong(MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
             } else
                 media = openedMedia;
             if (media != null) {

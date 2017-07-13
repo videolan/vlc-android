@@ -4,9 +4,6 @@ package org.videolan.medialibrary.media;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-
-import org.videolan.medialibrary.Medialibrary;
 
 import java.util.Date;
 
@@ -29,7 +26,7 @@ public class HistoryItem extends MediaLibraryItem {
         return mw;
     }
     @Override
-    public MediaWrapper[] getTracks(@Nullable Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
         return new MediaWrapper[]{getMedia()};
     }
 

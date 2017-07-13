@@ -562,7 +562,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
                 Bundle infoArgs = new Bundle();
-                infoArgs.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mw.getTracks(null));
+                infoArgs.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mw.getTracks());
                 savePlaylistDialog.setArguments(infoArgs);
                 savePlaylistDialog.show(fm, "fragment_add_to_playlist");
                 return true;

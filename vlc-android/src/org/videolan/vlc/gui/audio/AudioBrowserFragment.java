@@ -334,7 +334,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
         }
 
         if (id == R.id.audio_view_add_playlist) {
-            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks(mMediaLibrary));
+            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks());
             return true;
         }
 
@@ -356,7 +356,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
             startPosition = 0;
             if (position >= adapter.getItemCount())
                 return false;
-            medias = mediaItem.getTracks(mMediaLibrary);
+            medias = mediaItem.getTracks();
         }
 
         if (mService != null) {
@@ -508,7 +508,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                playlist.delete(mMediaLibrary);
+                playlist.delete();
                 mHandler.obtainMessage(UPDATE_LIST).sendToTarget();
             }
         });

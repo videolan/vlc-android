@@ -81,7 +81,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
         if (!list.isEmpty()) {
             ArrayList<MediaWrapper> tracks = new ArrayList<>();
             for (MediaLibraryItem mediaItem : list)
-                tracks.addAll(Arrays.asList(mediaItem.getTracks(mMediaLibrary)));
+                tracks.addAll(Arrays.asList(mediaItem.getTracks()));
             switch (item.getItemId()) {
                 case R.id.action_mode_audio_play:
                     mService.load(tracks, 0);

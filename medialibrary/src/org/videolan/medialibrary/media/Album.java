@@ -54,7 +54,8 @@ public class Album extends MediaLibraryItem {
         return duration;
     }
 
-    public MediaWrapper[] getTracks(Medialibrary ml) {
+    public MediaWrapper[] getTracks() {
+        Medialibrary ml = Medialibrary.getInstance();
         return ml != null && ml.isInitiated() ? nativeGetTracksFromAlbum(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 

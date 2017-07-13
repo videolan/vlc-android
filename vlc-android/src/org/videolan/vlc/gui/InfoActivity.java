@@ -121,7 +121,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
     private void updateMeta() {
         long length = 0L;
-        MediaWrapper[] tracks = mItem.getTracks(VLCApplication.getMLInstance());
+        MediaWrapper[] tracks = mItem.getTracks();
         int nbTracks = tracks != null ? tracks.length : 0;
         if (nbTracks > 0)
             for (MediaWrapper media : tracks)
@@ -136,7 +136,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             mBinding.setSizeTitleText(getString(R.string.file_size));
         } else if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
             Medialibrary ml = VLCApplication.getMLInstance();
-            Album[] albums = ((Artist)mItem).getAlbums(ml);
+            Album[] albums = ((Artist)mItem).getAlbums();
             int nbAlbums = albums == null ? 0 : albums.length;
             mBinding.setSizeTitleText(getString(R.string.albums));
             mBinding.setSizeValueText(String.valueOf(nbAlbums));
@@ -184,7 +184,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        mService.load(mItem.getTracks(VLCApplication.getMLInstance()), 0);
+        mService.load(mItem.getTracks(), 0);
         finish();
     }
 
