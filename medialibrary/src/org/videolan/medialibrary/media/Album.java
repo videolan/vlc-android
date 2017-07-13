@@ -11,7 +11,7 @@ public class Album extends MediaLibraryItem {
     private String artworkMrl;
     private String albumArtist;
     private long albumArtistId;
-    private int nbTracks;
+    private int mTracksCount;
     private int duration;
 
     public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
@@ -20,7 +20,7 @@ public class Album extends MediaLibraryItem {
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.albumArtist = albumArtist != null ? albumArtist.trim(): null;
         this.albumArtistId = albumArtistId;
-        this.nbTracks = nbTracks;
+        this.mTracksCount = nbTracks;
         this.duration = duration;
     }
 
@@ -46,8 +46,8 @@ public class Album extends MediaLibraryItem {
         return null;
     }
 
-    public int getNbTracks() {
-        return nbTracks;
+    public int getTracksCount() {
+        return mTracksCount;
     }
 
     public int getDuration() {
@@ -72,7 +72,7 @@ public class Album extends MediaLibraryItem {
         parcel.writeString(artworkMrl);
         parcel.writeString(albumArtist);
         parcel.writeLong(albumArtistId);
-        parcel.writeInt(nbTracks);
+        parcel.writeInt(mTracksCount);
         parcel.writeInt(duration);
     }
 
@@ -93,7 +93,7 @@ public class Album extends MediaLibraryItem {
         this.artworkMrl = in.readString();
         this.albumArtist = in.readString();
         this.albumArtistId = in.readLong();
-        this.nbTracks = in.readInt();
+        this.mTracksCount = in.readInt();
         this.duration = in.readInt();
     }
 }
