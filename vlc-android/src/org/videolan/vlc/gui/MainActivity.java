@@ -51,7 +51,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,6 +62,7 @@ import android.view.Window;
 import android.widget.FilterQueryProvider;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
@@ -79,13 +79,11 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
-import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IHistory;
@@ -93,6 +91,7 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -503,7 +502,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         if (menu == null)
             return false;
         Fragment current = getCurrentFragment();
-
         MenuItem item = menu.findItem(R.id.ml_menu_sortby);
         if (item == null)
             return false;
@@ -517,26 +515,67 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             item = menu.findItem(R.id.ml_menu_sortby);
             item.setEnabled(true);
             item.setVisible(true);
-            item = menu.findItem(R.id.ml_menu_sortby_name);
-            if (sortable.sortDirection(VideoListAdapter.SORT_BY_TITLE) == 1)
-                item.setTitle(R.string.sortby_name_desc);
-            else
-                item.setTitle(R.string.sortby_name);
             if (current instanceof NetworkBrowserFragment) {
                 menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
                 menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-            } else {
-                item = menu.findItem(R.id.ml_menu_sortby_length);
-                if (sortable.sortDirection(VideoListAdapter.SORT_BY_LENGTH) == 1)
-                    item.setTitle(R.string.sortby_length_desc);
-                else
-                    item.setTitle(R.string.sortby_length);
-                item = menu.findItem(R.id.ml_menu_sortby_date);
-                if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
-                    item.setTitle(R.string.sortby_date_desc);
-                else
-                    item.setTitle(R.string.sortby_date);
+                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
             }
+            else if (current instanceof FileBrowserFragment) {
+                menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
+                menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
+                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+            }
+            else if (current instanceof VideoGridFragment) {
+                menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
+                menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
+                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+            }
+            else if (current instanceof AudioBrowserFragment) {
+                int type = ((AudioBrowserFragment) current).getCurrentAdapter().getAdapterType();
+                switch (type) {
+                    case MediaLibraryItem.TYPE_ARTIST :
+                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+                        break;
+                    case MediaLibraryItem.TYPE_ALBUM:
+                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
+                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
+                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(true);
+                        break;
+                    case MediaLibraryItem.TYPE_MEDIA:
+                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
+                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+                        break;
+                    case MediaLibraryItem.TYPE_GENRE :
+                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+                        break;
+                    case MediaLibraryItem.TYPE_PLAYLIST:
+                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
+                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+                        break;
+                }
+            }
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
+                menu.findItem(R.id.ml_menu_sortby_name).setTitle(R.string.sortby_name_desc);
+            else
+                menu.findItem(R.id.ml_menu_sortby_name).setTitle(R.string.sortby_name);
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_LENGTH) == 1)
+                menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length_desc);
+            else
+                menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length);
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_DATE) == 1)
+                menu.findItem(R.id.ml_menu_sortby_date).setTitle(R.string.sortby_date_desc);
+            else
+                menu.findItem(R.id.ml_menu_sortby_date).setTitle(R.string.sortby_date);
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_NUMBER) == 1)
+                menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number_desc);
+            else
+                menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number);
         }
 
         if (current instanceof NetworkBrowserFragment &&
@@ -553,6 +592,8 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             menu.findItem(R.id.ml_menu_save).setVisible(false);
         if (current instanceof IHistory)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
+        else
+            menu.findItem(R.id.ml_menu_clean).setVisible(false);
         boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
         menu.findItem(R.id.ml_menu_filter).setVisible(current instanceof Filterable && ((Filterable)current).enableSearchOption());
@@ -572,19 +613,28 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
+                if (current == null)
+                    break;
+                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_TITLE);
+                supportInvalidateOptionsMenu();
+                break;
             case R.id.ml_menu_sortby_length:
+                if (current == null)
+                    break;
+                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_LENGTH);
+                supportInvalidateOptionsMenu();
+                break;
             case R.id.ml_menu_sortby_date:
                 if (current == null)
                     break;
-                if (current instanceof ISortable) {
-                    int sortBy = VideoListAdapter.SORT_BY_TITLE;
-                    if (item.getItemId() == R.id.ml_menu_sortby_length)
-                        sortBy = VideoListAdapter.SORT_BY_LENGTH;
-                    else if(item.getItemId() == R.id.ml_menu_sortby_date)
-                        sortBy = VideoListAdapter.SORT_BY_DATE;
-                    ((ISortable) current).sortBy(sortBy);
-                    supportInvalidateOptionsMenu();
-                }
+                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_DATE);
+                supportInvalidateOptionsMenu();
+                break;
+            case R.id.ml_menu_sortby_number:
+                if (current == null)
+                    break;
+                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_NUMBER);
+                supportInvalidateOptionsMenu();
                 break;
             case R.id.ml_menu_equalizer:
                 new EqualizerFragment().show(getSupportFragmentManager(), "equalizer");

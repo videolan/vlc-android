@@ -39,6 +39,9 @@
             <item
                 android:id="@+id/ml_menu_sortby_date"
                 android:title="@string/sortby_date" />
+            <item
+                android:id="@+id/ml_menu_sortby_number"
+                android:title="@string/sortby_number" />
         </menu>
     </item>
     <item

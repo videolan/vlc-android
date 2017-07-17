@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
+import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
@@ -72,7 +73,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
+public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private MainActivity mMainActivity;
@@ -486,6 +487,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        getActivity().supportInvalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
     }
 
@@ -660,7 +662,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         });
     }
 
-    protected AudioBrowserAdapter getCurrentAdapter() {
+    public AudioBrowserAdapter getCurrentAdapter() {
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
 
@@ -733,7 +735,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(artists);
+                        mArtistsAdapter.update(artists, true);
                     }
                 });
             }
@@ -748,7 +750,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAlbumsAdapter.update(albums);
+                        mAlbumsAdapter.update(albums, true);
                     }
                 });
             }
@@ -763,7 +765,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mSongsAdapter.update(media);
+                        mSongsAdapter.update(media, true);
                     }
                 });
             }
@@ -778,7 +780,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mGenresAdapter.update(genres);
+                        mGenresAdapter.update(genres, true);
                     }
                 });
             }
@@ -793,7 +795,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPlaylistAdapter.update(playlists);
+                        mPlaylistAdapter.update(playlists, true);
                     }
                 });
             }
@@ -836,5 +838,22 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     protected void onParsingServiceFinished() {
         mHandler.sendEmptyMessage(UPDATE_LIST);
+    }
+
+    @Override
+    public void sortBy(int sortby) {
+        int sortDirection = mAlbumsAdapter.getSortDirection();
+        int sortBy = mAlbumsAdapter.getSortBy();
+        if (sortby == sortBy)
+            sortDirection*=-1;
+        else
+            sortDirection = 1;
+        for (AudioBrowserAdapter adapter : mAdapters)
+            adapter.sortBy(sortby, sortDirection);
+    }
+
+    @Override
+    public int sortDirection(int sortby) {
+        return getCurrentAdapter().sortDirection(sortby);
     }
 }
