@@ -76,11 +76,10 @@ public class Medialibrary {
     public boolean init(Context context) {
         if (context == null)
             return false;
-        File cacheDir = context.getCacheDir();
         File extFilesDir = context.getExternalFilesDir(null);
-        if (extFilesDir == null || !cacheDir.exists() || !extFilesDir.exists())
+        if (extFilesDir == null || !extFilesDir.exists())
             return false;
-        mIsInitiated = nativeInit(cacheDir+ VLC_MEDIA_DB_NAME, extFilesDir.getAbsolutePath()+ THUMBS_FOLDER_NAME);
+        mIsInitiated = nativeInit(extFilesDir.getAbsolutePath()+ VLC_MEDIA_DB_NAME, extFilesDir.getAbsolutePath()+ THUMBS_FOLDER_NAME);
         return mIsInitiated;
     }
 
