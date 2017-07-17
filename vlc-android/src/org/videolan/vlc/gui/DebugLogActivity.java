@@ -130,7 +130,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
             for (String line : mLogList)
                 buffer.append(line).append("\n");
 
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)VLCApplication.getAppContext().getSystemService(CLIPBOARD_SERVICE);
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)getApplicationContext().getSystemService(CLIPBOARD_SERVICE);
             clipboard.setText(buffer);
 
             UiTools.snacker(v.getRootView(), R.string.copied_to_clipboard);

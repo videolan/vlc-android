@@ -300,7 +300,7 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             Drawable extensionIcon = null;
             if (iconRes != 0) {
                 try {
-                    Resources res = VLCApplication.getAppContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
+                    Resources res = getApplicationContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
                     extensionIcon = res.getDrawable(extension.menuIcon());
                 } catch (PackageManager.NameNotFoundException e) {}
             }

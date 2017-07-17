@@ -45,7 +45,7 @@ public class BootupReceiver extends BroadcastReceiver {
     }
 
     private void scheduleRecommendationUpdate(Context context) {
-        AlarmManager alarmManager = (AlarmManager) VLCApplication.getAppContext().getSystemService(
+        AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(
                 Context.ALARM_SERVICE);
         Intent recommendationIntent = new Intent(context,
                 RecommendationsService.class);

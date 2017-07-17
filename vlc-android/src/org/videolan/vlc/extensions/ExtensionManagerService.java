@@ -107,7 +107,7 @@ public class ExtensionManagerService extends Service {
     }
 
     public List<ExtensionListing> updateAvailableExtensions() {
-        PackageManager pm = VLCApplication.getAppContext().getPackageManager();
+        PackageManager pm = getApplicationContext().getPackageManager();
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
 

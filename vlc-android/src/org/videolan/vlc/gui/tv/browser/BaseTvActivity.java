@@ -138,7 +138,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
             }
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
+                final NetworkInfo networkInfo = ((ConnectivityManager) getApplicationContext().getSystemService(
                         Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED)
                     onNetworkUpdated();

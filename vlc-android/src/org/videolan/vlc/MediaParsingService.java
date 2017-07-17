@@ -110,7 +110,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         filter.addAction(ACTION_RESUME_SCAN);
         registerReceiver(mReceiver, filter);
         mLocalBroadcastManager.registerReceiver(mReceiver, new IntentFilter(Medialibrary.ACTION_IDLE));
-        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         mWakeLock.acquire();
     }
@@ -217,7 +217,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 @Override
                 public void run() {
                     boolean shouldInit = !(new File(MediaParsingService.this.getExternalFilesDir(null)+Medialibrary.VLC_MEDIA_DB_NAME).exists());
-                    if (mMedialibrary.init(VLCApplication.getAppContext())) {
+                    if (mMedialibrary.init(getApplicationContext())) {
                         List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
@@ -289,7 +289,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 if (wasWorking != mMedialibrary.isWorking()) {
                     wasWorking = !wasWorking;
                     notificationIntent.setAction(mScanPaused ? ACTION_RESUME_SCAN : ACTION_PAUSE_SCAN);
-                    PendingIntent pi = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Action playpause = mScanPaused ? new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi)
                             : new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi);
                     builder.mActions.clear();
