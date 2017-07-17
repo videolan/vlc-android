@@ -44,7 +44,7 @@ import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaUtils;
 
-public class MRLPanelFragment extends DialogFragment implements View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
+public class MRLPanelFragment extends DialogFragment implements View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, MRLAdapter.MediaPlayerController {
     private static final String TAG = "VLC/MrlPanelFragment";
     public static final String KEY_MRL = "mrl";
     private MRLAdapter mAdapter;
@@ -63,7 +63,7 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new MRLAdapter();
+        mAdapter = new MRLAdapter(this);
         recyclerView.setAdapter(mAdapter);
         v.findViewById(R.id.send).setOnClickListener(this);
         return v;
@@ -106,16 +106,21 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
 
     private boolean processUri() {
         if (mEditText.getEditText() != null && !TextUtils.isEmpty(mEditText.getEditText().getText())) {
-            UiTools.setKeyboardVisibility(mEditText, false);
             MediaWrapper mw = new MediaWrapper(Uri.parse(mEditText.getEditText().getText().toString().trim()));
-            mw.setType(MediaWrapper.TYPE_STREAM);
-            MediaUtils.openMedia(getActivity(), mw);
-            updateHistory();
-            getActivity().supportInvalidateOptionsMenu();
+            playMedia(mw);
             mEditText.getEditText().getText().clear();
             return true;
         }
         return false;
+    }
+
+    public void playMedia(MediaWrapper mw) {
+        mw.setType(MediaWrapper.TYPE_STREAM);
+        MediaUtils.openMedia(getActivity(), mw);
+        updateHistory();
+        getActivity().supportInvalidateOptionsMenu();
+        UiTools.setKeyboardVisibility(mEditText, false);
+        dismiss();
     }
 
     @Override

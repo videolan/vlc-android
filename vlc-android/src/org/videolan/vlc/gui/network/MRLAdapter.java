@@ -27,12 +27,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.videolan.medialibrary.media.HistoryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaUtils;
 
 class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     private HistoryItem[] mDataset;
+    private MediaPlayerController playerController;
+
+    interface MediaPlayerController {
+        void playMedia(MediaWrapper mw);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView uriTv, titleTv;
@@ -46,9 +50,12 @@ class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-                UiTools.setKeyboardVisibility(itemView, false);
-                MediaUtils.openMedia(v.getContext(), mDataset[getLayoutPosition()].getMedia());
+            playerController.playMedia(mDataset[getLayoutPosition()].getMedia());
         }
+    }
+
+    MRLAdapter(MediaPlayerController playerController) {
+        this.playerController = playerController;
     }
 
     @Override
