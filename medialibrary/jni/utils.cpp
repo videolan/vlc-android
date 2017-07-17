@@ -67,8 +67,10 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
     unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
-    int64_t progress = duration * ( mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress ).integer() / 100.0 );
-    int64_t seen = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen ).integer();
+    const medialibrary::IMediaMetadata& progressMeta = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress );
+    int64_t progress = progressMeta.isSet() ? duration * ( progressMeta.integer() / 100.0 ) : 0;
+    const medialibrary::IMediaMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
+    int64_t seen = seenMeta.isSet() ? seenMeta.integer() : 0;
 
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
