@@ -94,6 +94,7 @@ public class VLCApplication extends Application {
         runBackground(new Runnable() {
             @Override
             public void run() {
+                VLCInstance.get();
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
