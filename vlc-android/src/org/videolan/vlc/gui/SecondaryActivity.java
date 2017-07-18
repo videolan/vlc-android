@@ -136,20 +136,25 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
     }
 
     public void fetchSecondaryFragment(String id) {
-        if (id.equals(ALBUMS_SONGS)) {
-            mFragment = new AudioAlbumsSongsFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(AudioBrowserFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
-            mFragment.setArguments(args);
-        } else if(id.equals(ABOUT)) {
-            mFragment = new AboutFragment();
-        } else if(id.equals(VIDEO_GROUP_LIST)) {
-            mFragment = new VideoGridFragment();
-            ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
-        } else if (id.equals(STORAGE_BROWSER)){
-            mFragment = new StorageBrowserFragment();
-        } else {
-            throw new IllegalArgumentException("Wrong fragment id.");
+        switch (id) {
+            case ALBUMS_SONGS:
+                mFragment = new AudioAlbumsSongsFragment();
+                Bundle args = new Bundle();
+                args.putParcelable(AudioBrowserFragment.TAG_ITEM, getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
+                mFragment.setArguments(args);
+                break;
+            case ABOUT:
+                mFragment = new AboutFragment();
+                break;
+            case VIDEO_GROUP_LIST:
+                mFragment = new VideoGridFragment();
+                ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
+                break;
+            case STORAGE_BROWSER:
+                mFragment = new StorageBrowserFragment();
+                break;
+            default:
+                throw new IllegalArgumentException("Wrong fragment id.");
         }
     }
 }
