@@ -157,7 +157,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         mBrowseFragment.setBrandColor(ContextCompat.getColor(this, R.color.orange800));
         mBackgroundManager = BackgroundManager.getInstance(this);
-        mBackgroundManager.attachToView(findViewById(R.id.tv_container));
+        mBackgroundManager.setAutoReleaseOnStop(false);
         TvUtil.clearBackground(mBackgroundManager);
     }
 
@@ -221,6 +221,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             setmedialibraryListeners();
         } else
             setupMediaLibraryReceiver();
+        if (!mBackgroundManager.isAttached())
+            mBackgroundManager.attach(getWindow());
     }
 
     @Override
@@ -231,6 +233,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
+        mBackgroundManager.release();
     }
 
     @Override

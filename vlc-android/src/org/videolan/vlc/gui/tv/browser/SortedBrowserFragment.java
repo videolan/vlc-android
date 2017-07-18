@@ -100,13 +100,13 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
         setHeadersState(HEADERS_ENABLED);
         setBrandColor(ContextCompat.getColor(getActivity(), R.color.orange800));
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.setAutoReleaseOnStop(false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHeadersState(HEADERS_HIDDEN);
-        mBackgroundManager.attachToView(getView());
         setOnItemViewSelectedListener(this);
         if (mAdapter.size() == 0)
             browse();
@@ -123,6 +123,14 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     public void onResume() {
         super.onResume();
         VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
+        if (!mBackgroundManager.isAttached())
+            mBackgroundManager.attachToView(getView());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBackgroundManager.release();
     }
 
     @Override

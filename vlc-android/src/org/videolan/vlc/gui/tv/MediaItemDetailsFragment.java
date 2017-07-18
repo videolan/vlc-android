@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.widget.Action;
@@ -81,20 +80,22 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.setAutoReleaseOnStop(false);
         buildDetails();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mBackgroundManager.attachToView(getView());
+    public void onResume() {
+        super.onResume();
+        if (!mBackgroundManager.isAttached())
+            mBackgroundManager.attachToView(getView());
     }
 
-    public void onPause(){
+    public void onPause() {
+        mBackgroundManager.release();
         super.onPause();
-        if (mService != null && mService.isPlaying()) {
+        if (mService != null && mService.isPlaying())
             mService.stop();
-        }
     }
 
     @Override
