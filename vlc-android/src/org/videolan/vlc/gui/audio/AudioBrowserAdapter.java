@@ -334,7 +334,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<? extends MediaLibraryItem> newListWithSections = prepareNewList(items, detectMoves);
+                final ArrayList<? extends MediaLibraryItem> newListWithSections = prepareNewList(items);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newListWithSections), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
@@ -349,16 +349,12 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         });
     }
 
-    private ArrayList<? extends MediaLibraryItem> prepareNewList(final ArrayList<? extends MediaLibraryItem> items, final boolean detectMoves) {
+    private ArrayList<? extends MediaLibraryItem> prepareNewList(final ArrayList<? extends MediaLibraryItem> items) {
         ArrayList<? extends MediaLibraryItem> newListWithSections;
-        if (detectMoves || mDataList.isEmpty()) {
-            ArrayList<? extends MediaLibraryItem> newList = removeSections(items);
-            Collections.sort(newList, sMediaComparator);
-            int realSortby = sMediaComparator.getRealSort(mType);
-            newListWithSections = generateList(newList, realSortby);
-        }
-        else
-            newListWithSections = new ArrayList<>(items);
+        ArrayList<? extends MediaLibraryItem> newList = removeSections(items);
+        Collections.sort(newList, sMediaComparator);
+        int realSortby = sMediaComparator.getRealSort(mType);
+        newListWithSections = generateList(newList, realSortby);
         return newListWithSections;
     }
 
