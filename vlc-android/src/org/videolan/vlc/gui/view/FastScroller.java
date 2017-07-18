@@ -89,8 +89,8 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.fastscroller, this);
-        handle = (ImageView) findViewById(R.id.fastscroller_handle);
-        bubble = (TextView) findViewById(R.id.fastscroller_bubble);
+        handle = findViewById(R.id.fastscroller_handle);
+        bubble = findViewById(R.id.fastscroller_bubble);
     }
 
     @Override
@@ -225,15 +225,18 @@ public class FastScroller extends LinearLayout {
     };
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
-
+        StringBuilder sb = new StringBuilder();
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
+            sb.setLength(0);
             if (mRecyclerviewTotalHeight == 0)
                 mRecyclerviewTotalHeight = mRecyclerView.computeVerticalScrollRange()-mRecyclerView.computeVerticalScrollExtent();
             int firstVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             if (mFastScrolling) {
-                String letter = ((SeparatedAdapter)mRecyclerView.getAdapter()).getSectionforPosition(firstVisiblePosition);
-                bubble.setText(letter);
+                sb.append(' ')
+                        .append(((SeparatedAdapter)mRecyclerView.getAdapter()).getSectionforPosition(firstVisiblePosition))
+                        .append(' ');
+                bubble.setText(sb.toString());
                 return;
             }
             if (FastScroller.this.getVisibility() == INVISIBLE)
