@@ -131,28 +131,23 @@ public class AudioUtil {
     }
 
     @SuppressLint("NewApi")
+    @WorkerThread
     public static void prepareCacheFolder(final Context context) {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
-                        CACHE_DIR = context.getExternalCacheDir().getPath();
-                    else
-                        CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
-                } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
-                    CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
-                }
-                ART_DIR.set(CACHE_DIR + "/art/");
-                COVER_DIR.set(CACHE_DIR + "/covers/");
-//        PLAYLIST_DIR.set(CACHE_DIR + "/playlists/");
-                for(String path : Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
-                    File file = new File(path);
-                    if (!file.exists())
-                        file.mkdirs();
-                }
-            }
-        });
+        try {
+            if (AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
+                CACHE_DIR = context.getExternalCacheDir().getPath();
+            else
+                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+        } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
+            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
+        }
+        ART_DIR.set(CACHE_DIR + "/art/");
+        COVER_DIR.set(CACHE_DIR + "/covers/");
+        for(String path : Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
+            File file = new File(path);
+            if (!file.exists())
+                file.mkdirs();
+        }
     }
 
     public static void clearCacheFolders() {
