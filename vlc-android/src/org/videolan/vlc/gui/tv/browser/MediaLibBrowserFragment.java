@@ -75,7 +75,7 @@ public abstract class MediaLibBrowserFragment extends GridFragment implements On
     @Override
     public void onPause() {
         super.onPause();
-        mBackgroundManager.release();
+        TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
     public void refresh() {

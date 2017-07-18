@@ -130,7 +130,7 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
     @Override
     public void onPause() {
         super.onPause();
-        mBackgroundManager.release();
+        TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
     @Override

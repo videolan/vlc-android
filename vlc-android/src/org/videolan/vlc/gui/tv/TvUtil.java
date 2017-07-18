@@ -20,6 +20,8 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +48,7 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -53,6 +56,7 @@ import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_CATEGORY;
 import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_ITEM;
 import static org.videolan.vlc.gui.tv.browser.MusicFragment.CATEGORY_ALBUMS;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TvUtil {
 
     public static void applyOverscanMargin(Activity activity) {
@@ -168,5 +172,18 @@ public class TvUtil {
     public static void clearBackground(BackgroundManager bm) {
         bm.setColor(ContextCompat.getColor(VLCApplication.getAppContext(), R.color.tv_bg));
         bm.setDrawable(null);
+    }
+
+    //See https://issuetracker.google.com/issues/37135111
+    public static void releaseBackgroundManager(BackgroundManager backgroundManager) {
+        Field field;
+        try {
+            field = backgroundManager.getClass().getDeclaredField("mAnimator");
+            field.setAccessible(true);
+            ValueAnimator valueAnimator = (ValueAnimator) field.get(backgroundManager);
+            if (valueAnimator != null && valueAnimator.isStarted())
+                valueAnimator.cancel();
+        } catch (Exception ignored) {}
+        backgroundManager.release();
     }
 }

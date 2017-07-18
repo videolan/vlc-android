@@ -233,7 +233,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
-        mBackgroundManager.release();
+        TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
     @Override
