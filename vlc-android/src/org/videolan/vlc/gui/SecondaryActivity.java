@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 public class SecondaryActivity extends AudioPlayerContainerActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -122,8 +123,8 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
                 ((ISortable) mFragment).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
-                ? VideoListAdapter.SORT_BY_TITLE
-                : VideoListAdapter.SORT_BY_LENGTH);
+                ? MediaLibraryItemComparator.SORT_BY_TITLE
+                : MediaLibraryItemComparator.SORT_BY_LENGTH);
                 break;
             case R.id.ml_menu_refresh:
                 Medialibrary ml = VLCApplication.getMLInstance();

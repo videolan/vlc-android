@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.video;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -51,24 +50,18 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
-
-    public final static int SORT_BY_TITLE = 0;
-    public final static int SORT_BY_LENGTH = 1;
-
-    public final static int SORT_BY_DATE = 2;
 
     final static int UPDATE_SELECTION = 0;
     final static int UPDATE_THUMB = 1;
@@ -77,7 +70,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
-    private VideoComparator mVideoComparator = new VideoComparator();
+    private static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_VIDEO);
     private ArrayList<MediaWrapper> mVideos = new ArrayList<>();
     private ArrayDeque<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
     private ArrayList<MediaWrapper> mOriginalData = null;
@@ -91,10 +84,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         super();
         mEventsHandler = eventsHandler;
         mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
-    }
-
-    VideoComparator getComparator() {
-        return mVideoComparator;
     }
 
     @Override
@@ -363,97 +352,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
             itemView.setBackgroundColor(highlight ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
         }
     }
-    int sortDirection(int sortDirection) {
-        return mVideoComparator.sortDirection(sortDirection);
+
+    int sortDirection(int sortby) {
+        return sMediaComparator.sortDirection(sortby);
     }
 
-    void sortBy(int sortby) {
-        mVideoComparator.sortBy(sortby);
+    int getSortDirection() {
+        return sMediaComparator.sortDirection;
     }
 
-    private class VideoComparator implements Comparator<MediaWrapper> {
+    int getSortBy() {
+        return sMediaComparator.sortBy;
+    }
 
-        private static final String KEY_SORT_BY =  "sort_by";
-        private static final String KEY_SORT_DIRECTION =  "sort_direction";
-
-        private int mSortDirection;
-        private int mSortBy;
-        protected SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-
-        VideoComparator() {
-            mSortBy = mSettings.getInt(KEY_SORT_BY, SORT_BY_TITLE);
-            mSortDirection = mSettings.getInt(KEY_SORT_DIRECTION, 1);
-        }
-
-        int sortDirection(int sortby) {
-            if (sortby == mSortBy)
-                return  mSortDirection;
-            else
-                return -1;
-        }
-
-        void sortBy(int sortby) {
-            switch (sortby) {
-                case SORT_BY_TITLE:
-                    if (mSortBy == SORT_BY_TITLE)
-                        mSortDirection *= -1;
-                    else {
-                        mSortBy = SORT_BY_TITLE;
-                        mSortDirection = 1;
-                    }
-                    break;
-                case SORT_BY_LENGTH:
-                    if (mSortBy == SORT_BY_LENGTH)
-                        mSortDirection *= -1;
-                    else {
-                        mSortBy = SORT_BY_LENGTH;
-                        mSortDirection *= 1;
-                    }
-                    break;
-                case SORT_BY_DATE:
-                    if (mSortBy == SORT_BY_DATE)
-                        mSortDirection *= -1;
-                    else {
-                        mSortBy = SORT_BY_DATE;
-                        mSortDirection *= 1;
-                    }
-                    break;
-                default:
-                    mSortBy = SORT_BY_TITLE;
-                    mSortDirection = 1;
-                    break;
-            }
-            ArrayList<MediaWrapper> list = new ArrayList<>(mVideos);
-            update(list, true);
-
-            mSettings.edit()
-                    .putInt(KEY_SORT_BY, mSortBy)
-                    .putInt(KEY_SORT_DIRECTION, mSortDirection)
-                    .apply();
-        }
-
-        @Override
-        public int compare(MediaWrapper item1, MediaWrapper item2) {
-            if (item1 == null)
-                return item2 == null ? 0 : -1;
-            else if (item2 == null)
-                return 1;
-
-            int compare = 0;
-            switch (mSortBy) {
-                case SORT_BY_TITLE:
-                    compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(
-                            item2.getTitle().toUpperCase(Locale.ENGLISH));
-                    break;
-                case SORT_BY_LENGTH:
-                    compare = ((Long) item1.getLength()).compareTo(item2.getLength());
-                    break;
-                case SORT_BY_DATE:
-                    compare = ((Long) item1.getLastModified()).compareTo(item2.getLastModified());
-                    break;
-            }
-            return mSortDirection * compare;
-        }
+    void sortBy(int sortby, int direction) {
+        sMediaComparator.sortBy(sortby, direction);
+        update(new ArrayList<>(mVideos), true);
     }
 
     @Override
@@ -508,7 +422,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                Collections.sort(items, mVideoComparator);
+                if(detectMoves || mVideos.isEmpty())
+                    Collections.sort(items, sMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override

@@ -374,7 +374,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mVideoAdapter.update(displayList, false);
+                        mVideoAdapter.update(displayList, true);
                     }
                 });
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
@@ -388,7 +388,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
 
     @Override
     public void sortBy(int sortby) {
-        mVideoAdapter.sortBy(sortby);
+        int sortDirection = mVideoAdapter.getSortDirection();
+        int sortBy = mVideoAdapter.getSortBy();
+        if (sortby == sortBy)
+            sortDirection*=-1;
+        else
+            sortDirection = 1;
+        mVideoAdapter.sortBy(sortby, sortDirection);
     }
 
     @Override

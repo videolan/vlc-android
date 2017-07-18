@@ -900,7 +900,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void sortBy(int sortby) {
-        mAdapter.sortBy(sortby);
+        int sortDirection = mAdapter.getSortDirection();
+        int sortBy = mAdapter.getSortBy();
+        if (sortby == sortBy)
+            sortDirection*=-1;
+        else
+            sortDirection = 1;
+        mAdapter.sortBy(sortby, sortDirection);
     }
 
     @Override
