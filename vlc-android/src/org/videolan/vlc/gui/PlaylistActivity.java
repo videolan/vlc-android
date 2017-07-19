@@ -49,6 +49,7 @@ import android.view.View;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistActivityBinding;
@@ -79,6 +80,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private Medialibrary mMediaLibrary = VLCApplication.getMLInstance();
     private PlaylistActivityBinding mBinding;
     private ActionMode mActionMode;
+    private boolean mIsPlaylist;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mPlaylist = (MediaLibraryItem) (savedInstanceState != null ?
                 savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                 getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
+        mIsPlaylist = mPlaylist.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
         mBinding.setPlaylist(mPlaylist);
         mAdapter = new AudioBrowserAdapter(this, MediaLibraryItem.TYPE_MEDIA, this, false);
 
@@ -300,9 +303,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         menu.setGroupVisible(R.id.songs_view_only, true);
         menu.findItem(R.id.audio_list_browser_play_all).setVisible(false);
         menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
-        //Hide delete if we cannot
+        //Hide delete if we cannot. Always possible for a Playlist
         String location = ((MediaWrapper)mAdapter.getItem(position)).getLocation();
-        menu.findItem(R.id.audio_list_browser_delete).setVisible(FileUtils.canWrite(location));
+        menu.findItem(R.id.audio_list_browser_delete).setVisible(FileUtils.canWrite(location) || mIsPlaylist);
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
@@ -324,7 +327,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
-                    deleteMedia(media);
+                    if (mIsPlaylist)
+                        ((Playlist) mPlaylist).remove(media.getId());
+                    else
+                        deleteMedia(media);
                 }
             }, new Runnable() {
                 @Override
