@@ -137,8 +137,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
         mFragmentContainer = mBinding.songs;
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override

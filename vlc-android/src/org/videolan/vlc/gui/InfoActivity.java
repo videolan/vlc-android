@@ -150,8 +150,8 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
         mFragmentContainer = mBinding.container;
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override
