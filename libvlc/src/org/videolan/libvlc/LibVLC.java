@@ -146,7 +146,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
 
     private static boolean sLoaded = false;
 
-    static synchronized void loadLibraries() {
+    public static synchronized void loadLibraries() {
         if (sLoaded)
             return;
         sLoaded = true;
