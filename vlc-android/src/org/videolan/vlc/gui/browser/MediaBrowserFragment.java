@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 
 import java.util.LinkedList;
 
@@ -67,6 +68,13 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        Util.updateSortTitles(this, menu);
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override

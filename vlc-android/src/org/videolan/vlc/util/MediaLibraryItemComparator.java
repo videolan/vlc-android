@@ -93,19 +93,19 @@ public class MediaLibraryItemComparator implements Comparator<MediaLibraryItem> 
         int realSort;
         switch (sortBy){
             case SORT_BY_LENGTH:
-                realSort = ((mType == MediaLibraryItem.TYPE_ARTIST) || (mType == MediaLibraryItem.TYPE_GENRE) || (mType == MediaLibraryItem.TYPE_PLAYLIST))
-                        ? SORT_BY_TITLE : sortBy;
+                realSort = (mType == MediaLibraryItem.TYPE_ALBUM) || (mType == MediaLibraryItem.TYPE_MEDIA)
+                        ? SORT_BY_LENGTH : SORT_BY_TITLE;
                 break;
             case SORT_BY_DATE:
-                realSort = ((mType == MediaLibraryItem.TYPE_ARTIST) || (mType == MediaLibraryItem.TYPE_GENRE) || (mType == MediaLibraryItem.TYPE_PLAYLIST))
-                        ? SORT_BY_TITLE : sortBy;
+                realSort = (mType == MediaLibraryItem.TYPE_ALBUM)
+                        ? SORT_BY_DATE : SORT_BY_TITLE;
                 break;
             case SORT_BY_NUMBER:
-                realSort = (mType == MediaLibraryItem.TYPE_MEDIA)
-                        ? SORT_BY_TITLE : sortBy;
+                realSort = (mType == MediaLibraryItem.TYPE_ALBUM) || (mType == MediaLibraryItem.TYPE_PLAYLIST)
+                        ? SORT_BY_NUMBER : SORT_BY_TITLE;
                 break;
             default:
-                realSort = sortBy;
+                realSort = SORT_BY_TITLE;
                 break;
         }
         return realSort;

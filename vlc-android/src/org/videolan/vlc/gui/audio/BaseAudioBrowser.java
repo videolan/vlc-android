@@ -32,24 +32,41 @@ import android.view.View;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class BaseAudioBrowser extends MediaBrowserFragment implements IEventsHandler {
+public abstract class BaseAudioBrowser extends MediaBrowserFragment implements IEventsHandler, ISortable, Filterable {
 
     abstract protected AudioBrowserAdapter getCurrentAdapter();
+    public View mSearchButtonView;
+    public AudioPlayerContainerActivity mActivity;
 
     protected void inflate(Menu menu, int position) {
         if (getActivity() == null)
             return;
         getActivity().getMenuInflater().inflate(R.menu.audio_list_browser, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        int type = getCurrentAdapter().getAdapterType();
+        boolean album = type == MediaLibraryItem.TYPE_ALBUM;
+        boolean songs =  type == MediaLibraryItem.TYPE_MEDIA;
+        boolean playlist = type == MediaLibraryItem.TYPE_PLAYLIST;
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(album||playlist||songs);
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(album);
+        menu.findItem(R.id.ml_menu_sortby_number).setVisible(album||playlist);
     }
 
     @Override
@@ -156,4 +173,23 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment implements I
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {}
+
+    public void restoreList() {
+        getCurrentAdapter().restoreList();
+    }
+
+    @Override
+    public boolean enableSearchOption() {
+        return true;
+    }
+
+    @Override
+    public void setSearchVisibility(boolean visible) {
+        UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public int sortDirection(int sortby) {
+        return getCurrentAdapter().sortDirection(sortby);
+    }
 }

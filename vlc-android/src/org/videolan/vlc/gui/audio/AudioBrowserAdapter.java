@@ -505,13 +505,13 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         boolean sort;
         switch (sortby){
             case MediaLibraryItemComparator.SORT_BY_LENGTH:
-                sort = !((mType == MediaLibraryItem.TYPE_ARTIST) || (mType == MediaLibraryItem.TYPE_GENRE) || (mType == MediaLibraryItem.TYPE_PLAYLIST));
+                sort = (mType == MediaLibraryItem.TYPE_ALBUM) || (mType == MediaLibraryItem.TYPE_MEDIA);
                 break;
             case MediaLibraryItemComparator.SORT_BY_DATE:
-                sort = !((mType == MediaLibraryItem.TYPE_ARTIST) || (mType == MediaLibraryItem.TYPE_GENRE) || (mType == MediaLibraryItem.TYPE_PLAYLIST));
+                sort = (mType == MediaLibraryItem.TYPE_ALBUM);
                 break;
             case MediaLibraryItemComparator.SORT_BY_NUMBER:
-                sort = !(mType == MediaLibraryItem.TYPE_MEDIA);
+                sort = (mType == MediaLibraryItem.TYPE_ALBUM) || (mType == MediaLibraryItem.TYPE_PLAYLIST);
                 break;
             default:
                 sort = true;

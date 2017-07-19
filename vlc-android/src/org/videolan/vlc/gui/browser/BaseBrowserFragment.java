@@ -160,6 +160,15 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         }
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.ml_menu_sortby);
+        item.setEnabled(isSortEnabled());
+        item.setVisible(isSortEnabled());
+        menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
+        super.onPrepareOptionsMenu(menu);
+    }
+
     protected int getLayoutId(){
         return R.layout.directory_browser;
     }

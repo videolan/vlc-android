@@ -105,6 +105,14 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
             setGroup(savedInstanceState.getString(KEY_GROUP));
     }
 
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 

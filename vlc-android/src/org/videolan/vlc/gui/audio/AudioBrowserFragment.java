@@ -61,8 +61,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
-import org.videolan.vlc.interfaces.Filterable;
-import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
@@ -73,10 +71,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable, SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener, Filterable {
+public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
-
-    private MainActivity mMainActivity;
 
     private AudioBrowserAdapter mArtistsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
@@ -90,7 +86,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
     private ContextMenuRecyclerView[] mLists;
     private AudioBrowserAdapter[] mAdapters;
     private FastScroller mFastScroller;
-    private View mSearchButtonView;
 
     public static final int REFRESH = 101;
     public static final int UPDATE_LIST = 102;
@@ -203,7 +198,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mMainActivity = (MainActivity) context;
+        mActivity = (MainActivity) context;
     }
 
     @Override
@@ -397,7 +392,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
 
     @Override
     public void onRefresh() {
-        mMainActivity.closeSearchView();
+        mActivity.closeSearchView();
         VLCApplication.getAppContext().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, VLCApplication.getAppContext(), MediaParsingService.class));
     }
 
@@ -446,11 +441,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
         getCurrentAdapter().restoreList();
     }
 
-    @Override
-    public void setSearchVisibility(boolean visible) {
-        mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
     private void updateEmptyView(int position) {
         mEmptyView.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
         mEmptyView.setText(position == MODE_PLAYLIST ? R.string.noplaylist : R.string.nomedia);
@@ -495,7 +485,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements ISortable,
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
         onDestroyActionMode((AudioBrowserAdapter) mLists[tab.getPosition()].getAdapter());
-        mMainActivity.closeSearchView();
+        mActivity.closeSearchView();
         mAdapters[tab.getPosition()].restoreList();
     }
 

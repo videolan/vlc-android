@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
-import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +30,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,11 +47,9 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -62,10 +58,8 @@ import android.view.Window;
 import android.widget.FilterQueryProvider;
 
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
@@ -73,7 +67,6 @@ import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
@@ -88,10 +81,7 @@ import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -99,7 +89,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
@@ -113,13 +103,11 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int mCurrentFragmentId;
-    private Fragment mCurrentFragment = null;
+    public Fragment mCurrentFragment = null;
     private final SimpleArrayMap<String, WeakReference<Fragment>> mFragmentsStack = new SimpleArrayMap<>();
 
     private boolean mScanNeeded = false;
 
-    private Menu mMenu;
-    private SearchView mSearchView;
     private boolean mFirstRun, mUpgrade;
 
     // Extensions management
@@ -476,130 +464,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
         return super.startSupportActionMode(callback);
     }
 
-    /** Create menu from XML
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        mMenu = menu;
-        /* Note: on Android 3.0+ with an action bar this method
-         * is called while the view is created. This can happen
-         * any time after onCreate.
-         */
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.media_library, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setQueryHint(getString(R.string.search_list_hint));
-        mSearchView.setOnQueryTextListener(this);
-        MenuItemCompat.setOnActionExpandListener(searchItem, this);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if (menu == null)
-            return false;
-        Fragment current = getCurrentFragment();
-        MenuItem item = menu.findItem(R.id.ml_menu_sortby);
-        if (item == null)
-            return false;
-        // Disable the sort option if we can't use it on the current fragment.
-        if (current == null || !(current instanceof ISortable)
-                || (current instanceof BaseBrowserFragment && !((BaseBrowserFragment)current).isSortEnabled())) {
-            item.setEnabled(false);
-            item.setVisible(false);
-        } else {
-            ISortable sortable = (ISortable) current;
-            item = menu.findItem(R.id.ml_menu_sortby);
-            item.setEnabled(true);
-            item.setVisible(true);
-            if (current instanceof NetworkBrowserFragment) {
-                menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
-                menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-            }
-            else if (current instanceof FileBrowserFragment) {
-                menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
-                menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
-                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-            }
-            else if (current instanceof VideoGridFragment) {
-                menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
-                menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
-                menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-            }
-            else if (current instanceof AudioBrowserFragment) {
-                int type = ((AudioBrowserFragment) current).getCurrentAdapter().getAdapterType();
-                switch (type) {
-                    case MediaLibraryItem.TYPE_ARTIST :
-                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-                        break;
-                    case MediaLibraryItem.TYPE_ALBUM:
-                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
-                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
-                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(true);
-                        break;
-                    case MediaLibraryItem.TYPE_MEDIA:
-                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
-                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-                        break;
-                    case MediaLibraryItem.TYPE_GENRE :
-                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-                        break;
-                    case MediaLibraryItem.TYPE_PLAYLIST:
-                        menu.findItem(R.id.ml_menu_sortby_length).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_date).setVisible(false);
-                        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-                        break;
-                }
-            }
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
-                menu.findItem(R.id.ml_menu_sortby_name).setTitle(R.string.sortby_name_desc);
-            else
-                menu.findItem(R.id.ml_menu_sortby_name).setTitle(R.string.sortby_name);
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_LENGTH) == 1)
-                menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length_desc);
-            else
-                menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length);
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_DATE) == 1)
-                menu.findItem(R.id.ml_menu_sortby_date).setTitle(R.string.sortby_date_desc);
-            else
-                menu.findItem(R.id.ml_menu_sortby_date).setTitle(R.string.sortby_date);
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_NUMBER) == 1)
-                menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number_desc);
-            else
-                menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number);
-        }
-
-        if (current instanceof NetworkBrowserFragment &&
-                !((NetworkBrowserFragment)current).isRootDirectory()) {
-            item = menu.findItem(R.id.ml_menu_save);
-            item.setVisible(true);
-            String mrl = ((BaseBrowserFragment)current).mMrl;
-            boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl));
-            item.setIcon(isFavorite ?
-                    R.drawable.ic_menu_bookmark_w :
-                    R.drawable.ic_menu_bookmark_outline_w);
-            item.setTitle(isFavorite ? R.string.favorites_remove : R.string.favorites_add);
-        } else
-            menu.findItem(R.id.ml_menu_save).setVisible(false);
-        if (current instanceof IHistory)
-            menu.findItem(R.id.ml_menu_clean).setVisible(!((IHistory) current).isEmpty());
-        else
-            menu.findItem(R.id.ml_menu_clean).setVisible(false);
-        boolean showLast = current instanceof AudioBrowserFragment || current instanceof VideoGridFragment;
-        menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
-        menu.findItem(R.id.ml_menu_filter).setVisible(current instanceof Filterable && ((Filterable)current).enableSearchOption());
-        return true;
-    }
-
     /**
      * Handle onClick form menu buttons
      */
@@ -612,46 +476,9 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.ml_menu_sortby_name:
-                if (current == null)
-                    break;
-                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_TITLE);
-                supportInvalidateOptionsMenu();
-                break;
-            case R.id.ml_menu_sortby_length:
-                if (current == null)
-                    break;
-                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_LENGTH);
-                supportInvalidateOptionsMenu();
-                break;
-            case R.id.ml_menu_sortby_date:
-                if (current == null)
-                    break;
-                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_DATE);
-                supportInvalidateOptionsMenu();
-                break;
-            case R.id.ml_menu_sortby_number:
-                if (current == null)
-                    break;
-                ((ISortable) current).sortBy(MediaLibraryItemComparator.SORT_BY_NUMBER);
-                supportInvalidateOptionsMenu();
-                break;
-            case R.id.ml_menu_equalizer:
-                new EqualizerFragment().show(getSupportFragmentManager(), "equalizer");
-                break;
             // Refresh
             case R.id.ml_menu_refresh:
                 forceRefresh(current);
-                break;
-            case R.id.ml_menu_search:
-                startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
-                break;
-            // Restore last playlist
-            case R.id.ml_menu_last_playlist:
-                boolean audio = current instanceof AudioBrowserFragment;
-                Intent i = new Intent(audio ? PlaybackService.ACTION_REMOTE_LAST_PLAYLIST :
-                        PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
-                sendBroadcast(i);
                 break;
             case android.R.id.home:
                 // Slide down the audio player.
@@ -778,42 +605,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
     }
 
     @Override
-    public boolean onMenuItemActionExpand(MenuItem item) {
-        setSearchVisibility(true);
-        return true;
-    }
-
-    @Override
-    public boolean onMenuItemActionCollapse(MenuItem item) {
-        setSearchVisibility(false);
-        restoreCurrentList();
-        return true;
-    }
-
-    public void closeSearchView() {
-        if (mMenu != null)
-            MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
-    }
-
-    public void openSearchActivity() {
-        startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class)
-                .putExtra(SearchManager.QUERY, mSearchView.getQuery().toString()));
-    }
-
-    public void restoreCurrentList() {
-        Fragment current = getCurrentFragment();
-        if (current instanceof Filterable) {
-            ((Filterable) current).restoreList();
-        }
-    }
-
-    private void setSearchVisibility(boolean visible) {
-        Fragment current = getCurrentFragment();
-        if (current instanceof Filterable)
-            ((Filterable) current).setSearchVisibility(visible);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // This should not happen
         if(item == null)
@@ -935,11 +726,6 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
             default:
                 return ID_VIDEO;
         }
-    }
-
-    public void onClick(View v) {
-        if (v.getId() == R.id.searchButton)
-            openSearchActivity();
     }
 
     private Fragment getCurrentFragment() {

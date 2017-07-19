@@ -24,9 +24,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.videolan.medialibrary.Tools;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.interfaces.ISortable;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -128,5 +133,45 @@ public class Util {
         ArrayList<T> list = new ArrayList<>(array.length);
         Collections.addAll(list, array);
         return list;
+    }
+
+    public static void updateSortTitles(Fragment fragment, Menu menu) {
+        if (fragment instanceof ISortable) {
+            ISortable sortable = (ISortable) fragment;
+            MenuItem item;
+
+            item = menu.findItem(R.id.ml_menu_sortby_name);
+            if (item != null) {
+                if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
+                    item.setTitle(R.string.sortby_name_desc);
+                else
+                    item.setTitle(R.string.sortby_name);
+            }
+
+            item = menu.findItem(R.id.ml_menu_sortby_length);
+            if (item != null) {
+                if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_LENGTH) == 1)
+                    item.setTitle(R.string.sortby_length_desc);
+                else
+                    item.setTitle(R.string.sortby_length);
+            }
+
+            item = menu.findItem(R.id.ml_menu_sortby_date);
+            if (item != null) {
+                if(sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_DATE) == 1)
+                    item.setTitle(R.string.sortby_date_desc);
+                else
+                    item.setTitle(R.string.sortby_date);
+            }
+
+            item = menu.findItem(R.id.ml_menu_sortby_number);
+            if (item != null) {
+                if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_NUMBER) == 1)
+                    item.setTitle(R.string.sortby_number_desc);
+                else
+                    item.setTitle(R.string.sortby_number);
+            }
+        }
+
     }
 }
