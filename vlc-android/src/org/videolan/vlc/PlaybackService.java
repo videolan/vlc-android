@@ -895,8 +895,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                     metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
                                     AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), width);
                         }
-                            if (cover == null)
-                                cover = BitmapFactory.decodeResource(VLCApplication.getAppContext().getResources(), R.drawable.ic_no_media);
+                            if (cover == null || cover.isRecycled())
+                                cover = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_no_media);
 
                             boolean video = mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO);
                             // add notification to status bar
