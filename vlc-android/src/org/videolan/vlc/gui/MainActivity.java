@@ -54,7 +54,6 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FilterQueryProvider;
 
 import org.videolan.medialibrary.Medialibrary;
@@ -122,9 +121,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             finish();
             return;
         }
-        /* Enable the indeterminate progress feature */
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
+        
         Permissions.checkReadStoragePermission(this, false);
 
         /*** Start initializing the UI ***/
