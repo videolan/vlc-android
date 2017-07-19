@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
@@ -69,6 +70,7 @@ public class Medialibrary {
     private static Medialibrary sInstance;
 
     static {
+        LibVLC.loadLibraries();
         System.loadLibrary("c++_shared");
         System.loadLibrary("mla");
     }
