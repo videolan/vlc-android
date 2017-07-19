@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.helpers;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -58,6 +59,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
@@ -86,8 +88,12 @@ public class UiTools {
     }
 
     /** Print an on-screen message to alert the user */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snacker(@NonNull View view, @NonNull String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+        Snackbar snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        if (AndroidUtil.isLolliPopOrLater)
+            snack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
+        snack.show();
     }
 
     /** Print an on-screen message to alert the user, with undo action */
@@ -96,8 +102,9 @@ public class UiTools {
     }
 
     /** Print an on-screen message to alert the user, with undo action */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @Nullable final Runnable action, @Nullable final Runnable cancelAction) {
-        Snackbar.make(view, message, DELETE_DURATION)
+        Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(android.R.string.cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -106,8 +113,10 @@ public class UiTools {
                         if (cancelAction != null)
                             cancelAction.run();
                     }
-                })
-                .show();
+                });
+        if (AndroidUtil.isLolliPopOrLater)
+            snack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
+        snack.show();
         if (action != null)
             sHandler.postDelayed(action, DELETE_DURATION);
     }

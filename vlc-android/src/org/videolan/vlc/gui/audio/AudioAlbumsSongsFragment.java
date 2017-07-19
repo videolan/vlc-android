@@ -222,7 +222,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
             adapter.remove(mediaItem);
 
-            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+            UiTools.snackerWithCancel(mViewPager, getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
                     deleteMedia(mediaItem, true);
