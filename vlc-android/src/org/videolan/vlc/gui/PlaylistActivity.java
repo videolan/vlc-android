@@ -246,6 +246,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
+        menu.findItem(R.id.action_mode_audio_delete).setVisible(mIsPlaylist);
         return true;
     }
 
@@ -271,6 +272,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 break;
             case R.id.action_mode_audio_set_song:
                 AudioUtil.setRingtone((MediaWrapper) list.get(0), this);
+                break;
+            case R.id.action_mode_audio_delete:
+                removeFromPlaylist(tracks);
                 break;
             default:
                 return false;
@@ -403,5 +407,25 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     public void onClick(View v) {
         if (mService != null)
             mService.load(mPlaylist.getTracks(), 0);
+    }
+
+    private void removeFromPlaylist(final List<MediaWrapper> list){
+        final ArrayList<MediaLibraryItem> oldAdapter = new ArrayList<>(mAdapter.getAll());
+        for (MediaLibraryItem mediaItem : list)
+            mAdapter.remove(mediaItem);
+        UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
+            @Override
+            public void run() {
+                for (MediaLibraryItem mediaItem : list)
+                    ((Playlist) mPlaylist).remove(mediaItem.getId());
+                if (mPlaylist.getTracks().length == 0)
+                    ((Playlist) mPlaylist).delete();
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.update(oldAdapter);
+            }
+        });
     }
 }
