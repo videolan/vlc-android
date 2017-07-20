@@ -84,7 +84,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private TabLayout mTabLayout;
     private TextView mEmptyView;
     private ContextMenuRecyclerView[] mLists;
-    private AudioBrowserAdapter[] mAdapters;
     private FastScroller mFastScroller;
 
     public static final int REFRESH = 101;

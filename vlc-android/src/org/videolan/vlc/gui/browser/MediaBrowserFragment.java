@@ -36,6 +36,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -50,7 +51,6 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Util;
 
 import java.util.LinkedList;
 
@@ -63,18 +63,13 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
+    protected Menu mMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        Util.updateSortTitles(this, menu);
-        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -211,6 +206,12 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         Intent i = new Intent(getActivity(), InfoActivity.class);
         i.putExtra(InfoActivity.TAG_ITEM, item);
         startActivity(i);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mMenu = menu;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

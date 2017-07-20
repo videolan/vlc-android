@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VideoListActivity.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,14 +61,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
-import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
@@ -77,7 +76,7 @@ import org.videolan.vlc.util.VLCInstance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements MediaUpdatedCb, ISortable, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
+public class VideoGridFragment extends SortableFragment implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -111,6 +110,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements MediaUpda
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
         menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
+        menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ml_menu_last_playlist:
+                getActivity().sendBroadcast(new Intent(PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

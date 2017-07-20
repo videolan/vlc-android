@@ -40,7 +40,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 
-public class SecondaryActivity extends AudioPlayerContainerActivity {
+public class SecondaryActivity extends ContentActivity {
     public final static String TAG = "VLC/SecondaryActivity";
 
     public static final int ACTIVITY_RESULT_SECONDARY = 3;
@@ -111,7 +111,7 @@ public class SecondaryActivity extends AudioPlayerContainerActivity {
                 Medialibrary ml = VLCApplication.getMLInstance();
                 if (!ml.isWorking())
                     startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

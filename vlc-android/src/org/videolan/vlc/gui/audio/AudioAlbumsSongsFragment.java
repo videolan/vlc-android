@@ -125,6 +125,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
         mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, false);
         mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, false);
+        mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
 
         songsList.setAdapter(mSongsAdapter);
         albumsList.setAdapter(mAlbumsAdapter);
@@ -290,8 +291,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 final ArrayList<? extends MediaLibraryItem> albums;
                 if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
                     albums = Util.arrayToArrayList(((Artist) mItem).getAlbums());
-                }
-                else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
+                } else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
                     albums = Util.arrayToArrayList(((Genre) mItem).getAlbums());
                 else
                     return;
@@ -384,23 +384,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     protected boolean songModeSelected() {
         return mViewPager.getCurrentItem() == MODE_SONG;
-    }
-
-    @Override
-    public void sortBy(int sortby) {
-        int sortDirection = mAlbumsAdapter.getSortDirection();
-        int sortBy = mAlbumsAdapter.getSortBy();
-        if (sortby == sortBy)
-            sortDirection*=-1;
-        else
-            sortDirection = 1;
-        mAlbumsAdapter.sortBy(sortby, sortDirection);
-        mSongsAdapter.sortBy(sortby, sortDirection);
-    }
-
-    @Override
-    public int sortDirection(int sortby) {
-        return getCurrentAdapter().sortDirection(sortby);
     }
 
 }

@@ -79,7 +79,6 @@ import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.Filterable;
-import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
@@ -89,7 +88,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AudioPlayerContainerActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends ContentActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
@@ -469,39 +468,24 @@ public class MainActivity extends AudioPlayerContainerActivity implements Filter
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        mDrawerLayout.closeDrawer(mNavigationView);
         UiTools.setKeyboardVisibility(mDrawerLayout, false);
-
-        // Current fragment loaded
-        Fragment current = getCurrentFragment();
 
         // Handle item selection
         switch (item.getItemId()) {
             // Refresh
             case R.id.ml_menu_refresh:
-                forceRefresh(current);
-                break;
+                forceRefresh();
+                return true;
             case android.R.id.home:
                 // Slide down the audio player.
                 if (slideDownAudioPlayer())
-                    break;
-                /* Toggle the sidebar */
-                if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;
-                }
-                break;
-            case R.id.ml_menu_clean:
-                if (current instanceof IHistory)
-                    ((IHistory)current).clearHistory();
-                break;
-            case R.id.ml_menu_save:
-                if (current == null)
-                    break;
-                ((NetworkBrowserFragment)current).toggleFavorite();
-                item.setIcon(R.drawable.ic_menu_bookmark_w);
-                break;
+                /* Toggle the sidebar */
+                return mDrawerToggle.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        mDrawerLayout.closeDrawer(mNavigationView);
-        return super.onOptionsItemSelected(item);
     }
 
     public void forceRefresh() {

@@ -99,6 +99,17 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ml_menu_clean:
+                clearHistory();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && mReadyToDisplay && mHistoryAdapter.isEmpty())

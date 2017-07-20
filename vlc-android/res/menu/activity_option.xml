@@ -14,7 +14,8 @@
         android:id="@+id/ml_menu_last_playlist"
         android:icon="@drawable/ic_menu_lastplaylist"
         android:title="@string/last_playlist"
-        vlc:showAsAction="ifRoom" />
+        vlc:showAsAction="ifRoom"
+        android:visible="false"/>
     <item
         android:orderInCategory="2"
         android:title="@string/sortby"

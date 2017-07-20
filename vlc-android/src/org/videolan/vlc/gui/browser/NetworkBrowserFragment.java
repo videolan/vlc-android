@@ -83,8 +83,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         MenuItem item = menu.findItem(R.id.ml_menu_save);
         item.setVisible(isSortEnabled());
 
-        String mrl = mMrl;
-        boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mrl));
+        boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mMrl));
         item.setIcon(isFavorite ?
                 R.drawable.ic_menu_bookmark_w :
                 R.drawable.ic_menu_bookmark_outline_w);
@@ -102,6 +101,17 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
             LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ml_menu_save:
+                toggleFavorite();
+                onPrepareOptionsMenu(mMenu);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
