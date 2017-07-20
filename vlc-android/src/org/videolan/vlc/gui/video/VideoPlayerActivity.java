@@ -2251,7 +2251,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          * We don't want to always show the default UI volume, so show it only when volume is not set. */
         int newVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         if (vol != newVol)
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
 
         mTouchAction = TOUCH_VOLUME;
         vol = vol * 100 / mAudioMax;
