@@ -709,7 +709,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
     }
 
-    private Fragment getCurrentFragment() {
+    protected Fragment getCurrentFragment() {
         return mCurrentFragment instanceof BaseBrowserFragment
                 ? getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)
                 : mCurrentFragment;

@@ -35,7 +35,6 @@ import android.view.View;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
-import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.interfaces.Filterable;
 
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
@@ -68,14 +67,6 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 return true;
             case R.id.ml_menu_search:
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
-                return true;
-            case android.R.id.home:
-                // Current fragment loaded
-                Fragment current = getCurrentFragment();
-                if (current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).goBack();
-                else
-                    finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -121,10 +112,6 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         Fragment current = getCurrentFragment();
         if (current instanceof Filterable)
             ((Filterable) current).setSearchVisibility(visible);
-    }
-
-    private Fragment getCurrentFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
     }
 
     public void onClick(View v) {

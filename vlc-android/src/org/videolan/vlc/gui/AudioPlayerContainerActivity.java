@@ -44,6 +44,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -56,6 +57,8 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
+import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
@@ -191,6 +194,28 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         if (slideDownAudioPlayer())
             return;
         super.onBackPressed();
+    }
+
+    protected Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Current fragment loaded
+                Fragment current = getCurrentFragment();
+                if (current instanceof StorageBrowserFragment)
+                    ((StorageBrowserFragment) current).goBack();
+                else
+                    finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void updateLib() {
