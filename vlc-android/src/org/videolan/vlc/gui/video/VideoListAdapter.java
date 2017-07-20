@@ -45,6 +45,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -52,14 +53,13 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>, VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -72,7 +72,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     private IEventsHandler mEventsHandler;
     private static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_VIDEO);
     private ArrayList<MediaWrapper> mVideos = new ArrayList<>();
-    private ArrayDeque<ArrayList<MediaWrapper>> mPendingUpdates = new ArrayDeque<>();
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
@@ -176,8 +175,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     }
 
     @MainThread
-    private ArrayList<MediaWrapper> peekLast() {
-        return mPendingUpdates.isEmpty() ? mVideos : mPendingUpdates.peekLast();
+    public ArrayList<MediaWrapper> peekLast() {
+        return hasPendingUpdates() ? super.peekLast() : mVideos;
     }
 
     public boolean contains(MediaWrapper mw) {
@@ -411,33 +410,28 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         view.setLayoutParams(layoutParams);
     }
 
-    @MainThread
-    void update(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
-        mPendingUpdates.add(items);
-        if (mPendingUpdates.size() == 1)
-            internalUpdate(items, detectMoves);
-    }
-
-    private void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
+    protected void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                if(detectMoves || mVideos.isEmpty())
+                if(detectMoves || items.size() != getItemCount())
                     Collections.sort(items, sMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPendingUpdates.remove();
                         mVideos = items;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
-                        mEventsHandler.onUpdateFinished(null);
-                        if (!mPendingUpdates.isEmpty())
-                            internalUpdate(mPendingUpdates.peek(), true);
+                        processQueue();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    protected void onUpdateFinished() {
+        mEventsHandler.onUpdateFinished(null);
     }
 
     private class VideoItemDiffCallback extends DiffUtil.Callback {
