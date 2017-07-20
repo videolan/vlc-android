@@ -134,14 +134,18 @@ public class PlaylistAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>, 
                         mDataSet.clear();
                         addAll(newList);
                         result.dispatchUpdatesTo(PlaylistAdapter.this);
-                        if (mService != null)
-                            setCurrentIndex(mService.getCurrentMediaPosition());
                         processQueue();
                     }
                 });
             }
         });
 
+    }
+
+    @Override
+    protected void onUpdateFinished() {
+        if (mService != null)
+            setCurrentIndex(mService.getCurrentMediaPosition());
     }
 
     @MainThread

@@ -31,6 +31,7 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
     private final ArrayDeque<T> mPendingUpdates = new ArrayDeque<>();
 
     protected abstract void internalUpdate(T items, boolean detectMoves);
+    protected abstract void onUpdateFinished();
 
     @MainThread
     public boolean hasPendingUpdates() {
@@ -62,7 +63,9 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
     @MainThread
     protected void processQueue() {
         mPendingUpdates.remove();
-        if (!mPendingUpdates.isEmpty()) {
+        if (mPendingUpdates.isEmpty())
+            onUpdateFinished();
+        else {
             if (mPendingUpdates.size() > 1) {
                 T lastList = mPendingUpdates.peekLast();
                 mPendingUpdates.clear();

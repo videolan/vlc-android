@@ -378,12 +378,16 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<ArrayList<MediaLibrary
                     public void run() {
                         mMediaList = items;
                         result.dispatchUpdatesTo(BaseBrowserAdapter.this);
-                        fragment.onUpdateFinished(null);
                         processQueue();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    protected void onUpdateFinished() {
+        fragment.onUpdateFinished(null);
     }
 
     void restoreList() {

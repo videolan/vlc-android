@@ -341,12 +341,16 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
                     public void run() {
                         addAll(newListWithSections, false);
                         result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                        mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
                         processQueue();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    protected void onUpdateFinished() {
+        mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
     private ArrayList<? extends MediaLibraryItem> prepareNewList(final ArrayList<? extends MediaLibraryItem> items) {
