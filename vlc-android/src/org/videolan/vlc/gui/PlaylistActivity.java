@@ -45,6 +45,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -243,7 +244,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             return false;
         }
         boolean isSong = count == 1 && mAdapter.getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
-        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
+        menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && mIsPlaylist);
+        menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
+        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone() && !mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
         menu.findItem(R.id.action_mode_audio_delete).setVisible(mIsPlaylist);
@@ -256,6 +259,17 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         ArrayList<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
             tracks.addAll(Arrays.asList(mediaItem.getTracks()));
+
+        if (item.getItemId() == R.id.action_mode_audio_playlist_up) {
+            Toast.makeText(this, "UP !",
+                    Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_mode_audio_playlist_down) {
+            Toast.makeText(this, "DOWN !",
+                    Toast.LENGTH_SHORT).show();
+            return true;
+        }
         stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_audio_play:
