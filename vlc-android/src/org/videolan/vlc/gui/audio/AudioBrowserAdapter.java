@@ -59,14 +59,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends MediaLibraryItem>, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
     private boolean mMakeSections = true;
 
-    private ArrayList<? extends MediaLibraryItem> mDataList = new ArrayList<>();
-    private ArrayList<? extends MediaLibraryItem> mOriginalDataSet;
+    private ArrayList<MediaLibraryItem> mOriginalDataSet;
     private ItemFilter mFilter = new ItemFilter();
     private Activity mContext;
     private IEventsHandler mIEventsHandler;
@@ -102,11 +101,11 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= mDataList.size())
+        if (position >= mDataset.size())
             return;
-        holder.vdb.setVariable(BR.item, mDataList.get(position));
+        holder.vdb.setVariable(BR.item, mDataset.get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            boolean isSelected = mDataList.get(position).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            boolean isSelected = mDataset.get(position).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             ((MediaItemViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), isSelected);
         }
@@ -133,24 +132,24 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
 
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return mDataset.size();
     }
 
     public MediaLibraryItem getItem(int position) {
-        return isPositionValid(position) ? mDataList.get(position) : null;
+        return isPositionValid(position) ? mDataset.get(position) : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 || position < mDataList.size();
+        return position >= 0 || position < mDataset.size();
     }
 
-    public ArrayList<? extends MediaLibraryItem> getAll() {
-        return mDataList;
+    public ArrayList<MediaLibraryItem> getAll() {
+        return mDataset;
     }
 
     ArrayList<MediaLibraryItem> getMediaItems() {
         ArrayList<MediaLibraryItem> list = new ArrayList<>();
-        for (MediaLibraryItem item : mDataList)
+        for (MediaLibraryItem item : mDataset)
             if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
@@ -158,17 +157,17 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
         int offset = 0, count = getItemCount();
         for (int i = 0; i < count; ++i)
-            if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+            if (mDataset.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
-                list.add(mDataList.get(i));
+                list.add(mDataset.get(i));
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? mDataList.get(position).getId() : -1;
+        return isPositionValid(position) ? mDataset.get(position).getId() : -1;
     }
 
     @Override
@@ -184,7 +183,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     public String getSectionforPosition(int position) {
         if (mMakeSections)
             for (int i = position; i >= 0; --i)
-                if (mDataList.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return mDataList.get(i).getTitle();
+                if (mDataset.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return mDataset.get(i).getTitle();
         return "";
     }
 
@@ -194,21 +193,21 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     }
 
     public void clear() {
-        mDataList.clear();
+        mDataset.clear();
         mOriginalDataSet = null;
     }
 
 
-    public void addAll(ArrayList<? extends MediaLibraryItem> items) {
+    public void addAll(ArrayList<MediaLibraryItem> items) {
         addAll(items, mMakeSections);
     }
 
 
-    public void addAll(ArrayList<? extends MediaLibraryItem> items, boolean generateSections) {
+    public void addAll(ArrayList<MediaLibraryItem> items, boolean generateSections) {
         if (mContext == null)
             return;
-        mDataList = new ArrayList<>(items);
-        for (MediaLibraryItem item : mDataList) {
+        mDataset = new ArrayList<>(items);
+        for (MediaLibraryItem item : mDataset) {
             if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
                 continue;
             if (item.getTitle().isEmpty()) {
@@ -227,7 +226,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         }
     }
 
-    public ArrayList<MediaLibraryItem> removeSections(ArrayList<? extends MediaLibraryItem> items) {
+    public ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
         ArrayList<MediaLibraryItem> newList = new ArrayList<>();
         for (MediaLibraryItem item : items)
             if (item.getItemType() != MediaLibraryItem.TYPE_DUMMY)
@@ -235,7 +234,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         return newList;
     }
 
-    private ArrayList<? extends MediaLibraryItem> generateList(ArrayList<? extends MediaLibraryItem> items, int sortby) {
+    private ArrayList<MediaLibraryItem> generateList(ArrayList<MediaLibraryItem> items, int sortby) {
         ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
         switch(sortby) {
             case MediaLibraryItemComparator.SORT_BY_TITLE:
@@ -302,25 +301,19 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     }
 
     public void remove(final MediaLibraryItem item) {
-        final ArrayList<? extends MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
+        final ArrayList<MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
         if (referenceList.size() == 0) return;
-        final ArrayList<? extends MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.remove(item);
         update(dataList);
     }
 
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final ArrayList<? extends MediaLibraryItem> referenceList = peekLast();
+        final ArrayList<MediaLibraryItem> referenceList = peekLast();
         final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.add(position,item);
         update(dataList);
-    }
-
-
-    @Override
-    public ArrayList<? extends MediaLibraryItem> peekLast() {
-        return hasPendingUpdates() ? super.peekLast() : mDataList;
     }
 
     public void restoreList() {
@@ -330,12 +323,13 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         }
     }
 
-    protected void internalUpdate(final ArrayList<? extends MediaLibraryItem> items, final boolean detectMoves) {
+    @Override
+    protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<? extends MediaLibraryItem> newListWithSections = prepareNewList(items);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataList, newListWithSections), detectMoves);
+                final ArrayList<MediaLibraryItem> newListWithSections = prepareNewList(items);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataset, newListWithSections), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -353,9 +347,9 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
-    private ArrayList<? extends MediaLibraryItem> prepareNewList(final ArrayList<? extends MediaLibraryItem> items) {
-        ArrayList<? extends MediaLibraryItem> newListWithSections;
-        ArrayList<? extends MediaLibraryItem> newList = removeSections(items);
+    private ArrayList<MediaLibraryItem> prepareNewList(final ArrayList<MediaLibraryItem> items) {
+        ArrayList<MediaLibraryItem> newListWithSections;
+        ArrayList<MediaLibraryItem> newList = removeSections(items);
         Collections.sort(newList, sMediaComparator);
         int realSortby = sMediaComparator.getRealSort(mType);
         newListWithSections = generateList(newList, realSortby);
@@ -365,7 +359,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     @MainThread
     public List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
-        for (MediaLibraryItem item : mDataList)
+        for (MediaLibraryItem item : mDataset)
             if (item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
                 selection.add(item);
         return selection;
@@ -426,20 +420,20 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         public void onClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onClick(v, position, mDataList.get(position));
+                mIEventsHandler.onClick(v, position, mDataset.get(position));
             }
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onCtxClick(v, position, mDataList.get(position));
+                mIEventsHandler.onCtxClick(v, position, mDataset.get(position));
             }
         }
 
         public boolean onLongClick(View view) {
             int position = getLayoutPosition();
-            return mIEventsHandler.onLongClick(view, position, mDataList.get(position));
+            return mIEventsHandler.onLongClick(view, position, mDataset.get(position));
         }
 
         private void setCoverlay(boolean selected) {
@@ -476,19 +470,19 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
     private class ItemFilter extends MediaItemFilter {
 
         @Override
-        protected List<? extends MediaLibraryItem> initData() {
+        protected List<MediaLibraryItem> initData() {
             if (mOriginalDataSet == null) {
-                mOriginalDataSet = new ArrayList<>(mDataList);
+                mOriginalDataSet = new ArrayList<>(mDataset);
             }
             if (referenceList == null) {
-                referenceList = new ArrayList<>(mDataList);
+                referenceList = new ArrayList<>(mDataset);
             }
             return referenceList;
         }
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((ArrayList<? extends MediaLibraryItem>) filterResults.values);
+            update((ArrayList<MediaLibraryItem>) filterResults.values);
         }
 
     }
@@ -523,7 +517,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<ArrayList<? extends M
         }
         if (sort) {
             sMediaComparator.sortBy(sortby, direction);
-            update(mDataList, true);
+            update(mDataset, true);
         }
     }
 }

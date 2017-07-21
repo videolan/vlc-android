@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.browser.SortableFragment;
@@ -126,6 +127,12 @@ public class Util {
             if (obj.equals(item))
                 return true;
         return false;
+    }
+
+    public static <T extends MediaLibraryItem> ArrayList<MediaLibraryItem> arrayToMediaArrayList(T[] array) {
+        ArrayList<MediaLibraryItem> list = new ArrayList<>(array.length);
+        Collections.addAll(list, array);
+        return list;
     }
 
     public static <T> ArrayList<T> arrayToArrayList(T[] array) {

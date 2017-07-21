@@ -59,7 +59,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>, VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -71,7 +71,6 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
     private static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_VIDEO);
-    private ArrayList<MediaWrapper> mVideos = new ArrayList<>();
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
@@ -100,7 +99,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MediaWrapper media = mVideos.get(position);
+        MediaWrapper media = mDataset.get(position);
         if (media == null)
             return;
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
@@ -116,7 +115,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
         if (payloads.isEmpty())
             onBindViewHolder(holder, position);
         else {
-            MediaWrapper media = mVideos.get(position);
+            MediaWrapper media = mDataset.get(position);
             for (Object data : payloads) {
                 switch ((int) data) {
                     case UPDATE_THUMB:
@@ -147,11 +146,11 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @Nullable
     public MediaWrapper getItem(int position) {
-        return isPositionValid(position) ? mVideos.get(position) : null;
+        return isPositionValid(position) ? mDataset.get(position) : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 && position < mVideos.size();
+        return position >= 0 && position < mDataset.size();
     }
 
     @MainThread
@@ -170,27 +169,22 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @MainThread
     public void addAll(Collection<MediaWrapper> items) {
-        mVideos.addAll(items);
+        mDataset.addAll(items);
         mOriginalData = null;
     }
 
-    @MainThread
-    public ArrayList<MediaWrapper> peekLast() {
-        return hasPendingUpdates() ? super.peekLast() : mVideos;
-    }
-
     public boolean contains(MediaWrapper mw) {
-        return mVideos.indexOf(mw) != -1;
+        return mDataset.indexOf(mw) != -1;
     }
 
     public ArrayList<MediaWrapper> getAll() {
-        return mVideos;
+        return mDataset;
     }
 
     List<MediaWrapper> getSelection() {
         List<MediaWrapper> selection = new LinkedList<>();
-        for (int i = 0; i < mVideos.size(); ++i) {
-            MediaWrapper mw = mVideos.get(i);
+        for (int i = 0; i < mDataset.size(); ++i) {
+            MediaWrapper mw = mDataset.get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 if (mw instanceof MediaGroup)
                     selection.addAll(((MediaGroup) mw).getAll());
@@ -219,10 +213,10 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @MainThread
     public void update(MediaWrapper item) {
-        int position = mVideos.indexOf(item);
+        int position = mDataset.indexOf(item);
         if (position != -1) {
-            if (!(mVideos.get(position) instanceof MediaGroup))
-                mVideos.set(position, item);
+            if (!(mDataset.get(position) instanceof MediaGroup))
+                mDataset.set(position, item);
             notifyItemChanged(position, UPDATE_THUMB);
         } else
             add(item);
@@ -230,7 +224,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @MainThread
     public void clear() {
-        mVideos.clear();
+        mDataset.clear();
         mOriginalData = null;
     }
 
@@ -287,7 +281,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     @Override
     public int getItemCount() {
-        return mVideos.size();
+        return mDataset.size();
     }
 
     @Override
@@ -299,7 +293,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
         MediaWrapper mw;
         int offset = 0;
         for (int i = 0; i < getItemCount(); ++i) {
-            mw = mVideos.get(i);
+            mw = mDataset.get(i);
             if (mw instanceof MediaGroup) {
                 for (MediaWrapper item : ((MediaGroup) mw).getAll())
                     list.add(item);
@@ -326,7 +320,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
         public void onClick(View v) {
             int position = getLayoutPosition();
-            mEventsHandler.onClick(v, position, mVideos.get(position));
+            mEventsHandler.onClick(v, position, mDataset.get(position));
         }
 
         public void onMoreClick(View v){
@@ -335,7 +329,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
-            return mEventsHandler.onLongClick(v, position, mVideos.get(position));
+            return mEventsHandler.onLongClick(v, position, mDataset.get(position));
         }
 
         private void setOverlay(boolean selected) {
@@ -344,7 +338,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus || mVideos.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+            setViewBackground(hasFocus || mDataset.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         }
 
         private void setViewBackground(boolean highlight) {
@@ -366,7 +360,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
 
     void sortBy(int sortby, int direction) {
         sMediaComparator.sortBy(sortby, direction);
-        update(new ArrayList<>(mVideos), true);
+        update(new ArrayList<>(mDataset), true);
     }
 
     @Override
@@ -387,9 +381,9 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
         @Override
         protected List<MediaWrapper> initData() {
             if (mOriginalData == null) {
-                mOriginalData = new ArrayList<>(mVideos.size());
-                for (int i = 0; i < mVideos.size(); ++i)
-                    mOriginalData.add(mVideos.get(i));
+                mOriginalData = new ArrayList<>(mDataset.size());
+                for (int i = 0; i < mDataset.size(); ++i)
+                    mOriginalData.add(mDataset.get(i));
             }
             return mOriginalData;
         }
@@ -416,11 +410,11 @@ public class VideoListAdapter extends BaseQueuedAdapter<ArrayList<MediaWrapper>,
             public void run() {
                 if(detectMoves || items.size() != getItemCount())
                     Collections.sort(items, sMediaComparator);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mVideos, items), detectMoves);
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mDataset, items), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mVideos = items;
+                        mDataset = items;
                         result.dispatchUpdatesTo(VideoListAdapter.this);
                         processQueue();
                     }

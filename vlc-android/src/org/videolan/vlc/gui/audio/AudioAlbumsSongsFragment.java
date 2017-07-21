@@ -65,6 +65,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import static org.videolan.vlc.R.string.albums;
+
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
@@ -122,7 +124,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_SONG);
 
         mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
-        String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
+        String[] titles = new String[] {getString(albums), getString(R.string.songs)};
         mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, false);
         mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, false);
         mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
@@ -288,15 +290,15 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<? extends MediaLibraryItem> albums;
+                final ArrayList<MediaLibraryItem> albums;
                 if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
-                    albums = Util.arrayToArrayList(((Artist) mItem).getAlbums());
+                    albums = Util.arrayToMediaArrayList(((Artist) mItem).getAlbums());
                 } else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
-                    albums = Util.arrayToArrayList(((Genre) mItem).getAlbums());
+                    albums = Util.arrayToMediaArrayList(((Genre) mItem).getAlbums());
                 else
                     return;
                 final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
-                for (Album album : (ArrayList<Album>) albums) {
+                for (MediaLibraryItem album : albums) {
                     String title = album.getTitle();
                     if (TextUtils.isEmpty(title))
                         title = getString(R.string.unknown_album);

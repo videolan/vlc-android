@@ -24,13 +24,15 @@ import android.support.annotation.MainThread;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 
 public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private final ArrayDeque<T> mPendingUpdates = new ArrayDeque<>();
+    protected volatile ArrayList<T> mDataset = new ArrayList<>();
+    private final ArrayDeque<ArrayList<T>> mPendingUpdates = new ArrayDeque<>();
 
-    protected abstract void internalUpdate(T items, boolean detectMoves);
+    protected abstract void internalUpdate(ArrayList<T> items, boolean detectMoves);
     protected abstract void onUpdateFinished();
 
     @MainThread
@@ -44,17 +46,17 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
     }
 
     @MainThread
-    public T peekLast() {
-        return mPendingUpdates.peekLast();
+    public ArrayList<T> peekLast() {
+        return mPendingUpdates.isEmpty() ? mDataset : mPendingUpdates.peekLast();
     }
 
     @MainThread
-    public void update(final T items) {
+    public void update(final ArrayList<T> items) {
         update(items, false);
     }
 
     @MainThread
-    public void update(final T items, boolean detectMoves) {
+    public void update(final ArrayList<T> items, boolean detectMoves) {
         mPendingUpdates.add(items);
         if (mPendingUpdates.size() == 1)
             internalUpdate(items, detectMoves);
@@ -67,7 +69,7 @@ public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> 
             onUpdateFinished();
         else {
             if (mPendingUpdates.size() > 1) {
-                T lastList = mPendingUpdates.peekLast();
+                ArrayList<T> lastList = mPendingUpdates.peekLast();
                 mPendingUpdates.clear();
                 update(lastList);
             } else
