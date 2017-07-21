@@ -405,7 +405,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
     }
 
     protected void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
-        VLCApplication.runBackground(new Runnable() {
+        mUpdateExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if(detectMoves || items.size() != getItemCount())

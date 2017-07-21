@@ -25,9 +25,12 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public abstract class BaseQueuedAdapter <T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+    protected final ExecutorService mUpdateExecutor = Executors.newSingleThreadExecutor();
 
     protected volatile ArrayList<T> mDataset = new ArrayList<>();
     private final ArrayDeque<ArrayList<T>> mPendingUpdates = new ArrayDeque<>();

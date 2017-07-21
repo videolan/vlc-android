@@ -356,7 +356,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Base
     }
 
     protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
-        VLCApplication.runBackground(new Runnable() {
+        mUpdateExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if (detectMoves || fragment.isSortEnabled())

@@ -123,7 +123,7 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
 
     @MainThread
     protected void internalUpdate(final ArrayList<MediaWrapper> newList, final boolean detectMoves) {
-        VLCApplication.runBackground(new Runnable() {
+        mUpdateExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataset, newList), detectMoves);

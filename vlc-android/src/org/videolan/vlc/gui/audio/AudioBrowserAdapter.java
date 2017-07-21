@@ -325,7 +325,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Aud
 
     @Override
     protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
-        VLCApplication.runBackground(new Runnable() {
+        mUpdateExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> newListWithSections = prepareNewList(items);
