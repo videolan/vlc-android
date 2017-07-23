@@ -832,7 +832,7 @@ sed "s#@prefix@#${MEDIALIBRARY_MODULE_DIR}/medialibrary/libvlcpp#g" $SRC_DIR/pkg
     $SRC_DIR/pkgs/libvlcpp.pc;
 sed "s#@libdir@#$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI#g" $SRC_DIR/pkgs/libvlc.pc.in > \
     $SRC_DIR/pkgs/libvlc.pc;
-sed -i "s#@includedirs@#-I${SRC_DIR}/vlc/include \
+sed -i".backup" "s#@includedirs@#-I${SRC_DIR}/vlc/include \
 -I${SRC_DIR}/vlc/build-android-$TARGET_TUPLE/include#g" $SRC_DIR/pkgs/libvlc.pc;
 
 if [ ! -d "build-android-$ANDROID_ABI/" ]; then
