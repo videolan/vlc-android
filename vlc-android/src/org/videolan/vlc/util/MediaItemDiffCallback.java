@@ -9,31 +9,28 @@ import java.util.List;
 
 public class MediaItemDiffCallback extends DiffUtil.Callback {
     private static final String TAG = "MediaItemDiffCallback";
-    private MediaLibraryItem[] oldList, newList;
+    private List<? extends MediaLibraryItem> oldList, newList;
 
     public MediaItemDiffCallback(List<? extends MediaLibraryItem> oldList, List<? extends MediaLibraryItem> newList) {
-        this.oldList = oldList.toArray(new MediaLibraryItem[oldList.size()]);
-        this.newList = newList.toArray(new MediaLibraryItem[newList.size()]);
-    }
-
-    public MediaItemDiffCallback(MediaLibraryItem[] oldList, MediaLibraryItem[] newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
 
     @Override
     public int getOldListSize() {
-        return oldList == null ? 0 :oldList.length;
+        return oldList == null ? 0 :oldList.size();
     }
 
     @Override
     public int getNewListSize() {
-        return newList == null ? 0 : newList.length;
+        return newList == null ? 0 : newList.size();
     }
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return (oldList[oldItemPosition] == null ) == ( newList[newItemPosition] == null) && oldList[oldItemPosition].equals(newList[newItemPosition]);
+        MediaLibraryItem oldItem = oldList.get(oldItemPosition);
+        MediaLibraryItem newItem = newList.get(newItemPosition);
+        return oldItem == newItem || ((oldItem == null ) == (newItem == null) && oldItem.equals(newItem));
     }
 
     @Override

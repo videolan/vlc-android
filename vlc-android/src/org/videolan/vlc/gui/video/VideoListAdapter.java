@@ -449,16 +449,17 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
             MediaWrapper oldItem = oldList.get(oldItemPosition);
             MediaWrapper newItem = newList.get(newItemPosition);
-            return oldList != null && newList != null && oldItem.getType() == newItem.getType() && oldItem.equals(newItem);
+            return oldItem == newItem || (oldList != null && newList != null
+                    && oldItem.getType() == newItem.getType() && oldItem.equals(newItem));
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             MediaWrapper oldItem = oldList.get(oldItemPosition);
             MediaWrapper newItem = newList.get(newItemPosition);
-            return oldItem.getTime() == newItem.getTime()
+            return oldItem == newItem || (oldItem.getTime() == newItem.getTime()
                     && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl())
-                    && oldItem.getSeen() == newItem.getSeen();
+                    && oldItem.getSeen() == newItem.getSeen());
         }
 
         @Nullable
