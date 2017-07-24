@@ -121,7 +121,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             finish();
             return;
         }
-        
+
         Permissions.checkReadStoragePermission(this, false);
 
         /*** Start initializing the UI ***/

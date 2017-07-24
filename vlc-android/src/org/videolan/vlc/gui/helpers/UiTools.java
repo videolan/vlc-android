@@ -50,6 +50,8 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -65,7 +67,10 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.audio.BaseAudioBrowser;
+import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -325,4 +330,69 @@ public class UiTools {
 
 		return outBitmap;
 	}
+
+    public static void updateSortTitles(SortableFragment sortable, Menu menu) {
+        if (sortable instanceof BaseAudioBrowser && sortable.sortDirection(MediaLibraryItemComparator.SORT_DEFAULT) == 1) {
+            int type = ((BaseAudioBrowser)sortable).getCurrentAdapter().getAdapterType();
+            int parentType = ((BaseAudioBrowser)sortable).getCurrentAdapter().getParentAdapterType();
+            int defaultSortby = MediaLibraryItemComparator.getDefaultSort(type, parentType);
+            int defaultDirection = MediaLibraryItemComparator.getDefaultDirection(type, parentType);
+            menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length);
+            menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number);
+            menu.findItem(R.id.ml_menu_sortby_artist_name).setTitle(R.string.sortby_artist_name);
+            menu.findItem(R.id.ml_menu_sortby_name).setTitle(defaultSortby == MediaLibraryItemComparator.SORT_BY_TITLE && defaultDirection == 1
+                    ? R.string.sortby_name_desc
+                    : R.string.sortby_name);
+            menu.findItem(R.id.ml_menu_sortby_date).setTitle(defaultSortby == MediaLibraryItemComparator.SORT_BY_DATE && defaultDirection == 1
+                    ? R.string.sortby_date_desc
+                    : R.string.sortby_date);
+            menu.findItem(R.id.ml_menu_sortby_album_name).setTitle(defaultSortby == MediaLibraryItemComparator.SORT_BY_ALBUM && defaultDirection == 1
+                    ? R.string.sortby_album_name_desc
+                    : R.string.sortby_album_name);
+            return;
+        }
+
+        MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
+                item.setTitle(R.string.sortby_name_desc);
+            else
+                item.setTitle(R.string.sortby_name);
+        }
+        item = menu.findItem(R.id.ml_menu_sortby_artist_name);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_ARTIST) == 1)
+                item.setTitle(R.string.sortby_artist_name_desc);
+            else
+                item.setTitle(R.string.sortby_artist_name);
+        }
+        item = menu.findItem(R.id.ml_menu_sortby_album_name);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_ALBUM) == 1)
+                item.setTitle(R.string.sortby_album_name_desc);
+            else
+                item.setTitle(R.string.sortby_album_name);
+        }
+        item = menu.findItem(R.id.ml_menu_sortby_length);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_LENGTH) == 1)
+                item.setTitle(R.string.sortby_length_desc);
+            else
+                item.setTitle(R.string.sortby_length);
+        }
+        item = menu.findItem(R.id.ml_menu_sortby_date);
+        if (item != null) {
+            if(sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_DATE) == 1)
+                item.setTitle(R.string.sortby_date_desc);
+            else
+                item.setTitle(R.string.sortby_date);
+        }
+        item = menu.findItem(R.id.ml_menu_sortby_number);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_NUMBER) == 1)
+                item.setTitle(R.string.sortby_number_desc);
+            else
+                item.setTitle(R.string.sortby_number);
+        }
+    }
 }

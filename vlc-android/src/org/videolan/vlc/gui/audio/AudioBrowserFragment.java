@@ -830,18 +830,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     @Override
-    public void sortBy(int sortby) {
-        int sortDirection = mAlbumsAdapter.getSortDirection();
-        int sortBy = mAlbumsAdapter.getSortBy();
-        if (sortby == sortBy)
-            sortDirection*=-1;
-        else
-            sortDirection = 1;
-        for (AudioBrowserAdapter adapter : mAdapters)
-            adapter.sortBy(sortby, sortDirection);
-    }
-
-    @Override
     public int sortDirection(int sortby) {
         return getCurrentAdapter().sortDirection(sortby);
     }

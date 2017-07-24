@@ -108,6 +108,8 @@ public class VideoGridFragment extends SortableFragment implements MediaUpdatedC
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(false);
+        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(false);
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
         menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);

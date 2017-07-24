@@ -30,7 +30,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +41,6 @@ import android.widget.Filter;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
-import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -62,10 +60,6 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-
-import static org.videolan.vlc.R.string.albums;
 
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
@@ -95,6 +89,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null)
+            AudioBrowserAdapter.sMediaComparator.setSortDefault();
 
         mMediaLibrary = VLCApplication.getMLInstance();
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
@@ -124,9 +120,11 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_SONG);
 
         mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
-        String[] titles = new String[] {getString(albums), getString(R.string.songs)};
-        mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, false);
-        mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, false);
+        String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
+        mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, true);
+        mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, true);
+        mAlbumsAdapter.setParentAdapterType(mItem.getItemType());
+        mSongsAdapter.setParentAdapterType(mItem.getItemType());
         mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
 
         songsList.setAdapter(mSongsAdapter);
@@ -297,20 +295,16 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     albums = Util.arrayToMediaArrayList(((Genre) mItem).getAlbums());
                 else
                     return;
-                final LinkedList<MediaLibraryItem> songs = new LinkedList<>();
+                final ArrayList<MediaLibraryItem> songs = new ArrayList<>();
                 for (MediaLibraryItem album : albums) {
-                    String title = album.getTitle();
-                    if (TextUtils.isEmpty(title))
-                        title = getString(R.string.unknown_album);
-                    songs.add(new DummyItem(title));
-                    songs.addAll(Arrays.asList(album.getTracks()));
+                    songs.addAll(Util.arrayToArrayList(album.getTracks()));
                 }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         mAlbumsAdapter.update(albums);
                         mSongsAdapter.update(new ArrayList<>(songs));
-                        mFastScroller.setRecyclerView(mLists[mViewPager.getCurrentItem()]);
+                        mFastScroller.setRecyclerView(getCurrentRV());
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });

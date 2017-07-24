@@ -41,6 +41,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ import java.util.List;
 
 public abstract class BaseAudioBrowser extends SortableFragment implements IEventsHandler, Filterable {
 
-    abstract protected AudioBrowserAdapter getCurrentAdapter();
+    abstract public AudioBrowserAdapter getCurrentAdapter();
     public View mSearchButtonView;
     public ContentActivity mActivity;
     protected AudioBrowserAdapter[] mAdapters;
@@ -62,14 +63,14 @@ public abstract class BaseAudioBrowser extends SortableFragment implements IEven
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        int type = getCurrentAdapter().getAdapterType();
-        boolean album = type == MediaLibraryItem.TYPE_ALBUM;
-        boolean songs =  type == MediaLibraryItem.TYPE_MEDIA;
-        boolean playlist = type == MediaLibraryItem.TYPE_PLAYLIST;
-        menu.findItem(R.id.ml_menu_sortby_length).setVisible(album||playlist||songs);
-        menu.findItem(R.id.ml_menu_sortby_date).setVisible(album);
-        menu.findItem(R.id.ml_menu_sortby_number).setVisible(album||playlist);
+        AudioBrowserAdapter adapter = getCurrentAdapter();
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);
+        menu.findItem(R.id.ml_menu_sortby_name).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_TITLE));
+        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_ARTIST));
+        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_ALBUM));
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_LENGTH));
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_DATE));
+        menu.findItem(R.id.ml_menu_sortby_number).setVisible(adapter.isSortAllowed(MediaLibraryItemComparator.SORT_BY_NUMBER));
     }
 
     @Override
@@ -208,15 +209,19 @@ public abstract class BaseAudioBrowser extends SortableFragment implements IEven
     }
 
     @Override
-    public void sortBy(int sortby) {
+    public void sortBy(int newSortby) {
         AudioBrowserAdapter adapter = mAdapters[0];
         int sortDirection = adapter.getSortDirection();
-        int sortBy = adapter.getSortBy();
-        if (sortby == sortBy)
+        int oldSortby = adapter.getSortBy();
+        int delfaultSortby = getCurrentAdapter().getDefaultSort();
+        int defaultDirection = getCurrentAdapter().getDefaultDirection();
+        if (newSortby == oldSortby)
             sortDirection*=-1;
+        else if (newSortby == delfaultSortby)
+            sortDirection = defaultDirection*-1;
         else
             sortDirection = 1;
         for (AudioBrowserAdapter audioBrowserAdapter : mAdapters)
-            audioBrowserAdapter.sortBy(sortby, sortDirection);
+            audioBrowserAdapter.sortBy(newSortby, sortDirection);
     }
 }

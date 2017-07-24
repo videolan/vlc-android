@@ -9,12 +9,16 @@
     <string name="sortby">Sort by&#8230;</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_name_desc">Name (desc)</string>
+    <string name="sortby_artist_name">Artist name</string>
+    <string name="sortby_artist_name_desc">Artist name (desc)</string>
+    <string name="sortby_album_name">Album name</string>
+    <string name="sortby_album_name_desc">Album name (desc)</string>
     <string name="sortby_length">Length</string>
     <string name="sortby_length_desc">Length (desc)</string>
     <string name="sortby_date">Date</string>
     <string name="sortby_date_desc">Date (desc)</string>
-    <string name="sortby_number">Tracks</string>
-    <string name="sortby_number_desc">Tracks (desc)</string>
+    <string name="sortby_number">Nb tracks</string>
+    <string name="sortby_number_desc">Nb tracks (desc)</string>
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 
@@ -51,6 +55,7 @@
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
     <string name="unknown_genre">Unknown Genre</string>
+    <string name="unknown_number">Unknown number of Tracks</string>
     <string name="songs">Songs</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 song</item>

@@ -31,6 +31,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.browser.SortableFragment;
 
 import java.io.BufferedReader;
@@ -139,36 +140,5 @@ public class Util {
         ArrayList<T> list = new ArrayList<>(array.length);
         Collections.addAll(list, array);
         return list;
-    }
-
-    public static void updateSortTitles(SortableFragment sortable, Menu menu) {
-        MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
-        if (item != null) {
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
-                item.setTitle(R.string.sortby_name_desc);
-            else
-                item.setTitle(R.string.sortby_name);
-        }
-        item = menu.findItem(R.id.ml_menu_sortby_length);
-        if (item != null) {
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_LENGTH) == 1)
-                item.setTitle(R.string.sortby_length_desc);
-            else
-                item.setTitle(R.string.sortby_length);
-        }
-        item = menu.findItem(R.id.ml_menu_sortby_date);
-        if (item != null) {
-            if(sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_DATE) == 1)
-                item.setTitle(R.string.sortby_date_desc);
-            else
-                item.setTitle(R.string.sortby_date);
-        }
-        item = menu.findItem(R.id.ml_menu_sortby_number);
-        if (item != null) {
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_NUMBER) == 1)
-                item.setTitle(R.string.sortby_number_desc);
-            else
-                item.setTitle(R.string.sortby_number);
-        }
     }
 }

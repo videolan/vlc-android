@@ -29,6 +29,16 @@
                 android:title="@string/sortby_name" />
             <item
                 android:orderInCategory="2"
+                android:id="@+id/ml_menu_sortby_artist_name"
+                android:title="@string/sortby_artist_name"
+                android:visible="false" />
+            <item
+                android:orderInCategory="2"
+                android:id="@+id/ml_menu_sortby_album_name"
+                android:title="@string/sortby_album_name"
+                android:visible="false" />
+            <item
+                android:orderInCategory="2"
                 android:id="@+id/ml_menu_sortby_length"
                 android:title="@string/sortby_length"
                 android:visible="false" />

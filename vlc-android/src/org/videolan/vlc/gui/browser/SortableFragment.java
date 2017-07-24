@@ -29,8 +29,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
-import org.videolan.vlc.util.Util;
 
 public abstract class SortableFragment extends MediaBrowserFragment {
 
@@ -39,7 +39,7 @@ public abstract class SortableFragment extends MediaBrowserFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        Util.updateSortTitles(this, menu);
+        UiTools.updateSortTitles(this, menu);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -54,6 +54,14 @@ public abstract class SortableFragment extends MediaBrowserFragment {
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
                 sortBy(MediaLibraryItemComparator.SORT_BY_TITLE);
+                onPrepareOptionsMenu(mMenu);
+                return true;
+            case R.id.ml_menu_sortby_artist_name:
+                sortBy(MediaLibraryItemComparator.SORT_BY_ARTIST);
+                onPrepareOptionsMenu(mMenu);
+                return true;
+            case R.id.ml_menu_sortby_album_name:
+                sortBy(MediaLibraryItemComparator.SORT_BY_ALBUM);
                 onPrepareOptionsMenu(mMenu);
                 return true;
             case R.id.ml_menu_sortby_length:
