@@ -36,11 +36,16 @@ import org.videolan.vlc.util.MediaLibraryItemComparator;
 public abstract class SortableFragment<T extends SortableAdapter> extends MediaBrowserFragment {
     protected T mAdapter;
 
-    public abstract void sortBy(int sortby);
-    public abstract int sortDirection(int sortby);
-
     public T getCurrentAdapter() {
         return mAdapter;
+    }
+
+    public int getSortBy() {
+        return getCurrentAdapter().getSortBy();
+    }
+
+    public int getDefaultSort() {
+        return getCurrentAdapter().getDefaultSort();
     }
 
     @Override
@@ -96,5 +101,21 @@ public abstract class SortableFragment<T extends SortableAdapter> extends MediaB
 
     public boolean isSortEnabled() {
         return true;
+    }
+
+    public void sortBy(int sortby) {
+        int sortDirection = getCurrentAdapter().getSortDirection();
+        int sortBy = getCurrentAdapter().getSortBy();
+        if (sortBy == MediaLibraryItemComparator.SORT_DEFAULT)
+            sortBy = getDefaultSort();
+        if (sortby == sortBy)
+            sortDirection*=-1;
+        else
+            sortDirection = 1;
+        getCurrentAdapter().sortBy(sortby, sortDirection);
+    }
+
+    public int sortDirection(int sortby) {
+        return getCurrentAdapter().sortDirection(sortby);
     }
 }

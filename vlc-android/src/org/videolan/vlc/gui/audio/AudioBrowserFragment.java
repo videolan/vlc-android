@@ -724,7 +724,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mArtistsAdapter.update(artists, true);
+                        mArtistsAdapter.update(artists);
                     }
                 });
             }
@@ -739,7 +739,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAlbumsAdapter.update(albums, true);
+                        mAlbumsAdapter.update(albums);
                     }
                 });
             }
@@ -754,7 +754,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mSongsAdapter.update(media, true);
+                        mSongsAdapter.update(media);
                     }
                 });
             }
@@ -769,7 +769,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mGenresAdapter.update(genres, true);
+                        mGenresAdapter.update(genres);
                     }
                 });
             }
@@ -784,7 +784,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPlaylistAdapter.update(playlists, true);
+                        mPlaylistAdapter.update(playlists);
                     }
                 });
             }

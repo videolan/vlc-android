@@ -394,7 +394,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.update(displayList, true);
+                        mAdapter.update(displayList);
                     }
                 });
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
@@ -404,22 +404,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     void updateEmptyView() {
         mViewNomedia.setVisibility(mAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    public void sortBy(int sortby) {
-        int sortDirection = mAdapter.getSortDirection();
-        int sortBy = mAdapter.getSortBy();
-        if (sortby == sortBy)
-            sortDirection*=-1;
-        else
-            sortDirection = 1;
-        mAdapter.sortBy(sortby, sortDirection);
-    }
-
-    @Override
-    public int sortDirection(int sortby) {
-        return mAdapter.sortDirection(sortby);
     }
 
     public void setGroup(String prefix) {

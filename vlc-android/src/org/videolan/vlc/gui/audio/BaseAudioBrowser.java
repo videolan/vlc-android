@@ -203,11 +203,6 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     }
 
     @Override
-    public int sortDirection(int sortby) {
-        return getCurrentAdapter().sortDirection(sortby);
-    }
-
-    @Override
     public void sortBy(int newSortby) {
         AudioBrowserAdapter adapter = mAdapters[0];
         int sortDirection = adapter.getSortDirection();

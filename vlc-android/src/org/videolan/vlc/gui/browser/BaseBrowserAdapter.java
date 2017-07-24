@@ -26,7 +26,6 @@ import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -45,8 +44,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -221,8 +220,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     }
 
     public boolean isEmpty() {
-        ArrayList<MediaLibraryItem> newerList = peekLast();
-        return newerList == null || newerList.isEmpty();
+        return Util.isListEmpty(peekLast());
     }
 
     public void addItem(MediaLibraryItem item, boolean top) {
@@ -237,9 +235,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         else
             position = top ? mTop : list.size();
 
-        if (item .getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-            mMediaCount++;
-
         if (position <= list.size()) {
             list.add(position, item);
             update(list);
@@ -248,10 +243,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     public void setTop (int top) {
         mTop = top;
-    }
-
-    public void addAll(ArrayList<? extends MediaLibraryItem> mediaList) {
-        update((ArrayList<MediaLibraryItem>) mediaList);
     }
 
     void removeItem(int position) {
@@ -352,28 +343,17 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return mFilter;
     }
 
-    protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
-        mUpdateExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (detectMoves || fragment.isSortEnabled())
-                    Collections.sort(items, sMediaComparator);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataset, items), detectMoves);
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
-                            && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
-                        mMediaCount++;
-                }
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataset = items;
-                        result.dispatchUpdatesTo(BaseBrowserAdapter.this);
-                        processQueue();
-                    }
-                });
-            }
-        });
+    @Override
+    protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> list) {
+        if (fragment.isSortEnabled() && needsSorting())
+            Collections.sort(list, sMediaComparator);
+        mMediaCount = 0;
+        for (MediaLibraryItem item : list) {
+            if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
+                    && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
+                ++mMediaCount;
+        }
+        return list;
     }
 
     @Override

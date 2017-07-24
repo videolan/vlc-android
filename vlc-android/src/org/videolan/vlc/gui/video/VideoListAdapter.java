@@ -51,10 +51,10 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -155,14 +155,14 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     public void add(MediaWrapper item) {
         ArrayList<MediaWrapper> list = new ArrayList<>(peekLast());
         list.add(item);
-        update(list, false);
+        update(list);
     }
 
     @MainThread
     public void remove(MediaWrapper item) {
         ArrayList<MediaWrapper> refList = new ArrayList<>(peekLast());
         if (refList.remove(item))
-            update(refList, false);
+            update(refList);
     }
 
     @MainThread
@@ -352,7 +352,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     @MainThread
     void restoreList() {
         if (mOriginalData != null) {
-            update(new ArrayList<>(mOriginalData), false);
+            update(new ArrayList<>(mOriginalData));
             mOriginalData = null;
         }
     }
@@ -372,7 +372,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             //noinspection unchecked
-            update((ArrayList<MediaWrapper>) filterResults.values, false);
+            update((ArrayList<MediaWrapper>) filterResults.values);
         }
     }
 
@@ -385,23 +385,9 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         view.setLayoutParams(layoutParams);
     }
 
-    protected void internalUpdate(final ArrayList<MediaWrapper> items, final boolean detectMoves) {
-        mUpdateExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (detectMoves)
-                    Collections.sort(items, sMediaComparator);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mDataset, items), detectMoves);
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataset = items;
-                        result.dispatchUpdatesTo(VideoListAdapter.this);
-                        processQueue();
-                    }
-                });
-            }
-        });
+    @Override
+    protected DiffUtil.Callback createCB(final ArrayList<MediaWrapper> items) {
+        return new VideoItemDiffCallback(mDataset, items);
     }
 
     @Override
@@ -460,5 +446,17 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     public void setSeenMediaMarkerVisible(boolean seenMediaMarkerVisible) {
         mIsSeenMediaMarkerVisible = seenMediaMarkerVisible;
+    }
+
+    @Override
+    protected boolean isSortAllowed(int sort) {
+        switch (sort) {
+            case MediaLibraryItemComparator.SORT_BY_TITLE:
+            case MediaLibraryItemComparator.SORT_BY_DATE:
+            case MediaLibraryItemComparator.SORT_BY_LENGTH:
+                return true;
+            default:
+                return false;
+        }
     }
 }

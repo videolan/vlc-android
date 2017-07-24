@@ -28,7 +28,6 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,14 +42,12 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.SortableAdapter;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
-import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
@@ -363,28 +360,9 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     public void restoreList() {
         if (mOriginalDataSet != null) {
-            update(new ArrayList<>(mOriginalDataSet), false);
+            update(new ArrayList<>(mOriginalDataSet));
             mOriginalDataSet = null;
         }
-    }
-
-    @Override
-    protected void internalUpdate(final ArrayList<MediaLibraryItem> items, final boolean detectMoves) {
-        mUpdateExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final ArrayList<MediaLibraryItem> newListWithSections = prepareNewList(items, mMakeSections);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataset, newListWithSections), detectMoves);
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addAll(newListWithSections, true);
-                        result.dispatchUpdatesTo(AudioBrowserAdapter.this);
-                        processQueue();
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -393,21 +371,19 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
-    private ArrayList<MediaLibraryItem> prepareNewList(final ArrayList<MediaLibraryItem> items, boolean sections) {
-        ArrayList<MediaLibraryItem> newListWithSections;
-        if (sections) {
+    protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> items) {
+        if (mMakeSections) {
             if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
-                newListWithSections = generateSections(items, MediaLibraryItemComparator.getDefaultSort(mType, mParentType));
+                return generateSections(items, getDefaultSort());
             } else {
                 ArrayList<MediaLibraryItem> newList = removeSections(items);
                 Collections.sort(newList, sMediaComparator);
-                newListWithSections = generateSections(newList, sMediaComparator.getRealSort(mType, mParentType));
+                return generateSections(newList, sMediaComparator.sortBy);
             }
         } else {
             Collections.sort(items, sMediaComparator);
-            newListWithSections = new ArrayList<>(items);
+            return items;
         }
-        return newListWithSections;
     }
 
     @MainThread
@@ -541,22 +517,47 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     }
 
-    int getDefaultSort(){
-        return MediaLibraryItemComparator.getDefaultSort(mType, mParentType);
-    }
-
-    int getDefaultDirection() {
-        return MediaLibraryItemComparator.getDefaultDirection(mType, mParentType);
-    }
-
-    boolean isSortAllowed(int sortby) {
-        return MediaLibraryItemComparator.isSortAllowed(mType, mParentType, sortby);
-    }
-
     public void sortBy(int sortby, int direction) {
         boolean sort = isSortAllowed(sortby);
         if (sort) {
             super.sortBy(sortby, direction);
+        }
+    }
+
+    @Override
+    public int getDefaultSort() {
+        switch (mParentType) {
+            case MediaLibraryItem.TYPE_ARTIST:
+                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_DATE : MediaLibraryItemComparator.SORT_BY_ALBUM;
+            case MediaLibraryItem.TYPE_GENRE:
+                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_TITLE : MediaLibraryItemComparator.SORT_BY_ALBUM;
+            default:
+                return MediaLibraryItemComparator.SORT_BY_TITLE;
+        }
+    }
+
+    @Override
+    public int getDefaultDirection() {
+        return mParentType == MediaLibraryItem.TYPE_ARTIST ? -1 : 1;
+    }
+
+    @Override
+    protected boolean isSortAllowed(int sort) {
+        switch (sort) {
+            case MediaLibraryItemComparator.SORT_BY_TITLE:
+                return true;
+            case MediaLibraryItemComparator.SORT_BY_DATE:
+                return mType == MediaLibraryItem.TYPE_ALBUM;
+            case MediaLibraryItemComparator.SORT_BY_LENGTH:
+                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_MEDIA;
+            case MediaLibraryItemComparator.SORT_BY_NUMBER:
+                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_PLAYLIST;
+            case MediaLibraryItemComparator.SORT_BY_ALBUM:
+                return mParentType != 0 && mType == MediaLibraryItem.TYPE_MEDIA;
+            case MediaLibraryItemComparator.SORT_BY_ARTIST:
+                return mParentType == MediaLibraryItem.TYPE_GENRE && mType == MediaLibraryItem.TYPE_MEDIA;
+            default:
+                return false;
         }
     }
 }

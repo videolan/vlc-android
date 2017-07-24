@@ -332,11 +332,19 @@ public class UiTools {
 	}
 
     public static void updateSortTitles(SortableFragment sortable, Menu menu) {
+        MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
+        if (item != null) {
+            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1
+                    || (sortable.getSortBy() == MediaLibraryItemComparator.SORT_DEFAULT
+                    && sortable.getDefaultSort() == MediaLibraryItemComparator.SORT_BY_TITLE))
+                item.setTitle(R.string.sortby_name_desc);
+            else
+                item.setTitle(R.string.sortby_name);
+        }
+
         if (sortable instanceof BaseAudioBrowser && sortable.sortDirection(MediaLibraryItemComparator.SORT_DEFAULT) == 1) {
-            int type = ((BaseAudioBrowser)sortable).getCurrentAdapter().getAdapterType();
-            int parentType = ((BaseAudioBrowser)sortable).getCurrentAdapter().getParentAdapterType();
-            int defaultSortby = MediaLibraryItemComparator.getDefaultSort(type, parentType);
-            int defaultDirection = MediaLibraryItemComparator.getDefaultDirection(type, parentType);
+            int defaultSortby = ((BaseAudioBrowser)sortable).getCurrentAdapter().getDefaultSort();
+            int defaultDirection = ((BaseAudioBrowser)sortable).getCurrentAdapter().getDefaultDirection();
             menu.findItem(R.id.ml_menu_sortby_length).setTitle(R.string.sortby_length);
             menu.findItem(R.id.ml_menu_sortby_number).setTitle(R.string.sortby_number);
             menu.findItem(R.id.ml_menu_sortby_artist_name).setTitle(R.string.sortby_artist_name);
@@ -350,14 +358,6 @@ public class UiTools {
                     ? R.string.sortby_album_name_desc
                     : R.string.sortby_album_name);
             return;
-        }
-
-        MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
-        if (item != null) {
-            if (sortable.sortDirection(MediaLibraryItemComparator.SORT_BY_TITLE) == 1)
-                item.setTitle(R.string.sortby_name_desc);
-            else
-                item.setTitle(R.string.sortby_name);
         }
         item = menu.findItem(R.id.ml_menu_sortby_artist_name);
         if (item != null) {

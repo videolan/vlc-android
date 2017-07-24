@@ -121,26 +121,6 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
         mDataset.addAll(playList);
     }
 
-    @MainThread
-    protected void internalUpdate(final ArrayList<MediaWrapper> newList, final boolean detectMoves) {
-        mUpdateExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new MediaItemDiffCallback(mDataset, newList), detectMoves);
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataset.clear();
-                        addAll(newList);
-                        result.dispatchUpdatesTo(PlaylistAdapter.this);
-                        processQueue();
-                    }
-                });
-            }
-        });
-
-    }
-
     @Override
     protected void onUpdateFinished() {
         if (mService != null)

@@ -175,42 +175,4 @@ public class MediaLibraryItemComparator implements Comparator<MediaLibraryItem> 
                 return 0;
         }
     }
-
-    public static int getDefaultSort(int mType, int mParentType) {
-        switch (mParentType) {
-            case MediaLibraryItem.TYPE_ARTIST:
-                return mType == MediaLibraryItem.TYPE_ALBUM ? SORT_BY_DATE : SORT_BY_ALBUM;
-            case MediaLibraryItem.TYPE_GENRE:
-                return mType == MediaLibraryItem.TYPE_ALBUM ? SORT_BY_TITLE : SORT_BY_ALBUM;
-            default:
-                return SORT_BY_TITLE;
-        }
-    }
-
-    public static int getDefaultDirection(int mType, int mParentType) {
-        return mParentType == MediaLibraryItem.TYPE_ARTIST ? -1 : 1;
-    }
-
-    public static boolean isSortAllowed(int mType, int mParentType, int mSort) {
-        switch (mSort) {
-            case SORT_BY_TITLE:
-                return true;
-            case SORT_BY_DATE:
-                return mType == MediaLibraryItem.TYPE_ALBUM;
-            case SORT_BY_LENGTH:
-                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_MEDIA;
-            case SORT_BY_NUMBER:
-                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_PLAYLIST;
-            case SORT_BY_ALBUM:
-                return mParentType != 0 && mType == MediaLibraryItem.TYPE_MEDIA;
-            case SORT_BY_ARTIST:
-                return mParentType == MediaLibraryItem.TYPE_GENRE && mType == MediaLibraryItem.TYPE_MEDIA;
-            default:
-                return false;
-        }
-    }
-
-    public int getRealSort(int mType, int mParentType) {
-        return isSortAllowed(mType, mParentType, sortBy) ? sortBy : getDefaultSort(mType, mParentType);
-    }
 }
