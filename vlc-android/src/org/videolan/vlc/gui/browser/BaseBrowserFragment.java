@@ -82,7 +82,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public abstract class BaseBrowserFragment extends SortableFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
+public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAdapter> implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static String ROOT = "smb";
@@ -99,7 +99,6 @@ public abstract class BaseBrowserFragment extends SortableFragment implements IR
     protected MediaBrowser mMediaBrowser;
     protected ContextMenuRecyclerView mRecyclerView;
     private View mSearchButtonView;
-    protected BaseBrowserAdapter mAdapter;
     protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
     public String mMrl;

@@ -52,7 +52,7 @@ import org.videolan.vlc.util.Strings;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrowserFragment {
+public class FileBrowserFragment extends BaseBrowserFragment {
 
     private AlertDialog mAlertDialog;
 

@@ -40,14 +40,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
+import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
-import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,12 +56,10 @@ import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder> implements Filterable {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
-
-    private static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_FILE);
 
     private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
     private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
@@ -381,6 +378,7 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Base
 
     @Override
     protected void onUpdateFinished() {
+        super.onUpdateFinished();
         fragment.onUpdateFinished(null);
     }
 
@@ -404,22 +402,5 @@ public class BaseBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Base
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             update((ArrayList<MediaLibraryItem>) filterResults.values);
         }
-    }
-
-    int sortDirection(int sortby) {
-        return sMediaComparator.sortDirection(sortby);
-    }
-
-    int getSortDirection() {
-        return sMediaComparator.sortDirection;
-    }
-
-    int getSortBy() {
-        return sMediaComparator.sortBy;
-    }
-
-    void sortBy(int sortby, int direction) {
-        sMediaComparator.sortBy(sortby, direction);
-        update(new ArrayList<>(mDataset), true);
     }
 }

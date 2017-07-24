@@ -29,13 +29,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
-public abstract class SortableFragment extends MediaBrowserFragment {
+public abstract class SortableFragment<T extends SortableAdapter> extends MediaBrowserFragment {
+    protected T mAdapter;
 
     public abstract void sortBy(int sortby);
     public abstract int sortDirection(int sortby);
+
+    public T getCurrentAdapter() {
+        return mAdapter;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getCurrentAdapter().updateIfSortChanged();
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

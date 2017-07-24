@@ -47,9 +47,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class BaseAudioBrowser extends SortableFragment implements IEventsHandler, Filterable {
+public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdapter> implements IEventsHandler, Filterable {
 
-    abstract public AudioBrowserAdapter getCurrentAdapter();
     public View mSearchButtonView;
     public ContentActivity mActivity;
     protected AudioBrowserAdapter[] mAdapters;

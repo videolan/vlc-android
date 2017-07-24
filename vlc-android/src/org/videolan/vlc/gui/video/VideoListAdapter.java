@@ -44,14 +44,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
+import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,7 +58,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -70,7 +69,6 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
-    private static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_VIDEO);
     private ArrayList<MediaWrapper> mOriginalData = null;
     private ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
@@ -346,23 +344,6 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
         }
     }
 
-    int sortDirection(int sortby) {
-        return sMediaComparator.sortDirection(sortby);
-    }
-
-    int getSortDirection() {
-        return sMediaComparator.sortDirection;
-    }
-
-    int getSortBy() {
-        return sMediaComparator.sortBy;
-    }
-
-    void sortBy(int sortby, int direction) {
-        sMediaComparator.sortBy(sortby, direction);
-        update(new ArrayList<>(mDataset), true);
-    }
-
     @Override
     public Filter getFilter() {
         return mFilter;
@@ -408,7 +389,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
         mUpdateExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if(detectMoves || items.size() != getItemCount())
+                if (detectMoves)
                     Collections.sort(items, sMediaComparator);
                 final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new VideoItemDiffCallback(mDataset, items), detectMoves);
                 VLCApplication.runOnMainThread(new Runnable() {
@@ -425,6 +406,7 @@ public class VideoListAdapter extends BaseQueuedAdapter<MediaWrapper, VideoListA
 
     @Override
     protected void onUpdateFinished() {
+        super.onUpdateFinished();
         mEventsHandler.onUpdateFinished(null);
     }
 

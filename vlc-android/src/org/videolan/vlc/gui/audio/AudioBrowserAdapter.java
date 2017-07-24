@@ -42,10 +42,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
+import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
-import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
@@ -60,7 +60,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
@@ -74,8 +74,6 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Aud
     private int mType;
     private int mParentType = 0;
     private BitmapDrawable mDefaultCover;
-
-    public static MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(MediaLibraryItemComparator.ADAPTER_AUDIO);
 
     public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
         mContext = context;
@@ -391,6 +389,7 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Aud
 
     @Override
     protected void onUpdateFinished() {
+        super.onUpdateFinished();
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
@@ -542,14 +541,6 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Aud
 
     }
 
-    int sortDirection(int sortby) {
-        return sMediaComparator.sortDirection(sortby);
-    }
-
-    int getSortDirection() {
-        return sMediaComparator.sortDirection;
-    }
-
     int getDefaultSort(){
         return MediaLibraryItemComparator.getDefaultSort(mType, mParentType);
     }
@@ -562,15 +553,10 @@ public class AudioBrowserAdapter extends BaseQueuedAdapter<MediaLibraryItem, Aud
         return MediaLibraryItemComparator.isSortAllowed(mType, mParentType, sortby);
     }
 
-    int getSortBy() {
-        return sMediaComparator.sortBy;
-    }
-
-    void sortBy(int sortby, int direction) {
+    public void sortBy(int sortby, int direction) {
         boolean sort = isSortAllowed(sortby);
         if (sort) {
-            sMediaComparator.sortBy(sortby, direction);
-            update(mDataset, true);
+            super.sortBy(sortby, direction);
         }
     }
 }

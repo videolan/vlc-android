@@ -6,6 +6,8 @@ import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
+import org.videolan.vlc.gui.video.VideoListAdapter;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -25,12 +27,16 @@ public class MediaLibraryItemComparator implements Comparator<MediaLibraryItem> 
     public final static int ADAPTER_VIDEO = 0;
     public final static int ADAPTER_AUDIO = 1;
     public final static int ADAPTER_FILE = 2;
-    private int adapterType;
+    private final int adapterType;
 
-    public MediaLibraryItemComparator(int adapterType) {
-        sortBy = SORT_BY_TITLE;
-        sortDirection = 1;
-        this.adapterType = adapterType;
+    public MediaLibraryItemComparator(Class adapter) {
+        setSortDefault();
+        if (adapter == VideoListAdapter.class)
+            this.adapterType = MediaLibraryItemComparator.ADAPTER_VIDEO;
+        else if (adapter == AudioBrowserAdapter.class)
+            this.adapterType = MediaLibraryItemComparator.ADAPTER_AUDIO;
+        else
+            this.adapterType = MediaLibraryItemComparator.ADAPTER_FILE;
     }
 
     public int sortDirection(int sortby) {

@@ -102,7 +102,7 @@ public class FilePickerFragment extends FileBrowserFragment {
         getActivity().finish();
     }
 
-    public void browseUp(){
+    public void browseUp() {
         if (mRoot)
             getActivity().finish();
         else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), ROOT)) {
