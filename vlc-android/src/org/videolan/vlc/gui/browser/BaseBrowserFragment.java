@@ -116,9 +116,6 @@ public abstract class BaseBrowserFragment extends SortableFragment implements IR
     protected abstract Fragment createFragment();
     protected abstract void browseRoot();
     protected abstract String getCategoryTitle();
-    public boolean isSortEnabled() {
-        return false;
-    }
 
     private Handler mBrowserHandler;
 
@@ -161,11 +158,8 @@ public abstract class BaseBrowserFragment extends SortableFragment implements IR
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.ml_menu_sortby);
-        item.setEnabled(isSortEnabled());
-        item.setVisible(isSortEnabled());
-        menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
         super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
     }
 
     protected int getLayoutId(){
@@ -920,5 +914,9 @@ public abstract class BaseBrowserFragment extends SortableFragment implements IR
     @Override
     public int sortDirection(int sortby) {
         return mAdapter.sortDirection(sortby);
+    }
+
+    public boolean isSortEnabled() {
+        return false;
     }
 }

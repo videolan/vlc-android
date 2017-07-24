@@ -21,7 +21,8 @@
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sort"
         android:id="@+id/ml_menu_sortby"
-        vlc:showAsAction="ifRoom">
+        vlc:showAsAction="ifRoom"
+        android:visible="false">
         <menu>
             <item
                 android:orderInCategory="2"

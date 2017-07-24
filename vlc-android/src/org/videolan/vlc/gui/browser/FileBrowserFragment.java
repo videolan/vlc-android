@@ -61,10 +61,6 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
         ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
     }
 
-    public boolean isSortEnabled() {
-        return !mRoot;
-    }
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -179,5 +175,9 @@ public class FileBrowserFragment<T extends BaseBrowserAdapter> extends BaseBrows
                 return false;
         } else
             return super.handleContextItemSelected(item, position);
+    }
+
+    public boolean isSortEnabled() {
+        return !mRoot;
     }
 }

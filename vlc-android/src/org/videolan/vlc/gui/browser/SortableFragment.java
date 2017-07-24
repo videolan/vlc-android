@@ -39,8 +39,9 @@ public abstract class SortableFragment extends MediaBrowserFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        UiTools.updateSortTitles(this, menu);
         super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_sortby).setVisible(isSortEnabled());
+        UiTools.updateSortTitles(this, menu);
     }
 
     @Override
@@ -79,5 +80,9 @@ public abstract class SortableFragment extends MediaBrowserFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public boolean isSortEnabled() {
+        return true;
     }
 }
