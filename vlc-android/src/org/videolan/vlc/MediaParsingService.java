@@ -89,11 +89,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             return;
                         }
                     }
-                    synchronized (MediaParsingService.this) {
-                        if (mLastNotificationTime != -1L)
-                            mLastNotificationTime = 0L;
-                    }
-                    showNotification();
                     break;
             }
         }
@@ -235,7 +230,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         .putExtra(EXTRA_PATH, device));
                             }
-
                         }
                         mMedialibrary.start();
                         mLocalBroadcastManager.sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
