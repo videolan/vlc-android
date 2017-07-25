@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -50,31 +51,45 @@ public class AboutFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.about, container, false);
+    }
+
+    @Override
+    public void onViewCreated(final View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
         if (getActivity() instanceof AppCompatActivity)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("VLC " + BuildConfig.VERSION_NAME);
-        View v = inflater.inflate(R.layout.about, container, false);
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
         if (AndroidUtil.isNougatOrLater)
             VLCApplication.setLocale();
 
-        View aboutMain = v.findViewById(R.id.about_main);
-        WebView webView = (WebView)v.findViewById(R.id.webview);
-        String revision = getString(R.string.build_revision);
-        webView.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
+        final View aboutMain = v.findViewById(R.id.about_main);
+        final WebView webView = v.findViewById(R.id.webview);
+        final String revision = getString(R.string.build_revision);
 
 
-        UiTools.fillAboutView(v);
 
         View[] lists = new View[]{aboutMain, webView};
         String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};
-        mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        mViewPager = v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
         mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
-        mTabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        mTabLayout = v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-
-        return v;
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final String asset = Util.readAsset("licence.htm", "").replace("!COMMITID!",revision);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UiTools.fillAboutView(v);
+                        webView.loadData(asset, "text/html", "UTF8");
+                    }
+                });
+            }
+        });
     }
 }
