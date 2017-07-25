@@ -29,11 +29,11 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
 
     public void sortBy(int sortby, int direction) {
         sMediaComparator.sortBy(sortby, direction);
-        update(new ArrayList<>(mDataset));
+        update(new ArrayList<>(peekLast()));
     }
 
     public void updateIfSortChanged() {
-        if (hasSortChanged())
+        if (!hasPendingUpdates() && hasSortChanged())
             update(new ArrayList<>(mDataset));
     }
 
