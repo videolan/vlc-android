@@ -24,15 +24,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.BaseAudioBrowser;
-import org.videolan.vlc.gui.browser.SortableFragment;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
