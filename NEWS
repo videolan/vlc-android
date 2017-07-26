@@ -1,4 +1,19 @@
-Changes between 2.1.12 and 2.1.13:
+Changes between 2.1.13 and 2.1.14:
+----------------------------------
+
+Application:
+ * Sort options in Video, browsers & Audio sub-categories
+ * Fix Medialibrary being wiped
+ * Fix view overlaping each other after devcie rotation
+ * Fix some snackbars not shown properly
+ * Hide System UI volume bar in video player
+ * Add delete action in Playlist view
+ * Misc. fixes
+
+TV:
+ * Fix BackgroundManager crash on activities transition
+
+ Changes between 2.1.12 and 2.1.13:
 ----------------------------------
 
 Application:
