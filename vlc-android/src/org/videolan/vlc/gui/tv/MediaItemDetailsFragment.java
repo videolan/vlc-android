@@ -164,15 +164,17 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         MediaUtils.getSubs(getActivity(), media);
                         break;
                     case ID_PLAY_ALL:
-                        int position = -1;
-                        for (int i= 0; i < mediaList.size(); ++i)
-                            if (media.equals(mediaList.get(i)))
-                                position = i;
-                        Activity activity = getActivity();
-                        MediaUtils.openList(activity, mediaList, position);
-                        if (media.getType() == MediaWrapper.TYPE_AUDIO)
-                            getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
-                        getActivity().finish();
+                        if (mediaList != null) {
+                            int position = -1;
+                            for (int i= 0; i < mediaList.size(); ++i)
+                                if (media.equals(mediaList.get(i)))
+                                    position = i;
+                            Activity activity = getActivity();
+                            MediaUtils.openList(activity, mediaList, position);
+                            if (media.getType() == MediaWrapper.TYPE_AUDIO)
+                                getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
+                            getActivity().finish();
+                        }
                         break;
                     case ID_PLAY_FROM_START:
                         VideoPlayerActivity.start(getActivity(), media.getUri(), true);

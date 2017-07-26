@@ -59,12 +59,13 @@ public abstract class VlcDialog<T extends Dialog, B extends android.databinding.
     @NonNull
     @Override
     public android.app.Dialog onCreateDialog(Bundle savedInstanceState) {
-        mVlcDialog.setContext(this);
         AppCompatDialog dialog = new AppCompatDialog(getActivity(), getTheme());
-        dialog.setTitle(mVlcDialog.getTitle());
-
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
+        if (mVlcDialog != null) {
+            mVlcDialog.setContext(this);
+            dialog.setTitle(mVlcDialog.getTitle());
+        }
         return dialog;
     }
 
