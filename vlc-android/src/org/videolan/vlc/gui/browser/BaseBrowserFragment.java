@@ -109,7 +109,6 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     private final boolean mShowHiddenFiles;
 
     private SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> mFoldersContentLists = new SimpleArrayMap<>();
-    protected ArrayList<MediaLibraryItem> mediaList = new ArrayList<>();
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -141,8 +140,6 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (bundle != null) {
             if (VLCApplication.hasData(KEY_CONTENT_LIST))
                 mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
-            if (VLCApplication.hasData(KEY_MEDIA_LIST))
-                mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -166,25 +163,29 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(getLayoutId(), container, false);
-        mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
-        mEmptyView = (TextView) v.findViewById(android.R.id.empty);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        registerForContextMenu(mRecyclerView);
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSearchButtonView = v.findViewById(R.id.searchButton);
-        return v;
+        return inflater.inflate(getLayoutId(), container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (!Util.isListEmpty(mediaList)) {
-            mAdapter.update(mediaList);
+        mRecyclerView = view.findViewById(R.id.network_list);
+        mEmptyView = view.findViewById(android.R.id.empty);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        registerForContextMenu(mRecyclerView);
+
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSearchButtonView = view.findViewById(R.id.searchButton);
+        if (savedInstanceState != null) {
+            if (VLCApplication.hasData(KEY_MEDIA_LIST+mMrl)) {
+                @SuppressWarnings("unchecked")
+                final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST+mMrl);
+                if (!Util.isListEmpty(mediaList))
+                    mAdapter.update(mediaList);
+            }
         } else if (!(this instanceof NetworkBrowserFragment))
             refresh();
     }
@@ -236,11 +237,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
-        VLCApplication.storeData(KEY_MEDIA_LIST, mediaList);
+        VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
         VLCApplication.storeData(KEY_CONTENT_LIST, mFoldersContentLists);
-        if (mRecyclerView != null) {
+        if (mRecyclerView != null)
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
-        }
         super.onSaveInstanceState(outState);
     }
 
@@ -283,7 +283,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         Bundle args = new Bundle();
         ArrayList<MediaLibraryItem> list = mFoldersContentLists != null ? mFoldersContentLists.get(media) : null;
         if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
-            VLCApplication.storeData(KEY_MEDIA_LIST, list);
+            VLCApplication.storeData(KEY_MEDIA_LIST+media.getLocation(), list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         if (isRootDirectory())
@@ -553,7 +553,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 return true;
             case R.id.directory_view_play_folder:
                 ArrayList<MediaWrapper> newMediaList = new ArrayList<>();
-                for (MediaLibraryItem mediaItem : mFoldersContentLists.get(mediaList.get(position))){
+                for (MediaLibraryItem mediaItem : mFoldersContentLists.get(mAdapter.get(position))){
                     if (((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_VIDEO))
                         newMediaList.add((MediaWrapper)mediaItem);
                 }

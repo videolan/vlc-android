@@ -91,7 +91,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onStart();
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        mSkipRefresh = mediaList != null && !mediaList.isEmpty();
+        mSkipRefresh = !mAdapter.isEmpty();
         getActivity().registerReceiver(networkReceiver, filter);
         if (!mRoot)
             LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
