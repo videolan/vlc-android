@@ -44,6 +44,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -65,7 +66,7 @@ public class VLCApplication extends Application {
     private static boolean sTV;
     private static SharedPreferences mSettings;
 
-    private static SimpleArrayMap<String, Object> sDataMap = new SimpleArrayMap<>();
+    private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
     private final int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
@@ -170,11 +171,12 @@ public class VLCApplication extends Application {
     }
 
     public static void storeData(String key, Object data) {
-        sDataMap.put(key, data);
+        sDataMap.put(key, new WeakReference<>(data));
     }
 
     public static Object getData(String key) {
-        return sDataMap.remove(key);
+        final WeakReference wr = sDataMap.remove(key);
+        return wr != null ? wr.get() : null;
     }
 
     public static boolean hasData(String key) {
