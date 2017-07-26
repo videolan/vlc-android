@@ -122,6 +122,10 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return mDataset.size();
     }
 
+    public MediaLibraryItem get(int position) {
+        return mDataset.get(position);
+    }
+
     public abstract class ViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder {
 
         public T binding;
