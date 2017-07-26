@@ -156,7 +156,10 @@ public class VLCApplication extends Application {
     }
 
     public static void runBackground(Runnable runnable) {
-        instance.mThreadPool.execute(runnable);
+        if (Looper.myLooper() != Looper.getMainLooper())
+            runnable.run();
+        else
+            instance.mThreadPool.execute(runnable);
     }
 
     public static void runOnMainThread(Runnable runnable) {
