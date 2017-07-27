@@ -352,24 +352,12 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onMediaUpdated(final MediaWrapper[] mediaList) {
-        updateItems(mediaList);
+        mAdapter.add(mediaList);
     }
 
     @Override
     public void onMediaAdded(final MediaWrapper[] mediaList) {
-        updateItems(mediaList);
-    }
-
-    public void updateItems(final MediaWrapper[] mediaList) {
-        for (final MediaWrapper mw : mediaList)
-            if (mw != null && mw.getType() == MediaWrapper.TYPE_VIDEO)
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.update(mw);
-                        updateEmptyView();
-                    }
-                });
+        mAdapter.add(mediaList);
     }
 
     @MainThread

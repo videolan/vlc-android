@@ -210,17 +210,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @MainThread
-    public void update(MediaWrapper item) {
-        int position = mDataset.indexOf(item);
-        if (position != -1) {
-            if (!(mDataset.get(position) instanceof MediaGroup))
-                mDataset.set(position, item);
-            notifyItemChanged(position, UPDATE_THUMB);
-        } else
-            add(item);
-    }
-
-    @MainThread
     public void clear() {
         mDataset.clear();
         mOriginalData = null;
