@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.gui.BaseQueuedAdapter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,5 +72,30 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
         if (needsSorting())
             Collections.sort(list, sMediaComparator);
         return list;
+    }
+
+    public void add(final T[] items) {
+        if (!Util.isArrayEmpty(items)) {
+            VLCApplication.runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getSortBy() == MediaLibraryItemComparator.SORT_DEFAULT)
+                        sMediaComparator.sortBy(getDefaultSort(), 1);
+                    final ArrayList<T> list = new ArrayList<>(peekLast());
+                    VLCApplication.runBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            Util.insertOrUdpate(list, items);
+                            VLCApplication.runOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    update(list);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 }
