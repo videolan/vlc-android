@@ -621,7 +621,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             mPlaying = false;
             mAudioReset = true;
         }
-        nativeStop();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                nativeStop();
+            }
+        }).start();
     }
 
     /**
