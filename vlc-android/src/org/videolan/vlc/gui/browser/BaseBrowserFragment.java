@@ -108,7 +108,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     protected boolean goBack = false;
     private final boolean mShowHiddenFiles;
 
-    private SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> mFoldersContentLists = new SimpleArrayMap<>();
+    private SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> mFoldersContentLists;
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -140,6 +140,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (bundle != null) {
             if (VLCApplication.hasData(KEY_CONTENT_LIST))
                 mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
+            if (mFoldersContentLists == null)
+                mFoldersContentLists = new SimpleArrayMap<>();
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -281,7 +283,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = createFragment();
         Bundle args = new Bundle();
-        ArrayList<MediaLibraryItem> list = mFoldersContentLists != null ? mFoldersContentLists.get(media) : null;
+        ArrayList<MediaLibraryItem> list = mFoldersContentLists.get(media);
         if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
             VLCApplication.storeData(KEY_MEDIA_LIST+media.getLocation(), list);
         args.putParcelable(KEY_MEDIA, media);
