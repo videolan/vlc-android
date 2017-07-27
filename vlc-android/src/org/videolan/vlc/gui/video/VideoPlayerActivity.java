@@ -624,7 +624,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     private boolean isInteractive() {
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-        return AndroidUtil.isKitKatOrLater ? pm.isInteractive() : pm.isScreenOn();
+        return AndroidUtil.isLolliPopOrLater ? pm.isInteractive() : pm.isScreenOn();
     }
 
     @Override
