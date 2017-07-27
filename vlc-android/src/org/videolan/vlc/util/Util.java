@@ -77,6 +77,10 @@ public class Util {
         return false;
     }
 
+    public static <T> boolean isArrayEmpty(@Nullable T[] array) {
+        return array == null || array.length == 0;
+    }
+
     public static boolean isListEmpty(@Nullable Collection collection) {
         return collection == null || collection.isEmpty();
     }
@@ -135,5 +139,20 @@ public class Util {
         ArrayList<T> list = new ArrayList<>(array.length);
         Collections.addAll(list, array);
         return list;
+    }
+
+    public static <T> void insertOrUdpate(List<T> dataset, T[] items) {
+        ArrayList<T> newItems = new ArrayList<>();
+        outer:
+        for (T newItem : items) {
+            for (T oldItem : dataset) {
+                if (newItem.equals(oldItem)) {
+                    oldItem = newItem;
+                    continue outer;
+                }
+            }
+            newItems.add(newItem);
+        }
+        dataset.addAll(newItems);
     }
 }
