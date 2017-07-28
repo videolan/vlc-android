@@ -1,7 +1,7 @@
 /*****************************************************************************
  * AudioBrowserFragment.java
  *****************************************************************************
- * Copyright © 2011-2016 VLC authors and VideoLAN
+ * Copyright © 2011-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,8 +42,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
 
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
@@ -71,7 +69,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, MediaBrowser.EventListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
+public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private AudioBrowserAdapter mArtistsAdapter;
@@ -101,9 +99,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public final static int MSG_LOADING = 0;
 
     public final static String TAG_ITEM = "ML_ITEM";
-
-    /* All subclasses of Fragment must include a public empty constructor. */
-    public AudioBrowserFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -443,22 +438,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void updateEmptyView(int position) {
         mEmptyView.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
         mEmptyView.setText(position == MODE_PLAYLIST ? R.string.noplaylist : R.string.nomedia);
-    }
-
-    ArrayList<MediaWrapper> mTracksToAppend = new ArrayList<>(); //Playlist tracks to append
-
-    @Override
-    public void onMediaAdded(int index, Media media) {
-        mTracksToAppend.add(new MediaWrapper(media));
-    }
-
-    @Override
-    public void onMediaRemoved(int index, Media media) {}
-
-    @Override
-    public void onBrowseEnd() {
-        if (mService != null)
-            mService.append(mTracksToAppend);
     }
 
     TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
