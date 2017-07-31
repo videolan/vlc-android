@@ -52,12 +52,22 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
 
     @Override
     protected void browse() {
-        mSongs = VLCApplication.getMLInstance().getAudio();
-        for (int i = 0 ; i < mSongs.length ; ++i) {
-            addMedia(mSongs[i]);
-            mMediaIndex.put(mSongs[i].getLocation(), i);
-        }
-        sort();
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                mSongs = VLCApplication.getMLInstance().getAudio();
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0 ; i < mSongs.length ; ++i) {
+                            addMedia(mSongs[i]);
+                            mMediaIndex.put(mSongs[i].getLocation(), i);
+                        }
+                        sort();
+                    }
+                });
+            }
+        });
     }
 
     protected void sort(){
