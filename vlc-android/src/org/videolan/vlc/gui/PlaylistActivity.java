@@ -244,8 +244,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             return false;
         }
         boolean isSong = count == 1 && mAdapter.getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
-        menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && mIsPlaylist);
-        menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
+        //menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && mIsPlaylist);
+        //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone() && !mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
