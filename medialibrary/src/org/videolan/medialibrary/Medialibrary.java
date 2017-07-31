@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -143,18 +144,22 @@ public class Medialibrary {
         return sInstance;
     }
 
+    @WorkerThread
     public MediaWrapper[] getVideos() {
         return mIsInitiated ? nativeGetVideos() : new MediaWrapper[0];
     }
 
+    @WorkerThread
     public MediaWrapper[] getRecentVideos() {
         return mIsInitiated ? nativeGetRecentVideos() : new MediaWrapper[0];
     }
 
+    @WorkerThread
     public MediaWrapper[] getAudio() {
         return mIsInitiated ? nativeGetAudio() : new MediaWrapper[0];
     }
 
+    @WorkerThread
     public MediaWrapper[] getRecentAudio() {
         return mIsInitiated ? nativeGetRecentAudio() : new MediaWrapper[0];
     }
@@ -167,14 +172,17 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetAudioCount() : 0;
     }
 
+    @WorkerThread
     public Album[] getAlbums() {
         return mIsInitiated ? nativeGetAlbums() : new Album[0];
     }
 
+    @WorkerThread
     public Album getAlbum(long albumId) {
         return mIsInitiated ? nativeGetAlbum(albumId) : null;
     }
 
+    @WorkerThread
     public Artist[] getArtists() {
         return mIsInitiated ? nativeGetArtists() : new Artist[0];
     }
@@ -183,6 +191,7 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetArtist(artistId) : null;
     }
 
+    @WorkerThread
     public Genre[] getGenres() {
         return mIsInitiated ? nativeGetGenres() : new Genre[0];
     }
@@ -191,6 +200,7 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetGenre(genreId) : null;
     }
 
+    @WorkerThread
     public Playlist[] getPlaylists() {
         return mIsInitiated ? nativeGetPlaylists() : new Playlist[0];
     }
@@ -228,10 +238,12 @@ public class Medialibrary {
             nativeForceParserRetry();
     }
 
+    @WorkerThread
     public MediaWrapper[] lastMediaPlayed() {
         return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
     }
 
+    @WorkerThread
     public HistoryItem[] lastStreamsPlayed() {
         return mIsInitiated ? nativeLastStreamsPlayed() : new HistoryItem[0];
     }
