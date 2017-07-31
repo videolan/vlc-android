@@ -140,8 +140,6 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (bundle != null) {
             if (VLCApplication.hasData(KEY_CONTENT_LIST))
                 mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
-            if (mFoldersContentLists == null)
-                mFoldersContentLists = new SimpleArrayMap<>();
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -152,6 +150,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
+        if (mFoldersContentLists == null)
+            mFoldersContentLists = new SimpleArrayMap<>();
     }
 
     @Override
