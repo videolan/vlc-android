@@ -33,8 +33,7 @@
         android:focusable="true"
         android:clickable="@{holder != null}"
         android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-        android:onClick="@{holder::onClick}"
-        android:background="@drawable/background_item">
+        android:onClick="@{holder::onClick}">
 
         <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
             android:id="@+id/browser_checkbox"

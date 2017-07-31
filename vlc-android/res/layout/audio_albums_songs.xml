@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabcontent"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="?attr/background_default_darker" >
 
     <include layout="@layout/tab_layout" />
 
@@ -19,9 +20,10 @@
 
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/default_content_width"
         android:layout_height="match_parent"
-        android:layout_below="@+id/searchButton">
+        android:layout_below="@+id/searchButton"
+        android:layout_centerHorizontal="true" >
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"

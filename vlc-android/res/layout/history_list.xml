@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/background_default_darker" >
 
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="@dimen/default_content_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="?attr/background_default">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

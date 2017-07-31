@@ -131,7 +131,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mBinding.appbar.setExpanded(false);
         ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
-        lp.setAnchorId(mBinding.songs.getId());
+        lp.setAnchorId(R.id.container_list);
         lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
         lp.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_margin);
         lp.setBehavior(new FloatingActionButtonBehavior(PlaylistActivity.this, null));

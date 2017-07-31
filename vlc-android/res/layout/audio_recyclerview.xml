@@ -6,4 +6,5 @@
     android:clipToPadding="false"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:scrollbars="none" />
+    android:scrollbars="none"
+    android:background="?attr/background_default" />

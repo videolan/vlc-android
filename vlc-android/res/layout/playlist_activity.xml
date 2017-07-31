@@ -13,7 +13,8 @@
         xmlns:vlc="http://schemas.android.com/apk/res-auto"
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/background_default_darker" >
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -51,17 +52,22 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <org.videolan.vlc.gui.view.ContextMenuRecyclerView
-            android:id="@+id/songs"
+        <FrameLayout
+            android:id="@+id/container_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/listview_bottom_padding"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
-            style="@style/Theme.VLC.List" />
+            vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                android:id="@+id/songs"
+                android:layout_width="@dimen/default_content_width"
+                android:layout_height="match_parent"
+                android:fastScrollEnabled="true"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                style="@style/Theme.VLC.List" />
+        </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
             vlc:rippleColor="@color/orange50"
