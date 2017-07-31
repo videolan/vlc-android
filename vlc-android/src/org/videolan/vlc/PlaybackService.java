@@ -1244,35 +1244,40 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 return;
             }
             mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
-            VoiceSearchParams vsp = new VoiceSearchParams(query, extras);
-            MediaLibraryItem[] items = null;
-            MediaWrapper[] tracks = null;
-            if (vsp.isAny) {
-                items = mMedialibrary.getAudio();
-                if (!isShuffling())
-                    shuffle();
-            } else if (vsp.isArtistFocus) {
-                items = mMedialibrary.searchArtist(vsp.artist);
-            } else if (vsp.isAlbumFocus) {
-                items = mMedialibrary.searchAlbum(vsp.album);
-            } else if (vsp.isGenreFocus) {
-                items = mMedialibrary.searchGenre(vsp.genre);
-            } else if (vsp.isSongFocus) {
-                tracks = mMedialibrary.searchMedia(vsp.song).getTracks();
-            }
-            if (Tools.isArrayEmpty(tracks)){
-                SearchAggregate result = mMedialibrary.search(query);
-                if (!Tools.isArrayEmpty(result.getAlbums()))
-                    tracks = result.getAlbums()[0].getTracks();
-                else if (!Tools.isArrayEmpty(result.getArtists()))
-                    tracks = result.getArtists()[0].getTracks();
-                else if (!Tools.isArrayEmpty(result.getGenres()))
-                    tracks = result.getGenres()[0].getTracks();
-            }
-            if (tracks == null && !Tools.isArrayEmpty(items))
-                tracks = items[0].getTracks();
-            if (!Tools.isArrayEmpty(tracks))
-                load(tracks, 0);
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    VoiceSearchParams vsp = new VoiceSearchParams(query, extras);
+                    MediaLibraryItem[] items = null;
+                    MediaWrapper[] tracks = null;
+                    if (vsp.isAny) {
+                        items = mMedialibrary.getAudio();
+                        if (!isShuffling())
+                            shuffle();
+                    } else if (vsp.isArtistFocus) {
+                        items = mMedialibrary.searchArtist(vsp.artist);
+                    } else if (vsp.isAlbumFocus) {
+                        items = mMedialibrary.searchAlbum(vsp.album);
+                    } else if (vsp.isGenreFocus) {
+                        items = mMedialibrary.searchGenre(vsp.genre);
+                    } else if (vsp.isSongFocus) {
+                        tracks = mMedialibrary.searchMedia(vsp.song).getTracks();
+                    }
+                    if (Tools.isArrayEmpty(tracks)){
+                        SearchAggregate result = mMedialibrary.search(query);
+                        if (!Tools.isArrayEmpty(result.getAlbums()))
+                            tracks = result.getAlbums()[0].getTracks();
+                        else if (!Tools.isArrayEmpty(result.getArtists()))
+                            tracks = result.getArtists()[0].getTracks();
+                        else if (!Tools.isArrayEmpty(result.getGenres()))
+                            tracks = result.getGenres()[0].getTracks();
+                    }
+                    if (tracks == null && !Tools.isArrayEmpty(items))
+                        tracks = items[0].getTracks();
+                    if (!Tools.isArrayEmpty(tracks))
+                        load(tracks, 0);
+                }
+            });
         }
 
         @Override
