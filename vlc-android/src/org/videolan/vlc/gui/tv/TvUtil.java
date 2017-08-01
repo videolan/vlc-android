@@ -33,6 +33,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.widget.Row;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -48,6 +49,7 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -174,16 +176,27 @@ public class TvUtil {
         bm.setDrawable(null);
     }
 
+    private static LruCache<BackgroundManager, WeakReference<ValueAnimator>> refCache = new LruCache<>(5);
     //See https://issuetracker.google.com/issues/37135111
     public static void releaseBackgroundManager(BackgroundManager backgroundManager) {
         Field field;
-        try {
-            field = backgroundManager.getClass().getDeclaredField("mAnimator");
-            field.setAccessible(true);
-            ValueAnimator valueAnimator = (ValueAnimator) field.get(backgroundManager);
-            if (valueAnimator != null && valueAnimator.isStarted())
-                valueAnimator.cancel();
-        } catch (Exception ignored) {}
+        final WeakReference<ValueAnimator> ref = refCache.get(backgroundManager);
+        ValueAnimator valueAnimator = null;
+        if (ref != null) {
+            valueAnimator = ref.get();
+            if (valueAnimator == null)
+                refCache.remove(backgroundManager);
+        }
+        if (valueAnimator == null) {
+            try {
+                field = backgroundManager.getClass().getDeclaredField("mAnimator");
+                field.setAccessible(true);
+                valueAnimator = (ValueAnimator) field.get(backgroundManager);
+                refCache.put(backgroundManager, new WeakReference<>(valueAnimator));
+            } catch (Exception ignored) {}
+        }
+        if (valueAnimator != null && valueAnimator.isStarted())
+            valueAnimator.cancel();
         backgroundManager.release();
     }
 }
