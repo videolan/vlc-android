@@ -27,20 +27,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Util;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -107,15 +103,11 @@ public class RecommendationsService extends IntentService {
             @Override
             public void run() {
                 int id = 0;
-                List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getVideos());
+                List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getRecentVideos());
                 if (Util.isListEmpty(videoList))
                     return;
-                Bitmap pic;
-                Collections.shuffle(videoList);
                 for (MediaWrapper mediaWrapper : videoList){
-                    pic = AudioUtil.readCoverBitmap(Uri.decode(mediaWrapper.getArtworkMrl()), 256);
-                    if (pic != null && pic.getByteCount() > 4)
-                        buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
+                    buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
                     if (id == MAX_RECOMMENDATIONS)
                         break;
                 }
