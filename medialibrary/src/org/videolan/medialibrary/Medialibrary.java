@@ -53,7 +53,6 @@ public class Medialibrary {
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
 
-    private Context mContext;
 
     private long mInstanceID;
     private volatile boolean mIsInitiated = false;
@@ -69,6 +68,7 @@ public class Medialibrary {
     private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
 
     private static Medialibrary sInstance;
+    private static Context sContext;
 
     static {
         LibVLC.loadLibraries();
@@ -76,10 +76,14 @@ public class Medialibrary {
         System.loadLibrary("mla");
     }
 
+    public static Context getContext() {
+        return sContext;
+    }
+
     public boolean init(Context context) {
         if (context == null)
             return false;
-        mContext = context;
+        sContext = context;
         File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists())
@@ -398,7 +402,7 @@ public class Medialibrary {
 
     @SuppressWarnings("unused")
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
+        LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         mIsWorking = !isIdle;
     }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Neznámý umělec</string>
+    <string name="unknown_album">Neznámé album</string>
+    <string name="unknown_genre">Neznámý žánr</string>
+    <string name="various_artists">Různí umělci</string>
+</resources>

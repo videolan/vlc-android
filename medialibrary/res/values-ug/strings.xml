@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">يوچۇن سەنئەتكار</string>
+    <string name="unknown_album">يوچۇن توپلام</string>
+    <string name="unknown_genre">يوچۇن ئېقىم</string>
+</resources>

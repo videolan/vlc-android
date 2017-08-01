@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Onbekende artiest</string>
+    <string name="unknown_album">Onbekend album</string>
+    <string name="unknown_genre">Onbekend genre</string>
+    <string name="various_artists">Diverse artiesten</string>
+</resources>

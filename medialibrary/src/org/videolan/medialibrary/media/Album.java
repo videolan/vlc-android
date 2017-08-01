@@ -2,11 +2,15 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.R;
 
 public class Album extends MediaLibraryItem {
+    private static String UNKNOWN_ALBUM;
+
     private int releaseYear;
     private String artworkMrl;
     private String albumArtist;
@@ -22,6 +26,16 @@ public class Album extends MediaLibraryItem {
         this.albumArtistId = albumArtistId;
         this.mTracksCount = nbTracks;
         this.duration = duration;
+        if (TextUtils.isEmpty(title)) {
+            if (UNKNOWN_ALBUM == null)
+                UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
+            mTitle = UNKNOWN_ALBUM;
+        }
+        if (TextUtils.isEmpty(albumArtist)) {
+            if (Artist.UNKNOWN_ARTIST == null)
+                Artist.UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
+            this.albumArtist = Artist.UNKNOWN_ARTIST;
+        }
     }
 
     public long getId() {
@@ -30,7 +44,7 @@ public class Album extends MediaLibraryItem {
 
     @Override
     public String getDescription() {
-        return mDescription == null ? albumArtist : mDescription;
+        return albumArtist;
     }
 
     public int getReleaseYear() {

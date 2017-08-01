@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Intérprete desconhecido</string>
+    <string name="unknown_album">Álbum desconhecido</string>
+    <string name="unknown_genre">Género desconhecido</string>
+    <string name="various_artists">Vários artistas</string>
+</resources>

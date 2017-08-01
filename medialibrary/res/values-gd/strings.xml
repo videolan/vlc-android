@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Neach-ealain neo-aithnichte</string>
+    <string name="unknown_album">Albam neo-aithnichte</string>
+    <string name="unknown_genre">Gnè neo-aithnichte</string>
+</resources>

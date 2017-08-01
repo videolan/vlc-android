@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">未知のアーティスト</string>
+    <string name="unknown_album">未知のアルバム</string>
+    <string name="unknown_genre">未知のジャンル</string>
+    <string name="various_artists">複数アーティスト</string>
+</resources>

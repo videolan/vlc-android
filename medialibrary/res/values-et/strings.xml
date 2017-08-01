@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Tundmatu esitaja</string>
+    <string name="unknown_album">Tundmatu album</string>
+    <string name="unknown_genre">Tundmatu stiil</string>
+</resources>

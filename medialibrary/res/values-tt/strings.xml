@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Билгесез башкаручы</string>
+    <string name="unknown_album">Билгесез альбом</string>
+    <string name="unknown_genre">Билгесез жанр</string>
+    <string name="various_artists">Төрле башкаручылар</string>
+</resources>

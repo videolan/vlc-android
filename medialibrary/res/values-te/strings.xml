@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="unknown_artist">తెలియని కళాకారుడు</string>
+    <string name="unknown_album">తెలియని ఆల్బమ్</string>
+    <string name="unknown_genre">తెలియని సాహిత్యం</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Artist Anhysbys</string>
+    <string name="unknown_album">Albwm Anhysbys</string>
+    <string name="unknown_genre">Genre Anhysbys</string>
+    <string name="various_artists">Artistiaid Amryw</string>
+</resources>

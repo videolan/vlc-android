@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.R;
 
 public class Artist extends MediaLibraryItem {
 
@@ -12,11 +13,23 @@ public class Artist extends MediaLibraryItem {
     private String artworkMrl;
     private String musicBrainzId;
 
+    static String UNKNOWN_ARTIST;
+    private static String VARIOUS_ARTISTS;
+
     public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.musicBrainzId = musicBrainzId;
+        if (id == 1L) {
+            if (UNKNOWN_ARTIST == null)
+                UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
+            mTitle = UNKNOWN_ARTIST;
+        } else if (id == 2L) {
+            if (VARIOUS_ARTISTS == null)
+                VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
+            mTitle = VARIOUS_ARTISTS;
+        }
     }
 
     public String getShortBio() {

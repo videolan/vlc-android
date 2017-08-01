@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">មិន​ស្គាល់​សិល្បករ</string>
+    <string name="unknown_album">មិន​ស្គាល់​អាល់ប៊ុម</string>
+    <string name="unknown_genre">មិន​ស្គាល់​ចង្វាក់</string>
+</resources>

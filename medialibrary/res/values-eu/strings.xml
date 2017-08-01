@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Artista ezezaguna</string>
+    <string name="unknown_album">Album ezezaguna</string>
+    <string name="unknown_genre">Genero ezezaguna</string>
+</resources>

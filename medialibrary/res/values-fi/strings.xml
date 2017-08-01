@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">Tuntematon esittäjä</string>
+    <string name="unknown_album">Tuntematon albumi</string>
+    <string name="unknown_genre">Tuntematon genre</string>
+</resources>

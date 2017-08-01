@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="unknown_artist">אמן בלתי ידוע</string>
+    <string name="unknown_album">אלבום בלתי ידוע</string>
+    <string name="unknown_genre">סגנון בלתי ידוע</string>
+</resources>

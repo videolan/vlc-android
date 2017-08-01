@@ -205,30 +205,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
 
     public void addAll(ArrayList<MediaLibraryItem> items) {
-        addAll(items, mMakeSections);
-    }
-
-
-    public void addAll(ArrayList<MediaLibraryItem> items, boolean generateSections) {
-        if (mContext == null)
-            return;
         mDataset = new ArrayList<>(items);
-        for (MediaLibraryItem item : mDataset) {
-            if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                continue;
-            if (item.getTitle().isEmpty()) {
-                if (item.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
-                    if (item.getId() == 1L)
-                        item.setTitle(mContext.getString(R.string.unknown_artist));
-                    else if (item.getId() == 2L)
-                        item.setTitle(mContext.getString(R.string.various_artists));
-                } else if (item.getItemType() == MediaLibraryItem.TYPE_ALBUM) {
-                    item.setTitle(mContext.getString(R.string.unknown_album));
-                    if (TextUtils.isEmpty(item.getDescription()))
-                        item.setDescription(mContext.getString(R.string.unknown_artist));
-                }
-            }
-        }
     }
 
     public ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
