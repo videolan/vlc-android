@@ -111,6 +111,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            mPlayerState = savedInstanceState.getInt("player_state");
         mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
@@ -162,6 +164,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("player_state", mPlayerState);
     }
 
     public void onPopupMenu(View anchor, final int position) {
@@ -322,6 +330,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                                     mBinding.backgroundView.setImageBitmap(blurredCover);
                                     mBinding.backgroundView.setVisibility(View.VISIBLE);
                                     mBinding.songsList.setBackgroundResource(0);
+                                    if (mPlayerState == BottomSheetBehavior.STATE_EXPANDED)
+                                        mBinding.header.setBackgroundResource(0);
                                 }
                             });
                         else {
@@ -344,6 +354,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @MainThread
     private void setDefaultBackground() {
         mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID);
+        mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID);
         mBinding.backgroundView.setVisibility(View.INVISIBLE);
     }
 
