@@ -2793,13 +2793,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
-            if (mPresentation != null) mOverlayBackground.setVisibility(View.VISIBLE);
+            if (mPresentation != null)
+                mOverlayBackground.setVisibility(View.VISIBLE);
+            updateOverlayPausePlay();
         }
         mHandler.removeMessages(FADE_OUT);
         if (mOverlayTimeout != OVERLAY_INFINITE)
             mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), mOverlayTimeout);
-        updateOverlayPausePlay();
-        mPlayPause.requestFocus();
     }
 
     private void initOverlay() {
@@ -2810,11 +2810,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mOverlayProgress = findViewById(R.id.progress_overlay);
             RelativeLayout.LayoutParams layoutParams =
                     (RelativeLayout.LayoutParams)mOverlayProgress.getLayoutParams();
-            if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar()) {
+            if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar())
                 layoutParams.width = LayoutParams.MATCH_PARENT;
-            } else {
+            else
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-            }
             mOverlayProgress.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mOverlayButtons =  findViewById(R.id.player_overlay_buttons);
@@ -2967,15 +2966,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mService.isPausable())
             mPlayPause.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_circle
                     : R.drawable.ic_play_circle);
+        mPlayPause.requestFocus();
     }
 
     /**
      * update the overlay
      */
     private int setOverlayProgress() {
-        if (mService == null) {
+        if (mService == null)
             return -1;
-        }
         int time = (int) getTime();
         int length = (int) mService.getLength();
         return setOverlayProgress(time, length);
