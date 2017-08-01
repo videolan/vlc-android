@@ -50,7 +50,6 @@ public class RecommendationsService extends IntentService {
     private static final int MAX_RECOMMENDATIONS = 3;
 
     private NotificationManager mNotificationManager;
-    private Context mContext;
 
     public RecommendationsService() {
         super("RecommendationService");
@@ -59,9 +58,8 @@ public class RecommendationsService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
-            mNotificationManager = (NotificationManager)
-                    getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager)
+                getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -73,14 +71,9 @@ public class RecommendationsService extends IntentService {
         if (movie == null)
             return;
 
-        //TODO
-//        if (mBackgroundUri != movie.getBackgroundUri()) {
-//            extras.putString(EXTRA_BACKGROUND_IMAGE_URL, movie.getBackgroundUri());
-//        }
-
         // build the recommendation as a Notification object
         Notification notification = new NotificationCompat.BigPictureStyle(
-                new NotificationCompat.Builder(mContext)
+                new NotificationCompat.Builder(RecommendationsService.this)
                         .setContentTitle(movie.getTitle())
                         .setContentText(movie.getDescription())
                         .setContentInfo(getString(R.string.app_name))
@@ -99,7 +92,7 @@ public class RecommendationsService extends IntentService {
     }
 
     private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
-        Intent intent = new Intent(mContext, VideoPlayerActivity.class);
+        Intent intent = new Intent(RecommendationsService.this, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getUri());
         intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
@@ -108,21 +101,25 @@ public class RecommendationsService extends IntentService {
         return PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private boolean doRecommendations() {
+    private void doRecommendations() {
         mNotificationManager.cancelAll();
-        int id = 0;
-        List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getVideos());
-        if (Util.isListEmpty(videoList))
-            return false;
-        Bitmap pic;
-        Collections.shuffle(videoList);
-        for (MediaWrapper mediaWrapper : videoList){
-            pic = AudioUtil.readCoverBitmap(Uri.decode(mediaWrapper.getArtworkMrl()), 256);
-            if (pic != null && pic.getByteCount() > 4)
-                buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
-            if (id == MAX_RECOMMENDATIONS)
-                break;
-        }
-        return true;
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                int id = 0;
+                List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getVideos());
+                if (Util.isListEmpty(videoList))
+                    return;
+                Bitmap pic;
+                Collections.shuffle(videoList);
+                for (MediaWrapper mediaWrapper : videoList){
+                    pic = AudioUtil.readCoverBitmap(Uri.decode(mediaWrapper.getArtworkMrl()), 256);
+                    if (pic != null && pic.getByteCount() > 4)
+                        buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
+                    if (id == MAX_RECOMMENDATIONS)
+                        break;
+                }
+            }
+        });
     }
 }
