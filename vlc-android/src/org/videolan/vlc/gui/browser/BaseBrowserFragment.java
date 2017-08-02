@@ -173,14 +173,18 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.network_list);
         mEmptyView = view.findViewById(android.R.id.empty);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
+        mSearchButtonView = view.findViewById(R.id.searchButton);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
-
-        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSearchButtonView = view.findViewById(R.id.searchButton);
         if (savedInstanceState != null) {
             if (VLCApplication.hasData(KEY_MEDIA_LIST+mMrl)) {
                 @SuppressWarnings("unchecked")

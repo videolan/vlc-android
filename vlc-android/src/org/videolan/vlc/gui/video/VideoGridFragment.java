@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -96,8 +97,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new VideoListAdapter(this);
-
         if (savedInstanceState != null)
             setGroup(savedInstanceState.getString(KEY_GROUP));
     }
@@ -126,26 +125,30 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.video_grid, container, false);
+    }
 
-        View v = inflater.inflate(R.layout.video_grid, container, false);
-
-        // init the information for the scan (1/2)
-        mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
-        mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
+    @Override
+    public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
+        mLayoutFlipperLoading = v.findViewById(R.id.layout_flipper_loading);
+        mTextViewNomedia = v.findViewById(R.id.textview_nomedia);
         mViewNomedia = v.findViewById(android.R.id.empty);
-        mGridView = (AutoFitRecyclerView) v.findViewById(android.R.id.list);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
+        mGridView = v.findViewById(android.R.id.list);
+        mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
         mSearchButtonView = v.findViewById(R.id.searchButton);
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
-        mDividerItemDecoration = new DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL);
+        mDividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        mAdapter = new VideoListAdapter(this);
         if (mAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);
         mGridView.setAdapter(mAdapter);
-        return v;
     }
-
 
     public void onStart() {
         if (mMediaLibrary.isInitiated())
@@ -181,12 +184,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         outState.putString(KEY_GROUP, mGroup);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.clear();
-    }
-
     protected void onMedialibraryReady() {
         super.onMedialibraryReady();
         if (mGroup == null) {
@@ -196,11 +193,8 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
-    public String getTitle(){
-        if (mGroup == null)
-            return getString(R.string.video);
-        else
-            return mGroup + "\u2026";
+    public String getTitle() {
+        return mGroup == null ? getString(R.string.video) : mGroup + "\u2026";
     }
 
     private void updateViewMode() {
@@ -574,9 +568,8 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-            if (mActionMode != null)
-                return;
-            mGridView.openContextMenu(position);
+            if (mActionMode == null)
+                mGridView.openContextMenu(position);
     }
 
     @Override
