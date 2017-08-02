@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="grid_card_thumb_width">300dp</dimen>
+    <dimen name="grid_card_thumb_height">190dp</dimen>
+</resources>
