@@ -35,7 +35,6 @@ import android.support.annotation.MainThread;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -209,18 +208,16 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             Log.w(TAG, "Unable to setup the view");
             return;
         }
-        Resources res = getResources();
-        boolean listMode = res.getBoolean(R.bool.list_mode);
-        listMode |= res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false);
-        // Compute the left/right padding dynamically
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        final Resources res = getResources();
+        final boolean listMode = res.getBoolean(R.bool.list_mode)
+                || (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false));
 
         // Select between grid or list
         if (!listMode) {
-            int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
-            mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, res.getDimensionPixelSize(R.dimen.default_margin)));
+            final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
+            final int margin = res.getDimensionPixelSize(R.dimen.default_margin);
+            mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, margin));
             mAdapter.setGridCardWidth(mGridView.getColumnWidth());
         }
         mGridView.setNumColumns(listMode ? 1 : -1);
