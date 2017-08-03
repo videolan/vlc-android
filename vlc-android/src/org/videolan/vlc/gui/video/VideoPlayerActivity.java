@@ -868,15 +868,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         loadMedia();
         boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
         mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
-
-        initPlaylistUi();
     }
 
     private void initPlaylistUi() {
         if (mService.hasPlaylist()) {
             mPlaylistPrevious = (ImageView) findViewById(R.id.playlist_previous);
-            if (mPlaylistPrevious == null)
-                return; //player HUD not yet inflated
             mPlaylistNext = (ImageView) findViewById(R.id.playlist_next);
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistAdapter.setService(mService);
@@ -889,7 +885,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
             mPlaylistPrevious.setOnClickListener(VideoPlayerActivity.this);
             mPlaylistNext.setOnClickListener(VideoPlayerActivity.this);
-            mSeekbar.setNextFocusUpId(mPlaylistToggle.getId());
 
             ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
