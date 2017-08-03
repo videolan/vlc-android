@@ -118,6 +118,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null)
+            return START_NOT_STICKY;
         synchronized (MediaParsingService.this) {
             if (mLastNotificationTime <= 0L)
                 mLastNotificationTime = System.currentTimeMillis();
