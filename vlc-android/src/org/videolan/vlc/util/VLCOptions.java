@@ -122,7 +122,6 @@ public class VLCOptions {
         options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
         options.add(verboseMode ? "-vv" : "-v");
-
         return options;
     }
 
@@ -197,6 +196,7 @@ public class VLCOptions {
             media.addOption(":no-video");
         if (paused)
             media.addOption(":start-paused");
+        media.addOption(":input-fast-seek");
     }
 
     @MainThread
