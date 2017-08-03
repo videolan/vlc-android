@@ -186,12 +186,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         if (savedInstanceState != null) {
-            if (VLCApplication.hasData(KEY_MEDIA_LIST+mMrl)) {
-                @SuppressWarnings("unchecked")
-                final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST+mMrl);
-                if (!Util.isListEmpty(mediaList))
-                    mAdapter.update(mediaList);
-            }
+            @SuppressWarnings("unchecked")
+            final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST+mMrl);
+            if (!Util.isListEmpty(mediaList))
+                mAdapter.update(mediaList);
         } else if (!(this instanceof NetworkBrowserFragment))
             refresh();
     }
