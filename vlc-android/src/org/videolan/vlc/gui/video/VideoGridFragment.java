@@ -71,9 +71,11 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class VideoGridFragment extends SortableFragment<VideoListAdapter> implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
@@ -147,6 +149,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         mAdapter = new VideoListAdapter(this);
         if (mAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);
+        if (savedInstanceState != null) {
+            final ArrayList<MediaWrapper> list = (ArrayList<MediaWrapper>) VLCApplication.getData("list"+getTitle());
+            if (!Util.isListEmpty(list))
+                mAdapter.addAll(list);
+        }
         mGridView.setAdapter(mAdapter);
     }
 
@@ -182,6 +189,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_GROUP, mGroup);
+        VLCApplication.storeData("list"+getTitle(), mAdapter.getAll());
     }
 
     protected void onMedialibraryReady() {
@@ -190,7 +198,8 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
             mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
         }
-        mHandler.sendEmptyMessage(UPDATE_LIST);
+        if (!isHidden() && mAdapter.isEmpty())
+            mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     public String getTitle() {
