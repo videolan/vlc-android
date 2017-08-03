@@ -422,6 +422,8 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     protected void onParsingServiceFinished() {
+        mMediaLibrary.removeMediaUpdatedCb();
+        mMediaLibrary.removeMediaAddedCb();
         mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
