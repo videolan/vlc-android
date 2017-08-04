@@ -214,16 +214,16 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         if (entryPoint.endsWith("/"))
             entryPoint = entryPoint.substring(0, entryPoint.length()-1);
         if (mProcessingFolders.containsKey(entryPoint)) {
-            final String finalMrl = entryPoint;
+            final CheckBox cb = mProcessingFolders.remove(entryPoint);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mProcessingFolders.get(finalMrl).setEnabled(true);
+                    cb.setEnabled(true);
                     if (success) {
                         ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
                         mAdapter.notifyDataSetChanged();
                     } else
-                        mProcessingFolders.get(finalMrl).setChecked(false);
+                        cb.setChecked(true);
                 }
             });
         }
