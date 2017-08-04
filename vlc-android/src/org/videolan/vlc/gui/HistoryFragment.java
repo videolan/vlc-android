@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,8 +56,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     private static final int UPDATE_LIST = 0;
 
     private HistoryAdapter mHistoryAdapter;
-    private RecyclerView mRecyclerView;
     private View mEmptyView;
+    private RecyclerView mRecyclerView;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() {
@@ -66,10 +67,20 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        return inflater.inflate(R.layout.history_list, container, false);
+    }
 
-        View v = inflater.inflate(R.layout.history_list, container, false);
-        mRecyclerView = (RecyclerView)v.findViewById(android.R.id.list);
-        mEmptyView = v.findViewById(android.R.id.empty);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mEmptyView = view.findViewById(android.R.id.empty);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
+        mRecyclerView = view.findViewById(android.R.id.list);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mHistoryAdapter);
         mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
@@ -79,11 +90,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
             mRecyclerView.setNextFocusForwardId(android.R.id.list);
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        return v;
     }
 
     @Override
@@ -246,7 +253,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
             invalidateActionMode();
             return;
         }
-
         if (position != 0) {
             List<MediaWrapper> mediaList = mHistoryAdapter.getAll();
             mediaList.remove(position);
