@@ -164,11 +164,11 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     private void updateEmptyView() {
         if (mHistoryAdapter.isEmpty()){
-            mRecyclerView.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setVisibility(View.GONE);
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
             mEmptyView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 

@@ -13,8 +13,7 @@
         xmlns:vlc="http://schemas.android.com/apk/res-auto"
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/background_default_darker" >
+        android:layout_height="match_parent" >
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -66,7 +65,8 @@
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                style="@style/Theme.VLC.List" />
+                style="@style/Theme.VLC.List"
+                android:background="?attr/background_default" />
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
