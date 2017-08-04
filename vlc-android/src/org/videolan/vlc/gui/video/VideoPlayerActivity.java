@@ -3558,14 +3558,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void stopLoading() {
         mHandler.removeMessages(LOADING_ANIMATION);
+        UiTools.setViewVisibility(mTipsBackground, View.VISIBLE);
         if (!mIsLoading)
             return;
         mIsLoading = false;
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
-        if (mPresentation != null) {
-            mTipsBackground.setVisibility(View.VISIBLE);
-        }
     }
 
     public void onClickOverlayTips(View v) {
