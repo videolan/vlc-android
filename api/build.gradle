@@ -22,6 +22,8 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -44,8 +46,105 @@ task generateSources (type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:$rootProject.ext.appCompatVersion"
     testCompile 'junit:junit:4.12'
+}
+
+def properties = new Properties()
+properties.load( new FileInputStream("local.properties"))
+group = properties.getProperty("package.groupId")
+version = properties.getProperty("version.name")
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId properties.getProperty("package.groupId")
+                artifactId properties.getProperty("package.name")
+
+                name properties.getProperty("package.name")
+                description properties.getProperty("package.description")
+                url properties.getProperty("package.url")
+
+                licenses {
+                    license {
+                        name properties.getProperty("license.name")
+                        url properties.getProperty("license.url")
+                    }
+                }
+                developers {
+                    developer {
+                        id properties.getProperty("developer.id")
+                        name properties.getProperty("developer.name")
+                        email properties.getProperty("developer.email")
+                    }
+                }
+                scm {
+                    connection properties.getProperty("vcs.connection")
+                    developerConnection properties.getProperty("vcs.connection")
+                    url properties.getProperty("vcs.url")
+                }
+            }
+        }
+    }
+}
+
+artifacts {
+    archives javadocJar
+    archives generateSources
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+
+    pkg {
+        repo = properties.getProperty("package.repository")
+        name = properties.getProperty("package.name")
+        //userOrg = properties.getProperty("package.groupId")
+        desc = properties.getProperty("package.description")
+        websiteUrl = properties.getProperty("package.url")
+        vcsUrl = properties.getProperty("vcs.url")
+        licenses = [properties.getProperty("package.licenses")]
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            name = properties.getProperty("version.name")
+            desc = properties.getProperty("version.description")
+            released = new Date()
+            vcsTag = properties.getProperty("vcs.tag")
+            //gpg {
+            //    sign = true
+            //    passphrase = properties.getProperty("bintray.gpg.password")
+            //}
+            //mavenCentralSync {
+            //    sync = true
+            //    user = properties.getProperty("bintray.user") //OSS user token: mandatory
+            //    password = properties.getProperty("bintray.password") //OSS user password: mandatory
+            //    close = '1'
+            //}
+        }
+    }
+}
+
+// launch uploadApi to upload extension api on bintray based on values in local.properties
+task uploadApi {
+    dependsOn 'install'
+    dependsOn 'bintrayUpload'
+    tasks.findByName('bintrayUpload').mustRunAfter 'install'
 }
