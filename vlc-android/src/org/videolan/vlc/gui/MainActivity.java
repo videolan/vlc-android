@@ -259,7 +259,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-        createExtensionServiceConnection();
+        if (BuildConfig.DEBUG)
+            createExtensionServiceConnection();
     }
 
     @Override
