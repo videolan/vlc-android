@@ -38,6 +38,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -64,6 +65,7 @@ import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
+import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
@@ -96,6 +98,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
 
     private Medialibrary mMediaLibrary;
+    private ExtensionsManager mExtensionsManager;
     private HackyDrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -134,18 +137,26 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null) {
+            FragmentManager fm = getSupportFragmentManager();
             //Restore fragments stack
-            for (Fragment fragment : getSupportFragmentManager().getFragments())
-                if (fragment != null)
-                    mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-
-            mCurrentFragmentId = savedInstanceState.getInt("current");
-            if (mCurrentFragmentId > 0) {
-                mNavigationView.setCheckedItem(mCurrentFragmentId);
+            if (fm != null && fm.getFragments() != null)
+                for (Fragment fragment : fm.getFragments())
+                    if (fragment != null) {
+                        if (fragment instanceof ExtensionBrowser) {
+                            fm.beginTransaction().remove(fragment).commit();
+                        } else {
+                            mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
+                            fm.beginTransaction().hide(fragment).commit();
+                        }
+                    }
+            mCurrentFragmentId = savedInstanceState.getInt("current", R.id.nav_video);
+            if (!currentIdIsExtension()) {
                 String tag = getTag(mCurrentFragmentId);
                 if (mFragmentsStack.containsKey(tag))
                     mCurrentFragment = mFragmentsStack.get(tag).get();
             }
+        } else {
+            reloadPreferences();
         }
 
         /* Set up the action bar */
@@ -195,10 +206,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
 
         /* Reload the latest preferences */
-        reloadPreferences();
         mScanNeeded = savedInstanceState == null && mSettings.getBoolean("auto_rescan", true);
-
+        mExtensionsManager = ExtensionsManager.getInstance();
         mMediaLibrary = VLCApplication.getMLInstance();
+
     }
 
     private void setupNavigationView() {
@@ -248,11 +259,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-
-        //Deactivated for now
-//        createExtensionServiceConnection();
-
-        clearBackstackFromClass(ExtensionBrowser.class);
+        createExtensionServiceConnection();
     }
 
     @Override
@@ -267,7 +274,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     private void loadPlugins() {
         Menu navMenu = mNavigationView.getMenu();
         navMenu.removeGroup(PLUGIN_NAVIGATION_GROUP);
-        List<ExtensionListing> plugins = mExtensionManagerService.updateAvailableExtensions();
+        List<ExtensionListing> plugins = mExtensionsManager.getExtensions(getApplication());
         if (plugins.isEmpty()) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
@@ -277,27 +284,47 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         PackageManager pm = getPackageManager();
         SubMenu subMenu = navMenu.addSubMenu(PLUGIN_NAVIGATION_GROUP, PLUGIN_NAVIGATION_GROUP,
                 PLUGIN_NAVIGATION_GROUP, R.string.plugins);
-        for (int i = 0 ; i < plugins.size() ; ++i) {
+        for (int i = 0; i < plugins.size(); ++i) {
             ExtensionListing extension = plugins.get(i);
-            MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, extension.title());
-            int iconRes = extension.menuIcon();
-            Drawable extensionIcon = null;
-            if (iconRes != 0) {
-                try {
-                    Resources res = getApplicationContext().getPackageManager().getResourcesForApplication(extension.componentName().getPackageName());
-                    extensionIcon = res.getDrawable(extension.menuIcon());
-                } catch (PackageManager.NameNotFoundException e) {}
-            }
-            if (extensionIcon != null)
-                item.setIcon(extensionIcon);
-            else
-                try {
-                    item.setIcon(pm.getApplicationIcon(plugins.get(i).componentName().getPackageName()));
-                } catch (PackageManager.NameNotFoundException e) {
-                    item.setIcon(R.drawable.icon);
+            if (mSettings.getBoolean("extension_" + extension.componentName().getPackageName(), true)) {
+                MenuItem item = subMenu.add(PLUGIN_NAVIGATION_GROUP, i, 0, extension.title());
+                item.setCheckable(true);
+                int iconRes = extension.menuIcon();
+                Drawable extensionIcon = null;
+                if (iconRes != 0) {
+                    try {
+                        Resources res = pm.getResourcesForApplication(extension.componentName().getPackageName());
+                        extensionIcon = res.getDrawable(extension.menuIcon());
+                    } catch (PackageManager.NameNotFoundException e) {}
                 }
+                if (extensionIcon != null)
+                    item.setIcon(extensionIcon);
+                else
+                    try {
+                        item.setIcon(pm.getApplicationIcon(plugins.get(i).componentName().getPackageName()));
+                    } catch (PackageManager.NameNotFoundException e) {
+                        item.setIcon(R.drawable.icon);
+                    }
+            }
         }
+        if (subMenu.size() == 0)
+            navMenu.setGroupVisible(PLUGIN_NAVIGATION_GROUP, false);
         mNavigationView.invalidate();
+        onPluginsLoaded();
+    }
+
+    private void onPluginsLoaded() {
+        if (currentIdIsExtension())
+            if (mExtensionsManager.extensionIsEnabled(mSettings, mCurrentFragmentId)) {
+                updateCheckedItem(mCurrentFragmentId);
+                mExtensionManagerService.openExtension(mCurrentFragmentId);
+            }
+            else {
+                updateCheckedItem(R.id.nav_video);
+                showFragment(R.id.nav_video);
+            }
+        else
+            updateCheckedItem(mCurrentFragmentId);
     }
 
     private void createExtensionServiceConnection() {
@@ -330,14 +357,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 restoreCurrentList();
         }
         mNavigationView.setNavigationItemSelectedListener(this);
-        mNavigationView.setCheckedItem(mCurrentFragmentId);
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
     }
 
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if (mCurrentFragment == null)
+        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
+        if (!currentIdIsExtension())
             showFragment(mCurrentFragmentId);
     }
 
@@ -353,12 +380,15 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             mScanNeeded = mMediaLibrary.isWorking();
         }
         /* Save the tab status in pref */
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt("fragment_id", mCurrentFragmentId);
-        editor.apply();
+        mSettings.edit().putInt("fragment_id", mCurrentFragmentId).apply();
     }
 
     protected void onSaveInstanceState(Bundle outState) {
+        if (mCurrentFragment instanceof ExtensionBrowser) {
+            while (getSupportFragmentManager().popBackStackImmediate())  {}
+            if (mCurrentFragment != null)
+                getSupportFragmentManager().beginTransaction().remove(mCurrentFragment).commit();
+        }
         super.onSaveInstanceState(outState);
         outState.putInt("current", mCurrentFragmentId);
     }
@@ -411,8 +441,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     @Override
-    public void displayExtensionItems(String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
-
+    public void displayExtensionItems(int extensionId, String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
         if (refresh && getCurrentFragment() instanceof ExtensionBrowser) {
             ExtensionBrowser browser = (ExtensionBrowser) getCurrentFragment();
             browser.doRefresh(title, items);
@@ -427,14 +456,21 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             fragment.setExtensionService(mExtensionManagerService);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
-            ft.replace(R.id.fragment_placeholder, fragment, title);
-            if (!(getCurrentFragment() instanceof ExtensionBrowser))
+            if (!(mCurrentFragment instanceof ExtensionBrowser)) {
+                if (mCurrentFragment != null)
+                    ft.hide(mCurrentFragment);
+                ft.add(R.id.fragment_placeholder, fragment, title);
+                ft.commit();
+                mCurrentFragment = fragment;
+            } else {
+                ft.setCustomAnimations(R.anim.anim_enter_right, 0, R.anim.anim_enter_left, 0);
+                ft.replace(R.id.fragment_placeholder, fragment, title);
                 ft.addToBackStack(getTag(mCurrentFragmentId));
-            else
-                ft.addToBackStack(title);
-            ft.commit();
+                ft.commit();
+            }
         }
+        updateCheckedItem(extensionId);
+        mCurrentFragmentId = extensionId;
     }
 
     /**
@@ -599,8 +635,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         Fragment current = getCurrentFragment();
 
         if (item.getGroupId() == PLUGIN_NAVIGATION_GROUP)  {
-            mExtensionManagerService.openExtension(id);
-            mCurrentFragmentId = id;
+            if(mCurrentFragmentId == id)
+                clearBackstackFromClass(ExtensionBrowser.class);
+            else
+                mExtensionManagerService.openExtension(id);
         } else {
             if (mExtensionServiceConnection != null)
                 mExtensionManagerService.disconnect();
@@ -641,14 +679,20 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 default:
                 /* Slide down the audio player */
                     slideDownAudioPlayer();
-
                 /* Switch the fragment */
+                    updateCheckedItem(id);
                     showFragment(id);
             }
         }
-        mNavigationView.setCheckedItem(mCurrentFragmentId);
         mDrawerLayout.closeDrawer(mNavigationView);
         return true;
+    }
+
+    public void updateCheckedItem(int id) {
+        if (mNavigationView.getMenu().findItem(mCurrentFragmentId) != null) {
+            mNavigationView.getMenu().findItem(mCurrentFragmentId).setChecked(false);
+            mNavigationView.getMenu().findItem(id).setChecked(true);
+        }
     }
 
     public void showFragment(int id) {
@@ -668,7 +712,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             add = true;
         }
         if (mCurrentFragment != null)
-            fm.beginTransaction().hide(mCurrentFragment).commit();
+            if (mCurrentFragment instanceof ExtensionBrowser)
+                fm.beginTransaction().remove(mCurrentFragment).commit();
+            else
+                fm.beginTransaction().hide(mCurrentFragment).commit();
         FragmentTransaction ft = fm.beginTransaction();
         if (add)
             ft.add(R.id.fragment_placeholder, fragment, tag);
@@ -711,8 +758,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     protected Fragment getCurrentFragment() {
-        return mCurrentFragment instanceof BaseBrowserFragment
+        return mCurrentFragment instanceof BaseBrowserFragment || currentIdIsExtension()
                 ? getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)
                 : mCurrentFragment;
     }
+
+    public boolean currentIdIsExtension() {
+        return mCurrentFragmentId <= 100;
+    }
+
+
 }

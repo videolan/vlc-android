@@ -72,8 +72,11 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         if (bundle != null){
             mTitle = bundle.getString(KEY_TITLE);
             showSettings = bundle.getBoolean(KEY_SHOW_FAB);
-            mAdapter.addAll(bundle.<VLCExtensionItem>getParcelableArrayList(KEY_ITEMS_LIST));
+            List<VLCExtensionItem> list = bundle.<VLCExtensionItem>getParcelableArrayList(KEY_ITEMS_LIST);
+            if (list != null)
+                mAdapter.addAll(list);
         }
+        setHasOptionsMenu(true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -124,10 +127,8 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     }
 
     public void goBack(){
-        if (showSettings)
+        if (!getActivity().getSupportFragmentManager().popBackStackImmediate())
             getActivity().finish();
-        else
-            getActivity().getSupportFragmentManager().popBackStack();
     }
 
     public void doRefresh(String title, List<VLCExtensionItem> items) {

@@ -35,6 +35,7 @@ import android.view.View;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
+import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.interfaces.Filterable;
 
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
@@ -47,6 +48,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
         getMenuInflater().inflate(R.menu.activity_option, menu);
+        if (getCurrentFragment() instanceof ExtensionBrowser){
+            menu.findItem(R.id.ml_menu_last_playlist).setVisible(false);
+            menu.findItem(R.id.ml_menu_sortby).setVisible(false);
+        }
         if (getCurrentFragment() instanceof Filterable) {
             MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
             mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -54,6 +59,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             mSearchView.setOnQueryTextListener(this);
             MenuItemCompat.setOnActionExpandListener(searchItem, this);
         }
+        else
+            menu.findItem(R.id.ml_menu_filter).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
