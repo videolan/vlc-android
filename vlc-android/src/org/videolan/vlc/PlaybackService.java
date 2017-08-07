@@ -969,8 +969,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         } else {
             /* Show audio player */
             final Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-            notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
-            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            if (notificationIntent != null) {
+                notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
+                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            }
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
