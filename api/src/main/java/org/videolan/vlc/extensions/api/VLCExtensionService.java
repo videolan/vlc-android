@@ -56,10 +56,9 @@ public abstract class VLCExtensionService extends Service{
      * Called by VLC when users wants to browse one of your {#link VLCExtensionItem.TYPE_DIRECTORY}
      * VLC provides {#intId} and {#stringId} from chosen item
      *
-     * @param intId int id of the item to browse
      * @param stringId String id of the item to browse
      */
-    protected abstract void browse(int intId, @Nullable String stringId);
+    protected abstract void browse(@Nullable String stringId);
 
     /**
      * Called by VLC when user wants to refresh the current list displayed by the extension.
@@ -144,11 +143,11 @@ public abstract class VLCExtensionService extends Service{
         }
 
         @Override
-        public void browse(final int id, final String text) throws RemoteException {
+        public void browse(final String text) throws RemoteException {
             mServiceHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    VLCExtensionService.this.browse(id, text);
+                    VLCExtensionService.this.browse(text);
                 }
             });
         }

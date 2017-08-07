@@ -146,7 +146,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     }
 
     public void browseItem(VLCExtensionItem item) {
-        mExtensionManagerService.browse(item.intId, item.stringId);
+        mExtensionManagerService.browse(item.stringId);
     }
 
     @Override

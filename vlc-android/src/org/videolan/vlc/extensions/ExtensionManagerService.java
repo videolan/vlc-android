@@ -143,7 +143,7 @@ public class ExtensionManagerService extends Service {
 
     public void openExtension(int index) {
         if (index == mCurrentIndex)
-            browse(0, null);
+            browse(null);
         else
             connectService(index);
 
@@ -210,7 +210,7 @@ public class ExtensionManagerService extends Service {
         } catch (RemoteException e) {}
     }
 
-    public void browse(int intId, String stringId) {
+    public void browse(String stringId) {
         try {
             ExtensionListing extension = mExtensions.get(mCurrentIndex);
             if (extension == null)
@@ -218,7 +218,7 @@ public class ExtensionManagerService extends Service {
             IExtensionService service = extension.getConnection().binder;
             if (service == null)
                 return;
-            service.browse(intId, stringId);
+            service.browse(stringId);
         } catch (RemoteException e) {}
     }
 
