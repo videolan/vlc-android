@@ -44,6 +44,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
@@ -156,6 +157,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     return true;
                 }
             });
+            if (AndroidDevices.isAndroidTv())
+                itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        setViewBackground(b, false);
+                    }
+                });
         }
 
         void setContextMenuListener() {
