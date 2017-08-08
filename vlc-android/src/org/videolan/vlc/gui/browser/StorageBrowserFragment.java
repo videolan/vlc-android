@@ -105,17 +105,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (VLCApplication.showTvUi()) {
-            if (mRoot && mFabPlay != null)
-                mFabPlay.requestFocus();
-            else
-                mRecyclerView.requestFocus();
-        }
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory);
