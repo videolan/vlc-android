@@ -35,7 +35,6 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
-import android.view.View;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -62,10 +61,9 @@ import static org.videolan.vlc.gui.tv.browser.MusicFragment.CATEGORY_ALBUMS;
 public class TvUtil {
 
     public static void applyOverscanMargin(Activity activity) {
-        View content = activity.findViewById(android.R.id.content);
-        int hm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
-        int vm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
-        content.setPadding(hm, vm, hm, vm);
+        final int hm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
+        final int vm = activity.getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
+        activity.findViewById(android.R.id.content).setPadding(hm, vm, hm, vm);
     }
 
     public static void playMedia(Activity activity, MediaWrapper media){
