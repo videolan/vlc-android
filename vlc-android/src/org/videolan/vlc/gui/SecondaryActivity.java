@@ -25,9 +25,12 @@ package org.videolan.vlc.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingService;
@@ -59,6 +62,16 @@ public class SecondaryActivity extends ContentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary);
 
+        if (VLCApplication.showTvUi()) {
+            TvUtil.applyOverscanMargin(this);
+        } else {
+            final View fph = findViewById(R.id.fragment_placeholder);
+            final CoordinatorLayout.LayoutParams params =
+                    (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
+            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+            fph.requestLayout();
+        }
+
         initAudioPlayerContainerActivity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -75,9 +88,6 @@ public class SecondaryActivity extends ContentActivity {
             if (VLCApplication.showTvUi() && STORAGE_BROWSER.equals(fragmentId))
                 Snackbar.make(getWindow().getDecorView(), R.string.tv_settings_hint, Snackbar.LENGTH_LONG).show();
         }
-
-        if (VLCApplication.showTvUi())
-            TvUtil.applyOverscanMargin(this);
     }
 
     @Override
