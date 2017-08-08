@@ -153,6 +153,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    binding.browserCheckbox.toggle();
                     onCheckBoxClick(binding.browserCheckbox);
                     return true;
                 }
