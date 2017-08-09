@@ -1526,7 +1526,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidgetPosition(final float pos) {
-        if (!mHasWidget)
+        if (!mHasWidget || isVideoPlaying())
             return;
         // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = System.currentTimeMillis();
@@ -1539,7 +1539,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private void broadcastMetadata() {
         final MediaWrapper media = getCurrentMedia();
-        if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
+        if (media == null || isVideoPlaying())
             return;
         sendBroadcast(new Intent("com.android.music.metachanged")
                 .putExtra("track", media.getTitle())
