@@ -1524,7 +1524,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (!mHasWidget)
             return;
         // no more than one widget mUpdateMeta for each 1/50 of the song
-        long timestamp = Calendar.getInstance().getTimeInMillis();
+        long timestamp = System.currentTimeMillis();
         if (!hasCurrentMedia() || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
         mWidgetPositionTimestamp = timestamp;

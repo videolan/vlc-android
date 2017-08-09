@@ -72,7 +72,7 @@ public class SleepTimerDialog extends PickTimeFragment {
 
         if (interval < ONE_DAY_IN_MILLIS) {
             Calendar sleepTime = Calendar.getInstance();
-            sleepTime.setTimeInMillis(Calendar.getInstance().getTimeInMillis() + interval);
+            sleepTime.setTimeInMillis(sleepTime.getTimeInMillis() + interval);
             sleepTime.set(Calendar.SECOND, 0);
             AdvOptionsDialog.setSleep(sleepTime);
         }
