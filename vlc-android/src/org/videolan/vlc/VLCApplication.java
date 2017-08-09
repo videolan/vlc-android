@@ -62,7 +62,6 @@ public class VLCApplication extends Application {
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
 
     public static Calendar sPlayerSleepTime = null;
-
     private static boolean sTV;
     private static SharedPreferences mSettings;
 

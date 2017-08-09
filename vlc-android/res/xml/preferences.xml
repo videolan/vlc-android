@@ -54,6 +54,9 @@
             android:title="@string/audio_prefs_category"
             android:key="audio_category" />
         <Preference
+            android:title="@string/extensions_prefs_category"
+            android:key="extensions_category" />
+        <Preference
             android:title="@string/advanced_prefs_category"
             android:key="adv_category" />
 

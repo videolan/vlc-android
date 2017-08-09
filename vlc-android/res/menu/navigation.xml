@@ -31,6 +31,15 @@
             android:icon="@drawable/ic_menu_history" />
     </group>
 
+    <item
+        android:id="@+id/extensions_group"
+        android:title="@string/plugins"
+        android:visible="false"
+        android:orderInCategory="2">
+        <menu>
+        </menu>
+    </item>
+
     <group android:id="@+id/fixed_group"
         android:orderInCategory="3">
         <item

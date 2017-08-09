@@ -118,6 +118,14 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        setTitle(mTitle);
+        if (mAddDirectoryFAB != null)
+            mAddDirectoryFAB.setVisibility((!isHidden() && showSettings) ? View.VISIBLE : View.GONE);
+    }
+
     private void setTitle(String title) {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
         if (activity != null && activity.getSupportActionBar() != null) {

@@ -357,6 +357,12 @@
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
 
+    <string name="extensions_prefs_category">Extensions</string>
+    <string name="extensions_enable_category">Chose extensions to enable</string>
+    <string name="extensions_empty">No extension detected</string>
+    <string name="extension_permission_title">New extension \"%1$s\" detected</string>
+    <string name="extension_permission_subtitle">Activate extension\?</string>
+
     <string name="controls_prefs_category">Controls</string>
 
     <string name="performance_prefs_category">Performance</string>

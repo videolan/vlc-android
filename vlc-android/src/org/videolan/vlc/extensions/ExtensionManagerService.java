@@ -251,6 +251,6 @@ public class ExtensionManagerService extends Service {
     private final Handler mHandler = new Handler();
 
     public List<ExtensionListing> getExtensions() {
-        return ExtensionsManager.getInstance().getExtensions(getApplication());
+        return ExtensionsManager.getInstance().getExtensions(getApplication(), false);
     }
 }

@@ -25,8 +25,11 @@ package org.videolan.vlc.gui.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.Preference;
+import android.view.View;
 
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -58,6 +61,13 @@ public class PreferencesFragment extends BasePreferenceFragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (!BuildConfig.DEBUG)
+            findPreference("extensions_category").setVisible(false);
+    }
+
+    @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()){
             case "directories":
@@ -77,6 +87,9 @@ public class PreferencesFragment extends BasePreferenceFragment {
                 break;
             case "audio_category":
                 loadFragment(new PreferencesAudio());
+                break;
+            case "extensions_category":
+                loadFragment(new PreferencesExtensions());
                 break;
             case "adv_category":
                 loadFragment(new PreferencesAdvanced());
