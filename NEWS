@@ -1,3 +1,14 @@
+Changes between 2.1.15 and 2.1.16:
+----------------------------------
+
+Application:
+ * Resume position for audio media tagged as audiobook
+ * Fix duplicated videos on initial scan
+ * Fix audio lag on video seek
+ * Fix root elements unchecking in Medialibrary settings
+ * General app performance improvements during playback
+ * Misc. fixes
+
 Changes between 2.1.14 and 2.1.15:
 ----------------------------------
 
