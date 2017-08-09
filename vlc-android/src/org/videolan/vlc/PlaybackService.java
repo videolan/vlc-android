@@ -1515,9 +1515,14 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         sendBroadcast(widgetIntent);
     }
 
+    private String mCurrentWidgetCover = null;
     private void updateWidgetCover() {
-        sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
-                        .putExtra("artworkMrl", hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null));
+    String newWidgetCover = hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null;
+        if (!TextUtils.equals(mCurrentWidgetCover, newWidgetCover)) {
+            mCurrentWidgetCover = newWidgetCover;
+            sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
+                            .putExtra("artworkMrl", newWidgetCover));
+        }
     }
 
     private void updateWidgetPosition(final float pos) {

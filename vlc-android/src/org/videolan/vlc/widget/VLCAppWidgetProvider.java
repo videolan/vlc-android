@@ -57,7 +57,6 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_WIDGET_UPDATE_POSITION = ACTION_WIDGET_PREFIX+"UPDATE_POSITION";
     public static final String ACTION_WIDGET_ENABLED = ACTION_WIDGET_PREFIX+"ENABLED";
     public static final String ACTION_WIDGET_DISABLED = ACTION_WIDGET_PREFIX+"DISABLED";
-    private static String sCurrentArtworkMrl;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -118,30 +117,27 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setImageViewResource(R.id.play_pause, getPlayPauseImage(isplaying));
         } else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
             final String artworkMrl = intent.getStringExtra("artworkMrl");
-            if (!TextUtils.equals(sCurrentArtworkMrl, artworkMrl)) {
-                sCurrentArtworkMrl = ""+artworkMrl;
-                if (!TextUtils.isEmpty(artworkMrl)) {
-                    VLCApplication.runBackground(new Runnable() {
-                        @Override
-                        public void run() {
-                            final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320);
-                            VLCApplication.runOnMainThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (cover != null)
-                                        views.setImageViewBitmap(R.id.cover, cover);
-                                    else
-                                        views.setImageViewResource(R.id.cover, R.drawable.icon);
-                                    views.setProgressBar(R.id.timeline, 100, 0, false);
-                                    applyUpdate(context, views, partial);
-                                }
-                            });
-                        }
-                    });
-                } else
-                    views.setImageViewResource(R.id.cover, R.drawable.icon);
-                views.setProgressBar(R.id.timeline, 100, 0, false);
-            }
+            if (!TextUtils.isEmpty(artworkMrl)) {
+                VLCApplication.runBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320);
+                        VLCApplication.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (cover != null)
+                                    views.setImageViewBitmap(R.id.cover, cover);
+                                else
+                                    views.setImageViewResource(R.id.cover, R.drawable.icon);
+                                views.setProgressBar(R.id.timeline, 100, 0, false);
+                                applyUpdate(context, views, partial);
+                            }
+                        });
+                    }
+                });
+            } else
+                views.setImageViewResource(R.id.cover, R.drawable.icon);
+            views.setProgressBar(R.id.timeline, 100, 0, false);
         } else if (ACTION_WIDGET_UPDATE_POSITION.equals(action)) {
             final float pos = intent.getFloatExtra("position", 0f);
             views.setProgressBar(R.id.timeline, 100, (int) (100 * pos), false);
