@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -95,6 +96,8 @@ import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.VoiceSearchParams;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
+import org.videolan.vlc.widget.VLCAppWidgetProviderBlack;
+import org.videolan.vlc.widget.VLCAppWidgetProviderWhite;
 
 import java.io.File;
 import java.net.URI;
@@ -197,6 +200,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public static final int REPEAT_NONE = 0;
     public static final int REPEAT_ONE = 1;
     public static final int REPEAT_ALL = 2;
+    private boolean mHasWidget;
     private boolean mShuffling = false;
     private int mRepeating = REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
@@ -257,6 +261,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
+        updateHasWidget();
         initMediaSession();
 
         IntentFilter filter = new IntentFilter();
@@ -271,6 +276,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         filter.addAction(ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
         filter.addAction(ACTION_REMOTE_SWITCH_VIDEO);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT);
+        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED);
+        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
@@ -288,6 +295,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             registerReceiver(mRemoteControlClientReceiver, filter);
         }
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+    }
+
+    private void updateHasWidget() {
+        AppWidgetManager manager = AppWidgetManager.getInstance(this);
+        mHasWidget = manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderWhite.class)).length != 0
+                || manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderBlack.class)).length != 0;
     }
 
     @Override
@@ -473,8 +486,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 }
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_INIT)) {
                 updateWidget();
+            } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED)
+                    || action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED)) {
+               updateHasWidget();
             }
-
             /*
              * headset plug events
              */
@@ -783,17 +798,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void executeUpdate() {
-        executeUpdate(true);
-    }
-
-    private void executeUpdate(Boolean updateWidget) {
         synchronized (mCallbacks) {
             for (Callback callback : mCallbacks) {
                 callback.update();
             }
         }
-        if (updateWidget)
-            updateWidget();
+        updateWidget();
         updateMetadata();
         broadcastMetadata();
     }
@@ -1483,7 +1493,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidget() {
-        if (!isVideoPlaying()) {
+        if (mHasWidget && !isVideoPlaying()) {
             updateWidgetState();
             updateWidgetCover();
         }
@@ -1491,7 +1501,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private void updateWidgetState() {
         final MediaWrapper media = getCurrentMedia();
-        Intent widgetIntent = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE);
+        final Intent widgetIntent = new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE);
         if (hasCurrentMedia()) {
             widgetIntent.putExtra("title", media.getTitle());
             widgetIntent.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
@@ -1511,11 +1521,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidgetPosition(final float pos) {
+        if (!mHasWidget)
+            return;
         // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = Calendar.getInstance().getTimeInMillis();
         if (!hasCurrentMedia() || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
-        updateWidgetState();
         mWidgetPositionTimestamp = timestamp;
         sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
                 .putExtra("position", pos));
