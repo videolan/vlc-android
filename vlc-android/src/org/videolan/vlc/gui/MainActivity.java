@@ -251,17 +251,11 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-        if (BuildConfig.DEBUG)
-            createExtensionServiceConnection();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mExtensionServiceConnection != null) {
-            unbindService(mExtensionServiceConnection);
-            mExtensionServiceConnection = null;
-        }
     }
 
     private void loadPlugins() {
@@ -290,8 +284,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     private void onPluginsLoaded() {
-        if (currentIdIsExtension())
-            if (mExtensionsManager.extensionIsEnabled(mSettings, mCurrentFragmentId))
+        if (mCurrentFragment == null && currentIdIsExtension())
+            if (mExtensionsManager.previousExtensionIsEnabled(getApplication()))
                 mExtensionManagerService.openExtension(mCurrentFragmentId);
             else
                 showFragment(R.id.nav_video);
@@ -319,6 +313,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onResume() {
         super.onResume();
+        if (BuildConfig.DEBUG)
+            createExtensionServiceConnection();
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
@@ -352,16 +348,20 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
         /* Save the tab status in pref */
         mSettings.edit().putInt("fragment_id", mCurrentFragmentId).apply();
+        if (mExtensionServiceConnection != null) {
+            unbindService(mExtensionServiceConnection);
+            mExtensionServiceConnection = null;
+        }
+        if (currentIdIsExtension())
+            mSettings.edit()
+                    .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mCurrentFragmentId).componentName().getPackageName())
+                    .apply();
+
     }
 
     protected void onSaveInstanceState(Bundle outState) {
-        if (mCurrentFragment instanceof ExtensionBrowser) {
-            while (getSupportFragmentManager().popBackStackImmediate())  {}
-            if (mCurrentFragment != null) {
-                getSupportFragmentManager().beginTransaction().remove(mCurrentFragment).commit();
-                mCurrentFragment = null;
-            }
-        }
+        if (mCurrentFragment instanceof ExtensionBrowser)
+            mCurrentFragment = null;
         super.onSaveInstanceState(outState);
         outState.putInt("current", mCurrentFragmentId);
     }
@@ -449,6 +449,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 mCurrentFragment = fragment;
             }
             ft.commit();
+            mNavigationView.getMenu().findItem(extensionId).setCheckable(true);
             updateCheckedItem(extensionId);
             mCurrentFragmentId = extensionId;
         }

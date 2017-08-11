@@ -73,29 +73,21 @@ public class ExtensionsManager {
         }
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        deleteUnusedExtensionPreferences(extensions, settings);
 
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            if (deleteUnusedExtensionPreferences(extensions, settings)) {
-                if (activity.currentIdIsExtension()) {
-                    //case: an extension is missing and current was an extension
-                    activity.setCurrentFragmentId(-1);
-                    settings.edit().putInt("fragment_id", -1).apply();
-                }
-            } else {
-                if (activity.currentIdIsExtension()) {
-                    int currentExtensionId = activity.getCurrentFragmentId();
-                    if (extensionIsEnabled(settings, currentExtensionId)) {
-                        String currentExtensionTitle = mExtensions.get(currentExtensionId).title();
-                        for (int i = 0; i < extensions.size(); ++i) {
-                            if (TextUtils.equals(extensions.get(i).title(), currentExtensionTitle)) {
-                                activity.setCurrentFragmentId(i);
-                                settings.edit().putInt("fragment_id", i).apply();
-                                break;
-                            }
-                        }
+        if (context instanceof MainActivity && ((MainActivity)context).currentIdIsExtension()) {
+            if (previousExtensionIsEnabled(context)) {
+                String lastExtensionTitle = settings.getString("current_extension_name", null);
+                for (int i = 0; i < extensions.size(); ++i) {
+                    if (TextUtils.equals(extensions.get(i).title(), lastExtensionTitle)) {
+                        ((MainActivity)context).setCurrentFragmentId(i);
+                        settings.edit().putInt("fragment_id", i).apply();
+                        break;
                     }
                 }
+            } else {
+                ((MainActivity)context).setCurrentFragmentId(-1);
+                settings.edit().putInt("fragment_id", -1).apply();
             }
         }
 
@@ -113,13 +105,10 @@ public class ExtensionsManager {
             return mExtensions;
     }
 
-    public boolean extensionIsEnabled(SharedPreferences settings, int id) {
-        if (id == -1) {
-            return false;
-        } else {
-            String key = "extension_" + mExtensions.get(id).componentName().getPackageName();
-            return settings.getBoolean(key, false);
-        }
+    public boolean previousExtensionIsEnabled(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        String key = "extension_" + settings.getString("current_extension_name", null);
+        return settings.contains(key) && settings.getBoolean(key, false);
     }
 
     private boolean deleteUnusedExtensionPreferences(List<ExtensionListing> list, SharedPreferences settings) {
@@ -140,7 +129,7 @@ public class ExtensionsManager {
             MenuItem extensionGroup = ((NavigationView)activity.findViewById(R.id.navigation)).getMenu().findItem(R.id.extensions_group);
             extensionGroup.setVisible(true);
             MenuItem item = extensionGroup.getSubMenu().add(R.id.extensions_group, id, 0, extension.title());
-            item.setCheckable(true);
+            item.setCheckable(false);
             int iconRes = extension.menuIcon();
             Drawable extensionIcon = null;
             if (iconRes != 0) {

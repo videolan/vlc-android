@@ -46,15 +46,16 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     private static final int REFRESH_TIMEOUT = 5000;
 
     private String mTitle;
-    FloatingActionButton mAddDirectoryFAB;
-    ExtensionAdapter mAdapter;
+    private FloatingActionButton mAddDirectoryFAB;
+    private ExtensionAdapter mAdapter;
     protected ContextMenuRecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-    ExtensionManagerService mExtensionManagerService;
+    private ExtensionManagerService mExtensionManagerService;
     private boolean showSettings = false;
+    private boolean mustBeTerminated = false;
 
     public void setExtensionService(ExtensionManagerService service) {
         mExtensionManagerService = service;
@@ -69,10 +70,10 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         super.onCreate(bundle);
         if (bundle == null)
             bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             mTitle = bundle.getString(KEY_TITLE);
             showSettings = bundle.getBoolean(KEY_SHOW_FAB);
-            List<VLCExtensionItem> list = bundle.<VLCExtensionItem>getParcelableArrayList(KEY_ITEMS_LIST);
+            List<VLCExtensionItem> list = bundle.getParcelableArrayList(KEY_ITEMS_LIST);
             if (list != null)
                 mAdapter.addAll(list);
         }
@@ -81,8 +82,8 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.directory_browser, container, false);
-        mRecyclerView = (ContextMenuRecyclerView) v.findViewById(R.id.network_list);
-        mEmptyView = (TextView) v.findViewById(android.R.id.empty);
+        mRecyclerView = v.findViewById(R.id.network_list);
+        mEmptyView = v.findViewById(android.R.id.empty);
         mEmptyView.setText(R.string.extension_empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL));
@@ -90,10 +91,18 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
+        mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mustBeTerminated)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        mustBeTerminated = true;
     }
 
     @Override
@@ -102,7 +111,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         setTitle(mTitle);
         updateDisplay();
         if (showSettings) {
-            mAddDirectoryFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            if (mAddDirectoryFAB == null) mAddDirectoryFAB = getActivity().findViewById(R.id.fab);
             mAddDirectoryFAB.setImageResource(R.drawable.ic_fab_add);
             mAddDirectoryFAB.setVisibility(View.VISIBLE);
             mAddDirectoryFAB.setOnClickListener(this);
@@ -194,9 +203,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     public boolean onContextItemSelected(MenuItem item) {
         ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
                 .RecyclerContextMenuInfo) item.getMenuInfo();
-        if (info != null && handleContextItemSelected(item, info.position))
-            return true;
-        return super.onContextItemSelected(item);
+        return info != null && handleContextItemSelected(item, info.position);
     }
 
     public void openContextMenu(final int position) {
@@ -232,7 +239,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
 
     private class ExtensionBrowserHandler extends WeakHandler<ExtensionBrowser> {
 
-        public ExtensionBrowserHandler(ExtensionBrowser owner) {
+        ExtensionBrowserHandler(ExtensionBrowser owner) {
             super(owner);
         }
 
