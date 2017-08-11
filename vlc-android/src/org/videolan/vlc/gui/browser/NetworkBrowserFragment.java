@@ -112,7 +112,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!mRoot)
+        if (!mRoot || mFabPlay == null)
             return;
         if (hidden) {
             setFabPlayVisibility(false);
