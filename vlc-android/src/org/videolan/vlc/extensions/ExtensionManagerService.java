@@ -28,11 +28,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -40,28 +37,17 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.api.IExtensionHost;
 import org.videolan.vlc.extensions.api.IExtensionService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.medialibrary.media.MediaWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionManagerService extends Service {
 
     private static final String TAG = "VLC/ExtensionManagerService";
-
-    private static final String KEY_PROTOCOL_VERSION = "protocolVersion";
-    private static final String KEY_LISTING_TITLE = "title";
-    private static final String KEY_DESCRIPTION = "description";
-    private static final String KEY_MENU_ICON = "menuicon";
-    private static final String KEY_SETTINGS_ACTIVITY = "settingsActivity";
-
-    public static final String ACTION_EXTENSION = "org.videolan.vlc.Extension";
-    public static final int PROTOCOLE_VERSION = 1;
 
     private final IBinder mBinder = new LocalBinder();
     private ExtensionManagerActivity mExtensionManagerActivity;
