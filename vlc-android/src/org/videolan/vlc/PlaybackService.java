@@ -1022,8 +1022,14 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             saveMediaMeta();
             media.setEventListener(null);
             mMediaPlayer.setEventListener(null);
-            mMediaPlayer.stop();
-            mMediaPlayer.setMedia(null);
+            final MediaPlayer mp = mMediaPlayer;
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    mp.stop();
+                    mp.setMedia(null);
+                }
+            });
             media.release();
             publishState();
         }
@@ -2527,7 +2533,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     public void restartMediaPlayer() {
         stop();
-        mMediaPlayer.release();
+        final MediaPlayer mp = mMediaPlayer;
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                mp.release();
+            }
+        });
         mMediaPlayer = newMediaPlayer();
         /* TODO RESUME */
     }
