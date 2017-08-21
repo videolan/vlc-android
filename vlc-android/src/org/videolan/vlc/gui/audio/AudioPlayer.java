@@ -125,6 +125,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setVisibility(View.VISIBLE);
         if (AndroidUtil.isJellyBeanMR1OrLater) {
             DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default_darker);
             DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default);
