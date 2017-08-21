@@ -2527,14 +2527,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     public void restartMediaPlayer() {
         stop();
-        // Thread restart while MediaPlayer.stop() is threaded.
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayer.release();
-                mMediaPlayer = newMediaPlayer();
-            }
-        });
+        mMediaPlayer.release();
+        mMediaPlayer = newMediaPlayer();
         /* TODO RESUME */
     }
 
