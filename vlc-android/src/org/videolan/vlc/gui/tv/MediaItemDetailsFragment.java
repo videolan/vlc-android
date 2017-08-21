@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.tv;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +37,7 @@ import android.support.v17.leanback.widget.FullWidthDetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -125,12 +125,12 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
-        final Resources res = getActivity().getResources();
+        final Activity activity = getActivity();
         final DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
         final Action actionAdd = new Action(ID_FAVORITE_ADD, getString(R.string.favorites_add));
         final Action actionDelete = new Action(ID_FAVORITE_DELETE, getString(R.string.favorites_remove));
 
-        rowPresenter.setBackgroundColor(getResources().getColor(R.color.orange500));
+        rowPresenter.setBackgroundColor(ContextCompat.getColor(activity, R.color.orange500));
         rowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
 
             @Override
@@ -199,7 +199,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                             return;
                         if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
                             mDb = MediaDatabase.getInstance();
-                            detailsOverview.setImageDrawable(getResources().getDrawable(TextUtils.equals(media.getUri().getScheme(),"file")
+                            detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, TextUtils.equals(media.getUri().getScheme(),"file")
                                     ? R.drawable.ic_menu_folder_big
                                     : R.drawable.ic_menu_network_big));
                             detailsOverview.setImageScaleUpAllowed(true);
@@ -212,7 +212,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         } else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
                             // Add images and action buttons to the details view
                             if (cover == null)
-                                detailsOverview.setImageDrawable(res.getDrawable(R.drawable.ic_default_cone));
+                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_cone));
                             else
                                 detailsOverview.setImageBitmap(getActivity(), cover);
 
@@ -223,7 +223,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
                             // Add images and action buttons to the details view
                             if (cover == null)
-                                detailsOverview.setImageDrawable(res.getDrawable(R.drawable.ic_default_cone));
+                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_cone));
                             else
                                 detailsOverview.setImageBitmap(getActivity(), cover);
 
