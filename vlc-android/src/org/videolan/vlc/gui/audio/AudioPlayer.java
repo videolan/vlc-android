@@ -106,7 +106,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
-    private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
+    public static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,11 +160,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
             coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -418,7 +413,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService.hasNext())
             mService.next();
         else
-            Snackbar.make(getView(), R.string.lastsong, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mBinding.getRoot(), R.string.lastsong, Snackbar.LENGTH_SHORT).show();
     }
 
     public void onPreviousClick(View view) {
@@ -427,7 +422,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         if (mService.hasPrevious() || mService.isSeekable())
             mService.previous(false);
         else
-            Snackbar.make(getView(), R.string.firstsong, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mBinding.getRoot(), R.string.firstsong, Snackbar.LENGTH_SHORT).show();
     }
 
     public void onRepeatClick(View view) {
@@ -752,12 +747,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             activity.showTipViewIfNeeded(R.id.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
     }
 
-    public void showAudioPlayerTips() {
-        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
-        if (activity != null)
-            activity.showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
-    }
-
     public void onStateChanged(int newState) {
         mPlayerState = newState;
         switch (newState) {
@@ -775,15 +764,6 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             default:
                 mBinding.header.setBackgroundResource(0);
         }
-    }
-
-    /*
-     * Override this method to prefent NPE on mFragmentManager reference.
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (getFragmentManager() != null)
-            super.setUserVisibleHint(isVisibleToUser);
     }
 
     static final int UPDATE = 0;
