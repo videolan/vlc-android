@@ -195,6 +195,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (isDetached())
+                            return;
                         if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
                             mDb = MediaDatabase.getInstance();
                             detailsOverview.setImageDrawable(getResources().getDrawable(TextUtils.equals(media.getUri().getScheme(),"file")
