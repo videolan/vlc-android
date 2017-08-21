@@ -649,17 +649,17 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 return false;
             }
 
-            if(mCurrentFragmentId == id) { /* Already selected */
+            if (mCurrentFragmentId == id) { /* Already selected */
                 // Go back at root level of current browser
                 if (current instanceof BaseBrowserFragment && !((BaseBrowserFragment) current).isRootDirectory()) {
-                    clearBackstackFromClass(current.getClass());
+                    getSupportFragmentManager().popBackStack(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {
                     mDrawerLayout.closeDrawer(mNavigationView);
                     return false;
                 }
             }
 
-            switch (id){
+            switch (id) {
                 case R.id.nav_about:
                     showSecondaryFragment(SecondaryActivity.ABOUT);
                     break;
