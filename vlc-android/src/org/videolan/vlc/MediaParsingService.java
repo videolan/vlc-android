@@ -277,6 +277,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                             .setContentTitle(getString(R.string.ml_scanning))
                             .setAutoCancel(false)
+                            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                             .setOngoing(true);
                 }
                 String progressText = sb.toString();

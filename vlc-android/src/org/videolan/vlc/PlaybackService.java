@@ -919,6 +919,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                     .setTicker(title + " - " + artist)
                                     .setAutoCancel(!playing)
                                     .setOngoing(playing)
+                                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
                                     .setDeleteIntent(piStop);
 
                         builder.setContentIntent(getSessionPendingIntent());
