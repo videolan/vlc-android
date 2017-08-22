@@ -453,7 +453,7 @@
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
     <string name="move">Move</string>
-    <string name="back_quit_lock">Press back again to quit video</string>
+    <string name="back_quit_lock">Press Back again to quit video</string>
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
