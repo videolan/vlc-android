@@ -1,7 +1,7 @@
 /*****************************************************************************
  * UiTools.java
  *****************************************************************************
- * Copyright © 2011-2014 VLC authors and VideoLAN
+ * Copyright © 2011-2017 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@ package org.videolan.vlc.util;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -154,5 +156,14 @@ public class Util {
             newItems.add(newItem);
         }
         dataset.addAll(newItems);
+    }
+
+    @NonNull
+    public static String getMediaDescription(String artist, String album) {
+        StringBuilder contentBuilder = new StringBuilder(artist);
+        if (contentBuilder.length() > 0 && !TextUtils.isEmpty(album))
+            contentBuilder.append(" - ");
+        contentBuilder.append(album);
+        return contentBuilder.toString();
     }
 }

@@ -1,7 +1,6 @@
 package org.videolan.vlc;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
@@ -23,6 +21,7 @@ import android.util.Log;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.gui.DialogActivity;
+import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -248,7 +247,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             });
     }
 
-    private NotificationCompat.Builder builder;
     private boolean wasWorking;
     final StringBuilder sb = new StringBuilder();
     private final Intent progessIntent = new Intent(ACTION_PROGRESS);
@@ -270,29 +268,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(mCurrentDiscovery)));
                 else
                     sb.append(getString(R.string.ml_parse_media));
-                if (builder == null) {
-                    builder = new NotificationCompat.Builder(MediaParsingService.this)
-                            .setContentIntent(PendingIntent.getActivity(MediaParsingService.this, 0, new Intent(MediaParsingService.this, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
-                            .setSmallIcon(R.drawable.ic_notif_scan)
-                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                            .setContentTitle(getString(R.string.ml_scanning))
-                            .setAutoCancel(false)
-                            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
-                            .setOngoing(true);
-                }
-                String progressText = sb.toString();
-                builder.setContentText(progressText);
-
-                if (wasWorking != mMedialibrary.isWorking()) {
+                final String progressText = sb.toString();
+                final boolean updateAction = wasWorking != mMedialibrary.isWorking();
+                if (updateAction)
                     wasWorking = !wasWorking;
-                    notificationIntent.setAction(mScanPaused ? ACTION_RESUME_SCAN : ACTION_PAUSE_SCAN);
-                    PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Action playpause = mScanPaused ? new NotificationCompat.Action(R.drawable.ic_play, getString(R.string.resume), pi)
-                            : new NotificationCompat.Action(R.drawable.ic_pause, getString(R.string.pause), pi);
-                    builder.mActions.clear();
-                    builder.addAction(playpause);
-                }
-                final Notification notification = builder.build();
+                final Notification notification = NotificationHelper.createScanNotification(MediaParsingService.this, progressText, updateAction, mScanPaused);
                 synchronized (MediaParsingService.this) {
                     if (mLastNotificationTime != -1L) {
                         mLocalBroadcastManager.sendBroadcast(progessIntent
