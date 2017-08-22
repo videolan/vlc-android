@@ -2,6 +2,7 @@
 <org.videolan.vlc.gui.view.HackyDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,9 @@
             android:id="@+id/fragment_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:keyboardNavigationCluster="true"
+            tools:targetApi="o" />
 
         <android.support.v7.widget.ViewStubCompat
             android:id="@+id/scan_viewstub"
@@ -56,7 +59,9 @@
         android:layout_gravity="start"
         app:menu="@menu/navigation"
         app:itemTextColor="?attr/navigationview_item_color"
-        app:itemIconTint="?attr/navigationview_item_color" />
+        app:itemIconTint="?attr/navigationview_item_color"
+        android:keyboardNavigationCluster="true"
+        tools:targetApi="o" />
 
     <android.support.v7.widget.ViewStubCompat
         android:id="@+id/audio_playlist_tips"

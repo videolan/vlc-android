@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="playlist"
@@ -29,7 +29,9 @@
                 vlc:contentScrim="?attr/background_actionbar"
                 vlc:expandedTitleMarginEnd="64dp"
                 vlc:expandedTitleMarginStart="48dp"
-                vlc:layout_scrollFlags="scroll|exitUntilCollapsed" >
+                vlc:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:keyboardNavigationCluster="true"
+                tools:targetApi="o"  >
                 <ImageView
                     android:id="@+id/playlist_cover"
                     android:layout_width="match_parent"
@@ -55,7 +57,9 @@
             android:id="@+id/container_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
+            vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:keyboardNavigationCluster="true"
+            tools:targetApi="o"  >
             <org.videolan.vlc.gui.view.ContextMenuRecyclerView
                 android:id="@+id/songs"
                 android:layout_width="@dimen/default_content_width"

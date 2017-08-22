@@ -2,6 +2,7 @@
 <android.support.design.widget.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
@@ -18,5 +19,7 @@
         android:background="?attr/background_actionbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:titleMarginStart="@dimen/default_margin"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:keyboardNavigationCluster="true"
+        tools:targetApi="o" />
 </android.support.design.widget.AppBarLayout>
