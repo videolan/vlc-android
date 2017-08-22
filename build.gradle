@@ -27,7 +27,7 @@ ext {
     buildToolsVersion = "26.0.1"
     compileSdkVersion = 26
     minSdkVersion = 9
-    targetSdkVersion = 25
+    targetSdkVersion = 26
     versionName = '2.1.16'
     versionCode = 2011600
 //    versionCode scheme is T M NN RR AA
