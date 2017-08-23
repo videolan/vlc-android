@@ -21,5 +21,5 @@
 package org.videolan.vlc.interfaces;
 
 public interface OnEqualizerBarChangeListener {
-    public abstract void onProgressChanged(float value);
+    public abstract void onProgressChanged(float value, boolean fromUser);
 }

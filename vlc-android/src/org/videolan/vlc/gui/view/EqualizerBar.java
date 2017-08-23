@@ -86,8 +86,12 @@ public class EqualizerBar extends LinearLayout {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             float value = (progress - RANGE) / (float) PRECISION;
             mValue.setText(value + " dB");
-            if (listener != null)
-                listener.onProgressChanged(value);
+            if (listener != null) {
+                // HACK:    VerticalSeekBar programmatically calls onProgress
+                //          fromUser will always be false
+                //          So use custom getFromUser() instead of fromUser
+                listener.onProgressChanged(value, getFromUser());
+            }
         }
     };
 
@@ -97,5 +101,9 @@ public class EqualizerBar extends LinearLayout {
 
     public void setListener(OnEqualizerBarChangeListener listener) {
         this.listener = listener;
+    }
+
+    private boolean getFromUser() {
+        return mSeek.getFromUser();
     }
 }

@@ -540,4 +540,16 @@
     <string name="no">No</string>
     <string name="loading_medialibrary">Loading Medialibrary...</string>
     <string name="yes">yes</string>
+
+    <string name="custom_set_save_title">Unsaved changes</string>
+    <string name="custom_set_save_warning">Warning: unsaved changes</string>
+    <string name="existing_custom_set_save_message">Save equalizer-set as...</string>
+    <string name="new_custom_set_save_message">Save new equalizer-set as...</string>
+    <string name="save">Save</string>
+    <string name="do_not_save">Do not save</string>
+    <string name="custom_set_deleted_message">Custom equalizer-set \"%1$s\" deleted.</string>
+    <string name="custom_set_wrong_input">Invalid name.</string>
+    <string name="custom_set_already_exist">Equalizer-set with this name already exists</string>
+    <string name="custom_set_restored">Custom equalizer-set restored.</string>
+    <string name="unsaved_set_deleted_message">Unsaved equalizer-set deleted.</string>
 </resources>

@@ -200,7 +200,7 @@ public class VLCOptions {
     }
 
     @MainThread
-    public static MediaPlayer.Equalizer getEqualizer(Context context) {
+    public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         if (pref.getBoolean("equalizer_enabled", false)) {
             final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
@@ -217,12 +217,14 @@ public class VLCOptions {
             return null;
     }
 
-    public static int getEqualizerPreset(Context context) {
+    @MainThread
+    public static String getEqualizerNameFromSettings(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        return pref.getInt("equalizer_preset", 0);
+        return pref.getString("equalizer_set", "Flat");
     }
 
-    public static void setEqualizer(Context context, MediaPlayer.Equalizer eq, int preset) {
+    @MainThread
+    public static void saveEqualizerInSettings(Context context, MediaPlayer.Equalizer eq, String name) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
         if (eq != null) {
@@ -234,10 +236,54 @@ public class VLCOptions {
                 bands[i + 1] = eq.getAmp(i);
             }
             Preferences.putFloatArray(editor, "equalizer_values", bands);
-            editor.putInt("equalizer_preset", preset);
+            editor.putString("equalizer_set", name);
         } else {
             editor.putBoolean("equalizer_enabled", false);
         }
         editor.apply();
+    }
+
+    @MainThread
+    public static MediaPlayer.Equalizer getCustomSet(Context context, String customName) {
+        try {
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            String key = "custom_equalizer_" + customName.replace(" ", "_");
+            final float[] bands = Preferences.getFloatArray(pref, key);
+            final int bandCount = MediaPlayer.Equalizer.getBandCount();
+            if (bands.length != bandCount + 1)
+                return null;
+
+            final MediaPlayer.Equalizer eq = MediaPlayer.Equalizer.create();
+            eq.setPreAmp(bands[0]);
+            for (int i = 0; i < bandCount; ++i)
+                eq.setAmp(i, bands[i + 1]);
+            return eq;
+        } catch (Exception e) {
+            return MediaPlayer.Equalizer.createFromPreset(0);
+        }
+    }
+
+    @MainThread
+    public static void saveCustomSet(Context context, MediaPlayer.Equalizer eq, String customName) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String formatedName = customName.replace(" ", "_");
+        String key = "custom_equalizer_" + formatedName;
+        SharedPreferences.Editor editor = pref.edit();
+        final int bandCount = MediaPlayer.Equalizer.getBandCount();
+        final float[] bands = new float[bandCount + 1];
+        bands[0] = eq.getPreAmp();
+        for (int i = 0; i < bandCount; ++i) {
+            bands[i + 1] = eq.getAmp(i);
+        }
+        Preferences.putFloatArray(editor, key, bands);
+        editor.apply();
+    }
+
+    @MainThread
+    public static void deleteCustomSet(Context context, String customName) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .remove("custom_equalizer_" + customName.replace(" ", "_"))
+                .apply();
     }
 }

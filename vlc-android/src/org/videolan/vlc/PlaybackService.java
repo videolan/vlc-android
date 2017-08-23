@@ -244,7 +244,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         hideNotification();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mMediaPlayer = newMediaPlayer();
-        mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
+        mMediaPlayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(this));
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             stopSelf();
@@ -1985,7 +1985,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         media.release();
 
         if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            mMediaPlayer.setEqualizer(VLCOptions.getEqualizer(this));
+            mMediaPlayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);

@@ -22,14 +22,16 @@ package org.videolan.vlc.gui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
-public class VerticalSeekBar extends SeekBar {
+public class VerticalSeekBar extends AppCompatSeekBar {
 
     private boolean mIsMovingThumb = false;
     static private float THUMB_SLOP = 25;
+    private boolean fromUser = false;
 
     public VerticalSeekBar(Context context) {
         super(context);
@@ -92,6 +94,7 @@ public class VerticalSeekBar extends SeekBar {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (isWithinThumb(event)) {
+                    setFromUser(true);
                     getParent().requestDisallowInterceptTouchEvent(true);
                     mIsMovingThumb = true;
                     handled = true;
@@ -109,8 +112,17 @@ public class VerticalSeekBar extends SeekBar {
                 getParent().requestDisallowInterceptTouchEvent(false);
                 mIsMovingThumb = false;
                 handled = true;
+                setFromUser(false);
                 break;
         }
         return handled;
+    }
+
+    public boolean getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(boolean b) {
+        fromUser = b;
     }
 }

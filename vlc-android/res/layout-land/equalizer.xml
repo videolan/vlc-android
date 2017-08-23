@@ -7,24 +7,55 @@
     android:padding="@dimen/default_margin" >
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/equalizer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"/>
 
         <Spinner
             android:id="@+id/equalizer_presets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"/>
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:orientation="horizontal"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical">
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/equalizer_save"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="?attr/ic_save"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/equalizer_revert"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="?attr/ic_previous"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/equalizer_delete"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="?attr/ic_trash_small_normal"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
 
         <SeekBar
             android:id="@+id/equalizer_preamp"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -33,6 +64,7 @@
             android:progressDrawable="@drawable/po_seekbar"
             android:thumb="@drawable/seekbar_thumb"
             android:splitTrack="false"/>
+
     </LinearLayout>
 
     <HorizontalScrollView
