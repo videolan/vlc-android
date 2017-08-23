@@ -337,8 +337,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
-        if (!currentIdIsExtension())
+        if (mCurrentFragment == null && !currentIdIsExtension())
             showFragment(mCurrentFragmentId);
     }
 
