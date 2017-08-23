@@ -58,7 +58,6 @@ public class NotificationHelper {
         final PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
         final PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
         if (AndroidUtil.isOOrLater) {
-            createNotificationChannel();
             final Notification.Builder builder = new Notification.Builder(ctx, "vlc_channel");
             builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -121,7 +120,6 @@ public class NotificationHelper {
     private static final Intent notificationIntent = new Intent();
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (AndroidUtil.isOOrLater) {
-            createNotificationChannel();
             if (scanBuilder == null) {
                 scanBuilder = new Notification.Builder(ctx, "vlc_channel")
                         .setContentIntent(PendingIntent.getActivity(ctx, 0, new Intent(ctx, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
@@ -170,16 +168,14 @@ public class NotificationHelper {
 
     private static NotificationManager sNotificationManager;
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void createNotificationChannel() {
+    public static void createNotificationChannel() {
         if (sNotificationManager == null)
             sNotificationManager = (NotificationManager) VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (sNotificationManager.getNotificationChannel("vlc_channel") == null) {
-            final CharSequence name = VLCApplication.getAppResources().getString(R.string.app_name);
-            final String description = VLCApplication.getAppResources().getString(R.string.app_name_full);
-            final int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel mChannel = new NotificationChannel("vlc_channel", name, importance);
-            mChannel.setDescription(description);
-            sNotificationManager.createNotificationChannel(mChannel);
-        }
+        final CharSequence name = VLCApplication.getAppResources().getString(R.string.app_name);
+        final String description = VLCApplication.getAppResources().getString(R.string.app_name_full);
+        final int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel mChannel = new NotificationChannel("vlc_channel", name, importance);
+        mChannel.setDescription(description);
+        sNotificationManager.createNotificationChannel(mChannel);
     }
 }

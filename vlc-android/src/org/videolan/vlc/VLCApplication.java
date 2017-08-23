@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
+import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
@@ -94,6 +95,8 @@ public class VLCApplication extends Application {
         runBackground(new Runnable() {
             @Override
             public void run() {
+                if (AndroidUtil.isOOrLater)
+                    NotificationHelper.createNotificationChannel();
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
