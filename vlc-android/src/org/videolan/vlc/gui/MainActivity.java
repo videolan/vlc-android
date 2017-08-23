@@ -142,15 +142,9 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                             fm.beginTransaction().hide(fragment).commit();
                         }
                     }
-            mCurrentFragmentId = savedInstanceState.getInt("current", R.id.nav_video);
-            if (!currentIdIsExtension()) {
-                String tag = getTag(mCurrentFragmentId);
-                if (mFragmentsStack.containsKey(tag))
-                    mCurrentFragment = mFragmentsStack.get(tag).get();
-            }
-        } else {
+            mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
+        } else
             reloadPreferences();
-        }
 
         /* Set up the action bar */
         prepareActionBar();
@@ -251,7 +245,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
+        if (mCurrentFragment == null && !currentIdIsExtension())
+            showFragment(mCurrentFragmentId);
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage())
@@ -332,13 +327,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         if (!bindService(new Intent(MainActivity.this,
                 ExtensionManagerService.class), mExtensionServiceConnection, Context.BIND_AUTO_CREATE))
             mExtensionServiceConnection = null;
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        if (mCurrentFragment == null && !currentIdIsExtension())
-            showFragment(mCurrentFragmentId);
     }
 
     protected void onSaveInstanceState(Bundle outState) {
