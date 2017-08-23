@@ -251,11 +251,37 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
+        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
+        if (mMediaLibrary.isInitiated()) {
+            /* Load media items from database and storage */
+            if (mScanNeeded && Permissions.canReadStorage())
+                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+            else if (!currentIdIsExtension())
+                restoreCurrentList();
+        }
+        mNavigationView.setNavigationItemSelectedListener(this);
+        if (BuildConfig.DEBUG)
+            createExtensionServiceConnection();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mNavigationView.setNavigationItemSelectedListener(null);
+        if (getChangingConfigurations() == 0) {
+            /* Check for an ongoing scan that needs to be resumed during onResume */
+            mScanNeeded = mMediaLibrary.isWorking();
+        }
+        /* Save the tab status in pref */
+        mSettings.edit().putInt("fragment_id", mCurrentFragmentId).apply();
+        if (mExtensionServiceConnection != null) {
+            unbindService(mExtensionServiceConnection);
+            mExtensionServiceConnection = null;
+        }
+        if (currentIdIsExtension())
+            mSettings.edit()
+                    .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mCurrentFragmentId).componentName().getPackageName())
+                    .apply();
     }
 
     private void loadPlugins() {
@@ -293,14 +319,12 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     private void createExtensionServiceConnection() {
         mExtensionServiceConnection = new ServiceConnection() {
-
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mExtensionManagerService = ((ExtensionManagerService.LocalBinder)service).getService();
                 mExtensionManagerService.setExtensionManagerActivity(MainActivity.this);
                 loadPlugins();
             }
-
             @Override
             public void onServiceDisconnected(ComponentName name) {}
         };
@@ -311,52 +335,11 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (BuildConfig.DEBUG)
-            createExtensionServiceConnection();
-        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
-        if (mMediaLibrary.isInitiated()) {
-            /* Load media items from database and storage */
-            if (mScanNeeded && Permissions.canReadStorage())
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
-            else
-                if (!currentIdIsExtension())
-                    restoreCurrentList();
-        }
-        mNavigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
         mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
         if (!currentIdIsExtension())
             showFragment(mCurrentFragmentId);
-    }
-
-    /**
-     * Stop audio player and save opened tab
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mNavigationView.setNavigationItemSelectedListener(null);
-        if (getChangingConfigurations() == 0) {
-            /* Check for an ongoing scan that needs to be resumed during onResume */
-            mScanNeeded = mMediaLibrary.isWorking();
-        }
-        /* Save the tab status in pref */
-        mSettings.edit().putInt("fragment_id", mCurrentFragmentId).apply();
-        if (mExtensionServiceConnection != null) {
-            unbindService(mExtensionServiceConnection);
-            mExtensionServiceConnection = null;
-        }
-        if (currentIdIsExtension())
-            mSettings.edit()
-                    .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mCurrentFragmentId).componentName().getPackageName())
-                    .apply();
-
     }
 
     protected void onSaveInstanceState(Bundle outState) {
