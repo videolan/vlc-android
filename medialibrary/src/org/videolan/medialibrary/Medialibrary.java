@@ -132,7 +132,7 @@ public class Medialibrary {
     }
 
     public boolean removeDevice(String uuid) {
-        return mIsInitiated && nativeRemoveDevice(VLCUtil.encodeVLCString(uuid));
+        return mIsInitiated && !TextUtils.isEmpty(uuid) && nativeRemoveDevice(VLCUtil.encodeVLCString(uuid));
     }
 
     @Override
@@ -214,7 +214,7 @@ public class Medialibrary {
     }
 
     public Playlist createPlaylist(String name) {
-        return mIsInitiated ? nativePlaylistCreate(name) : null;
+        return mIsInitiated && !TextUtils.isEmpty(name) ? nativePlaylistCreate(name) : null;
     }
 
     public void pauseBackgroundOperations() {
@@ -233,7 +233,7 @@ public class Medialibrary {
     }
 
     public void reload(String entryPoint) {
-        if (mIsInitiated)
+        if (mIsInitiated && !TextUtils.isEmpty(entryPoint))
             nativeReload(entryPoint);
     }
 
@@ -269,11 +269,11 @@ public class Medialibrary {
     }
 
     public MediaWrapper getMedia(String mrl) {
-        return mIsInitiated ? nativeGetMediaFromMrl(Tools.encodeVLCMrl(mrl)) : null;
+        return mIsInitiated && !TextUtils.isEmpty(mrl) ? nativeGetMediaFromMrl(Tools.encodeVLCMrl(mrl)) : null;
     }
 
     public MediaWrapper addMedia(String mrl) {
-        return mIsInitiated ? nativeAddMedia(Tools.encodeVLCMrl(mrl)) : null;
+        return mIsInitiated && !TextUtils.isEmpty(mrl) ? nativeAddMedia(Tools.encodeVLCMrl(mrl)) : null;
     }
 
     public long getId() {
@@ -492,27 +492,27 @@ public class Medialibrary {
     }
 
     public SearchAggregate search(String query) {
-        return mIsInitiated ? nativeSearch(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearch(query) : null;
     }
 
     public MediaSearchAggregate searchMedia(String query) {
-        return mIsInitiated ? nativeSearchMedia(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchMedia(query) : null;
     }
 
     public Artist[] searchArtist(String query) {
-        return mIsInitiated ? nativeSearchArtist(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchArtist(query) : null;
     }
 
     public Album[] searchAlbum(String query) {
-        return mIsInitiated ? nativeSearchAlbum(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchAlbum(query) : null;
     }
 
     public Genre[] searchGenre(String query) {
-        return mIsInitiated ? nativeSearchGenre(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchGenre(query) : null;
     }
 
     public Playlist[] searchPlaylist(String query) {
-        return mIsInitiated ? nativeSearchPlaylist(query) : null;
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query) : null;
     }
 
     public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
