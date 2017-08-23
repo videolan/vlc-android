@@ -144,6 +144,7 @@
     <string name="brightness">Brightness</string>
     <string name="navmenu">navigation menu</string>
     <string name="advanced">advanced options</string>
+    <string name="audio_boost_warning">Slide up again to go beyond 100%</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 channel\n</item>
@@ -345,6 +346,8 @@
     <string name="audio_title_alignment_marquee">Marquee</string>
     <string name="audio_save_repeat_title">Save repeat mode</string>
     <string name="audio_save_repeat_summary">Remember repeat mode when loading audio playlists</string>
+    <string name="audio_boost_title">Audio-boost</string>
+    <string name="audio_boost_summary">Enable volume up to 200%</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>

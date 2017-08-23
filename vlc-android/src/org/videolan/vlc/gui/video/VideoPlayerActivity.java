@@ -247,6 +247,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private View mOverlayInfo;
     private View mVerticalBar;
     private View mVerticalBarProgress;
+    private View mVerticalBarBoostProgress;
     private boolean mIsLoading;
     private boolean mIsPlaying = false;
     private ImageView mLoading;
@@ -301,9 +302,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     //Volume
     private AudioManager mAudioManager;
     private int mAudioMax;
+    private boolean audioBoostEnabled;
     private boolean mMute = false;
     private int mVolSave;
     private float mVol;
+    private float mOriginalVol;
+    private Toast warningToast;
 
     //Touch Events
     private static final int TOUCH_NONE = 0;
@@ -390,6 +394,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
         createPresentation();
@@ -1322,12 +1327,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             delaySubs(50000l);
             return true;
         case KeyEvent.KEYCODE_VOLUME_DOWN:
+            if (mMute) {
+                updateMute();
+            } else {
+                int vol;
+                if (mService.getVolume() > 100)
+                    vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
+                else
+                    vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
+                vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+                mOriginalVol = vol;
+                setAudioVolume(vol);
+            }
+            return true;
         case KeyEvent.KEYCODE_VOLUME_UP:
             if (mMute) {
                 updateMute();
-                return true;
-            } else
-                return false;
+            } else {
+                int vol;
+                if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
+                    vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
+                else
+                    vol = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
+                vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+                setAudioVolume(vol);
+            }
+            return true;
         case KeyEvent.KEYCODE_CAPTIONS:
             selectSubtitles();
             return true;
@@ -1517,13 +1542,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * @param duration
      * @param barNewValue new volume/brightness value (range: 0 - 15)
      */
-    private void showInfoWithVerticalBar(String text, int duration, int barNewValue) {
+    private void showInfoWithVerticalBar(String text, int duration, int barNewValue, int max) {
         showInfo(text, duration);
         if (mVerticalBarProgress == null)
             return;
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
-        layoutParams.weight = barNewValue;
-        mVerticalBarProgress.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams layoutParams;
+        if (barNewValue <= 100) {
+            layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
+            layoutParams.weight = barNewValue * 100 / max;
+            mVerticalBarProgress.setLayoutParams(layoutParams);
+            layoutParams = (LinearLayout.LayoutParams) mVerticalBarBoostProgress.getLayoutParams();
+            layoutParams.weight = 0;
+            mVerticalBarBoostProgress.setLayoutParams(layoutParams);
+        } else {
+            layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
+            layoutParams.weight = 100 * 100 / max;
+            mVerticalBarProgress.setLayoutParams(layoutParams);
+            layoutParams = (LinearLayout.LayoutParams) mVerticalBarBoostProgress.getLayoutParams();
+            layoutParams.weight = (barNewValue - 100) * 100 / max;
+            mVerticalBarBoostProgress.setLayoutParams(layoutParams);
+        }
         mVerticalBar.setVisibility(View.VISIBLE);
     }
 
@@ -1550,6 +1588,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mOverlayInfo = findViewById(R.id.player_overlay_info);
             mVerticalBar = findViewById(R.id.verticalbar);
             mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
+            mVerticalBarBoostProgress = findViewById(R.id.verticalbar_boost_progress);
         }
     }
 
@@ -2125,7 +2164,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MotionEvent.ACTION_DOWN:
                 // Audio
                 mTouchY = mInitTouchY = event.getRawY();
-                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (mService.getVolume() <= 100) {
+                    mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                    mOriginalVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                }
+                else {
+                    mVol = ((float)mService.getVolume()) * mAudioMax / 100;
+                }
                 mTouchAction = TOUCH_NONE;
                 // Seek
                 mTouchX = event.getRawX();
@@ -2231,10 +2276,31 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         float delta = - ((y_changed / (float) mScreen.heightPixels) * mAudioMax);
         mVol += delta;
-        int vol = (int) Math.min(Math.max(mVol, 0), mAudioMax);
+        int vol = (int) Math.min(Math.max(mVol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+        if (delta < 0)
+            mOriginalVol = vol;
         if (delta != 0f) {
-            setAudioVolume(vol);
+            if (vol > mAudioMax) {
+                if (audioBoostEnabled) {
+                    if (mOriginalVol < mAudioMax) {
+                        displayWarningToast();
+                        setAudioVolume(mAudioMax);
+                    } else {
+                        setAudioVolume(vol);
+                    }
+                }
+            } else {
+                setAudioVolume(vol);
+            }
         }
+    }
+
+    //Toast that appears only once
+    public void displayWarningToast() {
+        if(warningToast != null)
+            warningToast.cancel();
+        warningToast = Toast.makeText(getApplication(), R.string.audio_boost_warning, Toast.LENGTH_SHORT);
+        warningToast.show();
     }
 
     private void setAudioVolume(int vol) {
@@ -2243,13 +2309,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         /* Since android 4.3, the safe volume warning dialog is displayed only with the FLAG_SHOW_UI flag.
          * We don't want to always show the default UI volume, so show it only when volume is not set. */
-        int newVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        if (vol != newVol)
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
-
+        if (vol <= mAudioMax) {
+            mService.setVolume(100);
+            int newVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            if (vol != newVol)
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+            vol = Math.round(vol * 100 / mAudioMax);
+        } else {
+            vol = Math.round(vol * 100 / mAudioMax);
+            mService.setVolume(Math.round(vol));
+        }
         mTouchAction = TOUCH_VOLUME;
-        vol = vol * 100 / mAudioMax;
-        showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%', 1000, vol);
+        showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%', 1000, vol, audioBoostEnabled ? 200 : 100);
     }
 
     private void mute(boolean mute) {
@@ -2309,7 +2380,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         float brightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1f);
         setWindowBrightness(brightness);
         brightness = Math.round(brightness * 100);
-        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + (int) brightness + '%', 1000, (int) brightness);
+        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + (int) brightness + '%', 1000, (int) brightness, 100);
     }
 
     private void setWindowBrightness(float brightness) {
@@ -3652,6 +3723,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHandler.sendEmptyMessage(START_PLAYBACK);
         mSwitchingView = false;
         mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
+        if (mService.getVolume() > 100 && !audioBoostEnabled)
+            mService.setVolume(100);
     }
 
     @Override
