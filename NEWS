@@ -1,3 +1,15 @@
+Changes between 2.1.16 and 2.1.17:
+----------------------------------
+
+Application:
+ * Audio boost in video player (activate it in Settings > Video)
+ * Custom equalizer presets
+ * Implement Oreo notification channels
+ * Update VLC core
+ * Fix audio player sometimes invisible
+ * Fix player state not updated once playlist is over
+ * Misc crash fixes.
+
 Changes between 2.1.15 and 2.1.16:
 ----------------------------------
 
