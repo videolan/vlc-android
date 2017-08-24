@@ -58,7 +58,7 @@ public class NotificationHelper {
         final PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
         final PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
         if (AndroidUtil.isOOrLater) {
-            final Notification.Builder builder = new Notification.Builder(ctx, "vlc_channel");
+            final Notification.Builder builder = new Notification.Builder(ctx, "vlc_playback");
             builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setContentTitle(title)
@@ -83,6 +83,7 @@ public class NotificationHelper {
                         .setShowActionsInCompactView(0,1,2)
                 );
             }
+            ctx.startForegroundService(new Intent(ctx, PlaybackService.class));
             return builder.build();
         } else {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
@@ -111,6 +112,7 @@ public class NotificationHelper {
                         .setCancelButtonIntent(piStop)
                 );
             }
+            ctx.startService(new Intent(ctx, PlaybackService.class));
             return builder.build();
         }
     }
@@ -121,7 +123,7 @@ public class NotificationHelper {
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (AndroidUtil.isOOrLater) {
             if (scanBuilder == null) {
-                scanBuilder = new Notification.Builder(ctx, "vlc_channel")
+                scanBuilder = new Notification.Builder(ctx, "vlc_medialibrary")
                         .setContentIntent(PendingIntent.getActivity(ctx, 0, new Intent(ctx, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setSmallIcon(R.drawable.ic_notif_scan)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -168,14 +170,22 @@ public class NotificationHelper {
 
     private static NotificationManager sNotificationManager;
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void createNotificationChannel() {
+    public static void createNotificationChannels() {
         if (sNotificationManager == null)
             sNotificationManager = (NotificationManager) VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        final CharSequence name = VLCApplication.getAppResources().getString(R.string.app_name);
-        final String description = VLCApplication.getAppResources().getString(R.string.app_name_full);
-        final int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel mChannel = new NotificationChannel("vlc_channel", name, importance);
-        mChannel.setDescription(description);
-        sNotificationManager.createNotificationChannel(mChannel);
+        // Playback channel
+        CharSequence name = VLCApplication.getAppResources().getString(R.string.playback);
+        String description = VLCApplication.getAppResources().getString(R.string.playback_controls);
+        NotificationChannel channel = new NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(description);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        sNotificationManager.createNotificationChannel(channel);
+        // Scan channel
+        name = VLCApplication.getAppResources().getString(R.string.medialibrary_scan);
+        description = VLCApplication.getAppResources().getString(R.string.Medialibrary_progress);
+        channel = new NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(description);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        sNotificationManager.createNotificationChannel(channel);
     }
 }

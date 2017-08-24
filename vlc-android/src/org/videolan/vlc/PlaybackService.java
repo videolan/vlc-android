@@ -908,8 +908,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         Notification notification = NotificationHelper.createPlaybackNotification(PlaybackService.this,
                                 mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                                 cover, playing, sessionToken, getSessionPendingIntent());
-
-                        startService(new Intent(ctx, PlaybackService.class));
                         if (!AndroidUtil.isLolliPopOrLater || playing)
                             PlaybackService.this.startForeground(3, notification);
                         else {

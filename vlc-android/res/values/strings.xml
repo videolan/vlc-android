@@ -28,6 +28,10 @@
     </plurals>
 
     <string name="play">Play</string>
+    <string name="playback">Playback</string>
+    <string name="playback_controls">Playback controls</string>
+    <string name="medialibrary_scan">Media library scan</string>
+    <string name="Medialibrary_progress">Media library scanning progress updates</string>
     <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">Play as audio</string>
     <string name="play_as_video">Play as video</string>

@@ -96,7 +96,7 @@ public class VLCApplication extends Application {
             @Override
             public void run() {
                 if (AndroidUtil.isOOrLater)
-                    NotificationHelper.createNotificationChannel();
+                    NotificationHelper.createNotificationChannels();
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
