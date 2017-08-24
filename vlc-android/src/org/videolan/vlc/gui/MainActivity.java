@@ -130,18 +130,21 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         initAudioPlayerContainerActivity();
 
         if (savedInstanceState != null) {
-            FragmentManager fm = getSupportFragmentManager();
+            final FragmentManager fm = getSupportFragmentManager();
             //Restore fragments stack
-            if (fm != null && fm.getFragments() != null)
+            if (fm != null && fm.getFragments() != null) {
+                final FragmentTransaction ft =  fm.beginTransaction();
                 for (Fragment fragment : fm.getFragments())
                     if (fragment != null) {
                         if (fragment instanceof ExtensionBrowser) {
-                            fm.beginTransaction().remove(fragment).commit();
-                        } else {
+                            ft.remove(fragment);
+                        } else if ((fragment instanceof MediaBrowserFragment)) {
                             mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                            fm.beginTransaction().hide(fragment).commit();
+                            ft.hide(fragment);
                         }
                     }
+                ft.commit();
+            }
             mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
         } else
             reloadPreferences();
