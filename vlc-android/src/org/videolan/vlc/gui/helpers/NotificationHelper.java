@@ -176,14 +176,14 @@ public class NotificationHelper {
         // Playback channel
         CharSequence name = VLCApplication.getAppResources().getString(R.string.playback);
         String description = VLCApplication.getAppResources().getString(R.string.playback_controls);
-        NotificationChannel channel = new NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel channel = new NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         sNotificationManager.createNotificationChannel(channel);
         // Scan channel
         name = VLCApplication.getAppResources().getString(R.string.medialibrary_scan);
         description = VLCApplication.getAppResources().getString(R.string.Medialibrary_progress);
-        channel = new NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_DEFAULT);
+        channel = new NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         sNotificationManager.createNotificationChannel(channel);
