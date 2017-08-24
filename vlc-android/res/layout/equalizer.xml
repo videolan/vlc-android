@@ -50,7 +50,7 @@
                 android:id="@+id/equalizer_delete"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="?attr/ic_trash_small_normal"
+                android:src="?attr/ic_trash"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
