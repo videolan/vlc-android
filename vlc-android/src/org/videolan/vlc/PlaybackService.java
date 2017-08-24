@@ -581,7 +581,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
                     loadMediaMeta();
-                    if(mSavedTime > 0L)
+                    if (mSavedTime > 0L)
                         seek(mSavedTime);
                     mSavedTime = 0L;
 
@@ -628,10 +628,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     executeUpdateProgress();
                     previousMediaStats = mMediaPlayer.getMedia().getStats();
                     determinePrevAndNextIndices(true);
-                    next();
-                    if (mWakeLock.isHeld())
-                        mWakeLock.release();
-                    changeAudioFocus(false);
+                    if (mNextIndex != -1) {
+                        next();
+                    } else {
+                        if (mWakeLock.isHeld())
+                            mWakeLock.release();
+                        changeAudioFocus(false);
+                        executeUpdate();
+                        publishState();
+                    }
                     break;
                 case MediaPlayer.Event.EncounteredError:
                     showToast(getString(
