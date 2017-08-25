@@ -56,23 +56,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     private AlertDialog mAlertDialog;
 
-    public FileBrowserFragment() {
-        super();
-        ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
-    }
-
-    @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        mRoot = mMrl == null;
-    }
-
     @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
     }
 
-    public String getTitle(){
+    public String getTitle() {
         if (mRoot)
             return getCategoryTitle();
         else {

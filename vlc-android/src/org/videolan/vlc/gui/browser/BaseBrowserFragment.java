@@ -85,7 +85,6 @@ import java.util.LinkedList;
 public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAdapter> implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
-    public static String ROOT = "smb";
     public static final String KEY_MRL = "key_mrl";
     public static final String KEY_MEDIA = "key_media";
     public static final String KEY_MEDIA_LIST = "key_media_list";
@@ -150,6 +149,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
+        mRoot = defineIsRoot();
         if (mFoldersContentLists == null)
             mFoldersContentLists = new SimpleArrayMap<>();
     }
@@ -162,6 +162,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     protected int getLayoutId(){
         return R.layout.directory_browser;
+    }
+
+    protected boolean defineIsRoot() {
+        return mMrl == null;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

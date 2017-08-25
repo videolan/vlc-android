@@ -30,7 +30,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -54,20 +53,6 @@ import java.util.List;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
-    public NetworkBrowserFragment() {
-        ROOT = "smb";
-        mHandler = new BrowserFragmentHandler(this);
-        mAdapter = new BaseBrowserAdapter(this);
-    }
-
-    @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        if (mMrl == null)
-            mMrl = ROOT;
-        mRoot = ROOT.equals(mMrl);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_option_network, menu);
@@ -80,7 +65,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         MenuItem item = menu.findItem(R.id.ml_menu_save);
         item.setVisible(isSortEnabled());
 
-        boolean isFavorite = MediaDatabase.getInstance().networkFavExists(Uri.parse(mMrl));
+        boolean isFavorite = mMrl != null && MediaDatabase.getInstance().networkFavExists(Uri.parse(mMrl));
         item.setIcon(isFavorite ?
                 R.drawable.ic_menu_bookmark_w :
                 R.drawable.ic_menu_bookmark_outline_w);

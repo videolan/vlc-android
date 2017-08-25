@@ -105,7 +105,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     public void browseUp() {
         if (mRoot)
             getActivity().finish();
-        else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), ROOT)) {
+        else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
             mMrl = null;
             mRoot = true;
             mAdapter.clear();
@@ -116,7 +116,7 @@ public class FilePickerFragment extends FileBrowserFragment {
         }
     }
 
-    public boolean defineIsRoot() {
+    protected boolean defineIsRoot() {
         if (mMrl == null)
             return true;
         if (mMrl.startsWith("file")) {

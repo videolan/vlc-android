@@ -57,11 +57,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     boolean mScannedDirectory = false;
     SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
 
-    public StorageBrowserFragment(){
-        mHandler = new BrowserFragmentHandler(this);
-        ROOT = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY;
-    }
-
     public boolean isSortEnabled() {
         return false;
     }
