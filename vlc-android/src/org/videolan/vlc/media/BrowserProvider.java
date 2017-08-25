@@ -125,8 +125,43 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
 
         switch (parentId) {
             case ID_ROOT:
+                MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
+                //List of Extensions
+                List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(VLCApplication.getAppContext(), true);
+                for (int i = 0; i < extensions.size(); i++) {
+                    ExtensionListing extension = extensions.get(i);
+                    if (extension.androidAutoEnabled()
+                            && PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
+                        item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
+                                .setTitle(extension.title());
+
+                        int iconRes = extension.menuIcon();
+                        Bitmap b = null;
+                        Resources extensionRes;
+                        if (iconRes != 0) {
+                            try {
+                                extensionRes = VLCApplication.getAppContext()
+                                        .getPackageManager()
+                                        .getResourcesForApplication(extension.componentName().getPackageName());
+                                b = BitmapFactory.decodeResource(extensionRes, iconRes);
+                            } catch (PackageManager.NameNotFoundException e) {
+                            }
+                        }
+                        if (b != null)
+                            item.setIconBitmap(b);
+                        else
+                            try {
+                                b = ((BitmapDrawable) VLCApplication.getAppContext().getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
+                                item.setIconBitmap(b);
+                            } catch (PackageManager.NameNotFoundException e) {
+                                b = BitmapFactory.decodeResource(res, R.drawable.icon);
+                                item.setIconBitmap(b);
+                            }
+                        results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    }
+                }
                 //Last added
-                MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder()
+                item = new MediaDescriptionCompat.Builder()
                         .setMediaId(ID_LAST_ADDED)
                         .setTitle(res.getString(R.string.last_added_media))
                         .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
@@ -162,41 +197,6 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                         .setTitle(res.getString(R.string.genres))
                         .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_genre_normal"));
                 results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-
-                //List of Extensions
-                List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(VLCApplication.getAppContext(), true);
-                for (int i = 0; i < extensions.size(); i++) {
-                    ExtensionListing extension = extensions.get(i);
-                    if (extension.androidAutoEnabled()
-                            && PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
-                        item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
-                                .setTitle(extension.title());
-
-                        int iconRes = extension.menuIcon();
-                        Bitmap b = null;
-                        Resources extensionRes;
-                        if (iconRes != 0) {
-                            try {
-                                extensionRes = VLCApplication.getAppContext()
-                                        .getPackageManager()
-                                        .getResourcesForApplication(extension.componentName().getPackageName());
-                                b = BitmapFactory.decodeResource(extensionRes, iconRes);
-                            } catch (PackageManager.NameNotFoundException e) {
-                            }
-                        }
-                        if (b != null)
-                            item.setIconBitmap(b);
-                        else
-                            try {
-                                b = ((BitmapDrawable) VLCApplication.getAppContext().getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
-                                item.setIconBitmap(b);
-                            } catch (PackageManager.NameNotFoundException e) {
-                                b = BitmapFactory.decodeResource(res, R.drawable.icon);
-                                item.setIconBitmap(b);
-                            }
-                        results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                    }
-                }
                 return results;
             case ID_LAST_ADDED:
                 limitSize = true;
