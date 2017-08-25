@@ -31,8 +31,11 @@ public class ExtensionsManager {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_MENU_ICON = "menuicon";
     private static final String KEY_SETTINGS_ACTIVITY = "settingsActivity";
+    private static final String KEY_ANDROID_AUTO_ENABLED = "androidAutoEnabled";
     private static final String ACTION_EXTENSION = "org.videolan.vlc.Extension";
     private static final int PROTOCOLE_VERSION = 1;
+    public final static String EXTENSION_PREFIX = "extension";
+    public final static String ANDROID_AUTO_SUFFIX = "androidAuto";
 
     private static ExtensionsManager sExtensionsManager;
     private final List<ExtensionListing> mExtensions = new ArrayList<>();
@@ -67,6 +70,7 @@ public class ExtensionsManager {
                     extension.settingsActivity(ComponentName.unflattenFromString(
                             resolveInfo.serviceInfo.packageName + "/" + settingsActivity));
                 }
+                extension.androidAutoEnabled(metaData.getBoolean(KEY_ANDROID_AUTO_ENABLED, false));
                 extension.menuIcon(metaData.getInt(KEY_MENU_ICON, 0));
                 extensions.add(extension);
             }
@@ -107,7 +111,7 @@ public class ExtensionsManager {
 
     public boolean previousExtensionIsEnabled(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String key = "extension_" + settings.getString("current_extension_name", null);
+        String key = EXTENSION_PREFIX + "_" + settings.getString("current_extension_name", null);
         return settings.contains(key) && settings.getBoolean(key, false);
     }
 
@@ -117,8 +121,11 @@ public class ExtensionsManager {
         for (ExtensionListing extension : list)
             extensionNames.add(extension.componentName().getPackageName());
         for (Map.Entry<String, ?> entry : settings.getAll().entrySet())
-            if (entry.getKey().startsWith("extension_") && !extensionNames.contains(entry.getKey().replace("extension_", ""))) {
+            if (entry.getKey().startsWith(EXTENSION_PREFIX + "_")
+                    && !entry.getKey().endsWith("_" + ANDROID_AUTO_SUFFIX)
+                    && !extensionNames.contains(entry.getKey().replace(EXTENSION_PREFIX + "_", ""))) {
                 settings.edit().remove(entry.getKey()).apply();
+                settings.edit().remove(entry.getKey() + "_" + ANDROID_AUTO_SUFFIX).apply();
                 extensionMissing = true;
             }
         return extensionMissing;
@@ -150,6 +157,7 @@ public class ExtensionsManager {
     }
 
     public void showExtensionPermissionDialog(final Activity activity, final int id, final ExtensionListing extension, final String key) {
+        PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key + "_" + ANDROID_AUTO_SUFFIX, true).apply();
         new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.extension_permission_title, extension.title()))
                 .setMessage(R.string.extension_permission_subtitle)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -173,5 +181,14 @@ public class ExtensionsManager {
                     }
                 })
                 .show();
+    }
+
+    public int getExtensionId(String packageName) {
+        if (mExtensions == null || mExtensions.isEmpty())
+            return 0;
+        for (int i=0; i<mExtensions.size(); i++)
+            if (mExtensions.get(i).componentName().getPackageName().equals(packageName))
+                return i;
+        return 0;
     }
 }

@@ -76,6 +76,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.SearchAggregate;
+import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
@@ -135,6 +136,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public static final String ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC+"LastVideoPlaylist";
     public static final String ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC+"SwitchToVideo";
     public static final String ACTION_PLAY_FROM_SEARCH = ACTION_REMOTE_GENERIC+"play_from_search";
+    public static final String ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE";
 
     public static final String EXTRA_SEARCH_BUNDLE = ACTION_REMOTE_GENERIC+"extra_search_bundle";
 
@@ -282,6 +284,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
+        filter.addAction(ACTION_CAR_MODE_EXIT);
         registerReceiver(mReceiver, filter);
 
         boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
@@ -505,7 +508,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     if (wasPlaying && hasCurrentMedia() && mSettings.getBoolean("enable_play_on_headset_insertion", false))
                         play();
                 }
-            }
+            } else if (action.equalsIgnoreCase(ACTION_CAR_MODE_EXIT))
+                BrowserProvider.unbindExtensionConnection();
         }
     };
 
@@ -1194,6 +1198,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 load(mMedialibrary.getAlbum(Long.parseLong(mediaId.split("_")[1])).getTracks(), 0);
             } else if (mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX)) {
                 load(mMedialibrary.getPlaylist(Long.parseLong(mediaId.split("_")[1])).getTracks(), 0);
+            } else if (mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX)) {
+                onPlayFromUri(Uri.parse(mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_")[1] + "_", "")), null);
             } else
                 try {
                     load(mMedialibrary.getMedia(Long.parseLong(mediaId)));

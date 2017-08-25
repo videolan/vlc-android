@@ -37,6 +37,7 @@ public class ExtensionListing implements Parcelable {
     private int menuIcon = 0;
     private String mTitle;
     private String mDescription;
+    private boolean mAndroidAutoEnabled = false;
     private ComponentName mSettingsActivity;
 
     private ExtensionManagerService.Connection connection;
@@ -139,6 +140,21 @@ public class ExtensionListing implements Parcelable {
      */
     public ExtensionListing description(String description) {
         mDescription = description;
+        return this;
+    }
+
+    /**
+     * Returns true if android-auto is supported.
+     */
+    public boolean androidAutoEnabled() {
+        return mAndroidAutoEnabled;
+    }
+
+    /**
+     * Sets the support of android-auto.
+     */
+    public ExtensionListing androidAutoEnabled(boolean androidAutoEnabled) {
+        mAndroidAutoEnabled = androidAutoEnabled;
         return this;
     }
 
