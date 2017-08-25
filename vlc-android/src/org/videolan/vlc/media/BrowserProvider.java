@@ -293,6 +293,10 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
 
     @Override
     public void displayExtensionItems(int extensionId, String title, List<VLCExtensionItem> items, boolean showParams, boolean isRefresh) {
+        if (showParams && items.size() == 1 && items.get(0).getType() == VLCExtensionItem.TYPE_DIRECTORY) {
+            sExtensionManagerService.browse(items.get(0).stringId);
+            return;
+        }
         MediaDescriptionCompat.Builder mediaItem;
         VLCExtensionItem extensionItem;
         for (int i=0; i<items.size(); i++) {
