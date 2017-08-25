@@ -6,15 +6,13 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.preference.CheckBoxPreference;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.TwoStatePreference;
-import android.util.Log;
+import android.support.v7.preference.SwitchPreferenceCompat;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionsManager;
 
@@ -25,16 +23,28 @@ public class PreferencesExtensions extends BasePreferenceFragment {
 
     private List<ExtensionListing> mExtensions = new ArrayList<>();
     private SharedPreferences mSettings;
+    private PreferenceScreen preferenceScreen;
+    private int count = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplication());
         mExtensions = ExtensionsManager.getInstance().getExtensions(getActivity().getApplication(), false);
-        if (mExtensions.isEmpty())
-            createEmptyPref();
-        else
-            createCheckboxes();
+        preferenceScreen = this.getPreferenceScreen();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppBarLayout) ((PreferencesActivity)getActivity()).findViewById(R.id.appbar)).setExpanded(true, false);
+        createCheckboxes();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        preferenceScreen.removeAll();
     }
 
     @Override
@@ -48,19 +58,13 @@ public class PreferencesExtensions extends BasePreferenceFragment {
     }
 
     private void createCheckboxes() {
-        PreferenceScreen preferenceScreen = this.getPreferenceScreen();
-
-        PreferenceCategory preferenceCategory = new PreferenceCategory(preferenceScreen.getContext());
-        preferenceCategory.setTitle(R.string.extensions_enable_category);
-        preferenceScreen.addPreference(preferenceCategory);
-
         PackageManager pm = getActivity().getApplicationContext().getPackageManager();
         for (int i = 0 ; i < mExtensions.size() ; ++i) {
             ExtensionListing extension = mExtensions.get(i);
-            CheckBoxPreference checkbox = new CheckBoxPreference(preferenceScreen.getContext());
-            checkbox.setTitle(extension.title());
-            checkbox.setSummary(extension.description());
-            checkbox.setKey("extension_" + extension.componentName().getPackageName());
+            SwitchPreferenceCompat switchPreference = new SwitchPreferenceCompat(preferenceScreen.getContext());
+            switchPreference.setTitle(extension.title());
+            switchPreference.setSummary(extension.description());
+            switchPreference.setKey(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName());
             int iconRes = extension.menuIcon();
             Drawable extensionIcon = null;
             if (iconRes != 0) {
@@ -70,36 +74,43 @@ public class PreferencesExtensions extends BasePreferenceFragment {
                 } catch (PackageManager.NameNotFoundException e) {}
             }
             if (extensionIcon != null)
-                checkbox.setIcon(extensionIcon);
+                switchPreference.setIcon(extensionIcon);
             else
                 try {
-                    checkbox.setIcon(pm.getApplicationIcon(mExtensions.get(i).componentName().getPackageName()));
+                    switchPreference.setIcon(pm.getApplicationIcon(mExtensions.get(i).componentName().getPackageName()));
                 } catch (PackageManager.NameNotFoundException e) {
-                    checkbox.setIcon(R.drawable.icon);
+                    switchPreference.setIcon(R.drawable.icon);
                 }
+            final boolean checked = mSettings.getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName(), false);
+            switchPreference.setChecked(checked);
+            switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ((SwitchPreferenceCompat) preference).setChecked(true);
+                    return false;
+                }
+            });
+            preferenceScreen.addPreference(switchPreference);
+            count++;
+        }
 
-            preferenceCategory.addPreference(checkbox);
-            checkbox.setChecked(mSettings.getBoolean("extension_" + extension.componentName().getPackageName(), false));
+        if (count == 0) {
+            PreferenceCategory emptyCategory = new PreferenceCategory(preferenceScreen.getContext());
+            emptyCategory.setTitle(R.string.extensions_empty);
+            preferenceScreen.addPreference(emptyCategory);
         }
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
+        String key = preference.getKey();
+        if (key == null || !key.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
             return false;
-        if (preference.getKey().startsWith("extension_")) {
-            mSettings.edit()
-                    .putBoolean(preference.getKey(), ((TwoStatePreference) preference).isChecked())
-                    .apply();
-        }
+        PreferencesExtensionFragment fragment = new PreferencesExtensionFragment();
+        Bundle extras = new Bundle();
+        extras.putString("extension_key", key);
+        fragment.setArguments(extras);
+        loadFragment(fragment);
         return super.onPreferenceTreeClick(preference);
-    }
-
-
-    private void createEmptyPref() {
-        PreferenceScreen preferenceScreen = this.getPreferenceScreen();
-        PreferenceCategory preferenceCategory = new PreferenceCategory(preferenceScreen.getContext());
-        preferenceCategory.setTitle(R.string.extensions_empty);
-        preferenceScreen.addPreference(preferenceCategory);
     }
 }

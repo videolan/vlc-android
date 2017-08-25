@@ -369,6 +369,8 @@
     <string name="extensions_empty">No extension detected</string>
     <string name="extension_permission_title">New extension \"%1$s\" detected</string>
     <string name="extension_permission_subtitle">Activate extension\?</string>
+    <string name="extension_prefs_activation_title">Activate</string>
+    <string name="android_auto">Android-auto</string>
 
     <string name="controls_prefs_category">Controls</string>
 

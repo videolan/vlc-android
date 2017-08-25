@@ -63,8 +63,13 @@ public class PreferencesFragment extends BasePreferenceFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (!BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
+            findPreference("extensions_category").setEnabled(true);
+            findPreference("extensions_category").setVisible(true);
+        } else {
+            findPreference("extensions_category").setEnabled(false);
             findPreference("extensions_category").setVisible(false);
+        }
     }
 
     @Override

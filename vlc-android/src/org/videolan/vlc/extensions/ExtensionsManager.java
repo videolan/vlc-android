@@ -36,6 +36,7 @@ public class ExtensionsManager {
     private static final int PROTOCOLE_VERSION = 1;
     public final static String EXTENSION_PREFIX = "extension";
     public final static String ANDROID_AUTO_SUFFIX = "androidAuto";
+    public static boolean androidAutoInstalled = false;
 
     private static ExtensionsManager sExtensionsManager;
     private final List<ExtensionListing> mExtensions = new ArrayList<>();
@@ -47,6 +48,7 @@ public class ExtensionsManager {
     }
 
     private List<ExtensionListing> updateAvailableExtensions(Context context) {
+        androidAutoInstalled = isAndroidAutoInstalled(context);
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
@@ -190,5 +192,15 @@ public class ExtensionsManager {
             if (mExtensions.get(i).componentName().getPackageName().equals(packageName))
                 return i;
         return 0;
+    }
+
+    private boolean isAndroidAutoInstalled(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        try {
+            packageManager.getPackageInfo("com.google.android.projection.gearhead", 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }
