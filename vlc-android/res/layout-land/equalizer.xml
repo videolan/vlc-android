@@ -42,7 +42,7 @@
                 android:id="@+id/equalizer_revert"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="?attr/ic_previous"
+                android:src="?attr/ic_reset"
                 android:layout_gravity="center_vertical"/>
             <ImageView
                 android:visibility="gone"
