@@ -21,6 +21,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -159,13 +160,32 @@ public class ExtensionsManager {
     }
 
     public void showExtensionPermissionDialog(final Activity activity, final int id, final ExtensionListing extension, final String key) {
-        PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key + "_" + ANDROID_AUTO_SUFFIX, true).apply();
+        final List<CharSequence> extraTitles = new ArrayList<>();
+        final List<String> extraKeys = new ArrayList<>();
+
+        //Add necessary checkboxes
+        if (androidAutoInstalled && extension.androidAutoEnabled()) {
+            extraTitles.add(activity.getString(R.string.extension_permission_checkbox_title, activity.getString(R.string.android_auto)));
+            extraKeys.add(key + "_" + ANDROID_AUTO_SUFFIX);
+        }
+
+        final boolean[] extraCheckedStates = new boolean[extraTitles.size()];
+        Arrays.fill(extraCheckedStates, Boolean.TRUE);
         new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.extension_permission_title, extension.title()))
-                .setMessage(R.string.extension_permission_subtitle)
+                .setMultiChoiceItems(extraTitles.toArray(new CharSequence[extraTitles.size()]),
+                        extraCheckedStates,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int pos, boolean b) {
+                                extraCheckedStates[pos] = b;
+                            }
+                        })
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, int _) {
                         PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key, true).apply();
+                        for (int i=0; i<extraTitles.size(); i++)
+                            PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(extraKeys.get(i), extraCheckedStates[i]).apply();
                         displayPlugin(activity, id, extension, true);
                         activity.findViewById(R.id.navigation).postInvalidate();
                     }
@@ -173,13 +193,15 @@ public class ExtensionsManager {
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key, false).apply();
+                        dialogInterface.cancel();
                     }
                 })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
                         PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key, false).apply();
+                        for (int i=0; i<extraTitles.size(); i++)
+                            PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(extraKeys.get(i), false).apply();
                     }
                 })
                 .show();
