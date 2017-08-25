@@ -76,6 +76,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
     private static final String ARTIST_PREFIX = "artist";
     private static final String GENRE_PREFIX = "genre";
     public static final String PLAYLIST_PREFIX = "playlist";
+    private static final String DUMMY = "dummy";
     private static final int MAX_HISTORY_SIZE = 50;
     private static final int MAX_EXTENSION_SIZE = 100;
 
@@ -112,7 +113,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                 sExtensionManagerService.connectService(index);
             } else {
                 //case sub-directory
-                String stringId = parentId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(index) + "_","");
+                String stringId = parentId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(index) + "_", "");
                 sExtensionManagerService.browse(stringId);
             }
             try {
@@ -120,143 +121,150 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return extensionItems;
-        }
+            results = extensionItems;
+        } else {
 
-        switch (parentId) {
-            case ID_ROOT:
-                MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
-                //List of Extensions
-                List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(VLCApplication.getAppContext(), true);
-                for (int i = 0; i < extensions.size(); i++) {
-                    ExtensionListing extension = extensions.get(i);
-                    if (extension.androidAutoEnabled()
-                            && PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
-                        item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
-                                .setTitle(extension.title());
+            switch (parentId) {
+                case ID_ROOT:
+                    MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
+                    //List of Extensions
+                    List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(VLCApplication.getAppContext(), true);
+                    for (int i = 0; i < extensions.size(); i++) {
+                        ExtensionListing extension = extensions.get(i);
+                        if (extension.androidAutoEnabled()
+                                && PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
+                            item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
+                                    .setTitle(extension.title());
 
-                        int iconRes = extension.menuIcon();
-                        Bitmap b = null;
-                        Resources extensionRes;
-                        if (iconRes != 0) {
-                            try {
-                                extensionRes = VLCApplication.getAppContext()
-                                        .getPackageManager()
-                                        .getResourcesForApplication(extension.componentName().getPackageName());
-                                b = BitmapFactory.decodeResource(extensionRes, iconRes);
-                            } catch (PackageManager.NameNotFoundException e) {
+                            int iconRes = extension.menuIcon();
+                            Bitmap b = null;
+                            Resources extensionRes;
+                            if (iconRes != 0) {
+                                try {
+                                    extensionRes = VLCApplication.getAppContext()
+                                            .getPackageManager()
+                                            .getResourcesForApplication(extension.componentName().getPackageName());
+                                    b = BitmapFactory.decodeResource(extensionRes, iconRes);
+                                } catch (PackageManager.NameNotFoundException e) {
+                                }
                             }
+                            if (b != null)
+                                item.setIconBitmap(b);
+                            else
+                                try {
+                                    b = ((BitmapDrawable) VLCApplication.getAppContext().getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
+                                    item.setIconBitmap(b);
+                                } catch (PackageManager.NameNotFoundException e) {
+                                    b = BitmapFactory.decodeResource(res, R.drawable.icon);
+                                    item.setIconBitmap(b);
+                                }
+                            results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                         }
-                        if (b != null)
-                            item.setIconBitmap(b);
-                        else
-                            try {
-                                b = ((BitmapDrawable) VLCApplication.getAppContext().getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
-                                item.setIconBitmap(b);
-                            } catch (PackageManager.NameNotFoundException e) {
-                                b = BitmapFactory.decodeResource(res, R.drawable.icon);
-                                item.setIconBitmap(b);
-                            }
-                        results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                     }
-                }
-                //Last added
-                item = new MediaDescriptionCompat.Builder()
-                        .setMediaId(ID_LAST_ADDED)
-                        .setTitle(res.getString(R.string.last_added_media))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //History
-                item = new MediaDescriptionCompat.Builder()
-                        .setMediaId(ID_HISTORY)
-                        .setTitle(res.getString(R.string.history))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_history_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //Playlists
-                item.setMediaId(ID_PLAYLISTS)
-                        .setTitle(res.getString(R.string.playlists))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_playlist_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //Artists
-                item.setMediaId(ID_ARTISTS)
-                        .setTitle(res.getString(R.string.artists))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_artist_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //Albums
-                item.setMediaId(ID_ALBUMS)
-                        .setTitle(res.getString(R.string.albums))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_album_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //Songs
-                item.setMediaId(ID_SONGS)
-                        .setTitle(res.getString(R.string.songs))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_audio_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                //Genres
-                item.setMediaId(ID_GENRES)
-                        .setTitle(res.getString(R.string.genres))
-                        .setIconUri(Uri.parse(BASE_DRAWABLE_URI+"ic_auto_genre_normal"));
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                return results;
-            case ID_LAST_ADDED:
-                limitSize = true;
-                list = VLCApplication.getMLInstance().getRecentAudio();
-                break;
-            case ID_HISTORY:
-                limitSize = true;
-                list = VLCApplication.getMLInstance().lastMediaPlayed();
-                break;
-            case ID_ARTISTS:
-                list = VLCApplication.getMLInstance().getArtists();
-                break;
-            case ID_ALBUMS:
-                list = VLCApplication.getMLInstance().getAlbums();
-                break;
-            case ID_GENRES:
-                list = VLCApplication.getMLInstance().getGenres();
-                break;
-            case ID_PLAYLISTS:
-                list = VLCApplication.getMLInstance().getPlaylists();
-                break;
-            case ID_SONGS:
-                list = VLCApplication.getMLInstance().getAudio();
-                break;
-            default:
-                String[] idSections = parentId.split("_");
-                Medialibrary ml = VLCApplication.getMLInstance();
-                long id = Long.parseLong(idSections[1]);
-                switch (idSections[0]) {
-                    case ARTIST_PREFIX:
-                        list = ml.getArtist(id).getAlbums();
-                        break;
-                    case GENRE_PREFIX:
-                        list = ml.getGenre(id).getAlbums();
-                        break;
-                }
-        }
-        if (list != null) {
-            MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
-            for (MediaLibraryItem libraryItem : list) {
-                if (libraryItem == null || (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)libraryItem).getType() != MediaWrapper.TYPE_AUDIO))
-                    continue;
-                Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
-                if (cover == null)
-                    cover = DEFAULT_AUDIO_COVER;
-                item.setTitle(libraryItem.getTitle())
-                        .setMediaId(generateMediaId(libraryItem));
-                item.setIconBitmap(cover);
-                if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-                    item.setMediaUri(((MediaWrapper) libraryItem).getUri())
-                            .setSubtitle(MediaUtils.getMediaSubtitle((MediaWrapper) libraryItem));
-                } else
-                    item.setSubtitle(libraryItem.getDescription());
-                boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
-                        libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||
-                        libraryItem.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
-                results.add(new MediaBrowserCompat.MediaItem(item.build(), playable ? MediaBrowserCompat.MediaItem.FLAG_PLAYABLE : MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
-                if (limitSize && results.size() == MAX_HISTORY_SIZE)
+                    //Last added
+                    item = new MediaDescriptionCompat.Builder()
+                            .setMediaId(ID_LAST_ADDED)
+                            .setTitle(res.getString(R.string.last_added_media))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_history_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //History
+                    item = new MediaDescriptionCompat.Builder()
+                            .setMediaId(ID_HISTORY)
+                            .setTitle(res.getString(R.string.history))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_history_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //Playlists
+                    item.setMediaId(ID_PLAYLISTS)
+                            .setTitle(res.getString(R.string.playlists))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_playlist_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //Artists
+                    item.setMediaId(ID_ARTISTS)
+                            .setTitle(res.getString(R.string.artists))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_artist_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //Albums
+                    item.setMediaId(ID_ALBUMS)
+                            .setTitle(res.getString(R.string.albums))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_album_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //Songs
+                    item.setMediaId(ID_SONGS)
+                            .setTitle(res.getString(R.string.songs))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_audio_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    //Genres
+                    item.setMediaId(ID_GENRES)
+                            .setTitle(res.getString(R.string.genres))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_genre_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    return results;
+                case ID_LAST_ADDED:
+                    limitSize = true;
+                    list = VLCApplication.getMLInstance().getRecentAudio();
                     break;
+                case ID_HISTORY:
+                    limitSize = true;
+                    list = VLCApplication.getMLInstance().lastMediaPlayed();
+                    break;
+                case ID_ARTISTS:
+                    list = VLCApplication.getMLInstance().getArtists();
+                    break;
+                case ID_ALBUMS:
+                    list = VLCApplication.getMLInstance().getAlbums();
+                    break;
+                case ID_GENRES:
+                    list = VLCApplication.getMLInstance().getGenres();
+                    break;
+                case ID_PLAYLISTS:
+                    list = VLCApplication.getMLInstance().getPlaylists();
+                    break;
+                case ID_SONGS:
+                    list = VLCApplication.getMLInstance().getAudio();
+                    break;
+                default:
+                    String[] idSections = parentId.split("_");
+                    Medialibrary ml = VLCApplication.getMLInstance();
+                    long id = Long.parseLong(idSections[1]);
+                    switch (idSections[0]) {
+                        case ARTIST_PREFIX:
+                            list = ml.getArtist(id).getAlbums();
+                            break;
+                        case GENRE_PREFIX:
+                            list = ml.getGenre(id).getAlbums();
+                            break;
+                    }
             }
+            if (list != null) {
+                MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
+                for (MediaLibraryItem libraryItem : list) {
+                    if (libraryItem == null || (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO))
+                        continue;
+                    Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
+                    if (cover == null)
+                        cover = DEFAULT_AUDIO_COVER;
+                    item.setTitle(libraryItem.getTitle())
+                            .setMediaId(generateMediaId(libraryItem));
+                    item.setIconBitmap(cover);
+                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+                        item.setMediaUri(((MediaWrapper) libraryItem).getUri())
+                                .setSubtitle(MediaUtils.getMediaSubtitle((MediaWrapper) libraryItem));
+                    } else
+                        item.setSubtitle(libraryItem.getDescription());
+                    boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
+                            libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||
+                            libraryItem.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), playable ? MediaBrowserCompat.MediaItem.FLAG_PLAYABLE : MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                    if (limitSize && results.size() == MAX_HISTORY_SIZE)
+                        break;
+                }
+            }
+        }
+        if (results.isEmpty()) {
+            MediaDescriptionCompat.Builder mediaItem = new MediaDescriptionCompat.Builder();
+            mediaItem.setMediaId(DUMMY);
+            mediaItem.setTitle(VLCApplication.getAppContext().getString(R.string.search_no_result));
+            results.add(new MediaBrowserCompat.MediaItem(mediaItem.build(), 0));
         }
         return results;
     }
