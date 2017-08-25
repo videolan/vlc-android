@@ -75,7 +75,6 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class VideoGridFragment extends SortableFragment<VideoListAdapter> implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
@@ -98,6 +97,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAdapter = new VideoListAdapter(this);
 
         if (savedInstanceState != null)
             setGroup(savedInstanceState.getString(KEY_GROUP));
@@ -146,7 +146,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mDividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        mAdapter = new VideoListAdapter(this);
         if (mAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);
         if (savedInstanceState != null) {

@@ -72,16 +72,16 @@ import java.util.Random;
 public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
-    private AudioBrowserAdapter mArtistsAdapter;
-    private AudioBrowserAdapter mAlbumsAdapter;
-    private AudioBrowserAdapter mSongsAdapter;
-    private AudioBrowserAdapter mGenresAdapter;
-    private AudioBrowserAdapter mPlaylistAdapter;
+    private final AudioBrowserAdapter mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, true);
+    private final AudioBrowserAdapter mArtistsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ARTIST, this, true);
+    private final AudioBrowserAdapter mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, true);
+    private final AudioBrowserAdapter mGenresAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_GENRE, this, true);
+    private final AudioBrowserAdapter mPlaylistAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_PLAYLIST, this, true);
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TextView mEmptyView;
-    private ContextMenuRecyclerView[] mLists;
+    private final ContextMenuRecyclerView[] mLists = new ContextMenuRecyclerView[MODE_TOTAL];
     private FastScroller mFastScroller;
 
     public static final int REFRESH = 101;
@@ -99,6 +99,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public final static int MSG_LOADING = 0;
 
     public final static String TAG_ITEM = "ML_ITEM";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,13 +125,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSongsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_MEDIA, this, true);
-        mArtistsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ARTIST, this, true);
-        mAlbumsAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_ALBUM, this, true);
-        mGenresAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_GENRE, this, true);
-        mPlaylistAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_PLAYLIST, this, true);
-        mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
-        mLists = new ContextMenuRecyclerView[MODE_TOTAL];
         for (int i = 0; i < MODE_TOTAL; i++)
             mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
 
