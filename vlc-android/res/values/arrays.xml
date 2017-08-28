@@ -162,6 +162,7 @@
 
     <string-array name="subtitles_color_entries">
         <item>@string/subtitles_color_white</item>
+        <item>@string/subtitles_color_gray</item>
         <item>@string/subtitles_color_pink</item>
         <item>@string/subtitles_color_blue</item>
         <item>@string/subtitles_color_yellow</item>
@@ -170,6 +171,7 @@
 
     <string-array name="subtitles_color_values">
         <item>16777215</item>
+        <item>12632256</item>
         <item>16711935</item>
         <item>65535</item>
         <item>16776960</item>

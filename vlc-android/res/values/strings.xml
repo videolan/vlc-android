@@ -331,6 +331,7 @@
     <string name="subtitles_size_huge">Huge</string>
     <string name="subtitles_color_title">Subtitles Color</string>
     <string name="subtitles_color_white">White</string>
+    <string name="subtitles_color_gray">Gray</string>
     <string name="subtitles_color_pink">Pink</string>
     <string name="subtitles_color_blue">Blue</string>
     <string name="subtitles_color_yellow">Yellow</string>
