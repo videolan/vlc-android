@@ -768,7 +768,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public void restoreList() {
-        mAdapter.restoreList();
+        if (mAdapter != null)
+            mAdapter.restoreList();
     }
     public void setSearchVisibility(boolean visible) {
         UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);

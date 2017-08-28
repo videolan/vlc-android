@@ -189,7 +189,9 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     public void onUpdateFinished(RecyclerView.Adapter adapter) {}
 
     public void restoreList() {
-        getCurrentAdapter().restoreList();
+        final AudioBrowserAdapter adapter = getCurrentAdapter();
+        if (adapter != null)
+            adapter.restoreList();
     }
 
     @Override
