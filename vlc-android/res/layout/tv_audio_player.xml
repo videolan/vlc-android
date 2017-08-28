@@ -198,6 +198,7 @@
             android:nextFocusRight="@+id/button_play"
             android:nextFocusDown="@+id/playlist"
             android:scrollbars="vertical"
+            android:descendantFocusability="beforeDescendants"
             android:layout_margin="@dimen/half_default_margin" />
     </android.support.constraint.ConstraintLayout>
 </layout>
