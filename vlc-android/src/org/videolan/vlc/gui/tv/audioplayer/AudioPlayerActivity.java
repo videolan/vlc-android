@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -75,7 +76,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private boolean mShuffling = false;
     private String mCurrentCoverArt;
 
-    private TextView mTitleTv, mArtistTv;
+    private TextView mTitleTv, mArtistTv, mTime, mLength;
     private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat, mBackground;
     private ProgressBar mProgressBar;
 
@@ -98,6 +99,8 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mRecyclerView.setAdapter(mAdapter);
 
         mTitleTv = (TextView)findViewById(R.id.media_title);
+        mTime = (TextView)findViewById(R.id.media_time);
+        mLength = (TextView)findViewById(R.id.media_length);
         mArtistTv = (TextView)findViewById(R.id.media_artist);
         mNext = (ImageView)findViewById(R.id.button_next);
         mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
@@ -108,15 +111,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mBackground = (ImageView)findViewById(R.id.background);
     }
 
-
-    @Override
-    protected void onStop() {
-        /* unregister before super.onStop() since mService is set to null from this call */
-        if (mService != null)
-            mService.removeCallback(this);
-        super.onStop();
-    }
-
     protected void onResume() {
         super.onResume();
         mRecyclerView.post(new Runnable() {
@@ -125,7 +119,15 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 update();
             }
         });
-    };
+    }
+
+    @Override
+    protected void onStop() {
+        /* unregister before super.onStop() since mService is set to null from this call */
+        if (mService != null)
+            mService.removeCallback(this);
+        super.onStop();
+    }
 
     @Override
     public void onConnected(PlaybackService service) {
@@ -172,6 +174,8 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             }
             mTitleTv.setText(mService.getTitle());
             mArtistTv.setText(mService.getArtist());
+            mTime.setText(Tools.millisToString(mService.getTime()));
+            mLength.setText(Tools.millisToString(mService.getLength()));
             mProgressBar.setMax((int) mService.getLength());
             mCurrentlyPlaying = mService.getCurrentMediaPosition();
             selectItem(mCurrentlyPlaying);
@@ -183,7 +187,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 @Override
                 public void run() {
                     final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mCover.getWidth());
-                    final Bitmap blurredCover = UiTools.blurBitmap(cover);
+                    final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
@@ -420,7 +424,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         selectItem(mAdapter.getmSelectedItem()-1);
     }
 
-    private void selectItem(final int position){
+    private void selectItem(final int position) {
         if (position >= mMediaList.size())
             return;
         mRecyclerView.post(new Runnable() {
