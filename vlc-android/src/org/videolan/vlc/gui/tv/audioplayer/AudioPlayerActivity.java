@@ -94,16 +94,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mBinding.playlist.setAdapter(mAdapter);
     }
 
-    protected void onResume() {
-        super.onResume();
-        mBinding.playlist.post(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        });
-    }
-
     @Override
     protected void onStop() {
         /* unregister before super.onStop() since mService is set to null from this call */
@@ -143,49 +133,51 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     @Override
     public void update() {
-        if (mService == null)
+        if (mService == null || !mService.hasMedia())
             return;
         mBinding.buttonPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-        if (mService.hasMedia()) {
-            SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
-            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-                mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
-                mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                mService.switchToVideo();
-                finish();
-                return;
-            }
-            mBinding.mediaTitle.setText(mService.getTitle());
-            mBinding.mediaArtist.setText(mService.getArtist());
-            mProgress.update(mService.getTime(), mService.getLength());
-            mCurrentlyPlaying = mService.getCurrentMediaPosition();
-            selectItem(mCurrentlyPlaying);
-            final MediaWrapper mw = mService.getCurrentMediaWrapper();
-            if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
-                return;
-            mCurrentCoverArt = mw.getArtworkMrl();
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());
-                    final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
-                    VLCApplication.runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (cover == null) {
-                                mBinding.albumCover.setImageResource(R.drawable.ic_tv_icon_big);
-                                mBinding.background.clearColorFilter();
-                                mBinding.background.setImageResource(0);
-                            } else {
-                                mBinding.albumCover.setImageBitmap(cover);
-                                mBinding.background.setColorFilter(UiTools.getColorFromAttribute(mBinding.background.getContext(), R.attr.audio_player_background_tint));
-                                mBinding.background.setImageBitmap(blurredCover);
-                            }
-                        }
-                    });
-                }
-            });
+        SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
+        if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
+            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
+            mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            mService.switchToVideo();
+            finish();
+            return;
         }
+        mBinding.mediaTitle.setText(mService.getTitle());
+        mBinding.mediaArtist.setText(mService.getArtist());
+        mProgress.update(mService.getTime(), mService.getLength());
+        mCurrentlyPlaying = mService.getCurrentMediaPosition();
+        selectItem(mCurrentlyPlaying);
+        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
+            return;
+        mCurrentCoverArt = mw.getArtworkMrl();
+        updateBackground();
+    }
+
+    private void updateBackground() {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());
+                final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (cover == null) {
+                            mBinding.albumCover.setImageResource(R.drawable.ic_tv_icon_big);
+                            mBinding.background.clearColorFilter();
+                            mBinding.background.setImageResource(0);
+                        } else {
+                            mBinding.albumCover.setImageBitmap(cover);
+                            mBinding.background.setColorFilter(UiTools.getColorFromAttribute(mBinding.background.getContext(), R.attr.audio_player_background_tint));
+                            mBinding.background.setImageBitmap(blurredCover);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
