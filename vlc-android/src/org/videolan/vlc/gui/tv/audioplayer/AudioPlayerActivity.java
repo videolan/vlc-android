@@ -22,6 +22,9 @@ package org.videolan.vlc.gui.tv.audioplayer;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -29,15 +32,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -46,6 +45,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.TvAudioPlayerBinding;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -64,10 +64,11 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     public static final String MEDIA_LIST = "media_list";
     public static final String MEDIA_POSITION = "media_position";
 
-    private RecyclerView mRecyclerView;
+    private TvAudioPlayerBinding mBinding;
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private ArrayList<MediaWrapper> mMediaList;
+    final private  Progress mProgress = new Progress();
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -76,44 +77,26 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private boolean mShuffling = false;
     private String mCurrentCoverArt;
 
-    private TextView mTitleTv, mArtistTv, mTime, mLength;
-    private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat, mBackground;
-    private ProgressBar mProgressBar;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tv_audio_player);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player);
+        mBinding.setProgress(mProgress);
 
         mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
         mCurrentlyPlaying = getIntent().getIntExtra(MEDIA_POSITION, 0);
-        mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
         mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setOnFocusChangeListener(this);
+        mBinding.playlist.setLayoutManager(mLayoutManager);
+        mBinding.playlist.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.playlist.setOnFocusChangeListener(this);
         if (mMediaList == null)
             mMediaList = new ArrayList<>();
-//        if (getIntent().getData() != null)
-//            mMediaList.add(getIntent().getDataString());
         mAdapter = new PlaylistAdapter(this, mMediaList);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mTitleTv = (TextView)findViewById(R.id.media_title);
-        mTime = (TextView)findViewById(R.id.media_time);
-        mLength = (TextView)findViewById(R.id.media_length);
-        mArtistTv = (TextView)findViewById(R.id.media_artist);
-        mNext = (ImageView)findViewById(R.id.button_next);
-        mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
-        mShuffle = (ImageView)findViewById(R.id.button_shuffle);
-        mRepeat = (ImageView)findViewById(R.id.button_repeat);
-        mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
-        mCover = (ImageView)findViewById(R.id.album_cover);
-        mBackground = (ImageView)findViewById(R.id.background);
+        mBinding.playlist.setAdapter(mAdapter);
     }
 
     protected void onResume() {
         super.onResume();
-        mRecyclerView.post(new Runnable() {
+        mBinding.playlist.post(new Runnable() {
             @Override
             public void run() {
                 update();
@@ -134,7 +117,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         super.onConnected(service);
 
         mService.addCallback(this);
-        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
+        ArrayList<MediaWrapper> medias = mService.getMedias();
         if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
             mService.load(mMediaList, mCurrentlyPlaying);
         } else {
@@ -143,7 +126,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 mService.playIndex(mCurrentlyPlaying);
             update();
             mAdapter = new PlaylistAdapter(this, mMediaList);
-            mRecyclerView.setAdapter(mAdapter);
+            mBinding.playlist.setAdapter(mAdapter);
         }
 
     }
@@ -162,7 +145,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     public void update() {
         if (mService == null)
             return;
-        mPlayPauseButton.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
+        mBinding.buttonPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
         if (mService.hasMedia()) {
             SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
             if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
@@ -172,11 +155,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 finish();
                 return;
             }
-            mTitleTv.setText(mService.getTitle());
-            mArtistTv.setText(mService.getArtist());
-            mTime.setText(Tools.millisToString(mService.getTime()));
-            mLength.setText(Tools.millisToString(mService.getLength()));
-            mProgressBar.setMax((int) mService.getLength());
+            mBinding.mediaTitle.setText(mService.getTitle());
+            mBinding.mediaArtist.setText(mService.getArtist());
+            mProgress.update(mService.getTime(), mService.getLength());
             mCurrentlyPlaying = mService.getCurrentMediaPosition();
             selectItem(mCurrentlyPlaying);
             final MediaWrapper mw = mService.getCurrentMediaWrapper();
@@ -186,19 +167,19 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             VLCApplication.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mCover.getWidth());
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());
                     final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             if (cover == null) {
-                                mCover.setImageResource(R.drawable.ic_tv_icon_big);
-                                mBackground.clearColorFilter();
-                                mBackground.setImageResource(0);
+                                mBinding.albumCover.setImageResource(R.drawable.ic_tv_icon_big);
+                                mBinding.background.clearColorFilter();
+                                mBinding.background.setImageResource(0);
                             } else {
-                                mCover.setImageBitmap(cover);
-                                mBackground.setColorFilter(UiTools.getColorFromAttribute(mBackground.getContext(), R.attr.audio_player_background_tint));
-                                mBackground.setImageBitmap(blurredCover);
+                                mBinding.albumCover.setImageBitmap(cover);
+                                mBinding.background.setColorFilter(UiTools.getColorFromAttribute(mBinding.background.getContext(), R.attr.audio_player_background_tint));
+                                mBinding.background.setImageBitmap(blurredCover);
                             }
                         }
                     });
@@ -210,18 +191,14 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     @Override
     public void updateProgress() {
         if (mService != null)
-            mProgressBar.setProgress((int)mService.getTime());
+            mProgress.updateTime(mService.getTime());
     }
 
     @Override
-    public void onMediaEvent(Media.Event event) {
-
-    }
+    public void onMediaEvent(Media.Event event) {}
 
     @Override
-    public void onMediaPlayerEvent(MediaPlayer.Event event) {
-
-    }
+    public void onMediaPlayerEvent(MediaPlayer.Event event) {}
 
     public boolean onKeyDown(int keyCode, KeyEvent event){
         switch (keyCode){
@@ -242,13 +219,13 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 goNext();
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (mProgressBar.hasFocus()) {
+                if (mBinding.mediaProgress.hasFocus()) {
                     seek(10000);
                     return true;
                 } else
                     return false;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (mProgressBar.hasFocus()) {
+                if (mBinding.mediaProgress.hasFocus()) {
                     seek(-10000);
                     return true;
                 } else
@@ -267,19 +244,19 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
              * Playlist navigation
              */
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (mRecyclerView.hasFocus()) {
+                if (mBinding.playlist.hasFocus()) {
                     selectPrevious();
                     return true;
                 } else
                     return false;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (mRecyclerView.hasFocus()) {
+                if (mBinding.playlist.hasFocus()) {
                     selectNext();
                     return true;
                 } else
                     return false;
             case KeyEvent.KEYCODE_DPAD_CENTER:
-                if (mRecyclerView.hasFocus()) {
+                if (mBinding.playlist.hasFocus()) {
                     playSelection();
                     return true;
                 } else
@@ -356,14 +333,13 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         if (mService == null)
             return;
         mShuffling = shuffle;
-        mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
+        mBinding.buttonShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle_w);
-        ArrayList<MediaWrapper> medias = (ArrayList<MediaWrapper>) mService.getMedias();
-        if (shuffle){
+        ArrayList<MediaWrapper> medias = mService.getMedias();
+        if (shuffle)
             Collections.shuffle(medias);
-        } else {
+        else
             Collections.sort(medias, MediaComparators.byTrackNumber);
-        }
         mService.load(medias, 0);
         mAdapter.updateList(medias);
         update();
@@ -375,13 +351,13 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         int type = mService.getRepeatType();
         if (type == PlaybackService.REPEAT_NONE){
             mService.setRepeatType(PlaybackService.REPEAT_ALL);
-            mRepeat.setImageResource(R.drawable.ic_repeat_all);
+            mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all);
         } else if (type == PlaybackService.REPEAT_ALL) {
             mService.setRepeatType(PlaybackService.REPEAT_ONE);
-            mRepeat.setImageResource(R.drawable.ic_repeat_one);
+            mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one);
         } else if (type == PlaybackService.REPEAT_ONE) {
             mService.setRepeatType(PlaybackService.REPEAT_NONE);
-            mRepeat.setImageResource(R.drawable.ic_repeat_w);
+            mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_w);
         }
     }
 
@@ -408,7 +384,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     private void selectNext() {
         if (mAdapter.getmSelectedItem() >= mAdapter.getItemCount()-1) {
-            mProgressBar.requestFocus();
+            mBinding.mediaProgress.requestFocus();
             selectItem(-1);
             return;
         }
@@ -417,7 +393,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     private void selectPrevious() {
         if (mAdapter.getmSelectedItem() < 1){
-            mPlayPauseButton.requestFocus();
+            mBinding.buttonPlay.requestFocus();
             selectItem(-1);
             return;
         }
@@ -427,13 +403,13 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private void selectItem(final int position) {
         if (position >= mMediaList.size())
             return;
-        mRecyclerView.post(new Runnable() {
+        mBinding.playlist.post(new Runnable() {
             @Override
             public void run() {
                 if (position != -1 && (position > mLayoutManager.findLastCompletelyVisibleItemPosition()
                         || position < mLayoutManager.findFirstCompletelyVisibleItemPosition())) {
-                    mRecyclerView.stopScroll();
-                    mRecyclerView.smoothScrollToPosition(position);
+                    mBinding.playlist.stopScroll();
+                    mBinding.playlist.smoothScrollToPosition(position);
                 }
                 mAdapter.setSelection(position);
             }
@@ -448,6 +424,24 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             if (mAdapter.getmSelectedItem() != -1)
                 mPositionSaved = mAdapter.getmSelectedItem();
             selectItem(-1);
+        }
+    }
+
+    public class Progress {
+        public ObservableInt time = new ObservableInt(0);
+        public ObservableInt length = new ObservableInt(0);
+        public ObservableField<String> strTime = new ObservableField<>("");
+        public ObservableField<String> strLength = new ObservableField<>("");
+
+        void updateTime(long time) {
+            strTime.set(Tools.millisToString(time));
+            this.time.set((int) time);
+        }
+
+        void update(long time, long length) {
+            updateTime(time);
+            this.length.set((int) length);
+            strLength.set(Tools.millisToString(length));
         }
     }
 }
