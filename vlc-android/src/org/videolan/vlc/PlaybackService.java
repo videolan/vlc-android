@@ -619,6 +619,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     break;
                 case MediaPlayer.Event.Stopped:
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
+                    hideNotification();
                     saveMediaMeta();
                     executeUpdate();
                     publishState();
@@ -637,6 +638,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     } else {
                         if (mWakeLock.isHeld())
                             mWakeLock.release();
+                        mCurrentIndex = -1;
+                        hideNotification();
                         changeAudioFocus(false);
                         executeUpdate();
                         publishState();
