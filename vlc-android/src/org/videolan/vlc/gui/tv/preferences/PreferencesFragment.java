@@ -59,6 +59,7 @@ public class PreferencesFragment extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findPreference("screen_orientation").setVisible(false);
+        findPreference("extensions_category").setVisible(false);
     }
 
     @Override
