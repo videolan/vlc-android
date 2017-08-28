@@ -76,7 +76,7 @@ public class CardPresenter extends Presenter {
         public ViewHolder(View view) {
             super(view);
             mCardView = (ImageCardView) view;
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
         void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
