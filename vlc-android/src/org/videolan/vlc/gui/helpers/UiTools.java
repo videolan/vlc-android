@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.helpers;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
@@ -46,6 +47,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -301,35 +303,35 @@ public class UiTools {
         if (bitmap == null || bitmap.getConfig() == null)
             return null;
 
-		//Let's create an empty bitmap with the same size of the bitmap we want to blur
-		Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        //Let's create an empty bitmap with the same size of the bitmap we want to blur
+        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
-		//Instantiate a new Renderscript
-		RenderScript rs = RenderScript.create(VLCApplication.getAppContext());
+        //Instantiate a new Renderscript
+        RenderScript rs = RenderScript.create(VLCApplication.getAppContext());
 
-		//Create an Intrinsic Blur Script using the Renderscript
-		ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        //Create an Intrinsic Blur Script using the Renderscript
+        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
 
-		//Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
-		Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-		Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+        //Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
+        Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+        Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
-		//Set the radius of the blur
-		blurScript.setRadius(radius);
+        //Set the radius of the blur
+        blurScript.setRadius(radius);
 
-		//Perform the Renderscript
-		blurScript.setInput(allIn);
-		blurScript.forEach(allOut);
+        //Perform the Renderscript
+        blurScript.setInput(allIn);
+        blurScript.forEach(allOut);
 
-		//Copy the final bitmap created by the out Allocation to the outBitmap
-		allOut.copyTo(outBitmap);
+        //Copy the final bitmap created by the out Allocation to the outBitmap
+        allOut.copyTo(outBitmap);
 
-		//After finishing everything, we destroy the Renderscript.
-		rs.destroy();
+        //After finishing everything, we destroy the Renderscript.
+        rs.destroy();
 
-		return outBitmap;
-	}
+        return outBitmap;
+    }
 
     public static void updateSortTitles(SortableFragment sortable, Menu menu) {
         MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
@@ -394,5 +396,21 @@ public class UiTools {
             else
                 item.setTitle(R.string.sortby_number);
         }
+    }
+
+    public static void confirmExit(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setMessage(R.string.exit_app_msg)
+                .setTitle(R.string.exit_app)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                activity.finish();
+            }
+        })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 }
