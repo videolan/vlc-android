@@ -7,9 +7,11 @@
 
     <style name="Theme.VLC.21" parent="Theme.VLC.7">
         <item name="android:popupMenuStyle">@style/PopupMenuStyle.Light</item>
+        <item name="android:navigationBarColor">?attr/background_default_darker</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.7">
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="android:navigationBarColor">?attr/background_default_darker</item>
     </style>
     <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
         <item name="android:windowTranslucentStatus">false</item>">
