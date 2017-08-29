@@ -102,6 +102,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                 });
             }
         }
+        setUserVisibleHint(!hidden);
     }
 
     @Override
