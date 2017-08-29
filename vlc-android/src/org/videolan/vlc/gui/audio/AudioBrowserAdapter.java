@@ -349,6 +349,8 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> items) {
+        if (!isSortAllowed(getSortBy()))
+            sMediaComparator.setSortDefault();
         if (mMakeSections) {
             if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
                 return generateSections(items, getDefaultSort());
