@@ -202,7 +202,7 @@ public class VLCOptions {
     @MainThread
     public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        if (pref.getBoolean("equalizer_enabled", false)) {
+        if (pref.contains("equalizer_enabled")) {
             final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
             final int bandCount = MediaPlayer.Equalizer.getBandCount();
             if (bands.length != bandCount + 1)
@@ -214,7 +214,7 @@ public class VLCOptions {
                 eq.setAmp(i, bands[i + 1]);
             return eq;
         } else
-            return null;
+            return MediaPlayer.Equalizer.createFromPreset(0);
     }
 
     @MainThread
@@ -224,11 +224,11 @@ public class VLCOptions {
     }
 
     @MainThread
-    public static void saveEqualizerInSettings(Context context, MediaPlayer.Equalizer eq, String name, boolean saved) {
+    public static void saveEqualizerInSettings(Context context, MediaPlayer.Equalizer eq, String name, boolean enabled, boolean saved) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
         if (eq != null) {
-            editor.putBoolean("equalizer_enabled", true);
+            editor.putBoolean("equalizer_enabled", enabled);
             final int bandCount = MediaPlayer.Equalizer.getBandCount();
             final float[] bands = new float[bandCount + 1];
             bands[0] = eq.getPreAmp();
@@ -291,5 +291,10 @@ public class VLCOptions {
     public static boolean getEqualizerSavedState (Context context){
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean("equalizer_saved", true);
+    }
+
+    public static boolean getEqualizerEnabledState (Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("equalizer_enabled", false);
     }
 }
