@@ -156,32 +156,24 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         mGridView.setAdapter(mAdapter);
     }
 
-    public void onStart() {
-        if (mMediaLibrary.isInitiated())
-            onMedialibraryReady();
-        else if (mGroup == null)
-            setupMediaLibraryReceiver();
-        super.onStart();
-        registerForContextMenu(mGridView);
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            if (mMediaLibrary.isInitiated())
+                onMedialibraryReady();
+            else if (mGroup == null)
+                setupMediaLibraryReceiver();
+            registerForContextMenu(mGridView);
             setSearchVisibility(false);
             updateViewMode();
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             setFabPlayVisibility(true);
+        } else {
+            mMediaLibrary.removeMediaUpdatedCb();
+            mMediaLibrary.removeMediaAddedCb();
+            unregisterForContextMenu(mGridView);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mMediaLibrary.removeMediaUpdatedCb();
-        mMediaLibrary.removeMediaAddedCb();
-        unregisterForContextMenu(mGridView);
     }
 
     @Override
@@ -197,7 +189,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
             mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
         }
-        if (!isHidden() && mAdapter.isEmpty())
+        if (!isHidden())
             mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 

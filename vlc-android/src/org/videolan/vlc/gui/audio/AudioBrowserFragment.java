@@ -150,34 +150,26 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    public void onStart() {
-        if (mMediaLibrary.isInitiated())
-            onMedialibraryReady();
-        else
-            setupMediaLibraryReceiver();
-        super.onStart();
-        for (View rv : mLists)
-            registerForContextMenu(rv);
-        mViewPager.addOnPageChangeListener(this);
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            if (mMediaLibrary.isInitiated())
+                onMedialibraryReady();
+            else
+                setupMediaLibraryReceiver();
+            for (View rv : mLists)
+                registerForContextMenu(rv);
+            mViewPager.addOnPageChangeListener(this);
             mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
             setFabPlayShuffleAllVisibility();
+        } else {
+            mMediaLibrary.removeMediaUpdatedCb();
+            mMediaLibrary.removeMediaAddedCb();
+            for (View rv : mLists)
+                unregisterForContextMenu(rv);
+            mViewPager.removeOnPageChangeListener(this);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mMediaLibrary.removeMediaUpdatedCb();
-        mMediaLibrary.removeMediaAddedCb();
-        for (View rv : mLists)
-            unregisterForContextMenu(rv);
-        mViewPager.removeOnPageChangeListener(this);
     }
 
     private void setupTabLayout() {
