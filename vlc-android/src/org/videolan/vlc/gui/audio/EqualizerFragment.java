@@ -28,7 +28,6 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -82,8 +81,10 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     private ArrayAdapter<String> adapter;
     private Context context;
     private View dialogView;
-    private int previousPos = 0;
+    private int revertPos = 0;
+    private int savePos = 0;
     private boolean saved = true;
+    private boolean updateAlreadyHandled = false;
     private final static int TYPE_PRESET = 0;
     private final static int TYPE_CUSTOM = 1;
     private final static int TYPE_NEW = 2;
@@ -160,7 +161,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (mService != null)
                     if (isChecked)
-                        updateEqualizer(allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(context)));
+                        mService.setEqualizer(mEqualizer);
                     else
                         mService.setEqualizer(null);
             }
@@ -194,7 +195,14 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
             @Override
             public void run() {
                 equalizer_sets.setOnItemSelectedListener(mSetListener);
-                equalizer_sets.setOnTouchListener(spinnerOpenListener);
+                savePos = pos;
+                revertPos = getEqualizerType(pos) == TYPE_CUSTOM ? pos : 0;
+                if (mEqualizer == null) {
+                    equalizer_sets.setSelection(0);
+                    return;
+                }
+                saved = VLCOptions.getEqualizerSavedState(context);
+                updateAlreadyHandled = true;
                 equalizer_sets.setSelection(pos);
             }
         });
@@ -227,20 +235,13 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         equalizer_sets.setOnItemSelectedListener(null);
         preamp.setOnSeekBarChangeListener(null);
         bands_layout.removeAllViews();
-
         if (button.isChecked()) {
             int pos = equalizer_sets.getSelectedItemPosition();
-            if (saved) {
-                VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets.get(pos));
-            } else {
-                if (getEqualizerType(pos) == TYPE_NEW)
-                    VLCOptions.saveEqualizerInSettings(context, MediaPlayer.Equalizer.createFromPreset(0), allSets.get(0));
-                else
-                    VLCOptions.saveEqualizerInSettings(context, VLCOptions.getCustomSet(context, allSets.get(pos)), allSets.get(pos));
+            VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets.get(pos), saved);
+            if (!saved)
                 createSaveCustomSetDialog(equalizer_sets.getSelectedItemPosition(), false, true);
-            }
         } else {
-            VLCOptions.saveEqualizerInSettings(context, null, null);
+            VLCOptions.saveEqualizerInSettings(context, null, null, true);
         }
     }
 
@@ -257,13 +258,10 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                 return;
 
             //save set if changes made (needs old currentPosition)
-            if (!saved && getEqualizerType(pos) != TYPE_NEW)
-                createSaveCustomSetDialog(previousPos, false, false);
-
-            saved = getEqualizerType(pos) != TYPE_NEW;
+            if (!saved && !updateAlreadyHandled)
+                createSaveCustomSetDialog(savePos, false, false);
 
             updateEqualizer(pos);
-            updateButtonVisibility(pos);
         }
 
         @Override
@@ -284,16 +282,20 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (!fromUser || mService == null)
                 return;
-
             mEqualizer.setPreAmp(progress - 20);
 
             int pos = equalizer_sets.getSelectedItemPosition();
             if (getEqualizerType(pos) == TYPE_PRESET) {
-                previousPos = equalizer_sets.getSelectedItemPosition();
+                revertPos = pos;
+                savePos = presetCount + customCount;
+                saved = false;
+                updateAlreadyHandled = true;
                 equalizer_sets.setSelection(presetCount + customCount);
             } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
+                revertPos = pos;
+                savePos = pos;
                 saved = false;
-                setButtonVisibility(true, true, false);
+                updateButtonVisibility(pos);
             }
 
             if (button.isChecked())
@@ -316,26 +318,22 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
 
             int pos = equalizer_sets.getSelectedItemPosition();
             if (getEqualizerType(pos) == TYPE_PRESET) {
-                previousPos = equalizer_sets.getSelectedItemPosition();
+                revertPos = pos;
+                savePos = presetCount + customCount;
+                saved = false;
+                updateAlreadyHandled = true;
                 equalizer_sets.setSelection(presetCount + customCount);
             } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
+                revertPos = pos;
+                savePos = pos;
                 saved = false;
-                setButtonVisibility(true, true, false);
+                updateButtonVisibility(pos);
             }
 
             if (button.isChecked() && mService != null)
                 mService.setEqualizer(mEqualizer);
         }
     }
-
-    private final View.OnTouchListener spinnerOpenListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !saved)
-                previousPos = equalizer_sets.getSelectedItemPosition();
-            return false;
-        }
-    };
 
     private static String[] getEqualizerPresets() {
         final int count = MediaPlayer.Equalizer.getPresetCount();
@@ -348,7 +346,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         return presets;
     }
 
-    public void createSaveCustomSetDialog(final int positionToSave, final boolean fromUser, final boolean onPause) {
+    public void createSaveCustomSetDialog(final int positionToSave, final boolean displayedByUser, final boolean onPause) {
         final String oldName = allSets.get(positionToSave);
 
         final MediaPlayer.Equalizer temporarySet = MediaPlayer.Equalizer.create();
@@ -361,7 +359,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         input.setSelectAllOnFocus(true);
 
         final AlertDialog saveEqualizer = new AlertDialog.Builder(context)
-                .setTitle(getResources().getString(fromUser
+                .setTitle(getResources().getString(displayedByUser
                         ? R.string.custom_set_save_title
                         : R.string.custom_set_save_warning))
                 .setMessage(getResources().getString((getEqualizerType(positionToSave) == TYPE_CUSTOM)
@@ -372,24 +370,15 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                 .setNegativeButton(R.string.do_not_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        onCancel(dialogInterface);
+                        if (onPause)
+                            VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets.get(positionToSave), false);
                     }
                 })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
-                        if (onPause) {
-                            VLCOptions.saveEqualizerInSettings(context, MediaPlayer.Equalizer.createFromPreset(0), allSets.get(0));
-                            if (getEqualizerType(positionToSave) == TYPE_PRESET || getEqualizerType(positionToSave) == TYPE_CUSTOM)
-                                updateEqualizer(positionToSave);
-                            else
-                                updateEqualizer(previousPos);
-                        } else {
-                            if (fromUser)
-                                saved = true;
-                            else
-                                updateEqualizer(equalizer_sets.getSelectedItemPosition());
-                        }
+                        if (onPause)
+                            VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets.get(positionToSave), false);
                     }
                 })
                 .create();
@@ -409,21 +398,24 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                         } else if (allSets.contains(newName) && !TextUtils.equals(newName,oldName)) {
                             Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getResources().getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show();
                         } else {
-                            saved = true;
                             VLCOptions.saveCustomSet(context, temporarySet, newName);
                             if (onPause) {
-                                VLCOptions.saveEqualizerInSettings(context, temporarySet, newName);
+                                VLCOptions.saveEqualizerInSettings(context, temporarySet, newName, true);
                             } else {
-                                setButtonVisibility(false, false, fromUser);
-                                if (!TextUtils.equals(newName,oldName)) {
+                                if (TextUtils.equals(newName,oldName)) {
+                                    if (displayedByUser) {
+                                        saved = true;
+                                        updateButtonVisibility(allSets.indexOf(newName));
+                                    }
+                                } else {
                                     allSets.add(presetCount + customCount, newName);
                                     customCount++;
-                                }
-                                if (fromUser) {
-                                    adapter.notifyDataSetChanged();
-                                    equalizer_sets.setSelection(allSets.indexOf(newName));
-                                } else {
-                                    updateEqualizer(equalizer_sets.getSelectedItemPosition());
+                                    if (displayedByUser) {
+                                        adapter.notifyDataSetChanged();
+                                        saved = true;
+                                        updateAlreadyHandled = true;
+                                        equalizer_sets.setSelection(allSets.indexOf(newName));
+                                    }
                                 }
                             }
                             saveEqualizer.dismiss();
@@ -466,54 +458,55 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     public void revertCustomSetChanges() {
         final int pos = equalizer_sets.getSelectedItemPosition();
 
-        if (getEqualizerType(pos) == TYPE_CUSTOM) {
+        final MediaPlayer.Equalizer temporarySet = MediaPlayer.Equalizer.create();
+        temporarySet.setPreAmp(mEqualizer.getPreAmp());
+        for (int i=0; i< MediaPlayer.Equalizer.getBandCount(); i++)
+            temporarySet.setAmp(i, mEqualizer.getAmp(i));
 
-            final MediaPlayer.Equalizer temporarySet = MediaPlayer.Equalizer.create();
-            temporarySet.setPreAmp(mEqualizer.getPreAmp());
-            for (int i=0; i< MediaPlayer.Equalizer.getBandCount(); i++)
-                temporarySet.setAmp(i, mEqualizer.getAmp(i));
+        Runnable cancelAction = new Runnable() {
+            @Override
+            public void run() {
+                saved = false;
+                mEqualizer = temporarySet;
+                updateAlreadyHandled = true;
+                if (pos == revertPos)
+                    updateEqualizer(pos);
+                else
+                    equalizer_sets.setSelection(pos);
+            }
+        };
+        saved = true;
+        if (pos == revertPos)
+            updateEqualizer(revertPos);
+        else
+            equalizer_sets.setSelection(revertPos);
 
-            Runnable cancelAction = new Runnable() {
-                @Override
-                public void run() {
-                    mEqualizer = temporarySet;
-                    saved = false;
-                    setButtonVisibility(true, true, false);
-                    updateEqualizer(-1);
-                }
-            };
-            saved = true;
-            updateEqualizer(pos);
-            setButtonVisibility(false, false, true);
-            String message = context.getString(R.string.custom_set_restored);
-            UiTools.snackerWithCancel(dialogView, message, null, cancelAction);
-
-        } else if (getEqualizerType(pos) == TYPE_NEW) {
-
-            final MediaPlayer.Equalizer temporarySet = MediaPlayer.Equalizer.create();
-            temporarySet.setPreAmp(mEqualizer.getPreAmp());
-            for (int i=0; i< MediaPlayer.Equalizer.getBandCount(); i++)
-                temporarySet.setAmp(i, mEqualizer.getAmp(i));
-
-            Runnable cancelAction = new Runnable() {
-                @Override
-                public void run() {
-                    mEqualizer = temporarySet;
-                    equalizer_sets.setSelection(presetCount + customCount);
-                }
-            };
-            saved = true;
-            equalizer_sets.setSelection(previousPos);
-            String message = context.getString(R.string.unsaved_set_deleted_message);
-            UiTools.snackerWithCancel(dialogView, message, null, cancelAction);
-        }
+        String message = getEqualizerType(pos) == TYPE_CUSTOM
+                ? context.getString(R.string.custom_set_restored)
+                : context.getString(R.string.unsaved_set_deleted_message);
+        UiTools.snackerWithCancel(dialogView, message, null, cancelAction);
     }
 
     private void updateEqualizer(int pos) {
-        if (getEqualizerType(pos) == TYPE_PRESET)
-            mEqualizer = MediaPlayer.Equalizer.createFromPreset(pos);
-        else if (getEqualizerType(pos) == TYPE_CUSTOM)
-            mEqualizer = VLCOptions.getCustomSet(context, allSets.get(pos));
+        if (updateAlreadyHandled) {
+            updateAlreadyHandled = false;
+        } else {
+            if (getEqualizerType(pos) == TYPE_PRESET) {
+                mEqualizer = MediaPlayer.Equalizer.createFromPreset(pos);
+                saved = true;
+            } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
+                mEqualizer = VLCOptions.getCustomSet(context, allSets.get(pos));
+                saved = true;
+            } else if (getEqualizerType(pos) == TYPE_NEW) {
+                mEqualizer = MediaPlayer.Equalizer.create();
+                saved = false;
+            } else {
+                saved = false;
+            }
+        }
+
+        updateButtonVisibility(pos);
+
         preamp.setProgress((int) mEqualizer.getPreAmp() + 20);
         for (int i = 0; i < BAND_COUNT; ++i) {
             EqualizerBar bar = (EqualizerBar) bands_layout.getChildAt(i);
@@ -524,21 +517,14 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
             mService.setEqualizer(mEqualizer);
     }
 
-
-    private void updateButtonVisibility (int pos) {
-        if (getEqualizerType(pos) == TYPE_PRESET) {
-            setButtonVisibility(false, false, false);
-        } else if (getEqualizerType(pos) == TYPE_CUSTOM) {
-            setButtonVisibility(false, false, true);
-        } else {
-            setButtonVisibility(true, true, false);
-        }
+    public void updateButtonVisibility(int pos) {
+        setButtonVisibility(!saved, !saved, (saved && getEqualizerType(pos) == TYPE_CUSTOM));
     }
 
-    private void setButtonVisibility(boolean s, boolean r, boolean d) {
-        save.setVisibility(s ? View.VISIBLE : View.GONE);
-        revert.setVisibility(r ? View.VISIBLE : View.GONE);
-        delete.setVisibility(d ? View.VISIBLE : View.GONE);
+    private void setButtonVisibility(boolean saveButtonVisible, boolean revertButtonVisible, boolean deleteButtonVisible) {
+        save.setVisibility(saveButtonVisible ? View.VISIBLE : View.GONE);
+        revert.setVisibility(revertButtonVisible ? View.VISIBLE : View.GONE);
+        delete.setVisibility(deleteButtonVisible ? View.VISIBLE : View.GONE);
     }
 
     private int getEqualizerType(int position) {

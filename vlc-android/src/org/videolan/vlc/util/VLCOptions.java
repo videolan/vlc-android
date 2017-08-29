@@ -224,7 +224,7 @@ public class VLCOptions {
     }
 
     @MainThread
-    public static void saveEqualizerInSettings(Context context, MediaPlayer.Equalizer eq, String name) {
+    public static void saveEqualizerInSettings(Context context, MediaPlayer.Equalizer eq, String name, boolean saved) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
         if (eq != null) {
@@ -240,6 +240,7 @@ public class VLCOptions {
         } else {
             editor.putBoolean("equalizer_enabled", false);
         }
+        editor.putBoolean("equalizer_saved", saved);
         editor.apply();
     }
 
@@ -285,5 +286,10 @@ public class VLCOptions {
                 .edit()
                 .remove("custom_equalizer_" + customName.replace(" ", "_"))
                 .apply();
+    }
+
+    public static boolean getEqualizerSavedState (Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("equalizer_saved", true);
     }
 }
