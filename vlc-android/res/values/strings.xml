@@ -368,7 +368,7 @@
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Chose extensions to enable</string>
     <string name="extensions_empty">No extension detected</string>
-    <string name="extension_permission_title">Activate new extension \"%1$s\"\?</string>
+    <string name="extension_permission_title">Activate new extension \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Show in %1$s</string>
     <string name="extension_prefs_activation_title">Activate</string>
     <string name="android_auto">Android auto</string>
