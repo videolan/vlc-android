@@ -96,6 +96,7 @@ public class PreferencesExtensionFragment extends BasePreferenceFragment {
             String key = mExtensionKey + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX;
             checkbox.setKey(key);
             checkbox.setChecked(switchPreference.isChecked() && mSettings.getBoolean(key, false));
+            checkbox.setEnabled(switchPreference.isChecked());
             preferences.add(checkbox);
             preferenceScreen.addPreference(checkbox);
         }

@@ -10,14 +10,17 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.SwitchPreferenceCompat;
+import android.support.v7.widget.SwitchCompat;
+import android.view.View;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionsManager;
+import org.videolan.vlc.gui.view.ClickableSwitchPreference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PreferencesExtensions extends BasePreferenceFragment {
 
@@ -61,10 +64,11 @@ public class PreferencesExtensions extends BasePreferenceFragment {
         PackageManager pm = getActivity().getApplicationContext().getPackageManager();
         for (int i = 0 ; i < mExtensions.size() ; ++i) {
             ExtensionListing extension = mExtensions.get(i);
-            SwitchPreferenceCompat switchPreference = new SwitchPreferenceCompat(preferenceScreen.getContext());
+            ClickableSwitchPreference switchPreference = new ClickableSwitchPreference(preferenceScreen.getContext());
             switchPreference.setTitle(extension.title());
             switchPreference.setSummary(extension.description());
-            switchPreference.setKey(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName());
+            final String key = ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName();
+            switchPreference.setKey(key);
             int iconRes = extension.menuIcon();
             Drawable extensionIcon = null;
             if (iconRes != 0) {
@@ -81,16 +85,20 @@ public class PreferencesExtensions extends BasePreferenceFragment {
                 } catch (PackageManager.NameNotFoundException e) {
                     switchPreference.setIcon(R.drawable.icon);
                 }
-            final boolean checked = mSettings.getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName(), false);
+            final boolean checked = mSettings.getBoolean(key, false);
             switchPreference.setChecked(checked);
-            switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            preferenceScreen.addPreference(switchPreference);
+            switchPreference.setOnSwitchClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((SwitchPreferenceCompat) preference).setChecked(true);
-                    return false;
+                public void onClick(View view) {
+                    if (((SwitchCompat)view).isChecked())
+                        mSettings.edit().putBoolean(key, true).apply();
+                    else
+                        for (Map.Entry<String, ?> entry : mSettings.getAll().entrySet())
+                            if (entry.getKey().startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
+                                mSettings.edit().putBoolean(entry.getKey(), false).apply();
                 }
             });
-            preferenceScreen.addPreference(switchPreference);
             count++;
         }
 
