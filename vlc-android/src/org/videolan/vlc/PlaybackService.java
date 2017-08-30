@@ -586,9 +586,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.Playing:
                     mStopped = false;
                     loadMediaMeta();
-                    if (mSavedTime > 0L)
-                        seek(mSavedTime);
-                    mSavedTime = 0L;
+                    if (mSavedTime > 0L) {
+                        if (mSavedTime < 0.95*getLength())
+                            seek(mSavedTime);
+                        mSavedTime = 0L;
+                    }
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
