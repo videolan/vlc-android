@@ -3250,11 +3250,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Start playback & seek
             mService.addCallback(this);
             /* prepare playback */
-            boolean hasMedia = mService.hasMedia();
-            if (hasMedia)
-                media = mService.getCurrentMediaWrapper();
-            else if (media == null)
-                media = new MediaWrapper(mUri);
+            final boolean hasMedia = mService.hasMedia();
+            final boolean medialoaded = media != null;
+            if (!medialoaded) {
+                if (hasMedia)
+                    media = mService.getCurrentMediaWrapper();
+                else
+                    media = new MediaWrapper(mUri);
+            }
             if (mWasPaused)
                 media.addFlags(MediaWrapper.MEDIA_PAUSED);
             if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
@@ -3269,7 +3272,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             // Handle playback
             if (!hasMedia) {
-                if (positionInPlaylist != -1)
+                if (!medialoaded && positionInPlaylist != -1)
                     mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
                 else
                     mService.load(media);
