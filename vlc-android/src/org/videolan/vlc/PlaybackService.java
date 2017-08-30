@@ -677,7 +677,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mStopped = true;
         mCurrentIndex = -1;
         hideNotification();
-        saveMediaMeta();
         executeUpdate();
         publishState();
         executeUpdateProgress();
@@ -986,6 +985,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
+            saveMediaMeta();
             media.setEventListener(null);
             mMediaPlayer.setEventListener(null);
             final MediaPlayer mp = mMediaPlayer;
