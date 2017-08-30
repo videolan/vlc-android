@@ -68,7 +68,7 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
                                 mHeadsetDownTime = time;
                             break;
                         case KeyEvent.ACTION_UP:
-                            if (AndroidDevices.hasTsp()) { //no backward/forward on TV
+                            if (AndroidDevices.hasTsp) { //no backward/forward on TV
                                 if (time - mHeadsetDownTime >= 1000) { // long click
                                     i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD, null, context, PlaybackService.class);
                                     break;

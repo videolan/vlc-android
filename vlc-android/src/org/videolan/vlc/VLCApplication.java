@@ -100,14 +100,14 @@ public class VLCApplication extends Application {
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
-                sTV = AndroidDevices.isAndroidTv() || !AndroidDevices.hasTsp();
+                sTV = AndroidDevices.isAndroidTv || !AndroidDevices.hasTsp;
 
                 if (!VLCInstance.testCompatibleCPU(instance))
                     return;
                 Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
 
                 // Disable remote control receiver on Fire TV.
-                if (!AndroidDevices.hasTsp())
+                if (!AndroidDevices.hasTsp)
                     AndroidDevices.setRemoteControlReceiverEnabled(false);
             }
         });

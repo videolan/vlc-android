@@ -246,7 +246,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         boolean isSong = count == 1 && mAdapter.getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
         //menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && mIsPlaylist);
         //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
-        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone() && !mIsPlaylist);
+        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone && !mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
         menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
         menu.findItem(R.id.action_mode_audio_delete).setVisible(mIsPlaylist);
@@ -320,7 +320,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     protected void setContextMenuItems(Menu menu, int position) {
         menu.setGroupVisible(R.id.songs_view_only, true);
         menu.findItem(R.id.audio_list_browser_play_all).setVisible(false);
-        menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone());
+        menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone);
         //Hide delete if we cannot. Always possible for a Playlist
         String location = ((MediaWrapper)mAdapter.getItem(position)).getLocation();
         menu.findItem(R.id.audio_list_browser_delete).setVisible(FileUtils.canWrite(location) || mIsPlaylist);

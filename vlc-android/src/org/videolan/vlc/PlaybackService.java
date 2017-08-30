@@ -254,7 +254,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
 
         mMedialibrary = VLCApplication.getMLInstance();
-        if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
+        if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
             AndroidDevices.setRemoteControlReceiverEnabled(true);
 
         mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
@@ -346,7 +346,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaSession = null;
         }
 
-        if (!AndroidDevices.hasTsp() && !AndroidDevices.hasPlayServices())
+        if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
             AndroidDevices.setRemoteControlReceiverEnabled(false);
 
         if (mWakeLock.isHeld())
@@ -1131,7 +1131,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             }
                             break;
                         case KeyEvent.ACTION_UP:
-                            if (AndroidDevices.hasTsp()) { //no backward/forward on TV
+                            if (AndroidDevices.hasTsp) { //no backward/forward on TV
                                 if (time - mHeadsetDownTime >= DELAY_LONG_CLICK) { // long click
                                     mHeadsetUpTime = time;
                                     previous(false);

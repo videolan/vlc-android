@@ -596,7 +596,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (!isInPictureInPictureMode()) {
             if (isFinishing() ||
                     (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
-                            && AndroidDevices.isAndroidTv() && !requestVisibleBehind(true)))
+                            && AndroidDevices.isAndroidTv && !requestVisibleBehind(true)))
                 stopPlayback();
             else if (!isFinishing() && !mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")) && isInteractive()) {
                 switchToPopup();
@@ -2877,7 +2877,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mOverlayProgress = findViewById(R.id.progress_overlay);
             RelativeLayout.LayoutParams layoutParams =
                     (RelativeLayout.LayoutParams)mOverlayProgress.getLayoutParams();
-            if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar())
+            if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
                 layoutParams.width = LayoutParams.MATCH_PARENT;
             else
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
@@ -2988,7 +2988,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
             else
                 visibility |= View.STATUS_BAR_HIDDEN;
-            if (!AndroidDevices.hasCombBar()) {
+            if (!AndroidDevices.hasCombBar) {
                 navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 if (AndroidUtil.isKitKatOrLater)
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
@@ -3004,7 +3004,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 visibility |= View.STATUS_BAR_VISIBLE;
         }
 
-        if (AndroidDevices.hasNavBar())
+        if (AndroidDevices.hasNavBar)
             visibility |= navbar;
         getWindow().getDecorView().setSystemUiVisibility(visibility);
     }
@@ -3023,7 +3023,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (AndroidUtil.isICSOrLater)
             navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
-        if (AndroidDevices.hasNavBar())
+        if (AndroidDevices.hasNavBar)
             visibility |= navbar;
         getWindow().getDecorView().setSystemUiVisibility(visibility);
 

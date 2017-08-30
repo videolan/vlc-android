@@ -158,7 +158,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     return true;
                 }
             });
-            if (AndroidDevices.isAndroidTv())
+            if (AndroidDevices.isAndroidTv)
                 itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean b) {

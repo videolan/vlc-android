@@ -226,7 +226,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 item.setVisible(FileUtils.canWrite(location));
             }
         }
-        if (!AndroidDevices.isPhone())
+        if (!AndroidDevices.isPhone)
             menu.setGroupVisible(R.id.phone_only, false);
     }
 

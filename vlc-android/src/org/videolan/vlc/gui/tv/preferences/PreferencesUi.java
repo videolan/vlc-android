@@ -50,7 +50,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         super.onCreate(savedInstanceState);
 
         findPreference("enable_clone_mode").setVisible(false);
-        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp());
+        findPreference("tv_ui").setVisible(AndroidDevices.hasTsp);
         findPreference("enable_black_theme").setVisible(false);
         findPreference("secondary_display_category").setVisible(false);
         findPreference("secondary_display_category_summary").setVisible(false);

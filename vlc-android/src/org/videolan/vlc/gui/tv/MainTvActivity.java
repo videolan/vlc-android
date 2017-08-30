@@ -149,7 +149,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         mBrowseFragment.setOnItemViewSelectedListener(this);
 
         //Enable search feature only if we detect Google Play Services.
-        if (AndroidDevices.hasPlayServices()) {
+        if (AndroidDevices.hasPlayServices) {
             mBrowseFragment.setOnSearchClickedListener(this);
             // set search icon color
             mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
@@ -207,7 +207,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStop() {
         super.onStop();
-        if (AndroidDevices.isAndroidTv()) {
+        if (AndroidDevices.isAndroidTv) {
             Intent recommendationIntent = new Intent(this,
                     RecommendationsService.class);
             startService(recommendationIntent);
@@ -513,7 +513,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             return;
         mBrowserAdapter.clear();
         List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
-        if (!AndroidDevices.showInternalStorage() && !directories.isEmpty())
+        if (!AndroidDevices.showInternalStorage && !directories.isEmpty())
             directories.remove(0);
         for (MediaWrapper directory : directories)
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_folder_big, directory.getUri()));

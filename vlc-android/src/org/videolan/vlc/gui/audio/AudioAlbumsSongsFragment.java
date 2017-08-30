@@ -197,7 +197,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
         }
-        if (!AndroidDevices.isPhone())
+        if (!AndroidDevices.isPhone)
             menu.setGroupVisible(R.id.phone_only, false);
         menu.findItem(R.id.audio_list_browser_play).setVisible(true);
         //Hide delete if we cannot

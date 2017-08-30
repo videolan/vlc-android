@@ -177,7 +177,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
 
         popupMenu.getMenu().setGroupVisible(R.id.phone_only, mw.getType() != MediaWrapper.TYPE_VIDEO
                 && TextUtils.equals(mw.getUri().getScheme(), "file")
-                && AndroidDevices.isPhone());
+                && AndroidDevices.isPhone);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

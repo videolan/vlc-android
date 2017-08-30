@@ -99,7 +99,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
             return false;
         }
         boolean isSong = count == 1 && getCurrentAdapter().getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
-        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone());
+        menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone);
         menu.findItem(R.id.action_mode_audio_info).setVisible(count == 1);
         menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
         return true;

@@ -55,7 +55,7 @@ public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (VLCApplication.showTvUi() && !AndroidDevices.hasPlayServices()) {
+        if (VLCApplication.showTvUi() && !AndroidDevices.hasPlayServices) {
             mBinding.login.setOnFocusChangeListener(this);
             mBinding.password.setOnFocusChangeListener(this);
         }

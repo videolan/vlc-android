@@ -29,7 +29,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
@@ -45,7 +44,6 @@ import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.NetworkInterface;
@@ -64,59 +62,44 @@ public class AndroidDevices {
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
     public static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
 
-    final static boolean hasNavBar;
-    final static boolean hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
-    final static boolean isTv = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.software.leanback");
-    final static boolean showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
-    public final static boolean isChromeBook = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("org.chromium.arc.device_management");
+    public final static boolean isPhone;
+    public final static boolean hasCombBar;
+    public final static boolean hasNavBar;
+    public final static boolean hasTsp;
+    public final static boolean isAndroidTv;
+    public final static boolean isChromeBook;
+    public static final boolean hasPiP;
+    public final static boolean showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
     private final static String[] noMediaStyleManufacturers = {"huawei", "symphony teleca"};
     public final static boolean showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
-    public static final boolean hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isTv;
-
+    public static final boolean hasPlayServices = hasPlayServices();
 
     static {
-        HashSet<String> devicesWithoutNavBar = new HashSet<>();
+        final HashSet<String> devicesWithoutNavBar = new HashSet<>();
         devicesWithoutNavBar.add("HTC One V");
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = AndroidUtil.isICSOrLater
-                && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        hasNavBar = AndroidUtil.isICSOrLater && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        final PackageManager pm = VLCApplication.getAppContext().getPackageManager();
+        hasTsp = pm.hasSystemFeature("android.hardware.touchscreen");
+        isAndroidTv = pm.hasSystemFeature("android.software.leanback");
+        isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management");
+        hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isAndroidTv;
+        isPhone = ((TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE))
+                .getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
+        // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
+        hasCombBar = !AndroidDevices.isPhone && AndroidUtil.isHoneycombOrLater
+                && AndroidUtil.isJellyBeanMR1OrLater;
     }
 
     public static boolean hasExternalStorage() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
-    public static boolean hasNavBar() {
-        return hasNavBar;
-    }
-
     /**
      * hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
      */
-    public static boolean hasCombBar() {
-        return (!AndroidDevices.isPhone()
-                && ((VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) &&
-                (VERSION.SDK_INT <= VERSION_CODES.JELLY_BEAN)));
-    }
-
-    public static boolean isPhone() {
-        TelephonyManager manager = (TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
-        return manager.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
-    }
-
-    public static boolean hasTsp() {
-        return hasTsp;
-    }
-
-    public static boolean isAndroidTv() {
-        return isTv;
-    }
-
-    public static boolean showInternalStorage() {
-        return showInternalStorage;
-    }
 
     public static ArrayList<String> getExternalStorageDirectories() {
         BufferedReader bufReader = null;
@@ -217,14 +200,6 @@ public class AndroidDevices {
         return 0;
     }
 
-    public static boolean hasPlayServices() {
-        try {
-            VLCApplication.getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {}
-        return false;
-    }
-
     public static boolean isVPNActive() {
         if (AndroidUtil.isLolliPopOrLater) {
             ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -298,6 +273,14 @@ public class AndroidDevices {
         for (String manufacturer : noMediaStyleManufacturers)
             if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
                 return true;
+        return false;
+    }
+
+    private static boolean hasPlayServices() {
+        try {
+            VLCApplication.getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
+            return true;
+        } catch (PackageManager.NameNotFoundException ignored) {}
         return false;
     }
 }
