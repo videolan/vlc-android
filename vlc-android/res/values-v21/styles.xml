@@ -7,7 +7,6 @@
 
     <style name="Theme.VLC.21" parent="Theme.VLC.7">
         <item name="android:popupMenuStyle">@style/PopupMenuStyle.Light</item>
-        <item name="android:navigationBarColor">?attr/background_actionbar</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.7">
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
