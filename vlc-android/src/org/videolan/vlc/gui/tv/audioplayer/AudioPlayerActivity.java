@@ -68,7 +68,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private ArrayList<MediaWrapper> mMediaList;
-    final private  Progress mProgress = new Progress();
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -80,7 +79,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player);
-        mBinding.setProgress(mProgress);
+        mBinding.setProgress(new Progress());
 
         mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
         mCurrentlyPlaying = getIntent().getIntExtra(MEDIA_POSITION, 0);
@@ -146,7 +145,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         }
         mBinding.mediaTitle.setText(mService.getTitle());
         mBinding.mediaArtist.setText(mService.getArtist());
-        mProgress.update(mService.getTime(), mService.getLength());
+        mBinding.getProgress().update(mService.getTime(), mService.getLength());
         mCurrentlyPlaying = mService.getCurrentMediaPosition();
         selectItem(mCurrentlyPlaying);
         final MediaWrapper mw = mService.getCurrentMediaWrapper();
@@ -183,7 +182,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     @Override
     public void updateProgress() {
         if (mService != null)
-            mProgress.updateTime(mService.getTime());
+            mBinding.getProgress().updateTime(mService.getTime());
     }
 
     @Override
