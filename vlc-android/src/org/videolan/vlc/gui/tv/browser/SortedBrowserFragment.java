@@ -236,8 +236,11 @@ public abstract class SortedBrowserFragment extends BrowseFragment implements Br
             ListItem item = new ListItem(letter, mw);
             mMediaItemMap.put(letter, item);
         }
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+        final Activity activity = getActivity();
+        if (activity != null) {
+            ((BrowserActivityInterface)activity).showProgress(false);
+            ((BrowserActivityInterface)activity).updateEmptyView(false);
+        }
         mHandler.removeMessages(HIDE_LOADING);
     }
 
