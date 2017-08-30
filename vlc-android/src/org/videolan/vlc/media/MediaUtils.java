@@ -16,7 +16,6 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
 
@@ -144,28 +143,28 @@ public class MediaUtils {
     }
 
     public static String getMediaArtist(Context ctx, MediaWrapper media) {
-        final String artist = media.getArtist();
+        final String artist = media != null ? media.getArtist() : null;
         return artist != null ? artist : getMediaString(ctx, R.string.unknown_artist);
     }
 
     public static String getMediaReferenceArtist(Context ctx, MediaWrapper media) {
-        final String artist = media.getReferenceArtist();
+        final String artist = media != null ? media.getReferenceArtist() : null;
         return artist != null ? artist : getMediaString(ctx, R.string.unknown_artist);
     }
 
     public static String getMediaAlbumArtist(Context ctx, MediaWrapper media) {
-        final String albumArtist = media.getAlbumArtist();
+        final String albumArtist = media != null ? media.getAlbumArtist() : null;
         return albumArtist != null ? albumArtist : getMediaString(ctx, R.string.unknown_artist);
     }
 
     public static String getMediaAlbum(Context ctx, MediaWrapper media) {
-        final String album = media.getAlbum();
+        final String album = media != null ? media.getAlbum() : null;
         return album != null ? album : getMediaString(ctx, R.string.unknown_album);
 
     }
 
     public static String getMediaGenre(Context ctx, MediaWrapper media) {
-        final String genre = media.getGenre();
+        final String genre = media != null ? media.getGenre() : null;
         return genre != null ? genre : getMediaString(ctx, R.string.unknown_genre);
     }
 
