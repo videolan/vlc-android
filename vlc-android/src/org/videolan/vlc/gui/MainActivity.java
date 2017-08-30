@@ -132,6 +132,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
         if (savedInstanceState != null) {
             final FragmentManager fm = getSupportFragmentManager();
+            mCurrentFragment = fm.getFragment(savedInstanceState, "current_fragment");
             //Restore fragments stack
             if (fm != null && fm.getFragments() != null) {
                 final FragmentTransaction ft =  fm.beginTransaction();
@@ -141,7 +142,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                             ft.remove(fragment);
                         } else if ((fragment instanceof MediaBrowserFragment)) {
                             mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                            ft.hide(fragment);
+                            if (fragment != mCurrentFragment)
+                                ft.hide(fragment);
                         }
                     }
                 ft.commit();
@@ -336,6 +338,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     protected void onSaveInstanceState(Bundle outState) {
         if (mCurrentFragment instanceof ExtensionBrowser)
             mCurrentFragment = null;
+        else
+            getSupportFragmentManager().putFragment(outState, "current_fragment", getCurrentFragment());
         super.onSaveInstanceState(outState);
         outState.putInt("current", mCurrentFragmentId);
     }
@@ -610,7 +614,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             if (mCurrentFragmentId == id) { /* Already selected */
                 // Go back at root level of current browser
                 if (current instanceof BaseBrowserFragment && !((BaseBrowserFragment) current).isRootDirectory()) {
-                    getSupportFragmentManager().popBackStack(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {
                     mDrawerLayout.closeDrawer(mNavigationView);
                     return false;
@@ -656,8 +660,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     public void showFragment(int id) {
         FragmentManager fm = getSupportFragmentManager();
-        //noinspection StatementWithEmptyBody
-        while (fm.popBackStackImmediate()); // Clear backstack
         String tag = getTag(id);
         //Get new fragment
         Fragment fragment = null;
@@ -673,8 +675,13 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         if (mCurrentFragment != null)
             if (mCurrentFragment instanceof ExtensionBrowser)
                 fm.beginTransaction().remove(mCurrentFragment).commit();
-            else
+            else {
+                if (mCurrentFragment instanceof BaseBrowserFragment
+                        && !((BaseBrowserFragment) mCurrentFragment).isRootDirectory())
+                    getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mCurrentFragment = getCurrentFragment();
                 fm.beginTransaction().hide(mCurrentFragment).commit();
+            }
         FragmentTransaction ft = fm.beginTransaction();
         if (add)
             ft.add(R.id.fragment_placeholder, fragment, tag);
