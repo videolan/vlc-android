@@ -202,8 +202,8 @@ public class VLCOptions {
     @MainThread
     public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        if (pref.contains("equalizer_enabled")) {
-            final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
+        final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
+        if (bands != null && pref.contains("equalizer_enabled")) {
             final int bandCount = MediaPlayer.Equalizer.getBandCount();
             if (bands.length != bandCount + 1)
                 return null;
