@@ -2857,7 +2857,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 UiTools.setViewVisibility(mPlaylistNext, View.VISIBLE);
                 UiTools.setViewVisibility(mPlaylistPrevious, View.VISIBLE);
             }
-            dimStatusBar(false);
+            if (!AndroidDevices.isChromeBook)
+                dimStatusBar(false);
             mOverlayProgress.setVisibility(View.VISIBLE);
             if (mPresentation != null)
                 mOverlayBackground.setVisibility(View.VISIBLE);
@@ -2949,7 +2950,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 UiTools.setViewVisibility(mPlaylistNext, View.INVISIBLE);
                 UiTools.setViewVisibility(mPlaylistPrevious, View.INVISIBLE);
             mShowing = false;
-            dimStatusBar(true);
+            if (!AndroidDevices.isChromeBook)
+                dimStatusBar(true);
         } else if (!fromUser) {
             /*
              * Try to hide the Nav Bar again.
@@ -2964,6 +2966,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      * Dim the status bar and/or navigation icons when needed on Android 3.x.
      * Hide it on Android 4.0 and later
      */
+    @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void dimStatusBar(boolean dim) {
         if (dim || mIsLocked)
