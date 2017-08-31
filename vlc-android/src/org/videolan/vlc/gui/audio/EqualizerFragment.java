@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.videolan.libvlc.MediaPlayer;
@@ -70,7 +70,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     private ImageView save;
     private ImageView delete;
     private ImageView revert;
-    private Spinner equalizer_sets;
+    private AppCompatSpinner equalizer_sets;
     private SeekBar preamp;
     private LinearLayout bands_layout;
     private MediaPlayer.Equalizer mEqualizer = null;
@@ -528,9 +528,9 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     }
 
     private void setButtonVisibility(boolean saveButtonVisible, boolean revertButtonVisible, boolean deleteButtonVisible) {
-        save.setVisibility(saveButtonVisible ? View.VISIBLE : View.GONE);
-        revert.setVisibility(revertButtonVisible ? View.VISIBLE : View.GONE);
-        delete.setVisibility(deleteButtonVisible ? View.VISIBLE : View.GONE);
+        save.setVisibility(saveButtonVisible ? View.VISIBLE : View.INVISIBLE);
+        revert.setVisibility(revertButtonVisible ? View.VISIBLE : View.INVISIBLE);
+        delete.setVisibility(deleteButtonVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     private int getEqualizerType(int position) {
