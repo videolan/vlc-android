@@ -35,7 +35,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -91,7 +90,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_SHUFFLE = 11 ;
 
     private Activity mActivity;
-    private int mTheme;
     private int mMode = -1;
 
     AutoFitRecyclerView mRecyclerView;
@@ -204,19 +202,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         String tag;
         switch (id) {
             case ID_PLAYBACK_SPEED:
-                newFragment = PlaybackSpeedDialog.newInstance(mTheme);
+                newFragment = PlaybackSpeedDialog.newInstance();
                 tag = "playback_speed";
                 break;
             case ID_JUMP_TO:
-                newFragment = JumpToTimeDialog.newInstance(mTheme);
+                newFragment = JumpToTimeDialog.newInstance();
                 tag = "time";
                 break;
             case ID_SLEEP:
-                newFragment = SleepTimerDialog.newInstance(mTheme);
+                newFragment = SleepTimerDialog.newInstance();
                 tag = "time";
                 break;
             case ID_CHAPTER_TITLE:
-                newFragment = SelectChapterDialog.newInstance(mTheme);
+                newFragment = SelectChapterDialog.newInstance();
                 tag = "select_chapter";
                 break;
             case ID_EQUALIZER:
@@ -230,8 +228,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             default:
                 return;
         }
-        if (newFragment != null)
-            newFragment.show(getActivity().getSupportFragmentManager(), tag);
+        newFragment.show(getActivity().getSupportFragmentManager(), tag);
         dismiss();
     }
 
@@ -661,7 +658,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void setSelection(int position) {
             if (mSelection == position || position < 0 || position >= mList.size())
                 return;
-            int formerSelection = mSelection;
             mSelection = position;
             notifyDataSetChanged();
         }

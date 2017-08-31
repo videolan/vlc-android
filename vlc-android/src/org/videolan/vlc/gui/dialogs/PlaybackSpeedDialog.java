@@ -56,20 +56,8 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     public PlaybackSpeedDialog() {
     }
 
-    public static PlaybackSpeedDialog newInstance(int theme) {
-        PlaybackSpeedDialog myFragment = new PlaybackSpeedDialog();
-
-        Bundle args = new Bundle();
-        args.putInt("theme", theme);
-        myFragment.setArguments(args);
-
-        return myFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, getArguments().getInt("theme"));
+    public static PlaybackSpeedDialog newInstance() {
+        return new PlaybackSpeedDialog();
     }
 
     @Override

@@ -54,27 +54,15 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
     public SelectChapterDialog() {
     }
 
-    public static SelectChapterDialog newInstance(int theme) {
-        SelectChapterDialog myFragment = new SelectChapterDialog();
-
-        Bundle args = new Bundle();
-        args.putInt("theme", theme);
-        myFragment.setArguments(args);
-
-        return myFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, getArguments().getInt("theme"));
+    public static SelectChapterDialog newInstance() {
+        return new SelectChapterDialog();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_select_chapter, container);
-        mChapterList = (ListView) view.findViewById(R.id.chapter_list);
+        mChapterList = view.findViewById(R.id.chapter_list);
 
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
