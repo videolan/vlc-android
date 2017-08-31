@@ -23,6 +23,7 @@
         android:onClick="@{holder::onClick}"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
+        android:focusable="true"
         android:onLongClick="@{holder::onLongClick}"  >
         <ImageView
             android:id="@+id/icon"

@@ -19,7 +19,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +26,8 @@ import android.view.ViewGroup;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.HistoryItemBinding;
-import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
 
@@ -46,11 +44,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private ArrayList<MediaWrapper> mMediaList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        HistoryItemBinding binding;
+    public class ViewHolder extends SelectorViewHolder<HistoryItemBinding> {
 
         public ViewHolder(HistoryItemBinding binding) {
-            super(binding.getRoot());
+            super(binding);
             this.binding = binding;
             binding.setHolder(this);
         }
@@ -63,6 +60,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
             return mEventsHandler.onLongClick(v, position, mMediaList.get(position));
+        }
+
+        @Override
+        protected boolean isSelected() {
+            return mMediaList.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         }
     }
 
@@ -100,7 +102,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         final MediaWrapper media = mMediaList.get(position);
         boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
-        holder.binding.setBgColor(ContextCompat.getColor(holder.itemView.getContext(), isSelected ? R.color.orange200transparent : R.color.transparent));
+        holder.selectView(isSelected);
     }
 
     @Override
@@ -108,7 +110,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         if (Util.isListEmpty(payloads))
             super.onBindViewHolder(holder, position, payloads);
         else
-            holder.binding.setBgColor(((MediaLibraryItem) payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED) ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_BG_TRANSPARENT);
+            holder.selectView(((MediaLibraryItem) payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
     }
 
     @Override

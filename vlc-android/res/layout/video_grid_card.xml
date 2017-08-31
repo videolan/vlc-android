@@ -34,6 +34,10 @@
             type="String" />
 
         <variable
+            name="bgColor"
+            type="int" />
+
+        <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable" />
 
@@ -56,7 +60,8 @@
         android:paddingLeft="@dimen/left_right_1610_margin"
         android:paddingRight="@dimen/left_right_1610_margin"
         android:paddingBottom="@dimen/top_bottom_1610_margin"
-        android:paddingTop="@dimen/top_bottom_1610_margin" >
+        android:paddingTop="@dimen/top_bottom_1610_margin"
+        android:background="@{bgColor}" >
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
         <ImageView

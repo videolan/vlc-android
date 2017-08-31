@@ -24,6 +24,9 @@
         <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
+        <variable
+            name="bgColor"
+            type="int" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,7 +36,8 @@
         android:focusable="true"
         android:clickable="@{holder != null}"
         android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-        android:onClick="@{holder::onClick}">
+        android:onClick="@{holder::onClick}"
+        android:background="@{bgColor}" >
 
         <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
             android:id="@+id/browser_checkbox"

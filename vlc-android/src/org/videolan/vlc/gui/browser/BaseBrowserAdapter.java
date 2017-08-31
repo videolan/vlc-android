@@ -2,7 +2,7 @@
  * **************************************************************************
  * BaseBrowserAdapter.java
  * ****************************************************************************
- * Copyright © 2015 VLC authors and VideoLAN
+ * Copyright © 2015-2017 VLC authors and VideoLAN
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,7 @@ import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
@@ -104,7 +102,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             ((MediaViewHolder) holder).binding.text.setVisibility(View.VISIBLE);
             ((MediaViewHolder) holder).binding.text.setText((CharSequence) payloads.get(0));
         } else if (payloads.get(0) instanceof MediaWrapper)
-            ((MediaViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), ((MediaWrapper)payloads.get(0)).hasStateFlags(FLAG_SELECTED));
+            holder.selectView(((MediaWrapper)payloads.get(0)).hasStateFlags(FLAG_SELECTED));
     }
 
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
@@ -115,7 +113,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media));
         vh.setContextMenuListener();
-        vh.setViewBackground(vh.itemView.hasFocus(), media.hasStateFlags(FLAG_SELECTED));
+        vh.selectView(media.hasStateFlags(FLAG_SELECTED));
     }
 
     @Override
@@ -127,13 +125,12 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return mDataset.get(position);
     }
 
-    public abstract class ViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder {
+    public abstract class ViewHolder<T extends ViewDataBinding> extends SelectorViewHolder<T> {
 
-        public T binding;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(T binding) {
+            super(binding);
         }
+
         public void onClick(View v){}
 
         public void onCheckBoxClick(View v){}
@@ -144,11 +141,10 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     }
 
-    class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnLongClickListener {
+    class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnLongClickListener, View.OnFocusChangeListener {
 
         MediaViewHolder(final BrowserItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+            super(binding);
             binding.setHolder(this);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -158,13 +154,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     return true;
                 }
             });
-            if (AndroidDevices.isAndroidTv)
-                itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean b) {
-                        setViewBackground(b, false);
-                    }
-                });
         }
 
         void setContextMenuListener() {
@@ -206,19 +195,16 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                 && fragment.onLongClick(v, position, mDataset.get(position));
         }
 
-        private void setViewBackground(boolean focus, boolean selected) {
-            if (focus)
-                itemView.setBackgroundColor(UiTools.ITEM_FOCUS_ON);
-            else
-                itemView.setBackgroundColor(selected ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_FOCUS_OFF);
+        @Override
+        protected boolean isSelected() {
+            return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
         }
     }
 
     private class SeparatorViewHolder extends ViewHolder<BrowserItemSeparatorBinding> {
 
-        SeparatorViewHolder(BrowserItemSeparatorBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public SeparatorViewHolder(BrowserItemSeparatorBinding binding) {
+            super(binding);
         }
 
         @Override

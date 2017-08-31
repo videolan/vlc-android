@@ -15,6 +15,9 @@
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
         <variable
+            name="bgColor"
+            type="int" />
+        <variable
             name="holder"
             type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemViewHolder" />
     </data>
@@ -28,7 +31,8 @@
         android:clickable="true"
         android:focusable="@{item.getItemType() != MediaLibraryItem.TYPE_DUMMY}"
         android:onClick="@{holder::onClick}"
-        android:onLongClick="@{holder::onLongClick}" >
+        android:onLongClick="@{holder::onLongClick}"
+        android:background="@{bgColor}" >
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
         <ImageView

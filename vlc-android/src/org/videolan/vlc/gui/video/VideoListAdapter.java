@@ -27,10 +27,8 @@ import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
-import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -85,14 +83,15 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+//        View v = inflater.inflate(mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
         if (!mListMode) {
-            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) v.getLayoutParams();
+            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) binding.getRoot().getLayoutParams();
             params.width = mGridCardWidth;
             params.height = params.width*10/16;
-            v.setLayoutParams(params);
+            binding.getRoot().setLayoutParams(params);
         }
-        return new ViewHolder(v);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -103,9 +102,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
-        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
-        holder.setOverlay(isSelected);
-        holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
+        holder.selectView(media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
     }
 
     @Override
@@ -124,9 +121,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
                         fillView(holder, media);
                         break;
                     case UPDATE_SELECTION:
-                        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                        holder.setOverlay(isSelected);
-                        holder.binding.setVariable(BR.bgColor, ContextCompat.getColor(holder.itemView.getContext(), mListMode && isSelected ? R.color.orange200transparent : R.color.transparent));
+                        holder.selectView(media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
                         break;
                 }
             }
@@ -292,17 +287,15 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         return position+offset;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener {
-        public ViewDataBinding binding;
+    public class ViewHolder extends SelectorViewHolder<ViewDataBinding> implements View.OnFocusChangeListener {
+//        public ViewDataBinding binding;
         private ImageView thumbView;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            binding = DataBindingUtil.bind(itemView);
-            thumbView = (ImageView) itemView.findViewById(R.id.ml_item_thumbnail);
+        public ViewHolder(ViewDataBinding binding) {
+            super(binding);
+            thumbView = itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
             binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
-            itemView.setOnFocusChangeListener(this);
         }
 
         public void onClick(View v) {
@@ -319,17 +312,15 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
             return mEventsHandler.onLongClick(v, position, mDataset.get(position));
         }
 
-        private void setOverlay(boolean selected) {
+        @Override
+        public void selectView(boolean selected) {
             thumbView.setImageResource(selected ? R.drawable.ic_action_mode_select_1610 : mListMode ? 0 : R.drawable.black_gradient);
+            super.selectView(selected);
         }
 
         @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus || mDataset.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        }
-
-        private void setViewBackground(boolean highlight) {
-            itemView.setBackgroundColor(highlight ? UiTools.ITEM_FOCUS_ON : UiTools.ITEM_FOCUS_OFF);
+        protected boolean isSelected() {
+            return mDataset.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         }
     }
 

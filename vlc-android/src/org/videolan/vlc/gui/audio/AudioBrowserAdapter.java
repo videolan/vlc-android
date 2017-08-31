@@ -28,7 +28,6 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +44,7 @@ import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
-import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -56,6 +55,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 
 public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
@@ -109,11 +110,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position >= mDataset.size())
             return;
-        holder.vdb.setVariable(BR.item, mDataset.get(position));
+        holder.binding.setVariable(BR.item, mDataset.get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            boolean isSelected = mDataset.get(position).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            final boolean isSelected = mDataset.get(position).hasStateFlags(FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
-            ((MediaItemViewHolder)holder).setViewBackground(holder.itemView.hasFocus(), isSelected);
+            holder.selectView(isSelected);
         }
     }
 
@@ -122,10 +123,10 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         if (Util.isListEmpty(payloads))
             onBindViewHolder(holder, position);
         else {
-            boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            final boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(FLAG_SELECTED);
             MediaItemViewHolder miv = (MediaItemViewHolder) holder;
             miv.setCoverlay(isSelected);
-            miv.setViewBackground(miv.itemView.hasFocus(), isSelected);
+            miv.selectView(isSelected);
         }
 
     }
@@ -133,7 +134,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     @Override
     public void onViewRecycled(ViewHolder holder) {
         if (mDefaultCover != null)
-            holder.vdb.setVariable(BR.cover, mDefaultCover);
+            holder.binding.setVariable(BR.cover, mDefaultCover);
     }
 
     @Override
@@ -203,12 +204,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mOriginalDataSet = null;
     }
 
-
     public void addAll(ArrayList<MediaLibraryItem> items) {
         mDataset = new ArrayList<>(items);
     }
 
-    public ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
+    private ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
         ArrayList<MediaLibraryItem> newList = new ArrayList<>();
         for (MediaLibraryItem item : items)
             if (item.getItemType() != MediaLibraryItem.TYPE_DUMMY)
@@ -369,7 +369,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     public List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
         for (MediaLibraryItem item : mDataset)
-            if (item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+            if (item.hasStateFlags(FLAG_SELECTED))
                 selection.add(item);
         return selection;
     }
@@ -402,12 +402,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         }
     }
 
-    public class ViewHolder< T extends ViewDataBinding> extends RecyclerView.ViewHolder {
-        T vdb;
+    public class ViewHolder< T extends ViewDataBinding> extends SelectorViewHolder<T> {
 
         public ViewHolder(T vdb) {
-            super(vdb.getRoot());
-            this.vdb = vdb;
+            super(vdb);
+            this.binding = vdb;
         }
 
         public int getType() {
@@ -416,12 +415,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
-        int selectionColor = 0, coverlayResource = 0;
+        int coverlayResource = 0;
 
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
-            itemView.setOnFocusChangeListener(this);
             if (mDefaultCover != null)
                 binding.setCover(mDefaultCover);
         }
@@ -448,7 +446,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         private void setCoverlay(boolean selected) {
             int resId = selected ? R.drawable.ic_action_mode_select : 0;
             if (resId != coverlayResource) {
-                vdb.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
+                binding.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
                 coverlayResource = resId;
             }
         }
@@ -458,17 +456,17 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         }
 
         @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            setViewBackground(hasFocus, vdb.getItem().hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+        protected boolean isSelected() {
+            return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
         }
 
-        private void setViewBackground(boolean focused, boolean selected) {
-            int selectionColor = selected || focused ? UiTools.ITEM_SELECTION_ON : 0;
-            if (selectionColor != this.selectionColor) {
-                itemView.setBackgroundColor(selectionColor);
-                this.selectionColor = selectionColor;
-            }
-        }
+//        private void setViewBackground(boolean focused, boolean selected) {
+//            int selectionColor = selected || focused ? UiTools.ITEM_SELECTION_ON : 0;
+//            if (selectionColor != this.selectionColor) {
+//                itemView.setBackgroundColor(selectionColor);
+//                this.selectionColor = selectionColor;
+//            }
+//        }
     }
 
     @Override
