@@ -118,7 +118,8 @@ public class AndroidDevices {
                 "/mnt/obb",
                 "/mnt/media_rw/extSdCard",
                 "/mnt/media_rw/sdcard",
-                "/storage/emulated"};
+                "/storage/emulated",
+                "/var/run/arc"};
         String[] deviceWL = {
                 "/dev/block/vold",
                 "/dev/fuse",
