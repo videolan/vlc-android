@@ -26,6 +26,8 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SimpleArrayMap;
@@ -56,6 +58,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     boolean mScannedDirectory = false;
     SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
+    private Snackbar mSnack;
 
     public boolean isSortEnabled() {
         return false;
@@ -79,6 +82,13 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (mRoot && VLCApplication.showTvUi())
+            mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         if (mRoot && mFabPlay != null) {
@@ -87,6 +97,8 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             setFabPlayVisibility(true);
         }
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
+        if (mSnack != null)
+            mSnack.show();
     }
 
     @Override
@@ -97,6 +109,8 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             mFabPlay.setOnClickListener(null);
         }
         VLCApplication.getMLInstance().removeEntryPointsEventsCb(this);
+        if (mSnack != null)
+            mSnack.dismiss();
     }
 
     @Override

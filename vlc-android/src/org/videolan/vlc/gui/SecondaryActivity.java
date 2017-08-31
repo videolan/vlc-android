@@ -85,8 +85,6 @@ public class SecondaryActivity extends ContentActivity {
             getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_placeholder, mFragment)
             .commit();
-            if (VLCApplication.showTvUi() && STORAGE_BROWSER.equals(fragmentId))
-                Snackbar.make(getWindow().getDecorView(), R.string.tv_settings_hint, Snackbar.LENGTH_LONG).show();
         }
     }
 
