@@ -80,7 +80,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMedialibrary = VLCApplication.getMLInstance();
-        mAdapter = new AudioBrowserAdapter(getActivity(),MediaLibraryItem.TYPE_PLAYLIST,  this, false);
+        mAdapter = new AudioBrowserAdapter(getActivity(), MediaLibraryItem.TYPE_PLAYLIST, this, false);
         mAdapter.addAll(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
         mTracks = (MediaWrapper[]) getArguments().getParcelableArray(KEY_TRACKS);
         mNewTrack = (MediaWrapper[]) getArguments().getParcelableArray(KEY_NEW_TRACKS);
@@ -101,13 +101,18 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_playlist, container);
+        return inflater.inflate(R.layout.dialog_playlist, container);
+    }
 
-        mListView = (RecyclerView) view.findViewById(android.R.id.list);
-        mSaveButton = (Button) view.findViewById(R.id.dialog_playlist_save);
-        mCancelButton = (Button) view.findViewById(R.id.dialog_playlist_cancel);
-        mEmptyView = (TextView) view.findViewById(android.R.id.empty);
-        TextInputLayout mLayout = (TextInputLayout)view.findViewById(R.id.dialog_playlist_name);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mListView = view.findViewById(android.R.id.list);
+        mSaveButton = view.findViewById(R.id.dialog_playlist_save);
+        mCancelButton = view.findViewById(R.id.dialog_playlist_cancel);
+        mEmptyView = view.findViewById(android.R.id.empty);
+        TextInputLayout mLayout = view.findViewById(R.id.dialog_playlist_name);
         mEditText = mLayout.getEditText();
         mSaveButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +126,6 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
         updateEmptyView();
-        return view;
     }
 
     void updateEmptyView() {
