@@ -1,3 +1,26 @@
+Changes between 2.1.17 and 2.1.18:
+----------------------------------
+
+Application:
+ * Add alac container support
+ * Add gray color for sutitles
+ * Confirm app exit in multiwindows mode
+ * Improve DPAD navigation in media lists/grids
+ * Adjust navigation bar color in dark theme
+ * Fix video player resume when multitasking
+ * Fix notification not hidden at playback end
+ * Fix browsers set back to root on rotation or restoration
+ * Fix wrong sort sometimes applied in audio when refreshing
+ * Crashes fixes
+
+TV:
+ * Add time infos in audio player
+ * Fix playlist scrolling in audio player
+
+Chromebook:
+ * Keep video player fullscreen when showing overlay
+ * Ignore 'emulated' empty storage
+
 Changes between 2.1.16 and 2.1.17:
 ----------------------------------
 
