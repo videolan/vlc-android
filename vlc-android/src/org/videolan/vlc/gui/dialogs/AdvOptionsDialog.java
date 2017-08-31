@@ -128,11 +128,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mMode = getArguments().getInt(MODE_KEY);
         else
             mMode = MODE_VIDEO;
-
-        mTheme = (mMode == MODE_VIDEO || UiTools.isBlackThemeEnabled()) ?
-                R.style.Theme_VLC_Black :
-                R.style.Theme_VLC;
-        setStyle(DialogFragment.STYLE_NO_FRAME, mTheme);
     }
 
     @Override
