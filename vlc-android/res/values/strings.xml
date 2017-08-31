@@ -547,7 +547,7 @@
     <string name="last_added_media">last added</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Loading Medialibrary...</string>
-    <string name="yes">yes</string>
+    <string name="yes">Yes</string>
 
     <string name="custom_set_save_title">Unsaved changes</string>
     <string name="custom_set_save_warning">Warning: unsaved changes</string>
