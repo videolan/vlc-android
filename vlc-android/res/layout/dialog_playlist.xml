@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/half_default_margin">
+    android:padding="@dimen/default_margin">
 
     <!--TODO : textColorHint doesn't work -->
     <android.support.design.widget.TextInputLayout
@@ -52,6 +52,7 @@
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="@string/noplaylist"/>
     </FrameLayout>
 </RelativeLayout>
