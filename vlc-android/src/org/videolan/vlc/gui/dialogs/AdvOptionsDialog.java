@@ -110,7 +110,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private TextView mChaptersTitle;
     private int mTextColor;
-    private static final int FOCUSED_TEXT_COLOR = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange300);
     private PlaybackService mService;
 
     private IPlaybackSettingsController mPlaybackController;
@@ -490,7 +489,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onFocusChange(View v, boolean hasFocus) {
         if (v instanceof TextView)
             ((TextView) v).setTextColor(v.hasFocus() ?
-                    FOCUSED_TEXT_COLOR : mTextColor);
+                    UiTools.ITEM_FOCUS_ON : mTextColor);
         mToast.setText(mAdapter.getSelectedAdvOptionHelp());
         mToast.show();
     }
