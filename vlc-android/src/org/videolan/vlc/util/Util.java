@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.util;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -149,6 +150,7 @@ public class Util {
         for (T newItem : items) {
             for (T oldItem : dataset) {
                 if (newItem.equals(oldItem)) {
+                    //noinspection UnusedAssignment
                     oldItem = newItem;
                     continue outer;
                 }
@@ -165,5 +167,18 @@ public class Util {
             contentBuilder.append(" - ");
         contentBuilder.append(album);
         return contentBuilder.toString();
+    }
+
+    /**
+     * Starts a service in Foreground in Android 8+
+     * To be removed with AppCompat 26+
+     * @param ctx the context
+     * @param intent service intent to start
+     */
+    public static void startService(Context ctx, Intent intent) {
+        if (VLCApplication.isForeground())
+            ctx.startService(intent);
+        else
+            ctx.startForegroundService(intent);
     }
 }
