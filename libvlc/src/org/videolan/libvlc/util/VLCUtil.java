@@ -518,7 +518,7 @@ public class VLCUtil {
         return ret;
     }
 
-    private static final String URI_AUTHORIZED_CHARS = "!'()*";
+    private static final String URI_AUTHORIZED_CHARS = "!'()*#";
 
     /**
      * VLC authorize only "-._~" in Mrl format, android Uri authorize "_-!.~'()*".
