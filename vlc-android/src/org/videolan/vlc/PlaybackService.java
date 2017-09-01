@@ -1214,7 +1214,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         @Override
         public void onPlayFromSearch(final String query, final Bundle extras) {
             if (!mMedialibrary.isInitiated()) {
-                startService(new Intent(MediaParsingService.ACTION_INIT, null, PlaybackService.this, MediaParsingService.class));
+                Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, PlaybackService.this, MediaParsingService.class));
                 final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
@@ -1538,7 +1538,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 }
             };
             lbm.registerReceiver(mLibraryReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
         }
     }
 
@@ -2563,8 +2563,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         public void connect() {
             if (mBound)
                 throw new IllegalStateException("already connected");
-            startService(mContext);
-            mBound = mContext.bindService(getServiceIntent(mContext), mServiceConnection, BIND_AUTO_CREATE);
+            final Intent serviceIntent = getServiceIntent(mContext);
+            mContext.startService(serviceIntent);
+            mBound = mContext.bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
         }
 
         @MainThread
@@ -2596,7 +2597,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public void onLoadChildren(@NonNull final String parentId, @NonNull final Result<List<MediaBrowserCompat.MediaItem>> result) {
         result.detach();
         if (!mMLInitializing && !mMedialibrary.isInitiated() && BrowserProvider.ID_ROOT.equals(parentId)) {
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
             mMLInitializing = true;
         }
         VLCApplication.runBackground(new Runnable() {

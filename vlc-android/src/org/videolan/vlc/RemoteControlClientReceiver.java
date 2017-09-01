@@ -26,6 +26,7 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.view.KeyEvent;
 
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 
 /**
  * Small class to receive events passed out by the remote controls (wired, bluetooth, lock screen, ...)
@@ -84,8 +85,8 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
                     }
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
-                    context.startService(new Intent(PlaybackService.ACTION_REMOTE_PLAY, null, context, PlaybackService.class));
-                    return;
+                    i = new Intent(PlaybackService.ACTION_REMOTE_PLAY, null, context, PlaybackService.class);
+                    break;
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     i = new Intent(PlaybackService.ACTION_REMOTE_PAUSE, null, context, PlaybackService.class);
                     break;
@@ -103,7 +104,7 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
             if (isOrderedBroadcast())
                 abortBroadcast();
             if (i != null) {
-                context.startService(i);
+                Util.startService(context, i);
                 return;
             }
         } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
