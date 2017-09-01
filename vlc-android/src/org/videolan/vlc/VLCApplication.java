@@ -19,12 +19,14 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
@@ -111,6 +113,8 @@ public class VLCApplication extends Application {
                     AndroidDevices.setRemoteControlReceiverEnabled(false);
             }
         });
+        if (sActivityCbListener != null)
+            registerActivityLifecycleCallbacks(sActivityCbListener);
     }
 
     @Override
@@ -274,4 +278,40 @@ public class VLCApplication extends Application {
                     getAppResources().getDisplayMetrics());
         }
     }
+
+    /**
+     * Check if Oreo will allow background service
+     * @return false if service needs to immediatly declare itself foreground.
+     */
+    public static boolean isForeground() {
+        return sActivityCbListener == null || sActivitiesCount > 0;
+    }
+
+    private static int sActivitiesCount = 0;
+    private static ActivityLifecycleCallbacks sActivityCbListener = AndroidUtil.isOOrLater ? new ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            ++sActivitiesCount;
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {}
+
+        @Override
+        public void onActivityResumed(Activity activity) {}
+
+        @Override
+        public void onActivityPaused(Activity activity) {}
+
+        @Override
+        public void onActivityStopped(Activity activity) {}
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            --sActivitiesCount;
+        }
+    } : null;
 }
