@@ -67,6 +67,8 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"imageUri"})
     public static void downloadIcon(final View v, final Uri imageUri) {
+        if (imageUri == null || !imageUri.getScheme().equals("http"))
+            return;
         AsyncImageLoader.LoadImage(new CoverFetcher(null) {
             @Override
             public Bitmap getImage() {

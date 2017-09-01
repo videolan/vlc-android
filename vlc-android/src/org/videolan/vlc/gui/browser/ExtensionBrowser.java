@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.Utils;
@@ -49,7 +47,6 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     private FloatingActionButton mAddDirectoryFAB;
     private ExtensionAdapter mAdapter;
     protected ContextMenuRecyclerView mRecyclerView;
-    protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -85,9 +82,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         mRecyclerView = v.findViewById(R.id.network_list);
         mEmptyView = v.findViewById(android.R.id.empty);
         mEmptyView.setText(R.string.extension_empty);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(VLCApplication.getAppContext(), DividerItemDecoration.VERTICAL));
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
 

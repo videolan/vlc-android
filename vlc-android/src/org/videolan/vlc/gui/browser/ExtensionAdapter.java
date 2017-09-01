@@ -1,28 +1,23 @@
 package org.videolan.vlc.gui.browser;
 
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.ExtensionItemViewBinding;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.util.HttpImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.ViewHolder> {
+    private static final String TAG = "VLC/ExtensionAdapter";
 
     ExtensionBrowser mFragment;
     List<VLCExtensionItem> mItemsList = new ArrayList<>();
@@ -34,7 +29,6 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
         public ViewHolder(ExtensionItemViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            itemView.setOnLongClickListener(this);
             binding.setHolder(this);
         }
 
@@ -79,14 +73,9 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ViewHolder vh = holder;
         final VLCExtensionItem item = getItem(position);
-        vh.binding.setItem(item);
-        vh.binding.executePendingBindings();
-        Resources res = holder.itemView.getContext().getResources();
-        vh.binding.setImage(new BitmapDrawable(res, BitmapFactory.decodeResource(res, getIconResId(item))));
-        if (item.imageUri != null && (TextUtils.equals("http", item.imageUri.getScheme())))
-                AsyncImageLoader.LoadImage(new HttpImageLoader(item.getImageUri().toString(), holder.binding), null);
+        holder.binding.setItem(item);
+        holder.binding.executePendingBindings();
     }
 
     private int getIconResId(VLCExtensionItem item) {
