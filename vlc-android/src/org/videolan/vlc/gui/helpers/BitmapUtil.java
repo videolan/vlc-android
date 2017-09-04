@@ -97,7 +97,7 @@ public class BitmapUtil {
         }
     }
 
-    public static Bitmap fetchPicture(MediaWrapper media) {
+    private static Bitmap fetchPicture(MediaWrapper media) {
         final BitmapCache cache = BitmapCache.getInstance();
 
         Bitmap picture = readCoverBitmap(media.getArtworkURL());
@@ -175,32 +175,28 @@ public class BitmapUtil {
     /**
      * A helper function to return the byte usage per pixel of a bitmap based on its configuration.
      */
-    static int getBytesPerPixel(Bitmap.Config config) {
-        if (config == Bitmap.Config.ARGB_8888) {
+    private static int getBytesPerPixel(Bitmap.Config config) {
+        if (config == Bitmap.Config.ARGB_8888)
             return 4;
-        } else if (config == Bitmap.Config.RGB_565) {
+        else if (config == Bitmap.Config.RGB_565)
             return 2;
-        } else if (config == Bitmap.Config.ARGB_4444) {
+        else if (config == Bitmap.Config.ARGB_4444)
             return 2;
-        } else if (config == Bitmap.Config.ALPHA_8) {
+        else
             return 1;
-        }
-        return 1;
     }
 
     public static Bitmap centerCrop(Bitmap srcBmp, int width, int height) {
-        Bitmap dstBmp;
-        int widthDiff = srcBmp.getWidth()-width;
-        int heightDiff = srcBmp.getHeight()-height;
-        if (widthDiff == 0 && heightDiff == 0)
+        final int widthDiff = srcBmp.getWidth()-width;
+        final int heightDiff = srcBmp.getHeight()-height;
+        if (widthDiff <= 0 && heightDiff <= 0)
             return srcBmp;
-        dstBmp = Bitmap.createBitmap(
+        return Bitmap.createBitmap(
                 srcBmp,
                 widthDiff/2,
                 heightDiff/2,
                 width,
                 height
         );
-        return dstBmp;
     }
 }
