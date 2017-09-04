@@ -34,8 +34,7 @@ public class MediaUtils {
     public static void getSubs(Activity activity, List<MediaWrapper> mediaList, SubtitlesDownloader.Callback cb) {
         if (sSubtitlesDownloader == null)
             sSubtitlesDownloader = new SubtitlesDownloader();
-        sSubtitlesDownloader.setActivity(activity);
-        sSubtitlesDownloader.downloadSubs(mediaList, cb);
+        sSubtitlesDownloader.downloadSubs(activity, mediaList, cb);
     }
 
     public static void getSubs(Activity activity, MediaWrapper media, SubtitlesDownloader.Callback cb) {
@@ -48,11 +47,6 @@ public class MediaUtils {
         ArrayList<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);
         getSubs(activity, mediaList);
-    }
-
-    public static void updateSubsDownloaderActivity(Activity activity) {
-        if (sSubtitlesDownloader != null)
-            sSubtitlesDownloader.setActivity(activity);
     }
 
     public static void appendMedia(final Context context, final List<MediaWrapper> media){

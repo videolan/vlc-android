@@ -54,8 +54,6 @@ import org.videolan.vlc.media.MediaDatabase;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -77,11 +75,11 @@ public class SubtitlesDownloader {
     private static final int DIALOG_HIDE = 2;
     private static final int DIALOG_UPDATE_PROGRESS = 3;
     private static final int DIALOG_UPDATE_MSG = 4;
-    private final String TAG = "VLC/SubtitlesDownloader";
+    private static final String TAG = "VLC/SubtitlesDownloader";
 
-    private final String OpenSubtitlesAPIUrl = "http://api.opensubtitles.org/xml-rpc";
-    private final String HTTP_USER_AGENT = "VLSub";
-    private final String USER_AGENT = "VLSub 0.9";
+    private static final String OpenSubtitlesAPIUrl = "http://api.opensubtitles.org/xml-rpc";
+    private static final String HTTP_USER_AGENT = "VLSub";
+    private static final String USER_AGENT = "VLSub 0.9";
 
     private HashMap<String, Object> map = null;
     private XMLRPCClient mClient;
@@ -97,12 +95,9 @@ public class SubtitlesDownloader {
         void onRequestEnded(boolean success);
     }
 
-    public void setActivity(Activity activity) {
-        mContext = activity;
-    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void downloadSubs(final List<MediaWrapper> mediaList, Callback cb) {
+    public void downloadSubs(Activity context, final List<MediaWrapper> mediaList, Callback cb) {
+        mContext = context;
         stop = false;
         mCallback = cb;
         Set<String> languages = null;
@@ -122,9 +117,8 @@ public class SubtitlesDownloader {
             @Override
             public void run() {
                 AndroidDevices.SUBTITLES_DIRECTORY.mkdirs();
-                if (logIn()){
+                if (logIn())
                     getSubtitles(mediaList, finalLanguages);
-                }
                 mHandler.sendEmptyMessage(DIALOG_HIDE);
             }
         });
@@ -176,6 +170,7 @@ public class SubtitlesDownloader {
     private void getSubtitles(final List<MediaWrapper> mediaList, List<String> languages) {
         mHandler.obtainMessage(DIALOG_UPDATE_MSG,R.string.downloading_subtitles, 0).sendToTarget();
         for (String language : languages)
+            //noinspection UnusedAssignment
             language = getCompliantLanguageID(language);
         final boolean single = mediaList.size() == 1;
         final ArrayList<MediaWrapper> notFoundFiles = new ArrayList<>();
@@ -227,8 +222,7 @@ public class SubtitlesDownloader {
                     }
                 }
             }
-            if (videoSearchList != null)
-                videoSearchList.clear();
+            videoSearchList.clear();
             index.clear();
         }
 
@@ -254,19 +248,19 @@ public class SubtitlesDownloader {
                     String srtFormat, fileUrl, fileName, subLanguageID, subDownloadLink;
                     HashMap<String, Object> resultMap;
                     Object[] paths = index.values().toArray();
-                    for (int i = 0; i < subtitleMaps.length; ++i) {
+                    for (Object subtitleMap : subtitleMaps) {
                         if (stop)
                             break;
-                        resultMap = (HashMap<String, Object>) subtitleMaps[i];
+                        resultMap = (HashMap<String, Object>) subtitleMap;
                         srtFormat = (String) resultMap.get("SubFormat");
                         String queryNumber = (String) resultMap.get("QueryNumber");
                         subLanguageID = (String) resultMap.get("SubLanguageID");
                         subDownloadLink = (String) resultMap.get("SubDownloadLink");
-                        fileUrl = (String) paths[Integer.getInteger(queryNumber, 0).intValue()/languages.size()];
+                        fileUrl = (String) paths[Integer.getInteger(queryNumber, 0) / languages.size()];
                         if (fileUrl == null) //we keep only result for exact matching name
                             continue;
                         fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                        if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
+                        if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)) {
                             continue;
                         } else {
                             if (success.containsKey(fileName))
@@ -307,7 +301,7 @@ public class SubtitlesDownloader {
             }
         }
         if (mCallback != null)
-            mHandler.post(new Runnable() {
+            VLCApplication.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     mCallback.onRequestEnded(!success.isEmpty());
@@ -327,13 +321,11 @@ public class SubtitlesDownloader {
     private void downloadSubtitles(String subUrl, String path, String fileName, String subFormat, String language){
         if (mToken == null || path == null)
             return;
-
-        StringBuilder sb = new StringBuilder();
-        String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
+        final StringBuilder sb = new StringBuilder();
+        final String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
         sb.append(AndroidDevices.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
-        String srtUrl = sb.toString();
+        final String srtUrl = sb.toString();
         FileOutputStream f = null;
-        InputStream in = null;
         GZIPInputStream gzIS = null;
         URL url;
         HttpURLConnection urlConnection;
@@ -350,26 +342,22 @@ public class SubtitlesDownloader {
                 f.write(buffer, 0, length);
             }
             MediaDatabase.getInstance().saveSubtitle(srtUrl, fileName);
-        } catch (IOException e) {
-            if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
         } catch (Throwable e) { //for various service outages
             if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
-        }finally{
+        } finally {
             Util.close(f);
-            Util.close(in);
             Util.close(gzIS);
         }
-        return;
     }
 
     private ArrayList<HashMap<String, String>> prepareRequestList(List<MediaWrapper> mediaList, List<String> languages, HashMap<String, String> index, boolean firstPass) {
-        ArrayList<HashMap<String, String>> videoSearchList = new ArrayList<>();
+        final ArrayList<HashMap<String, String>> videoSearchList = new ArrayList<>();
         for (MediaWrapper media : mediaList) {
             if (stop)
                 break;
             String hash = null, tag = null;
             long fileLength = 0;
-            Uri mediaUri = media.getUri();
+            final Uri mediaUri = media.getUri();
             if (firstPass) {
                 if (FileUtils.canWrite(mediaUri)) {
                     File videoFile = new File(mediaUri.getPath());
@@ -410,7 +398,7 @@ public class SubtitlesDownloader {
     private void showSumup(final String displayText) {
         if (mContext == null)
             return;
-        mHandler.post(new Runnable(){
+        VLCApplication.runOnMainThread(new Runnable(){
             public void run() {
                 mSumUpDialog = new AlertDialog.Builder(mContext).setTitle(R.string.dialog_subloader_sumup)
                         .setMessage(displayText)
@@ -505,16 +493,12 @@ public class SubtitlesDownloader {
     }
 
     private void showSnackBar(int stringId) {
-        if (mContext == null)
-            return;
         showSnackBar(VLCApplication.getAppResources().getString(stringId));
     }
 
     private void showSnackBar(final String text) {
-        if (mContext == null)
-            return;
-        if (mContext instanceof AppCompatActivity && !(mContext instanceof VideoPlayerActivity)) {
-            mHandler.post(new Runnable() {
+        if (mContext instanceof AppCompatActivity && !(mContext instanceof VideoPlayerActivity) && !mContext.isFinishing()) {
+            VLCApplication.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     View v = mContext.findViewById(R.id.fragment_placeholder);
@@ -524,7 +508,7 @@ public class SubtitlesDownloader {
                 }
             });
         } else {
-            mHandler.post(new Runnable() {
+            VLCApplication.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(VLCApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
@@ -533,7 +517,7 @@ public class SubtitlesDownloader {
         }
     }
 
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (mContext == null || mContext.isFinishing())

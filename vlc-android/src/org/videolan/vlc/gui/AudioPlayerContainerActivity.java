@@ -101,7 +101,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
                 startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
         }
-        MediaUtils.updateSubsDownloaderActivity(this);
         super.onCreate(savedInstanceState);
     }
 
