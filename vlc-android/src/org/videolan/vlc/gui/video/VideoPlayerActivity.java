@@ -2142,25 +2142,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 (mDetector != null && mDetector.onTouchEvent(event)))
             return true;
 
-        float x_changed, y_changed;
-        if (mTouchX != -1f && mTouchY != -1f) {
-            y_changed = event.getRawY() - mTouchY;
-            x_changed = event.getRawX() - mTouchX;
-        } else {
-            x_changed = 0f;
-            y_changed = 0f;
-        }
+        final float x_changed = mTouchX != -1f && mTouchY != -1f ? event.getRawX() - mTouchX : 0f;
+        final float y_changed = x_changed != 0f ? event.getRawY() - mTouchY : 0f;
 
         // coef is the gradient's move to determine a neutral zone
-        float coef = Math.abs (y_changed / x_changed);
-        float xgesturesize = ((x_changed / mScreen.xdpi) * 2.54f);
-        float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / mScreen.xdpi + 0.5f) * 2f);
+        final float coef = Math.abs (y_changed / x_changed);
+        final float xgesturesize = ((x_changed / mScreen.xdpi) * 2.54f);
+        final float delta_y = Math.max(1f, (Math.abs(mInitTouchY - event.getRawY()) / mScreen.xdpi + 0.5f) * 2f);
 
-        int xTouch = Math.round(event.getRawX());
-        int yTouch = Math.round(event.getRawY());
+        final int xTouch = Math.round(event.getRawX());
+        final int yTouch = Math.round(event.getRawY());
 
         switch (event.getAction()) {
-
             case MotionEvent.ACTION_DOWN:
                 // Audio
                 mTouchY = mInitTouchY = event.getRawY();
@@ -2177,7 +2170,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
                 break;
-
             case MotionEvent.ACTION_MOVE:
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
@@ -2190,22 +2182,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                             return false;
                         mTouchY = event.getRawY();
                         mTouchX = event.getRawX();
-                        // (Up or Down - Right side) LTR: Volume RTL: Brightness
-                        if ((mTouchControls & (!mIsRtl ? TOUCH_FLAG_AUDIO_VOLUME : TOUCH_FLAG_BRIGHTNESS)) != 0 && (int)mTouchX > (4 * mScreen.widthPixels / 7f)){
-                            if (!mIsRtl)
-                                doVolumeTouch(y_changed);
-                            else
-                                doBrightnessTouch(y_changed);
-                            hideOverlay(true);
-                        }
-                        // (Up or Down - Left side) LTR: Brightness RTL: Volume
-                        if ((mTouchControls & (!mIsRtl ? TOUCH_FLAG_BRIGHTNESS : TOUCH_FLAG_AUDIO_VOLUME)) != 0 && (int)mTouchX < (3 * mScreen.widthPixels / 7f)){
-                            if(!mIsRtl)
-                                doBrightnessTouch(y_changed);
-                            else
-                                doVolumeTouch(y_changed);
-                            hideOverlay(true);
-                        }
+                        doVerticalTouchAction(y_changed);
                     } else {
                         // Seek (Right or Left move)
                         doSeekTouch(Math.round(delta_y), mIsRtl ? -xgesturesize : xgesturesize , false);
@@ -2214,12 +2191,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     mTouchY = event.getRawY();
                     mTouchX = event.getRawX();
                     mTouchAction = TOUCH_MOVE;
-                    float yaw = mFov * -x_changed/(float)mSurfaceXDisplayRange;
-                    float pitch = mFov * -y_changed/(float)mSurfaceXDisplayRange;
+                    final float yaw = mFov * -x_changed/(float)mSurfaceXDisplayRange;
+                    final float pitch = mFov * -y_changed/(float)mSurfaceXDisplayRange;
                     mService.updateViewpoint(yaw, pitch, 0, 0, false);
                 }
                 break;
-
             case MotionEvent.ACTION_UP:
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
@@ -2231,6 +2207,29 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
         }
         return mTouchAction != TOUCH_NONE;
+    }
+
+    private void doVerticalTouchAction(float y_changed) {
+        final boolean rightAction = (int) mTouchX > (4 * mScreen.widthPixels / 7f);
+        final boolean leftAction = !rightAction && (int) mTouchX < (3 * mScreen.widthPixels / 7f);
+        if (!leftAction && !rightAction)
+            return;
+        final boolean audio = (mTouchControls & TOUCH_FLAG_AUDIO_VOLUME) != 0;
+        final boolean brightness = (mTouchControls & TOUCH_FLAG_BRIGHTNESS) != 0;
+        if (!audio && !brightness)
+            return;
+        if (rightAction ^ mIsRtl) {
+            if (audio)
+                doVolumeTouch(y_changed);
+            else
+                doBrightnessTouch(y_changed);
+        } else {
+            if (brightness)
+                doBrightnessTouch(y_changed);
+            else
+                doVolumeTouch(y_changed);
+        }
+        hideOverlay(true);
     }
 
     private void doSeekTouch(int coef, float gesturesize, boolean seek) {
