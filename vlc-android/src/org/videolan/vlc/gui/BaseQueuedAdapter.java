@@ -32,6 +32,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 public abstract class BaseQueuedAdapter <T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected final ExecutorService mUpdateExecutor = Executors.newSingleThreadExecutor();
@@ -65,21 +66,23 @@ public abstract class BaseQueuedAdapter <T extends MediaLibraryItem, VH extends 
 
     @MainThread
     private void internalUpdate(final ArrayList<T> newList) {
-        mUpdateExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                final ArrayList<T> finalList = prepareList(newList);
-                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(createCB(finalList), detectMoves());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDataset = finalList;
-                        result.dispatchUpdatesTo(BaseQueuedAdapter.this);
-                        processQueue();
-                    }
-                });
-            }
-        });
+        try {
+            mUpdateExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final ArrayList<T> finalList = prepareList(newList);
+                    final DiffUtil.DiffResult result = DiffUtil.calculateDiff(createCB(finalList), detectMoves());
+                    VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDataset = finalList;
+                            result.dispatchUpdatesTo(BaseQueuedAdapter.this);
+                            processQueue();
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ignored) {} // Will be retried
 
     }
 
