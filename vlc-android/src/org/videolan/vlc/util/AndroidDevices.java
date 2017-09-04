@@ -74,6 +74,29 @@ public class AndroidDevices {
     public final static boolean showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
     public static final boolean hasPlayServices = hasPlayServices();
 
+    //Devices mountpoints management
+    private static final List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
+    private static final List<String> typeBL = Arrays.asList("tmpfs");
+    private static final String[] mountWL = {"/mnt", "/Removable", "/storage"};
+    private static final String[] mountBL = {
+            EXTERNAL_PUBLIC_DIRECTORY,
+            "/mnt/secure",
+            "/mnt/shell",
+            "/mnt/asec",
+            "/mnt/nand",
+            "/mnt/runtime",
+            "/mnt/obb",
+            "/mnt/media_rw/extSdCard",
+            "/mnt/media_rw/sdcard",
+            "/storage/emulated",
+            "/var/run/arc"
+    };
+    private static final String[] deviceWL = {
+            "/dev/block/vold",
+            "/dev/fuse",
+            "/mnt/media_rw"
+    };
+
     static {
         final HashSet<String> devicesWithoutNavBar = new HashSet<>();
         final Context ctx = VLCApplication.getAppContext();
@@ -91,7 +114,7 @@ public class AndroidDevices {
                 .getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
         // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
         hasCombBar = !AndroidDevices.isPhone && AndroidUtil.isHoneycombOrLater
-                && AndroidUtil.isJellyBeanMR1OrLater;
+                && !AndroidUtil.isJellyBeanMR1OrLater;
         SUBTITLES_DIRECTORY = new File(ctx.getExternalFilesDir(null), "subs");
     }
 
@@ -105,29 +128,7 @@ public class AndroidDevices {
 
     public static ArrayList<String> getExternalStorageDirectories() {
         BufferedReader bufReader = null;
-        ArrayList<String> list = new ArrayList<>();
-
-        List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
-        List<String> typeBL = Arrays.asList("tmpfs");
-        String[] mountWL = {"/mnt", "/Removable", "/storage"};
-        String[] mountBL = {
-                EXTERNAL_PUBLIC_DIRECTORY,
-                "/mnt/secure",
-                "/mnt/shell",
-                "/mnt/asec",
-                "/mnt/nand",
-                "/mnt/runtime",
-                "/mnt/obb",
-                "/mnt/media_rw/extSdCard",
-                "/mnt/media_rw/sdcard",
-                "/storage/emulated",
-                "/var/run/arc"};
-        String[] deviceWL = {
-                "/dev/block/vold",
-                "/dev/fuse",
-                "/mnt/media_rw"
-        };
-
+        final ArrayList<String> list = new ArrayList<>();
         try {
             bufReader = new BufferedReader(new FileReader("/proc/mounts"));
             String line;
@@ -144,7 +145,7 @@ public class AndroidDevices {
 
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
                 if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
-                    int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
+                    final int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
                     if (position > -1)
                         list.remove(position);
                     list.add(mountpoint);
@@ -158,8 +159,8 @@ public class AndroidDevices {
     }
 
     public static List<MediaWrapper> getMediaDirectoriesList() {
-        String storages[] = AndroidDevices.getMediaDirectories();
-        LinkedList<MediaWrapper> list = new LinkedList<>();
+        final String storages[] = AndroidDevices.getMediaDirectories();
+        final LinkedList<MediaWrapper> list = new LinkedList<>();
         MediaWrapper directory;
         for (String mediaDirLocation : storages) {
             if (!(new File(mediaDirLocation).exists()))
@@ -174,7 +175,7 @@ public class AndroidDevices {
     }
 
     public static String[] getMediaDirectories() {
-        ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         list.add(EXTERNAL_PUBLIC_DIRECTORY);
         list.addAll(getExternalStorageDirectories());
         list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
@@ -205,7 +206,7 @@ public class AndroidDevices {
 
     public static boolean isVPNActive() {
         if (AndroidUtil.isLolliPopOrLater) {
-            ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            final ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             for (Network network : cm.getAllNetworks()) {
                 if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_VPN))
@@ -214,10 +215,10 @@ public class AndroidDevices {
             return false;
         } else {
             try {
-                Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+                final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
                 while (networkInterfaces.hasMoreElements()) {
-                    NetworkInterface networkInterface = networkInterfaces.nextElement();
-                    String name = networkInterface.getDisplayName();
+                    final NetworkInterface networkInterface = networkInterfaces.nextElement();
+                    final String name = networkInterface.getDisplayName();
                     if (name.startsWith("ppp") || name.startsWith("tun") || name.startsWith("tap"))
                         return true;
                 }
@@ -228,9 +229,9 @@ public class AndroidDevices {
 
     public static boolean hasLANConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
-            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected() &&
                     (networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
                 networkEnabled = true;
@@ -241,9 +242,9 @@ public class AndroidDevices {
 
     public static boolean hasConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
-            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 networkEnabled = true;
             }
@@ -253,9 +254,9 @@ public class AndroidDevices {
 
     public static boolean hasMobileConnection() {
         boolean networkEnabled = false;
-        ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivity != null) {
-            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected() &&
                     (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
                 networkEnabled = true;
