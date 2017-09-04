@@ -360,7 +360,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
      */
     protected void updateEmptyView() {
         if (mAdapter.isEmpty()) {
-            if (mSwipeRefreshLayout.isRefreshing()) {
+            if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                 mEmptyView.setText(R.string.loading);
                 mEmptyView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
