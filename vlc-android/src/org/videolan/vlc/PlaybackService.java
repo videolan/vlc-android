@@ -1079,7 +1079,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     }
 
-    private boolean isValidIndex(int position) {
+    public boolean isValidIndex(int position) {
         return position >= 0 && position < mMediaList.size();
     }
 

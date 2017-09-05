@@ -3165,15 +3165,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false);
             mAskResume &= !fromStart;
             positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
+
+            if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
+                mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
+            if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
+                itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
         }
 
-        if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
-            mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
-        if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
-            itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
-
         MediaWrapper openedMedia = null;
-        if (positionInPlaylist != -1 && mService.hasMedia() && positionInPlaylist < mService.getMedias().size()) {
+        final boolean hasMedia = mService.hasMedia();
+        final boolean isPlaying = hasMedia && mService.isPlaying();
+        final boolean resumePlaylist = mService.isValidIndex(positionInPlaylist);
+        if (resumePlaylist) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
             openedMedia = mService.getMedias().get(positionInPlaylist);
@@ -3181,22 +3184,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 encounteredError();
                 return;
             }
-            mUri = openedMedia.getUri();
             itemTitle = openedMedia.getTitle();
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
-
             mService.flush();
         }
-
         if (mUri != null) {
-            if (mService.hasMedia() && !mUri.equals(mService.getCurrentMediaWrapper().getUri()))
-                mService.stop();
-            // restore last position
-            MediaWrapper media;
-            if (openedMedia == null || openedMedia.getId() <= 0L) {
-                Medialibrary ml = mMedialibrary;
-                media = ml.getMedia(mUri);
+            MediaWrapper media = null;
+            if (!resumePlaylist) {
+                if (hasMedia)
+                    mService.stop();
+                // restore last position
+                final Medialibrary ml = mMedialibrary;
+                media = ml.getMedia(mUri.getScheme().equals("content") ? FileUtils.getUri(mUri) : mUri);
                 if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                         mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
                     mUri = FileUtils.convertLocalUri(mUri);
@@ -3205,7 +3205,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (media != null && media.getId() != 0L && media.getTime() == 0L)
                     media.setTime((long) (media.getMetaLong(MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
             } else
-                media = openedMedia;
+                    media = openedMedia;
             if (media != null) {
                 // in media library
                 if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
@@ -3217,7 +3217,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false);
-                if (fromStart || mService.isPlaying())
+                if (fromStart || isPlaying)
                     media.setTime(0L);
                 else if (savedTime <= 0L)
                     savedTime = media.getTime();
@@ -3249,7 +3249,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Start playback & seek
             mService.addCallback(this);
             /* prepare playback */
-            final boolean hasMedia = mService.hasMedia();
             final boolean medialoaded = media != null;
             if (!medialoaded) {
                 if (hasMedia)
@@ -3266,19 +3265,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             if (savedTime <= 0L && media.getTime() > 0L)
                 savedTime = media.getTime();
-            if (savedTime > 0L && !mService.isPlaying())
+            if (savedTime > 0L && !isPlaying)
                 mService.saveTimeToSeek(savedTime);
 
             // Handle playback
-            if (!hasMedia) {
-                if (!medialoaded && positionInPlaylist != -1)
-                    mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
+
+            if (resumePlaylist) {
+                if (isPlaying && positionInPlaylist == mService.getCurrentMediaPosition())
+                    onPlaying();
                 else
-                    mService.load(media);
-            } else if (!mService.isPlaying())
-                mService.playIndex(positionInPlaylist);
+                    mService.playIndex(positionInPlaylist);
+            } else if (medialoaded)
+                mService.load(media);
             else
-                onPlaying();
+                mService.loadUri(mUri);
 
             // Get possible subtitles
             getSubtitles();
