@@ -235,7 +235,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (aout != null)
             mp.setAudioOutput(aout);
         mp.getVLCVout().addCallback(this);
-
         return mp;
     }
 
@@ -356,7 +355,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
         }
-        mMediaPlayer.release();
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                mMediaPlayer.release();
+            }
+        });
     }
 
     @Override
@@ -989,17 +993,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (media != null) {
             saveMediaMeta();
             media.setEventListener(null);
-            mMediaPlayer.setEventListener(null);
-            final MediaPlayer mp = mMediaPlayer;
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    mp.stop();
-                    mp.setMedia(null);
-                }
-            });
             media.release();
         }
+        restartMediaPlayer();
         mMediaList.removeEventListener(mListEventListener);
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
@@ -2497,7 +2493,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     public void restartMediaPlayer() {
-        stop();
+        mMediaPlayer.setEventListener(null);
         final MediaPlayer mp = mMediaPlayer;
         VLCApplication.runBackground(new Runnable() {
             @Override
