@@ -78,6 +78,7 @@ public class VLCOptions {
             networkCaching = 0;
 
         final String freetypeRelFontsize = pref.getString("subtitles_size", "16");
+        final boolean freetypeBold = pref.getBoolean("subtitles_bold", false);
         final String freetypeColor = pref.getString("subtitles_color", "16777215");
         final boolean freetypeBackground = pref.getBoolean("subtitles_background", false);
         final int opengl = Integer.parseInt(pref.getString("opengl", "-1"));
@@ -102,6 +103,8 @@ public class VLCOptions {
         options.add(getResampler());
 
         options.add("--freetype-rel-fontsize=" + freetypeRelFontsize);
+        if (freetypeBold)
+            options.add("--freetype-bold");
         options.add("--freetype-color=" + freetypeColor);
         if (freetypeBackground)
             options.add("--freetype-background-opacity=128");

@@ -337,6 +337,7 @@
     <string name="subtitles_color_yellow">Yellow</string>
     <string name="subtitles_color_green">Green</string>
     <string name="subtitles_background_title">Subtitles Background</string>
+    <string name="subtitles_bold_title">Bold subtitles</string>
 
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media cover on Lockscreen</string>

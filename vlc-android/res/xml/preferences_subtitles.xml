@@ -22,6 +22,10 @@
         android:defaultValue="false"
         android:key="subtitles_background"
         android:title="@string/subtitles_background_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subtitles_bold"
+        android:title="@string/subtitles_bold_title" />
     <android.support.v14.preference.MultiSelectListPreference
         android:dialogTitle="@string/preferences_languages_download"
         android:entries="@array/language_entries"

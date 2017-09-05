@@ -57,6 +57,7 @@ public class PreferencesSubtitles extends BasePreferenceFragment implements Shar
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key){
             case "subtitles_size":
+            case "subtitles_bold":
             case "subtitles_color":
             case "subtitles_background":
             case "subtitle_text_encoding":
