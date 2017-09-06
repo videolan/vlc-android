@@ -669,7 +669,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mOverlayButtons.setLayoutParams(layoutParams);
     }
 
-
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onStart() {
         super.onStart();
@@ -3477,16 +3477,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private BroadcastReceiver mBtReceiver = AndroidUtil.isICSOrLater ? new BroadcastReceiver() {
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED:
                 case BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED:
-                    long savedDelay = mSettings.getLong(KEY_BLUETOOTH_DELAY, 0l);
+                    long savedDelay = mSettings.getLong(KEY_BLUETOOTH_DELAY, 0L);
                     long currentDelay = mService.getAudioDelay();
-                    if (savedDelay != 0l) {
+                    if (savedDelay != 0L) {
                         boolean connected = intent.getIntExtra(BluetoothA2dp.EXTRA_STATE, -1) == BluetoothA2dp.STATE_CONNECTED;
-                        if (connected && currentDelay == 0l)
+                        if (connected && currentDelay == 0L)
                             toggleBtDelay(true);
                         else if (!connected && savedDelay == currentDelay)
                             toggleBtDelay(false);
@@ -3496,7 +3497,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     } : null;
 
     private void toggleBtDelay(boolean connected) {
-        mService.setAudioDelay(connected ? mSettings.getLong(KEY_BLUETOOTH_DELAY, 0) : 0l);
+        mService.setAudioDelay(connected ? mSettings.getLong(KEY_BLUETOOTH_DELAY, 0) : 0L);
     }
 
     private OnClickListener mBtSaveListener = new OnClickListener() {
