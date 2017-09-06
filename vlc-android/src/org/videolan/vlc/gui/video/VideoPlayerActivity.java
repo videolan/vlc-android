@@ -3139,11 +3139,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean fromStart = false;
         String itemTitle = null;
         int positionInPlaylist = -1;
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        long savedTime = extras != null ? extras.getLong(PLAY_EXTRA_START_TIME) : 0L; // position passed in by intent (ms)
-        if (extras != null && savedTime == 0L)
-            savedTime = extras.getInt(PLAY_EXTRA_START_TIME);
+        final Intent intent = getIntent();
+        final Bundle extras = intent.getExtras();
+        long savedTime = 0L;
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -3163,7 +3161,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                 mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
             fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false);
+            // Consume fromStart option after first use to prevent
+            // restarting again when playback is paused.
+            intent.putExtra(PLAY_EXTRA_FROM_START, false);
             mAskResume &= !fromStart;
+            savedTime = fromStart ? 0L : extras.getLong(PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
+            if (!fromStart && savedTime == 0L)
+                savedTime = extras.getInt(PLAY_EXTRA_START_TIME);
             positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
 
             if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
@@ -3187,10 +3191,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             itemTitle = openedMedia.getTitle();
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
-            mService.flush();
         }
+        mService.addCallback(this);
         if (mUri != null) {
-            MediaWrapper media = null;
+            MediaWrapper media;
             if (!resumePlaylist) {
                 // restore last position
                 final Medialibrary ml = mMedialibrary;
@@ -3203,34 +3207,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (media != null && media.getId() != 0L && media.getTime() == 0L)
                     media.setTime((long) (media.getMetaLong(MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
             } else
-                    media = openedMedia;
+                media = openedMedia;
             if (media != null) {
                 // in media library
-                if (media.getTime() > 0 && !fromStart && positionInPlaylist == -1) {
-                    if (mAskResume) {
-                        showConfirmResumeDialog();
-                        return;
-                    }
+                if (mAskResume && !fromStart && positionInPlaylist == -1 && media.getTime() > 0) {
+                    showConfirmResumeDialog();
+                    return;
                 }
-                // Consume fromStart option after first use to prevent
-                // restarting again when playback is paused.
-                intent.putExtra(PLAY_EXTRA_FROM_START, false);
-                if (fromStart || isPlaying)
-                    media.setTime(0L);
-                else if (savedTime <= 0L)
-                    savedTime = media.getTime();
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
-            } else {
+            } else if (!fromStart) {
                 // not in media library
-
-                if (savedTime > 0L && mAskResume) {
+                if (mAskResume && savedTime > 0L) {
                     showConfirmResumeDialog();
                     return;
                 } else {
                     long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                    if (rTime > 0 && !fromStart) {
+                    if (rTime > 0) {
                         if (mAskResume) {
                             showConfirmResumeDialog();
                             return;
@@ -3245,7 +3239,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
 
             // Start playback & seek
-            mService.addCallback(this);
             /* prepare playback */
             final boolean medialoaded = media != null;
             if (!medialoaded) {
@@ -3261,17 +3254,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
-            if (savedTime <= 0L && media.getTime() > 0L)
+            // Set resume point
+            if (!fromStart && savedTime <= 0L && media.getTime() > 0L)
                 savedTime = media.getTime();
-            if (savedTime > 0L && !isPlaying)
+            if (savedTime > 0L)
                 mService.saveTimeToSeek(savedTime);
 
             // Handle playback
-
             if (resumePlaylist) {
-                if (isPlaying && positionInPlaylist == mService.getCurrentMediaPosition())
+                if (isPlaying && positionInPlaylist == mService.getCurrentMediaPosition()) {
+                    mService.flush();
                     onPlaying();
-                else
+                } else
                     mService.playIndex(positionInPlaylist);
             } else if (medialoaded)
                 mService.load(media);
@@ -3285,7 +3279,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
         } else {
-            mService.addCallback(this);
             mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
             MediaWrapper mw = mService.getCurrentMediaWrapper();
             if (mw == null) {
@@ -3303,7 +3296,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mForcedTime = savedTime;
             setOverlayProgress();
             mForcedTime = -1;
-
             showOverlay(true);
         }
     }
