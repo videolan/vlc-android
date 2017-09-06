@@ -689,6 +689,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             btFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
             registerReceiver(mBtReceiver, btFilter);
         }
+        UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
