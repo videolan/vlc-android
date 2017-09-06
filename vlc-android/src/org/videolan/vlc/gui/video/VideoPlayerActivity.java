@@ -3192,8 +3192,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mUri != null) {
             MediaWrapper media = null;
             if (!resumePlaylist) {
-                if (hasMedia)
-                    mService.stop();
                 // restore last position
                 final Medialibrary ml = mMedialibrary;
                 media = ml.getMedia(mUri.getScheme().equals("content") ? FileUtils.getUri(mUri) : mUri);
